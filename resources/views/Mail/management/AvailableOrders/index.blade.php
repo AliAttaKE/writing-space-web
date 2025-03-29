@@ -1,0 +1,217 @@
+@extends('management/layouts/master')
+@section('title')
+    Availabel Orders
+@endsection
+@section('content')
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-12">
+                <h5 class="text-center">Order Management:</h5>
+            </div>
+            <div class="col-lg-4 col-12">
+                <p>Stats for September 2020</p>
+                <p>View Details for:</p>
+                <div class="form-group">
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>5</option>
+                        <option>5</option>
+                        <option>5</option>
+                        <option>5</option>
+                        <option>5</option>
+                        <option>5</option>
+                        <option>5</option>
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>5</option>
+                        <option>5</option>
+                        <option>5</option>
+                        <option>5</option>
+                        <option>5</option>
+                        <option>5</option>
+                        <option>5</option>
+
+                    </select>
+                </div>
+                <button class="btn " style="color: white; background-color: #0c7cd5"   >View</button>
+            </div>
+        </div>
+
+        <div class="row my-2">
+            <div class="col-lg-4 col-12 ml-auto ">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Sort Orders by:</label>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        <option>OrderName</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-12 col-12">
+                <h5 class="text-center">New Orders: (Pending Admin Approval)</h5>
+            </div>
+        </div>
+    </div>
+    <div class="container pt-3">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <ul class="breadcrumb breadcrumb-style ">
+                        <li class="breadcrumb-item">
+
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="header">
+
+
+                        <!-- #START# Modal Form Example -->
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+
+
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="formModal" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="formModal">New Quiz</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <label for="email_address1">Name</label>
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        <input type="text" id="email_address1"
+                                                               class="form-control" name="quiz_name"
+                                                               placeholder="Type quiz name Here">
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <label for="password">Quiz format</label>
+
+
+                                                    <select class="form-control select2" name="format" data-placeholder="Select">
+                                                        <option value="1">one question per screen</option>
+                                                        <option value="2">show all questions on a page</option>
+
+
+                                                    </select>
+
+                                                </div>
+                                                <div class="mt-4">
+                                                    <label for="password">Quiz distribution time</label>
+
+
+                                                    <select class="form-control select2 " name="time" data-placeholder="Select">
+                                                        <option></option>
+                                                        <option value="1">upon singup</option>
+                                                        <option value="2">upon login</option>
+                                                        <option value="3">Both of the above</option>
+
+                                                    </select>
+
+                                                </div>
+
+                                                <br>
+                                                {{--                                            <button type="button"--}}
+                                                {{--                                                    class="btn btn-primary m-t-15 waves-effect">LOGIN</button>--}}
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button    "
+                                                    class="btn btn-info waves-effect">Create Quiz</button>
+                                            <button type="button" class="btn btn-danger waves-effect"
+                                                    data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="body table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="ml-2 ">
+                                    <label class="form-check-label" >
+                                        <input class="form-check-input" type="checkbox" value="" >
+                                        <span class="form-check-sign" >
+                                                <span class="check"></span>
+                                            </span>
+                                    </label>
+
+                                </th>
+                                <th>1234567</th>
+                                <th>Topic:</th>
+                                <th>Words: XXX</th>
+                                <th>Sources: XXX</th>
+                                <th>Due: XXX</th>
+                                <th>Citation: XXX</th>
+                                <th>Subject: XXX</th>
+                                <th>Level: XXX</th>
+                                <th>	Total: $XXX</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">
+                                    <label class="form-check-label" >
+                                        <input class="form-check-input" type="checkbox" value="" >
+                                        <span class="form-check-sign" >
+                                                <span class="check"></span>
+                                            </span>
+                                    </label>
+                                </th>
+                                <td>xxx</td>
+                                <td>xxx</td>
+                                <td>xxx</td>
+                                <td>xxx</td>
+                                <td>xxx</td>
+                                <td>xxx</td>
+                                <td>xxx</td>
+                                <td>xxx</td>
+                                <td>xxx</td>
+
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                </div>
+
+            </div>
+        </div>
+
+
+@endsection
