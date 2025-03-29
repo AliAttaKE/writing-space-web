@@ -2,6 +2,7 @@
 		<main class="page_content">
 			<section class="page_banner">
 				<div class="container mt-5 pt-5">
+					
 					<div class="content_wrapper mt-5 pt-5" style="background-image:url(assets/images/banner/page_banner_image_2.png)">
 						<div class="row align-items-center">
 							<div class="col col-lg-6">
