@@ -1,6 +1,7 @@
 	<?php include_once('header.php')?>
 		<main class="page_content">
 			<section class="page_banner">
+
 				<div class="container mt-5 pt-5">
 					<div class="content_wrapper">
 						<div class="row align-items-center">
@@ -33,7 +34,7 @@
 							<div class="content_wrap">
 								<div class="section_heading">
 									<h2 class="heading_text mb-0">What to Expect</h2></div>
-								
+
 							</div>
 						</div>
 						<div class="col col-lg-3 col-md-3">
@@ -166,7 +167,7 @@
 									<div class="accordion-button" role="button" data-bs-toggle="collapse" data-bs-target="#collapse_one" aria-expanded="true">Our Comprehensive Case Study Structure</div>
 									<div id="collapse_one" class="accordion-collapse collapse show" data-bs-parent="#corse_details_accordion">
 										<div class="accordion-body">
-											
+
 											<div class="checkbox_item">
 												<input id="checkbox_1_1" type="checkbox" checked="checked">
 												<label for="checkbox_1_1">Introduction: This section provides a brief overview of the case, setting the stage for readers.</label>
@@ -191,11 +192,11 @@
 												<input id="checkbox_1_4" type="checkbox">
 												<label for="checkbox_1_4">References: A list of all the sources cited in the case study</label>
 											</div>
-											
+
 										</div>
 									</div>
 								</div>
-								
+
 							</div>
 						</div>
 					</div>
