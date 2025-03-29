@@ -1,0 +1,3182 @@
+<?php
+
+namespace App\Http\Controllers\Backend\Customer\OrderManagement;
+
+use App\Http\Controllers\Controller;
+use App\Models\Academic_level;
+use App\Models\Deadline;
+use App\Models\Paper_Format;
+use App\Models\Term_of_paper;
+use Illuminate\Http\Request;
+use App\Models\Orders;
+use App\Models\Pricing;
+use App\Models\Subject;
+use App\Models\Folder;
+use App\Models\PakageLimit;
+use Illuminate\Support\Facades\Storage;
+use DB;
+use App\Models\Coupon_Used;
+use App\Models\RevisionSubmit;
+use App\Models\files;
+use App\Models\File;
+use App\Models\Pay;
+use App\Models\Transaction;
+use ZipArchive;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EmailTemplate;
+use App\Mail\InvoiceEmailTemplate;
+use App\Mail\PkgInvoiceEmailTemplate;
+use App\Mail\PkgIdInvoiceEmailTemplate1;
+use App\Mail\PkgIdmanageInvoiceEmailTemplate;
+use App\Mail\Pkg_Id_manage_optin1_Email_Template;
+use App\Models\Email;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use App\Exports\OrdersExport;
+use App\Exports\OrdersExportInvoice;
+use App\Models\Feedback;
+use App\Models\Invoice;
+use App\Models\Review;
+use App\Models\Rewrite_Request;
+use App\Models\Subscription;
+use App\Models\User_Subscription;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Message;
+use App\Models\Addons;
+use App\Models\Language;
+use App\Models\FileChatGPT;
+
+
+use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+
+class CustomerPlaceOrderController extends Controller
+{
+
+    public function pakageaddorderpage(Request $request)
+    {
+        $userId = Auth::id();
+        $User_Subscription = User_Subscription::where('user_id', $userId)->first();
+
+        if ($User_Subscription) {
+            $remaining_pages =  $User_Subscription->remaining_pages - $request->page;
+            $Orders = Orders::where('order_id', $request->order_id)->first();
+            $Orders_pages = $Orders->number_of_pages + $request->page;
+            $Orders->update(['number_of_pages' => $Orders_pages, 'deadline' => $request->deadline]);
+            $User_Subscription->update(['remaining_pages' => $remaining_pages]);
+
+
+            $userdata = User::findOrFail($userId);
+
+            $createdAt = $User_Subscription->created_at;
+           
+           
+            
+            $customerName = $userdata->name;
+            $orderid = $request->order_id;
+            $AdditionalPagesAdded = $request->page;
+            $TotalPagesUsed = $User_Subscription->total_pages - $User_Subscription->remaining_pages;;
+            $remaining_pages = $remaining_pages;
+
+
+
+             
+            
+            $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first(); 
+            
+            if ($email) {
+                $subject = 'Confirmation of Additional Pages (In Packages) for Order ID'; 
+                Mail::to($userdata->email)->send(new Pkg_Id_manage_optin1_Email_Template(
+                    [
+                        'customerName' => $customerName,
+                        'orderid' => $orderid,
+                        'AdditionalPagesAdded' => $AdditionalPagesAdded,
+                        'TotalPagesUsed' => $TotalPagesUsed,
+                        'remaining_pages' => $remaining_pages,
+                        
+                    ],
+                    $subject
+                ));
+            }
+
+
+
+            return response()->json(['message' => 'Pages added successfully!']);
+        } else {
+
+            return response()->json(['error' => 'Something went wrong!']);
+        }
+    }
+
+
+  public function other_order(Request $request)
+    {
+        $id = Auth()->user()->id;
+        $order_refund = Orders::where('order_status', 'Refund')
+            ->when($request->order_id != null, function ($q) use ($request) {
+                return $q->where('order_id', $request->order_id);
+            })
+            ->when($request->topic != null, function ($q) use ($request) {
+                return $q->where('topic', $request->topic);
+            })
+             ->when($id != null, function ($q) use ($id) {
+                return $q->where('user_id', $id);
+            })
+             ->latest()
+            ->get();
+
+        $order_canceled = Orders::where('order_status', 'Canceled')
+            ->when($request->order_id != null, function ($q) use ($request) {
+                return $q->where('order_id', $request->order_id);
+            })
+            ->when($request->topic != null, function ($q) use ($request) {
+                return $q->where('topic', $request->topic);
+            })
+             ->when($id != null, function ($q) use ($id) {
+                return $q->where('user_id', $id);
+            })
+             ->latest()
+            ->get();
+
+
+        return view('backend.customer.orderManagement.other_order', compact('order_refund', 'order_canceled'));
+    }
+
+
+    //support message
+    public function supportMessage(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'message_support' => 'required',
+            'order_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $admin = User::where('role', 'admin')->first();
+
+        $receiver_id = $admin->id;
+
+        Message::create([
+            'message' => $request->message_support,
+            'order_id' => $request->order_id,
+            'sender_id' => Auth::user()->id,
+            'receiver_id' => $receiver_id, //admin id here;
+        ]);
+
+        $email = Email::where('type', '=', 'Support Message')->first();
+        if ($email) {
+            Mail::to($admin->email)->send(new EmailTemplate($admin, $email));
+        }
+
+        return response()->json(['success' => true, 'message' => 'Message sent successfully'], 200);
+    }
+
+    //support message
+
+    // customer custom subscription;
+    public function customSubscription()
+    {
+        return view('backend.customer.orderManagement.partials._custom_place_order');
+    }
+
+
+    public function revision_submit_ajax(Request $request)
+    {
+        $revision = new RevisionSubmit;
+
+        $order = Orders::where('order_id', $request->order_id)->first();
+
+        if ($order->order_status == 'Delivered') {
+
+            $revision->order_id = $request->order_id;
+            $revision->revision_request = $request->revision_request;
+
+
+            $revision->save();
+
+            Orders::where('order_id', $request->order_id)->update(['order_status' => 'Revision']);
+
+            return response()->json(['Success' => true, 'message' => 'Revision request submitted successfully.']);
+        } else {
+            return response()->json(['Success' => true, 'message' => 'Revision request not submitted order not deliver status.']);
+        }
+
+
+
+
+
+
+        // return redirect()->back()->with('success', 'Revision request submitted successfully.');
+
+
+
+
+    }
+
+
+
+    public function checkout()
+
+    {
+        
+    
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/session',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+            ),
+
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $responseArray = json_decode($response, true);
+
+        // dd($responseArray);
+
+        // Check if the 'session' key exists
+        if (isset($responseArray['session'])) {
+            // Check if the 'id' key exists within the 'session' array
+            if (isset($responseArray['session']['id'])) {
+                // Access the 'id' value
+                $sessionId = $responseArray['session']['id'];
+
+                $curl = curl_init();
+
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => "https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/session/{$sessionId}",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'PUT',
+                    CURLOPT_POSTFIELDS => '{
+                        "order": {
+                    "amount": "10.00",
+                    "currency": "PKR"
+                    }  
+                }',
+                    CURLOPT_HTTPHEADER => array(
+                        'Content-Type: application/json',
+                        'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+                    ),
+                ));
+
+                $response = curl_exec($curl);
+
+                curl_close($curl);
+
+                // Assuming $response is the JSON string
+                $responseObject = json_decode($response);
+
+                // Check if decoding was successful
+                if ($responseObject) {
+                    // Access the id property of the session object
+                    $sessionId = $responseObject->session->id;
+
+                    // Output the session id
+                    // echo $sessionId;
+
+                    session()->put('sessionId', $sessionId);
+
+
+
+
+                    return response()->json(['sessionId' => $sessionId]);
+
+                    //     return view('backend.customer.orderManagement.show', compact('sessionId'));
+
+
+                } else {
+                    // Handle JSON decoding error
+                    echo "Error decoding JSON";
+                }
+            }
+        }
+    }
+
+    public function checkoutshow($sessionid, Request $request)
+    {
+
+        $sessionid = $sessionid;
+        return view('backend.customer.orderManagement.show', compact('sessionid'));
+    }
+
+    public function checkoutshowmangepages($sessionid, Request $request)
+    {
+
+        $sessionid = $sessionid;
+        return view('backend.customer.orderManagement.show_mangepages', compact('sessionid'));
+    }
+
+    public function checkoutshowsub($sessionid, Request $request)
+    {
+
+        $sessionid = $sessionid;
+        return view('backend.customer.orderManagement.show_sub', compact('sessionid'));
+    }
+
+    public function checkoutshowaddpage($sessionid, Request $request)
+    {
+
+        $sessionid = $sessionid;
+        return view('backend.customer.orderManagement.show_add_pages', compact('sessionid'));
+    }
+
+
+    // public function customSubscriptionStore(Request $request)
+    // {
+
+    //     $input = $request->dataObject;
+
+    //     if (empty($input['additional_info'])) {
+    //         $input['additional_info'] = 0;
+    //         $count = 0;
+    //     } else {
+    //         $count = count($input['additional_info']);
+    //     }
+
+    //     $total = (float)$count * (float)$input['cost_per_page'];
+
+    //     $check_analysis = $input['statistical_analysis'];
+
+
+    //     if ($check_analysis == '0') {
+    //         $statistical_analysis = false;
+    //     } else {
+    //         $statistical_analysis = true;
+    //     }
+    //     $order_id = rand(000000000, 999999999);
+        // $order_id = generateOrderID();
+    //     $discount = '0';
+    //     $discount = $input['discount'];
+
+    //     if (empty($input['additional_info'])) {
+    //         $input['additional_info'] = [];
+    //     }
+
+    //   $user = User::findOrFail(Auth::user()->id);
+
+    //     $order = Orders::create([
+    //         'subject' => $input['subject'],
+    //         'description' => $input['description'],
+    //         'topic' => $input['topic'],
+    //         'cost_per_page' => $input['cost_per_page'],
+    //         'submitting' => $input['submitting'],
+    //         'deadline' => $input['due_date'],
+    //         'no_of_extra_sources' => $input['no_of_extra_sources'],
+    //         'powerpoint_slide' => null,
+    //         'spacing' => null,
+    //         'number_of_pages' => $input['no_of_pages'],
+    //         'type_of_paper' => $input['term_of_paper'],
+    //         'paper_format' => $input['paper_format'],
+    //         'academic_level' => $input['academic_level'],
+    //         'language_spelling' => $input['language_spelling'],
+    //         'order_type' => 'Subscription',
+    //         'discount' => $discount,
+    //         'order_show' => 'Enable',
+    //         'order_status' => 'Pending',
+    //         'additional_info' => json_encode($input['additional_info']),
+    //         'coupon' => null,
+    //         'user_id' => $user->id,
+    //         'payment_status' => 'Paid',
+    //         'order_id' => $order_id,
+    //         'total_cost' => $input['total_cost'],
+    //         'cost' => $input['sub_total'],
+    //         'additional_cost' => $total,
+    //         'statistical_analysis' => $statistical_analysis,
+    //         'email' => $input['email'],
+    //         'backup_email' => $input['backup_email']
+    //     ]);
+
+
+
+
+    //     //update user_subscription record;
+    //     $totalPages = 0;
+    //     $remianingPages = 0;
+
+    //     $subs = User_Subscription::where('user_id',$user->id)->first();
+    //     $totalPages = $subs->total_pages;
+    //     $remianingPages = $subs->remaining_pages;
+    //     $subs->total_pages = $input['no_of_pages'] + $totalPages;
+    //     $subs->remaining_pages = $remianingPages - $input['no_of_pages'];
+    //     $subs->updated_at = now()   ;
+    //     $subs->save();
+
+    //     $user = User::find($order->user_id);
+
+
+
+    //     $invoice = Invoice::create([
+    //         'Name' => $user->name,
+    //         'email' => $order->email,
+    //         'page' => $order->number_of_pages,
+    //         'price_per_page' => $order->cost_per_page,
+    //         'item_name' => 'Order',
+    //         'total' => $order->total_cost,
+    //         'to_name' => 'Admin',
+    //         'to_email' => 'admin@gmail.com',
+    //         'order_id' => $order->order_id
+    //     ]);
+
+
+    //     $path = "public/uploads_folders/" . $order_id;
+
+
+    //     if (!Storage::exists($path)) {
+    //         Storage::makeDirectory($path);
+    //         $folder = new Folder();
+    //         $folder->name = $order_id;
+    //         $folder->description = $order_id;
+    //         $folder->user_id = Auth::id();
+    //         $folder->save();
+    //     }
+
+    //     $email = Email::where('type', '=', 'Order Place Confirmation')->first();
+
+
+
+    //     if ($email) {
+    //         Mail::to($user->email)->send(new EmailTemplate($user, $email));
+    //     }
+    //     return response()->json(['success' => true, 'order' => $order, 'message' => 'Order placed successfully!']);
+    // }
+
+    public function customSubscriptionStore(Request $request)
+    {
+
+        $input = $request->dataObject;
+        $user = User::findOrFail(Auth::user()->id);
+        $subs = User_Subscription::where('user_id', $user->id)->first();
+        $sub_get = Subscription::where('id', $subs->subscription_id)->first();
+        $sub_name = $sub_get->subscription_name;
+        
+        $totalPages = $subs->total_pages;
+        $remianingPages = $subs->remaining_pages;
+        
+        
+
+        $used_pages = $totalPages - $remianingPages;
+
+        if ($remianingPages >= $input['no_of_pages']) {
+            if (empty($input['additional_info'])) {
+                $input['additional_info'] = 0;
+                $count = 0;
+            } else {
+                $count = count($input['additional_info']);
+            }
+
+            $total = (float)$count * (float)$input['cost_per_page'];
+            $check_analysis = $input['statistical_analysis'];
+            if ($check_analysis == '0') {
+                $statistical_analysis = false;
+            } else {
+                $statistical_analysis = true;
+            }
+            // $order_id = rand(000000000, 999999999);
+
+            $lastOrderId = Orders::latest()->limit(1)->value('order_id');
+            $order_id = ++$lastOrderId;            
+            // dd($order_id, $lastOrderId);
+            
+            $discount = '0';
+            $discount = $input['discount'];
+            if (empty($input['additional_info'])) {
+                $input['additional_info'] = [];
+            }
+            $user = User::findOrFail(Auth::user()->id);
+            $order = Orders::create([
+                'subject' => $input['subject'],
+                'description' => $input['description'],
+                'topic' => $input['topic'],
+                'cost_per_page' => $input['cost_per_page'],
+                'submitting' => $input['submitting'],
+                'deadline' => $input['due_date'],
+                'no_of_extra_sources' => $input['no_of_extra_sources'],
+                'powerpoint_slide' => null,
+                'spacing' => null,
+                'number_of_pages' => $input['no_of_pages'],
+                'type_of_paper' => $input['term_of_paper'],
+                'paper_format' => $input['paper_format'],
+                'academic_level' => $input['academic_level'],
+                'language_spelling' => $input['language_spelling'],
+                'order_type' => 'Subscription',
+                'discount' => $discount,
+                'order_show' => 'Enable',
+                'order_status' => 'Pending',
+                'additional_info' => json_encode($input['additional_info']),
+                'coupon' => null,
+                'user_id' => $user->id,
+                'payment_status' => 'Paid',
+                'order_id' => $order_id,
+                'total_cost' => $input['total_cost'],
+                'cost' => $input['sub_total'],
+                'additional_cost' => $total,
+                'statistical_analysis' => $statistical_analysis,
+                'email' => $input['email'],
+                'backup_email' => $input['backup_email']
+            ]);
+            //update user_subscription record;
+            $totalPages = 0;
+            $remianingPages = 0;
+
+            $subs = User_Subscription::where('user_id', $user->id)->first();
+            $totalPages = $subs->total_pages;
+            $remianingPages = $subs->remaining_pages;
+            $subs->remaining_pages = $remianingPages - $input['no_of_pages'];
+             $subs->remaining_rollover_pages = $subs->remaining_rollover_pages - $input['no_of_pages'];
+             $subs->rollover_pages = $subs->rollover_pages + $input['no_of_pages'];
+            $subs->updated_at = now();
+            $subs->save();
+            $user = User::find($order->user_id);
+            
+            
+            
+            
+             $remainingPercentage = ($subs->remaining_pages / $subs->total_pages) * 100;
+if ($remainingPercentage <= 10) {
+    // New warning email content
+    $warningEmailContent = "
+        <p>Hello {$user->name},</p>
+        <p>We've noticed that you're nearing the end of the pages available in your current package at Writing Space. To ensure you continue enjoying our services without interruption, we wanted to give you a heads-up and an exclusive offer.</p>
+        
+        <p><strong>Current Package Details:</strong></p>
+        <ul>
+            <li>Package Type: $sub_name</li>
+            <li>Pages Remaining: {$subs->remaining_pages}</li>
+        </ul>
+        
+        <p><strong>Exclusive Renewal Offer:</strong> We value your commitment to Writing Space and would like to offer you a special discount on your next package purchase. This is a great opportunity to continue accessing our comprehensive academic resources at a reduced rate.</p>
+        
+        <p><strong>Next Steps to Take Advantage of This Offer:</strong> Please contact our support team directly to claim your discounted renewal. They are ready to assist you in setting up your new package and ensuring you don't miss a beat in your academic journey.</p>
+        
+        <p>Contact Support:</p>
+        <ul>
+            <li>Email: <a href='mailto:support@writing-space.com'>support@writing-space.com</a></li>
+        </ul>
+        
+        <p>Act now to replenish your page count and keep your academic resources flowing! We’re here to support your educational endeavors every step of the way.</p>
+        
+        <p>Thank you for choosing Writing Space. Let’s continue making your academic experience as successful and hassle-free as possible.</p>
+        
+        <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
+    ";
+
+    // Send the warning email
+    Mail::html($warningEmailContent, function ($message) use ($user) {
+        $message->to($user->email)
+                ->subject('Package Pages About to be Finished (90% used)');
+    });
+    
+    
+      Mail::html($warningEmailContent, function ($message) use ($user) {
+        $message->to($user->email)
+                ->subject('Your Writing Space Package is Expiring Soon – Keep Your Benefits Rolling!');
+    });
+}
+
+
+if ($subs->remaining_pages == 0) {
+    $finishedEmailContent = "
+        <p>Hi {$user->name},</p>
+        <p>It looks like you've used up all the pages in your Writing Space package. We hope you found each page helpful for your academic projects!</p>
+
+        <p><strong>Exclusive Renewal Offer:</strong></p>
+        <p>We deeply appreciate your dedication to Writing Space and are thrilled to extend an exclusive renewal offer just for you! Enjoy a special discount on your next package purchase and continue accessing our premium academic resources at an unbeatable rate.</p>
+
+        <p><strong>Why Renew Now?</strong></p>
+        <ul>
+            <li><strong>Save More:</strong> Take advantage of our limited-time discount to maximize your investment.</li>
+            <li><strong>Seamless Access:</strong> Continue leveraging our comprehensive tools and materials to excel in your academic endeavors.</li>
+            <li><strong>Enhanced Support:</strong> Benefit from our ongoing commitment to your educational success with uninterrupted service.</li>
+        </ul>
+
+        <p><strong>How to Redeem Your Offer:</strong></p>
+        <p>Claiming your discounted renewal is simple! Just reach out to our dedicated support team, and they will guide you through the easy renewal process, ensuring you stay on track with your academic goals.</p>
+
+        <p><strong>Contact Support:</strong></p>
+        <ul>
+            <li>Email: support@writing-space.com</li>
+        </ul>
+
+        <p><strong>Act Now!</strong> Don’t miss this opportunity to replenish your page count and keep your academic resources flowing seamlessly. Renew today and continue your journey towards excellence with Writing Space by your side every step of the way.</p>
+
+        <p>Warm regards,<br>The Writing Space Team</p>
+    ";
+
+    Mail::html($finishedEmailContent, function ($message) use ($user) {
+        $message->to($user->email)
+                ->subject('Time to Renew? Your Writing Space Pages Are All Used Up!');
+    });
+}
+
+
+            $invoice = Invoice::create([
+                'Name' => $user->name,
+                'email' => $order->email,
+                'page' => $order->number_of_pages,
+                'price_per_page' => $order->cost_per_page,
+                'item_name' => 'Order',
+                'total' => $order->total_cost,
+                'to_name' => 'Admin',
+                'to_email' => 'ustadsharik@gmail.com',
+                'order_id' => $order->order_id,
+                'invoice_type' => 'custom_inc',
+            ]);
+
+
+            $path = "public/uploads_folders/" . $order_id;
+$permissions = 0775;
+
+            if (!Storage::exists($path)) {
+                // Storage::makeDirectory($path);
+                 Storage::makeDirectory($path, $permissions, true);
+                $folder = new Folder();
+                $folder->name = $order_id;
+                $folder->description = $order_id;
+                $folder->user_id = Auth::id();
+                $folder->save();
+            }
+            
+            chmod(storage_path("app/public/uploads_folders/{$order_id}"), 0777);
+
+            //custom order
+            $data['order_id'] = $order->order_id;
+            $data['created_at'] = $order->created_at->format('Y-m-d');
+            $data['pages_used_this_order'] = $input['no_of_pages']; // new oder pages;
+            $data['total_pages_used'] = $used_pages; // old order remaining pages;
+            $data['pages_remaining'] = $remianingPages; // old order remaining pages;
+            $data['new_order_details'] = json_encode($input);
+            $data['customer_name'] = $user->name;
+            $data['customer_email'] = $user->email;
+            // $email = Email::where('type','confirmation_of_new_order_id')->first(); 
+            // if ($email) {
+            //     Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
+            // }
+            
+                              $emailContent = "
+                                    <p>Hello {$user->name},</p>
+                                    <p>Thank you for placing your order with Writing Space! We're here to support you as you progress through your academic journey.</p>
+                                    
+                                    <p><strong>Package Details:</strong></p>
+                                    <ul>
+                                        <li>Date Placed: {$order->created_at->format('Y-m-d')}</li>
+                                        <li>Pages Used for This Order: {$input['no_of_pages']}</li>
+                                        <li>Total Pages Used in Past Orders: {$used_pages}</li>
+                                        <li>Remaining Pages in Your Package: {$subs->remaining_pages}</li>
+                                    </ul>
+                                
+                                    <p><strong>Order Details:</strong></p>
+                                    <ul>
+                                        <li>Order ID: {$order->order_id}</li>
+                                        <li>Pages: {$input['no_of_pages']}</li>
+                                        <li>Topic: {$input['topic']}</li>
+                                        <li>Deadline: {$input['due_date']}</li>
+                                    </ul>
+                                
+                                    <p>Your order has been successfully recorded and is now being processed. We're committed to ensuring that you receive high-quality support tailored to your needs.</p>
+                                    
+                                    <p><strong>Next Steps:</strong></p>
+                                    <ol>
+                                        <li>Monitor the progress of your order from your dashboard under the \"My Orders\" section.</li>
+                                        <li>You will receive updates as we process your order, including notifications when it is ready for review or download.</li>
+                                    </ol>
+                                    
+                                    <p>If you have any questions or need further assistance while your order is being processed, please don't hesitate to reach out. Our team is here to help every step of the way.</p>
+                                    
+                                    <p>Thank you for choosing Writing Space. We are excited to help you make the most of every page!</p>
+                                    
+                                    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
+                                ";
+                                
+                                // Send the "Thank You" email for order placement
+                                Mail::html($emailContent, function ($message) use ($user, $order) {
+                                    $message->to($user->email)
+                                            ->subject("Confirmation of Your New Order – ID {$order->order_id}");
+                                });
+
+            
+            
+            return response()->json(['success' => true, 'order' => $order, 'message' => 'Order placed successfully! customization']);
+        } else {
+                return response()->json([
+                    'error' => false, 
+                    'message' => "<div style='text-align:left !important;'>Oops! You've exceeded your page limit.\n\n" .
+                                 "You're trying to order {$input['no_of_pages']} pages, but you currently have only  {$remianingPages} page(s) left in your package.\n\n" .
+                                 "<br><br>No worries — here’s how you can proceed:\n" .
+                                 "<br><br><strong>1. Add More Pages:</strong><br><br><ul><li>Navigate to your Profile Page.</li><li>Locate the option to Add Pages to Your Existing Package and follow the prompts to purchase additional pages at your original rates.</li><li>Once you've added the pages, return here to create your new order.</li></ul> \n" .
+                                 "<strong>2. Use Your Remaining Pages:</strong><br><br> If you prefer, you can place an order for the  {$remianingPages} pages you have remaining in your package right now. Later, you can navigate to the Order Details page for this order, go to the Manage Pages tab, and add the additional pages you need to complete the order at your original rates.\n" .
+                                 
+                                 "3. Contact Support: For more options or assistance, please reach out to our support team. We're here to help!</div>"
+                ]);
+
+            // return response()->json(['success' => true, 'message' => "Oops! Looks like you've exceeded your page limit.
+
+            // Hi there! It looks like you're trying to order {$input['no_of_pages']} pages, but you currently have  only {$remianingPages} pages left
+            // in your package. No worries, though! You can easily add more pages to continue with your order:
+
+            // 1.	Add More Pages: Please navigate to the Order Details page of the order that you previously placed Using Your Package. Only in this 
+            // order will you find the option to manage and Add Pages. Click on the Manage Pages tab. There, you can add pages to your package at the 
+            // same rates you originally purchased. Once you've added the pages, you can easily come back and place your new order.
+
+            // 2.	Contact Support: If you're looking for more options or need assistance, feel free to contact our support team. They can help you 
+            // find the best discount package pricing available.We're here to help, so don't hesitate to reach out if you need any assistance!
+            // "]);
+        }
+
+    }
+
+
+
+    public function payment_store(Request $request)
+    {
+        $test = $request->session;
+        $dataObject = $request->dataObject;
+        $total_cost = $dataObject['total_cost'];
+        $truncatedSessionId = substr($test, 0, 35);
+
+        $order_id = mt_rand(100000, 999999);
+        $randomNumber = mt_rand(100, 999);
+        $transactionId = "TRANS" . $randomNumber;
+       
+
+       
+
+        session()->put('transactionId', $transactionId);
+        session()->put('order_id', $order_id);
+        $sessionId = session()->get('sessionId');
+
+
+        $pay = new Pay;
+        $pay->order_id = $order_id;
+        $pay->session_id = $sessionId;
+        $pay->truncatedSessionId = $transactionId;
+        $pay->user_id = Auth()->user()->id;
+        $pay->order_details = json_encode($dataObject);
+        $pay->save();
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_POSTFIELDS => '{
+                "session":{
+                    "id": "' . $truncatedSessionId . '"
+                },
+                "apiOperation":"INITIATE_AUTHENTICATION",
+                "correlationId":"INIT_AUTH11187-991090777766",
+                "transaction":
+                {
+                    "reference": "' . $transactionId . '",
+                },
+                "order":{
+             
+                "reference": "' . $order_id . '",
+                "currency":"PKR"
+                },
+                "authentication":{
+                    "purpose":"PAYMENT_TRANSACTION",
+                    "channel":"PAYER_BROWSER",
+                "acceptVersions":"3DS2"
+                }
+                }',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+
+        // return response()->json(['response' => $response]);
+
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_POSTFIELDS => '{
+                "apiOperation": "AUTHENTICATE_PAYER",
+                "correlationId":"START_AUTH11187-991090777766",
+            "device":{
+            "browserDetails":{
+            "screenWidth":1920,
+            "javaEnabled":false,
+            "screenHeight":1080,
+            "3DSecureChallengeWindowSize":"FULL_SCREEN",
+            "timeZone":-120,
+            "language":"EN",
+            "colorDepth":24
+            },
+            "browser":"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/95.0.4638.54 Safari\\/537.36",
+            "ipAddress":"182.185.178.141"
+            },
+                    "authentication": {
+                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-laravel/public/redirectResponseUrl"
+                    },
+                "order": {
+                    "amount": "' . $total_cost . '",
+                    "currency": "PKR"
+                },
+                "session": {
+                    "id": "' . $truncatedSessionId . '"
+                }
+            }
+            ',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+
+        $response = json_decode($response, true);
+        if (isset($response['authentication']['redirect']['html'])) {
+            $htmlContent = $response['authentication']['redirect']['html'];
+            return response()->json(['response' => $htmlContent]);
+            // return view('payment.otp', compact('htmlContent'));
+        } else {
+            return response()->json(['response' => 'Invalid response format.']);
+        }
+
+        curl_close($curl);
+    }
+
+
+    public function payment_store_sub(Request $request)
+    {
+        $test = $request->session;
+        $total_cost = $request->totalamount1;
+        $total_costs[] = $request->totalamount1;
+        $truncatedSessionId = substr($test, 0, 35);
+        $randomNumber = mt_rand(100, 999);
+        $transactionId = "TRANS" . $randomNumber;
+
+        $order34 =  mt_rand(100000, 9999999);
+        $order_id = $request->sub_id1;
+        $order_id = $order_id . '-' . $order34;
+
+        //not working
+        // $lastOrderId = Orders::latest()->limit(1)->value('order_id');
+        // if(!$lastOrderId)
+        // {
+        //     $order_id = '200000'; 
+        // }
+        // $order_id = ++$lastOrderId;
+
+        session()->put('transactionId', $transactionId);
+        session()->put('order_id', $order_id);
+        $sessionId = session()->get('sessionId');
+
+       
+
+
+
+        $pay = new Pay;
+        $pay->order_id = $order_id;
+        $pay->session_id = $test;
+        $pay->truncatedSessionId = $transactionId;
+        $pay->user_id = Auth()->user()->id;
+        $pay->order_details = json_encode($total_costs);
+        $pay->save();
+
+
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_POSTFIELDS => '{
+                "session":{
+                    "id": "' . $truncatedSessionId . '"
+                },
+                "apiOperation":"INITIATE_AUTHENTICATION",
+                "correlationId":"INIT_AUTH11187-991090777766",
+                "transaction":
+                {
+                    "reference": "' . $transactionId . '",
+                },
+                "order":{
+             
+                "reference": "' . $order_id . '",
+                "currency":"PKR"
+                },
+                "authentication":{
+                    "purpose":"PAYMENT_TRANSACTION",
+                    "channel":"PAYER_BROWSER",
+                "acceptVersions":"3DS2"
+                }
+                }',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+
+        //return response()->json(['response' => $response]);
+
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_POSTFIELDS => '{
+                "apiOperation": "AUTHENTICATE_PAYER",
+                "correlationId":"START_AUTH11187-991090777766",
+            "device":{
+            "browserDetails":{
+            "screenWidth":1920,
+            "javaEnabled":false,
+            "screenHeight":1080,
+            "3DSecureChallengeWindowSize":"FULL_SCREEN",
+            "timeZone":-120,
+            "language":"EN",
+            "colorDepth":24
+            },
+            "browser":"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/95.0.4638.54 Safari\\/537.36",
+            "ipAddress":"182.185.178.141"
+            },
+                    "authentication": {
+                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-laravel/public/redirectResponseUrlSub"
+                    },
+                "order": {
+                    "amount": "' . $total_cost . '",
+                    "currency": "PKR"
+                },
+                "session": {
+                    "id": "' . $truncatedSessionId . '"
+                }
+            }
+            ',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+
+        $response = json_decode($response, true);
+        if (isset($response['authentication']['redirect']['html'])) {
+            $htmlContent = $response['authentication']['redirect']['html'];
+
+            return response()->json(['response' => $htmlContent]);
+            // return view('payment.otp', compact('htmlContent'));
+        } else {
+            return response()->json(['response' => 'Invalid response format.']);
+        }
+
+        curl_close($curl);
+    }
+
+    public function payment_store_addpages(Request $request)
+    {
+
+
+
+        $test = $request->session;
+
+        $no_of_page = $request->input('no_of_page');
+        $used_package_id = $request->input('used_package_id');
+        $package_id = $request->input('package_id');
+        $cost_per_page = $request->input('cost_per_page');
+
+        // Calculate the total cost
+        $total_cost = $no_of_page * $cost_per_page;
+
+        // Prepare data array
+        $data = [
+            'no_of_page' => $no_of_page,
+            'used_package_id' => $used_package_id,
+            'package_id' => $package_id,
+            'cost_per_page' => $cost_per_page,
+            'total_cost' => $total_cost,
+        ];
+
+        // Check if order_id is available in the request
+        if ($request->has('order_id')) {
+            $order_id = $request->input('order_id');
+            $data['order_id'] = $order_id;
+        }
+
+        $order34 =  mt_rand(100000, 9999999);
+        $order_id = $order34;
+        $order_id = $package_id . '-' . $order34;
+
+        $total_costs[] = $total_cost;
+
+        
+        $truncatedSessionId = substr($test, 0, 35);
+        $randomNumber = mt_rand(100, 999);
+        $transactionId = "TRANS" . $randomNumber;
+       
+
+        // $lastOrderId = Orders::latest()->limit(1)->value('order_id');
+        // if(!$lastOrderId)
+        // {
+        //     $order_id = '200000'; 
+        // }
+        // $order_id = ++$lastOrderId;
+        
+        session()->put('transactionId', $transactionId);
+        session()->put('order_id', $order_id);
+        $sessionId = session()->get('sessionId');
+
+        $pay = new Pay;
+        $pay->order_id = $order_id;
+        $pay->session_id = $test;
+        $pay->truncatedSessionId = $transactionId;
+        $pay->user_id = Auth()->user()->id;
+        $pay->order_details = json_encode($data);
+        $pay->save();
+
+
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_POSTFIELDS => '{
+                "session":{
+                    "id": "' . $truncatedSessionId . '"
+                },
+                "apiOperation":"INITIATE_AUTHENTICATION",
+                "correlationId":"INIT_AUTH11187-991090777766",
+                "transaction":
+                {
+                    "reference": "' . $transactionId . '",
+                },
+                "order":{
+             
+                "reference": "' . $order_id . '",
+                "currency":"PKR"
+                },
+                "authentication":{
+                    "purpose":"PAYMENT_TRANSACTION",
+                    "channel":"PAYER_BROWSER",
+                "acceptVersions":"3DS2"
+                }
+                }',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+
+        //return response()->json(['response' => $response]);
+
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_POSTFIELDS => '{
+                "apiOperation": "AUTHENTICATE_PAYER",
+                "correlationId":"START_AUTH11187-991090777766",
+            "device":{
+            "browserDetails":{
+            "screenWidth":1920,
+            "javaEnabled":false,
+            "screenHeight":1080,
+            "3DSecureChallengeWindowSize":"FULL_SCREEN",
+            "timeZone":-120,
+            "language":"EN",
+            "colorDepth":24
+            },
+            "browser":"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/95.0.4638.54 Safari\\/537.36",
+            "ipAddress":"182.185.178.141"
+            },
+                    "authentication": {
+                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-laravel/public/redirectResponseUrladdpages"
+                    },
+                "order": {
+                    "amount": "' . $total_cost . '",
+                    "currency": "PKR"
+                },
+                "session": {
+                    "id": "' . $truncatedSessionId . '"
+                }
+            }
+            ',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+
+        $response = json_decode($response, true);
+        if (isset($response['authentication']['redirect']['html'])) {
+            $htmlContent = $response['authentication']['redirect']['html'];
+
+            return response()->json(['response' => $htmlContent]);
+            // return view('payment.otp', compact('htmlContent'));
+        } else {
+            return response()->json(['response' => 'Invalid response format.']);
+        }
+
+        curl_close($curl);
+    }
+
+    public function payment_store_managepage(Request $request)
+    {
+        // $test = $request->session;
+        // $total = $request->total;
+        // $page = $request->page;
+        // $deadline = $request->deadline;
+
+
+        $test = $request->session;
+
+        $order_id = $request->order_id;
+        $total = $request->total;
+        $page = $request->page;
+        $deadline = $request->deadline;
+
+        $order_id2 = $request->order_id;
+
+        
+       
+        $data = [
+            'order_id' => $order_id,
+            'total' => $total,
+
+            'page' => $page,
+            'deadline' => $deadline,
+        ];
+
+        $order_id = $request->order_id;
+        $order_id2 = $request->order_id;
+        $order34 =  mt_rand(100000, 9999999);
+        $order_id = $order34;
+        $order_id = $order_id2 . '-' . $order34;
+
+        
+        $truncatedSessionId = substr($test, 0, 35);
+        $randomNumber = mt_rand(100, 999);
+        $transactionId = "TRANS" . $randomNumber;
+        
+        // $lastOrderId = Orders::latest()->limit(1)->value('order_id');
+        // if(!$lastOrderId)
+        // {
+        //     $order_id = '200000'; 
+        // }
+        // $order_id = ++$lastOrderId;
+        
+        session()->put('transactionId', $transactionId);
+        session()->put('order_id', $order_id);
+        $sessionId = session()->get('sessionId');
+
+
+
+        $pay = new Pay;
+        $pay->order_id = $order_id;
+        $pay->session_id = $test;
+        $pay->truncatedSessionId = $transactionId;
+        $pay->user_id = Auth()->user()->id;
+        $pay->order_details = json_encode($data);
+        $pay->save();
+
+
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_POSTFIELDS => '{
+                "session":{
+                    "id": "' . $truncatedSessionId . '"
+                },
+                "apiOperation":"INITIATE_AUTHENTICATION",
+                "correlationId":"INIT_AUTH11187-991090777766",
+                "transaction":
+                {
+                    "reference": "' . $transactionId . '",
+                },
+                "order":{
+             
+                "reference": "' . $order_id . '",
+                "currency":"PKR"
+                },
+                "authentication":{
+                    "purpose":"PAYMENT_TRANSACTION",
+                    "channel":"PAYER_BROWSER",
+                "acceptVersions":"3DS2"
+                }
+                }',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+
+        //return response()->json(['response' => $response]);
+
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_POSTFIELDS => '{
+                "apiOperation": "AUTHENTICATE_PAYER",
+                "correlationId":"START_AUTH11187-991090777766",
+            "device":{
+            "browserDetails":{
+            "screenWidth":1920,
+            "javaEnabled":false,
+            "screenHeight":1080,
+            "3DSecureChallengeWindowSize":"FULL_SCREEN",
+            "timeZone":-120,
+            "language":"EN",
+            "colorDepth":24
+            },
+            "browser":"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/95.0.4638.54 Safari\\/537.36",
+            "ipAddress":"182.185.178.141"
+            },
+                    "authentication": {
+                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-laravel/public/redirectResponsemanagepages"
+                    },
+                "order": {
+                    "amount": "' . $total . '",
+                    "currency": "PKR"
+                },
+                "session": {
+                    "id": "' . $truncatedSessionId . '"
+                }
+            }
+            ',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+
+        $response = json_decode($response, true);
+        if (isset($response['authentication']['redirect']['html'])) {
+            $htmlContent = $response['authentication']['redirect']['html'];
+
+            return response()->json(['response' => $htmlContent]);
+            // return view('payment.otp', compact('htmlContent'));
+        } else {
+            return response()->json(['response' => 'Invalid response format.']);
+        }
+
+        curl_close($curl);
+    }
+
+
+    public function otp($creqValue, Request $request)
+    {
+
+        $creqValue = $creqValue;
+
+
+        return view('backend.customer.orderManagement.otp', compact('creqValue'));
+    }
+
+    public function redirectResponseUrl(Request $request)
+
+    {
+
+
+        $data = $request->all();
+
+        if ($data['result'] === 'SUCCESS') {
+
+
+            return redirect()->route('pay', ['orderid' => $data['order_id']]);
+        } else {
+
+            $pay = Pay::where('order_id', $data['order_id'])->first();
+
+            $user_id =  $pay->user_id;
+
+            $user = User::find($user_id);
+            Auth::login($user);
+
+
+            return redirect()->route('customer.customerPlaceOrder');
+        }
+    }
+
+    public function redirectResponseUrladdpages(Request $request)
+
+    {
+
+
+        $data = $request->all();
+
+
+        if ($data['result'] === 'SUCCESS') {
+
+
+            return redirect()->route('pay.add.pages', ['orderid' => $data['order_id']]);
+        } else {
+
+            $pay = Pay::where('order_id', $data['order_id'])->first();
+
+            $user_id =  $pay->user_id;
+
+            $user = User::find($user_id);
+            Auth::login($user);
+
+
+            return redirect()->route('customer.show.profile');
+        }
+    }
+
+    public function redirectResponsemanagepages(Request $request)
+
+    {
+
+
+        $data = $request->all();
+
+        if ($data['result'] === 'SUCCESS') {
+
+
+            return redirect()->route('pay.add.manage', ['orderid' => $data['order_id']]);
+        }
+    }
+
+
+
+
+    public function redirectResponseUrlSub(Request $request)
+
+    {
+
+
+        $data = $request->all();
+
+        if ($data['result'] === 'SUCCESS') {
+
+
+            return redirect()->route('pay.sub', ['orderid' => $data['order_id']]);
+        } else {
+
+            $pay = Pay::where('order_id', $data['order_id'])->first();
+
+            $user_id =  $pay->user_id;
+
+            $user = User::find($user_id);
+            Auth::login($user);
+
+
+            return redirect()->route('front.subscriptions');
+        }
+    }
+
+    public function pay_sub($orderid)
+    {
+        try {
+            $pay = Pay::where('order_id', $orderid)->first();
+            $sessionId = $pay->session_id;
+            $order_id = $pay->order_id;
+            $orderidexplode = explode('-', $order_id);
+            $orderidexplode = $orderidexplode[0];
+            $transactionId = $pay->truncatedSessionId;
+            $order_detail = json_decode($pay->order_details);
+            $amount = $order_detail[0];
+            $randomNumber = mt_rand(100, 999);
+            $transactionIdurl = $transactionId . $randomNumber;
+
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionIdurl,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'PUT',
+                CURLOPT_POSTFIELDS => '{
+                                            "apiOperation": "PAY",
+                                            "authentication":{
+                                        "transactionId":"' . $transactionId . '"
+                                        },
+                                            "order": {
+                                                "amount": "' . $amount . '",
+                                                "currency": "PKR"
+                                            },
+                                            "session": {
+                                                "id": "' . $sessionId . '"
+                                            }
+                                        
+                                        }',
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
+                    'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+                ),
+            ));
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $responseArray = json_decode($response, true);
+
+            if ($responseArray) {
+                $authenticationStatus = $responseArray['order']['authenticationStatus'];
+                if ($authenticationStatus == 'AUTHENTICATION_SUCCESSFUL') {
+                    $responseObject = json_decode($response);
+                    $order = $responseObject->order;
+                    $sourceOfFunds = $responseObject->sourceOfFunds->provided->card;
+                    $transaction = new Transaction();
+                    $creationTime = Carbon::parse($order->creationTime)->toDateTimeString();
+                    // Assign values to the model's properties
+                    $transaction->amount = $order->amount;
+                    $transaction->authenticationStatus = $order->authenticationStatus;
+                    $transaction->chargeback_amount = $order->chargeback->amount;
+                    $transaction->chargeback_currency = $order->chargeback->currency;
+
+                    $transaction->currency = $order->currency;
+                    $transaction->reference = $order->reference;
+                    $transaction->status = $order->status;
+                    $transaction->merchantAmount = $order->merchantAmount;
+                    $transaction->merchantCategoryCode = $order->merchantCategoryCode;
+                    $transaction->merchantCurrency = $order->merchantCurrency;
+
+                    $transaction->totalAuthorizedAmount = $order->totalAuthorizedAmount;
+                    $transaction->totalCapturedAmount = $order->totalCapturedAmount;
+                    $transaction->totalDisbursedAmount = $order->totalDisbursedAmount;
+                    $transaction->totalRefundedAmount = $order->totalRefundedAmount;
+                    $transaction->fundingMethod = $sourceOfFunds->fundingMethod;
+                    $transaction->userid = $pay->user_id;
+                    $transaction->save();
+
+                    $user_id =  $pay->user_id;
+                    $user = User::find($pay->user_id);
+                    $sub_id = $order_id;
+                    $checkUserSub = User_Subscription::where('user_id', $user->id)->first();
+
+                    if ($checkUserSub) {
+                        $subs = Subscription::find($orderidexplode);
+                        $checkUserSub->subscription_id = $orderidexplode;
+                        $checkUserSub->total_pages = (float)$subs->total_subscription + (float)$checkUserSub->remaining_pages;
+                        $checkUserSub->rollover_pages = $subs->rollover_limit;
+                        $checkUserSub->remaining_pages = (float)$subs->total_subscription + (float)$checkUserSub->remaining_pages;
+                        $checkUserSub->remaining_rollover_pages = $subs->rollover_limit;
+                        $checkUserSub->status = 'Active';
+                        $checkUserSub->due_date = now()->addDays((int)$subs->set_time)->toDateTimeString();
+                        $checkUserSub->save();
+
+                        $user->subscription_id = $orderidexplode;
+                        $user->save();
+
+                        $email = Email::where('type', 'Subscription Renew')->first();
+                        if ($email) {
+                            Mail::to($user->email)->send(new EmailTemplate($user, $email));
+                        }
+
+                        // return response()->json(['message' => 'Successfully Updated Subscription1']);
+
+
+                        
+                        $user = User::find($user->id);
+                        Auth::login($user);
+                        return redirect()->route('customer.thankyou.sub');
+                    } else {
+                        $user->customer = "Subscription";
+                        $user->subscription_id = $orderidexplode;
+                        $user->save();
+
+                        $subs = Subscription::find($orderidexplode);
+
+                        $dueDate = now()->addDays((int)$subs->set_time)->toDateTimeString();
+                        $User_Subscription = User_Subscription::create([
+                            'subscription_id' => $orderidexplode,
+                            'total_pages' => $subs->min_page,
+                            'rollover_pages' => $subs->min_page,
+                            'remaining_pages' => $subs->min_page,
+                            'remaining_rollover_pages' => $subs->rollover_limit,
+                            'user_id' => $user->id,
+                            'status' => 'Active',
+                            'due_date' => $dueDate
+                        ]);
+
+                        $pakge = PakageLimit::first();
+                        $remaining_pages =  $pakge->renaming - $subs->total_subscription;
+
+                        $consum_pages = $pakge->consum + $subs->total_subscription;
+
+
+                        $pakge->update(['renaming' => $remaining_pages, 'consum' => $consum_pages]);
+                        $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+                        $receipt_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+
+                        //find amdin email;
+                        $admin = User::where('role', 'admin')->first();
+
+                        $invoice = Invoice::create([
+                            'Name' => $user->name,
+                            'invoice_id' => $invoice_id,
+                            'email' => $user->email,
+                            'page' => null,
+                            'price_per_page' => null,
+                            'item_name' => 'Subcription',
+                            'total' => $transaction->merchantAmount,
+                            'to_name' => $admin->name,
+                            'to_email' => $admin->email,
+                            'order_id' => $orderidexplode,
+                            'invoice_type' => 'package_inc'
+                        ]);
+
+
+                        $email = Email::where('type', 'package_purchase')->first();
+                        if ($email) {
+                            Mail::to($user->email)->send(new EmailTemplate($user, $email));
+                        }
+
+                        
+                        $createdAt = $invoice->created_at;
+                        $orderid = $order->id;
+
+
+                        $invoiceNumber = $invoice_id;
+                        $receiptNumber = $receipt_id;
+                        $dateOfIssue = $createdAt;
+                        $dueDate = $dueDate;
+                        $orderid = $orderid;
+                        
+                        $customerName =$user->name;
+                        $customerEmail = $user->email;
+                        $customerAdress = $user->address_1.''.$user->address_2;
+                        
+                        $itemName = $subs->subscription_name;
+                        $totalPages = $subs->min_page;
+                        $pricePerPage = $subs->cost_per_page;
+                        $subTotal =$transaction->merchantAmount;
+                        $payment_status ='Paid';
+        
+        
+                        $discount = 0.0;
+                        
+                        $total = $transaction->merchantAmount;
+                        
+                       
+                        if ($email) {
+                            $subject = 'Invoice package purchase'; 
+                            Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
+                                [
+                                    'invoiceNumber' => $invoiceNumber,
+                                    'receiptNumber' => $receiptNumber,
+                                    'dateOfIssue' => $dateOfIssue,
+                                    'dueDate' => $dueDate,
+                                    'customerName' => $customerName,
+                                    'customerEmail' => $customerEmail,
+                                    'customerAdress' => $customerAdress,
+                                    'orderid' => $order->order_id,
+                                    'itemName' => $itemName,
+                                    'totalPages' => $totalPages,
+                                    'pricePerPage' => $pricePerPage,
+                                    'payment_status' => $payment_status,
+                                    'subTotal' => $subTotal,
+                                    'discount' => $discount,
+                                    'total' => $total,
+                                ],
+                                $subject
+                            ));
+                        }
+
+$purchaseDate = now()->format('Y-m-d');
+ $emailContent = "
+   
+    <p>Hello {$user->name},</p>
+    <p>Congratulations on securing your new package at Writing Space! We're excited to support you with enhanced services and resources tailored to your academic needs.</p>
+
+    <p><strong>Package Details:</strong></p>
+    <ul>
+        <li><strong>Package Type:</strong> $subs->subscription_name</li>
+        <li><strong>Purchase Date:</strong> $purchaseDate</li>
+        <li><strong>Total Amount:</strong> $total $</li>
+        <li><strong>Total Pages:</strong> $totalPages</li>
+    </ul>
+
+    <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
+    <p>You can now access all the features and benefits of your package through your dashboard. Explore the additional resources and services available to you and make the most of your Writing Space experience!</p>
+    <p>If you have any questions about your package or need further assistance, our customer support team is ready to help.</p>
+    <p>Thank you for choosing Writing Space! We look forward to helping you achieve your academic goals.</p>
+
+    <p>Best regards,</p>
+    <p>Customer Success Team</p>
+    <p>Writing Space</p>
+";
+
+Mail::html($emailContent, function ($message) use ($user) {
+    $message->to($user->email)
+            ->subject('Welcome to Your New Writing Space Package – Thank You for Your Purchase!');
+});
+
+
+                        
+                        $user_id =  $pay->user_id;
+                        $user = User::find($user_id);
+                        Auth::login($user);
+                        return redirect()->route('customer.thankyou.sub');
+                    } //checkuser if
+                } //success attentication if
+
+            } //resobse array if
+            else {
+                echo "Error decoding JSON";
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+    } //end function here;
+
+
+   public function pay_add_pages($orderid)
+    {
+
+
+        try {
+            $pay = Pay::where('order_id', $orderid)->first();
+            $sessionId = $pay->session_id;
+            $order_id = $pay->order_id;
+
+            $orderidexplode = explode('-', $order_id);
+            $orderidexplode = $orderidexplode[0];
+
+
+            $transactionId = $pay->truncatedSessionId;
+
+            $order_detail = json_decode($pay->order_details);
+
+
+            $amount = $order_detail->total_cost;
+
+            $randomNumber = mt_rand(100, 999);
+            $transactionIdurl = $transactionId . $randomNumber;
+
+
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionIdurl,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'PUT',
+                CURLOPT_POSTFIELDS => '{
+              "apiOperation": "PAY",
+              "authentication":{
+                "transactionId":"' . $transactionId . '"
+                },
+                    "order": {
+                        "amount": "' . $amount . '",
+                        "currency": "PKR"
+                    },
+                    "session": {
+                        "id": "' . $sessionId . '"
+                    }
+                
+                }',
+                        CURLOPT_HTTPHEADER => array(
+                            'Content-Type: application/json',
+                            'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+                        ),
+                    ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+            $responseArray = json_decode($response, true);
+
+            if ($responseArray) {
+                $authenticationStatus = $responseArray['order']['authenticationStatus'];
+                if ($authenticationStatus == 'AUTHENTICATION_SUCCESSFUL') {
+
+                    $responseObject = json_decode($response);
+                    $order = $responseObject->order;
+                    $sourceOfFunds = $responseObject->sourceOfFunds->provided->card;
+                    $transaction = new Transaction();
+
+                    $creationTime = Carbon::parse($order->creationTime)->toDateTimeString();
+
+                    // Assign values to the model's properties
+                    $transaction->amount = $order->amount;
+                    $transaction->authenticationStatus = $order->authenticationStatus;
+                    $transaction->chargeback_amount = $order->chargeback->amount;
+                    $transaction->chargeback_currency = $order->chargeback->currency;
+
+                    $transaction->currency = $order->currency;
+                    $transaction->reference = $order->reference;
+                    $transaction->status = $order->status;
+                    $transaction->merchantAmount = $order->merchantAmount;
+                    $transaction->merchantCategoryCode = $order->merchantCategoryCode;
+                    $transaction->merchantCurrency = $order->merchantCurrency;
+
+                    $transaction->totalAuthorizedAmount = $order->totalAuthorizedAmount;
+                    $transaction->totalCapturedAmount = $order->totalCapturedAmount;
+                    $transaction->totalDisbursedAmount = $order->totalDisbursedAmount;
+                    $transaction->totalRefundedAmount = $order->totalRefundedAmount;
+                    $transaction->fundingMethod = $sourceOfFunds->fundingMethod;
+                    $transaction->userid = $pay->user_id;
+                    $transaction->save();
+                    $user_id =  $pay->user_id;
+
+                    //  $user = User::find($pay->user_id);
+
+
+                    $pages = $order_detail->no_of_page;
+                    $user = User::findOrFail($pay->user_id);
+                    $currentSubs = User_Subscription::where('user_id', $user->id)->first();
+                    if ($currentSubs) {
+                        $subs = Subscription::findOrFail($currentSubs->subscription_id);
+                        $pageCost =  $subs->cost_per_page;
+                    }
+
+                    $billAmount =  $pages * $pageCost;
+
+                    $currentSubs->total_pages += $pages;
+                    $currentSubs->remaining_pages += $pages;
+                    $currentSubs->rollover_pages += $pages;
+                    $currentSubs->save();
+
+
+
+
+                    $orderDetails = json_decode($pay['order_details'], true);
+
+
+
+                    if (isset($orderDetails['order_id'])) {
+                        $orderidpkg = $orderDetails['order_id'];
+                        $orderdetailspk = Orders::where('order_id', $orderidpkg)->first();
+
+                        if ($orderdetailspk) {
+                            $orderdetailspk->number_of_pages += $pages;
+                            $orderdetailspk->save();
+                            $user1 = User::findOrFail($pay->user_id);
+                            $currentSubs1 = User_Subscription::where('user_id', $user1->id)->first();
+
+                            if ($currentSubs1) {
+                                $subs = Subscription::findOrFail($currentSubs1->subscription_id);
+                            }
+                            $currentSubs1->remaining_pages -= $pages;
+                            $currentSubs1->save();
+                        }
+                    }
+                    $order_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+                    $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+
+                    $pakge = PakageLimit::first();
+                    $remaining_pages =  $pakge->renaming - $pages;
+                    $consum_pages = $pakge->consum + $pages;
+                    $pakge->update(['renaming' => $remaining_pages, 'consum' => $consum_pages]);
+                    $invoice = Invoice::create([
+                        'Name' => $user->name,
+                        'email' => $user->email,
+                        'page' => $pages,
+                        'description' => 'Purchased more pages',
+                        'price_per_page' => $pageCost,
+                        'item_name' => 'Pages',
+                        'total' => $billAmount,
+                        'to_name' => 'Admin',
+                        'to_email' => 'admin@gmail.com',
+                        'order_id' => $order_detail->used_package_id,
+                        'invoice_id' => $invoice_id,
+
+                    ]);
+
+                    $user_id =  $pay->user_id;
+                    $user = User::find($user_id);
+
+                    //add new pages from customer profile and send email; 
+                    $data['order_id'] = $orderid;
+                    $data['number_of_pages'] = $pages; // new oder pages;
+                    $data['pages_remaining'] = $currentSubs->remaining_pages; // old order remaining pages;
+                    $data['purchased_at'] = $invoice->created_at->format('Y-m-d');
+                    $data['customer_name'] = $user->name;
+                    $data['customer_email'] = $user->email;
+
+
+                    $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first(); 
+                    if ($email) {
+                        Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
+                    }
+                    
+                    
+
+
+
+
+
+
+                    $user23 = User::findOrFail($pay->user_id);
+                    $currentSubs23 = User_Subscription::where('user_id', $user23->id)->first();
+
+                    $createdAt = $invoice->created_at;
+                    $orderid = $order->id;
+
+
+                    $invoiceNumber = $invoice_id;
+                    $dateOfIssue = $createdAt;
+                    $dueDate = $currentSubs23->due_date;
+                    $orderid = $orderid;
+
+                     $remaining_pages = $currentSubs23->remaining_pages;
+                    
+                    $customerName =$user->name;
+                    $customerEmail = $user->email;
+                    $customerAdress = $user->address_1.''.$user->address_2;
+                    
+                    $itemName = $subs->subscription_name;
+                    $totalPages = $pages;
+                    $pricePerPage = $pageCost;
+                    $subTotal =$billAmount;
+                    $payment_status ='Paid';
+    
+    
+                    $discount = 0.0;
+                    
+                    $total = $billAmount;
+                    
+                   
+                    if ($email) {
+                        $subject = 'Invoice package purchase'; 
+                        Mail::to($user->email)->send(new PkgIdInvoiceEmailTemplate1(
+                            [
+                                'invoiceNumber' => $invoiceNumber,
+                                'dateOfIssue' => $dateOfIssue,
+                                'dueDate' => $dueDate,
+                                'customerName' => $customerName,
+                                'customerEmail' => $customerEmail,
+                                'customerAdress' => $customerAdress,
+                                'orderid' => $order->order_id,
+                                'itemName' => $itemName,
+                                'totalPages' => $totalPages,
+                                'remaining_pages' => $remaining_pages,
+                                'pricePerPage' => $pricePerPage,
+                                'payment_status' => $payment_status,
+                                'subTotal' => $subTotal,
+                                'discount' => $discount,
+                                'total' => $total,
+                            ],
+                            $subject
+                        ));
+                    }
+                    
+ $emailContent = "
+            <p>Hello {$user->name},</p>
+            <p>We’ve successfully added additional pages to your existing order at Writing Space. Here are the details:</p>
+
+            <p><strong>Order Details:</strong></p>
+            <ul>
+                <li><strong>Order ID:</strong> $order_id</li>
+                <li><strong>Additional Pages Added:</strong> $pages</li>
+                <li><strong>Total Pages Used So Far:</strong> {$currentSubs->total_pages}</li>
+                <li><strong>Remaining Pages in Your Package:</strong> {$currentSubs->remaining_pages}</li>
+            </ul>
+
+            <p><strong>What’s Next:</strong></p>
+            <ol>
+                <li>You can continue to track the progress of your order through your dashboard under the \"My Orders\" section.</li>
+                <li>We’ll keep you updated as your order develops, and we’ll notify you when it’s ready for review or download.</li>
+            </ol>
+
+            <p>Adding these pages will help tailor your order more closely to your needs, ensuring that the final product meets all your academic requirements.</p>
+            <p>If you need further modifications or have any questions, please don't hesitate to contact us. Our team is here to support you every step of the way.</p>
+            <p>Thank you for utilizing your Writing Space package effectively. We look forward to delivering a product that exceeds your expectations.</p>
+
+            <p>Best regards,</p>
+            <p>Customer Success Team</p>
+            <p>Writing Space</p>
+        ";
+
+        Mail::html($emailContent, function ($message) use ($user, $order_id) {
+            $message->to($user->email)
+                    ->subject('Confirmation of Additional Pages Added to Order ID - ' . $order_id);
+        });
+
+                    Auth::login($user);
+
+
+                    return redirect('https://elementary-solutions.com/writing-space-laravel/public/customer/thankyou');
+                }
+            }
+        } catch (\Exception $e) {
+            // Handle the exception
+            return response()->json(['error' => $e->getMessage()]);
+        }
+    }
+
+
+
+    public function pay_add_manage($orderid)
+    {
+
+
+        try {
+            $pay = Pay::where('order_id', $orderid)->first();
+            $sessionId = $pay->session_id;
+            $order_id = $pay->order_id;
+            $orderidexplode = explode('-', $order_id);
+            $orderidexplode = $orderidexplode[0];
+
+
+            $transactionId = $pay->truncatedSessionId;
+
+            $order_detail = json_decode($pay->order_details);
+
+
+            $amount = $order_detail->total;
+
+            $randomNumber = mt_rand(100, 999);
+            $transactionIdurl = $transactionId . $randomNumber;
+
+
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionIdurl,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'PUT',
+                CURLOPT_POSTFIELDS => '{
+              "apiOperation": "PAY",
+              "authentication":{
+          "transactionId":"' . $transactionId . '"
+          },
+              "order": {
+                  "amount": "' . $amount . '",
+                  "currency": "PKR"
+              },
+              "session": {
+                "id": "' . $sessionId . '"
+              }
+          
+          }',
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
+                    'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+                ),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+            $responseArray = json_decode($response, true);
+
+            if ($responseArray) {
+
+
+
+                $authenticationStatus = $responseArray['order']['authenticationStatus'];
+
+
+
+                if ($authenticationStatus == 'AUTHENTICATION_SUCCESSFUL') {
+
+                    $responseObject = json_decode($response);
+                    $order = $responseObject->order;
+                    $sourceOfFunds = $responseObject->sourceOfFunds->provided->card;
+                    $transaction = new Transaction();
+
+                    $creationTime = Carbon::parse($order->creationTime)->toDateTimeString();
+
+                    // Assign values to the model's properties
+                    $transaction->amount = $order->amount;
+                    $transaction->authenticationStatus = $order->authenticationStatus;
+                    $transaction->chargeback_amount = $order->chargeback->amount;
+                    $transaction->chargeback_currency = $order->chargeback->currency;
+
+                    $transaction->currency = $order->currency;
+                    $transaction->reference = $order->reference;
+                    $transaction->status = $order->status;
+                    $transaction->merchantAmount = $order->merchantAmount;
+                    $transaction->merchantCategoryCode = $order->merchantCategoryCode;
+                    $transaction->merchantCurrency = $order->merchantCurrency;
+
+                    $transaction->totalAuthorizedAmount = $order->totalAuthorizedAmount;
+                    $transaction->totalCapturedAmount = $order->totalCapturedAmount;
+                    $transaction->totalDisbursedAmount = $order->totalDisbursedAmount;
+                    $transaction->totalRefundedAmount = $order->totalRefundedAmount;
+                    $transaction->fundingMethod = $sourceOfFunds->fundingMethod;
+                    $transaction->userid = $pay->user_id;
+                    $transaction->save();
+                    $user_id =  $pay->user_id;
+
+                    //  $user = User::find($pay->user_id);
+
+
+
+                    $user = User::findOrFail($pay->user_id);
+
+
+
+
+                    $order = Orders::where('order_id', '=', $order_detail->order_id)->first();
+                    if ($order) {
+                        $originalDate =  $order_detail->deadline;
+
+                        $carbonDate = Carbon::parse($originalDate);
+
+                        $formattedDate = $carbonDate->format('Y-m-d H:i');
+
+
+                        $new_page = (float)$order->number_of_pages + (float)$order_detail->page;
+                        $order->number_of_pages = $new_page;
+                        $order->deadline = $formattedDate;
+                        $order->save();
+                        $user = User::find($order->user_id);
+                        $invoice = Invoice::create([
+                            'Name' => $user->name,
+                            'email' => $order->email,
+                            'page' => $order_detail->page,
+                            'price_per_page' => $order->cost_per_page,
+                            'item_name' => 'Order',
+                            'total' => $order_detail->total,
+                            'to_name' => 'Admin',
+                            'to_email' => 'admin@gmail.com',
+                            'order_id' => $order->order_id,
+
+                        ]);
+                    }
+
+                    $user23 = User::findOrFail($pay->user_id);
+                    $currentSubs23 = Orders::where('user_id', $user23->id)->first();
+                    // $currentSubs23 = User_Subscription::where('user_id', $user23->id)->first();
+
+                    $createdAt = $invoice->created_at;
+                    $orderid = $order->id;
+
+
+                    $invoiceNumber = $invoice->idinvoice_id;
+                    $dateOfIssue = $createdAt;
+                    $dueDate = $currentSubs23->due_date;
+                    $orderid = $orderid;
+
+                     $remaining_pages = $currentSubs23->remaining_pages;
+                    
+                    $customerName =$user->name;
+                    $customerEmail = $user->email;
+                    $customerAdress = $user->address_1.''.$user->address_2;
+                    
+                    $itemName = 'Custom order Add Pages';
+                    $totalPages = $order_detail->page;
+                    $pricePerPage =  $order->cost_per_page;
+                    $subTotal =$order_detail->total;
+                    $payment_status ='Paid';
+
+                  
+    
+    
+                    $discount = 0.0;
+                    
+                    $total = $order_detail->total;
+                    
+                    $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first(); 
+                    
+                    if ($email) {
+                        $subject = 'Confirmation of Additional Pages (In Packages) for Order ID'; 
+                        Mail::to($user->email)->send(new PkgIdmanageInvoiceEmailTemplate(
+                            [
+                                'invoiceNumber' => $invoiceNumber,
+                                'dateOfIssue' => $dateOfIssue,
+                                'dueDate' => $dueDate,
+                                'customerName' => $customerName,
+                                'customerEmail' => $customerEmail,
+                                'customerAdress' => $customerAdress,
+                                'orderid' => $order->order_id,
+                                'itemName' => $itemName,
+                                'totalPages' => $totalPages,
+                                'remaining_pages' => $remaining_pages,
+                                'pricePerPage' => $pricePerPage,
+                                'payment_status' => $payment_status,
+                                'subTotal' => $subTotal,
+                                'discount' => $discount,
+                                'total' => $total,
+                            ],
+                            $subject
+                        ));
+                    }
+
+
+$emailContent = "
+
+    <p>Hi {$user->name},</p>
+    <p>Thank you for expanding your order at Writing Space! We've successfully processed the purchase of additional pages for your ongoing project.</p>
+
+    <p><strong>Order Details:</strong></p>
+    <ul>
+        <li><strong>Order ID:</strong>{$order->order_id}</li>
+        <li><strong>Additional Pages Purchased:</strong> {$order->number_of_pages}</li>
+        <li><strong>Date of Purchase:</strong>  $invoice->created_at</li>
+    </ul>
+
+    <p>Your invoice and receipt for this transaction are attached as a PDF. Please review these documents for your records.</p>
+    <p>Should you have any queries or require further assistance, feel free to reach out to our support team.</p>
+    <p>We appreciate your continued trust in Writing Space, and we're here to assist you every step of the way!</p>
+
+    <p>Best regards,</p>
+    <p>Customer Success Team</p>
+    <p>Writing Space</p>
+";
+
+Mail::html($emailContent, function ($message) use ($user) {
+    $message->to($user->email)
+            ->subject('Confirmation of Additional Pages Purchase – Order ID {$order->order_id}');
+});
+
+
+
+
+                    $user_id =  $pay->user_id;
+
+                    $user = User::find($user_id);
+                    Auth::login($user);
+
+
+                    return redirect('https://elementary-solutions.com/writing-space-laravel/public/customer/thankyou');
+                }
+            }
+        } catch (\Exception $e) {
+            // Handle the exception
+            return response()->json(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function pay($orderid)
+    {
+
+
+        $pay = Pay::where('order_id', $orderid)->first();
+        $sessionId = $pay->session_id;
+        $order_id = $pay->order_id;
+        $transactionId = $pay->truncatedSessionId;
+        $order_detail = json_decode($pay->order_details);
+        $total_amount = $order_detail->total_cost;
+        $amount = $total_amount;
+        $randomNumber = mt_rand(100, 999);
+        $transactionIdurl = $transactionId . $randomNumber;
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionIdurl,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            CURLOPT_POSTFIELDS => '{
+                                        "apiOperation": "PAY",
+                                        "authentication":{
+                                    "transactionId":"' . $transactionId . '"
+                                    },
+                                        "order": {
+                                            "amount": "' . $amount . '",
+                                            "currency": "PKR"
+                                        },
+                                        "session": {
+                                            "id": "' . $sessionId . '"
+                                        }
+                                    
+                                    }',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        $responseArray = json_decode($response, true);
+
+        if ($responseArray) {
+            // dd($responseArray);
+            $authenticationStatus = $responseArray['order']['authenticationStatus'];
+            echo $authenticationStatus;
+            if ($authenticationStatus == 'AUTHENTICATION_SUCCESSFUL') {
+
+                $responseObject = json_decode($response);
+                $order = $responseObject->order;
+                $sourceOfFunds = $responseObject->sourceOfFunds->provided->card;
+                $transaction = new Transaction();
+
+                $creationTime = Carbon::parse($order->creationTime)->toDateTimeString();
+
+                // Assign values to the model's properties
+                $transaction->amount = $order->amount;
+                $transaction->authenticationStatus = $order->authenticationStatus;
+                $transaction->chargeback_amount = $order->chargeback->amount;
+                $transaction->chargeback_currency = $order->chargeback->currency;
+
+                $transaction->currency = $order->currency;
+                $transaction->reference = $order->reference;
+                $transaction->status = $order->status;
+                $transaction->merchantAmount = $order->merchantAmount;
+                $transaction->merchantCategoryCode = $order->merchantCategoryCode;
+                $transaction->merchantCurrency = $order->merchantCurrency;
+
+                $transaction->totalAuthorizedAmount = $order->totalAuthorizedAmount;
+                $transaction->totalCapturedAmount = $order->totalCapturedAmount;
+                $transaction->totalDisbursedAmount = $order->totalDisbursedAmount;
+                $transaction->totalRefundedAmount = $order->totalRefundedAmount;
+                $transaction->fundingMethod = $sourceOfFunds->fundingMethod;
+                $transaction->userid = $pay->user_id;
+
+                $transaction->save();
+                $user_id =  $pay->user_id;
+                $input = $order_detail;
+
+                if (empty($input->additional_info)) {
+                    $input->additional_info = 0;
+                    $count = 0;
+                } else {
+                    $count = count($input->additional_info);
+                }
+
+                $total = (float)$count * (float)$input->cost_per_page;
+                $check_analysis = $input->statistical_analysis;
+                $statistical_analysis = ($check_analysis == '0') ? false : true;
+                if ($input->coupon == '' || $input->coupon == null) {
+                    $discount = '0';
+                } else {
+                    $discount = $input->discount;
+                }
+
+                if (empty($input->additional_info)) {
+                    $input->additional_info = [];
+                }
+
+                //  dd($input);
+                $lastOrderId = Orders::latest()->limit(1)->value('order_id');
+                $order_id = ++$lastOrderId;
+                // dd($order_id, $lastOrderId);
+                $order = Orders::create([
+                    'subject' => $input->subject,
+                    'description' => $input->description,
+                    'topic' => $input->topic,
+                    'cost_per_page' => $input->cost_per_page,
+                    'submitting' => $input->submitting,
+                    'deadline' => $input->due_date,
+                    'no_of_extra_sources' => $input->no_of_extra_sources,
+                    'powerpoint_slide' => null,
+                    'spacing' => null,
+                    'number_of_pages' => $input->no_of_pages,
+                    'type_of_paper' => $input->term_of_paper,
+                    'paper_format' => $input->paper_format,
+                    'academic_level' => $input->academic_level,
+                    'language_spelling' => $input->language_spelling,
+                    'order_type' => 'Custom',
+                    'discount' => $discount,
+                    'powerpoint_slide' => $input->powerpoint_slide,
+                    'order_show' => 'Enable',
+                    'order_status' => 'Pending',
+                    'additional_info' => json_encode($input->additional_info),
+                    'coupon' => $input->coupon,
+                    'user_id' => $user_id,
+                    'payment_status' => 'Paid',
+                    'order_id' => $order_id,
+                    'total_cost' => $input->total_cost,
+                    'cost' => $input->sub_total,
+                    'additional_cost' => $total,
+                    'statistical_analysis' => $statistical_analysis,
+                    'email' => $input->email,
+                    'backup_email' => $input->backup_email
+                    // 'email' =>auth()->user()->email,
+                    // 'backup_email' => auth()->user()->email
+                ]);
+
+                if (!empty($input->coupon)) {
+                    $coupon_used = Coupon_Used::create([
+                        'user_id' => $user_id,
+                        'coupon' => $input->coupon,
+                    ]);
+                }
+
+                $user = User::find($order->user_id);
+                $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+                 $receipt_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+                 
+                $invoice = Invoice::create([
+                    'Name' => $user->name,
+                    'invoice_id' => $invoice_id,
+                    'email' => $order->email,
+                    'page' => $order->number_of_pages,
+                    'price_per_page' => $order->cost_per_page,
+                    'item_name' => 'Order',
+                    'total' => $order->total_cost,
+                    'to_name' => 'Admin',
+                    'to_email' => 'admin@gmail.com',
+                    'order_id' => $order->order_id,
+                    'invoice_type' => 'custom_inc'
+
+                ]);
+                $createdAt = $invoice->created_at;
+                $orderid = $order->id;
+                $order_id2 = $order->order_id;
+
+                $path = "public/uploads_folders/" . $order_id;
+              $permissions = 0777; 
+              $recursive = true;
+                if (!Storage::exists($path)) {
+                    // Storage::makeDirectory($path);
+                     
+                    
+                    
+                     Storage::makeDirectory($path, $permissions, $recursive);
+                    $folder = new Folder();
+                    $folder->name = $order_id;
+                    $folder->description = $order_id;
+                    $folder->user_id = $user_id;
+                    $folder->save();
+                    
+                    
+                }
+            
+            chmod(storage_path("app/public/uploads_folders/{$order_id}"), 0777);
+            
+            
+
+            
+            
+                $user = User::find($user_id);
+                $email = Email::where('type', '=', 'order_place_confirmation')->first();
+
+                // if ($email) {
+                //     Mail::to($user->email)->send(new EmailTemplate($user, $email));
+                // }
+                
+
+
+                $invoiceNumber = $invoice_id;
+                 $receiptNumber = $receipt_id;
+                
+                $dateOfIssue = $createdAt;
+                $dueDate = $input->due_date;
+                $orderid = $orderid;
+                $order = $order;
+                
+                $customerName =$user->name;
+                $customerEmail = $user->email;
+                $customerAdress = $user->address_1.''.$user->address_2;
+                
+                $itemName = $input->subject;
+                $totalPages = $order->number_of_pages;
+                $pricePerPage = $order->cost_per_page;
+                $subTotal =$order->total_cost;
+                $payment_status ='Paid';
+
+
+                $discount = 0.0;
+                
+                $total = $order->total_cost;
+                
+               
+                if ($email) {
+                    $subject = 'Your Writing Space Purchase Confirmation – Order ID '.$order_id; 
+                    Mail::to($user->email)->send(new InvoiceEmailTemplate(
+                        [
+                            'invoiceNumber' => $invoiceNumber,
+                              'receiptNumber' => $receiptNumber,
+                            'dateOfIssue' => $dateOfIssue,
+                            'dueDate' => $dueDate,
+                            'customerName' => $customerName,
+                            'customerEmail' => $customerEmail,
+                            'customerAdress' => $customerAdress,
+                            'orderid' => $order_id,
+                            'order' => $order,
+                            'itemName' => $itemName,
+                            'totalPages' => $totalPages,
+                            'pricePerPage' => $pricePerPage,
+                            'payment_status' => $payment_status,
+                            'subTotal' => $subTotal,
+                            'discount' => $discount,
+                            'total' => $total,
+                        ],
+                        $subject
+                    ));
+                }
+                
+                
+                
+                $user_id =  $pay->user_id;
+                $user = User::find($user_id);
+                Auth::login($user);
+
+                return redirect('https://elementary-solutions.com/writing-space-laravel/public/customer/thankyou');
+            }
+        } else {
+
+            echo "Error decoding JSON";
+        }
+    }
+
+    // customer custom subscription;
+    public function thankyou()
+    {
+        // $user_id = Auth::user()->id;
+        // $user = User::findOrFail($user_id);
+        // $user->tier = 'tier_1';
+        // $user->save();
+
+        return view('backend.customer.orderManagement.thankyou');
+    }
+
+    public function thankyouSub()
+    {
+        // $user_id = Auth::user()->id;
+        // $user = User::findOrFail($user_id);
+        // $user->tier = 'tier_2';
+        // $user->save();
+        return view('backend.customer.orderManagement.thankyou-subscription');
+    }
+
+    public function updateTierAfterPayment()
+    {
+        $user = User::findOrFail(Auth::user()->id);
+        $user->tier = 'tier_2';
+        $user->save();
+        return response()->json(['status' => true, 'message' => 'Customer dashboard'], 200);
+    }
+
+
+    public function exportInvoiceprofile($value)
+    {
+
+        
+        $nu = rand(11, 999);
+        return  Excel::download(new OrdersExportInvoice($value), 'ORDER-LIST-' . $nu . '.xlsx');
+    }
+
+    public function index()
+    {
+
+        $used_subscription = User_Subscription::where('user_id', '=', Auth()->user()->id)->first();
+        if ($used_subscription) {
+            $subscription = Subscription::find($used_subscription->subscription_id);
+            $used_subscription->subscription = $subscription;
+        }
+
+
+
+        $pricing = Pricing::orderBy('id', 'desc')->get();
+        $Addons = Addons::orderBy('id', 'desc')->first();
+
+
+
+        $subjects = Subject::all();
+        $academic = Academic_level::all();
+        $term = Term_of_paper::all();
+        $deadline = Deadline::all();
+        $paper_format = Paper_Format::all();
+        $Languages = Language::all();
+
+        if (auth()->check()) {
+            $user_id = Auth::user()->id;
+            $subsDetails = User_Subscription::where('user_id', $user_id)->first();
+            $subscribed = $subsDetails->user_id ?? '';
+            if ($subscribed) {
+                $subsDetailsamount = Subscription::where('id', $subsDetails->subscription_id)->first();
+                $cost_per_page = $subsDetailsamount->cost_per_page;
+                return view('backend.customer.orderManagement.custom_place_order', compact('Languages','used_subscription','Addons', 'pricing', 'subjects', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails', 'cost_per_page'));
+            }
+        }
+        $subscribed = null;
+        $subsDetails = null;
+
+        return view('backend.customer.orderManagement.place_order', compact('Languages','pricing', 'subjects', 'Addons', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails'));
+    }
+
+
+    public function addMorePages(Request $request)
+    {
+        // dd($request->all());
+        $pages = $request->pages;
+        $user = User::findOrFail(Auth::user()->id);
+
+
+        $currentSubs = User_Subscription::where('user_id', $user->id)->first();
+
+        if ($currentSubs) {
+            $subs = Subscription::findOrFail($currentSubs->subscription_id);
+            $pageCost =  $subs->cost_per_page;
+        }
+
+        $billAmount =  $pages * $pageCost;
+
+        $currentSubs->total_pages += $pages;
+        $currentSubs->remaining_pages += $pages;
+        $currentSubs->save();
+
+        $order_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+        $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+
+        $invoice = Invoice::create([
+            'Name' => $user->name,
+            'email' => $user->email,
+            'page' => $pages,
+            'description' => 'Purchased more pages',
+            'price_per_page' => $pageCost,
+            'item_name' => 'Pages',
+            'total' => $billAmount,
+            'to_name' => 'Admin',
+            'to_email' => 'admin@gmail.com',
+            'order_id' => $order_id,
+            'invoice_id' => $invoice_id
+        ]);
+
+        if ($invoice) {
+            $email = Email::where('type', '=', 'Order Place Confirmation')->first();
+
+            if ($email) {
+                Mail::to($user->email)->send(new EmailTemplate($user, $email));
+            }
+
+            return response()->json(['message' => 'Pages added successfully!']);
+        } else {
+
+            return response()->json(['error' => 'Something went wrong!']);
+        }
+    }
+
+
+    public function exportOrders()
+    {
+        $nu = rand(11, 999);
+        // Pass the checked IDs to the OrdersExport class
+        return  Excel::download(new OrdersExport, 'ORDER-LIST-' . $nu . '.xlsx');
+    }
+
+    public function changeDate($id)
+    {
+        $pricing = Pricing::find($id);
+        if ($pricing) {
+
+            return response()->json(['success' => true, 'message' => $pricing]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Pricing not found'], 404);
+        }
+    }
+
+
+    public function create_order(Request $request, $id)
+    {
+
+        $input = $request->dataObject;
+
+        if (empty($input['additional_info'])) {
+            $input['additional_info'] = 0;
+            $count = 0;
+        } else {
+            $count = count($input['additional_info']);
+        }
+
+        $total = (float)$count * (float)$input['cost_per_page'];
+
+        $check_analysis = $input['statistical_analysis'];
+
+        if ($check_analysis == '0') {
+            $statistical_analysis = false;
+        } else {
+            $statistical_analysis = true;
+        }
+        $order_id = rand(000000000, 999999999);
+        if ($input['coupon'] == '' || $input['coupon'] == null) {
+            $discount = '0';
+        } else {
+            $discount = $input['discount'];
+        }
+
+        if (empty($input['additional_info'])) {
+            $input['additional_info'] = [];
+        }
+
+        $lastOrderId = Orders::latest()->limit(1)->value('order_id');
+        $order_id = ++$lastOrderId;
+
+        // dd($order_id, $lastOrderId);
+        $order = Orders::create([
+            'subject' => $input['subject'],
+            'description' => $input['description'],
+            'topic' => $input['topic'],
+            'cost_per_page' => $input['cost_per_page'],
+            'submitting' => $input['submitting'],
+            'deadline' => $input['due_date'],
+            'no_of_extra_sources' => $input['no_of_extra_sources'],
+            'powerpoint_slide' => null,
+            'spacing' => null,
+            'number_of_pages' => $input['no_of_pages'],
+            'type_of_paper' => $input['term_of_paper'],
+            'paper_format' => $input['paper_format'],
+            'academic_level' => $input['academic_level'],
+            'language_spelling' => $input['language_spelling'],
+            'order_type' => 'Custom',
+            'discount' => $discount,
+            'order_show' => 'Enable',
+            'order_status' => 'Pending',
+            'additional_info' => json_encode($input['additional_info']),
+            'coupon' => $input['coupon'],
+            'user_id' => $id,
+            'payment_status' => 'Paid',
+            'order_id' => $order_id,
+            'total_cost' => $input['total_cost'],
+            'cost' => $input['sub_total'],
+            'additional_cost' => $total,
+            'statistical_analysis' => $statistical_analysis,
+            'email' => $input['email'],
+            'backup_email' => $input['backup_email']
+        ]);
+
+        if ($input['coupon'] != '' || $input['coupon'] != null) {
+            $coupon_used = Coupon_Used::create([
+                'user_id' => $id,
+                'coupon' => $input['coupon'],
+            ]);
+        }
+
+        $user = User::find($order->user_id);
+
+        $invoice = Invoice::create([
+            'Name' => $user->name,
+            'email' => $order->email,
+            'page' => $order->number_of_pages,
+            'price_per_page' => $order->cost_per_page,
+            'item_name' => 'Order',
+            'total' => $order->total_cost,
+            'to_name' => 'Admin',
+            'to_email' => 'admin@gmail.com',
+            'order_id' => $order->order_id,
+            'invoice_type' => 'custom_inc'
+
+        ]);
+
+
+        $path = "public/uploads_folders/" . $order_id;
+$permissions = 0775;
+
+
+        if (!Storage::exists($path)) {
+            // Storage::makeDirectory($path);
+             Storage::makeDirectory($path, $permissions, true);
+            $folder = new Folder();
+            $folder->name = $order_id;
+            $folder->description = $order_id;
+            $folder->user_id = Auth::id();
+            $folder->save();
+        }
+        chmod(storage_path("app/public/uploads_folders/{$order_id}"), 0777);
+
+        // $user = User::find($id);
+        // $email = Email::where('type', '=', 'Order Place Confirmation')->first();
+
+        // if ($email) {
+        //     Mail::to($user->email)->send(new EmailTemplate($user, $email));
+        // }
+       
+
+
+
+        return response()->json(['success' => true, 'message' => $order]);
+    }
+
+
+    public function new_order(Request $request)
+    {
+        $id = Auth()->user()->id;
+        // $order = Orders::where('user_id', $id)->where('order_status', 'Pending')->get();
+        $order = Orders::where('user_id', $id)->where('order_status', 'Pending')
+            ->when($request->order_id != null, function ($q) use ($request) {
+                return $q->where('order_id', $request->order_id);
+            })
+            ->when($request->topic != null, function ($q) use ($request) {
+                return $q->where('topic', $request->topic);
+            })
+            ->latest()
+            ->get();
+        return view('backend.customer.orderManagement.new_order', compact('order'));
+    }
+
+    public function inprogress_order(Request $request)
+    {
+        $id = Auth()->user()->id;
+
+        // $order = Orders::where('user_id', $id)->where('order_status', 'Inprogress')->get();
+        $order = Orders::where('user_id', $id)->where('order_status', 'In-Progress')
+            ->when($request->order_id != null, function ($q) use ($request) {
+                return $q->where('order_id', $request->order_id);
+            })
+            ->when($request->topic != null, function ($q) use ($request) {
+                return $q->where('topic', $request->topic);
+            })
+            ->latest()
+            ->get();
+
+        return view('backend.customer.orderManagement.inprogress_order', compact('order'));
+    }
+
+
+    public function revision_order(Request $request)
+    {
+        $id = Auth()->user()->id;
+
+        // $order = Orders::where('user_id', $id)->where('order_status', 'Revision')->get();
+        $order = Orders::where('user_id', $id)->where('order_status', 'Revision')
+            ->when($request->order_id != null, function ($q) use ($request) {
+                return $q->where('order_id', $request->order_id);
+            })
+            ->when($request->topic != null, function ($q) use ($request) {
+                return $q->where('topic', $request->topic);
+            })
+            ->latest()
+            ->get();
+
+        return view('backend.customer.orderManagement.revision_order', compact('order'));
+    }
+
+    public function delivered_order(Request $request)
+    {
+        $id = Auth()->user()->id;
+        // $order = Orders::where('user_id', $id)->where('order_status', 'Delivered')->get();
+        $order = Orders::where('user_id', $id)->where('order_status', 'Delivered')
+            ->when($request->order_id != null, function ($q) use ($request) {
+                return $q->where('order_id', $request->order_id);
+            })
+            ->when($request->topic != null, function ($q) use ($request) {
+                return $q->where('topic', $request->topic);
+            })
+            ->latest()
+            ->get();
+
+        return view('backend.customer.orderManagement.delivered_order', compact('order'));
+    }
+    public function delete_order($id)
+    {
+        $order = Orders::find($id);
+
+        if ($order) {
+            $order->delete();
+            return response()->json(['success' => true, 'message' => 'Delete Successfully']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Order not found'], 404);
+        }
+    }
+
+
+    public function order_detail($id)
+    {
+        $order = Orders::where('order_id', $id)->first();
+        if(!$order)
+        {
+            abort(404);
+        }
+        if(Auth::user()->id != $order->user_id)
+        {
+            abort(404);
+        }
+        $language = Language::where('title',$order->language_spelling)->first();
+        $folder = Folder::where('name', $order->order_id)->first();
+        $feedback = Feedback::where('order_id', $order->order_id)->get();
+        $order['feedback'] = $feedback;
+
+        if ($order) {
+            $request = Rewrite_Request::where('order_id', '=', $order->order_id)->get();
+            if ($request->count() > 0) {
+                $order['request'] = $request;
+            }
+        }
+        $used_subscription = User_Subscription::where('user_id', '=', Auth()->user()->id)->first();
+        if ($used_subscription) {
+            $subscription = Subscription::find($used_subscription->subscription_id);
+            $used_subscription->subscription = $subscription;
+        }
+        
+        $completedOrders = FileChatGPT::where('status',1)->where('order_id', $id)->get();
+        // dd($completedOrders);
+        return view('backend.customer.orderManagement.order_detail', compact('order', 'used_subscription','language','folder','completedOrders'));
+    }
+
+    public function order_detail_request(Request $request)
+    {
+
+        if ($request->text != null) {
+            $rewrite = Rewrite_Request::create([
+                'order_id' => $request->order_id,
+                'request' => $request->text,
+
+            ]);
+            return response()->json(['success' => true, 'message' => 'Create Successfully']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Empty Request'], 404);
+        }
+    }
+
+
+
+    public function order_detail_review(Request $request)
+    {
+        $feedback = Review::where('order_id', '=', $request->order_id)->where('type', '=', $request->type)->first();
+        if ($feedback) {
+            return response()->json(['success' => true, 'message' => 'Feedback sent Successfully']);
+        } else {
+            $rewrite = Review::create([
+                'order_id' => $request->order_id,
+                'feedback' => $request->feedback,
+                'type' => $request->type,
+            ]);
+            return response()->json(['success' => true, 'message' => 'Feedback sent Successfully']);
+        }
+    }
+
+    public function order_detail_feedback(Request $request)
+    {
+
+        $rewrite = Feedback::create([
+            'order_id' => $request->order_id,
+            'feedback' => $request->feedback,
+        ]);
+
+        if ($rewrite) {
+            $email = Email::where('type', '=', 'Order Place Confirmation')->first(); // change to feedback template
+            $user = User::findOrFail(Auth::user()->id);
+
+            if ($email) {
+                Mail::to($user->email)->send(new EmailTemplate($user, $email));
+            }
+        }
+
+        return response()->json(['message' => 'Feedback sent successfully']);
+        // return redirect()->route('customer.order-detail', $request->order_id)->with('success', 'Feedback sent Successfully');
+    }
+
+
+    public function update_detail_order(Request $request, $id)
+    {
+
+        $order = Orders::where('order_id', '=', $id)->first();
+        if ($order) {
+            $originalDate = $request->deadline;
+
+            $carbonDate = Carbon::parse($originalDate);
+
+            $formattedDate = $carbonDate->format('Y-m-d H:i');
+
+
+            $new_page = (float)$order->number_of_pages + (float)$request->page;
+            $order->number_of_pages = $new_page;
+            $order->deadline = $formattedDate;
+            $order->save();
+            $user = User::find($order->user_id);
+            $invoice = Invoice::create([
+                'Name' => $user->name,
+                'email' => $order->email,
+                'page' => $request->page,
+                'price_per_page' => $order->cost_per_page,
+                'item_name' => 'Order',
+                'total' => $request->total,
+                'to_name' => 'Admin',
+                'to_email' => 'admin@gmail.com',
+                'order_id' => $order->order_id
+            ]);
+            return response()->json(['success' => true, 'message' => 'edit Successfully']);
+        } else {
+
+            return response()->json(['success' => false, 'message' => 'order id not found'], 404);
+        }
+    }
+
+
+    public function select_plan($sub_id)
+    {
+        
+        
+        $user = User::find(auth()->user()->id);
+
+        $checkUserSub = User_Subscription::where('user_id', $user->id)->first();
+
+        if ($checkUserSub) {
+
+            $currentDate = now()->format('Y-m-d H:i:s');
+            if ($checkUserSub->due_date > $currentDate) {
+                return response()->json(['message' => 'You Already Purchased Packages']);
+            } else {
+                $subs = Subscription::find($sub_id);
+                $checkUserSub->subscription_id = $sub_id;
+                $checkUserSub->total_pages = (float)$subs->total_subscription + (float)$checkUserSub->remaining_pages;
+                $checkUserSub->rollover_pages = $subs->rollover_limit;
+                $checkUserSub->remaining_pages = (float)$subs->total_subscription + (float)$checkUserSub->remaining_pages;
+                $checkUserSub->remaining_rollover_pages = $subs->rollover_limit;
+                $checkUserSub->status = 'Active';
+                $checkUserSub->due_date = now()->addDays((int)$subs->set_time)->toDateTimeString();
+                $checkUserSub->save();
+                $user->subscription_id = $sub_id;
+                $user->save();
+
+                $email = Email::where('type', 'Subscription Renew')->first();
+
+                if ($email) {
+                    Mail::to($user->email)->send(new EmailTemplate($user, $email));
+                }
+
+
+                // return view('backend.customer.index')->with('message', 'Successfully Updated Subscription');
+
+
+                return response()->json(['message' => 'Successfully Updated Subscription']);
+
+                
+            }
+        } else {
+            $user->customer = "Subscription";
+            $user->subscription_id = $sub_id;
+            $user->save();
+
+            $subs = Subscription::find($sub_id);
+
+            $dueDate = now()->addDays((int)$subs->set_time)->toDateTimeString();
+
+            User_Subscription::create([
+                'subscription_id' => $sub_id,
+                'total_pages' => $subs->min_page,
+                'rollover_pages' => $subs->rollover_limit,
+                'remaining_pages' => $subs->min_page,
+                'remaining_rollover_pages' => $subs->rollover_limit,
+                'user_id' => $user->id,
+                'status' => 'Active',
+                'due_date' => $dueDate
+            ]);
+
+            $email = Email::where('type', 'Subscription Buy')->first();
+
+            if ($email) {
+                Mail::to($user->email)->send(new EmailTemplate($user, $email));
+            }
+
+
+
+
+
+
+            // return view('backend.customer.index')->with('message', 'Successfully Subscribed');
+
+            return response()->json(['message' => 'Successfully Subscribed']);
+        }
+    }
+
+    public function cancel_subscription($id)
+    {
+        $subscription = User_Subscription::find($id);
+        $customer_id = Auth::user()->id;
+
+        if (!$subscription) {
+            $notification = array(
+                'message' => 'Subscription not found',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
+
+        $user = User::find($subscription->user_id);
+
+        if ($subscription->status == 'Active') {
+            $subscription->status = 'InActive';
+
+            $email = Email::where('type', 'Subscription Cancel')->first();
+
+            if ($email) {
+                Mail::to($user->email)->send(new EmailTemplate($user, $email));
+            }
+
+            $notification = array(
+                'message' => 'Subscription cancelled',
+                'alert-type' => 'success'
+            );
+        } elseif ($subscription->status == 'InActive') {
+            // Check if due date is greater than current date
+            $dueDate = $subscription->due_date;
+            $currentDate = now()->format('Y-m-d H:i:s');
+
+            if ($dueDate > $currentDate) {
+                $subscription->status = 'Active';
+                $email = Email::where('type', 'Subscription Renew')->first();
+
+                if ($email) {
+                    Mail::to($user->email)->send(new EmailTemplate($user, $email));
+                }
+
+                $notification = array(
+                    'message' => 'Subscription renewed',
+                    'alert-type' => 'success'
+                );
+            } else {
+                $notification = array(
+                    'message' => 'Subscription due date has passed',
+                    'alert-type' => 'error'
+                );
+                return redirect()->route('front.subscriptions')->with($notification);
+            }
+        }
+
+        $subscription->save();
+
+        return redirect()->back()->with($notification);
+    }
+    public function date_check(Request $request)
+    {
+        $current = Carbon::now(); // Get the current date and time
+        $date = Carbon::parse($request->date); // Parse the date from the request
+
+        // Calculate the difference in days
+        $dayDiff = $current->diffInDays($date);
+        $data = '';
+        $pricing = Pricing::all();
+        if ($pricing->count() > 0) {
+            foreach ($pricing as $p) {
+                if ($p->max == 'Later') {
+                    $p->max = $dayDiff;
+                }
+                if ($p->min <= $dayDiff && $p->max >= $dayDiff) {
+                    $data = $p;
+                }
+            }
+            return response()->json(['success' => true, 'message' => $data]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'pricing not found'], 404);
+        }
+    }
+    public function check_package($sub_id)
+    {
+        $user = User::find(auth()->user()->id);
+
+        $checkUserSub = User_Subscription::where('user_id', $user->id)->first();
+
+        if ($checkUserSub) {
+            $currentDate = now()->format('Y-m-d H:i:s');
+            
+            if($checkUserSub->remaining_pages === 0){
+                return response()->json(['message' => 'Upgrade Packages'], 200);
+            }else{
+                if ($checkUserSub->due_date > $currentDate) {
+                    return response()->json(['message' => 'You Already Purchased Packages'], 400);
+                } else {
+                    return response()->json(['message' => 'Upgrade Packages'], 200);
+                }
+            }
+
+           
+        } else {
+            return response()->json(['message' => 'Packages'], 200);
+        }
+    }
+
+}
