@@ -1,0 +1,190 @@
+.table-custom-layout #kt_table_new_orders_wrapper .row .dataTables_length select{
+    width: 50px;
+}
+.table-custom-layout .min-w-100px{
+    width: 100px !important;
+}
+.custom-margin{
+    margin-left: 0 !important;
+}
+div.customer_header_2 {
+    position: static !important;
+}
+
+.msg-cus #kt_inbox_listing_wrapper .row .dataTables_length select{
+    width: 70px !important;
+}
+
+#kt_file_manager_list_wrapper .row #kt_file_manager_list_length select, div#kt_table_customers_payment_length select{
+    width: 70px !important;
+}
+
+div#kt_inbox_listing_length select, div#kt_table_customers_payment_length select{
+    background: transparent;
+    padding: 7px;
+}
+
+.btn-rainbow {
+    background: linear-gradient(to right, #7814F7, #FF4286, #FFBD57);
+}
+
+i {
+    color: #783AFB !important;
+}
+
+.card{
+    border:  1px solid #783AFB;
+}
+
+div#kt_app_sidebar_toggle {
+    border:  1px solid #783AFB !important;
+    background-color: ;
+}
+
+div#kt_app_sidebar_toggle i {
+    color: #783AFB !important;
+}
+
+.menu-item a span {
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Inter';
+}
+
+.custom-fs-23{
+    font-size: 23px !important;
+    font-weight: 700 !important;
+    font-family: 'Inter';
+}
+.custom-fs-17{
+    font-size: 17px !important;
+    font-weight: 500 !important;
+    font-family: 'Inter';
+}
+.custom-fs-18{
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    font-family: 'Inter';
+}
+.custom-fs-13{
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    font-family: 'Inter';
+}
+.custom-fs-22{
+    font-size: 22px !important;
+    font-weight: 500 !important;
+    font-family: 'Inter';
+}
+.custom-fs-36{
+    font-size: 36px !important;
+    font-weight: 800 !important;
+    font-family: 'Inter';
+}
+
+.carousel-custom .carousel-indicators-active-primary li.active:after{
+    background-color: #FFC056 !important;
+}
+
+.card-custom-bg{
+    background-color: #00000087;
+}
+
+.fs-color-yellow{
+    color: #FFC056 !important;
+}
+.fs-color-white{
+    color: #ffffff !important;
+}
+
+.card-custom-bg .symbol-label{
+    background-color: #783AFB !important;
+}
+
+.dataTables_length label::after {
+    color: #fff;
+    font-family: "Font Awesome 5 Free";
+    content: "\f107";
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    font-weight: 900;
+    top: 0px !important;
+    bottom: 13% !important;
+    left: -28px;
+}
+div#kt_inbox_listing_length label::after {
+    bottom: 18% !important;
+}
+
+.swal2-icon-error{
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+    align-self: center !important;
+    justify-self: center !important;
+    background-color: #783AFB !important;
+    padding: 2rem !important;
+    border-radius: 0.475rem !important;
+    color:white !important;
+}
+
+.swal2-title{
+        color: #fff !important;
+}
+
+.swal2-html-container{
+            color: #fff !important;
+}
+
+.swal2-icon-success {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+    align-self: center !important;
+    justify-self: center !important;
+    background-color: #783AFB !important;
+    padding: 2rem !important;
+    border-radius: 0.475rem !important;
+    color:white !important;
+}
+
+.btn-light {
+    background: #783afb !important;
+    color: white !important;
+}
+
+.btn-active-light-primary:hover:not(.btn-active) {
+    background: #ffffff !important;
+    color: #783afb !important;
+}
+.custom-padding{
+    padding:1rem 2.25rem !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+    background:transparent !important;
+}
+.custom-input{
+    background-color:#783afb7d !important;
+}
+
+.message:hover {
+    background-color: #ffffff !important;
+}
+.custom-height {
+    height: 100px;
+}
+
+.swal2-popup.swal2-modal.swal2-icon-warning.swal2-show {
+    background: #783AFB !important;
+    color: #fff !important;
+}
+button.swal2-confirm.swal2-styled.swal2-default-outline {
+    border: 1px solid #783AFB !important;
+    background: #1515158a !important;
+    color: #fff !important;
+}
+button.swal2-cancel.swal2-styled.swal2-default-outline {
+    border: 1px solid #783AFB !important;
+    background: #1515158a !important;
+    color: #fff !important;
+}

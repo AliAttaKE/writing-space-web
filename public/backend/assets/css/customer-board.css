@@ -1,0 +1,201 @@
+.card-lenier{
+        background: linear-gradient(112.14deg, #741AE6 0%, #350C6A 100%) !important;
+}
+
+.message-summ span, .message-summ p, .message-summ th, .message-summ td, .dataTables_info, .message-summ li a i, .message-summ h1 {
+    color: #fff !important;
+}
+
+.dataTables_length select{
+    border: 1px solid #fff !important;
+    color: #FFC056 !important;
+}
+
+.carousel-custom .carousel-indicators-active-success li.active:after{
+    background-color: #FFC056 !important;
+}
+
+.message-summ td a{
+    color: #FFC056 !important;
+    
+}
+
+.message-summ td a, .message-summ td{
+    font-size: 13px !important;
+    font-weight: 500;
+}
+
+.message-summ th{
+    font-size: 13px !important;
+    font-weight: 800;
+}
+
+.upgrade-plan-custom span.symbol-label {
+    background-color: #783AFB !important;
+}
+
+.btn-dark-primary, #btn-dark-primary:hover, .btn-dark-primary.btn.btn-active-light-primary:hover:not(.btn-active) {
+    border: 1px solid #783AFB !important;
+    background: #1515158a !important;
+    color: #fff !important;
+}
+#btn-dark-primary i{
+    color: #fff !important;
+}
+
+.badge-custom-bg, #badge-custom-bg, .library-buttons button:nth-child(1), .library-buttons button:nth-child(2), .library-buttons button:nth-child(3), .badge-custom-bg:hover, .btn.btn-secondary:hover:not(.btn-active), .btn.btn-primary:hover:not(.btn-active), .btn.btn-light-primary:hover:not(.btn-active), .btn.btn-light-primary:focus:not(.btn-active), .btn.btn-active-light-primary:hover:not(.btn-active){
+    background: #783AFB !important;
+    color: #fff !important;
+}
+
+.badge-custom-bg .ki-down:before{
+    color: #fff !important;
+}
+
+.badge-custom-bg-2, .badge-custom-bg-2.btn.btn-primary:hover{
+    color: #783AFB !important;
+    background: #fff !important;
+}
+
+a#badge-custom-bg, #badge-custom-bg:hover, .page-link.active, .active > .page-link {
+    background: #783AFB !important;
+    color: #fff !important;
+}
+
+.customer-siderbar{
+    background: none !important;
+}
+
+.customer-header-custom{
+    background: none !important;
+}
+
+.app-sidebar .menu .menu-item .menu-link.active, .menu-link.active.card-custom-bg{
+    background: #00000087 !important;
+}
+
+.fs-color-theme{
+    color: #783AFB !important;
+}
+
+.text-white.active{
+    color: #783AFB !important;
+    border-bottom: 1px solid #783AFB !important;
+}
+
+
+div#kt_table_new_orders_length select {
+    background: transparent;
+}
+.menu-arrow::after {
+    background-color: #783AFB !important;
+}
+.invoice-pop div {
+    color: #fff !important;
+}
+
+.bg-nav-cus-dark {
+    background-color: #783AFB !important;
+}
+[data-kt-app-layout=dark-sidebar] .app-sidebar{
+    background-color: #783AFB !important;
+}
+
+[data-kt-app-layout=dark-sidebar] .app-sidebar .menu .menu-item .menu-link .menu-icon i{
+        color: #0000004a !important;
+}
+
+#kt_app_header_menu .menu-arrow::after , #kt_app_sidebar_menu_scroll .menu-arrow::after, .app-sidebar .menu .menu-item .menu-link.active {
+    background-color: #0000004a !important;
+}
+span.select2 span {
+    color: #fff !important;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+input[type="month"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+.folder-summary-dashboard table.dataTable > thead .sorting_asc:after, .new-order-dashboard table.dataTable > thead .sorting_asc:after,.new-order-dashboard table.dataTable > thead .sorting_desc:after, .folder-summary-dashboard table.dataTable > thead .sorting_desc:after{
+    background-color: transparent;
+}
+
+div#DataTables_Table_0_wrapper .dataTables_length select, div.dataTables_wrapper div.dataTables_length select {
+    width: 73px;
+    padding: 7px;
+    background: transparent;
+}
+div#DataTables_Table_0_wrapper .dataTables_length label::after, div#DataTables_Table_1_wrapper .dataTables_length label::after, #message-summary_wrapper .dataTables_length label::after{
+    bottom: 27px !important;
+}
+select.form-select.form-select-sm.form-select-solid option {
+    background-color: #783AFB;
+    color: #fff;
+}
+.select2-dropdown {
+    background-color: #783AFB !important;
+}
+#select2-pricing-results .select2-results__option--selected, #select2-pricing-results .select2-results__option--highlighted, #select2-ampm-results .select2-results__option--highlighted, #select2-ampm-results .select2-results__option--selected, #select2-paper_format-results .select2-results__option--highlighted,  #select2-paper_format-results .select2-results__option--selected, .select2-results__options .select2-results__option--highlighted, .select2-results__options .select2-results__option--selected {
+    color: #783AFB !important;
+}
+
+#submitting option{
+    background-color: #783AFB !important;
+     color: #fff !important;
+}
+
+span.select2-dropdown li{
+    color: #fff !important;
+}
+.modal-place-order h5#exampleModalLabel {
+    font-size: 23px !important;
+    color: #fff;
+}
+
+.modal-place-order .modal-body p {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+}
+
+.libraray-modal .modal-body.badge-custom-bg p {
+    color: #fff !important;
+    font-size: 15px !important;
+    font-weight: 500;
+}
+
+.libraray-modal .modal-body.badge-custom-bg h1, .modal-body.badge-custom-bg h6 {
+    color: #fff !important;
+}
+
+.libraray-modal .modal-body.badge-custom-bg h1 {
+    font-size: 23px;
+}
+
+.libraray-modal .modal-body.badge-custom-bg h6 {
+    font-size: 17px !important;
+}
+
+.libraray-modal .modal-header.badge-custom-bg h5 {
+    font-size: 23px !important;
+    color: #fff !important;
+}
+table.dataTable tbody tr {
+    background-color: transparent !important;
+}
+/*table#kt_file_manager_list .form-check-input {*/
+/*    background: #0000007d;*/
+/*}*/
+.menu-state-bg-light-primary .menu-item:not(.here) .menu-link:hover:not(.disabled):not(.active):not(.here){
+    background-color: #fff !important;
+    color: #783AFB !important;
+}

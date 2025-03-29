@@ -1,0 +1,10 @@
+SELECT * FROM student s INNER JOIN studentclass c ON s.sclass = c.cid INNER JOIN country cr ON s.country = cr.country_id
+
+
+
+SELECT * FROM users u INNER JOIN city c
+ON u.city = c.city_id
+INNER JOIN country cr
+ON u.country = cr.country_id
+INNER JOIN profile p
+ON u.profile = p.pid;
