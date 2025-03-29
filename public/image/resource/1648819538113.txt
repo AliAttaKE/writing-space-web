@@ -1,0 +1,7 @@
+$sql = "SELECT * FROM student s JOIN studentclass c ON s.sclass = c.cid";
+
+
+SELECT s.sname,s.saddress,s.sphone,c.cname FROM student s JOIN studentclass c
+ON s.sclass = c.cid
+ORDER BY s.sname
+;
