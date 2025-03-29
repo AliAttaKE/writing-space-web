@@ -1,17 +1,17 @@
 	<?php include_once('header.php')?>
 		<main class="page_content">
 			<section class="page_banner">
-				<div class="container mt-5 pt-5">
+				<div class="container">
 					<div class="content_wrapper">
 						<div class="row align-items-center">
 							<div class="col col-lg-7">
 								<ul class="breadcrumb_nav unordered_list">
 									<li><a href="index-2.html">Home</a></li>
-									<li><a href="review.php">Products</a></li>
-									<li>Case Study Writing</li>
+									<li><a href="course.html">Course</a></li>
+									<li>Course Details V.1</li>
 								</ul>
-								<h1 class="page_title">Case Study Writing Unveiled</h1>
-								<p>Unlock the magic of meticulously crafted Case Study Writing, designed to set you on a victorious academic path! Explore Now!</p>
+								<h1 class="page_title">Unlock Success with Thesis Writing! </h1>
+								<p>Engage with expertly crafted theses that embody quality and precision. Dive into academic excellence, Start Now!</p>
 								<ul class="btns_group unordered_list">
 									<li>
 										<div class="item_price"><del class="remove_price">$29.99</del> <span class="sale_price">$18</span></div>
@@ -20,7 +20,7 @@
 								</ul>
 							</div>
 							<div class="col col-lg-5">
-								<div class="image_widget page_banner_image"><img src="assets/images/banner/hero_banner_img_p-2.webp" alt="Collab – Online Learning Platform"></div>
+								<div class="image_widget page_banner_image"><img src="assets/images/banner/page_banner_image_1.jpg" alt="Collab – Online Learning Platform"></div>
 							</div>
 						</div>
 					</div>
@@ -153,45 +153,48 @@
 						<div class="col col-lg-8 order-lg-last">
 							<div class="ps-lg-5">
 								<div class="section_heading">
-									<h2 class="heading_text">Unveiling the Case Study Template</h2></div>
+									<h2 class="heading_text">Thesis Blueprint</h2></div>
 								<div class="intro_video mb-4">
-									<div class="video_wrap"><img src="assets/images/banner/The_Essay _Template.png" alt="Collab – Online Learning Platform"> </div>
+									<div class="video_wrap"><img src="assets/images/video/video_poster_2.jpg" alt="Collab – Online Learning Platform"> </div>
 								</div>
-								<p>Writing a case study on your own is a complex endeavor; it involves extensive research, a deep understanding of the subject matter, and the ability to present findings coherently. We understand that this process is time-consuming and challenging for students and professionals alike, often leading to stress and anxiety. With our services, you can avoid these pitfalls and concentrate on your priorities.</p>
+								<p>Thesis writing is daunting for many due to the requirement of extensive research, tight structure, and profound understanding of the topic, often leading to stress and anxiety.</p>
 								</div>
 						</div>
 						<div class="col col-lg-4">
 							<div class="accordion style_2" id="corse_details_accordion">
 								<div class="accordion-item">
-									<div class="accordion-button" role="button" data-bs-toggle="collapse" data-bs-target="#collapse_one" aria-expanded="true">Our Comprehensive Case Study Structure</div>
+									<div class="accordion-button" role="button" data-bs-toggle="collapse" data-bs-target="#collapse_one" aria-expanded="true">Thesis Breakdown</div>
 									<div id="collapse_one" class="accordion-collapse collapse show" data-bs-parent="#corse_details_accordion">
 										<div class="accordion-body">
 											
 											<div class="checkbox_item">
 												<input id="checkbox_1_1" type="checkbox" checked="checked">
-												<label for="checkbox_1_1">Introduction: This section provides a brief overview of the case, setting the stage for readers.</label>
+												<label for="checkbox_1_1">Introduction: Engage readers with background, thesis statement, and research objectives.</label>
 											</div>
 											<div class="checkbox_item">
 												<input id="checkbox_1_2" type="checkbox">
-												<label for="checkbox_1_2">Background: Here we provide crucial context and background information necessary for understanding the case</label>
+												<label for="checkbox_1_2">Literature Review: Critically review and analyze existing research and theories</label>
 											</div>
 											<div class="checkbox_item">
 												<input id="checkbox_1_3" type="checkbox">
-												<label for="checkbox_1_3">Case Evaluation: This involves analyzing the case's crucial elements and presenting an evaluation</label>
+												<label for="checkbox_1_3">Methodology: Detail research design, approach, and methods used</label>
 											</div>
 											<div class="checkbox_item">
 												<input id="checkbox_1_4" type="checkbox">
-												<label for="checkbox_1_4">Proposed Solution: Our writers suggest feasible solutions backed by theoretical support</label>
+												<label for="checkbox_1_4">Data Analysis: Present and dissect collected data, utilizing appropriate tools</label>
 											</div>
 											<div class="checkbox_item">
 												<input id="checkbox_1_4" type="checkbox">
-												<label for="checkbox_1_4">Conclusion: This section succinctly summarizes the case study's key points and solutions proposed</label>
+												<label for="checkbox_1_4">Discussion: Interpret data, discuss findings, and implications</label>
 											</div>
 											<div class="checkbox_item">
 												<input id="checkbox_1_4" type="checkbox">
-												<label for="checkbox_1_4">References: A list of all the sources cited in the case study</label>
+												<label for="checkbox_1_4">Conclusion: Summarize research, discuss limitations, and suggest future research</label>
 											</div>
-											
+											<div class="checkbox_item">
+												<input id="checkbox_1_4" type="checkbox">
+												<label for="checkbox_1_4">References: List of all cited works, formatted correctly</label>
+											</div>
 										</div>
 									</div>
 								</div>

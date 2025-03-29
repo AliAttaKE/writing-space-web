@@ -1,6 +1,5 @@
 	<?php include_once('header.php')?>
     <main class="page_content">
-		
 			
 			
             
