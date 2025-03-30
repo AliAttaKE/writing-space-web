@@ -2,13 +2,13 @@
 @section('content')
 
 <style>
-    
+
 </style>
 
 <div class="hero-section d-flex justify-content-center align-items-center">
     <div class="hero-text text-center">
         <h1 class="header-text">
-            Transform Your <span class="gradient-text underline">Grades</span> with <br>
+            Transforms Your <span class="gradient-text underline">Grades</span> with <br>
             Our <span class="yellow-text underline">Plagiarism</span><span class="yellow-text">-Free,</span>
         </h1>
         <div class="d-flex align-items-center justify-content-center">
@@ -118,7 +118,7 @@
         <!--                            <div class="card-body myCardBody">-->
         <!--                                <h5 class="yellow-text fw-bold">{{ substr($paper->paper_title, 0, 12) }}..</h5>-->
         <!--                                <h5 class="myCardHeading">{{ $paper->subject_topic }}</h5>-->
-                                        
+
         <!--                                <div class="row myCardTxt">-->
         <!--                                    <div class="col-6">-->
         <!--                                        <p class="card-text">Format: {{ $paper->citation }}</p>-->
@@ -128,14 +128,14 @@
         <!--                                        <img src="{{ asset('fronted_final/assets/images/image.png') }}" alt="Turnitin Image" style="-->
         <!--                                        margin-left: 106px;-->
         <!--                                    ">-->
-                                                
+
         <!--                                        <p class="card-text d-flex align-items-center justify-content-between mb-3"> <!-- Added justify-content to space out items -->-->
         <!--                                            <span class="me-2">AI_Detection:</span>-->
         <!--                                            <button class="btn btn-primary my-btn" style="background-color: #007bff; border: none; min-width: 120px; margin-left: 13px;">-->
         <!--                                                {{ $paper->ai_report }}%-->
         <!--                                            </button>-->
         <!--                                        </p>-->
-                                                
+
         <!--                                        <p class="card-text d-flex align-items-center justify-content-between mb-3"> <!-- Same adjustment here -->-->
         <!--                                            <span class="me-2">Plagiarism:</span>-->
         <!--                                            <button class="btn btn-secondary my-btn" style="background-color: #dc3545; border: none; min-width: 120px; margin-left: 24px;">-->
@@ -144,7 +144,7 @@
         <!--                                        </p>-->
         <!--                                    </div>-->
         <!--                                </div>-->
-                                        
+
         <!--                            </div>-->
         <!--                        </div>-->
         <!--                    </a>-->
@@ -152,7 +152,7 @@
         <!--            @endforeach-->
         <!--        @endif-->
         <!--    </div>-->
-            
+
             <!-- Custom Navigation for Owl Carousel -->
         <!--    <div class="owl-nav">-->
         <!--        <button type="button" role="presentation" class="owl-prev">-->
@@ -163,7 +163,7 @@
         <!--        </button>-->
         <!--    </div>-->
         <!--</div>-->
-        
+
 
         <div class="container">
             <div class="text-center">
@@ -172,13 +172,13 @@
         </div>
         <div class="d-flex justify-content-center align-items-center mt-5">
 
-            
-                               
-            <a href="{{ route('customer.customerPlaceOrder') }}" class="gradient-btn border-0 text-decoration-none btn-custom-width">Order Now</a>
-                           
-          
 
-       
+
+            <a href="{{ route('customer.customerPlaceOrder') }}" class="gradient-btn border-0 text-decoration-none btn-custom-width">Order Now</a>
+
+
+
+
 
 
         <a href="{{ route('front.samplepaper') }}" class="gradient-btn border-0 ms-4 text-decoration-none btn-custom-width">Learn More</a>
@@ -186,7 +186,7 @@
     <div class="d-flex justify-content-center align-items-center mt-4">
         <p class="text-white text-center">Sign up in seconds, no credit card needed!</p>
     </div>
-            
+
 </section>
 
 
@@ -290,10 +290,10 @@
 
         <div class="d-flex justify-content-center align-items-center mt-5">
 
-                               
+
             <a href="{{ route('customer.customerPlaceOrder') }}" class="gradient-btn border-0 text-decoration-none btn-custom-width">Order Now</a>
-                           
-          
+
+
     </div>
     </div>
 
@@ -403,11 +403,11 @@
     </div>
     <!-- Learn More Button -->
     <div class="d-flex justify-content-center align-items-center mt-5">
-       
-                               
+
+
             <a href="{{ route('customer.customerPlaceOrder') }}" class="gradient-btn border-0 text-decoration-none btn-custom-width">Order Now</a>
-                           
-           
+
+
     </div>
 </section>
 
@@ -442,10 +442,10 @@
                                         <div class="col-8 service-description">
                                             <span class="underline"> @if ($p->min == '15')
                                                 {{ $p->min }} {{ $p->duration_type }} or {{ $p->max }}
-                                               
+
                                                 @else
                                                 {{ $p->min }} - {{ $p->max }} {{ $p->duration_type }}
-                                                
+
                                                 @endif</span> ahead? Enjoy the lowest rate at
                                             <span class="underline">{{ $p->cost }} ${{ $p->cost_per_page }}/page</span>, {{ $p->page_limit }} page limit.
                                         </div>
@@ -454,9 +454,9 @@
                             @endforeach
                         @endif
 
-                        
 
-                       
+
+
 
                         <!-- Repeat for each service -->
                     </div>
@@ -465,10 +465,10 @@
             </div>
             <div class="d-flex justify-content-center align-items-center mt-5">
 
-                               
+
             <a href="{{ route('customer.customerPlaceOrder') }}" class="gradient-btn border-0 text-decoration-none btn-custom-width">Order Now</a>
-                           
-           
+
+
         <a href="{{ route('front.subscriptions') }}" class="gradient-btn border-0 ms-4 text-decoration-none btn-custom-width">Learn More</a>
     </div>
         </div>
@@ -589,11 +589,11 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center align-items-center mt-5">
-        
-                               
+
+
             <a href="{{ route('customer.customerPlaceOrder') }}" class="gradient-btn border-0 text-decoration-none btn-custom-width">Order Now</a>
-                           
-          
+
+
         <a href="{{ route('front.subscriptions') }}" class="gradient-btn border-0 ms-4 text-decoration-none btn-custom-width">Learn More</a>
     </div>
         </div>
@@ -780,16 +780,16 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center align-items-center mt-5">
-        
-                               
+
+
             <a href="{{ route('customer.customerPlaceOrder') }}" class="gradient-btn border-0 text-decoration-none btn-custom-width">Order Now</a>
-                           
-           
+
+
         <a href="{{ route('front.faq') }}" class="gradient-btn border-0 ms-4 text-decoration-none btn-custom-width">Learn More</a>
     </div>
         </div>
     </div>
 
-  
+
 
     @endsection
