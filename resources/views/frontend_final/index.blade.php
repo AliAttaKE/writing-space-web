@@ -8,7 +8,7 @@
 <div class="hero-section d-flex justify-content-center align-items-center">
     <div class="hero-text text-center">
         <h1 class="header-text">
-            Transforms Your <span class="gradient-text underline">Grades</span> with <br>
+            Transform Your <span class="gradient-text underline">Grades</span> with <br>
             Our <span class="yellow-text underline">Plagiarism</span><span class="yellow-text">-Free,</span>
         </h1>
         <div class="d-flex align-items-center justify-content-center">
