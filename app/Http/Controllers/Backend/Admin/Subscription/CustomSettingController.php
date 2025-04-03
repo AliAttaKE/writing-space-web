@@ -11,7 +11,7 @@ use App\Exports\PricingExport;
 
 class CustomSettingController extends Controller
 {
-    public function PricingExport() 
+    public function PricingExport()
     {
         $nu = rand(11,999);
         $data = Pricing::get();
@@ -26,7 +26,7 @@ class CustomSettingController extends Controller
     {
         // $pricing = Pricing::all();
 
-      
+
         $pricing = Pricing::latest()
         ->when($request->text != null, function ($q) use ($request) {
             return $q->where('text', $request->text);
@@ -44,20 +44,23 @@ class CustomSettingController extends Controller
         return view('backend.admin.subscription.custom_variation',compact('pricing'));
     }
 
-
-    public function custom_edit(Request $request ,$id)
+    public function custom_edit(Request $request, $id)
     {
-        $pricing=Pricing::find($id);
-        if($pricing){
-            if($request->cost_per_page){
-                $pricing->cost_per_page=$request->cost_per_page;
-            }
-            if($request->page_limit){
-                $pricing->page_limit=$request->page_limit;
-            }
+        $pricing = Pricing::find($id);
+        if ($pricing) {
+            $pricing->text          = $request->input('text', null);
+            $pricing->min           = $request->input('min', null);
+            $pricing->max           = $request->input('max', null);
+            $pricing->duration_type = $request->input('duration_type', null);
+            $pricing->title         = $request->input('title', null);
+            $pricing->cost_per_page = $request->input('cost_per_page', null);
+            $pricing->page_limit    = $request->input('page_limit', null);
+            $pricing->page_text     = $request->input('page_text', null);
 
             $pricing->save();
-            return redirect()->back()->with('message','Successfully Updated');
+            return redirect()->back()->with('message', 'Successfully Updated');
         }
+        return redirect()->back()->with('error', 'Pricing not found');
     }
+
 }

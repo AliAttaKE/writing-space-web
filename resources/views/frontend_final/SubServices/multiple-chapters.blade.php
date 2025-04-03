@@ -265,11 +265,11 @@
                                                 {{ $p->min }} {{ $p->duration_type }} or {{ $p->max }}
                                               
                                                 @else
-                                                {{ $p->min }} - {{ $p->max }} {{ $p->duration_type }}
+                                                {{ $p->min }}  {{ $p->max }} {{ $p->duration_type }}
                                                 
                                                 @endif    
-                                            </span> ahead? Enjoy the lowest rate at
-                                            <span class="underline">{{ $p->cost }} ${{ $p->cost_per_page }}/page</span>, {{ $p->page_limit }} pagelimit.
+                                            </span> {{$p->title}}
+                                            <span class="underline">{{ $p->cost }} ${{ $p->cost_per_page }}/page</span>, {{ $p->page_limit }} {{$p->page_text}}
                                         </div>
                                     </div>
                                 </div>

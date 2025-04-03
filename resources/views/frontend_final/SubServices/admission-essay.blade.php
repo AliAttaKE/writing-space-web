@@ -145,14 +145,14 @@
             border-radius: 8px;
             padding: 20px;
         }
-        
+
         .myCardBody {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
-        
-        
+
+
         </style>
          @include('cms_pages.slider');
     <!--<div class="container px-0 position-relative">-->
@@ -174,14 +174,14 @@
     <!--                                    <img src="{{ asset('fronted_final/assets/images/image.png') }}" alt="Turnitin Image" style="-->
     <!--                                    margin-left: 112px;-->
     <!--                                ">-->
-                                        
+
     <!--                                   <p class="card-text d-flex align-items-center justify-content-between mb-3"> <!-- Added justify-content to space out items -->-->
     <!--                                                <span class="me-2">AI_Detection:</span>-->
     <!--                                                <button class="btn btn-primary my-btn" style="background-color: #007bff; border: none; min-width: 120px; margin-left: 13px;">-->
     <!--                                                    {{ $paper->ai_report }}%-->
     <!--                                                </button>-->
     <!--                                            </p>-->
-                                                
+
     <!--                                            <p class="card-text d-flex align-items-center justify-content-between mb-3"> <!-- Same adjustment here -->-->
     <!--                                                <span class="me-2">Plagiarism:</span>-->
     <!--                                                <button class="btn btn-secondary my-btn" style="background-color: #dc3545; border: none; min-width: 120px; margin-left: 24px;">-->
@@ -254,11 +254,11 @@
                                                     {{ $p->min }} {{ $p->duration_type }} or {{ $p->max }}
 
                                                 @else
-                                                    {{ $p->min }} - {{ $p->max }} {{ $p->duration_type }}
+                                                    {{ $p->min }}  {{ $p->max }} {{ $p->duration_type }}
 
-                                                @endif                                      </span> ahead? Enjoy the lowest rate at
+                                                @endif                                      </span> {{$p->title}}
                                             <span class="underline">{{ $p->cost }} ${{ $p->cost_per_page }}/page</span>,
-                                            {{ $p->page_limit }} pagelimit.
+                                            {{ $p->page_limit }} {{$p->page_text}}
                                         </div>
                                     </div>
                                 </div>

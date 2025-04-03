@@ -125,7 +125,7 @@
                                     <li>{{ $p->min }} {{ $p->duration_type }} or {{ $p->max }}
                                     </li>
                                     @else
-                                    <li>{{ $p->min }} - {{ $p->max }} {{ $p->duration_type }}
+                                    <li>{{ $p->min }}  {{ $p->max }} {{ $p->duration_type }}
                                     </li>
                                     @endif
 

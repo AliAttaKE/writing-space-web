@@ -25,7 +25,7 @@
                             </div>
                             <!--end::Page title-->
                             <!--begin::Actions-->
-                         
+
                             <!--end::Actions-->
                         </div>
                         <!--end::Toolbar container-->
@@ -83,8 +83,8 @@
                                                 <!--end::Separator-->
                                                 <!--begin::Content-->
                                                 <form
-                                                        id="filterForm" 
-                                                        action="{{ route('admin.custom-setting') }}" 
+                                                        id="filterForm"
+                                                        action="{{ route('admin.custom-setting') }}"
                                                         method="GET"
                                                         enctype="multipart/form-data">
                                                      <div class="px-7 py-5" data-kt-user-table-filter="form">
@@ -119,7 +119,7 @@
                                             <!--end::Menu 1-->
                                             <!--end::Filter-->
                                             <!--begin::Export-->
-                                            <button type="button" class="btn btn-light-primary me-3 btn-dark-primary badge-custom-bg" 
+                                            <button type="button" class="btn btn-light-primary me-3 btn-dark-primary badge-custom-bg"
                                             {{-- data-bs-toggle="modal" data-bs-target="#kt_modal_export_users" --}}
                                             onclick="window.location.href='{{ route('admin.export.pricing') }}'"
                                             >
@@ -162,7 +162,7 @@
                                                     <!--begin::Modal body-->
                                                     <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                                                         <!--begin::Form-->
-                                                  
+
                                                             <!--begin::Input group-->
                                                             <div class="fv-row mb-10">
                                                                 <!--begin::Label-->
@@ -256,10 +256,10 @@
                                                 </td> --}}
                                                 <td>{{$subs->text}}</td>
                                                 <td>{{$subs->cost}}</td>
-                                                <td>{{$subs->min}} - {{$subs->max}} {{$subs->duration_type}}</td>
+                                                <td>{{$subs->min}}  {{$subs->max}} {{$subs->duration_type}}</td>
                                                 <td>${{$subs->cost_per_page}}</td>
                                                 <td>{{$subs->page_limit}}</td>
-                                               
+
                                                 <td>
                                                     <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm badge-custom-bg" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
                                                         <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
@@ -277,10 +277,10 @@
                                                         <!--end::Menu item-->
 
                                                         <!--begin::Menu item-->
-                                                       
+
                                                         <!--end::Menu item-->
                                                         <!--begin::Menu item-->
-                                                     
+
                                                         <!--end::Menu item-->
                                                     </div>
                                                     <!--end::Menu-->
@@ -330,7 +330,7 @@
                                                                                         </div>
                                                                                         <!--end::Col-->
                                                                                         <!--end::Col-->
-                                                                                       
+
                                                                                         <!--end::Col-->
                                                                                         <div class="col-md-3">
                                                                                             <!--end::Label-->
@@ -347,7 +347,7 @@
                                                                                             <div class="fw-semibold fs-color-white custom-fs-13 mb-1">Duration:</div>
                                                                                             <!--end::Label-->
                                                                                             <!--end::Text-->
-                                                                                            <div class="fw-bold fs-color-white custom-fs-13">{{$subs->min}} - {{$subs->max}} {{$subs->duration_type}} </div>
+                                                                                            <div class="fw-bold fs-color-white custom-fs-13">{{$subs->min}}  {{$subs->max}} {{$subs->duration_type}} </div>
                                                                                             <!--end::Text-->
                                                                                         </div>
                                                                                         <!--end::Col-->
@@ -366,14 +366,14 @@
                                                                                         </div>
                                                                                         <!--end::Col-->
                                                                                         <!--end::Col-->
-                                                                                    
+
                                                                                         <!--end::Col-->
-                                                                                       
+
                                                                                         <!--end::Col-->
-                                                                                    
+
                                                                                     </div>
                                                                                     <!--end::Content-->
-                                                                                 
+
                                                                                     <!--end::Row-->
                                                                                 </div>
                                                                                 <!--end::Wrapper-->
@@ -381,7 +381,7 @@
                                                                             <!--end::Invoice 2 content-->
                                                                         </div>
                                                                         <!--end::Content-->
-                                            
+
                                                                     </div>
                                                                     <!--end::Layout-->
                                                                 </div>
@@ -427,6 +427,26 @@
                                                                                 <!--begin::Wrapper-->
                                                                                 <div class="m-0">
                                                                                     <div class="mb-3">
+                                                                                        <label class="form-label fs-color-white custom-fs-13 fw-semibold">Heading:</label>
+                                                                                        <input type="text" value="{{$subs->text}}" name="text" autocomplete="off" class="form-control btn-dark-primary" />
+                                                                                    </div>
+                                                                                    <div class="mb-3">
+                                                                                        <label class="form-label fs-color-white custom-fs-13 fw-semibold">Minimum:</label>
+                                                                                        <input type="text" value="{{$subs->min}}" name="min" autocomplete="off" class="form-control btn-dark-primary" />
+                                                                                    </div>
+                                                                                    <div class="mb-3">
+                                                                                        <label class="form-label fs-color-white custom-fs-13 fw-semibold">Maximum:</label>
+                                                                                        <input type="text" value="{{$subs->max}}" name="max" autocomplete="off" class="form-control btn-dark-primary" />
+                                                                                    </div>
+                                                                                    <div class="mb-3">
+                                                                                        <label class="form-label fs-color-white custom-fs-13 fw-semibold">Duration Type:</label>
+                                                                                        <input type="text" value="{{$subs->duration_type}}" name="duration_type" autocomplete="off" class="form-control btn-dark-primary" />
+                                                                                    </div>
+                                                                                    <div class="mb-3">
+                                                                                        <label class="form-label fs-color-white custom-fs-13 fw-semibold">Title:</label>
+                                                                                        <input type="text" value="{{$subs->title}}" name="title" autocomplete="off" class="form-control btn-dark-primary" />
+                                                                                    </div>
+                                                                                    <div class="mb-3">
                                                                                         <label class="form-label fs-color-white custom-fs-13 fw-semibold">Cost Per Page:</label>
                                                                                         <input type="text" value="{{$subs->cost_per_page}}" name="cost_per_page" autocomplete="off" class="form-control btn-dark-primary" />
                                                                                     </div>
@@ -436,7 +456,11 @@
                                                                                         <label class="form-label fs-color-white custom-fs-13 fw-semibold">Page Limit:</label>
                                                                                         <input type="text" value="{{$subs->page_limit}}" name="page_limit" autocomplete="off" class="form-control btn-dark-primary" />
                                                                                     </div>
-                                                                                 
+                                                                                    <div class="mb-3">
+                                                                                        <label class="form-label fs-color-white custom-fs-13 fw-semibold">Page Text:</label>
+                                                                                        <input type="text" value="{{$subs->page_text}}" name="page_text" autocomplete="off" class="form-control btn-dark-primary" />
+                                                                                    </div>
+
                                                                                     <!--end::Row-->
                                                                                 </div>
                                                                                 <!--end::Wrapper-->
@@ -444,7 +468,7 @@
                                                                             <!--end::Invoice 2 content-->
                                                                         </div>
                                                                         <!--end::Content-->
-                                            
+
                                                                     </div>
                                                                     <!--end::Layout-->
                                                                 </div>
@@ -464,7 +488,7 @@
                                                 </div>
                                             </div>
                                             @endforeach
-                                           
+
                                             @endif
                                         </tbody>
                                     </table>
@@ -732,7 +756,7 @@ console.log(moreRestrictions)
                         console.error(error);
                     }
                 });
-     
+
 
                 Swal.fire('Deleted!', 'Your data has been deleted.', 'success');
             }
