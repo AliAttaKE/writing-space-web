@@ -92,23 +92,23 @@ class MessageController extends Controller
 //         $message = Message::create($input);
 
 //         //send email to customer;
-        
-        
+
+
 
 // $data['message_content'] = 'message check.'; // Dynamic message content
 
-        
-        
+
+
 //         $data['customer_name'] = $user->name;
 //         $data['customer_email'] = $user->email;
 //         $data['sender_role'] = 'Admin';
 //         $data['order_id'] = $input['order_id'];
-//         $email = Email::where('type','new_message_from_admin_to_customer')->first(); 
+//         $email = Email::where('type','new_message_from_admin_to_customer')->first();
 //         // if ($email) {
 //         //     Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
 //         // }
-        
-        
+
+
 //         $emailContent = "
 //     <html>
 //         <body>
@@ -252,10 +252,10 @@ public function sendMessage(Request $request)
     </html>";
 
     // Send email
-    Mail::html($emailContent, function ($mail) use ($userCheck) {
-        $mail->to($userCheck->email)
-             ->subject('You\'ve Got a New Message at Writing Space!');
-    });
+    // Mail::html($emailContent, function ($mail) use ($userCheck) {
+    //     $mail->to($userCheck->email)
+    //          ->subject('You\'ve Got a New Message at Writing Space!');
+    // });
 
     // Broadcast message event
     $receiver = $message->receive_id;
