@@ -252,10 +252,10 @@ public function sendMessage(Request $request)
     </html>";
 
     // Send email
-    // Mail::html($emailContent, function ($mail) use ($userCheck) {
-    //     $mail->to($userCheck->email)
-    //          ->subject('You\'ve Got a New Message at Writing Space!');
-    // });
+    Mail::html($emailContent, function ($mail) use ($userCheck) {
+        $mail->to($userCheck->email)
+             ->subject('You\'ve Got a New Message at Writing Space!');
+    });
 
     // Broadcast message event
     $receiver = $message->receive_id;
