@@ -9,7 +9,7 @@
     <style>
          body {
             font-family: Inter, Helvetica, "sans-serif";
-            background-image: url(https://elementary-solutions.com/writing-space-laravel/public/backend/assets/media/ws/customer-dashboard.jpg);
+            background-image: url(https://elementary-solutions.com/writing-space-web/public/backend/assets/media/ws/customer-dashboard.jpg);
         }
 
         .text-center {
@@ -38,7 +38,7 @@
             align-items:center;
             flex-direction:column;
         }
-        
+
     </style>
 </head>
 
@@ -72,7 +72,7 @@
     });
 
 
-    document.addEventListener('DOMContentLoaded', function() {  
+    document.addEventListener('DOMContentLoaded', function() {
         localStorage.removeItem('dataObject');
         localStorage.removeItem('sub_id');
         localStorage.removeItem('totalamount');
@@ -80,7 +80,7 @@
         localStorage.removeItem('package_id');
         localStorage.removeItem('used_package_id');
         localStorage.removeItem('no_of_page');
-        localStorage.removeItem('costPerPage');      
+        localStorage.removeItem('costPerPage');
         localStorage.removeItem('deadline');
         localStorage.removeItem('page');
         localStorage.removeItem('total');

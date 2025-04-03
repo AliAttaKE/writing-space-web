@@ -24,15 +24,15 @@ class FileController extends Controller
             'selectedProducts.*' => 'exists:file_chat_g_p_t_s,id',
             'status' => 'required|boolean',
         ]);
-    
+
         // Update the status of selected products
         FileChatGPT::whereIn('id', $request->selectedProducts)
                ->update(['status' => $request->status]);
-    
+
         // Optionally, you can redirect the user after successful update
-        return redirect('https://elementary-solutions.com/writing-space-laravel/public/admin/order/file')->with('success', 'Status updated successfully.');
+        return redirect('https://elementary-solutions.com/writing-space-web/public/admin/order/file')->with('success', 'Status updated successfully.');
     }
-    
+
 
     public function view_file_order_by_chatgpt(Request $request)
     {
@@ -44,13 +44,13 @@ class FileController extends Controller
 
     public function order_file_change_status(Request $request)
     {
-       
+
         $fileId = $request->input('fileId');
-        $currentStatus = $request->input('currentStatus');    
+        $currentStatus = $request->input('currentStatus');
         $file = FileChatGPT::find($fileId);
         if ($file) {
             $file->status = $currentStatus == 0 ? 1 : 0; // Toggle status between 0 and 1
-            $file->save(); 
+            $file->save();
             return response()->json(['message' => 'Status changed successfully'], 200);
         } else {
             return response()->json(['error' => 'File not found'], 404);
@@ -61,26 +61,26 @@ class FileController extends Controller
 
     public function sharefile($id, $folder_name)
     {
-       
+
         $files = File::find($id);
         $folder_name = $folder_name;
 
         return view('backend.admin.File.file_view_print',compact('files','folder_name'));
     }
-    
-    
-    
+
+
+
     public function sharefile_customer($id, $folder_name)
     {
-       
+
         $files = File::find($id);
         $folder_name = $folder_name;
         // dd($folder_name);
         return view('backend.admin.File.file_view_print_customer',compact('files','folder_name'));
     }
-    
-    
-    
+
+
+
     public function downloadFolder($id)
     {
         $folder = Folder::find($id);
@@ -95,7 +95,7 @@ class FileController extends Controller
         // Create a new ZipArchive instance
         $zip = new ZipArchive;
         if ($zip->open($zipFilePath, ZipArchive::CREATE) !== true) {
-         
+
             abort(500, 'Could not create or open ZipArchive.');
         }
 
@@ -107,10 +107,10 @@ class FileController extends Controller
             foreach ($files as $file) {
                 $zip->addFile(storage_path('app/' . $file), basename($file));
             }
-    
+
             // Close the zip file
             $zip->close();
-    
+
             // Download the zip file
             return response()->download($zipFilePath)->deleteFileAfterSend(true);
         } else {
@@ -118,11 +118,11 @@ class FileController extends Controller
            return "Empty Folder.";
         }
 
-     
+
     }
-    
-    
-    
+
+
+
      public function downloadFolder_customer($id)
     {
         $folder = Folder::find($id);
@@ -137,7 +137,7 @@ class FileController extends Controller
         // Create a new ZipArchive instance
         $zip = new ZipArchive;
         if ($zip->open($zipFilePath, ZipArchive::CREATE) !== true) {
-         
+
             abort(500, 'Could not create or open ZipArchive.');
         }
 
@@ -149,10 +149,10 @@ class FileController extends Controller
             foreach ($files as $file) {
                 $zip->addFile(storage_path('app/' . $file), basename($file));
             }
-    
+
             // Close the zip file
             $zip->close();
-    
+
             // Download the zip file
             return response()->download($zipFilePath)->deleteFileAfterSend(true);
         } else {
@@ -160,23 +160,23 @@ class FileController extends Controller
            return "Empty Folder.";
         }
 
-     
+
     }
-    
+
 
     public function downloadfile($id, $folder_name)
     {
         $files = File::find($id);
-    
+
         if (!$files) {
             abort(404);
         }
 
         $filePath = storage_path('app/public/uploads_folders/'.$folder_name.'/'.$files->file_name);
         $updatetime  = File::where('id',$id)->update(['download_time' => now()]);
-        
+
         return response()->download($filePath);
-       
+
     }
 
     public function downloadfile_all(Request $request, $folder_name)
@@ -201,8 +201,8 @@ class FileController extends Controller
                 return back()->with('success', 'Successfully deleted');
             }
 
-           
-       
+
+
 
         if ($request->has('download') && $request->input('download') === 'yes') {
 
@@ -224,7 +224,7 @@ class FileController extends Controller
             return response()->download($zipFile)->deleteFileAfterSend(true);
         }
     }
-    
+
     public function downloadfile_customer_all(Request $request,$folder_name)
     {
         $fileIds = $request->input('selectedIds');
@@ -247,8 +247,8 @@ class FileController extends Controller
                 return back()->with('success', 'Successfully deleted');
             }
 
-           
-       
+
+
 
         if ($request->has('download') && $request->input('download') === 'yes') {
 
@@ -269,7 +269,7 @@ class FileController extends Controller
             $zip->close();
             return response()->download($zipFile)->deleteFileAfterSend(true);
         }
-        
+
     }
     // public function downloadfile_customer_all(Request $request, $id, $folder_name)
     // {
@@ -279,7 +279,7 @@ class FileController extends Controller
 
     //     $filePaths = [];
     //     foreach ($fileIds as $fileId) {
-            
+
     //         $file = File::findOrFail($fileId);
 
     //         if (!$file) {
@@ -314,16 +314,16 @@ class FileController extends Controller
     public function downloadfile_customer($id, $folder_name)
     {
         $files = File::find($id);
-    
+
         if (!$files) {
             abort(404);
         }
-  
+
         $filePath = storage_path('app/public/uploads_folders/'.$folder_name.'/'.$files->file_name);
         $updatetime  = File::where('id',$id)->update(['download_time' => now()]);
 
         return response()->download($filePath);
-       
+
     }
     public function completedOrderFileDownload($order_id = null, $file_id = null)
     {
@@ -335,78 +335,78 @@ class FileController extends Controller
         if (!$file) {
             abort(404);
         }
-  
+
         $filePath = storage_path('app/public/completed_by_writer/'.$folder_name.'/'.$file->file_name);
         $updatetime  = FileChatGPT::where('order_id', $order_id)->update(['download_time' => now() ]);
 
         return response()->download($filePath);
-       
+
     }
 
 
 
     public function deletefile($id, $folder_name)
     {
-     
+
 
         $files = File::find($id);
-    
+
         if (!$files) {
             abort(404);
         }
-    
+
         $filePath = 'public/uploads_folders/'.$folder_name.'/'.$files->file_name;
         Storage::delete($filePath);
         $files->delete();
-    
+
         return response()->json(['message' => 'File deleted successfully']);
     }
-    
-    
-    
+
+
+
     public function deletefile_customer($id, $folder_name)
     {
-        
+
         $files = File::find($id);
-    
+
         if (!$files) {
             abort(404);
         }
-    
+
         $filePath = 'public/uploads_folders/'.$folder_name.'/'.$files->file_name;
-    
+
         // Delete the file from storage
         Storage::delete($filePath);
-    
+
         // Optionally, you can also delete the record from the database
         $files->delete();
-    
+
         return response()->json(['message' => 'File deleted successfully']);
     }
-    
+
     public function deletefile_admin($id, $folder_name)
     {
         dd('ok');
-        $files = File::find($id);    
+        $files = File::find($id);
         if (!$files) {
             abort(404);
         }
-    
+
         $filePath = 'public/uploads_folders/'.$folder_name.'/'.$files->file_name;
-    
+
         // Delete the file from storage
         Storage::delete($filePath);
-    
+
         // Optionally, you can also delete the record from the database
         $files->delete();
-    
+
         return response()->json(['message' => 'File deleted successfully']);
     }
 
 
     public function view($id)
     {
-       
+
         // Fetch the folder with the given ID
         $folder = Folder::find($id);
 
@@ -419,20 +419,20 @@ class FileController extends Controller
 
 
         $filesCount = $files->total();
-       
+
 
         $totalSize = 0;
         foreach ($files as $file) {
-            $totalSize += $file->total_size; 
+            $totalSize += $file->total_size;
         }
 
 
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-    
+
         for ($i = 0; $totalSize >= 1024 && $i < count($units) - 1; $i++) {
             $totalSize /= 1024;
         }
-    
+
         $formattedSize = round($totalSize, 0) . ' ' . $units[$i];
         if (!$folder) {
             return abort(404);
@@ -452,7 +452,7 @@ class FileController extends Controller
                 ->latest('files.created_at')
                 ->where('folders.id', $folder->id)
                 ->get();
-            
+
             foreach ($files as $file) {
                 $fileModel = File::findOrFail($file->id);
                 if (!$fileModel) {
@@ -462,15 +462,15 @@ class FileController extends Controller
                 Storage::delete($filePath);
                 $fileModel->delete();
             }
-        
+
             return back()->with('success', 'Successfully deleted');
         }
 
         if ($request->has('download') && $request->input('download') === 'yes'){
             $folder = Folder::findOrFail($id);
             $files = File::where('folder_id', $folder->id)->get();
-            
-            $filePaths = []; 
+
+            $filePaths = [];
             foreach ($files as $file) {
                 $file->update(['download_time' => now()]);
                 $filePath = storage_path('app/public/uploads_folders/' . $folder->name . '/' . $file->file_name);
@@ -480,7 +480,7 @@ class FileController extends Controller
                     return back()->with('error', 'File not found: ' . $filePath);
                 }
             }
-            
+
             $zipFile = storage_path('app/public/' . $folder->name . '.zip');
             $zip = new \ZipArchive();
             if ($zip->open($zipFile, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
@@ -493,7 +493,7 @@ class FileController extends Controller
                 return back()->with('error', 'Failed to create zip archive');
             }
         }
-        
+
     }
 
   public function view_customer_all(Request $request, $id)
@@ -509,7 +509,7 @@ class FileController extends Controller
                 ->latest('files.created_at')
                 ->where('folders.id', $folder->id)
                 ->get();
-            
+
             foreach ($files as $file) {
                 $fileModel = File::findOrFail($file->id);
                 if (!$fileModel) {
@@ -519,15 +519,15 @@ class FileController extends Controller
                 Storage::delete($filePath);
                 $fileModel->delete();
             }
-        
+
             return back()->with('success', 'Successfully deleted');
         }
 
         if ($request->has('download') && $request->input('download') === 'yes'){
             $folder = Folder::findOrFail($id);
             $files = File::where('folder_id', $folder->id)->get();
-            
-            $filePaths = []; 
+
+            $filePaths = [];
             foreach ($files as $file) {
                 $file->update(['download_time' => now()]);
                 $filePath = storage_path('app/public/uploads_folders/' . $folder->name . '/' . $file->file_name);
@@ -537,7 +537,7 @@ class FileController extends Controller
                     return back()->with('error', 'File not found: ' . $filePath);
                 }
             }
-            
+
             $zipFile = storage_path('app/public/' . $folder->name . '.zip');
             $zip = new \ZipArchive();
             if ($zip->open($zipFile, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
@@ -550,9 +550,9 @@ class FileController extends Controller
                 return back()->with('error', 'Failed to create zip archive');
             }
         }
-        
-        
-        
+
+
+
         // return view('backend.admin.File.file_show_customer', compact('folder','files','filesCount','formattedSize','id'));
     }
   public function view_customer($id)
@@ -569,21 +569,21 @@ class FileController extends Controller
             ->latest('files.created_at')
             ->where('folders.id', $folder->id)
             ->paginate(10);
-        $filesCount = $files->total(); 
+        $filesCount = $files->total();
         $totalSize = 0;
         foreach ($files as $file) {
-            $totalSize += $file->total_size; 
+            $totalSize += $file->total_size;
         }
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
         for ($i = 0; $totalSize >= 1024 && $i < count($units) - 1; $i++) {
             $totalSize /= 1024;
         }
-    
+
         $formattedSize = round($totalSize, 0) . ' ' . $units[$i];
         return view('backend.admin.File.file_show_customer', compact('folder','files','filesCount','formattedSize','id'));
     }
 
-   
+
     public function upload(Request $request)
     {
         $request->validate([
@@ -599,30 +599,30 @@ class FileController extends Controller
         $sizetotal = $file->getSize();
 
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-    
+
         for ($i = 0; $size >= 1024 && $i < count($units) - 1; $i++) {
             $size /= 1024;
         }
-    
+
         $formattedSize = round($size, 0) . ' ' . $units[$i];
-       
-       
-
-       
 
 
 
-    
+
+
+
+
+
         $originalName = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
-    
+
         // Generate a unique filename to store the file
         $fileName = time() . '_' . Str::random(10) . '.' . $extension;
-    
+
         // Store the file in the desired folder
         $filePath = $file->storeAs('public/uploads_folders/' . $request->folder_name, $fileName);
-    
-      
+
+
         $fileModel = new File();
         $fileModel->file_name = $fileName;
         $fileModel->title = $originalName;
@@ -636,8 +636,8 @@ class FileController extends Controller
 
         return redirect()->back()->with('success', 'File uploaded successfully.');
     }
-    
-    
+
+
 
     public function upload_customer(Request $request)
     {
@@ -647,25 +647,25 @@ class FileController extends Controller
         ], [
             'file.max' => 'The file size must not exceed 500 MB.',
         ]);
-    
-       
-        
+
+
+
         $file = $request->file('file');
         $originalName = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
-    
-       
+
+
         $fileName = time() . '_' . Str::random(10) . '.' . $extension;
-    
-        
+
+
         $filePath = $file->storeAs('public/uploads_folders/' . $request->folder_name, $fileName);
-    
-        
+
+
         $size = $file->getSize();
         $formattedSize = $this->formatSizeUnits($size);
-        
-        
-    
+
+
+
         // Save file details to database
         $fileModel = new File();
         $fileModel->file_name = $fileName;
@@ -677,11 +677,11 @@ class FileController extends Controller
         $fileModel->total_size = $size; // Store the original size if needed
         $fileModel->file_type = $extension; // Store the file extension
         $fileModel->save();
-    
+
         // Redirect back with success message
         return back()->with('success', 'File uploaded successfully.');
     }
-    
+
     // Helper function to format file size
     private function formatSizeUnits($bytes)
     {
@@ -689,8 +689,8 @@ class FileController extends Controller
         $i = floor(log($bytes, 1024));
         return round($bytes / (1024 ** $i), 2) . ' ' . $units[$i];
     }
-        
-    
-    
-    
+
+
+
+
 }

@@ -38,8 +38,8 @@ use Illuminate\Support\Facades\Hash;
 
 class PlaceOrderController extends Controller
 {
-    
-    
+
+
      public function updateStatus(Request $request)
     {
         $request->validate([
@@ -55,12 +55,12 @@ class PlaceOrderController extends Controller
                 $data['order_id'] = $order->order_id;
                 $data['customer_name'] = $order->user->name;
                 $data['customer_email'] = $order->user->email;
-                $email = Email::where('type','order_cancelled')->first(); 
+                $email = Email::where('type','order_cancelled')->first();
                 if ($email) {
                     Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
                 }
             }
-            
+
         }elseif ($request->order_status == 'Delivered') {
             foreach ($request->selectedProducts as $order)
             {
@@ -68,12 +68,12 @@ class PlaceOrderController extends Controller
                 $data['order_id'] = $order->order_id;
                 $data['customer_name'] = $order->user->name;
                 $data['customer_email'] = $order->user->email;
-                $email = Email::where('type','order_delivered')->first(); 
+                $email = Email::where('type','order_delivered')->first();
                 if ($email) {
                     Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
                 }
             }
-            
+
         }elseif ($request->order_status == 'In-Progress') {
             foreach ($request->selectedProducts as $order)
             {
@@ -81,12 +81,12 @@ class PlaceOrderController extends Controller
                 $data['order_id'] = $order->order_id;
                 $data['customer_name'] = $order->user->name;
                 $data['customer_email'] = $order->user->email;
-                $email = Email::where('type','order_in-progress')->first(); 
+                $email = Email::where('type','order_in-progress')->first();
                 if ($email) {
                     Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
                 }
             }
-            
+
         }elseif ($request->order_status == 'Revision') {
             foreach ($request->selectedProducts as $order)
             {
@@ -94,19 +94,19 @@ class PlaceOrderController extends Controller
                 $data['order_id'] = $order->order_id;
                 $data['customer_name'] = $order->user->name;
                 $data['customer_email'] = $order->user->email;
-                $email = Email::where('type','order_in-revision')->first(); 
+                $email = Email::where('type','order_in-revision')->first();
                 if ($email) {
                     Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
                 }
             }
-            
+
         }
-        
+
         Orders::whereIn('order_id', $request->selectedProducts)
                ->update(['order_status' => $request->order_status]);
         return back()->with('success', 'Status updated successfully.');
     }
-    
+
 
     public function order_complete($id)
     {
@@ -124,8 +124,8 @@ class PlaceOrderController extends Controller
             return redirect()->back()->with('success', 'Order not found.');
         }
     }
-   
-    
+
+
 
     public function exportOrders($value)
     {
@@ -160,7 +160,7 @@ class PlaceOrderController extends Controller
     {
 
 
-      
+
 
 
         $validator = Validator::make($request->all(), [
@@ -188,14 +188,14 @@ class PlaceOrderController extends Controller
         // $user->tier = 'tier_1';
         // $user->save();
         $currentDateTime = new DateTime();
-       
 
 
-        
+
+
         $input['description'] = $input['mce_0'];
         // $input['order_id'] = rand(000000000, 999999999);
         $lastOrderId = Orders::latest()->limit(1)->value('order_id');
-        $order_id = ++$lastOrderId;    
+        $order_id = ++$lastOrderId;
         $input['order_id'] = $order_id;
 
         $input['user_id'] = Auth::user()->id;
@@ -224,7 +224,7 @@ class PlaceOrderController extends Controller
         $permissions = 0775;
 
         if (!Storage::exists($path)) {
-           
+
              Storage::makeDirectory($path, $permissions, true);
             $folder = new Folder();
             $folder->name = $order_id;
@@ -234,7 +234,7 @@ class PlaceOrderController extends Controller
         }
 
         chmod(storage_path("app/public/uploads_folders/{$order_id}"), 0777);
-        
+
         // return $this->index();
         return redirect()->route('admin.placeOrder')->with('message', 'Your order submit.!');
     }
@@ -259,18 +259,18 @@ class PlaceOrderController extends Controller
 
     //         try {
     //             while (($row = fgetcsv($handle, 1000, ",")) !== FALSE) {
-                    
+
     //                 $currentDateTime = new DateTime();
-       
 
 
-        
+
+
     //                 $input['description'] = $row[2];
     //                 // $input['order_id'] = rand(000000000, 999999999);
     //                 $lastOrderId = Orders::latest()->limit(1)->value('order_id');
-    //                 $order_id = ++$lastOrderId;    
+    //                 $order_id = ++$lastOrderId;
     //                 $input['order_id'] = $order_id;
-            
+
     //                 $input['user_id'] = Auth::user()->id;
     //                 $input['cost'] = 500;
     //                 if ($row[10] > $row[7]) {
@@ -293,11 +293,11 @@ class PlaceOrderController extends Controller
     //                 $order = Orders::create($input);
     //                 $order_id = $input['order_id'];
     //                 $path = "public/uploads_folders/" . $order_id;
-            
+
     //                 $permissions = 0775;
-            
+
     //                 if (!Storage::exists($path)) {
-                       
+
     //                      Storage::makeDirectory($path, $permissions, true);
     //                     $folder = new Folder();
     //                     $folder->name = $order_id;
@@ -305,12 +305,12 @@ class PlaceOrderController extends Controller
     //                     $folder->user_id = Auth::id();
     //                     $folder->save();
     //                 }
-            
+
     //                 chmod(storage_path("app/public/uploads_folders/{$order_id}"), 0777);
 
-                    
 
-                  
+
+
     //             }
 
     //             DB::commit(); // Commit the transaction if everything is successful
@@ -337,26 +337,26 @@ class PlaceOrderController extends Controller
         $request->validate([
             'file' => 'required|mimes:csv,txt'
         ]);
-    
+
         // Handle the uploaded file
         $file = $request->file('file')->getRealPath();
-    
+
         // Open the file for reading
         if (($handle = fopen($file, 'r')) !== FALSE) {
             $header = fgetcsv($handle, 1000, ","); // Skip the header row
-    
+
             DB::beginTransaction(); // Start database transaction
-    
+
             try {
                 while (($row = fgetcsv($handle, 1000, ",")) !== FALSE) {
                     // Validate and clean CSV row data
                     $description = $row[2] ?? null;
                     $cost = 500; // Default cost
-                    
+
                     // Increment order ID based on the latest order
                     $lastOrderId = Orders::latest()->limit(1)->value('order_id');
                     $order_id = $lastOrderId ? ++$lastOrderId : 1;
-    
+
                     // Set input data for order creation
                     $input = [
                         'description' => $description,
@@ -369,30 +369,30 @@ class PlaceOrderController extends Controller
                         'order_status' => 'Pending',
                         'total_cost' => $cost
                     ];
-    
+
                     // Calculate additional cost if applicable
                     if ($row[10] > $row[7]) {
                         $input['additional_cost'] = $row[10] - $row[7];
                     }
-    
+
                     // Apply 15% additional cost if the value in column 12 is 'yes'
                     if (strtolower($row[12]) === 'yes') {
                         $input['additional_cost'] += ($input['cost'] + $input['additional_cost']) * 0.15;
                     }
-    
+
                     // Calculate total cost
                     $input['total_cost'] = $input['cost'] + $input['additional_cost'];
-    
+
                     // Save the order to the database
                     $order = Orders::create($input);
-    
+
                     // Create folder for the order
                     $path = "public/uploads_folders/" . $order_id;
                     $permissions = 0775;
-    
+
                     if (!Storage::exists($path)) {
                         Storage::makeDirectory($path, $permissions, true);
-    
+
                         // Create a folder record in the database
                         Folder::create([
                             'name' => $order_id,
@@ -400,27 +400,27 @@ class PlaceOrderController extends Controller
                             'user_id' => Auth::id()
                         ]);
                     }
-    
+
                     // Ensure proper folder permissions
                     chmod(storage_path("app/public/uploads_folders/{$order_id}"), 0777);
                 }
-    
+
                 DB::commit(); // Commit the transaction
-    
+
             } catch (\Exception $e) {
                 DB::rollBack(); // Rollback the transaction on error
                 fclose($handle);
                 return redirect()->back()->with('error', 'Data import failed: ' . $e->getMessage());
             }
-    
+
             fclose($handle); // Close the file
         } else {
             return redirect()->back()->with('error', 'Failed to open the file.');
         }
-    
+
         return redirect()->back()->with('success', 'Data Imported Successfully');
     }
-    
+
 
     public function new_order(Request $request)
     {
@@ -454,7 +454,7 @@ class PlaceOrderController extends Controller
         return view('backend.admin.orderManagement.inprogress_order', compact('order'));
     }
 
-    
+
 
     public function revisionsubmit(Request $request)
     {
@@ -473,32 +473,32 @@ class PlaceOrderController extends Controller
 
 
 
-           
+
                     $order = Orders::where('order_id', $request->order_id)->first();
                     $data['order_id'] = $order->order_id;
                     $data['customer_name'] = $order->user->name;
                     $data['customer_email'] = $order->user->email;
-                    $email = Email::where('type','order_in-revision')->first(); 
+                    $email = Email::where('type','order_in-revision')->first();
                     if ($email) {
                         Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
                     }
-                
+
                     return redirect()->back()->with('success', 'Revision request submitted successfully.');
 
 
 
-            
+
         }
         else
         {
             return back()->withErrors($validator)->withInput();
-        }  
+        }
     }
-    
-    
-    
-    
-    
+
+
+
+
+
     public function revision_order(Request $request)
     {
         $id = Auth()->user()->id;
@@ -553,10 +553,10 @@ class PlaceOrderController extends Controller
 
         return view('backend.admin.orderManagement.delivered_order', compact('order'));
     }
-    
-    
-    
-    
+
+
+
+
 public function orders_history(Request $request)
 {
     $order = Orders::join('users', 'orders.user_id', '=', 'users.id') // Join with the users table
@@ -641,93 +641,93 @@ public function orders_history(Request $request)
     //             $completetodel->save();
     //             Orders::where('order_id', $order->order_id)->update(['order_status' =>$request->status]);
 
-    //             $email = Email::where('type','=','Order Delivered')->first(); 
+    //             $email = Email::where('type','=','Order Delivered')->first();
     //             if($email){
     //                 Mail::to($user->email)->send(new EmailTemplate($user,$email));
     //             }
-                
+
     //             return response()->json(['success' => true, 'message' => 'Order Delivered Successfully']);
     //         }
-    //         elseif ($request->status == 'In-Progress') 
+    //         elseif ($request->status == 'In-Progress')
     //         {
     //              Orders::where('order_id', $order->order_id)->update(['order_status' =>$request->status]);
 
-    //             // $email = Email::where('type','=','Order Inprogress')->first(); 
+    //             // $email = Email::where('type','=','Order Inprogress')->first();
     //             // if($email){
     //             //     Mail::to($user->email)->send(new EmailTemplate($user,$email));
     //             // }
-                
+
     //               $emailContent = "
     //             <p>Thank you for package Purchase</p>
     //             <p>If you have any questions or need further assistance, please contact us.</p>
     //             <p>Best regards,<br>" . config('app.name') . " Team</p>
     //         ";
-    
+
     //         Mail::html($emailContent, function ($message) use ($user) {
     //             $message->to($user->email)
     //                     ->subject('package Purchase');
     //         });
-                
+
 
     //              return response()->json(['success' => true, 'message' => 'Order In-Progress']);
     //         }
-    //         elseif ($request->status == 'Completed') 
+    //         elseif ($request->status == 'Completed')
     //         {
     //             Orders::where('order_id', $order->order_id)->update(['order_status' =>$request->status]);
-    //             $email = Email::where('type','=','Order Completion')->first(); 
+    //             $email = Email::where('type','=','Order Completion')->first();
     //             if($email){
     //                 Mail::to($user->email)->send(new EmailTemplate($user,$email));
     //             }
     //             return response()->json(['success' => true, 'message' => 'Order In-Progress']);
     //         }
-    //         elseif ($request->status == 'Revision') 
+    //         elseif ($request->status == 'Revision')
     //         {
     //             Orders::where('order_id', $order->order_id)->update(['order_status' =>$request->status]);
-    //             $email = Email::where('type','=','Order Revision')->first(); 
+    //             $email = Email::where('type','=','Order Revision')->first();
     //             if($email){
     //                 Mail::to($user->email)->send(new EmailTemplate($user,$email));
     //             }
     //             return response()->json(['success' => true, 'message' => 'Order In-Progress']);
     //         }
-    //         elseif ($request->status == 'Refund') 
+    //         elseif ($request->status == 'Refund')
     //         {
     //             Orders::where('order_id', $order->order_id)->update(['order_status' =>$request->status]);
-    //             $email = Email::where('type','=','Order Refund')->first(); 
+    //             $email = Email::where('type','=','Order Refund')->first();
     //             if($email){
     //                 Mail::to($user->email)->send(new EmailTemplate($user,$email));
     //             }
     //             return response()->json(['success' => true, 'message' => 'Order In-Progress']);
     //         }
-    //         elseif ($request->status == 'Canceled') 
+    //         elseif ($request->status == 'Canceled')
     //         {
     //             Orders::where('order_id', $order->order_id)->update(['order_status' =>$request->status]);
-    //             $email = Email::where('type','=','Order Cancel')->first(); 
+    //             $email = Email::where('type','=','Order Cancel')->first();
     //             if($email){
     //                 Mail::to($user->email)->send(new EmailTemplate($user,$email));
     //             }
     //             return response()->json(['success' => true, 'message' => 'Order In-Progress']);
     //         }
-    //          elseif ($request->status == 'Pending') 
+    //          elseif ($request->status == 'Pending')
     //         {
     //             Orders::where('order_id', $order->order_id)->update(['order_status' =>$request->status]);
-    //             // $email = Email::where('type','=','Order Cancel')->first(); 
+    //             // $email = Email::where('type','=','Order Cancel')->first();
     //             // if($email){
     //             //     Mail::to($user->email)->send(new EmailTemplate($user,$email));
     //             // }
     //             return response()->json(['success' => true, 'message' => 'Order In-Progress']);
     //         }
-           
+
     //     } else {
     //         return response()->json(['success' => false, 'message' => 'Order not found'], 404);
     //     }
-        
+
     // }
-    
+
 public function deleverd_order($id, Request $request)
 {
     $order = Orders::find($id);
-   
-  
+
+
 
     if (!$order) {
         return response()->json(['success' => false, 'message' => 'Order not found'], 404);
@@ -790,7 +790,7 @@ public function deleverd_order($id, Request $request)
                 <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
                 <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
             break;
-            
+
                case 'Completed':
             $emailSubject = 'Good News: Your Order ID ' . $order->order_id . ' Has Been Completed!';
             $emailContent = "
@@ -845,20 +845,20 @@ public function deleverd_order($id, Request $request)
 
 
     public function revision_date(Request $request)
-    { 
+    {
         $order = Orders::where('order_id',$request->order_id)->first();
-        if ($order) 
+        if ($order)
         {
           $CompleteToDelivered = CompleteToDelivered::where('order_id',$request->order_id)->first();
-            if ($CompleteToDelivered) 
+            if ($CompleteToDelivered)
             {
                 CompleteToDelivered::where('order_id', $order->order_id)->update(['created_at' => $request->order_created_at]);
-            } 
-            else 
+            }
+            else
             {
                 return redirect()->back()->with('success', 'Order not found.');
             }
-           
+
             return redirect()->route('admin.delivered-order')->with('success', 'Revision order date update Successfully.');
         } else {
             return redirect()->back()->with('success', 'Order not found.');
@@ -867,7 +867,7 @@ public function deleverd_order($id, Request $request)
 
     public function order_detail($id)
     {
-      
+
         $order = Orders::where('order_id', $id)->first();
         $language = Language::where('title',$order->language_spelling)->first();
         $folder   = Folder::where('name',$order->order_id)->first();
@@ -915,27 +915,27 @@ public function deleverd_order($id, Request $request)
     // Check if a user with the provided email exists and if the password is correct
     if ($user && Hash::check($credentials['password'], $user->password)) {
         // Authentication successful, proceed with retrieving folders
-        
+
         $folders = Folder::all();
         $data = [];
-        
+
         if ($folders->count() > 0) {
             foreach ($folders as $folder) {
                 $user = User::find($folder->user_id);
-                
+
                 if ($user) {
                     $folder['user_name'] = $user->name;
                 }
-                
+
                 $files = File::where('folder_id', $folder->id)->get();
-                
+
                 if ($files->count() > 0) {
                     $folder['files'] = $files;
                 }
-                
+
                 $data[] = $folder;
             }
-            
+
             return response()->json(['folders' => $data], 200);
         } else {
             return response()->json(['folders' => 'No folders found'], 404);
@@ -1029,28 +1029,28 @@ public function deleverd_order($id, Request $request)
     //     if ($orders->count() > 0) {
     //         foreach ($orders as $o) {
     //             if ($o->order_status == 'In-Progress') {
-                    
-                    
-                    
+
+
+
     //                  $folder = Folder::where('name', '=', $o->order_id)->first();
-                     
-                   
+
+
     //                 if ($folder) {
-                        
-                        
+
+
     //                     $file = File::where('folder_id', '=', $folder->id)->get();
-                         
+
     //                     if ($file->count() > 0) {
-                            
-                            
+
+
     //                         $data[] = $o;
     //                     }
     //                 }
-                    
-                    
+
+
     //                 $data[] = $o;
     //             }
-                
+
     //         }
     //         $data = array_reverse($data);
     //         return response()->json(['order' => $data], 200);
@@ -1058,7 +1058,7 @@ public function deleverd_order($id, Request $request)
     //         return response()->json(['order' => 'not found'], 404);
     //     }
     // }
-    
+
 //  public function new_order_api_completed()
 //     {
 //         $orders = Orders::where('order_status', '=', 'In-Progress')->get();
@@ -1066,19 +1066,19 @@ public function deleverd_order($id, Request $request)
 //         if ($orders->count() > 0) {
 //             foreach ($orders as $o) {
 //                 $folder = Folder::where('name', '=', $o->order_id)->first();
-                
+
 //                 if ($folder) {
 //                     $files = File::where('folder_id', '=', $folder->id)->get();
 //                 } else {
-                  
+
 //                     $files = collect([]);
 //                 }
-               
+
 //                 $orderData = [
 //                     'order' => $o,
 //                     'files' => $files
 //                 ];
-               
+
 //                 $data[] = $orderData;
 //             }
 //             $data = array_reverse($data);
@@ -1097,14 +1097,14 @@ public function deleverd_order($id, Request $request)
     //         return response()->json(['order' => 'not found'], 404);
     //     }
     // }
-    
-    
+
+
 //     public function new_order_api_completed()
 // {
 //       $orders = Orders::where('order_status', '=', 'In-Progress')
-//         ->select('id', 'order_id', 'subject', 'description', 'academic_level', 
-//                   'type_of_paper', 'paper_format', 'order_status', 
-//                   'language_spelling', 'number_of_pages', 'powerpoint_slide', 
+//         ->select('id', 'order_id', 'subject', 'description', 'academic_level',
+//                   'type_of_paper', 'paper_format', 'order_status',
+//                   'language_spelling', 'number_of_pages', 'powerpoint_slide',
 //                   'no_of_extra_sources as sources', 'deadline', 'topic')
 //         ->get();
 
@@ -1113,21 +1113,21 @@ public function deleverd_order($id, Request $request)
 //         foreach ($orders as $o) {
 //             $folder = Folder::where('name', '=', $o->order_id)->first();
 //             $attachment_file = 'no'; // Default value
-            
+
 //             if ($folder) {
 //                 $files = File::where('folder_id', '=', $folder->id)->get();
 //                 if ($files->isNotEmpty()) {
 //                     $attachment_file = 'yes'; // Files are attached
 //                 }
 //             }
-           
+
 //             $orderData = [
 //                 'order' => $o,
 //                 'attachment_file' => $attachment_file ,
 //                 'files' => $files ?? collect([])
-                
+
 //             ];
-           
+
 //             $data[] = $orderData;
 //         }
 //         $data = array_reverse($data);
@@ -1159,11 +1159,11 @@ public function deleverd_order($id, Request $request)
 //     // Check if a user with the provided email exists and if the password is correct
 //     if ($user && Hash::check($credentials['password'], $user->password)) {
 //         // Authentication successful, proceed with retrieving orders
-        
+
 //         $orders = Orders::where('order_status', '=', 'In-Progress')
-//             ->select('id', 'order_id', 'subject', 'description', 'academic_level', 
-//                       'type_of_paper', 'paper_format', 'order_status', 
-//                       'language_spelling', 'number_of_pages', 'powerpoint_slide', 
+//             ->select('id', 'order_id', 'subject', 'description', 'academic_level',
+//                       'type_of_paper', 'paper_format', 'order_status',
+//                       'language_spelling', 'number_of_pages', 'powerpoint_slide',
 //                       'no_of_extra_sources as sources', 'deadline', 'topic')
 //             ->get();
 
@@ -1172,21 +1172,21 @@ public function deleverd_order($id, Request $request)
 //             foreach ($orders as $o) {
 //                 $folder = Folder::where('name', '=', $o->order_id)->first();
 //                 $attachment_file = 'no';
-                
+
 //                 if ($folder) {
 //                     $files = File::where('folder_id', '=', $folder->id)->get();
 //                     if ($files->isNotEmpty()) {
 //                         $attachment_file = 'yes';
 //                     }
 //                 }
-               
+
 //                 $orderData = [
 //                     'order' => $o,
 //                     'attachment_file' => $attachment_file ,
 //                     'files' => $files ?? collect([])
-                    
+
 //                 ];
-               
+
 //                 $data[] = $orderData;
 //             }
 //             $data = array_reverse($data);
@@ -1222,11 +1222,11 @@ public function new_order_api_completed(Request $request)
     // Check if a user with the provided email exists and if the password is correct
     if ($user && Hash::check($credentials['password'], $user->password)) {
         // Authentication successful, proceed with retrieving orders
-        
+
         $orders = Orders::where('order_status', '=', 'In-Progress')
-            ->select('id', 'order_id', 'subject', 'description', 'academic_level', 
-                      'type_of_paper', 'paper_format', 'order_status', 
-                      'language_spelling', 'number_of_pages', 'powerpoint_slide', 
+            ->select('id', 'order_id', 'subject', 'description', 'academic_level',
+                      'type_of_paper', 'paper_format', 'order_status',
+                      'language_spelling', 'number_of_pages', 'powerpoint_slide',
                       'no_of_extra_sources as sources', 'deadline', 'topic')
             ->get();
 
@@ -1245,7 +1245,7 @@ public function new_order_api_completed(Request $request)
                         // Construct files data including file_path
                         $filesData = $files->map(function ($file) {
                             $file_path = str_replace('public/', '', $file->file_path);
-                            $url = 'https://elementary-solutions.com/writing-space-laravel/public/storage/' . $file_path;
+                            $url = 'https://elementary-solutions.com/writing-space-web/public/storage/' . $file_path;
 
                             return [
                                 'file_name' => $file->title,
@@ -1280,18 +1280,18 @@ public function new_order_api_completed(Request $request)
 
     public function order_by_id($id)
 {
-    
-   
-   
+
+
+
      $order = Orders::where('order_id', '=', $id)->first();
-     
-    
+
+
 
     if ($order) {
-       
+
         $folder = Folder::where('name', $order->order_id)->first();
 
-       
+
         $files = File::where('folder_id', '=', $folder->id)->get();
 
         // Return the response with files and folder information
@@ -1310,34 +1310,34 @@ public function new_order_api_completed(Request $request)
             'order_id' => 'required',
             'response' => 'required|string', // Assuming response is required and must be a string
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
-    
+
         $orderId = $request->order_id;
-    
-       
-        $fileName = uniqid() . '_response.txt'; 
-        $filePath = storage_path('app/public/uploads_folders/' . $fileName); 
-    
-   
+
+
+        $fileName = uniqid() . '_response.txt';
+        $filePath = storage_path('app/public/uploads_folders/' . $fileName);
+
+
         file_put_contents($filePath, $request->response);
-    
-       
+
+
         DB::table('file_chat_g_p_t_s')->insert([
             'file_name' => $fileName,
             'title' => 'Response',
             'order_id' => $orderId,
-            'file_path' => 'public/files/' . $fileName, 
-            'file_type' => 'text/plain', 
+            'file_path' => 'public/files/' . $fileName,
+            'file_type' => 'text/plain',
         ]);
-    
+
         $message = "Order file details updated successfully.";
-    
+
         return response()->json(['message' => $message], 200);
     }
-    
+
     public function new_order_api_completed_string(Request $request)
     {
         // Validate request data
@@ -1345,45 +1345,45 @@ public function new_order_api_completed(Request $request)
             'email' => 'required|email',
             'password' => 'required',
         ]);
-    
+
         // Check if validation fails
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->first()], 400);
         }
-    
+
         // Extract email and password from request
         $credentials = $request->only('email', 'password');
-    
+
         // Query the database for a user with the provided email
         $user = User::where('api_role', 'api')->where('email', $credentials['email'])->first();
-    
+
         // Check if a user with the provided email exists and if the password is correct
         if ($user && Hash::check($credentials['password'], $user->password)) {
             // Authentication successful, proceed with retrieving orders
             $orders = Orders::where('order_status', '=', 'In-Progress')
-                ->select('id', 'order_id', 'subject', 'description', 'academic_level', 
-                          'type_of_paper', 'paper_format', 'order_status', 
-                          'language_spelling', 'number_of_pages', 'powerpoint_slide', 
+                ->select('id', 'order_id', 'subject', 'description', 'academic_level',
+                          'type_of_paper', 'paper_format', 'order_status',
+                          'language_spelling', 'number_of_pages', 'powerpoint_slide',
                           'no_of_extra_sources as sources', 'deadline', 'topic')
                 ->get();
-    
+
             $data = [];
             if ($orders->count() > 0) {
                 foreach ($orders as $o) {
                     $folder = Folder::where('name', '=', $o->order_id)->first();
                     $attachment_file = 'no';
                     $filesData = [];
-    
+
                     if ($folder) {
                         $files = File::where('folder_id', '=', $folder->id)->get();
                         if ($files->isNotEmpty()) {
                             $attachment_file = 'yes';
-    
+
                             // Construct files data including file_path
                             $filesData = $files->map(function ($file) {
                                 $file_path = str_replace('public/', '', $file->file_path);
-                                $url = 'https://elementary-solutions.com/writing-space-laravel/public/storage/' . $file_path;
-    
+                                $url = 'https://elementary-solutions.com/writing-space-web/public/storage/' . $file_path;
+
                                 return [
                                     'file_name' => (string) $file->title,
                                     'file_path' => (string) $file->file_path,
@@ -1392,34 +1392,34 @@ public function new_order_api_completed(Request $request)
                             })->toArray();
                         }
                     }
-    
-                    
-                    $orderDetails = 
+
+
+                    $orderDetails =
                         "Order Number: " . (string) $o->order_id . " " .
                         "Pages: " . (string) $o->number_of_pages . " " .
-                        "Arrival Date: " . date('d-m-Y') . " " . 
+                        "Arrival Date: " . date('d-m-Y') . " " .
                         "Due Date: " . (string) $o->deadline . " " .
-                        "Citation: APA " . 
+                        "Citation: APA " .
                         "Subject: " . (string) $o->subject . " " .
                         "Level: " . (string) $o->academic_level . " " .
                         "Document Type: " . (string) $o->type_of_paper . " " .
                         "No Of Sources: " . (string) $o->sources . " " .
                         "Topic: " . (string) $o->topic . " " .
                        "Instructions: " . strip_tags(html_entity_decode($o->description));
-    
-                  
+
+
                     $orderData = [
                         'Details' => $orderDetails,
                         'Attachment' => (string) $attachment_file,
                         'Files' => $filesData,
                     ];
-    
+
                     $data[] = $orderData;
                 }
-    
+
                 // Reverse the order array if needed
                 $data = array_reverse($data);
-    
+
                 // Return JSON response with orders data
                 return response()->json(['order' => $data], 200);
             } else {
@@ -1433,5 +1433,5 @@ public function new_order_api_completed(Request $request)
 
 
 
-    
+
 }

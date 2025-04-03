@@ -69,9 +69,9 @@ class CustomerPlaceOrderController extends Controller
             $userdata = User::findOrFail($userId);
 
             $createdAt = $User_Subscription->created_at;
-           
-           
-            
+
+
+
             $customerName = $userdata->name;
             $orderid = $request->order_id;
             $AdditionalPagesAdded = $request->page;
@@ -80,12 +80,12 @@ class CustomerPlaceOrderController extends Controller
 
 
 
-             
-            
-            $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first(); 
-            
+
+
+            $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first();
+
             if ($email) {
-                $subject = 'Confirmation of Additional Pages (In Packages) for Order ID'; 
+                $subject = 'Confirmation of Additional Pages (In Packages) for Order ID';
                 Mail::to($userdata->email)->send(new Pkg_Id_manage_optin1_Email_Template(
                     [
                         'customerName' => $customerName,
@@ -93,7 +93,7 @@ class CustomerPlaceOrderController extends Controller
                         'AdditionalPagesAdded' => $AdditionalPagesAdded,
                         'TotalPagesUsed' => $TotalPagesUsed,
                         'remaining_pages' => $remaining_pages,
-                        
+
                     ],
                     $subject
                 ));
@@ -221,8 +221,8 @@ class CustomerPlaceOrderController extends Controller
     public function checkout()
 
     {
-        
-    
+
+
 
         $curl = curl_init();
 
@@ -271,7 +271,7 @@ class CustomerPlaceOrderController extends Controller
                         "order": {
                     "amount": "10.00",
                     "currency": "PKR"
-                    }  
+                    }
                 }',
                     CURLOPT_HTTPHEADER => array(
                         'Content-Type: application/json',
@@ -468,11 +468,11 @@ class CustomerPlaceOrderController extends Controller
         $subs = User_Subscription::where('user_id', $user->id)->first();
         $sub_get = Subscription::where('id', $subs->subscription_id)->first();
         $sub_name = $sub_get->subscription_name;
-        
+
         $totalPages = $subs->total_pages;
         $remianingPages = $subs->remaining_pages;
-        
-        
+
+
 
         $used_pages = $totalPages - $remianingPages;
 
@@ -494,9 +494,9 @@ class CustomerPlaceOrderController extends Controller
             // $order_id = rand(000000000, 999999999);
 
             $lastOrderId = Orders::latest()->limit(1)->value('order_id');
-            $order_id = ++$lastOrderId;            
+            $order_id = ++$lastOrderId;
             // dd($order_id, $lastOrderId);
-            
+
             $discount = '0';
             $discount = $input['discount'];
             if (empty($input['additional_info'])) {
@@ -547,36 +547,36 @@ class CustomerPlaceOrderController extends Controller
             $subs->updated_at = now();
             $subs->save();
             $user = User::find($order->user_id);
-            
-            
-            
-            
+
+
+
+
              $remainingPercentage = ($subs->remaining_pages / $subs->total_pages) * 100;
 if ($remainingPercentage <= 10) {
     // New warning email content
     $warningEmailContent = "
         <p>Hello {$user->name},</p>
         <p>We've noticed that you're nearing the end of the pages available in your current package at Writing Space. To ensure you continue enjoying our services without interruption, we wanted to give you a heads-up and an exclusive offer.</p>
-        
+
         <p><strong>Current Package Details:</strong></p>
         <ul>
             <li>Package Type: $sub_name</li>
             <li>Pages Remaining: {$subs->remaining_pages}</li>
         </ul>
-        
+
         <p><strong>Exclusive Renewal Offer:</strong> We value your commitment to Writing Space and would like to offer you a special discount on your next package purchase. This is a great opportunity to continue accessing our comprehensive academic resources at a reduced rate.</p>
-        
+
         <p><strong>Next Steps to Take Advantage of This Offer:</strong> Please contact our support team directly to claim your discounted renewal. They are ready to assist you in setting up your new package and ensuring you don't miss a beat in your academic journey.</p>
-        
+
         <p>Contact Support:</p>
         <ul>
             <li>Email: <a href='mailto:support@writing-space.com'>support@writing-space.com</a></li>
         </ul>
-        
+
         <p>Act now to replenish your page count and keep your academic resources flowing! We’re here to support your educational endeavors every step of the way.</p>
-        
+
         <p>Thank you for choosing Writing Space. Let’s continue making your academic experience as successful and hassle-free as possible.</p>
-        
+
         <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
     ";
 
@@ -585,8 +585,8 @@ if ($remainingPercentage <= 10) {
         $message->to($user->email)
                 ->subject('Package Pages About to be Finished (90% used)');
     });
-    
-    
+
+
       Mail::html($warningEmailContent, function ($message) use ($user) {
         $message->to($user->email)
                 ->subject('Your Writing Space Package is Expiring Soon – Keep Your Benefits Rolling!');
@@ -655,7 +655,7 @@ $permissions = 0775;
                 $folder->user_id = Auth::id();
                 $folder->save();
             }
-            
+
             chmod(storage_path("app/public/uploads_folders/{$order_id}"), 0777);
 
             //custom order
@@ -667,15 +667,15 @@ $permissions = 0775;
             $data['new_order_details'] = json_encode($input);
             $data['customer_name'] = $user->name;
             $data['customer_email'] = $user->email;
-            // $email = Email::where('type','confirmation_of_new_order_id')->first(); 
+            // $email = Email::where('type','confirmation_of_new_order_id')->first();
             // if ($email) {
             //     Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
             // }
-            
+
                               $emailContent = "
                                     <p>Hello {$user->name},</p>
                                     <p>Thank you for placing your order with Writing Space! We're here to support you as you progress through your academic journey.</p>
-                                    
+
                                     <p><strong>Package Details:</strong></p>
                                     <ul>
                                         <li>Date Placed: {$order->created_at->format('Y-m-d')}</li>
@@ -683,7 +683,7 @@ $permissions = 0775;
                                         <li>Total Pages Used in Past Orders: {$used_pages}</li>
                                         <li>Remaining Pages in Your Package: {$subs->remaining_pages}</li>
                                     </ul>
-                                
+
                                     <p><strong>Order Details:</strong></p>
                                     <ul>
                                         <li>Order ID: {$order->order_id}</li>
@@ -691,40 +691,40 @@ $permissions = 0775;
                                         <li>Topic: {$input['topic']}</li>
                                         <li>Deadline: {$input['due_date']}</li>
                                     </ul>
-                                
+
                                     <p>Your order has been successfully recorded and is now being processed. We're committed to ensuring that you receive high-quality support tailored to your needs.</p>
-                                    
+
                                     <p><strong>Next Steps:</strong></p>
                                     <ol>
                                         <li>Monitor the progress of your order from your dashboard under the \"My Orders\" section.</li>
                                         <li>You will receive updates as we process your order, including notifications when it is ready for review or download.</li>
                                     </ol>
-                                    
+
                                     <p>If you have any questions or need further assistance while your order is being processed, please don't hesitate to reach out. Our team is here to help every step of the way.</p>
-                                    
+
                                     <p>Thank you for choosing Writing Space. We are excited to help you make the most of every page!</p>
-                                    
+
                                     <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
                                 ";
-                                
+
                                 // Send the "Thank You" email for order placement
                                 Mail::html($emailContent, function ($message) use ($user, $order) {
                                     $message->to($user->email)
                                             ->subject("Confirmation of Your New Order – ID {$order->order_id}");
                                 });
 
-            
-            
+
+
             return response()->json(['success' => true, 'order' => $order, 'message' => 'Order placed successfully! customization']);
         } else {
                 return response()->json([
-                    'error' => false, 
+                    'error' => false,
                     'message' => "<div style='text-align:left !important;'>Oops! You've exceeded your page limit.\n\n" .
                                  "You're trying to order {$input['no_of_pages']} pages, but you currently have only  {$remianingPages} page(s) left in your package.\n\n" .
                                  "<br><br>No worries — here’s how you can proceed:\n" .
                                  "<br><br><strong>1. Add More Pages:</strong><br><br><ul><li>Navigate to your Profile Page.</li><li>Locate the option to Add Pages to Your Existing Package and follow the prompts to purchase additional pages at your original rates.</li><li>Once you've added the pages, return here to create your new order.</li></ul> \n" .
                                  "<strong>2. Use Your Remaining Pages:</strong><br><br> If you prefer, you can place an order for the  {$remianingPages} pages you have remaining in your package right now. Later, you can navigate to the Order Details page for this order, go to the Manage Pages tab, and add the additional pages you need to complete the order at your original rates.\n" .
-                                 
+
                                  "3. Contact Support: For more options or assistance, please reach out to our support team. We're here to help!</div>"
                 ]);
 
@@ -733,11 +733,11 @@ $permissions = 0775;
             // Hi there! It looks like you're trying to order {$input['no_of_pages']} pages, but you currently have  only {$remianingPages} pages left
             // in your package. No worries, though! You can easily add more pages to continue with your order:
 
-            // 1.	Add More Pages: Please navigate to the Order Details page of the order that you previously placed Using Your Package. Only in this 
-            // order will you find the option to manage and Add Pages. Click on the Manage Pages tab. There, you can add pages to your package at the 
+            // 1.	Add More Pages: Please navigate to the Order Details page of the order that you previously placed Using Your Package. Only in this
+            // order will you find the option to manage and Add Pages. Click on the Manage Pages tab. There, you can add pages to your package at the
             // same rates you originally purchased. Once you've added the pages, you can easily come back and place your new order.
 
-            // 2.	Contact Support: If you're looking for more options or need assistance, feel free to contact our support team. They can help you 
+            // 2.	Contact Support: If you're looking for more options or need assistance, feel free to contact our support team. They can help you
             // find the best discount package pricing available.We're here to help, so don't hesitate to reach out if you need any assistance!
             // "]);
         }
@@ -756,9 +756,9 @@ $permissions = 0775;
         $order_id = mt_rand(100000, 999999);
         $randomNumber = mt_rand(100, 999);
         $transactionId = "TRANS" . $randomNumber;
-       
 
-       
+
+
 
         session()->put('transactionId', $transactionId);
         session()->put('order_id', $order_id);
@@ -794,7 +794,7 @@ $permissions = 0775;
                     "reference": "' . $transactionId . '",
                 },
                 "order":{
-             
+
                 "reference": "' . $order_id . '",
                 "currency":"PKR"
                 },
@@ -847,7 +847,7 @@ $permissions = 0775;
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-laravel/public/redirectResponseUrl"
+                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-web/public/redirectResponseUrl"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -897,7 +897,7 @@ $permissions = 0775;
         // $lastOrderId = Orders::latest()->limit(1)->value('order_id');
         // if(!$lastOrderId)
         // {
-        //     $order_id = '200000'; 
+        //     $order_id = '200000';
         // }
         // $order_id = ++$lastOrderId;
 
@@ -905,7 +905,7 @@ $permissions = 0775;
         session()->put('order_id', $order_id);
         $sessionId = session()->get('sessionId');
 
-       
+
 
 
 
@@ -942,7 +942,7 @@ $permissions = 0775;
                     "reference": "' . $transactionId . '",
                 },
                 "order":{
-             
+
                 "reference": "' . $order_id . '",
                 "currency":"PKR"
                 },
@@ -995,7 +995,7 @@ $permissions = 0775;
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-laravel/public/redirectResponseUrlSub"
+                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-web/public/redirectResponseUrlSub"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -1064,19 +1064,19 @@ $permissions = 0775;
 
         $total_costs[] = $total_cost;
 
-        
+
         $truncatedSessionId = substr($test, 0, 35);
         $randomNumber = mt_rand(100, 999);
         $transactionId = "TRANS" . $randomNumber;
-       
+
 
         // $lastOrderId = Orders::latest()->limit(1)->value('order_id');
         // if(!$lastOrderId)
         // {
-        //     $order_id = '200000'; 
+        //     $order_id = '200000';
         // }
         // $order_id = ++$lastOrderId;
-        
+
         session()->put('transactionId', $transactionId);
         session()->put('order_id', $order_id);
         $sessionId = session()->get('sessionId');
@@ -1114,7 +1114,7 @@ $permissions = 0775;
                     "reference": "' . $transactionId . '",
                 },
                 "order":{
-             
+
                 "reference": "' . $order_id . '",
                 "currency":"PKR"
                 },
@@ -1167,7 +1167,7 @@ $permissions = 0775;
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-laravel/public/redirectResponseUrladdpages"
+                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-web/public/redirectResponseUrladdpages"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -1217,8 +1217,8 @@ $permissions = 0775;
 
         $order_id2 = $request->order_id;
 
-        
-       
+
+
         $data = [
             'order_id' => $order_id,
             'total' => $total,
@@ -1233,18 +1233,18 @@ $permissions = 0775;
         $order_id = $order34;
         $order_id = $order_id2 . '-' . $order34;
 
-        
+
         $truncatedSessionId = substr($test, 0, 35);
         $randomNumber = mt_rand(100, 999);
         $transactionId = "TRANS" . $randomNumber;
-        
+
         // $lastOrderId = Orders::latest()->limit(1)->value('order_id');
         // if(!$lastOrderId)
         // {
-        //     $order_id = '200000'; 
+        //     $order_id = '200000';
         // }
         // $order_id = ++$lastOrderId;
-        
+
         session()->put('transactionId', $transactionId);
         session()->put('order_id', $order_id);
         $sessionId = session()->get('sessionId');
@@ -1284,7 +1284,7 @@ $permissions = 0775;
                     "reference": "' . $transactionId . '",
                 },
                 "order":{
-             
+
                 "reference": "' . $order_id . '",
                 "currency":"PKR"
                 },
@@ -1337,7 +1337,7 @@ $permissions = 0775;
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-laravel/public/redirectResponsemanagepages"
+                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-web/public/redirectResponsemanagepages"
                     },
                 "order": {
                     "amount": "' . $total . '",
@@ -1509,7 +1509,7 @@ $permissions = 0775;
                                             "session": {
                                                 "id": "' . $sessionId . '"
                                             }
-                                        
+
                                         }',
                 CURLOPT_HTTPHEADER => array(
                     'Content-Type: application/json',
@@ -1576,7 +1576,7 @@ $permissions = 0775;
                         // return response()->json(['message' => 'Successfully Updated Subscription1']);
 
 
-                        
+
                         $user = User::find($user->id);
                         Auth::login($user);
                         return redirect()->route('customer.thankyou.sub');
@@ -1632,7 +1632,7 @@ $permissions = 0775;
                             Mail::to($user->email)->send(new EmailTemplate($user, $email));
                         }
 
-                        
+
                         $createdAt = $invoice->created_at;
                         $orderid = $order->id;
 
@@ -1642,25 +1642,25 @@ $permissions = 0775;
                         $dateOfIssue = $createdAt;
                         $dueDate = $dueDate;
                         $orderid = $orderid;
-                        
+
                         $customerName =$user->name;
                         $customerEmail = $user->email;
                         $customerAdress = $user->address_1.''.$user->address_2;
-                        
+
                         $itemName = $subs->subscription_name;
                         $totalPages = $subs->min_page;
                         $pricePerPage = $subs->cost_per_page;
                         $subTotal =$transaction->merchantAmount;
                         $payment_status ='Paid';
-        
-        
+
+
                         $discount = 0.0;
-                        
+
                         $total = $transaction->merchantAmount;
-                        
-                       
+
+
                         if ($email) {
-                            $subject = 'Invoice package purchase'; 
+                            $subject = 'Invoice package purchase';
                             Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
                                 [
                                     'invoiceNumber' => $invoiceNumber,
@@ -1685,7 +1685,7 @@ $permissions = 0775;
 
 $purchaseDate = now()->format('Y-m-d');
  $emailContent = "
-   
+
     <p>Hello {$user->name},</p>
     <p>Congratulations on securing your new package at Writing Space! We're excited to support you with enhanced services and resources tailored to your academic needs.</p>
 
@@ -1713,7 +1713,7 @@ Mail::html($emailContent, function ($message) use ($user) {
 });
 
 
-                        
+
                         $user_id =  $pay->user_id;
                         $user = User::find($user_id);
                         Auth::login($user);
@@ -1779,7 +1779,7 @@ Mail::html($emailContent, function ($message) use ($user) {
                     "session": {
                         "id": "' . $sessionId . '"
                     }
-                
+
                 }',
                         CURLOPT_HTTPHEADER => array(
                             'Content-Type: application/json',
@@ -1892,7 +1892,7 @@ Mail::html($emailContent, function ($message) use ($user) {
                     $user_id =  $pay->user_id;
                     $user = User::find($user_id);
 
-                    //add new pages from customer profile and send email; 
+                    //add new pages from customer profile and send email;
                     $data['order_id'] = $orderid;
                     $data['number_of_pages'] = $pages; // new oder pages;
                     $data['pages_remaining'] = $currentSubs->remaining_pages; // old order remaining pages;
@@ -1901,12 +1901,12 @@ Mail::html($emailContent, function ($message) use ($user) {
                     $data['customer_email'] = $user->email;
 
 
-                    $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first(); 
+                    $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first();
                     if ($email) {
                         Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
                     }
-                    
-                    
+
+
 
 
 
@@ -1926,25 +1926,25 @@ Mail::html($emailContent, function ($message) use ($user) {
                     $orderid = $orderid;
 
                      $remaining_pages = $currentSubs23->remaining_pages;
-                    
+
                     $customerName =$user->name;
                     $customerEmail = $user->email;
                     $customerAdress = $user->address_1.''.$user->address_2;
-                    
+
                     $itemName = $subs->subscription_name;
                     $totalPages = $pages;
                     $pricePerPage = $pageCost;
                     $subTotal =$billAmount;
                     $payment_status ='Paid';
-    
-    
+
+
                     $discount = 0.0;
-                    
+
                     $total = $billAmount;
-                    
-                   
+
+
                     if ($email) {
-                        $subject = 'Invoice package purchase'; 
+                        $subject = 'Invoice package purchase';
                         Mail::to($user->email)->send(new PkgIdInvoiceEmailTemplate1(
                             [
                                 'invoiceNumber' => $invoiceNumber,
@@ -1966,7 +1966,7 @@ Mail::html($emailContent, function ($message) use ($user) {
                             $subject
                         ));
                     }
-                    
+
  $emailContent = "
             <p>Hello {$user->name},</p>
             <p>We’ve successfully added additional pages to your existing order at Writing Space. Here are the details:</p>
@@ -2002,7 +2002,7 @@ Mail::html($emailContent, function ($message) use ($user) {
                     Auth::login($user);
 
 
-                    return redirect('https://elementary-solutions.com/writing-space-laravel/public/customer/thankyou');
+                    return redirect('https://elementary-solutions.com/writing-space-web/public/customer/thankyou');
                 }
             }
         } catch (\Exception $e) {
@@ -2060,7 +2060,7 @@ Mail::html($emailContent, function ($message) use ($user) {
               "session": {
                 "id": "' . $sessionId . '"
               }
-          
+
           }',
                 CURLOPT_HTTPHEADER => array(
                     'Content-Type: application/json',
@@ -2163,28 +2163,28 @@ Mail::html($emailContent, function ($message) use ($user) {
                     $orderid = $orderid;
 
                      $remaining_pages = $currentSubs23->remaining_pages;
-                    
+
                     $customerName =$user->name;
                     $customerEmail = $user->email;
                     $customerAdress = $user->address_1.''.$user->address_2;
-                    
+
                     $itemName = 'Custom order Add Pages';
                     $totalPages = $order_detail->page;
                     $pricePerPage =  $order->cost_per_page;
                     $subTotal =$order_detail->total;
                     $payment_status ='Paid';
 
-                  
-    
-    
+
+
+
                     $discount = 0.0;
-                    
+
                     $total = $order_detail->total;
-                    
-                    $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first(); 
-                    
+
+                    $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first();
+
                     if ($email) {
-                        $subject = 'Confirmation of Additional Pages (In Packages) for Order ID'; 
+                        $subject = 'Confirmation of Additional Pages (In Packages) for Order ID';
                         Mail::to($user->email)->send(new PkgIdmanageInvoiceEmailTemplate(
                             [
                                 'invoiceNumber' => $invoiceNumber,
@@ -2243,7 +2243,7 @@ Mail::html($emailContent, function ($message) use ($user) {
                     Auth::login($user);
 
 
-                    return redirect('https://elementary-solutions.com/writing-space-laravel/public/customer/thankyou');
+                    return redirect('https://elementary-solutions.com/writing-space-web/public/customer/thankyou');
                 }
             }
         } catch (\Exception $e) {
@@ -2288,7 +2288,7 @@ Mail::html($emailContent, function ($message) use ($user) {
                                         "session": {
                                             "id": "' . $sessionId . '"
                                         }
-                                    
+
                                     }',
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
@@ -2407,7 +2407,7 @@ Mail::html($emailContent, function ($message) use ($user) {
                 $user = User::find($order->user_id);
                 $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
                  $receipt_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
-                 
+
                 $invoice = Invoice::create([
                     'Name' => $user->name,
                     'invoice_id' => $invoice_id,
@@ -2427,50 +2427,50 @@ Mail::html($emailContent, function ($message) use ($user) {
                 $order_id2 = $order->order_id;
 
                 $path = "public/uploads_folders/" . $order_id;
-              $permissions = 0777; 
+              $permissions = 0777;
               $recursive = true;
                 if (!Storage::exists($path)) {
                     // Storage::makeDirectory($path);
-                     
-                    
-                    
+
+
+
                      Storage::makeDirectory($path, $permissions, $recursive);
                     $folder = new Folder();
                     $folder->name = $order_id;
                     $folder->description = $order_id;
                     $folder->user_id = $user_id;
                     $folder->save();
-                    
-                    
-                }
-            
-            chmod(storage_path("app/public/uploads_folders/{$order_id}"), 0777);
-            
-            
 
-            
-            
+
+                }
+
+            chmod(storage_path("app/public/uploads_folders/{$order_id}"), 0777);
+
+
+
+
+
                 $user = User::find($user_id);
                 $email = Email::where('type', '=', 'order_place_confirmation')->first();
 
                 // if ($email) {
                 //     Mail::to($user->email)->send(new EmailTemplate($user, $email));
                 // }
-                
+
 
 
                 $invoiceNumber = $invoice_id;
                  $receiptNumber = $receipt_id;
-                
+
                 $dateOfIssue = $createdAt;
                 $dueDate = $input->due_date;
                 $orderid = $orderid;
                 $order = $order;
-                
+
                 $customerName =$user->name;
                 $customerEmail = $user->email;
                 $customerAdress = $user->address_1.''.$user->address_2;
-                
+
                 $itemName = $input->subject;
                 $totalPages = $order->number_of_pages;
                 $pricePerPage = $order->cost_per_page;
@@ -2479,12 +2479,12 @@ Mail::html($emailContent, function ($message) use ($user) {
 
 
                 $discount = 0.0;
-                
+
                 $total = $order->total_cost;
-                
-               
+
+
                 if ($email) {
-                    $subject = 'Your Writing Space Purchase Confirmation – Order ID '.$order_id; 
+                    $subject = 'Your Writing Space Purchase Confirmation – Order ID '.$order_id;
                     Mail::to($user->email)->send(new InvoiceEmailTemplate(
                         [
                             'invoiceNumber' => $invoiceNumber,
@@ -2507,14 +2507,14 @@ Mail::html($emailContent, function ($message) use ($user) {
                         $subject
                     ));
                 }
-                
-                
-                
+
+
+
                 $user_id =  $pay->user_id;
                 $user = User::find($user_id);
                 Auth::login($user);
 
-                return redirect('https://elementary-solutions.com/writing-space-laravel/public/customer/thankyou');
+                return redirect('https://elementary-solutions.com/writing-space-web/public/customer/thankyou');
             }
         } else {
 
@@ -2554,7 +2554,7 @@ Mail::html($emailContent, function ($message) use ($user) {
     public function exportInvoiceprofile($value)
     {
 
-        
+
         $nu = rand(11, 999);
         return  Excel::download(new OrdersExportInvoice($value), 'ORDER-LIST-' . $nu . '.xlsx');
     }
@@ -2783,7 +2783,7 @@ $permissions = 0775;
         // if ($email) {
         //     Mail::to($user->email)->send(new EmailTemplate($user, $email));
         // }
-       
+
 
 
 
@@ -2900,7 +2900,7 @@ $permissions = 0775;
             $subscription = Subscription::find($used_subscription->subscription_id);
             $used_subscription->subscription = $subscription;
         }
-        
+
         $completedOrders = FileChatGPT::where('status',1)->where('order_id', $id)->get();
         // dd($completedOrders);
         return view('backend.customer.orderManagement.order_detail', compact('order', 'used_subscription','language','folder','completedOrders'));
@@ -2998,8 +2998,8 @@ $permissions = 0775;
 
     public function select_plan($sub_id)
     {
-        
-        
+
+
         $user = User::find(auth()->user()->id);
 
         $checkUserSub = User_Subscription::where('user_id', $user->id)->first();
@@ -3034,7 +3034,7 @@ $permissions = 0775;
 
                 return response()->json(['message' => 'Successfully Updated Subscription']);
 
-                
+
             }
         } else {
             $user->customer = "Subscription";
@@ -3162,7 +3162,7 @@ $permissions = 0775;
 
         if ($checkUserSub) {
             $currentDate = now()->format('Y-m-d H:i:s');
-            
+
             if($checkUserSub->remaining_pages === 0){
                 return response()->json(['message' => 'Upgrade Packages'], 200);
             }else{
@@ -3173,7 +3173,7 @@ $permissions = 0775;
                 }
             }
 
-           
+
         } else {
             return response()->json(['message' => 'Packages'], 200);
         }

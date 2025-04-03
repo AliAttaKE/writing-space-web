@@ -14,7 +14,7 @@
  <style>
         body {
             font-family: Inter, Helvetica, "sans-serif";
-            background-image: url(https://elementary-solutions.com/writing-space-laravel/public/backend/assets/media/ws/customer-dashboard.jpg);
+            background-image: url(https://elementary-solutions.com/writing-space-web/public/backend/assets/media/ws/customer-dashboard.jpg);
         }
 
         .lock {
@@ -93,7 +93,7 @@
 <div class="p-3  mb-4">
         <img src="{{asset("backend/assets/media/ws/logo.png")}}" class="" alt="">
     </div>
-    
+
     <!-- CREATE THE HTML FOR THE PAYMENT PAGE -->
 <div class="d-flex justify-content-center align-items-center">
     <div class="col-md-9">
@@ -176,7 +176,7 @@
                         <h5 class="text-white">Order Details</h5>
                     </div>
                     <div class="card-bod total-amt py-3 px-2 rounded-3  bg-transparent">
-                      
+
                         <ul class="d-flex d-flex list-unstyled justify-content-between">
                              <li class="text-white">Add more Pages</li>
                             <li class="text-white"><span id="numberOfPage"></span></li>
@@ -185,7 +185,7 @@
                         <!--    <li class="fs-12">Deadline Adjustment</li>-->
                         <!--    <li class=""><span id="Deadline"></span></li>-->
                         <!--</ul>-->
-                      
+
                         <ul class="d-flex d-flex list-unstyled justify-content-between">
                             <li class="text-white">Total Amount</li>
                             <li class="text-white">$ <span id="order_total">00</span></li>
@@ -240,8 +240,8 @@ if (self === top) {
 }
 
 PaymentSession.configure({
- 
-   
+
+
     session: "{{$sessionid}}",
     fields: {
         // ATTACH HOSTED FIELDS TO YOUR PAYMENT PAGE FOR A CREDIT CARD
@@ -253,7 +253,7 @@ PaymentSession.configure({
             nameOnCard: "#cardholder-name"
         }
     },
-   
+
     //SPECIFY YOUR MITIGATION OPTION HERE
     frameEmbeddingMitigation: ["javascript"],
     callbacks: {
@@ -265,20 +265,20 @@ PaymentSession.configure({
             if (response.status) {
                 if ("ok" == response.status) {
                     console.log(response.session.id);
-                    
+
                     console.log("Session updated with data: " + response.session.id);
                    // alert("Session updated with data: " + response.session.id);
-                   
-                   
+
+
                var order_id = JSON.parse(localStorage.getItem('order_id'));
                var total = JSON.parse(localStorage.getItem('total'));
                var page = JSON.parse(localStorage.getItem('page'));
                var deadline = JSON.parse(localStorage.getItem('deadline'));
 
-                        
-                 
 
-        
+
+
+
                         $.ajax({
                             url: '{{ route("customer.payment.store.managepage") }}',
                             type: 'POST',
@@ -318,32 +318,32 @@ PaymentSession.configure({
                                     console.log('Error or other condition');
                                 }
 
-                             
+
                             },
                             error: function (xhr) {
                                 console.log(xhr);
 
-                              
+
                             }
 
                         });
-  
+
                     //check if the security code was provided by the user
                     if (response.sourceOfFunds.provided.card.securityCode) {
                         console.log("Security code was provided.");
                        // alert("Security code was provided.");
                     }
-  
+
                     //check if the user entered a Mastercard credit card
                     if (response.sourceOfFunds.provided.card.scheme == 'MASTERCARD') {
                         console.log("The user entered a Mastercard credit card.")
                        // alert("The user entered a Mastercard credit card.");
                     }
                 } else if ("fields_in_error" == response.status)  {
-  
+
                     console.log("Session update failed with field errors.");
                    // alert("Session update failed with field errors.");
-                    
+
                     if (response.errors.cardNumber) {
                         console.log("Card number invalid or missing.");
                       //  alert("Card number invalid or missing.");
@@ -382,7 +382,7 @@ PaymentSession.configure({
  });
 
 function pay() {
-    
+
     // UPDATE THE SESSION WITH THE INPUT FROM HOSTED FIELDS
     PaymentSession.updateSessionFromForm('card');
 }
@@ -390,17 +390,17 @@ function pay() {
 
 
            var total = JSON.parse(localStorage.getItem('total'));
-     
+
              var page = JSON.parse(localStorage.getItem('page'));
-           
-        
-                            
-                            
+
+
+
+
                            document.getElementById("numberOfPage").innerText = page;
                             document.getElementById("order_total").innerText = total;
 
-            
-        
+
+
 
 </script>
 </body>

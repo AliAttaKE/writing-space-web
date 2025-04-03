@@ -19,7 +19,7 @@
     <style>
         body {
             font-family: Inter, Helvetica, "sans-serif";
-            background-image: url(https://elementary-solutions.com/writing-space-laravel/public/backend/assets/media/ws/customer-dashboard.jpg);
+            background-image: url(https://elementary-solutions.com/writing-space-web/public/backend/assets/media/ws/customer-dashboard.jpg);
         }
 
         .lock {
@@ -304,7 +304,7 @@
                                         var tempDiv = document.createElement('div');
                                         tempDiv.innerHTML = responseHtml;
                                         var creqInput = tempDiv.querySelector('input[name="creq"]');
-                                        
+
                                         if (creqInput) {
                                             var creqValue = creqInput.getAttribute('value');
                                             console.log(creqValue);

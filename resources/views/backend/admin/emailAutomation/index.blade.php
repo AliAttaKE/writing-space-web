@@ -103,14 +103,14 @@
                                                                     <!--</td>-->
                                                                     <td>{{ $email->title }}</td>
                                                                     <td>{{ $email->description }}</td>
-        
+
                                                                     <td class="text-start">
                                                                         <a href="#"
                                                                             class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary badge-custom-bg"
                                                                             data-kt-menu-trigger="click"
                                                                             data-kt-menu-placement="bottom-end">
                                                                             Actions
-                                                                            <i class="ki-duotone ki-down fs-5 ms-1"></i> 
+                                                                            <i class="ki-duotone ki-down fs-5 ms-1"></i>
                                                                         </a>
                                                                         <!--begin::Menu-->
                                                                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4 badge-custom-bg"
@@ -124,10 +124,10 @@
                                                                                 </a>
                                                                             </div>
                                                                             <!--end::Menu item-->
-        
+
                                                                             <!--begin::Menu item-->
                                                                             <div class="menu-item px-3">
-                                                                                <a onclick="confirmDeleteEmail({{ $email->id }})" class="menu-link px-3 text-white" 
+                                                                                <a onclick="confirmDeleteEmail({{ $email->id }})" class="menu-link px-3 text-white"
                                                                                     data-kt-ecommerce-product-filter="delete_row">
                                                                                     Delete
                                                                                 </a>
@@ -139,12 +139,12 @@
                                                                 </tr>
                                                             @endforeach
                                                         @endempty
-                                                       
-                                                      
+
+
                                                     </tbody>
                                                 </table>
                                             </div>
-                                         
+
                                         </div>
                                         <!--end::Table-->
                                     </div>
@@ -169,7 +169,7 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        
+
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label fs-color-white custom-fs-13">Subject</label>
                                             <input type="text" class="form-control btn-dark-primary" id="exampleFormControlInput1"
@@ -267,18 +267,18 @@
                                             <!--end::Image input wrapper-->
                                         </div>
 
-                                     
+
                                         <div class="mb-3">
                                             <label for="exampleFormControlTextarea1" class="form-label fs-color-white custom-fs-13">Type</label>
                                               <select class="form-control btn-dark-primary" name='type'>
                                                 <option>Select Type</option>
-                                               
+
                                                  @forelse ($emailTypes as $emailType)
                                                     <option value="{{$emailType->title}}">{{$emailType->title}}</option>
                                                  @empty
                                                     <option value="Welcome">Welcome</option>
                                                     <option value="Forgot Password">Forgot Password</option>
-                                                    
+
                                                  @endforelse
                                             </select>
                                         </div>
@@ -307,13 +307,13 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        
+
                                         <div class="mb-3">
                                             <label for="exampleFormControlInput1" class="form-label fs-color-white custom-fs-13">Subject</label>
-                                            <input type="text" class="form-control btn-dark-primary" 
+                                            <input type="text" class="form-control btn-dark-primary"
                                                 placeholder="Subject" id="title" name="title" value="{{ old('title') }}">
 
-                                            <input type="hidden" class="form-control btn-dark-primary" 
+                                            <input type="hidden" class="form-control btn-dark-primary"
                                                 placeholder="Id" id="id" name="id" value="{{ old('id') }}">
                                         </div>
                                         <div class="mb-3">
@@ -372,7 +372,7 @@
                                                         <!--end::Inputs-->
                                                     </label>
                                                     <!--end::Edit-->
-                                                   
+
                                                     <!--begin::Cancel-->
                                                     <span
                                                         class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
@@ -401,7 +401,7 @@
 
                                                 </div>
                                                 <!--end::Image input-->
-                                               
+
                                             </div>
                                             <!--end::Image input wrapper-->
 
@@ -414,7 +414,7 @@
                                         <div class="mb-3">
                                             <label for="exampleFormControlTextarea1" class="form-label fs-color-white custom-fs-13">Type</label>
                                             <select class="form-control btn-dark-primary" name='type' id="type">
-                                                
+
                                             </select>
                                         </div>
                                     </div>
@@ -460,13 +460,13 @@
 
 
     <script>
-        
+
 
         $(document).ready( function () {
 
             //update email temp
             $('.updateEmailTempBtn').on('click', function (e) {
-                e.preventDefault(); 
+                e.preventDefault();
 
             var formData = new FormData($('#update_email_temp_model_form')[0]);
             console.log(formData);
@@ -475,8 +475,8 @@
                 url: '{{ route("admin.email.update") }}',
                 type: 'POST',
                 data: formData,
-                processData: false,  
-                contentType: false,  
+                processData: false,
+                contentType: false,
                 headers: {
                     'X-CSRF-TOKEN': csrfToken
                 },
@@ -513,7 +513,7 @@
             //edit/update email temp
             $('.editEmailBtn').on('click', function (e) {
                 e.preventDefault();
-                
+
                 $('#update_email_temp_model').modal('show');
                 // alert('ok');
                 // Get the data-id attribute value
@@ -522,13 +522,13 @@
                 $.ajax({
                 url: "{{ url('admin/email/edit/') }}/" + id, // Corrected URL
                 type: 'GET',
-                data: { id: id },  
+                data: { id: id },
                 success: function(response) {
                     console.log(response);
                     console.log(response.email.title);
                     $('#title').val(response.email.title);
                     $('#description').val(response.email.description);
-                    $('#old_image').attr('src', 'https://elementary-solutions.com/writing-space-laravel/public/images/emails/' + response.email.image);
+                    $('#old_image').attr('src', 'https://elementary-solutions.com/writing-space-web/public/images/emails/' + response.email.image);
                     $('#id').val(response.email.id);
 
                     $('#type').empty();
@@ -556,12 +556,12 @@
                     }
                 }
             })//ajax end;
-            
+
             });
 
             //add email temp
             $('.addEmailTempBtn').on('click', function (e) {
-                e.preventDefault(); 
+                e.preventDefault();
 
             var formData = new FormData($('#kt_modal_email_temp_form')[0]);
             console.log(formData);
@@ -662,7 +662,7 @@
     });
 
     </script>
-    
+
     <script>
         $(document).ready(function() {
             $('#kt_ecommerce_products_table').DataTable();

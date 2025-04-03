@@ -30,11 +30,11 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-    
+
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_SECRET_ID'),
-        'redirect' => 'https://elementary-solutions.com/writing-space-laravel/public/auth/google/callback',
+        'redirect' => 'https://elementary-solutions.com/writing-space-web/public/auth/google/callback',
     ],
     'microsoft' => [
         'client_id' => env('MICROSOFT_CLIENT_ID'),
