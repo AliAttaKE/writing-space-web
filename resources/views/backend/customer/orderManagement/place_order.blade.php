@@ -146,7 +146,7 @@
                                 <!--begin::Title-->
                                 <h1
                                     class="page-heading d-flex text-gray-900 fw-bold fs-1 flex-column justify-content-center my-0 fs-color-white">
-                                    Place New Orders</h1>
+                                    Place New Order</h1>
                                 <!--end::Title-->
 
                             </div>
@@ -175,7 +175,7 @@
                                 @if ($pricing)
                                 @foreach ($pricing as $p)
                                 <ul id="pricing_{{ $p->id }}" class="prising-plans selected-plan">
-                                    <li>{{ $p->text }}</li>
+                                    <li style="color:yellow;">{{ $p->text }}</li>
                                     @if ($p->min == '15')
                                     <li>{{ $p->min }} {{ $p->duration_type }} or {{ $p->max }}
                                     </li>
@@ -205,7 +205,7 @@
                                     <h3
                                     class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 text-center fs-color-white">
                                     <span id="my_coupon"
-                                        class="my_coupon"></span></h3> 
+                                        class="my_coupon"></span></h3>
 
 
                         </div>
@@ -375,9 +375,9 @@
                                                 <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Number of
                                                     Pages:</label>
                                                 <div class="d-flex">
-                                                    <input type="number" placeholder="1" id="no-page" name="no-page" 
-                                                    autocomplete="off" onkeyup="functionToword()" 
-                                                    class="form-control bg-transparent w-25 me-2 fs-white-color btn-dark-primary nopage" 
+                                                    <input type="number" placeholder="1" id="no-page" name="no-page"
+                                                    autocomplete="off" onkeyup="functionToword()"
+                                                    class="form-control bg-transparent w-25 me-2 fs-white-color btn-dark-primary nopage"
                                                     min="0" />
                                              <button
                                                         type="button"
@@ -602,7 +602,7 @@
                                             </div>
 
 
-                                            
+
 
 
                                         </form>
@@ -798,7 +798,7 @@
                                             </div>
                                               @endif
                                         </div>
-                                      
+
                                         <div class="p-5">
                                             <div class="">
                                                 <label for="" class="mb-3 fs-6 fw-semibold">Coupon:</label>
@@ -1323,21 +1323,21 @@
 
         localStorage.removeItem('discountCoupon');
 
-    var page_limit = $('#page_limit').val(); 
-    var nopagecheck = parseInt(this.value); 
+    var page_limit = $('#page_limit').val();
+    var nopagecheck = parseInt(this.value);
 
-    if (page_limit === 'No') { 
+    if (page_limit === 'No') {
         this.value = nopagecheck;
     } else {
 
         page_limit = parseInt(page_limit);
-  
+
         if (page_limit >= nopagecheck) {
             var pricing = $('#pricing').val();
             let nopage = this.value;
-            this.value = nopage; 
+            this.value = nopage;
         } else {
-            this.value = page_limit; 
+            this.value = page_limit;
         }
     }
 });
@@ -1388,9 +1388,9 @@
     $('#no_of_pages').text('');
 
     // Uncheck the checkbox if it's checked
-    $('.toggleSwitch').prop('checked', false); 
+    $('.toggleSwitch').prop('checked', false);
 
-           
+
             var selectedValue = $(this).val();
             if (old !== '') {
                 document.getElementById(`click_${old}`).style.display = 'none';
@@ -1401,7 +1401,7 @@
             var url = '{{ route('changeDate', ['id' => ':selectedValue']) }}';
             url = url.replace(':selectedValue', selectedValue);
 
-         
+
 
             $.ajax({
                 type: 'get',
@@ -1558,7 +1558,7 @@
     }
     document.getElementById('no-page').addEventListener('input', function () {
 
-       
+
 
         var inputValue = this.value;
         if (inputValue == '') {
@@ -1842,7 +1842,7 @@
     //         // modal.show();
 
 
-            
+
     //         var powerpoint_slide = document.getElementById('powerpoint_slide').value;
     //         var email = document.getElementById('email').value;
     //         var backup_email = document.getElementById('backup-email').value;
@@ -1959,7 +1959,7 @@ document.querySelectorAll('input[type="checkbox"][id^="toggleSwitch"]').forEach(
     toggleSwitch.addEventListener('change', function () {
         var target = this.dataset.target; // Get the data-target attribute
         var costLabelElement = document.getElementById('cost_label' + target);
-        
+
         // Get the cost from the corresponding label
         var value = parseInt($(this).closest(".col-6").find("span").text()) || 0;
 
@@ -2002,7 +2002,7 @@ document.querySelectorAll('input[type="checkbox"][id^="toggleSwitch"]').forEach(
 
     function coupon() {
 
-       
+
 
 
         var my_coupon = document.getElementById('my_coupon').innerHTML;
@@ -2010,7 +2010,7 @@ document.querySelectorAll('input[type="checkbox"][id^="toggleSwitch"]').forEach(
 
         var nopage = document.getElementById('no-page').value;
 
-     
+
         var url = '{{ route('customer.coupon-check') }}';
         if (entered_coupon != '') {
 
@@ -2076,7 +2076,7 @@ document.querySelectorAll('input[type="checkbox"][id^="toggleSwitch"]').forEach(
         // }
     }
 
-    
+
 
     function submit_payment() {
 
@@ -2399,7 +2399,7 @@ document.querySelectorAll('input[type="checkbox"][id^="toggleSwitch"]').forEach(
 
 
         var pricing = $('#pricing').val();
-       
+
 
         let nopage = this.value;
 
@@ -2412,7 +2412,7 @@ document.querySelectorAll('input[type="checkbox"][id^="toggleSwitch"]').forEach(
 
 
 
- 
+
 
 
 
@@ -2420,7 +2420,7 @@ document.querySelectorAll('input[type="checkbox"][id^="toggleSwitch"]').forEach(
 
 
     $('.meeting-date1').on('input', function() {
-    var meetingdate1 = $(this).val(); 
+    var meetingdate1 = $(this).val();
     var date = new Date(meetingdate1);
     var options = { weekday: 'short', month: 'short', day: 'numeric' };
     var formattedDate = date.toLocaleDateString('en-US', options);
@@ -2439,10 +2439,10 @@ document.querySelectorAll('input[type="checkbox"][id^="toggleSwitch"]').forEach(
 
     $(document).ready(function() {
         $('.select22').select2({
-        
+
         allowClear: true,
         width: '100%'
-       
+
     });
     });
 </script>

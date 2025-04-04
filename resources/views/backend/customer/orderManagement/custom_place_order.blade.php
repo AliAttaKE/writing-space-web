@@ -7,12 +7,12 @@
         align-items: center;
     }
     .custom-popup-class {
-        width: 70%; 
-        height: 100%; 
+        width: 70%;
+        height: 100%;
     }
     .custom-popup-class1 {
-        width: 30%; 
-        height: 70%; 
+        width: 30%;
+        height: 70%;
     }
     .switch {
         position: relative;
@@ -668,10 +668,11 @@
                                             <div class="d-flex">
                                                 <h3
                                                     class="page-heading d-flex text-white fw-bold fs-3 flex-column my-3">
-                                                    Optional Add-Ons:</h3><button type="button"
+                                                    Optional Add-Ons:</h3>
+                                                    {{-- <button type="button"
                                                     class="border-0 bg-transparent"><i
                                                         class="bi bi-info-circle-fill ms-3"
-                                                        title="Additional Features that you may find useful"></i></button>
+                                                        title="Additional Features that you may find useful"></i></button> --}}
                                             </div>
                                             <div class="d-flex">
                                                 <div class="col-5 align-items-center d-flex ok">
@@ -691,7 +692,7 @@
                                                             <input type="checkbox" id="" data-target="1" checked>
                                                             <span class="slider"></span>
                                                         </label>
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -701,7 +702,7 @@
                                                         id="cost_label2">Outline in Bullets: <button type="button" class="border-0 bg-transparent p-0"
                                                         data-bs-toggle="modal" data-bs-target="#modal-11"><i
                                                             class="bi bi-info-circle-fill"></i></button></label>
-                                                    
+
                                                 </div>
                                                 <div class="col-7 d-flex  align-items-center justify-content-end">
                                                     <!--<label for="" class="mt-3 fs-6 fw-semibold me-3">$<span-->
@@ -723,7 +724,7 @@
                                                         id="cost_label3">AI Detection Report: <button type="button" class="border-0 bg-transparent p-0"
                                                         data-bs-toggle="modal" data-bs-target="#modal-12"><i
                                                             class="bi bi-info-circle-fill"></i></button></label>
-                                                    
+
                                                 </div>
                                                 <div class="col-7 d-flex  align-items-center justify-content-end">
                                                     <!--<label for="" class="mt-3 fs-6 fw-semibold me-3">$<span-->
@@ -745,7 +746,7 @@
                                                         id="cost_label4">Plagiarism Report: <button type="button" class="border-0 bg-transparent p-0"
                                                         data-bs-toggle="modal" data-bs-target="#modal-14"><i
                                                             class="bi bi-info-circle-fill"></i></button></label>
-                                                    
+
                                                 </div>
                                                 <div class="col-7 d-flex  align-items-center justify-content-end">
                                                     <!--<label for="" class="mt-3 fs-6 fw-semibold me-3">$<span-->
@@ -1148,14 +1149,11 @@
     <div class="modal-dialog">
         <div class="modal-content badge-custom-bg">
             <div class="modal-header border-0">
-                <h5 class="modal-title " id="exampleModalLabel">Priority Support: Get the "VIP" Treatment</h5>
+                <h5 class="modal-title " id="exampleModalLabel">Add a Bulleted Summary to Your Order</h5>
                 <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                We will reply to your emails and support tickets with even greater urgency, usually within 30 minutes.
-                Plus, your prioritized "VIP" account will provide you with access to our priority phone number,
-                real-time order status updates, direct chat with your writer, the ability to quickly add additional
-                pages to your order with just a few clicks, and many other conveniences.
+                Receive a structured, bullet-point summary of the paper’s main ideas, arguments, evidence, and conclusions. This format is ideal for quick reference, efficient studying, creating slides, or preparing for discussions. A bulleted summary helps you absorb the core content at a glance without re-reading the full paper each time.
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
@@ -1168,14 +1166,11 @@
     <div class="modal-dialog">
         <div class="modal-content badge-custom-bg">
             <div class="modal-header border-0">
-                <h5 class="modal-title " id="exampleModalLabel">We'll Store the Paper . . . Forever!</h5>
+                <h5 class="modal-title " id="exampleModalLabel">Add a Turnitin AI Detection Report to Your Order</h5>
                 <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                In your online account, we will backup and permanently store the completed paper, all resource files
-                that you uploaded, and the order specifications that you provided. At any time in the future (and from
-                any location with any device), you'll be able to read or download all of those materials simply by
-                logging-in to your account. You'll never have to worry about losing or forgetting them!
+                Get an official Turnitin AI detection report that evaluates the likelihood of AI-generated content within your paper. This tool is useful for meeting institutional requirements, ensuring transparency, and confirming that the work meets human-authorship standards. It provides peace of mind for students, educators, and academic reviewers alike.
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
@@ -1211,12 +1206,11 @@
     <div class="modal-dialog">
         <div class="modal-content badge-custom-bg">
             <div class="modal-header border-0">
-                <h5 class="modal-title " id="exampleModalLabel">Get SMS Text Notifications!</h5>
+                <h5 class="modal-title " id="exampleModalLabel">Add a Turnitin Plagiarism Report to Your Order                </h5>
                 <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                You will receive an SMS text alert at every critical stage of the project, including when the order has
-                been completed! (US phones only.)
+                Receive a comprehensive Turnitin plagiarism report showing any matched sources, similarity index, and citation accuracy. This report helps verify the originality of the content and ensures alignment with academic integrity guidelines. It's an essential add-on for students, researchers, or anyone submitting work to plagiarism-sensitive institutions.
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
@@ -1574,9 +1568,9 @@
 
         // Flag to check if any input is null
         var isNull = false;
-    var emptyFields = []; 
-    
-    
+    var emptyFields = [];
+
+
     var description = document.getElementById('description')?.textContent.trim();
 
     // Check if the description is empty
@@ -1696,7 +1690,7 @@
                     //     popup: 'custom-popup-class1',
                     // }
                     // });
-                    
+
                      window.location.href = "{{ route('customer.thankyou') }}";
                     }else{
                         Swal.fire({
@@ -1708,8 +1702,8 @@
                     }
                     });
                     }
-                    
-                    
+
+
                     // toastr.success(message);
                     // setTimeout(function () {
                     //     location.reload();
@@ -1892,10 +1886,10 @@
 
     $(document).ready(function() {
         $('.select22').select2({
-        
+
         allowClear: true,
         width: '100%'
-       
+
     });
     });
 </script>

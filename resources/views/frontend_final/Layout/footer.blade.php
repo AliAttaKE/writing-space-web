@@ -22,9 +22,9 @@
     column-count: 3; /* Now split into 3 columns */
     column-gap: 30px;
     white-space: nowrap; /* Prevent text wrapping */
-    
+
     /* Upar open hone ke liye */
-    bottom: 100%; 
+    bottom: 100%;
     left: 0;
     transform: translateY(-10px);
     opacity: 0;
@@ -63,9 +63,9 @@
                                 <div class="col-md-3">
                                         <ul class="list-unstyled">
                                                 <li class="text-white text-white h2 fw-bold">Quick <span class="text-purple">Links</span></li>
-                                                <li><a href="./index" class="text-white fw-light text-decoration-none">Home</a>
+                                                <li><a href="./" class="text-white fw-light text-decoration-none">Home</a>
                                                 </li>
-                                                <li><a href="./samplepaper" class="text-white fw-light text-decoration-none">Sample
+                                                <li><a href="./sample-paper" class="text-white fw-light text-decoration-none">Sample
                                                                 Papers</a></li>
                                                 <li><a href="./customer-journey" class="text-white fw-light text-decoration-none">Customer
                                                                 Journey</a></li>
@@ -73,7 +73,7 @@
                                                                 Order</a></li>
                                                 <li><a href="./packages" class="text-white fw-light text-decoration-none">Packages</a>
                                                 </li>
-                                                <li><a href="./services" class="text-white fw-light text-decoration-none">Services</a>
+                                                <li><a href="./services-us" class="text-white fw-light text-decoration-none">Services</a>
                                                 </li>
                                                 <li><a href="./about-us" class="text-white fw-light text-decoration-none">About Us</a>
                                                 </li>

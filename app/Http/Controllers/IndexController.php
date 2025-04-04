@@ -35,10 +35,10 @@ class IndexController extends Controller
 
 
     public function frontend_final()
-    { 
+    {
         $papers = Paper::latest()->get();
         $pricing = Pricing::orderBy('id', 'desc')->get();
-       
+
         return view('frontend_final.index',compact('papers','pricing'));
     }
 
@@ -76,7 +76,7 @@ class IndexController extends Controller
         $termOption = $request->get('termOption');
         $wordCount = $request->get('wordCount');
         $citation = $request->get('citation');
-        
+
         if (!empty($subject)) {
             $query->where('subject_topic', $subject);
         }
@@ -89,34 +89,34 @@ class IndexController extends Controller
         if (!empty($citation)) {
             $query->where('citation', $citation);
         }
-        
+
         $libraries = $query->latest()->get();
 
 
         $titles = Paper::where('status', 'Enable')->get();
         $terms = Paper::where('status', 'Enable')->get();
         $papers = Paper::where('status', 'Enable')->get();
-        
-        
-       
 
 
-    
+
+
+
+
         return view('frontend_final.SamplePaper.samplepaper', compact('titles','terms','papers','libraries', 'subject', 'termOption', 'wordCount', 'citation'));
     }
     public function ajaxsamplepaper(Request $request)
     {
         $query = Paper::where('status', 'Enable');
-    
+
         $subject = $request->get('subject');
         $termOption = $request->get('termOption');
         $wordCount = $request->get('wordCount');
         $citation = $request->get('citation');
-    
+
         if (!empty($subject)) {
             $query->where('subject_topic', $subject);
         }
-        
+
         if (!empty($termOption)) {
             $query->where('paper_type', $termOption);
         }
@@ -126,28 +126,28 @@ class IndexController extends Controller
         if (!empty($citation)) {
             $query->where('citation', $citation);
         }
-    
+
         $libraries = $query->latest()->get();
-    
+
         return response()->json(['libraries' => $libraries]);
     }
     public function ajaxsamplepaperpage(Request $request)
     {
         $libraries = Paper::where('id', $request->page)->get();
-    
-    
+
+
         return response()->json(['libraries' => $libraries]);
     }
     public function ajaxsamplepaperpageall(Request $request)
     {
         $libraries = Paper::get();
-    
-    
+
+
         return response()->json(['libraries' => $libraries]);
     }
-  
 
-    
+
+
     public function customerjourney()
     {
         return view('frontend_final.CustomerJourney.customer-journey');
@@ -159,14 +159,14 @@ class IndexController extends Controller
     public function packages()
     {
         $subscription =Subscription::all();
-       
+
         return view('frontend_final.Pricing.packages',compact('subscription'));
     }
     public function customorder()
     {
         $pricing = Pricing::orderBy('id', 'desc')->get();
         $Addons = Addons::orderBy('id', 'desc')->first();
-    
+
         return view('frontend_final.Pricing.custom-order',compact('pricing','Addons'));
     }
     public function faqs()
@@ -424,7 +424,7 @@ class IndexController extends Controller
 
    public function customCustomerRegistrationProcess(Request $request)
     {
-        
+
         // dd($request->all());
         $validated = $request->validate([
             'email' => 'required|email|unique:users,email',
@@ -440,7 +440,7 @@ class IndexController extends Controller
             'password_confirmation.confirmed' => 'Password confirmation does not match.',
             'password_confirmation.min' => 'Password confirmation must be at least :min characters.',
         ]);
-   
+
         $account_id = 'ID-' . rand(1000, 99999999);
 
         $input = [
@@ -463,11 +463,11 @@ class IndexController extends Controller
              //send verify code;
              $verify_code = Str::random(24);
              $verify_code = substr($verify_code, 0, 18);
- 
+
              $user->verify_code = $verify_code;
              $user->status = 0;
              $user->save();
-             
+
              $emailContent = "
     <p>Dear {$user->name},</p>
     <p>Welcome to <strong>Writing Space</strong> – Start Your Journey to Academic Mastery!</p>
@@ -482,8 +482,8 @@ Mail::html($emailContent, function ($message) use ($user) {
             ->subject('Welcome to Writing Space – Start Your Journey to Academic Mastery!');
 });
 
-             
-        
+
+
             //  Mail::send('emails.verify_code', [
             //     'email' => $user->email,
             //     'verify_code' => $verify_code,
@@ -492,7 +492,7 @@ Mail::html($emailContent, function ($message) use ($user) {
             //     $message->to($user->email, 'Welcome to Writing Space – Start Your Journey to Academic Mastery!') // Change $email to $user->email
             //         ->subject('Welcome to Writing Space – Start Your Journey to Academic Mastery!');
             // });
-             
+
             return redirect()->route('login')->with('success', 'Account created successfully!');
         } else {
             return redirect()->route('front.signup')->with('error', 'Something went wrong!');
@@ -518,5 +518,5 @@ Mail::html($emailContent, function ($message) use ($user) {
         }
     }
 
-   
+
 }
