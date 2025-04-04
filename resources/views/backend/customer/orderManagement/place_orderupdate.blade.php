@@ -1027,7 +1027,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header border-0">
-                <h5 class="modal-title " id="exampleModalLabel">Get SMS Text Notifications!</h5>
+                <h5 class="modal-title " id="exampleModalLabel">Get SMS Text </h5>
                 <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -1253,7 +1253,7 @@
                 }
                 document.getElementById(`click_${selectedValue}`).style.display = 'block';
                 old = selectedValue;
-             
+
 var url = '{{ route('customer.changeDate', ['id' => ':selectedValue']) }}';
 url = url.replace(':selectedValue', selectedValue);
 
@@ -1536,21 +1536,21 @@ url = url.replace(':selectedValue', selectedValue);
 
             // Return true if the form is valid, false otherwise
             if (!isNull) {
-                
-                
+
+
                 //
-                
+
               var url2 = '{{ route('customer.checkout') }}';
 
                 $.ajax({
                     type: 'GET',
                     url: url2,
-                
+
                     // Assuming id is a parameter you want to send
                     success: function(response) {
                         console.log(response.sessionId);
  Swal.fire('Success', 'Add Payment Details!', 'success');
- 
+
   var email = document.getElementById('email').value;
                 var backup_email = document.getElementById('backup-email').value;
                 var pricing = document.getElementById('pricing').value;
@@ -1620,7 +1620,7 @@ url = url.replace(':selectedValue', selectedValue);
             console.log(total);
             document.getElementById('total_cost').innerHTML = total;
             coupon();
- 
+
                         if (response && response.sessionId) {
             // Assuming response.sessionId is the correct property name
             Swal.fire('Success', 'Add Payment Details!', 'success');
@@ -1634,24 +1634,24 @@ url = url.replace(':selectedValue', selectedValue);
         } else {
             console.error('Invalid response format or missing sessionId.');
         }
-                
-                       
+
+
                     },
-                
+
                     error: function(error) {
                         // Handle any errors here
                         console.error(error);
                     }
                 });
 
-                
-                
-                
+
+
+
                 // // Open modal if the form is valid
                 // var modal = new bootstrap.Modal(document.getElementById("modal-15"));
                 // modal.show();
 
-               
+
 
         }
 
@@ -1730,7 +1730,7 @@ if(entered_coupon != ''){
                 success: function(response) {
                     Swal.fire('Success', response.success, 'success');
 
-          
+
                 var json = localStorage.getItem('discountCoupon');
                 var parsed = JSON.parse(json);
 
@@ -1748,13 +1748,13 @@ if(entered_coupon != ''){
                     }else if(coupon.discount_value == 'Percentage'){
                         var net_total = document.getElementById('total_cost').innerHTML;
                     var total = parseInt(net_total) - (parseInt(net_total) * parseInt(coupon.discount)/100); // Apply a 10% discount
-                   
+
                     document.getElementById('total_cost').innerHTML = total;
                     document.getElementById('discount').value=coupon.discount
                     document.getElementById('discount_value').value=coupon.discount_value
                     localStorage.setItem('discountCoupon', JSON.stringify(entered_coupon));
                     }
-                   
+
 
                 }
             },
@@ -1768,7 +1768,7 @@ if(entered_coupon != ''){
             });
 }
 
-         
+
             // if (entered_coupon === my_coupon) {
 
             //     }else{
