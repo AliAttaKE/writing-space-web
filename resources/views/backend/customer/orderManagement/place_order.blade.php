@@ -177,7 +177,7 @@
                                 <ul id="pricing_{{ $p->id }}" class="prising-plans selected-plan">
                                     <li style="color:yellow;">{{ $p->text }}</li>
                                     @if ($p->min == '15')
-                                    <li>{{ $p->min }} {{ $p->duration_type }} or {{ $p->max }}
+                                    <li>{{ $p->min }} - {{ $p->duration_type }} or {{ $p->max }}
                                     </li>
                                     @else
                                     <li>{{ $p->min }}  {{ $p->max }} {{ $p->duration_type }}
