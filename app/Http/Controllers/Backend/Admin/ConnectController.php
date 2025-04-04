@@ -96,7 +96,7 @@ class ConnectController extends Controller
 
         $params = [
             'client_id' => 'aca2e56a-258c-4038-bf76-a10338bdd831',
-            'redirect_uri' => 'http://localhost:8000/auth/microsoft/callback/',
+            'redirect_uri' => 'https://elementary-solutions.com/writing-space-web/public//auth/microsoft/callback/',
             'response_type' => 'token',
             'scope' => 'https://graph.microsoft.com/User.Read',
             'state' => $state,

@@ -528,7 +528,7 @@
                     console.log(response.email.title);
                     $('#title').val(response.email.title);
                     $('#description').val(response.email.description);
-                    $('#old_image').attr('src', 'http://localhost:8000/images/emails/' + response.email.image);
+                    $('#old_image').attr('src', 'https://elementary-solutions.com/writing-space-web/public//images/emails/' + response.email.image);
                     $('#id').val(response.email.id);
 
                     $('#type').empty();
