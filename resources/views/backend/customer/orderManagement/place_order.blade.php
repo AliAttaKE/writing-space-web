@@ -175,12 +175,12 @@
                                 @if ($pricing)
                                 @foreach ($pricing as $p)
                                 <ul id="pricing_{{ $p->id }}" class="prising-plans selected-plan">
-                                    <li class="fs-color-yellow">{{ $p->text }}</li>
+                                    <li class="fs-color-yellow mb-3">{{ $p->text }}</li>
                                     @if ($p->min == '15')
-                                    <li>{{ $p->min }}  {{ $p->duration_type }} or - {{ $p->max }}
+                                    <li>{{ $p->min }}  {{ $p->duration_type }} or  {{ $p->max }}
                                     </li>
                                     @else
-                                    <li>{{ $p->min }}  {{ $p->max }} {{ $p->duration_type }}
+                                    <li>{{ $p->min }} - {{ $p->max }} {{ $p->duration_type }}
                                     </li>
                                     @endif
 
@@ -711,10 +711,11 @@
                                             <div class="d-flex">
                                                 <h3
                                                     class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column my-3 fs-color-white">
-                                                    Optional Add-Ons:</h3><button type="button"
+                                                    Optional Add-Ons:</h3>
+                                                    {{-- <button type="button"
                                                     class="border-0 bg-transparent"><i
                                                         class="bi bi-info-circle-fill ms-3"
-                                                        title="Additional Features that you may find useful"></i></button>
+                                                        title="Additional Features that you may find useful"></i></button> --}}
                                             </div>
                                             <div class="d-flex">
                                                 <div class="col-6 align-items-center d-flex ok">
