@@ -119,6 +119,7 @@
                             <div class="plans">
                                 @if ($pricing)
                                 @foreach ($pricing as $p)
+
                                 <ul id="pricing_{{ $p->id }}" class="prising-plans selected-plan">
                                     <li>{{ $p->text }}</li>
                                     @if ($p->min == '15')
@@ -130,7 +131,7 @@
                                     @endif
 
                                     <li>{{ $p->cost }}</li>
-                                    <li>${{ $p->cost_per_page }} per page</li>
+                                    <li>${{ $p->cost_per_page }} </li>
                                     <li>{{ $p->page_limit }} page-limit</li>
                                     <li style="display: none;" id="click_{{ $p->id }}"><i class="fa-solid fa-check"
                                             style="color:#2196F3;"></i></li>
@@ -1027,7 +1028,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header border-0">
-                <h5 class="modal-title " id="exampleModalLabel">Get SMS Text </h5>
+                <h5 class="modal-title " id="exampleModalLabel">Get SMS Text Notifications!</h5>
                 <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

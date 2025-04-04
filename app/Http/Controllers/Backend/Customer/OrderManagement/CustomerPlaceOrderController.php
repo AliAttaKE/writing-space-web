@@ -847,7 +847,7 @@ $permissions = 0775;
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-web/public/redirectResponseUrl"
+                        "redirectResponseUrl": "http://localhost:8000/redirectResponseUrl"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -995,7 +995,7 @@ $permissions = 0775;
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-web/public/redirectResponseUrlSub"
+                        "redirectResponseUrl": "http://localhost:8000/redirectResponseUrlSub"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -1167,7 +1167,7 @@ $permissions = 0775;
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-web/public/redirectResponseUrladdpages"
+                        "redirectResponseUrl": "http://localhost:8000/redirectResponseUrladdpages"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -1337,7 +1337,7 @@ $permissions = 0775;
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-web/public/redirectResponsemanagepages"
+                        "redirectResponseUrl": "http://localhost:8000/redirectResponsemanagepages"
                     },
                 "order": {
                     "amount": "' . $total . '",
@@ -2002,7 +2002,7 @@ Mail::html($emailContent, function ($message) use ($user) {
                     Auth::login($user);
 
 
-                    return redirect('https://elementary-solutions.com/writing-space-web/public/customer/thankyou');
+                    return redirect('http://localhost:8000/customer/thankyou');
                 }
             }
         } catch (\Exception $e) {
@@ -2243,7 +2243,7 @@ Mail::html($emailContent, function ($message) use ($user) {
                     Auth::login($user);
 
 
-                    return redirect('https://elementary-solutions.com/writing-space-web/public/customer/thankyou');
+                    return redirect('http://localhost:8000/customer/thankyou');
                 }
             }
         } catch (\Exception $e) {
@@ -2514,7 +2514,7 @@ Mail::html($emailContent, function ($message) use ($user) {
                 $user = User::find($user_id);
                 Auth::login($user);
 
-                return redirect('https://elementary-solutions.com/writing-space-web/public/customer/thankyou');
+                return redirect('http://localhost:8000/customer/thankyou');
             }
         } else {
 

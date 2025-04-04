@@ -9,12 +9,12 @@ window.addEventListener('scroll', function () {
 
 $(document).ready(function() {
     $('.owl-carousel').owlCarousel({
-        loop: true, // Set loop to true for infinite looping
+        loop: true, // Infinite looping globally
         margin: 10,
         responsiveClass: true,
         autoplay: true,
         autoplayTimeout: 3000,
-        autoplayHoverPause: false, // Prevent autoplay from pausing on hover
+        autoplayHoverPause: true, // Pauses autoplay on hover (set to false if you want it to continue)
         nav: true, // Enable navigation
         navText: ["<span class='owl-prev'>‹</span>", "<span class='owl-next'>›</span>"], // Custom navigation icons
         responsive: {
@@ -29,9 +29,9 @@ $(document).ready(function() {
             1000: {
                 items: 4,
                 nav: true,
-                loop: false
             }
         }
     });
 });
+
 

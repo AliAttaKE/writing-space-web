@@ -37,15 +37,13 @@
                         <div id="kt_app_content_container" class="app-container container-xxl">
                             <div class="card card-flush mb-5 card-custom-bg">
                                 <div class="card-header text-center d-flex justify-content-center pt-8">
-                                    <h1 class="custom-fs-23 fs-color-white ">Writing Space Discount Codes!</h1>
+                                    <h1 class="custom-fs-23 fs-color-white ">Apply a Discount Code</h1>
                                 </div>
 
 
                                 <div class="card-body">
                                     <p class="custom-fs-17 fs-color-white text-center mb-5">
-                                        Yes! We’ve got one-time savings for you. You just need to contact our Customer
-                                        Support Representatives in the following cases:
-                                        Read more at:
+                                        Need a discount code? Great! Just copy and paste it into the order form to receive your special savings—no need to contact support. Check our latest available codes below. Enjoy one-time deals and limited-time offers to save on your order!
                                     </p>
 
                                     <div class="row mb-5">
@@ -73,8 +71,9 @@
 
                             <div class="card card-flush mb-5 card-custom-bg message-summ">
                                 <div class="btn-dark-primary p-5 rounded">
-                                    <div class="text-center fs-color-white custom-fs-23">
-                                        Share Your Experience with Your Peers - <br> Get a Discount when they Order!
+                                    <div class="text-center fs-color-white custom-fs-23" style="font-size: 16px !important;">
+                                        <p>Invite Friends & Save on Page Packages</p>
+                                        Get rewarded when you refer others! Invite your peers to try our service—once they place an order, you’ll receive a discount on our pre-paid page packages. Buy pages in bulk at a flat per-page rate and use them whenever you need. It’s our way of saying thanks for spreading the word!
                                     </div>
                                     <!--begin::Card header-->
                                     <div class="card-header pt-8">

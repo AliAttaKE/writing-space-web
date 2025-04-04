@@ -139,14 +139,14 @@
                         <!--begin::Toolbar container-->
                         <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
                             <!--begin::Page title-->
-                            <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                            {{-- <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                                 <!--begin::Title-->
                                 <h1
                                     class="page-heading d-flex text-white fw-bold fs-1 flex-column justify-content-center my-0">
                                     Custom New Orders</h1>
                                 <!--end::Title-->
 
-                            </div>
+                            </div> --}}
                         </div>
                         <!--end::Toolbar container-->
                     </div>
@@ -154,20 +154,20 @@
                     <!--begin::Content-->
                     <div id="kt_app_content" class="app-content flex-column-fluid">
                         <!--begin::Content container-->
-                        <div id="kt_app_content_container" class="app-container container-xxl mb-10">
+                        {{-- <div id="kt_app_content_container" class="app-container container-xxl mb-10">
                             <h1
                                 class="page-heading d-flex text-white fw-bold fs-1 flex-column justify-content-center my-0 text-center">
                                 Custom Example Essay Writing Service</h1>
-                        </div>
+                        </div> --}}
                         <!--end::Content container-->
                         <!--begin::Content container-->
-                        <div id="kt_app_content_container" class="app-container container-xxl mb-5">
+                        {{-- <div id="kt_app_content_container" class="app-container container-xxl mb-5">
                             <h3
                                 class="page-heading d-flex text-white fw-bold fs-3 flex-column justify-content-center my-0 text-center">
                                 Pricing Plans & Delivery Dates</h3>
-                        </div>
+                        </div> --}}
                         <!--end::Content container-->
-                        <div class="px-10 mb-20">
+                        {{-- <div class="px-10 mb-20">
                             <div class="plans">
                                 @if ($pricing)
                                     @foreach ($pricing as $p)
@@ -191,13 +191,13 @@
                                 @endif
 
                             </div>
-                        </div>
+                        </div> --}}
                         <!--begin::Content container-->
-                        <div id="kt_app_content_container" class="app-container container-xxl mb-20">
+                        {{-- <div id="kt_app_content_container" class="app-container container-xxl mb-20">
                             <h3
                                 class="page-heading d-flex text-white fw-bold fs-3 flex-column justify-content-center my-0 text-center">
                                 New customer? Try out our service with a 10% discount</h3>
-                        </div>
+                        </div> --}}
                         <!--end::Content container-->
                         <div class="px-20">
                             <div class="row">

@@ -174,24 +174,42 @@
                             <div class="plans">
                                 @if ($pricing)
                                 @foreach ($pricing as $p)
-                                <ul id="pricing_{{ $p->id }}" class="prising-plans selected-plan">
-                                    <li class="fs-color-yellow mb-3">{{ $p->text }}</li>
-                                    @if ($p->min == '15')
-                                    <li>{{ $p->min }}  {{ $p->duration_type }} or  {{ $p->max }}
-                                    </li>
-                                    @else
-                                    <li>{{ $p->min }} - {{ $p->max }} {{ $p->duration_type }}
-                                    </li>
-                                    @endif
-
-                                    <li>{{ $p->cost }}</li>
-                                    <li>${{ $p->cost_per_page }} per page</li>
-                                    <li>{{ $p->page_limit }} page-limit</li>
-                                    <li style="display: none;" id="click_{{ $p->id }}"><i class="fa-solid fa-check"
-                                            style="color:#2196F3;"></i></li>
-                                </ul>
+                                    @php
+                                        // Remove unwanted words from the 'min' field if needed
+                                        $cleanMin = preg_replace('/^(Only|Just|Need it in)\s+/', '', trim($p->min));
+                            
+                                        // Define the phrases you want to remove from the page_limit field
+                                        $removePhrases = [
+                                            "ensures your urgent needs,",
+                                            "for up to",
+                                            "up to",
+                                            "limit of",
+                                            "With a",
+                                            "-page",
+                                            "-"
+                                        ];
+                                        // Remove these phrases (case-insensitive) from the page_limit field
+                                        $cleanPageLimit = str_ireplace($removePhrases, "", $p->page_limit);
+                                        $cleanPageLimit = trim($cleanPageLimit);
+                                    @endphp
+                            
+                                    <ul id="pricing_{{ $p->id }}" class="prising-plans selected-plan">
+                                        <li class="fs-color-yellow mb-3">{{ $p->text }}</li>
+                                        @if ($cleanMin == '15')
+                                            <li>{{ $cleanMin }} {{ $p->duration_type }} or {{ $p->max }}</li>
+                                        @else
+                                            <li>{{ $cleanMin }} {{ $p->max }} {{ $p->duration_type }}</li>
+                                        @endif
+                                      
+                                        <li>${{ $p->cost_per_page }} per page</li>
+                                        <li>{{ $cleanPageLimit }} page-limit</li>
+                                        <li style="display: none;" id="click_{{ $p->id }}">
+                                            <i class="fa-solid fa-check" style="color:#2196F3;"></i>
+                                        </li>
+                                    </ul>
                                 @endforeach
-                                @endif
+                            @endif
+                            
 
                             </div>
                         </div>
@@ -237,19 +255,23 @@
                                                     <option></option>
                                                     @if ($pricing)
                                                     @foreach ($pricing as $p)
-                                                    @if ($p->min == '15')
-                                                    <option value="{{ $p->id }}">
-                                                        {{ $p->min }} {{ $p->duration_type }} or
-                                                        {{ $p->max }} = ${{ $p->cost_per_page }} per
-                                                        page</option>
-                                                    @else
-                                                    <option value="{{ $p->id }}">
-                                                        {{ $p->min }}-{{ $p->max }}
-                                                        {{ $p->duration_type }} = ${{ $p->cost_per_page }}
-                                                        per page</option>
-                                                    @endif
+                                                        @php
+                                                            // Remove unwanted words from the 'min' field if needed
+                                                            $cleanMin = preg_replace('/^(Only|Just|Need it in)\s+/', '', trim($p->min));
+                                                        @endphp
+                                                
+                                                        @if ($cleanMin == '15')
+                                                            <option value="{{ $p->id }}">
+                                                                {{ $cleanMin }} {{ $p->duration_type }} or {{ $p->max }} = ${{ $p->cost_per_page }} per page
+                                                            </option>
+                                                        @else
+                                                            <option value="{{ $p->id }}">
+                                                                {{ $cleanMin }}{{ $p->max }} {{ $p->duration_type }} = ${{ $p->cost_per_page }} per page
+                                                            </option>
+                                                        @endif
                                                     @endforeach
-                                                    @endif
+                                                @endif
+                                                
                                                 </select>
                                             </div>
                                             <div class="row col-md-8 mb-20">
@@ -411,8 +433,23 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
+                                                <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Specific
+                                                    topic or
+                                                    title:*</label>
+                                                <div class="d-flex">
+                                                    <input type="text" placeholder="Specific topic or title"
+                                                        name="topic" id="topic" autocomplete="off"
+                                                        class="form-control bg-transparent btn-dark-primary" /><button
+                                                        type="button"
+                                                        class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
+                                                        data-bs-toggle="modal" data-bs-target="#modal-6"><i
+                                                            class="bi bi-info-circle-fill mx-3"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-10">
                                                 <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Bibliography
                                                     format & citation style:*</label>
+                                                    <div class="d-flex">
                                                 <select name="paper_format" id="paper_format"
                                                     class="form-select form-select-solid btn-dark-primary select22"
                                                     data-control="select2" data-hide-search="true"
@@ -425,6 +462,13 @@
                                                     @endforeach
                                                     @endif
                                                 </select>
+                                                <button
+                                                type="button"
+                                                style="background:transparent;"
+                                                class="border-0 bg-cus fs-6 fw-semibold "
+                                                data-bs-toggle="modal" data-bs-target="#modal-16"><i
+                                                    class="bi bi-info-circle-fill mx-3"></i></button>
+                                            </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
                                                 <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Are you
@@ -452,6 +496,7 @@
                                             <div class="col-md-6 mb-10">
                                                 <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Type of
                                                     document:*</label>
+                                                    <div class="d-flex">
                                                 <select name="term_of_paper" id="term_of_paper"
                                                     class="form-select form-select-solid btn-dark-primary select22"
                                                     data-control="select2" data-hide-search="true"
@@ -464,11 +509,19 @@
                                                     @endforeach
                                                     @endif
                                                 </select>
+                                                <button
+                                                type="button"
+                                                style="background:transparent;"
+                                                class="border-0 bg-cus fs-6 fw-semibold "
+                                                data-bs-toggle="modal" data-bs-target="#modal-17"><i
+                                                    class="bi bi-info-circle-fill mx-3"></i></button>
+                                            </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
                                                 <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">General
                                                     subject or
                                                     field:*</label>
+                                                    <div class="d-flex">
                                                 <select name="subject" id="subject"
                                                     class="form-select form-select-solid btn-dark-primary select22"
                                                     data-control="select2" data-hide-search="true"
@@ -481,24 +534,19 @@
                                                     @endforeach
                                                     @endif
                                                 </select>
+                                                <button
+                                                type="button"
+                                                style="background:transparent;"
+                                                class="border-0 bg-cus fs-6 fw-semibold "
+                                                data-bs-toggle="modal" data-bs-target="#modal-18"><i
+                                                    class="bi bi-info-circle-fill mx-3"></i></button>
                                             </div>
-                                            <div class="col-md-6 mb-10">
-                                                <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Specific
-                                                    topic or
-                                                    title:*</label>
-                                                <div class="d-flex">
-                                                    <input type="text" placeholder="Specific topic or title"
-                                                        name="topic" id="topic" autocomplete="off"
-                                                        class="form-control bg-transparent btn-dark-primary" /><button
-                                                        type="button"
-                                                        class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
-                                                        data-bs-toggle="modal" data-bs-target="#modal-6"><i
-                                                            class="bi bi-info-circle-fill mx-3"></i></button>
-                                                </div>
                                             </div>
+                                          
                                             <div class="col-md-6 mb-10">
                                                 <label for="" class="mb-3 fs-6 fw-semibold fs-color-white ">Academic
                                                     Level:*</label>
+                                                    <div class="d-flex">
                                                 <select name="academic_level" id="academic_level"
                                                     class="form-select form-select-solid btn-dark-primary select22"
                                                     data-control="select2" data-hide-search="true"
@@ -511,6 +559,13 @@
                                                     @endforeach
                                                     @endif
                                                 </select>
+                                                <button
+                                                type="button"
+                                                style="background:transparent;"
+                                                class="border-0 bg-cus fs-6 fw-semibold "
+                                                data-bs-toggle="modal" data-bs-target="#modal-19"><i
+                                                    class="bi bi-info-circle-fill mx-3"></i></button>
+                                            </div>
                                             </div>
                                             <div class="col-md-6 mb-20">
                                                 <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Language &
@@ -548,9 +603,17 @@
                                                 </label>
                                                 <!--end::Label-->
                                                 <!--begin::Input-->
-                                                <input type="number" class="form-control form-control-lg form-control-solid btn-dark-primary" name="powerpoint_slide" placeholder="0" id="powerpoint_slide">
-                                                    <p id="powerpoint_slide_msg" class="text-danger"></p>
+                                                <div class="d-flex">
+                                                <input type="number" class="form-control form-control-lg form-control-solid btn-dark-primary" name="powerpoint_slide" placeholder="0" id="powerpoint_slide" value="0">
+                                                <p id="powerpoint_slide_msg" class="text-danger"></p>
                                                 <!--end::Input-->
+                                                <button
+                                                type="button"
+                                                style="background:transparent;"
+                                                class="border-0 bg-cus fs-6 fw-semibold "
+                                                data-bs-toggle="modal" data-bs-target="#modal-20"><i
+                                                    class="bi bi-info-circle-fill mx-3"></i></button>
+                                            </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
                                                 <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Statistical
@@ -1149,14 +1212,13 @@
     <div class="modal-dialog">
         <div class="modal-content badge-custom-bg">
             <div class="modal-header border-0">
-                <h5 class="modal-title " id="exampleModalLabel">Priority Support: Get the "VIP" Treatment</h5>
+                <h5 class="modal-title " id="exampleModalLabel">Add a Bulleted Summary to Your Order
+                </h5>
                 <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                We will reply to your emails and support tickets with even greater urgency, usually within 30 minutes.
-                Plus, your prioritized "VIP" account will provide you with access to our priority phone number,
-                real-time order status updates, direct chat with your writer, the ability to quickly add additional
-                pages to your order with just a few clicks, and many other conveniences.
+                Receive a structured, bullet-point summary of the paper’s main ideas, arguments, evidence, and conclusions. This format is ideal for quick reference, efficient studying, creating slides, or preparing for discussions. A bulleted summary helps you absorb the core content at a glance without re-reading the full paper each time.
+
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
@@ -1169,14 +1231,13 @@
     <div class="modal-dialog">
         <div class="modal-content badge-custom-bg">
             <div class="modal-header border-0">
-                <h5 class="modal-title " id="exampleModalLabel">We'll Store the Paper . . . Forever!</h5>
+                <h5 class="modal-title " id="exampleModalLabel">Add a Turnitin AI Detection Report to Your Order
+                </h5>
                 <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                In your online account, we will backup and permanently store the completed paper, all resource files
-                that you uploaded, and the order specifications that you provided. At any time in the future (and from
-                any location with any device), you'll be able to read or download all of those materials simply by
-                logging-in to your account. You'll never have to worry about losing or forgetting them!
+                Get an official Turnitin AI detection report that evaluates the likelihood of AI-generated content within your paper. This tool is useful for meeting institutional requirements, ensuring transparency, and confirming that the work meets human-authorship standards. It provides peace of mind for students, educators, and academic reviewers alike.
+
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
@@ -1212,12 +1273,13 @@
     <div class="modal-dialog">
         <div class="modal-content badge-custom-bg">
             <div class="modal-header border-0">
-                <h5 class="modal-title " id="exampleModalLabel">Get SMS Text Notifications!</h5>
+                <h5 class="modal-title " id="exampleModalLabel">Add a Turnitin Plagiarism Report to Your Order
+                </h5>
                 <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                You will receive an SMS text alert at every critical stage of the project, including when the order has
-                been completed! (US phones only.)
+                Receive a comprehensive Turnitin plagiarism report showing any matched sources, similarity index, and citation accuracy. This report helps verify the originality of the content and ensures alignment with academic integrity guidelines. It's an essential add-on for students, researchers, or anyone submitting work to plagiarism-sensitive institutions.
+
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
@@ -1260,7 +1322,94 @@
         </div>
     </div>
 </div>
+<div class="modal fade modal-place-order" id="modal-16" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content badge-custom-bg">
+            <div class="modal-header border-0">
+                <h5 class="modal-title " id="exampleModalLabel">Choose Bibliography Format & Citation Style
 
+                </h5>
+                <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Select the required citation style for your paper, such as APA, MLA, Chicago, Harvard, or others. This ensures your references, in-text citations, and formatting follow the correct academic guidelines. If you're unsure which style to choose, check your assignment instructions or ask your instructor for clarification.
+
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-place-order" id="modal-17" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content badge-custom-bg">
+            <div class="modal-header border-0">
+                <h5 class="modal-title " id="exampleModalLabel">Choose Type of Document</h5>
+                <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Specify the type of academic document you need, such as an essay, research paper, case study, report, or article. This helps tailor the structure, tone, and format of your order to meet expectations. Each document type has unique requirements, so choosing the correct one is essential for a high-quality result.
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-place-order" id="modal-18" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content badge-custom-bg">
+            <div class="modal-header border-0">
+                <h5 class="modal-title " id="exampleModalLabel">General Subject or Field</h5>
+                <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Indicate the general academic subject or field your paper falls under, such as psychology, economics, literature, nursing, etc. This helps assign a writer with relevant expertise in your topic area. Providing an accurate subject ensures more focused research, appropriate terminology, and stronger overall quality in your paper.
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-place-order" id="modal-19" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content badge-custom-bg">
+            <div class="modal-header border-0">
+                <h5 class="modal-title " id="exampleModalLabel">Academic Level</h5>
+                <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Select your academic level—such as high school, college, undergraduate, master’s, or PhD. This determines the depth of research, complexity of language, and citation expectations. Choosing the correct level ensures the paper meets the appropriate standards for your coursework or academic program.
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-place-order" id="modal-20" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content badge-custom-bg">
+            <div class="modal-header border-0">
+                <h5 class="modal-title " id="exampleModalLabel">PowerPoint Slides (Customer Selects Number of Pages)                </h5>
+                <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                If your order requires a presentation, you can request PowerPoint slides in addition to the written paper. Just select the number of slides needed. Each slide will be designed to visually support the paper’s key points. Ideal for class presentations, project defenses, or sharing research highlights with a clear visual impact.
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <!--end::App-->

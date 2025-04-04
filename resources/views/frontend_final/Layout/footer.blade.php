@@ -77,10 +77,10 @@
                                                 </li>
                                                 <li><a href="./about-us" class="text-white fw-light text-decoration-none">About Us</a>
                                                 </li>
-                                                <li><a href="./contactus" class="text-white fw-light text-decoration-none">Contact
+                                                <li><a href="./contact-us" class="text-white fw-light text-decoration-none">Contact
                                                                 Us</a>
                                                 </li>
-                                                <li><a href="./faqs-accpomt-setup" class="text-white fw-light text-decoration-none">FAQs</a>
+                                                <li><a href="./faq-us" class="text-white fw-light text-decoration-none">FAQs</a>
                                                 </li>
                                                 <!--<li><a href="./blog" class="text-white fw-light text-decoration-none">Blog</a>-->
                                                 <!--</li>-->

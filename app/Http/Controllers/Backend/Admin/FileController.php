@@ -30,7 +30,7 @@ class FileController extends Controller
                ->update(['status' => $request->status]);
 
         // Optionally, you can redirect the user after successful update
-        return redirect('https://elementary-solutions.com/writing-space-web/public/admin/order/file')->with('success', 'Status updated successfully.');
+        return redirect('http://localhost:8000/admin/order/file')->with('success', 'Status updated successfully.');
     }
 
 
