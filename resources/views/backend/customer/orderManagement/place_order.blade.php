@@ -730,7 +730,7 @@
                                                         Type:</label>
                                                 </div>
                                                 <div class="col-6 d-flex  align-items-center justify-content-end">
-                                                    <label for="" class="mt-3 fs-6 fw-semibold"
+                                                    <label for="" class="mt-3 fs-6 fw-semibold text-end"
                                                         id="document_type_show"></label>
                                                 </div>
                                             </div>

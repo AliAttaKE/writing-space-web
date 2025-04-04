@@ -291,35 +291,37 @@
                                                     class="page-heading d-flex text-white fw-bold fs-3 flex-column justify-content-center my-0 border-bottom">
                                                     Your Order Details</h3>
                                             </div>
-                                            <div class="col-md-6 mb-10">
-                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Email
-                                                    Address:*</label>
+                                            {{-- <div class="col-md-6 mb-10"> --}}
+                                                {{-- <label for="" class="mb-3 fs-6 fw-semibold text-white">Email
+                                                    Address:*</label> --}}
                                                 <div class="d-flex">
-                                                    <input type="text" placeholder="Email Address" name="email"
+                                                    <input type="hidden" placeholder="Email Address" name="email"
                                                         id="email" autocomplete="off"
-                                                        class="form-control  btn-dark-primary" value="{{ Auth::user()->email }}" readonly /><button type="button"
+                                                        class="form-control  btn-dark-primary" value="{{ Auth::user()->email }}" readonly />
+                                                        {{-- <button type="button"
                                                         class="border-0 bg-cus bg-transparent" data-bs-toggle="modal"
                                                         data-bs-target="#modal-1"><i
-                                                            class="bi bi-info-circle-fill ms-3"></i></button>
+                                                            class="bi bi-info-circle-fill ms-3"></i></button> --}}
                                                 </div>
                                                 <div class="d-flex">
                                                     <input type="hidden" placeholder="Email Address" name="user_id"
                                                         id="user_id" value="{{ Auth::user()->id }}" autocomplete="off"
                                                         class="form-control bg-transparent" />
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6 mb-10">
-                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Backup Email
-                                                    Address (optional):</label>
+                                            {{-- </div> --}}
+                                            {{-- <div class="col-md-6 mb-10"> --}}
+                                                {{-- <label for="" class="mb-3 fs-6 fw-semibold text-white">Backup Email
+                                                    Address (optional):</label> --}}
                                                 <div class="d-flex">
-                                                    <input type="text" placeholder="Email Address" name="backup-email"
+                                                    <input type="hidden" placeholder="Email Address" name="backup-email"
                                                         id="backup-email" autocomplete="off"
-                                                        class="form-control btn-dark-primary" value="{{ Auth::user()->email }}" readonly /><button type="button"
+                                                        class="form-control btn-dark-primary" value="{{ Auth::user()->email }}" readonly />
+                                                        {{-- <button type="button"
                                                         class="border-0 bg-cus bg-transparent" data-bs-toggle="modal"
                                                         data-bs-target="#modal-2"><i
-                                                            class="bi bi-info-circle-fill ms-3"></i></button>
+                                                            class="bi bi-info-circle-fill ms-3"></i></button> --}}
                                                 </div>
-                                            </div>
+                                            {{-- </div> --}}
                                             <div class="col-md-6 mb-10">
                                                 <label for="" class="mb-3 fs-6 fw-semibold text-white">Number of
                                                     Pages:</label>
@@ -356,8 +358,21 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
+                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Specific topic or
+                                                    title:*</label>
+                                                <div class="d-flex">
+                                                    <input type="text" placeholder="Specific topic or title"
+                                                        name="topic" id="topic" autocomplete="off"
+                                                        class="form-control  btn-dark-primary" /><button type="button"
+                                                        class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
+                                                        data-bs-toggle="modal" data-bs-target="#modal-6"><i
+                                                            class="bi bi-info-circle-fill mx-3"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-10">
                                                 <label for="" class="mb-3 fs-6 fw-semibold text-white">Bibliography
                                                     format & citation style:*</label>
+                                                    <div class="d-flex">
                                                 <select name="paper_format" id="paper_format"
                                                     class="form-select form-select-solid btn-dark-primary select22"
                                                     data-control="select2" data-hide-search="true"
@@ -370,6 +385,13 @@
                                                         @endforeach
                                                     @endif
                                                 </select>
+                                                <button
+                                                type="button"
+                                                style="background:transparent;"
+                                                class="border-0 bg-cus fs-6 fw-semibold "
+                                                data-bs-toggle="modal" data-bs-target="#modal-16"><i
+                                                    class="bi bi-info-circle-fill mx-3"></i></button>
+                                            </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
                                                 <label for="" class="mb-3 fs-6 fw-semibold text-white">Are you
@@ -394,9 +416,11 @@
                                                         Limitations</button>
                                                 </div>
                                             </div>
+
                                             <div class="col-md-6 mb-10">
                                                 <label for="" class="mb-3 fs-6 fw-semibold text-white">Type of
                                                     document:*</label>
+                                                    <div class="d-flex">
                                                 <select name="term_of_paper" id="term_of_paper"
                                                     class="form-select form-select-solid btn-dark-primary select22"
                                                     data-control="select2" data-hide-search="true"
@@ -410,12 +434,20 @@
                                                         @endforeach
                                                     @endif
                                                 </select>
+                                                <button
+                                                type="button"
+                                                style="background:transparent;"
+                                                class="border-0 bg-cus fs-6 fw-semibold "
+                                                data-bs-toggle="modal" data-bs-target="#modal-17"><i
+                                                    class="bi bi-info-circle-fill mx-3"></i></button>
+                                            </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
                                                 <label for="" class="mb-3 fs-6 fw-semibold text-white">General subject
                                                     or
                                                     field:*</label>
-                                                <select name="subject" id="subject"
+                                                    <div class="d-flex">
+                                                    <select name="subject" id="subject"
                                                     class="form-select form-select-solid btn-dark-primary select22"
                                                     data-control="select2" data-hide-search="true"
                                                     data-placeholder="Choose">
@@ -427,22 +459,18 @@
                                                         @endforeach
                                                     @endif
                                                 </select>
+                                                <button
+                                                type="button"
+                                                style="background:transparent;"
+                                                class="border-0 bg-cus fs-6 fw-semibold "
+                                                data-bs-toggle="modal" data-bs-target="#modal-18"><i
+                                                    class="bi bi-info-circle-fill mx-3"></i></button>
                                             </div>
-                                            <div class="col-md-6 mb-10">
-                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Specific topic or
-                                                    title:*</label>
-                                                <div class="d-flex">
-                                                    <input type="text" placeholder="Specific topic or title"
-                                                        name="topic" id="topic" autocomplete="off"
-                                                        class="form-control  btn-dark-primary" /><button type="button"
-                                                        class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
-                                                        data-bs-toggle="modal" data-bs-target="#modal-6"><i
-                                                            class="bi bi-info-circle-fill mx-3"></i></button>
-                                                </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
                                                 <label for="" class="mb-3 fs-6 fw-semibold text-white">Academic
                                                     Level:*</label>
+                                                    <div class="d-flex">
                                                 <select name="academic_level" id="academic_level"
                                                     class="form-select form-select-solid btn-dark-primary select22"
                                                     data-control="select2" data-hide-search="true"
@@ -455,6 +483,13 @@
                                                         @endforeach
                                                     @endif
                                                 </select>
+                                                <button
+                                                type="button"
+                                                style="background:transparent;"
+                                                class="border-0 bg-cus fs-6 fw-semibold "
+                                                data-bs-toggle="modal" data-bs-target="#modal-19"><i
+                                                    class="bi bi-info-circle-fill mx-3"></i></button>
+                                            </div>
                                             </div>
                                             <div class="col-md-6 mb-20">
                                                 <label for="" class="mb-3 fs-6 fw-semibold text-white">Language &
@@ -498,35 +533,33 @@
                                                                 class="path3"></span></i></span> -->
                                                 </label>
                                                 <!--end::Label-->
+                                            <div class="d-flex"></div>
                                                 <!--begin::Input-->
                                                 <input type="number"
                                                     class="form-control form-control-lg form-control-solid btn-dark-primary"
                                                     name="powerpoint_slide" placeholder="10" id="powerpoint_slide"  min="0" value="0">
                                                 <p id="powerpoint_slide_msg" class="text-danger"></p>
                                                 <!--end::Input-->
+                                                <button
+                                                type="button"
+                                                style="background:transparent;"
+                                                class="border-0 bg-cus fs-6 fw-semibold "
+                                                data-bs-toggle="modal" data-bs-target="#modal-18"><i
+                                                    class="bi bi-info-circle-fill mx-3"></i></button>
                                             </div>
-
+                                            </div>
                                             <div class="col-md-6 mb-10">
-                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Statistical
-                                                    Analysis:*<button type="button"
-                                                        class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
-                                                        data-bs-toggle="modal" data-bs-target="#modal-9"><i
-                                                            class="bi bi-info-circle-fill mx-3"></i></button></label>
+                                                <label class="mb-3 fs-6 fw-semibold text-white">
+                                                    Statistical Analysis:*
+                                                    <button type="button" class="border-0 bg-cus fs-6 fw-semibold bg-transparent" data-bs-toggle="modal" data-bs-target="#modal-9">
+                                                        <i class="bi bi-info-circle-fill mx-3"></i>
+                                                    </button>
+                                                </label>
                                                 <div class="d-flex">
-                                                    <input class="form-check-input" value="no" type="radio"
-                                                        name="flexRadioDefault" id="" checked>
-                                                    <label class="fs-6 fw-semibold mx-3 text-white"
-                                                        for="flexRadioDefault1">
-                                                        No
-                                                    </label>
-                                                    <input class="form-check-input" value="yes" type="radio"
-                                                        name="flexRadioDefault" id="">
-                                                    <label class="fs-6 fw-semibold mx-3 text-white"
-                                                        for="flexRadioDefault2">
-                                                        Yes
-                                                        <!--(+15% to subtotal)-->
-
-                                                    </label>
+                                                    <input class="form-check-input" value="no" type="radio" name="flexRadioDefault" id="flexRadioDefaultNo" checked>
+                                                    <label class="fs-6 fw-semibold mx-3 text-white" for="flexRadioDefaultNo">No</label>
+                                                    <input class="form-check-input" value="yes" type="radio" name="flexRadioDefault" id="flexRadioDefaultYes">
+                                                    <label class="fs-6 fw-semibold mx-3 text-white" for="flexRadioDefaultYes">Yes</label>
                                                 </div>
                                             </div>
 
@@ -563,7 +596,7 @@
                                     <input type="hidden" value="0" name="discount" id="discount">
                                     <input type="hidden" value="" name="discount_value" id="discount_value">
                                     <!--end::Content container-->
-                                </div>
+
                                 <div class="col-md-4 mb-10">
                                     <div class="card btn-dark-primary">
                                         <div class="p-5  border-bottom mb-5">
@@ -622,7 +655,7 @@
                                                         Type:</label>
                                                 </div>
                                                 <div class="col-6 d-flex  align-items-center justify-content-end">
-                                                    <label for="" class="mt-3 fs-6 fw-semibold"
+                                                    <label for="" class="mt-3 fs-6 fw-semibold text-end"
                                                         id="document_type_show"></label>
                                                 </div>
                                             </div>
@@ -645,14 +678,15 @@
                                                             id="extra_sources">0</span></label>
                                                 </div>
                                             </div>
+                                            <!-- Display Section -->
                                             <div class="d-flex">
                                                 <div class="col-6 align-items-center d-flex">
-                                                    <label for="" class="my-3 fs-6 fw-semibold">Statistical
-                                                        Analysis:</label>
+                                                    <label class="my-3 fs-6 fw-semibold">Statistical Analysis:</label>
                                                 </div>
-                                                <div class="col-6 d-flex  align-items-center justify-content-end">
-                                                    <label for="" class="my-3 fs-6 fw-semibold"><span
-                                                            id="statistic_percentage">0</span>%</label>
+                                                <div class="col-6 d-flex align-items-center justify-content-end">
+                                                    <label class="my-3 fs-6 fw-semibold">
+                                                        <span id="statistic_percentage">No</span>
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -675,17 +709,17 @@
                                                         title="Additional Features that you may find useful"></i></button> --}}
                                             </div>
                                             <div class="d-flex">
-                                                <div class="col-5 align-items-center d-flex ok">
-                                                    <label for="" class="mt-3 fs-6 fw-semibold cost_label"
+                                                <div class="col-7 align-items-center d-flex ok">
+                                                    <label for="" class="my-3 fs-6 fw-semibold cost_label"
                                                         id="cost_label1">Summary: <button type="button"
                                                         class="border-0 bg-transparent p-0" data-bs-toggle="modal"
                                                         data-bs-target="#modal-10"><i
                                                             class="bi bi-info-circle-fill"></i></button></label>
                                                 </div>
-                                                <div class="col-7 d-flex  align-items-center justify-content-end">
+                                                <div class="col-5 d-flex  align-items-center justify-content-end">
                                                     <!--<label for="" class="mt-3 fs-6 fw-semibold me-3">$<span-->
                                                     <!--        id="">{{ $Addons->paper_summary }}</span></label>-->
-                                                      <label for="" class="mt-3 fs-6 fw-semibold me-3"><span
+                                                      <label for="" class="fs-6 fw-semibold me-3"><span
                                                             id="">Free</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
@@ -697,17 +731,17 @@
                                                 </div>
                                             </div>
                                             <div class="d-flex">
-                                                <div class="col-5 align-items-center d-flex ok">
-                                                    <label for="" class="mt-3 fs-6 fw-semibold cost_label"
+                                                <div class="col-7 align-items-center d-flex ok">
+                                                    <label for="" class="my-3 fs-6 fw-semibold cost_label"
                                                         id="cost_label2">Outline in Bullets: <button type="button" class="border-0 bg-transparent p-0"
                                                         data-bs-toggle="modal" data-bs-target="#modal-11"><i
                                                             class="bi bi-info-circle-fill"></i></button></label>
 
                                                 </div>
-                                                <div class="col-7 d-flex  align-items-center justify-content-end">
+                                                <div class="col-5 d-flex  align-items-center justify-content-end">
                                                     <!--<label for="" class="mt-3 fs-6 fw-semibold me-3">$<span-->
                                                     <!--        id="">{{ $Addons->paper_utline_in_bullets }}</span></label>-->
-                                                     <label for="" class="mt-3 fs-6 fw-semibold me-3"><span
+                                                     <label for="" class=" fs-6 fw-semibold me-3"><span
                                                             id="">Free</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
@@ -719,17 +753,17 @@
 
                                             </div>
                                             <div class="d-flex">
-                                                <div class="col-5 align-items-center d-flex ok">
-                                                    <label for="" class="mt-3 fs-6 fw-semibold cost_label"
+                                                <div class="col-7 align-items-center d-flex ok">
+                                                    <label for="" class="my-3 fs-6 fw-semibold cost_label"
                                                         id="cost_label3">AI Detection Report: <button type="button" class="border-0 bg-transparent p-0"
                                                         data-bs-toggle="modal" data-bs-target="#modal-12"><i
                                                             class="bi bi-info-circle-fill"></i></button></label>
 
                                                 </div>
-                                                <div class="col-7 d-flex  align-items-center justify-content-end">
+                                                <div class="col-5 d-flex  align-items-center justify-content-end">
                                                     <!--<label for="" class="mt-3 fs-6 fw-semibold me-3">$<span-->
                                                     <!--        id="">{{ $Addons->paper_abstract }}</span></label>-->
-                                                     <label for="" class="mt-3 fs-6 fw-semibold me-3"><span
+                                                     <label for="" class=" fs-6 fw-semibold me-3"><span
                                                             id="">Free</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
@@ -741,17 +775,17 @@
                                             </div>
 
                                             <div class="d-flex">
-                                                <div class="col-5 align-items-center d-flex ok">
+                                                <div class="col-7 align-items-center d-flex ok">
                                                     <label for="" class="my-3 fs-6 fw-semibold cost_label"
                                                         id="cost_label4">Plagiarism Report: <button type="button" class="border-0 bg-transparent p-0"
                                                         data-bs-toggle="modal" data-bs-target="#modal-14"><i
                                                             class="bi bi-info-circle-fill"></i></button></label>
 
                                                 </div>
-                                                <div class="col-7 d-flex  align-items-center justify-content-end">
+                                                <div class="col-5 d-flex  align-items-center justify-content-end">
                                                     <!--<label for="" class="mt-3 fs-6 fw-semibold me-3">$<span-->
                                                     <!--        id="">{{ $Addons->turnitin_report }}</span></label>-->
-                                                     <label for="" class="mt-3 fs-6 fw-semibold me-3"><span
+                                                     <label for="" class=" fs-6 fw-semibold me-3"><span
                                                             id="">Free</span></label>
 
                                                     <div class="switch-container">
@@ -815,6 +849,7 @@
 
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <!--end::Content-->
@@ -1218,6 +1253,97 @@
         </div>
     </div>
 </div>
+<div class="modal fade modal-place-order" id="modal-16" tabindex="-1" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content badge-custom-bg">
+        <div class="modal-header border-0">
+            <h5 class="modal-title " id="exampleModalLabel">Choose Bibliography Format & Citation Style
+
+            </h5>
+            <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            Select the required citation style for your paper, such as APA, MLA, Chicago, Harvard, or others. This ensures your references, in-text citations, and formatting follow the correct academic guidelines. If you're unsure which style to choose, check your assignment instructions or ask your instructor for clarification.
+
+        </div>
+        <div class="modal-footer border-0">
+            <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade modal-place-order" id="modal-17" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content badge-custom-bg">
+            <div class="modal-header border-0">
+                <h5 class="modal-title " id="exampleModalLabel">Choose Type of Document</h5>
+                <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Specify the type of academic document you need, such as an essay, research paper, case study, report, or article. This helps tailor the structure, tone, and format of your order to meet expectations. Each document type has unique requirements, so choosing the correct one is essential for a high-quality result.
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-place-order" id="modal-18" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content badge-custom-bg">
+            <div class="modal-header border-0">
+                <h5 class="modal-title " id="exampleModalLabel">General Subject or Field</h5>
+                <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Indicate the general academic subject or field your paper falls under, such as psychology, economics, literature, nursing, etc. This helps assign a writer with relevant expertise in your topic area. Providing an accurate subject ensures more focused research, appropriate terminology, and stronger overall quality in your paper.
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-place-order" id="modal-19" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content badge-custom-bg">
+            <div class="modal-header border-0">
+                <h5 class="modal-title " id="exampleModalLabel">Academic Level</h5>
+                <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Select your academic level—such as high school, college, undergraduate, master’s, or PhD. This determines the depth of research, complexity of language, and citation expectations. Choosing the correct level ensures the paper meets the appropriate standards for your coursework or academic program.
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-place-order" id="modal-20" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content badge-custom-bg">
+            <div class="modal-header border-0">
+                <h5 class="modal-title " id="exampleModalLabel">PowerPoint Slides (Customer Selects Number of Pages)                </h5>
+                <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                If your order requires a presentation, you can request PowerPoint slides in addition to the written paper. Just select the number of slides needed. Each slide will be designed to visually support the paper’s key points. Ideal for class presentations, project defenses, or sharing research highlights with a clear visual impact.
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="modal fade modal-place-order" id="modal-15" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
@@ -1246,6 +1372,7 @@
                     <!--end::Step 4-->
                 </div>
             </div>
+
             <div class="modal-footer border-0">
                 <button type="submit" class="btn btn-dark-primary" onclick="submit_payment()">Submit</button>
                 <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
@@ -1294,7 +1421,12 @@
 
 
     $(document).ready(function () {
-
+        $('input[name="flexRadioDefault"]').on('change', function(){
+            var selectedValue = $(this).val();
+            // Capitalize first letter (No or Yes)
+            selectedValue = selectedValue.charAt(0).toUpperCase() + selectedValue.slice(1);
+            $('#statistic_percentage').text(selectedValue);
+        });
         $('#pricing').on('change', function () {
             var selectedValue = $(this).val();
             if (old !== '') {
@@ -1735,7 +1867,6 @@
 
 
 
-
     function total_sum_final(additional) {
         var sub_total = document.getElementById('sub_total').innerHTML;
         console.log(additional)
@@ -1833,6 +1964,8 @@
             }
         });
     }
+
+
 </script>
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
 <script src="{{ asset('backend/assets/plugins/global/plugins.bundle.js') }}"></script>
