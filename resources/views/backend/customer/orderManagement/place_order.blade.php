@@ -177,7 +177,7 @@
                                     @php
                                         // Remove unwanted words from the 'min' field if needed
                                         $cleanMin = preg_replace('/^(Only|Just|Need it in)\s+/', '', trim($p->min));
-                            
+
                                         // Define the phrases you want to remove from the page_limit field
                                         $removePhrases = [
                                             "ensures your urgent needs,",
@@ -192,7 +192,7 @@
                                         $cleanPageLimit = str_ireplace($removePhrases, "", $p->page_limit);
                                         $cleanPageLimit = trim($cleanPageLimit);
                                     @endphp
-                            
+
                                     <ul id="pricing_{{ $p->id }}" class="prising-plans selected-plan">
                                         <li class="fs-color-yellow mb-3">{{ $p->text }}</li>
                                         @if ($cleanMin == '15')
@@ -200,7 +200,7 @@
                                         @else
                                             <li>{{ $cleanMin }} {{ $p->max }} {{ $p->duration_type }}</li>
                                         @endif
-                                      
+
                                         <li>${{ $p->cost_per_page }} per page</li>
                                         <li>{{ $cleanPageLimit }} page-limit</li>
                                         <li style="display: none;" id="click_{{ $p->id }}">
@@ -209,7 +209,7 @@
                                     </ul>
                                 @endforeach
                             @endif
-                            
+
 
                             </div>
                         </div>
@@ -255,23 +255,20 @@
                                                     <option></option>
                                                     @if ($pricing)
                                                     @foreach ($pricing as $p)
-                                                        @php
-                                                            // Remove unwanted words from the 'min' field if needed
-                                                            $cleanMin = preg_replace('/^(Only|Just|Need it in)\s+/', '', trim($p->min));
-                                                        @endphp
-                                                
-                                                        @if ($cleanMin == '15')
-                                                            <option value="{{ $p->id }}">
-                                                                {{ $cleanMin }} {{ $p->duration_type }} or {{ $p->max }} = ${{ $p->cost_per_page }} per page
-                                                            </option>
-                                                        @else
-                                                            <option value="{{ $p->id }}">
-                                                                {{ $cleanMin }}{{ $p->max }} {{ $p->duration_type }} = ${{ $p->cost_per_page }} per page
-                                                            </option>
-                                                        @endif
+                                                    @if ($p->min == '15')
+                                                    <option value="{{ $p->id }}">
+                                                        {{ $p->min }} {{ $p->duration_type }} or
+                                                        {{ $p->max }} = ${{ $p->cost_per_page }} per
+                                                        page</option>
+                                                    @else
+                                                    <option value="{{ $p->id }}">
+                                                        {{ $p->min }} - {{ $p->max }}
+                                                        {{ $p->duration_type }} = ${{ $p->cost_per_page }}
+                                                        per page</option>
+                                                    @endif
                                                     @endforeach
-                                                @endif
-                                                
+                                                    @endif
+
                                                 </select>
                                             </div>
                                             <div class="row col-md-8 mb-20">
@@ -542,7 +539,7 @@
                                                     class="bi bi-info-circle-fill mx-3"></i></button>
                                             </div>
                                             </div>
-                                          
+
                                             <div class="col-md-6 mb-10">
                                                 <label for="" class="mb-3 fs-6 fw-semibold fs-color-white ">Academic
                                                     Level:*</label>

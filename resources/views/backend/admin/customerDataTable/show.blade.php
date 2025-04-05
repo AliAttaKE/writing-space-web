@@ -267,7 +267,7 @@
                                             <table class="table align-middle table-row-dashed gy-5" id="kt_table_packages_payment">
                                                 <thead class="border-bottom border-gray-200 fs-7 fw-bold">
                                                     <tr class="text-start text-muted text-uppercase gs-0">
-                                                        <th class="min-w-150px">Order Id</th>
+                                                        <th class="min-w-150px">Package</th>
                                                         <th class="min-w-100px">Invoice No.</th>
                                                         <th>Status</th>
                                                         <th>Amount</th>
@@ -278,11 +278,12 @@
 
                                                 <tbody class="fs-6 fw-semibold text-gray-600" id="old_package_payment_tbody">
                                                     @foreach ($PackageInvoices as $invoice)
+
                                                         @if($invoice->invoice_type == 'package_inc')
                                                             <tr>
-                                                                <td>{{ $invoice->order_id }}</td>
+                                                                <td>{{ $invoice->subscription_name }}</td>
                                                                 <td>
-                                                                    <a href="#" class="text-gray-600 text-hover-primary mb-1">{{ $invoice->invoice_id}}</a>
+                                                                    <a href="{{ route('admin.generate.invoice.by.id', ['id' => $invoice->invoice_id]) }}" class="text-gray-600 text-hover-primary mb-1">{{ $invoice->invoice_id}}</a>
                                                                 </td>
                                                                 <td>
                                                                     @if ($invoice->total != null)

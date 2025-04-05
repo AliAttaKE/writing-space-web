@@ -22,7 +22,7 @@ use Illuminate\Support\Carbon;
 class CustomerController extends Controller
 {
 
-   
+
 
 
     public function index()
@@ -63,7 +63,7 @@ class CustomerController extends Controller
         ));
     }
 
-     
+
 
 
     public function filterDate(Request $request)
@@ -89,9 +89,9 @@ class CustomerController extends Controller
         }else{
             return response()->json(['status' => false, 'message' => 'Data not found'], 404);
         }
-        
+
     }
-    
+
 
 
 
@@ -109,25 +109,25 @@ class CustomerController extends Controller
                                 ->select('invoices.*')
                                 ->latest('invoices.created_at')
                                 ->get();
-        
+
         $yearsData = $userPaymentRecords->groupBy(function ($record) {
-        $createdAt = Carbon::parse($record->created_at);         
+        $createdAt = Carbon::parse($record->created_at);
             return $createdAt->format('Y');
         });
-        
-        $years = $yearsData->keys()->toArray();
-        
 
-       
+        $years = $yearsData->keys()->toArray();
+
+
+
         //subcription
-        
+
         $userPaymentRecordssub = DB::table('invoices')
                                 // ->join('user_subscription','invoices.order_id', '=', 'user_subscription.subscription_id')
                                 ->where('invoices.email', Auth::user()->email)
                                 ->select('invoices.*')
                                 ->latest('invoices.created_at')
                                 ->get();
-        
+
         $yearsDatasub = $userPaymentRecordssub->groupBy(function ($record1) {
             $createdAtsub = Carbon::parse($record1->created_at);
             return $createdAtsub->format('Y');
@@ -145,22 +145,23 @@ class CustomerController extends Controller
                         ->select('invoices.*')
                         ->latest('invoices.created_at')
                         ->get();
-                        
-                        
-                        
+
+
+
 
           $PackageInvoices = DB::table('invoices')
                         ->leftJoin('orders', 'invoices.order_id', '=', 'orders.order_id')
                         ->leftJoin('user_subscription', 'invoices.order_id', '=', 'user_subscription.subscription_id')
+                        ->leftJoin('subscription', 'user_subscription.subscription_id', '=', 'subscription.id')
                         ->where('invoices.email', Auth::user()->email)
                         ->whereNotNull('invoices.invoice_type')
                         ->where('invoices.invoice_type', 'package_inc')
-                       ->select('invoices.*','orders.order_id as order_table_id')
+                       ->select('invoices.*','orders.order_id as order_table_id','subscription.subscription_name')
                         ->distinct() // Yeh duplicate records remove karega
                         ->latest('invoices.created_at')
                         ->get();
-                        
-                       // dd($PackageInvoices);
+
+                        //dd($PackageInvoices);
 
         // $countCurrentOrders = Orders::whereUserId(Auth()->user()->id)->where('order_status', 'Pending')->count();
 
@@ -171,11 +172,11 @@ class CustomerController extends Controller
 
         $countPastOrders = Orders::whereUserId(Auth()->user()->id)->where('order_status', 'Delivered')->count();
         $countPackages = User_Subscription::whereUserId(Auth()->user()->id)->count();
-                
 
-        
-    
-        
+
+
+
+
         return view('backend.customer.profile.index',compact(
             'CustomInvoices','PackageInvoices','used_subscription', 'years',
              'userPaymentRecords', 'yearsData', 'countries','userPaymentRecordssub',
@@ -194,7 +195,7 @@ class CustomerController extends Controller
         if($user)
         {
             //group_name and billing checkbox missing;
-            
+
             $user->name = $request->input('name');
             $user->email = $request->input('email');
             $user->description = $request->input('description');
@@ -207,9 +208,9 @@ class CustomerController extends Controller
             $user->country = $request->input('country');
             $user->save();
             $path = 'images/users/customers/';
-         
-            $file = $request->file('avatar');   
-           
+
+            $file = $request->file('avatar');
+
             if ($file) {
                 $old_profile = $user->getAttributes()['avatar'];
                 $file_path = $path . $old_profile;
@@ -224,8 +225,8 @@ class CustomerController extends Controller
                     'avatar' => $filename
                     ]);
                     $user->save();
-                } 
-                
+                }
+
             }
             return response()->json(['success' => 'Profile updated successfully!']);
 
@@ -234,16 +235,16 @@ class CustomerController extends Controller
         }
     }
 
-    
+
 
     public function destroy(Request $request)
     {
         $loginSessionId = session()->get('logged_id');
         $user_id = Auth()->id();
-        
+
         if ($loginSessionId) {
             $loginSession = LoginSession::where('id', $loginSessionId)->orWhere('user_id', $user_id)->first();
-        
+
             if ($loginSession) {
                 $loginSession->update([
                     'is_logout' => 0,
@@ -252,10 +253,10 @@ class CustomerController extends Controller
                 ]);
             }
         }
-        
+
 
         session()->forget('logged_id');
-        
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

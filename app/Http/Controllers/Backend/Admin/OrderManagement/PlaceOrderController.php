@@ -1245,7 +1245,7 @@ public function new_order_api_completed(Request $request)
                         // Construct files data including file_path
                         $filesData = $files->map(function ($file) {
                             $file_path = str_replace('public/', '', $file->file_path);
-                            $url = 'https://elementary-solutions.com/writing-space-web/public//storage/' . $file_path;
+                            $url = 'https://elementary-solutions.com/writing-space-web/public/storage/' . $file_path;
 
                             return [
                                 'file_name' => $file->title,
@@ -1382,7 +1382,7 @@ public function new_order_api_completed(Request $request)
                             // Construct files data including file_path
                             $filesData = $files->map(function ($file) {
                                 $file_path = str_replace('public/', '', $file->file_path);
-                                $url = 'https://elementary-solutions.com/writing-space-web/public//storage/' . $file_path;
+                                $url = 'https://elementary-solutions.com/writing-space-web/public/storage/' . $file_path;
 
                                 return [
                                     'file_name' => (string) $file->title,

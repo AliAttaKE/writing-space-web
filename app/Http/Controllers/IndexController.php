@@ -22,6 +22,7 @@ use App\Models\Paper_Format;
 use App\Models\Term_of_paper;
 use App\Models\WordCount;
 use App\Models\Pricing;
+use App\Models\PricingWeb;
 use App\Models\Addons;
 
 use App\Models\Paper;
@@ -37,7 +38,7 @@ class IndexController extends Controller
     public function frontend_final()
     {
         $papers = Paper::latest()->get();
-        $pricing = Pricing::orderBy('id', 'desc')->get();
+        $pricing = PricingWeb::orderBy('id', 'desc')->get();
 
         return view('frontend_final.index',compact('papers','pricing'));
     }
@@ -203,28 +204,28 @@ class IndexController extends Controller
    public function admissionessay()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.admission-essay',compact('papers','pricing','Addons'));
    }
    public function annotatedbibliography()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.annotated-bibliography',compact('papers','pricing','Addons'));
    }
    public function applicationessay()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.application-essay',compact('papers','pricing','Addons'));
    }
    public function articlereview()
    {
 
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
     $papers = Paper::latest()->get();
     return view('frontend_final.SubServices.article-review',compact('papers','pricing','Addons'));
@@ -232,84 +233,84 @@ class IndexController extends Controller
    public function bookreport()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.book-report',compact('papers','pricing','Addons'));
    }
    public function businessplan()
    {
         $papers = Paper::latest()->get();
-        $pricing = Pricing::orderBy('id', 'desc')->get();
+        $pricing = PricingWeb::orderBy('id', 'desc')->get();
         $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.business-plan',compact('papers','pricing','Addons'));
    }
    public function businessproposal()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.business-proposal',compact('papers','pricing','Addons'));
    }
    public function capstoneproject()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.capstone-project',compact('papers','pricing','Addons'));
    }
    public function casestudy()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.case-study',compact('papers','pricing','Addons'));
    }
    public function corporate()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.corporate',compact('papers','pricing','Addons'));
    }
    public function creativewriting()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.creative-writing',compact('papers','pricing','Addons'));
    }
    public function dissertationorthesiscomplete()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.dissertation-or-thesis-complete',compact('papers','pricing','Addons'));
    }
    public function journalprofessional()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.journal-professional',compact('papers','pricing','Addons'));
    }
    public function marketingplan()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.marketing-plan',compact('papers','pricing','Addons'));
    }
    public function multiplechapters()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.multiple-chapters',compact('papers','pricing','Addons'));
    }
    public function onlytheconclusionchapter()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.only-the-conclusion-chapter',compact('papers','pricing','Addons'));
 
@@ -317,98 +318,98 @@ class IndexController extends Controller
    public function onlythehypothesischapter()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.only-the-hypothesis-chapter',compact('papers','pricing','Addons'));
    }
    public function onlytheliteraturereviewchapter()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.only-the-literature-review-chapter',compact('papers','pricing','Addons'));
    }
    public function onlythemethodologychapter()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.only-the-methodology-chapter',compact('papers','pricing','Addons'));
    }
    public function peerreviewedjournal()
    {
     $papers = Paper::latest()->get();
-    $pricing = Pricing::orderBy('id', 'desc')->get();
+    $pricing = PricingWeb::orderBy('id', 'desc')->get();
     $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.peer-reviewed-journal',compact('papers','pricing','Addons'));
    }
    public function poetryartanalysis()
    {
      $papers = Paper::latest()->get();
-     $pricing = Pricing::orderBy('id', 'desc')->get();
+     $pricing = PricingWeb::orderBy('id', 'desc')->get();
      $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.poetry-art-analysis',compact('papers','pricing','Addons'));
    }
    public function powerpointpresentation()
    {
      $papers = Paper::latest()->get();
-     $pricing = Pricing::orderBy('id', 'desc')->get();
+     $pricing = PricingWeb::orderBy('id', 'desc')->get();
      $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.powerpoint-presentation',compact('papers','pricing','Addons'));
    }
    public function researchpaper()
    {
      $papers = Paper::latest()->get();
-     $pricing = Pricing::orderBy('id', 'desc')->get();
+     $pricing = PricingWeb::orderBy('id', 'desc')->get();
      $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.research-paper',compact('papers','pricing','Addons'));
    }
    public function researchproposal()
    {
      $papers = Paper::latest()->get();
-     $pricing = Pricing::orderBy('id', 'desc')->get();
+     $pricing = PricingWeb::orderBy('id', 'desc')->get();
      $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.research-proposal',compact('papers','pricing','Addons'));
    }
    public function resumecrafting()
    {
      $papers = Paper::latest()->get();
-     $pricing = Pricing::orderBy('id', 'desc')->get();
+     $pricing = PricingWeb::orderBy('id', 'desc')->get();
      $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.resume-crafting',compact('papers','pricing','Addons'));
    }
    public function swotanalysis()
    {
      $papers = Paper::latest()->get();
-     $pricing = Pricing::orderBy('id', 'desc')->get();
+     $pricing = PricingWeb::orderBy('id', 'desc')->get();
      $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.swot-analysis',compact('papers','pricing','Addons'));
    }
    public function tailormadeessays()
    {
      $papers = Paper::latest()->get();
-     $pricing = Pricing::orderBy('id', 'desc')->get();
+     $pricing = PricingWeb::orderBy('id', 'desc')->get();
      $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.tailor-made-essays',compact('papers','pricing','Addons'));
    }
    public function termpaper()
    {
      $papers = Paper::latest()->get();
-     $pricing = Pricing::orderBy('id', 'desc')->get();
+     $pricing = PricingWeb::orderBy('id', 'desc')->get();
      $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.term-paper',compact('papers','pricing','Addons'));
    }
    public function websitecontent()
    {
      $papers = Paper::latest()->get();
-     $pricing = Pricing::orderBy('id', 'desc')->get();
+     $pricing = PricingWeb::orderBy('id', 'desc')->get();
      $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.website-content',compact('papers','pricing','Addons'));
    }
    public function whitepaper()
    {
      $papers = Paper::latest()->get();
-     $pricing = Pricing::orderBy('id', 'desc')->get();
+     $pricing = PricingWeb::orderBy('id', 'desc')->get();
      $Addons = Addons::orderBy('id', 'desc')->first();
        return view('frontend_final.SubServices.white-paper',compact('papers','pricing','Addons'));
    }

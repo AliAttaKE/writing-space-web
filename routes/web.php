@@ -119,6 +119,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/generate/invoice/pdf/{order_id}', [InvocieController::class, 'generateInvoicePDF'])->name('generate.invoice');
+    Route::get('/generate/invoice/by/{id}', [InvocieController::class, 'generateInvoiceById'])->name('generate.invoice.by.id');
+
 });
 
 require __DIR__.'/auth.php';
@@ -141,7 +144,7 @@ Route::get('/approved-files', [FileChatGPTController::class, 'approvedFiles'])->
 
     Route::get('google/login', [ConnectController::class, 'googleLogin'])->name('google.login');
     Route::get('auth/google/callback', [ConnectController::class, 'googleHandle']);
- 
+
     // Route::get('/auth/microsoft/callback', [ConnectController::class, 'microsoftHandle']);
     Route::get('/microsoftLogin', [ConnectController::class, 'microsoftLogin'])->name('microsoft.login');
     Route::get('auth/microsoft/callback', [ConnectController::class, 'microsoftHandle']);
@@ -152,16 +155,16 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
 
     Route::resource('contacts', ContactController::class);
     Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard');
-    
+
         Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaigns.index');
     Route::get('/campaigns/create', [CampaignController::class, 'create'])->name('campaigns.create');
     Route::post('/campaigns/store', [CampaignController::class, 'store'])->name('campaigns.store');
     Route::get('/campaigns/{campaign}/edit', [CampaignController::class, 'edit'])->name('campaigns.edit');
     Route::put('/campaigns/{campaign}', [CampaignController::class, 'update'])->name('campaigns.update');
     Route::delete('/campaigns/{campaign}', [CampaignController::class, 'destroy'])->name('campaigns.destroy');
-    
-    
-    
+
+
+
         Route::get('cms_pages', [CmsWebsiteController::class, 'index'])->name('cms_pages.index');
     Route::get('cms_pages/create', [CmsWebsiteController::class, 'create'])->name('cms_pages.create');
     Route::post('cms_pages', [CmsWebsiteController::class, 'store'])->name('cms_pages.store');
@@ -171,19 +174,19 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
     Route::get('cms_pages/{slug}', [CmsWebsiteController::class, 'show'])->name('cms_pages.show');
 
 
-    
+
     Route::post('/order/complete', [PlaceOrderController::class, 'order_complete'])->name('order.complete');
       Route::post('/revisionsubmit', [PlaceOrderController::class, 'revisionsubmit'])->name('revision.submit');
-      
-     
-    
+
+
+
         Route::get('dashboard/Ajax', [AdminController::class, 'indexajax'])->name('getChartData');
     Route::post('dashboard/Ajax/post', [AdminController::class, 'indexajaxpost'])->name('indexajaxpost');
       Route::post('dashboard/ajaxSummary', [AdminController::class, 'ajaxSummary'])->name('ajaxSummary');
     Route::get('order/summary', [AdminController::class, 'ordersummary'])->name('order.summary');
-    
+
      Route::post('dashboard/Ajax/chat2', [AdminController::class, 'indexajaxpostchat2'])->name('indexajaxpostchat2');
-    
+
     Route::post('logout', [AdminController::class, 'destroy'])->name('logout');
     Route::get('show/profile', [AdminController::class, 'showProfile'])->name('show.profile');
 
@@ -202,7 +205,7 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
 
    Route::get('/customers/details/{id}', [CustomerDataController::class, 'show'])->name('customers.show.details');
 
-    
+
 
     Route::get('user/activity/log', [UserManagementController::class, 'userActivityLog'])->name('user.activity.log');
     Route::get('show/all/users', [UserManagementController::class, 'showAllUsers'])->name('show.all.users');
@@ -233,8 +236,8 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
     Route::get('customer/delete/record/{user_id}', [CustomerManagementController::class, 'customerDeleteRecords'])->name('customer.delete.records');
     Route::get('search-customer/', [CustomerManagementController::class, 'searchCustomer'])->name('search.customer');
     Route::get('search-new-customer/', [CustomerManagementController::class, 'searchNewCustomer'])->name('search.new.customer');
-    
-    
+
+
 
 
     Route::get('/promotions', [PromotionController::class, 'index'])->name('promotions.index');
@@ -261,16 +264,16 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
     Route::get('folders/{id}/download', [FolderController::class, 'downloadFolder'])->name('folders.download');
     Route::get('/folders/{id}', [FileController::class, 'view'])->name('folders.view');
     Route::get('/order/file', [FileController::class, 'view_file_order_by_chatgpt'])->name('viewfileorderbychatgpt');
-    
+
      Route::get('/package/cancelation', [PakageLimitController::class, 'package_cancelation'])->name('package.cancelation');
 
     Route::post('/package/cancelation/change/status', [PakageLimitController::class, 'package_cancelation_change_status'])->name('package.cancelation.change.status');
-    
-    
-    
+
+
+
     Route::post('/order/file/status', [FileController::class, 'order_file_change_status'])->name('order.file.change.status');
       Route::put('/update-status-order-complete', [FileController::class, 'updateStatus'])->name('complete.updateStatus');
-    
+
     Route::get('/all/folders/{id}', [FileController::class, 'view_all'])->name('folders.view.all');
 
     Route::post('/file', [FileController::class, 'upload'])->name('file.upload');
@@ -298,19 +301,19 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
     Route::post('/paper_format/store', [PaperFormatController::class, 'store'])->name('paper_format.store');
     Route::post('/paper_format/update', [PaperFormatController::class, 'update'])->name('paper_format.update');
     Route::get('/paper_format/delete/{id}', [PaperFormatController::class, 'destroy'])->name('paper_format.destroy');
-    
-    
-    
-    
- 
-    
+
+
+
+
+
+
      Route::get('/pakage_limit', [PakageLimitController::class, 'index'])->name('pakage_limit.index');
     Route::post('/pakage_limit/store', [PakageLimitController::class, 'store'])->name('pakage_limit.store');
     Route::post('/pakage_limit/update', [PakageLimitController::class, 'update'])->name('pakage_limit.update');
     Route::get('/pakage_limit/delete/{id}', [PakageLimitController::class, 'destroy'])->name('pakage_limit.destroy');
-    
-    
-    
+
+
+
         Route::get('/add_ons', [AddOnController::class, 'index'])->name('add_ons.index');
     Route::post('/add_ons/store', [AddOnController::class, 'store'])->name('add_ons.store');
     Route::post('/add_ons/update', [AddOnController::class, 'update'])->name('add_ons.update');
@@ -326,7 +329,7 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
     Route::post('/services/update', [Service_TypeController::class, 'update'])->name('services.update');
     Route::get('/services/delete/{id}', [Service_TypeController::class, 'destroy'])->name('services.destroy');
     //Done
-    
+
      //Done
 
     Route::get('/email_types', [Email_TypeController::class, 'index'])->name('email_types.index');
@@ -335,16 +338,16 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
     Route::get('/email_types/delete/{id}', [Email_TypeController::class, 'destroy'])->name('email_types.destroy');
 
     //
-    
-    
+
+
     //
-    
+
     Route::get('blogs',[BlogController::class,'index'])->name('blogs');
     Route::post('createBlog',[BlogController::class,'createBlog'])->name('createBlog');
     Route::post('updateBlog/{id}',[BlogController::class,'updateBlog'])->name('updateBlog');
     Route::get('deleteBlog/{id}',[BlogController::class,'deleteBlog'])->name('deleteBlog');
 
-    
+
     Route::get('/restrictions', [RestrictionController::class, 'index'])->name('restrictions.index');
     Route::post('/restrictions/store', [RestrictionController::class, 'store'])->name('restrictions.store');
     Route::post('/restrictions/update', [RestrictionController::class, 'update'])->name('restrictions.update');
@@ -383,34 +386,34 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
     Route::post('import-data', [PlaceOrderController::class, 'importData'])->name('import.data');
 
 
-    
+
     //test
     Route::post('deliveredPlaceOrder/{id}', [PlaceOrderController::class, 'deleverd_order'])->name('deleverd_order');
     Route::post('revision/date', [PlaceOrderController::class, 'revision_date'])->name('revision.date');
-    
+
     Route::get('/new-order',[PlaceOrderController::class,'new_order'])->name('new-order');
     Route::get('/inprogress-order',[PlaceOrderController::class,'inprogress_order'])->name('inprogress-order');
-    
+
     Route::put('/update-status', [PlaceOrderController::class, 'updateStatus'])->name('updateStatus');
-    
+
     Route::get('/revision-order',[PlaceOrderController::class,'revision_order'])->name('revision-order');
     Route::get('/delivered-order',[PlaceOrderController::class,'delivered_order'])->name('delivered-order');
     Route::get('/completed-order',[PlaceOrderController::class,'completed_order'])->name('completed-order');
     Route::get('/other-order',[PlaceOrderController::class,'other_order'])->name('other-order');
      Route::get('/orders_history',[PlaceOrderController::class,'orders_history'])->name('orders_history');
     Route::get('/order-detail/{order_id}',[PlaceOrderController::class,'order_detail'])->name('admin-order-detail');
-    
+
     Route::get('export/orders/{value?}', [PlaceOrderController::class, 'exportOrders'])->name('export.orders');
-    
+
     Route::get('/message-management',[MessageController::class,'index'])->name('message-management');
     Route::get('/new-message',[MessageController::class,'new_message'])->name('new-message');
     Route::get('/reply-message/{order_id}',[MessageController::class,'reply_message'])->name('reply-message');
-    
-    
+
+
     Route::post('/send-message',[MessageController::class,'sendMessage'])->name('send-message');
-    
-    
-    
+
+
+
     Route::get('/custom-setting',[CustomSettingController::class,'custom_setting'])->name('custom-setting');
     Route::post('/custom-edit/{id}',[CustomSettingController::class,'custom_edit'])->name('custom_edit');
     Route::get('export/pricing', [CustomSettingController::class, 'PricingExport'])->name('export.pricing');
@@ -421,10 +424,10 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
     Route::get('deleteSubscription/{id}',[AddSubscriptionController::class,'deleteSubscription'])->name('deleteSubscription');
     Route::post('updateSubscription/{id}', [AddSubscriptionController::class, 'updateSubscription'])->name('updateSubscription');
     Route::get('export/subscription', [AddSubscriptionController::class, 'exportSubscription'])->name('export.subscription');
-    
-      
 
-    
+
+
+
     Route::get('library/management', [LibrarayController::class, 'index'])->name('library.index');
     Route::get('library/add', [LibrarayController::class, 'create'])->name('library.create');
     Route::post('library/store', [LibrarayController::class, 'store'])->name('library.store');
@@ -433,8 +436,8 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
     Route::get('library/delete/{id}', [LibrarayController::class, 'destroy'])->name('library.destroy');
     Route::post('library/delete/file', [LibrarayController::class, 'fileDestroy'])->name('library.file.destroy');
     Route::get('export/libraries', [LibrarayController::class, 'exportLibraries'])->name('export.libraries');
-    
-    
+
+
     Route::get('/invoices', [InvocieController::class, 'index'])->name('invoices.index');
     Route::get('/create/new/invoice', [InvocieController::class, 'create'])->name('create.new.invoice');
     Route::get('/invoice/delete/{id}', [InvocieController::class, 'destroy'])->name('invoice.destroy');
@@ -443,7 +446,7 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
     Route::get('/send/invoice/by/{email}', [InvocieController::class, 'sendInvoiceByEmail'])->name('invoice.by.email');
     Route::get('/generate/invoice/by/{id}', [InvocieController::class, 'generateInvoiceById'])->name('generate.invoice.by.id');
     Route::get('/generate/invoice/pdf/{order_id}', [InvocieController::class, 'generateInvoicePDF'])->name('generate.invoice');
-    
+
     Route::get('/create/custom/invoice', [CustomInvoiceController::class, 'create'])->name('create.custom.invoice');
     Route::get('/view/custom/invoice/{id}', [CustomInvoiceController::class, 'view'])->name('view.custom.invoice');
     Route::get('/view/json/invoice/{invoice_id}', [CustomInvoiceController::class, 'viewJson'])->name('view.json.invoice');
@@ -452,13 +455,13 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
     Route::get('/send/custom/invoice/{id}', [CustomInvoiceController::class, 'sendInvoice'])->name('send.custom.invoice');
     Route::get('/send/custom/invoice/by/{email}', [CustomInvoiceController::class, 'sendInvoiceByEmail'])->name('send.invoice.by.email');
     Route::get('/generate/custom/invoice/pdf/{id}', [CustomInvoiceController::class, 'generateInvoicePDF'])->name('generate.custom.invoice');
-    
+
     // Route::get('files/{id}/{folder_name}/delete', [FileController::class, 'deletefile_admin'])->name('files.delete');
     Route::get('/show-all-feedbacks', [FeedbackController::class, 'index'])->name('show.feedback');
     Route::delete('/delete/feedback/{feedback}', [FeedbackController::class, 'destroy'])->name('destroy.feedback');
-    
+
     Route::get('/system/configurations', [SystemConfigurationController::class, 'systemConfiguration'])->name('system.configurations');
-    
+
      Route::get('/merchant/account/configurations', [SystemConfigurationController::class, 'merchantConfiguration'])->name('merchant.account.configurations');
     Route::post('/store/merchant-details', [SystemConfigurationController::class, 'storeMerchantDetails'])->name('store.merchant.details');
     Route::get('/smtp/configuration', [SystemConfigurationController::class, 'smptConfiguration'])->name('smpt.configurations');
@@ -573,7 +576,7 @@ Route::get('/white-paper', [IndexController::class, 'whitepaper'])->name('front.
  Route::post('/redirectResponseUrl', [CustomerPlaceOrderController::class, 'redirectResponseUrl'])->name('redirectResponseUrl');
   Route::post('/redirectResponseUrlSub', [CustomerPlaceOrderController::class, 'redirectResponseUrlSub'])->name('redirectResponseUrlSub');
     Route::post('/redirectResponseUrladdpages', [CustomerPlaceOrderController::class, 'redirectResponseUrladdpages'])->name('redirectResponseUrladdpages');
-    
+
       Route::post('/redirectResponsemanagepages', [CustomerPlaceOrderController::class, 'redirectResponsemanagepages'])->name('redirectResponseUrladdpages');
     Route::get('/pay/{orderid}', [CustomerPlaceOrderController::class, 'pay'])->name('pay');
      Route::get('/pay/sub/{orderid}', [CustomerPlaceOrderController::class, 'pay_sub'])->name('pay.sub');
@@ -603,7 +606,7 @@ Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->nam
     Route::get('show/profile', [CustomerController::class, 'showProfile'])->name('show.profile');
     Route::post('update/profile', [CustomerController::class, 'updateProfile'])->name('update.profile');
     Route::get('/filter/{date?}/{type?}', [CustomerController::class, 'filterDate'])->name('filter.date');
-    
+
     Route::get('/folders/show', [FolderController::class, 'create_customer'])->name('folder.show');
     Route::get('/folders', [FolderController::class, 'store_customer'])->name('folders.store');
     Route::get('folders/{id}/download', [FolderController::class, 'downloadFolder_customer'])->name('folders.download');
@@ -616,19 +619,19 @@ Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->nam
     Route::get('/folders/create', [FolderController::class, 'create_customer'])->name('folders.create');
     Route::get('files/{id}/{folder_name}/share', [FileController::class, 'sharefile_customer'])->name('files.share');
     Route::get('download/library/files/{id}', [LibrarayController::class, 'downloadLibraryFiles'])->name('download.library.files');
-    
-    
+
+
     Route::post('logout', [CustomerController::class, 'destroy'])->name('logout');
     Route::get('general', [IndexController::class, 'general'])->name('general');
     Route::get('/placeOrder',[CustomerPlaceOrderController::class,'index'])->name('customerPlaceOrder');
     //payment
-    
+
     Route::get('/checkout', [CustomerPlaceOrderController::class, 'checkout'])->name('checkout');
     Route::get('card/show/{sessionid}', [CustomerPlaceOrderController::class, 'checkoutshow'])->name('card.show');
     Route::get('card/show/checkoutshowmangepages/{sessionid}', [CustomerPlaceOrderController::class, 'checkoutshowmangepages'])->name('card.show.mangepages');
         Route::post('pakage/add/order/pages', [CustomerPlaceOrderController::class, 'pakageaddorderpage'])->name('pakage.add.order.pages');
-    
-    
+
+
     Route::get('card/show/sub/{sessionid}', [CustomerPlaceOrderController::class, 'checkoutshowsub'])->name('card.show.sub');
     Route::get('card/show/addpage/{sessionid}', [CustomerPlaceOrderController::class, 'checkoutshowaddpage'])->name('card.show.addpage');
     Route::post('/payment/store/sub', [CustomerPlaceOrderController::class, 'payment_store_sub'])->name('payment.store.sub');
@@ -655,7 +658,7 @@ Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->nam
     Route::post('custom/subscription/store', [CustomerPlaceOrderController::class, 'customSubscriptionStore'])->name('custom.subscription.store');
     Route::post('/add-more-pages',[CustomerPlaceOrderController::class,'addMorePages'])->name('addmorepages');
     //21-02-2024
-    
+
     //23-02-2024
     Route::post('support/message', [CustomerPlaceOrderController::class, 'supportMessage'])->name('support.message');
     //23-02-2024
@@ -674,16 +677,16 @@ Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->nam
     Route::get('/reply-message/{order_id}',[MessageManagementController::class,'reply_message'])->name('reply-message');
     Route::post('/coupon/check',[CouponController::class,'coupon_check'])->name('coupon-check');
     Route::get('show-libraries', [LibraryManagmentController::class, 'showLibrary'])->name('show.libraries');
-     
+
     Route::get('/brand-ambassadors', [BrandAmbassadorController::class, 'index'])->name('brand.ambassadors');
     Route::post('/brand-ambassadors', [BrandAmbassadorController::class, 'store'])->name('brand.ambassadors');
     Route::get('/brand-ambassadors-sign-up', [BrandAmbassadorController::class, 'signUp'])->name('brand.ambassadors.signup');
     Route::post('/brand-ambassadors-sign-up', [BrandAmbassadorController::class, 'signUpProcess'])->name('create.brand.ambassadors.signup');
     Route::get('/brand-ambassador/delete/{id}', [BrandAmbassadorController::class, 'destroy'])->name('brand.ambassadors.destroy');
-    
-    
 
-    
+
+
+
 
 });
 
