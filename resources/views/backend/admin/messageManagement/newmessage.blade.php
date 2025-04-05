@@ -33,18 +33,18 @@
                 <!--end::Title-->
                 <!--begin::Breadcrumb-->
                 <!-- <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                    
+
                     <li class="breadcrumb-item text-muted">
                         <a href="message-management.php" class="text-muted text-hover-primary">Messagae Management</a>
                     </li>
-                    
+
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-500 w-5px h-2px"></span>
                     </li>
-                    
-                    
+
+
                     <li class="breadcrumb-item text-muted">Compose</li>
-                    
+
                 </ul> -->
                 <!--end::Breadcrumb-->
             </div>
@@ -222,7 +222,7 @@
                                                         hidden type="file" class="upload-attachment" name="media[]"
                                                         id="media" multiple accept="image/*"/></label>
                                             </div>
-                                            <p id="attach_file_1" class="text-white"></p>
+                                            <p id="attach_file_1" class="text-white  w-200px"></p>
                                             <!--end::Upload attachement-->
                                         </div>
 
@@ -416,7 +416,7 @@
     console.log("Selected value:", send_by);
     // Append the selected value to the FormData object if needed
     formData.append('send_by', send_by);
-    
+
       var sendby = $('.radioAdminWriter:checked').val();
 
 
@@ -424,9 +424,9 @@
        Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
         return; // Stop execution if the condition is met
     }
-    
+
 var message = $('.ql-editor').text();
-             
+
 if (!message.trim()) {
     Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
     return;
@@ -456,7 +456,7 @@ if (!message.trim()) {
                     Pusher.logToConsole = true;
                     newMessageEditor.setText('');
                     var element = document.getElementById('attach_file_1');
-                    element.innerText = ''; 
+                    element.innerText = '';
 
                     var pusher = new Pusher('28e13a39c3918e12f8a9', {
                         cluster: 'ap2'
@@ -481,7 +481,7 @@ if (!message.trim()) {
             $('#message_box').val('');
             newMessageEditor.setText('');
             var element = document.getElementById('attach_file_1');
-            element.innerText = ''; 
+            element.innerText = '';
 
         });
 

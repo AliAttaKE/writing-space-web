@@ -181,17 +181,17 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 									<div class="step-counter  ">2</div>
 									<div class="step-name fs-color-white custom-fs-13">Order In-Progress</div>
 								</div>
-								
+
 								<div class="stepper-item">
 									<div class="step-counter  badge-custom-bg">3</div>
 									<div class="step-name fs-color-white custom-fs-13">Order In-Revision</div>
 								</div>
-								
+
 								<div class="stepper-item">
 									<div class="step-counter">4</div>
 									<div class="step-name fs-color-white custom-fs-13">Order Delivered</div>
 								</div>
-								
+
 								<div class="stepper-item">
 									<div class="step-counter">5</div>
 									<div class="step-name fs-color-white custom-fs-13">Order Cancelled</div>
@@ -205,17 +205,17 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 									<div class="step-counter ">2</div>
 									<div class="step-name fs-color-white custom-fs-13">Order In-Progress</div>
 								</div>
-								
+
 								<div class="stepper-item">
 									<div class="step-counter ">3</div>
 									<div class="step-name fs-color-white custom-fs-13">Order In-Revision</div>
 								</div>
-								
+
 								<div class="stepper-item">
 									<div class="step-counter badge-custom-bg">4</div>
 									<div class="step-name fs-color-white custom-fs-13">Order Delivered</div>
 								</div>
-								
+
 								<div class="stepper-item">
 									<div class="step-counter">5</div>
 									<div class="step-name fs-color-white custom-fs-13">Order Cancelled</div>
@@ -229,17 +229,17 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 									<div class="step-counter ">2</div>
 									<div class="step-name fs-color-white custom-fs-13">Order In-Progress</div>
 								</div>
-								
+
 								<div class="stepper-item">
 									<div class="step-counter ">3</div>
 									<div class="step-name fs-color-white custom-fs-13">Order In-Revision</div>
 								</div>
-								
+
 								<div class="stepper-item">
 									<div class="step-counter ">4</div>
 									<div class="step-name fs-color-white custom-fs-13">Order Delivered</div>
 								</div>
-								
+
 								<div class="stepper-item">
 									<div class="step-counter badge-custom-bg">5</div>
 									<div class="step-name fs-color-white custom-fs-13">Order Cancelled</div>
@@ -281,7 +281,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 												href="#kt_ecommerce_customer_managePages">Manage Pages</a>
 										</li>
 										<!--end:::Tab item-->
-									   
+
 										<!--begin:::Tab item-->
 										<li class="nav-item">
 										   <a class="nav-link text-white pb-4 tabBtn" data-bs-toggle="tab"
@@ -294,7 +294,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 										   <a class="nav-link text-white pb-4 tabBtn" data-bs-toggle="tab"
 											   href="#kt_ecommerce_customer_leaveReview">Leave Review</a>
 									   </li>
-									   <!--end:::Tab item-->                                       
+									   <!--end:::Tab item-->
 										<!--begin:::Tab item-->
 										<li class="nav-item">
 											<a class="nav-link text-white pb-4 tabBtn" data-bs-toggle="tab" href="#kt_ecommerce_customer_support">Support</a>
@@ -305,7 +305,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 											<a class="nav-link text-white pb-4 tabBtn" data-bs-toggle="tab"
 												href="#kt_ecommerce_customer_completed_order">Completed Order</a>
 										</li>
-										<!--end:::Tab item-->       
+										<!--end:::Tab item-->
 
 									</ul>
 									<!--end:::Tabs-->
@@ -330,7 +330,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																		<div id="kt_app_content_container" class="">
 																			<!--begin::Card-->
 																			<div class="card card-custom-bg message-summ">
-																				
+
 																				<!--begin::Card body-->
 																				<!--begin::Card body-->
 																				<div class="card-body overflow-auto py-4">
@@ -451,7 +451,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 														<h2 class="page-heading px-3 mb-5 d-flex fw-bold fs-2 flex-column justify-content-center my-0">Instructions</h2>
 														{!! $order->description !!}
 													</div>
-													
+
 												</div>
 											</div>
 
@@ -461,7 +461,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 										<!--begin:::Tab pane-->
 										<div class="tab-pane fade" id="kt_ecommerce_customer_messages" role="tabpanel">
 											<div class="d-flex justify-content-center">
-												<div class=" col-8">
+												<div class="col-11">
 
 													<!--begin::Card-->
 													<div class="card btn-dark-primary">
@@ -614,15 +614,15 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																	   <div class="border d-flex p-3 align-items-center rounded me-3 ">
 																		   <div class="btn-group me-4">
 																			  <button class="btn badge-custom-bg fs-bold px-6" type="submit" >Send</button>
-																			
+
 																		   </div>
-																		  
+
 																		   <div class="btn btn-icon btn-sm btn-clean btn-active-light-primary me-2 w-250px justify-content-between" id="media_button" data-kt-inbox-form="dropzone_upload">
-																			  
+
 																			   <label><span class="ki-duotone ki-paper-clip fs-2 m-0"></span><input hidden type="file" accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .png, .gif" class="upload-attachment" name="media[]" id="media" multiple/></label>
 																			   <p id="file_name" class="text-white"></p>
 																		   </div>
-																	
+
 																	   </div>
 
 
@@ -635,22 +635,22 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																		<label for="WriterRadio">Writer</label>
 																	</div>
 
-															   
+
 																	   <div class="text-center me-3">
 																		   <input class="form-select form-select-solid form-select-sm" value="{{$order->order_id}}" name='order_id' hidden>
 																		   order id: <span class="badge badge-custom-bg ms-3">{{$order->order_id}}</span>
 																	   </div>
-							   
+
 																	   <!--<div class="border d-flex p-3 align-items-center rounded me-3">-->
-																		 
+
 																	   <!--    <div class="text-gray-900 fw-bold w-75px">To:</div>-->
-																		
-																		   
-																	   
+
+
+
 																	   <!--</div>-->
-																	  
+
 													<!--                                   <div class="d-flex align-items-center">-->
-																						
+
 													<!--                                       <span class="btn btn-icon btn-sm btn-clean btn-active-light-primary clear_message_box" data-inbox="dismiss" data-toggle="tooltip" title="Discard reply">-->
 													<!--                                           <i class="ki-duotone ki-trash fs-2">-->
 													<!--                                               <span class="path1"></span>-->
@@ -660,28 +660,28 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 													<!--                                               <span class="path5"></span>-->
 													<!--                                           </i>-->
 													<!--                                       </span>-->
-																						
+
 													<!--                                   </div>-->
 													<!--                                </div>-->
 													<!--                               <div id="kt_inbox_form_editor" class="border-0 h-250px px-3">-->
 													<!--    <textarea class="form-control form-control-transparent border-0 h-100" id="message_box" name="message" placeholder="Message Here" value="" ></textarea>-->
 													<!--</div>-->
-													
-													
+
+
 														<!--end::Toolbar-->
 													</div>
 													<!--end::To-->
 													<!--begin::CC-->
-												
+
 													<!--end::CC-->
 													<!--begin::BCC-->
-												
+
 													<!--end::BCC-->
 													<!--begin::Message-->
 													<!--<div id="kt_inbox_form_editor" class="border-0 h-250px px-3">-->
 													<!--    <textarea class="form-control form-control-transparent border-0 h-100" id="message_box" name="message" id="message_box" placeholder="Message Here" value="" ></textarea>-->
 													<!--</div>-->
-													
+
 													<!--<div class="d-flex align-items-center">-->
 															<!--begin::Dismiss reply-->
 													<!--        <span class="btn btn-icon btn-sm btn-clean btn-active-light-primary clear_message_box" id="delete_btn" data-inbox="dismiss" data-toggle="tooltip" title="Discard reply">-->
@@ -699,10 +699,10 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 													<!--</div>-->
 													<!--end::To-->
 													<!--begin::CC-->
-												
+
 													<!--end::CC-->
 													<!--begin::BCC-->
-												
+
 													<!--end::BCC-->
 													<!--begin::Message-->
 													<!--<div id="kt_inbox_form_editor" class="border-0 h-250px px-3">-->
@@ -715,10 +715,10 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																</div>
 																<!--end::To-->
 																<!--begin::CC-->
-															
+
 																<!--end::CC-->
 																<!--begin::BCC-->
-															
+
 																<!--end::BCC-->
 																<!--begin::Message-->
 																<!-- <div id="kt_inbox_form_editor" class="border-0 h-250px px-3">
@@ -733,9 +733,9 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 																		<div id="editor"></div>
 																		<textarea name="message" id="message" cols="30" rows="10" class="d-none"></textarea>
-																								
 
-																 
+
+
 																   <div class="dropzone dropzone-queue px-8 py-4" id="kt_inbox_reply_attachments" data-kt-inbox-form="dropzone">
 																	   <div class="dropzone-items">
 																		   <div class="dropzone-item" style="display:none">
@@ -747,7 +747,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																				   </div>
 																				   <div class="dropzone-error" data-dz-errormessage=""></div>
 																			   </div>
-																		   
+
 																			   <div class="dropzone-progress">
 																				   <div class="progress">
 																					   <div class="progress-bar bg-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-dz-uploadprogress=""></div>
@@ -770,9 +770,9 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																   <!--end::Attachments-->
 															   </div>
 															   <!--end::Body-->
-							   
+
 														   </form>
-														 
+
 															<!--end::Form-->
 															<!--begin::Title-->
 															<!--<div class="d-flex flex-wrap gap-2 justify-content-end mb-8">-->
@@ -802,7 +802,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															<!--end::Title-->
 															<!--begin::Message accordion-->
 															<livewire:message-box :order_id="$order->order_id" />
-															
+
 															<!--end::Message accordion-->
 
 														</div>
@@ -810,7 +810,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 													<!--end::Card-->
 												</div>
 											</div>
-									
+
 										<!--end:::Tab pane-->
 
 										<!--begin:::Tab pane-->
@@ -848,10 +848,10 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																		<span class="path1"></span>
 																		<span class="path2"></span>
 																	</i>Upload Files</button>
-														</div>	
+														</div>
 													</div>
 												</div>
-												
+
 
 												<!--begin::Modal - Upload File-->
 												<div class="modal fade" id="kt_modal_uploadCustomer_2" tabindex="-1" aria-hidden="true">
@@ -863,7 +863,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 														<form method="post" action="{{ route('customer.file.upload') }}" enctype="multipart/form-data" class="form"  id="kt_modal_upload_form">
 															<!--begin::Modal header-->
 															@csrf
-														
+
 															<!--begin::Modal header-->
 															<div class="modal-header">
 																<!--begin::Modal title-->
@@ -893,7 +893,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																			<input type="hidden" value="Customer" name="Writer">
 																			<input type="hidden" value="{{ $folder->name??'' }}" name="folder_name">
 																			<input type="hidden" value="{{ $folder->id??'' }}" name="folder_id">
-																		
+
 																		</div>
 																		<!--end::Controls-->
 																	</div>
@@ -904,7 +904,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																	<span class="form-text fs-6 text-muted mb-2 fs-color-white custom-fs-13">Max file size is 500-MB per file.</span>
 																	<!--end::Hint-->
 																	<div class="d-flex justify-content-end">
-																	
+
 																		<input type="submit" class="btn btn-sm btn-dark-primary" Value="Upload Files">
 																	</div>
 																</div>
@@ -963,8 +963,8 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															<form id="delete_or_download_form" action="{{ route('customer.all.files.download', ['folder_name'=>$folder->name]) }}" method="GET" enctype="multipart/form-data">
 																<input type="hidden" name="delete" id="delete_input_field">
 																<input type="hidden" name="download" id="download_input_field">
-																<input type="hidden" name="folder_name" value="{{$folder->name??''}}">													
-														
+																<input type="hidden" name="folder_name" value="{{$folder->name??''}}">
+
 																<table id="kt_order_file_table" data-kt-filemanager-table="files" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
 																	<thead>
 																		<tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
@@ -982,7 +982,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																			<th class="w-25" style="width: 177px;">Download time</th>
 																			<th class="w-25" style="width: 177px;">Action</th>
 																		</tr>
-																	</thead>																
+																	</thead>
 																	<tbody class="fw-semibold text-gray-600">
 																		@if($files)
 																			@foreach ($files as $file)
@@ -992,7 +992,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																						<input type="checkbox" name="selectedIds[]" value="{{ $file->id }}" class="form-check-input row_checkbox">
 																					</div>
 																				</td>
-																				
+
 																				<td class="w-25">
 																					<div class="d-flex align-items-center">
 																						<span class="icon-wrapper"><i class="ki-duotone ki-file fs-2x text-primary me-4"><span class="path1"></span><span class="path2"></span></i></span>
@@ -1046,14 +1046,14 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 												<!--end::Card body-->
 											</div>
 										</div>
-										
+
 										@php
                                                 $hasSubscription = DB::table('user_subscription')->where('user_id', Auth::id())->exists();
                                             @endphp
-                                            
-                                           
-                                               
-                                           
+
+
+
+
 
 										<!--end:::Tab pane-->
 										<div class="tab-pane fade" id="kt_ecommerce_customer_managePages" role="tabpanel">
@@ -1078,8 +1078,8 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																					placeholder="Enter page count" min="0">
 																					 <p class="fs-3 fs-color-white custom-fs-13">Total Cost: $<span
 																						id="totalCost" class="fs-color-yellow">0.00</span></p>
-																			  
-																			   
+
+
 																			</div>
 																		</div>
 																		<div class="col-md-5 card-custom-bg mb-5 rounded current-order-summary">
@@ -1123,8 +1123,8 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																			<!--    class="px-2 btn badge-custom-bg"-->
 																			<!--    id="proceedButton" data-toggle="modal" data-target="#modal-15" onclick="modal_open12()">Proceed to-->
 																			<!--    Checkout</button>-->
-																				
-																				
+
+
 																				 <button type="button" class="px-2 btn badge-custom-bg mt-4"  data-bs-toggle="modal" data-bs-target="#custom-modal">
 																				Proceed to Checkout
 																			</button>
@@ -1134,7 +1134,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 
 																</section>
-																
+
 																 <div class="modal fade" id="custom-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 																	<div class="modal-dialog">
 																		<div class="modal-content badge-custom-bg">
@@ -1186,12 +1186,12 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																							<label class="form-check-label text-white" for="flexRadioDefault2">
 																								Purchase <span class="RequiredPages">0</span> Additional Pages (Pages Remaining in Your Package: <span class="RemainingPages">0</span>)Total $<span id="totalcostreq">0</span> (Per Page $<span id="pakg_cost_per_page">{{$order->cost_per_page}}</span>)
 																							</label>
-																							
-																							
+
+
 																							<input type="hidden" value="{{$used_subscription->id??''}}" id="used_package_id">
 																							<input type="hidden" value="{{$used_subscription->subscription_id??''}}" id="package_id">
 																							<input type="hidden" value="{{$used_subscription->subscription['cost_per_page']??''}}" id="cost_per_page">
-																							
+
 																						</div>
 
 																						<div class="d-flex justify-content-end">
@@ -1213,7 +1213,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																							<!--end::Button-->
 																						</div>
 																					</div>
-																			
+
 																				</div>
 																				<!--end::Modal body-->
 																			</form>
@@ -1229,9 +1229,9 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																	<div>
 																		<ul>
 																			<li class="fs-color-white custom-fs-13">
-																				Contact our customer support for assistance. Thank you for choosing our service!	
+																				Contact our customer support for assistance. Thank you for choosing our service!
 																			</li>
-																			
+
 
 																		</ul>
 																	</div>
@@ -1239,7 +1239,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															</div>
 														</div>
 													</div>
-													
+
 												</div>
 											</div>
 											 @else
@@ -1302,7 +1302,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																			</div>
 																		</div>
 																		<div class="col-md-5 rounded">
-																			<button 
+																			<button
 																				class="px-2 btn badge-custom-bg"
 																				id="proceedButton" data-toggle="modal" data-target="#modal-15" onclick="modal_open1()">Proceed to
 																				Checkout</button>
@@ -1310,12 +1310,12 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																				<!--     Proceed to Checkout 2-->
 																				<!-- </button>-->
 																		</div>
-																		
+
 																	</div>
 
 
 																</section>
-														
+
 															</div>
 															<div class="col-lg-4 col-md-4">
 																<section class="mb-10">
@@ -1334,7 +1334,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																				Exclusive perks
 																			</li>
 																			<li class="fs-color-white custom-fs-13">Simplified ordering for future projects</li>
-																			
+
 																		</ul>
 																	</div>
 																	<h4 class="text-gray-900  mb-5 fs-color-white custom-fs-23">
@@ -1344,7 +1344,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															</div>
 														</div>
 													</div>
-													
+
 												</div>
 											</div>
                                             @endif
@@ -1377,12 +1377,12 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															@else
 																<button type="button" class="btn badge-custom-bg send_rewrite" id="send_rewrite">Send</button>
 															@endif
-														
-															
+
+
 
 
 													</div>
-																										
+
 														@if(isset($order->request))
 														@foreach ($order->request as $r)
 														<div class="card p-10 ">
@@ -1391,11 +1391,11 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 														</div>
 														@endforeach
 														@endif
-													 
-														
-												   
+
+
+
 												</div>
-												
+
 											</div>
 										</div>
 										<!--end:::Tab pane-->
@@ -1423,7 +1423,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 														<h3
 															class="page-headingc fs-color-white custom-fs-17 d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center mb-5">
 															General Setting</h3>
-													  
+
 															<div class="row">
 																<div class="col-sm-4">
 																	<button  class="bg-transparent border-0" onclick="click_feedback('General Setting','Happy')"><img
@@ -1441,13 +1441,13 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																			alt=""></button>
 																</div>
 															</div>
-													   
+
 													</div>
 													<div class="card p-5 mb-3 card-custom-bg">
 														<h3
 															class="page-heading d-flex text-gray-900 fs-color-white custom-fs-17 fw-bold fs-3 flex-column justify-content-center mb-5">
 															Quality of Writing</h3>
-														
+
 															<div class="row">
 																<div class="col-sm-4">
 																	<button  class="bg-transparent border-0" onclick="click_feedback('Quality of Writing','Happy')"><img
@@ -1465,13 +1465,13 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																			alt=""></button>
 																</div>
 															</div>
-														
+
 													</div>
 													<div class="card p-5 mb-3 card-custom-bg">
 														<h3
 															class="page-heading d-flex text-gray-900 fs-color-white custom-fs-17 fw-bold fs-3 flex-column justify-content-center mb-5">
 															Time Lines</h3>
-													  
+
 															<div class="row">
 																<div class="col-sm-4">
 																	<button  class="bg-transparent border-0" onclick="click_feedback('Time Lines','Happy')"><img
@@ -1496,7 +1496,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 													<div class="card p-5 card-custom-bg">
 
 														<form action="{{route('customer.order-detail-feedback')}}" method="POST" id="feedback_form">
-															@csrf 
+															@csrf
 															<label for="feedback" class="mb-3 fs-color-white custom-fs-13">Feedback Comments (100 characters remaining)</label>
 															<div id="feedbackEditor" class="bg-transparent btn-dark-primary h-100 mb-4"></div>
 															<textarea name="feedback" id="feedback" cols="30" rows="10" class="d-none"></textarea>
@@ -1506,7 +1506,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															@enderror
 															<div class="d-flex justify-content-center">
 														@if($order->order_status != 'Delivered')
-																
+
 																<button type="button" disabled class="btn btn-sm fw-bold badge-custom-bg me-3">Submit</button>
 														@else
 															<button type="button" class="btn btn-sm fw-bold badge-custom-bg me-3 feedSubmit">Submit</button>
@@ -1517,7 +1517,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 														{{-- @if ($order->order_status == 'Delivered')
 															<form action="{{route('customer.order-detail-feedback')}}" method="POST" id="feedback_form">
-																@csrf 
+																@csrf
 																<label for="feedback" class="mb-3 fs-color-white custom-fs-13">Feedback Comments (100 characters remaining)</label>
 																<textarea name="feedback" id="feedback" cols="30" rows="10" class="w-100 form-control mb-3 btn-dark-primary fs-color-white custom-fs-13"></textarea>
 																@error('feedback')
@@ -1526,18 +1526,18 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																<input type="hidden" id="order_id_get" name="order_id" value="{{$order->order_id}}">
 																<div class="d-flex justify-content-center">
 																	<button type="button" class="btn btn-sm fw-bold badge-custom-bg me-3 feedSubmit">Submit</button>
-																	
+
 																</div>
 															</form>
-															
+
 															<div class="mb-3 text-center mt-3">
 																@if(count($order['feedback']) > 0 )
 																	<span class="text-success">Feedback already given</span>
-																@endif	
-															</div>	
+																@endif
+															</div>
 														@else
 															<form action="{{route('customer.order-detail-feedback')}}" method="POST" id="feedback_form">
-																@csrf 
+																@csrf
 																<label for="feedback" class="mb-3 fs-color-white custom-fs-13">Feedback Comments (100 characters remaining)</label>
 																<textarea name="feedback" disabled id="feedback" cols="30" rows="10" class="w-100 form-control mb-3 btn-dark-primary fs-color-white custom-fs-13"></textarea>
 																@error('feedback')
@@ -1549,10 +1549,10 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																</div>
 															</form>
 														@endif --}}
-												
+
 													</div>
 
-													
+
 
 												</div>
 											</div>
@@ -1620,10 +1620,10 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 												<div class="card-body pt-0">
 													<div class="row">
 														<div class="col-lg-12">
-															
 
-														</div>	
-													</div>	
+
+														</div>
+													</div>
 													<!--begin::Form-->
 													{{-- <form id="kt_inbox_reply_form" class="rounded border mb-10"> --}}
 														<!--begin::Body-->
@@ -1646,8 +1646,8 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																		</span>
 																				</div>
 
-																   
-																 
+
+
 																</div>
 																<div class="d-flex align-items-center">
 																<!--begin::Dismiss reply-->
@@ -1662,17 +1662,17 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																</span>
 																<!--end::Dismiss reply-->
 															</div>
-																
-															  
+
+
 															</div>
-														   
-														
+
+
 															<div id="kt_inbox_form_editor" class="border-0 h-250px px-3">
 																<form id="support_message_form" class="h-100">
 																	@csrf
 																	<input type="hidden" class="form-control me-3" id="" name="order_id" value="{{$order->order_id}}" />
 																	<div id="editor_3" class="bg-transparent btn-dark-primary mb-4 "></div>
-																	<textarea class="d-none" placeholder="Send your support message" id="message_support" name="message_support" value="{{old('message_support')}}"></textarea>					
+																	<textarea class="d-none" placeholder="Send your support message" id="message_support" name="message_support" value="{{old('message_support')}}"></textarea>
 																</form>
 															</div>
 															<!--end::Message-->
@@ -1899,7 +1899,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 											</div>
 											<!--end::Card-->
 										</div>
-										
+
 
 										<!--begin:::Tab pane-->
 										<div class="tab-pane fade " id="kt_ecommerce_customer_completed_order" role="tabpanel">
@@ -1912,7 +1912,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															<span class="path1"></span>
 															<span class="path2"></span>
 														</i>
-														
+
 														<input type="text" id="searchInput" data-kt-filemanager-table-filter="search"
 															class="form-control form-control-solid w-250px ps-15 btn-dark-primary" placeholder="Search " />
 													</div> --}}
@@ -1930,12 +1930,12 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															<button type="button" class="btn btn-flex badge-custom-bg w-100 justify-content-center px-2 ms-3  downloadBtnForm" style="display: none;" >
 																Download</button>
 														</div>
-														
+
 													</div>
 												</div> --}}
-												
 
-												
+
+
 												<div class="card-body">
 													<div class="d-flex flex-stack">
 														<?php
@@ -1977,7 +1977,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																<input type="hidden" name="delete" id="delete_input_field">
 																<input type="hidden" name="download" id="download_input_field">
 																<input type="hidden" name="folder_name" value="{{$folder->name??''}}">													 --}}
-														
+
 																<table id="completed_order_file_table" data-kt-filemanager-table="files" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
 																	<thead>
 																		<tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
@@ -1993,7 +1993,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																			<th rowspan="1" colspan="1" >Download time</th>
 																			<th rowspan="1" colspan="1" ></th>
 																		</tr>
-																	</thead>																
+																	</thead>
 																	<tbody class="fw-semibold text-gray-600">
 																		@if($completedOrders)
 																			@foreach ($completedOrders as $file)
@@ -2003,7 +2003,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																						<input type="checkbox" name="selectedIds[]" value="{{ $file->id }}" class="form-check-input row_checkbox">
 																					</div>
 																				</td> --}}
-																				
+
 																				<td>
 																					<div class="d-flex align-items-center">
 																						<span class="icon-wrapper"><i class="ki-duotone ki-file fs-2x text-primary me-4"><span class="path1"></span><span class="path2"></span></i></span>
@@ -2013,7 +2013,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 																				<td>{{ $file->file_type }}</td>
 																				<td>{{$file->Size }}</td>
-																				
+
 																				<td>{{ $file->created_at }}</td>
 																				<td>{{ $file->download_time }}</td>
 																				<td class="text-end text-white" data-kt-filemanager-table="action_dropdown">
@@ -3878,7 +3878,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 				<div class="d-flex justify-content-start mb-10">
 					<!--begin::Wrapper-->
 					<div class="d-flex flex-column align-items-start">
-						
+
 						<!--begin::User-->
 						<div class="d-flex align-items-center mb-2">
 							<!--begin::Avatar-->
@@ -7389,7 +7389,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 
 <style>
-    
+
   .custom-swal-popup {
     background-color: #783AFB !important; /* Custom purple background */
     color: white !important; /* White text color for better visibility */
@@ -7435,15 +7435,15 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 			$('.clear_message_box').on('click', function(){
 				$('#attach_file').text('');
 			})
-		})																			
-	   
+		})
+
 	   document.getElementById("file-3").addEventListener("change", function() {
 			var fileName = this.files[0].name;
 			document.getElementById("attach_file").innerText = "Selected file: " + fileName;
 		});
 
 
-		$(document).ready(function () { 
+		$(document).ready(function () {
 			$('.supportBtn').click(function (e) {
 				e.preventDefault();
 				$('#customerSupport').tab('show');
@@ -7529,21 +7529,21 @@ function modal_open122() {
 
         var order_id = {{$order->order_id}};
         localStorage.setItem('order_id', order_id);
-        
-        
-       
+
+
+
 
         if (pageValidation && pageValidation != null) {
-            
-            
+
+
             var url2 = '{{ route('customer.checkout') }}';
             $.ajax({
                 type: 'GET',
                 url: url2,
                 success: function (response) {
                     console.log(response.sessionId);
-                    
-                    
+
+
                     if (response && response.sessionId) {
                         // Redirect to the specified route with the sessionId
                         window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
@@ -7566,40 +7566,40 @@ function modal_open122() {
 
 // function modal_open122() {
 // 	let pageValidation = document.getElementById("pageCount").value;
-	
-	
-	
-	
-                
-                
+
+
+
+
+
+
 //                 var pages = $('#pageCount').val();
-                
-             
 
 
 
-             
-	
+
+
+
+
 // 	// let pageValidationtotalCost = document.getElementById("totalCost1").textContent;
-	 
+
 // 	 let pageValidationtotalCost =  $('#totalCost1').val();
 
-	  
-	  
-   
+
+
+
 
 // 	if (!pageValidation) {
 // 		alert("Please fill the Add More Pages field");
 // 	} else {
-		
+
 // 		var selectedValue = getSelectedRadioButtonValue();
 // console.log("Selected value:", selectedValue);
 
 
 
 //  if (selectedValue === 'currentpakage') {
-					
-				
+
+
 // 					if (pageValidationtotalCost >= pageValidation) {
 //                             // Open modal if the condition is met
 //                             modal_open112();
@@ -7626,56 +7626,56 @@ function modal_open122() {
 
 //                         }
 
-				
-				
+
+
 // 		}
 // 				else{
-					
-				   
-					
-					
+
+
+
+
 
 // 					  localStorage.setItem('no_of_page', pageValidation);
-					
+
 // 					  var used_package = $('#used_package_id').val();
 // 					  localStorage.setItem('used_package_id', used_package);
-					
+
 // 					  var packageid = $('#package_id').val();
 // 					  localStorage.setItem('package_id', packageid);
-					
+
 // 					  var cost_perpage = $('#cost_per_page').val();
 // 					  localStorage.setItem('cost_per_page', cost_perpage);
-					  
-					  
+
+
 // 					   var order_id = {{$order->order_id}};
 // 						localStorage.setItem('order_id', order_id);
-					  
-					  
+
+
 // 					//   var pkgorderaddpages = "pkgorderaddpages";
 // 					//   localStorage.setItem('pkgorderaddpages', pkgorderaddpages);
-					  
+
 // 			   if (pageValidation && pageValidation != null) {
-			   
-			
+
+
 // 				var url2 = '{{ route('customer.checkout') }}';
 // 				$.ajax({
 // 					type: 'GET',
 // 					url: url2,
 // 					success: function(response) {
 // 						// Wait for 500 milliseconds before processing the response
-				
+
 //                         console.log(response.sessionId);
 //                         let idgetsession = response.sessionId;
-                    
-                      
+
+
 //                                 if (response && response.sessionId) {
 //                                     // Redirect to the specified route with the sessionId
 //                                     window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
 //                                 } else {
 //                                     console.error('Invalid response format or missing sessionId.');
 //                                 }
-                          
-                  
+
+
 //  // Adjust the timeout value as needed
 // 					},
 // 					error: function(error) {
@@ -7688,24 +7688,24 @@ function modal_open122() {
 // 				toastr.error('pages number not given!');
 // 			}
 
-				
-									  
-					  
-					
-					
+
+
+
+
+
 // 				}
 
 
 
-	 
-			  
-		
+
+
+
 // 		// alert(pageValidation);
-	   
-	   
+
+
 // 	 //  modal_open112();
-	   
-	   
+
+
 // 	}
 // }
 
@@ -7734,32 +7734,32 @@ function getSelectedRadioButtonValue() {
 
 function modal_open12() {
 	let pageValidation = document.getElementById("pageCount").value;
-	
+
 	// let pageValidationtotalCost = document.getElementById("totalCost1").textContent;
-	 
+
 	 let pageValidationtotalCost =  $('#totalCost1').val();
 
-	  
-	  
-   
+
+
+
 
 	if (!pageValidation) {
 		alert("Please fill the Add More Pages field");
 	} else {
-	 
+
 				if (pageValidationtotalCost >= pageValidation) {
 					modal_open112();
 				}
 				else{
 					alert("Thank you for using our services!It looks like youve used all 2000 pages included in your current package To continue enjoying our services, please consider purchasing another package")
 				}
-		
+
 		// alert(pageValidation);
-	   
-	   
+
+
 	 //  modal_open112();
-	   
-	   
+
+
 	}
 }
 
@@ -7775,7 +7775,7 @@ function modal_open112() {
 		var page = $("#pageCount").val();
 		var total = $("#totalCost").text();
 		var order_id = {{$order->order_id}};
-		
+
 		var url = "{{ route('customer.pakage.add.order.pages') }}"; // Note the quotes around the route function
 
 		// Get the CSRF token from the page
@@ -7797,13 +7797,13 @@ function modal_open112() {
 				// Request was successful, handle response if needed
 				console.log(response);
 				  Swal.fire('Success', 'Pages added successfully!', 'success');
-				  
+
 					 setTimeout(function() {
 							location.reload();
 						}, 3000);
-			 
-				  
-				  
+
+
+
 			},
 			error: function (xhr, status, error) {
 				// Handle errors here
@@ -7821,18 +7821,18 @@ function modal_open1() {
 	if (!pageValidation) {
 		alert("Please fill the Add More Pages field");
 	} else {
-	   
-	   
+
+
 	   modal_open();
-	   
-	   
+
+
 	}
 }
 
 
 function modal_open(){
-	
-  
+
+
 
 	var deadline=document.getElementById('meeting-time_custom').value;
 	var page = document.getElementById('pageCount').value;
@@ -7858,12 +7858,12 @@ function modal_open(){
 
 						let idgetsession = response.sessionId;
 
-					   
+
 						Swal.fire('Success', 'Add Payment Details!', 'success');
 
 								if (response && response.sessionId) {
 
-					  
+
 						window.location.href = '{{ route("customer.card.show.mangepages", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
 
 
@@ -7901,7 +7901,7 @@ function submit_payment() {
 			localStorage.setItem('card_detail', JSON.stringify(card_detail))
 			console.log(card_detail);
 			user_id = {{$order->user_id}};
-		   
+
 			var url = '{{ route('customer.customer_payment', ['id' => ':id']) }}';
 			url = url.replace(':id', user_id);
 
@@ -7992,17 +7992,17 @@ function submit_payment() {
 
 // 		var orderId = document.getElementById('order_id').value;
 // 		var notes = document.getElementById('request').value;
-		
+
 // 		var formData = {
 // 				order_id:  document.getElementById('order_id').value,
 // 				text: document.getElementById('request').value,
-				
+
 // 			};
 // 		var csrfToken = document.getElementById('csrf-token').value;
 // 		console.log(orderId + notes + formData, csrfToken);
 
 
-			
+
 // 		$.ajax({
 // 			type: 'post',
 // 			url: "{{route('customer.order-detail-request')}}",
@@ -8044,7 +8044,7 @@ function submit_payment() {
 
 
 		});
-		
+
 		$( '#delete_btn_suppot').on('click', function (e){
 		$('#message_support').val('');
 		$('#message_support').text('');
@@ -8053,9 +8053,9 @@ function submit_payment() {
 		supportMessageQuill.setText('');
 		quill_3.setText('');
 	});
-		
-		
-		
+
+
+
 		$('#kt_inbox_compose_form').submit(function(e) {
 			e.preventDefault(); // Prevent the form from submitting in the traditional way
 
@@ -8082,7 +8082,7 @@ function submit_payment() {
 			var url = '{{ route("customer.send-message")}}'
 			// Example of sending formData using AJAX:
 			$.ajax({
-			   
+
 				type: 'POST',
 				url: url,
 					data: formData,
@@ -8099,7 +8099,7 @@ function submit_payment() {
 					var pusher = new Pusher('28e13a39c3918e12f8a9', {
 					  cluster: 'ap2'
 					});
-					
+
 					var channel = pusher.subscribe('pusher');
 					channel.bind('SendMessage', function(data) {
 					  alert(JSON.stringify(data));
@@ -8130,12 +8130,12 @@ function submit_payment() {
 
 						var send_by = $('.radioAdminWriter:checked').val();
 						console.log("Selected value:", send_by);
-					
+
 						formData.append('send_by', send_by);
-						
-						
+
+
 						 var sendby = $('.radioAdminWriter:checked').val();
-						 
+
 						 var message = $('.ql-editor').text();
 
     // Check if sendby is empty or null
@@ -8157,12 +8157,12 @@ function submit_payment() {
 						for (var pair of formData.entries()) {
 							console.log(pair[0] + ', ' + pair[1]);
 						}
-			
+
 						// Now you can use the formData object to send the data to the server using AJAX or perform other actions
 						var url = '{{ route("customer.send-message")}}'
 						// Example of sending formData using AJAX:
 						$.ajax({
-							
+
 							type: 'POST',
 							url: url,
 								data: formData,
@@ -8173,19 +8173,19 @@ function submit_payment() {
 								Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
 								quill.setText('');
 								document.getElementById('file_name').innerHTML = '';
-							
+
 							},
 							error: function(error) {
 								console.error('Error:', error);
 							}
 						});
-			
+
 						return false; // Prevent the form from submitting in the traditional way
 					});
-					
-					
+
+
 					// clear message box
-	
+
 
 
 	});
@@ -8211,7 +8211,7 @@ function submit_payment() {
 				dataType: "json",
 				encode: true,
 				headers: {
-					'X-CSRF-TOKEN': csrfToken 
+					'X-CSRF-TOKEN': csrfToken
 				},
 				success: function(response) {
 					console.log(response);
@@ -8234,8 +8234,8 @@ function submit_payment() {
 // 			type: $text,
 // 			order_id: {{$order->order_id}}
 // 			};
-			
-			
+
+
 // 		var csrfToken = $('meta[name="csrf-token"]').attr('content');
 // 		$.ajax({
 // 			type: 'post',
@@ -8244,7 +8244,7 @@ function submit_payment() {
 // 			dataType: "json",
 // 			encode: true,
 // 			headers: {
-// 					'X-CSRF-TOKEN': csrfToken 
+// 					'X-CSRF-TOKEN': csrfToken
 // 				},
 // 				success: function(response) {
 // 					console.log(response);
@@ -8273,7 +8273,7 @@ function submit_payment() {
 			 $.ajax({
 				 type: 'get', // Change to DELETE method
 				//  url: '/customer/files/' + id + '/' + name + '/delete',
-				
+
 				 url: "{{ route('customer.files.delete', ['id' => ':id', 'folder_name' => ':name']) }}".replace(':id', id).replace(':name', name),
 					data: { id: id ,name:name},
 				 success: function (response) {
@@ -8284,7 +8284,7 @@ function submit_payment() {
 					 console.error(error);
 				 }
 			 });
- 
+
 			 Swal.fire('Deleted!', 'Your data has been deleted.', 'success');
 		 }
 	 });
@@ -8295,11 +8295,11 @@ function submit_payment() {
 <script>
 	// Function to handle table search
 	$(document).ready(function () {
-	    
-	    
-	    
-	    
-	    
+
+
+
+
+
 		// Add an input event listener to the search input
 		$("#searchInput").on("input", function () {
 			// Get the value of the search input
@@ -8313,9 +8313,9 @@ function submit_payment() {
 
 		$("#pageCount").on("input", function () {
 			var pageCount = $(this).val();
-			
 
-	
+
+
 @if ($used_subscription)
 	var total_pages = {{ $used_subscription->total_pages ?? 0 }};
 	var remaining_pages = {{ $used_subscription->remaining_pages ?? 0 }};
@@ -8330,14 +8330,14 @@ function submit_payment() {
 $('.RequiredPages').text(pageCount);
 
 
-		
-		
-		
-		
-			
+
+
+
+
+
 	var numpage = $('.numpage').text();
 
-		
+
 	var numpageParsed = Number(numpage);
 var pageCountParsed = Number(pageCount);
 
@@ -8353,47 +8353,47 @@ if (isNaN(totalpageCount)) {
 
 console.log("numpageParsed:", numpageParsed, "pageCountParsed:", pageCountParsed);
 console.log("sahriq totalpageCount:", totalpageCount);
-		
-				
+
+
 		var cost = pageCount * parseInt({{$order->cost_per_page}});
-			 
+
 			 var cost_perpage_get = $('#cost_per_page').val();
-			 
+
 		//	 var cost = pageCount * parseInt(cost_perpage_get);
 			$("#totalCost").text(cost.toFixed(2));
-			
-			
+
+
 			  @if ($used_subscription)
 //	var cost = pageCount * parseInt({{$order->cost_per_page}});
-			 
+
 			 var cost_perpage_get = $('#cost_per_page').val();
-			 
+
 		 var cost = pageCount * parseInt(cost_perpage_get);
 			$("#totalCost").text(cost.toFixed(2));
 @else
 	var cost = pageCount * parseInt({{$order->cost_per_page}});
-			 
+
 			 var cost_perpage_get = $('#cost_per_page').val();
-			 
+
 		//	 var cost = pageCount * parseInt(cost_perpage_get);
 			$("#totalCost").text(cost.toFixed(2));
 @endif
-			
-			
-			
-			
+
+
+
+
 				$('#totalcostreq').text(cost);
 				$('#pakg_cost_per_page').text(cost_perpage_get);
 
 			var remainingPages = $("#remainingPages").text();
-			
-		
-			
+
+
+
 			if (remainingPages > 0) {
 				$("#remainingPages").text(remainingPages - pageCount);
 			}
-			
-			
+
+
 
 			// Show/hide Subscriber Options based on user type
 			var userType = "subscriber"; // Replace with your logic to determine user type
@@ -8406,13 +8406,13 @@ console.log("sahriq totalpageCount:", totalpageCount);
 			}
 		});
 
-		// //send support message 
+		// //send support message
 		$(document).on('click', '.sendSupportMessage', function (e){
 			e.preventDefault();
 			var formData = new FormData($('#support_message_form')[0]);
 			var csrfToken = $('meta[name="csrf-token"]').attr('content');
-			
-		
+
+
 
 			$.ajax({
 				type: "POST",
@@ -8441,13 +8441,13 @@ console.log("sahriq totalpageCount:", totalpageCount);
 		});
 
 
-		
+
 
 	});//main-doc;
 </script>
 <script>
 
-	
+
 	   $(document).on('click', '.send_rewrite', function() {
 	var order_id = document.getElementById('order_id_revision').value;
 	var revision_request = document.getElementById('request_revision').value;
@@ -8468,7 +8468,7 @@ if (order_id && revision_request) {
 					Swal.fire('Success', response.message, 'success');
 					$('#request').val('');
 					requestRevisionEditor.setText('');
-					
+
 				},
 				error: function(error) {
 					console.error(error);
@@ -8479,15 +8479,15 @@ if (order_id && revision_request) {
 			console.error('Order ID or revision request is missing.');
 			Swal.fire('Error', 'Please provide valid inputs.', 'error');
 		}
-	
-   
+
+
 });
 
-	
+
 
 	</script>
-	
-	
+
+
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
@@ -8535,9 +8535,9 @@ if (order_id && revision_request) {
         }
     });
 
-	
+
 		$(document).ready(function() {
-			
+
 			var old_tab_id = localStorage.getItem('tab_id');
 
 			$('.tabBtn').on('click', function() {
@@ -8562,13 +8562,13 @@ if (order_id && revision_request) {
 		});
 
 	$(document).on('click', '#downloadPdf', function () {
-	
+
 		setTimeout(function() {
 			location.reload();
-		}, 2000); 
+		}, 2000);
 	});
-	
-	
+
+
 
 	$(document).ready(function () {
 
@@ -8591,20 +8591,20 @@ if (order_id && revision_request) {
 
 
 		$('#completed_order_file_table').DataTable();
-		
 
 
-		    
-		
+
+
+
 	});
-	
+
 
 	$(document).on('click', '.feedSubmit', function() {
-		
+
 		 var order_id_get = $('#order_id_get').val();
 			var feedback = $('#feedback').val();
 			var url2 = '{{ route('customer.order-detail-feedback') }}';
-		
+
 		 $.ajax({
 		type: 'post',
 		url: url2,
@@ -8624,7 +8624,7 @@ if (order_id && revision_request) {
 		}
 	});
 	});
-	
+
 
 	</script>
 	<script>
@@ -8639,11 +8639,11 @@ if (order_id && revision_request) {
 
 
 
-	
+
 </script>
 
 
-	
+
 <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
 
 <!-- Initialize Quill editor -->
@@ -8656,9 +8656,9 @@ addEventListener('keyup', () => {
 	var editorContent = quill.root.innerHTML;
 	var message = document.getElementById('message');
 	message.innerHTML = editorContent;
-	
+
 });
-//message end here; 
+//message end here;
 
 const requestRevisionEditor = new Quill("#requestRevisionEditor", {
     theme: "snow",
@@ -8686,7 +8686,7 @@ $('#feedbackEditor').on('click', function(){
 
 @if ($order->order_status != 'Delivered')
 	requestRevisionEditor.disable();
-	
+
 
 @else
 
@@ -8694,7 +8694,7 @@ addEventListener('keyup', () => {
 		var editorContent = requestRevisionEditor.root.innerHTML;
 		var request_revision = document.getElementById('request_revision');
 		request_revision.innerHTML = editorContent;
-		
+
 	});
 @endif
 //requestRevisionEditor end;
@@ -8715,7 +8715,7 @@ addEventListener('keyup', () => {
     var editorContent_4 = feedbackEditor.root.innerHTML;
     var message_support = document.getElementById('feedback');
     message_support.innerHTML = editorContent_4;
-	
+
 });
 @endif
 
@@ -8724,7 +8724,7 @@ addEventListener('keyup', () => {
 	var editorContent = quill.root.innerHTML;
 	var message = document.getElementById('message');
 	message.innerHTML = editorContent;
-	
+
 });
 
 
@@ -8732,7 +8732,7 @@ addEventListener('keyup', () => {
     var editorContent_3 = supportMessageQuill.root.innerHTML;
     var message_support = document.getElementById('message_support');
     message_support.innerHTML = editorContent_3;
-	
+
 });
 
 </script>
@@ -8773,7 +8773,7 @@ $(document).on('click', '.deleteBtnForm', function(e){
 		}
 
 		$('#delete_or_download_form').submit();
-		console.log('delete btn'); 
+		console.log('delete btn');
 	});
 
 $(document).on('click', '.downloadBtnForm', function(e){
@@ -8788,13 +8788,13 @@ $(document).on('click', '.downloadBtnForm', function(e){
 			deleteInput.val('');
 		}
 		$('#delete_or_download_form').submit();
-		console.log('download btn'); 
+		console.log('download btn');
 	});
 
 
-	
-	
-	
+
+
+
 	</script>
-  
+
 @endsection

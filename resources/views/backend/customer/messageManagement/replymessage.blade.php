@@ -34,17 +34,17 @@ h3 {
                 <!--end::Title-->
                 <!--begin::Breadcrumb-->
                 <!-- <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                    
+
                     <li class="breadcrumb-item text-muted">
                         <a href="message-management.php" class="text-muted text-hover-primary">Message Management</a>
                     </li>
-                    
+
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-500 w-5px h-2px"></span>
                     </li>
-                    
+
                     <li class="breadcrumb-item text-muted">Conversation</li>
-                    
+
                 </ul> -->
                 <!--end::Breadcrumb-->
             </div>
@@ -87,7 +87,7 @@ h3 {
 
                                 </div>
 
-                                
+
                             </div>
                             <!--end::Menu-->
                         </div>
@@ -155,12 +155,12 @@ h3 {
 
                                                 <label><span class="ki-duotone ki-paper-clip fs-2 m-0 text-white"></span><input hidden type="file" accept="image/*" class="upload-attachment" name="media[]" id="media" multiple /></label>
                                             </div>
-                                            <p id="attach_file_1" class="text-white"></p>
+                                            <p id="attach_file_1" class="text-white  w-200px"></p>
                                         </div>
 
 
 
-                                        
+
                                         <div>
                                             <input type="radio" id="AdminRadio" class="radioAdminWriter" name="statusRadio" value="Admin"  >
                                             <label for="AdminRadio">Admin</label>
@@ -175,7 +175,7 @@ h3 {
                                                 order id: <span class="badge badge-custom-bg text-dark ms-3">{{$order_id}}</span>
                                         </div>
 
-                                        
+
 
 
                                         <div class="d-flex align-items-center">
@@ -193,7 +193,7 @@ h3 {
                                         </div>
                                         <!--end::Toolbar-->
                                     </div>
-                                    
+
                                     <div id="replyMessageEditor" class="border-0 bg-transparent h-250px px-3"></div>
                                     <textarea class="form-control form-control-transparent border-0 h-100 text-white d-none" id="message_box" name="message" id="message_box" placeholder="Message Here" value=""></textarea>
 
@@ -339,10 +339,10 @@ h3 {
                     console.log('Server response:', response);
                     Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
                     Pusher.logToConsole = true;
-                        
+
                         $('#message_box').val();
                         replyMessageEditor.setText('');
-                        
+
                         $('#attach_file_1').text('');
                     var pusher = new Pusher('28e13a39c3918e12f8a9', {
                         cluster: 'ap2'
@@ -390,7 +390,7 @@ document.getElementById("media").addEventListener("change", function() {
         document.getElementById("attach_file_1").innerText = "Selected files: " + fileNames;
     });
 
-    
+
     $(document).ready(function() {
         $('#kt_inbox_reply_form').submit(function(e) {
             e.preventDefault(); // Prevent the form from submitting in the traditional way
@@ -398,21 +398,21 @@ document.getElementById("media").addEventListener("change", function() {
             // Create a FormData object to gather form data
             var formData = new FormData(this);
             formData.append('_token', '{{ csrf_token() }}');
-           
+
             var send_by = $('.radioAdminWriter:checked').val();
             console.log("Selected value:", send_by);
             // Append the selected value to the FormData object if needed
             formData.append('send_by', send_by);
-            
+
              var sendby = $('.radioAdminWriter:checked').val();
              var message = $('#message_box').val();
-            
-            
+
+
             if (sendby == '' || sendby == null) {
        Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
         return; // Stop execution if the condition is met
     }
-    
+
     if (!message) {
     Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
     return;
@@ -439,7 +439,7 @@ document.getElementById("media").addEventListener("change", function() {
                 success: function(response) {
                     console.log('Server response:', response);
                     Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
-                    
+
                     $('#message_box').val('');
                     $('#attach_file_1').text('');
                     replyMessageEditor.setText('');

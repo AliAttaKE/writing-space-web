@@ -32,17 +32,17 @@ h3{
                 <!--end::Title-->
                 <!--begin::Breadcrumb-->
                 <!-- <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                    
+
                     <li class="breadcrumb-item text-muted">
                         <a href="message-management.php" class="fs-color-white custom-fs-13">Messagae Management</a>
                     </li>
-                    
+
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-500 w-5px h-2px"></span>
                     </li>
-                    
+
                     <li class="breadcrumb-item fs-color-white custom-fs-13">Compose</li>
-                    
+
                 </ul> -->
                 <!--end::Breadcrumb-->
             </div>
@@ -83,7 +83,7 @@ h3{
                                     </span>
                                     <!--end::Inbox-->
                                 </div>
-                                
+
                             </div>
                             <!--end::Menu-->
                         </div>
@@ -132,17 +132,17 @@ h3{
                                             <div class="btn-group me-4">
                                                 <!--begin::Submit-->
                                                <button class="btn badge-custom-bg fs-bold px-6 clear_message_box" type="submit" >Send</button>
-                                                    
+
                                                 <!--end::Send options-->
                                             </div>
                                             <!--end::Send-->
                                             <!--begin::Upload attachement-->
                                             <div class="btn btn-icon btn-sm btn-clean btn-active-light-primary me-2" id="media_button" data-kt-inbox-form="dropzone_upload">
-                                               
+
                                                 <label><span class="ki-duotone ki-paper-clip fs-2 m-0 text-white"></span><input hidden type="file" accept="image/*" class="upload-attachment" name="media[]" id="media" multiple/></label>
                                             </div>
                                             <!--end::Upload attachement-->
-                                            <p id="attach_file_1" class="text-white"></p>
+                                            <p id="attach_file_1" class="text-white w-200px"></p>
                                         </div>
 
 
@@ -172,9 +172,9 @@ h3{
                                         </div>
 
                                         <!--<div class="border d-flex p-3 align-items-center rounded me-3">-->
-                                            
+
                                         <!--    <div class="text-gray-900 fw-bold w-75px">To:</div>-->
-                                            
+
                                         <!--</div>-->
                                         <!--begin::Toolbar-->
                                         <div class="d-flex align-items-center">
@@ -194,15 +194,15 @@ h3{
                                     </div>
                                     <!--end::To-->
                                     <!--begin::CC-->
-                                 
+
                                     <!--end::CC-->
                                     <!--begin::BCC-->
-                                  
+
                                     <!--end::BCC-->
                                     <!--begin::Message-->
                                     <div class="bg-transparent border-0 h-250px px-3 text-white" id="editor"></div>
                                     <textarea class="form-control form-control-transparent border-0 h-100 text-white d-none" id="message_box" name="message"></textarea>
-                                 
+
                                     <!--end::Message-->
                                     <!--begin::Attachments-->
                                     <div class="dropzone dropzone-queue px-8 py-4" id="kt_inbox_reply_attachments" data-kt-inbox-form="dropzone">
@@ -320,15 +320,15 @@ const newMessageEditor = new Quill("#editor", {
             formData.append('_token', '{{ csrf_token() }}');
             // You can append additional data if needed
             // formData.append('key', 'value');
-            
-            
-            
-            
+
+
+
+
             var sendby = $('.radioAdminWriter:checked').val(); // Make sure to include :checked to get the selected value
-            
+
             var message = $('#message_box').val();
-            
-            
+
+
              var orderId = $('select[name="order_id"]').val();
     if (!orderId) {
         Swal.fire('Error!', 'To start chatting with us, please place an order first!', 'error');
@@ -340,15 +340,15 @@ if (sendby == '' || sendby == null) {
     Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
     return; // Stop execution if the condition is met
 }
-     
+
 if (!message) {
     Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
     return;
-}       
-            
-            
-            
-            
+}
+
+
+
+
 
             var send_by = $('.radioAdminWriter:checked').val();
     console.log("Selected value:", send_by);
@@ -367,11 +367,11 @@ if (!message) {
                 console.log(pair[0] + ', ' + pair[1]);
             }
 
-           
+
             var url = '{{ route("customer.send-message")}}'
-        
+
             $.ajax({
-               
+
                 type: 'POST',
                 url: url,
                     data: formData,
@@ -383,13 +383,13 @@ if (!message) {
                     	$('#attach_file_1').text('');
                     	$('#message_box').val('');
                         newMessageEditor.setText('');
-                    	
+
                     Pusher.logToConsole = true;
 
                     var pusher = new Pusher('28e13a39c3918e12f8a9', {
                       cluster: 'ap2'
                     });
-                    
+
                     var channel = pusher.subscribe('pusher');
                     channel.bind('SendMessage', function(data) {
                       alert(JSON.stringify(data));
@@ -401,7 +401,7 @@ if (!message) {
                 }
             });
 
-            return false; 
+            return false;
         });
 
     });
@@ -411,10 +411,10 @@ if (!message) {
 
 @section('customJs')
 <script>
-    
+
 $(document).ready(function (){
      // clear message box
-      
+
 });
 </script>
 

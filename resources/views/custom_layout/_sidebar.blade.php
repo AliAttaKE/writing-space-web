@@ -49,13 +49,13 @@
                 </span>
             </span><!--end:Menu link-->
         </div><!--end:Menu item-->
-        
 
 
-      
-        
+
+
+
         <!-- <div class="menu-item menu-accordion">-->
-           
+
         <!--    <span class="menu-link py-0">-->
         <!--        <span class="menu-icon">-->
         <!--            <i class="ki-duotone ki-switch fs-2">-->
@@ -66,8 +66,8 @@
         <!--            <a class="menu-link ps-0 custom-menu {{ request()->routeIs('admin.cms_pages.index') ? 'active' : '' }}" href="{{ route('admin.cms_pages.index') }}">-->
         <!--                CMS Pages-->
         <!--            </a>-->
-                    
-                       
+
+
         <!--        </span>-->
         <!--    </span>-->
         <!--</div>-->
@@ -82,16 +82,16 @@
         <div class="menu-item menu-accordion py-0 ps-0"><!--begin:Menu link--><span class="menu-link py-0"><span class="menu-icon"><i class="ki-duotone ki-message-text-2 fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span><span class="menu-title"><a class="menu-link ps-0 custom-menu " href="{{route('admin.message-management')}}">Message
             Management</a></span></span><!--end:Menu link-->
 </div><!--end:Menu item-->
-            
+
         <!--<div class="menu-item menu-accordion">-->
-          
+
         <!--    <span class="menu-link py-0"><span class="menu-icon"><i class="ki-duotone ki-security-user fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">-->
         <!--    <a class="menu-link ps-0 custom-menu {{ (request()->is('admin/emails')) ? 'active' : '' }}" href="{{ route('admin.emails.index') }}">Email-->
         <!--                Automation</a></span></span>-->
-                     
+
         <!--</div>-->
-        
-        
+
+
         <!--end:Menu item-->
         <!--begin:Menu item-->
         <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
@@ -124,34 +124,34 @@
             </div><!--end:Menu sub-->
         </div><!--end:Menu item-->
           <!--begin:Menu item-->
-    
-      
+
+
 
         <!--begin:Menu item-->
         <div class="menu-item menu-accordion"><!--begin:Menu link--><span class="menu-link py-0"><span class="menu-icon"><i class="ki-duotone ki-abstract-26 fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">
             <a class="menu-link ps-0 custom-menu {{ (request()->is('admin/library/management')) ? 'active' : '' }}" href="{{ route('admin.library.index') }}">Library
                         Management</a></span></span><!--end:Menu link-->
         </div><!--end:Menu item-->
-        
-     
+
+
 
           <!--begin:Menu item-->
         <div data-kt-menu-trigger="click" class="menu-item menu-accordion"><!--begin:Menu link--><span class="menu-link "><span class="menu-icon"><i class="ki-duotone ki-abstract-28 fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title custom-menu">Services</span><span class="menu-arrow"></span></span><!--end:Menu link--><!--begin:Menu sub-->
             <div class="menu-sub menu-sub-accordion"><!--begin:Menu item-->
                 <!--begin:Menu item-->
-                
-                
+
+
                       <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="{{ route('admin.pakage_limit.index') }}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Package limit Pages</span></a><!--end:Menu link--></div><!--end:Menu item-->
 
                       <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="{{ route('admin.add_ons.index') }}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">add ons</span></a><!--end:Menu link--></div><!--end:Menu item-->
-                
+
                 <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="{{ route('admin.paper_formats.index') }}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Paper Format</span></a><!--end:Menu link--></div><!--end:Menu item-->
                 <!--begin:Menu item-->
                 <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{ route('admin.languages.index') }}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Language & Spelling</span></a><!--end:Menu link--></div><!--end:Menu item-->
                 <!--begin:Menu item-->
                 {{-- <div class="menu-item "><!--begin:Menu link--><a class="menu-link " href="{{ route('admin.services.index') }}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Service Type</span></a><!--end:Menu link--></div><!--end:Menu item--> --}}
                 <!--begin:Menu item-->
-                
+
                 <!--begin:Menu item-->
                 <div class="menu-item "><!--begin:Menu link--><a class="menu-link " href="{{ route('admin.email_types.index') }}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Email Type</span></a><!--end:Menu link--></div><!--end:Menu item-->
                 <!--begin:Menu item-->
@@ -166,36 +166,36 @@
                 <div class="menu-item "><!--begin:Menu link--><a class="menu-link " href="{{ route('admin.coupons.index') }}" ><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Coupons</span></a><!--end:Menu link--></div><!--end:Menu item-->
                  <div class="menu-item "><!--begin:Menu link--><a class="menu-link " href="{{ route('admin.blogs') }}" ><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Blogs</span></a><!--end:Menu link--></div><!--end:Menu item-->
                  <div class="menu-item "><!--begin:Menu link--><a class="menu-link " href="{{ route('admin.promotions.index') }}" ><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Promotions</span></a><!--end:Menu link--></div><!--end:Menu item-->
-                 
+
                   <div class="menu-item "><!--begin:Menu link--><a class="menu-link " href="{{ route('admin.package.cancelation') }}" ><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Package Cancelation</span></a><!--end:Menu link--></div><!--end:Menu item-->
-                  
-                  
+
+
                      <div class="menu-item "><!--begin:Menu link--><a class="menu-link " href="{{ route('admin.show.feedback') }}" ><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Feedbacks</span></a><!--end:Menu link--></div><!--end:Menu item-->
-                     
-                     
-                     
+
+
+
                        <!--begin:Menu item-->
   <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
     <!--begin:Menu link--><span class="menu-link "><span class="menu-icon"><i class="ki-duotone ki-abstract-28 fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title custom-menu">System Configurations</span><span class="menu-arrow"></span></span><!--end:Menu link--><!--begin:Menu sub-->
     <div class="menu-sub menu-sub-accordion"><!--begin:Menu item-->
         <!--begin:Menu item-->
-        <div class="menu-item"><!--begin:Menu link--><a class="menu-link 
+        <div class="menu-item"><!--begin:Menu link--><a class="menu-link
         {{ (request()->is('admin/merchant/account/configurations')) ? 'active' : '' }}
-        " 
+        "
         href="{{ route('admin.merchant.account.configurations') }}"
         ><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Marchant Account</span></a><!--end:Menu link--></div><!--end:Menu item-->
         <!--end:Menu item-->
 
         <!--begin:Menu item-->
-        <div class="menu-item"><!--begin:Menu link--><a class="menu-link 
+        <div class="menu-item"><!--begin:Menu link--><a class="menu-link
         {{ (request()->is('admin/smpt/configurations')) ? 'active' : '' }}
-        " 
+        "
         href="{{ route('admin.smpt.configurations') }}"
         ><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">SMTP Configuration</span></a><!--end:Menu link--></div><!--end:Menu item-->
         <!--end:Menu item-->
 
-       
-    
+
+
     </div><!--end:Menu sub-->
 </div><!--end:Menu item-->
 
@@ -203,42 +203,42 @@
 
 
   <div class="menu-item "><!--begin:Menu link--><a class="menu-link " href="{{ route('admin.contacts.index') }}" ><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Contact Information</span></a><!--end:Menu link--></div><!--end:Menu item-->
-  
-  
+
+
     <div class="menu-item "><!--begin:Menu link--><a class="menu-link " href="{{ route('admin.campaigns.index') }}" ><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Email Campaigns</span></a><!--end:Menu link--></div><!--end:Menu item-->
-    
-       
+
+
         <div data-kt-menu-trigger="click" class="menu-item menu-accordion ">
     <!--begin:Menu link--><span class="menu-link py-0"><span class="menu-icon"><i class="ki-duotone ki-credit-cart fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title custom-menu"> Invoice Management</span><span class="menu-arrow"></span></span><!--end:Menu link--><!--begin:Menu sub-->
     <div class="menu-sub menu-sub-accordion"><!--begin:Menu item-->
-      
+
         <!--end:Menu item--><!--begin:Menu item-->
         <div class="menu-item"><!--begin:Menu link--><a class="menu-link {{ (request()->is('admin/create/custom/invoice')) ? 'active' : '' }}" href="{{route('admin.create.custom.invoice')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Create New Invoice
                     </span></a><!--end:Menu link--></div><!--end:Menu item--><!--end:Menu item-->
-                    
+
                     <!--end:Menu item--><!--begin:Menu item-->
         <div class="menu-item"><!--begin:Menu link--><a class="menu-link {{ (request()->is('admin/invoices')) ? 'active' : '' }}" href="{{ route('admin.invoices.index') }}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu"> Invoices
                     </span></a><!--end:Menu link--></div><!--end:Menu item--><!--end:Menu item-->
-                    
-       
-                    
+
+
+
     </div><!--end:Menu sub-->
 </div><!--end:Menu item-->
 
-                 
+
             </div><!--end:Menu sub-->
         </div><!--end:Menu item-->
-        
-     
-        
-      
+
+
+
+
 
 <!--begin:Menu item-->
         <div class="menu-item menu-accordion"><!--begin:Menu link--><span class="menu-link py-0"><span class="menu-icon"><i class="ki-duotone ki-profile-circle fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span><span class="menu-title">
             <a class="menu-link ps-0 custom-menu {{ (request()->is('admin/show/profile')) ? 'active' : '' }}" href="{{ route('admin.show.profile') }}">Your
                         Profile</a></span></span><!--end:Menu link--></div>
         <!--end:Menu item-->
-        
+
     </div>
     <!--end::Menu-->
 </div>

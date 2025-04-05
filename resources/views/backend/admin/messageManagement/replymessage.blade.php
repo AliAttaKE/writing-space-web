@@ -28,18 +28,18 @@ h3 {
                 <!--end::Title-->
                 <!--begin::Breadcrumb-->
                 <!-- <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                    
+
                     <li class="breadcrumb-item text-muted">
                         <a href="message-management.php" class="fs-color-white custom-fs-13">Message Management</a>
                     </li>
-                    
+
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-500 w-5px h-2px"></span>
                     </li>
-                    
-                    
+
+
                     <li class="breadcrumb-item fs-color-white custom-fs-13">Conversation</li>
-                    
+
                 </ul> -->
                 <!--end::Breadcrumb-->
             </div>
@@ -81,7 +81,7 @@ h3 {
                                     </span>
                                     <!--end::Inbox-->
                                 </div>
-                               
+
                             </div>
                             <!--end::Menu-->
                         </div>
@@ -157,9 +157,9 @@ h3 {
                                             <div class="btn-group me-4">
                                                 <!--begin::Submit-->
                                                <button class="btn badge-custom-bg fs-bold px-6" type="submit" >Send</button>
-                                                 
+
                                                 <!--end::Submit-->
-                                                
+
                                             </div>
                                             <!--end::Send-->
                                             <!--begin::Upload attachement-->
@@ -167,7 +167,7 @@ h3 {
                                                 <label><span class="ki-duotone ki-paper-clip fs-2 m-0 fs-color-white"></span><input hidden type="file" class="upload-attachment" name="media[]" id="media" multiple accept="image/*"/></label>
                                             </div>
                                             <!--end::Upload attachement-->
-                                            <p id="attach_file_1" class="text-white"></p>
+                                            <p id="attach_file_1" class="text-white  w-200px"></p>
                                         </div>
 
                                         <div>
@@ -186,8 +186,8 @@ h3 {
                                             order id: <span class="badge badge-custom-bg text-dark ms-3">{{$order_id}}</span>
                                         </div>
 
-                                        
-                                    
+
+
                                     <div class="d-flex align-items-center">
                                             <!--begin::Dismiss reply-->
                                             <span class="btn btn-icon btn-sm btn-clean clear_message_box message" id="delete_btn" data-inbox="dismiss" data-toggle="tooltip" title="Discard reply">
@@ -278,11 +278,11 @@ h3 {
                             <!--end::Title-->
                             <!--begin::Message accordion-->
                             <livewire:message-box :order_id="$order_id" />
-                           
+
                             <!--end::Message accordion-->
                             <div class="separator my-6"></div>
                             <!--begin::Message accordion-->
-                            
+
 
                         </div>
                     </div>
@@ -350,7 +350,7 @@ h3 {
 
     $(document).ready(function() {
         $('#kt_inbox_reply_form').submit(function(e) {
-            e.preventDefault(); 
+            e.preventDefault();
             var formData = new FormData(this);
             formData.append('_token', '{{ csrf_token() }}');
             console.log(formData)
@@ -358,24 +358,24 @@ h3 {
 
    var send_by = $('.radioAdminWriter:checked').val();
             console.log("Selected value:", send_by);
-            
+
             // Append the selected value to the FormData object if needed
             formData.append('send_by', send_by);
-            
+
              var sendby = $('.radioAdminWriter:checked').val();
-             
+
              var message = $('#message_box').val();
-             
+
                 if (!message) {
     Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
     return;
 }
-             
+
              if (sendby == '' || sendby == null) {
        Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
         return; // Stop execution if the condition is met
     }
-            
+
             var element = document.getElementById('media');
             console.log(element.value)
             for (var pair of formData.entries()) {
@@ -384,26 +384,26 @@ h3 {
 
             var url = '{{ route("admin.send-message")}}'
             $.ajax({
-                
+
                 type: 'POST',
                 url: url,
                     data: formData,
-                    processData: false,  
-                    contentType: false,  
+                    processData: false,
+                    contentType: false,
                 success: function(response) {
                     console.log('Server response:', response);
                     Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
                     replayMessageEditor.setText('');
                     var element = document.getElementById('attach_file_1');
-                    element.innerText = ''; 
-                
+                    element.innerText = '';
+
                 },
                 error: function(error) {
                     console.error('Error:', error);
                 }
             });
 
-            return false; 
+            return false;
         });
     });
 </script>
@@ -427,7 +427,7 @@ document.getElementById("media").addEventListener("change", function() {
         $('#message_box').val('');
         replayMessageEditor.setText('');
         var element = document.getElementById('attach_file_1');
-        element.innerText = ''; 
+        element.innerText = '';
     });
 </script>
 
@@ -455,12 +455,12 @@ document.getElementById("media").addEventListener("change", function() {
                 type: 'POST',
                 url: url,
                     data: formData,
-                    processData: false,  
-                    contentType: false,  
+                    processData: false,
+                    contentType: false,
                 success: function(response) {
                     console.log('Server response:', response);
                     var element = document.getElementById('media');
-                    element.value = ''; 
+                    element.value = '';
 
                     Swal.fire('Success', "Message Send successfully", 'success');
                     Pusher.logToConsole = true;
@@ -483,7 +483,7 @@ document.getElementById("media").addEventListener("change", function() {
         });
 
     // clear message box
-       
+
 
 
 

@@ -332,7 +332,7 @@
 										<!--begin:::Tab pane-->
 										<div class="tab-pane fade" id="kt_ecommerce_customer_messages" role="tabpanel">
 											<div class="d-flex justify-content-center">
-												<div class=" col-8">
+												<div class="col-11">
 
 													<!--begin::Card-->
 													<div class="card">

@@ -68,7 +68,7 @@
 						<!--end::Toolbar container-->
 					</div>
 					<!--end::Toolbar-->
-					
+
 					<!--begin::Content-->
 					<div id="kt_app_content" class="app-content flex-column-fluid">
 						<!--begin::Content container-->
@@ -114,7 +114,7 @@
 																		<div id="kt_app_content_container" class="">
 																			<!--begin::Card-->
 																			<div class="card card-custom-bg message-summ">
-																				
+
 																				<!--begin::Card body-->
 																				<!--begin::Card body-->
 																				<div class="card-body overflow-auto py-4">
@@ -198,7 +198,7 @@
 																<h3 class="page-heading d-flex fs-color-white custom-fs-13 fw-bold fs-3 flex-column justify-content-center my-0">Language Style</h3>
 															</div>
 															<div class="col-6">
-																
+
 																@if($language)
 																	<p class="fw-bold fs-color-white custom-fs-13">{{$language->title}}</p>
 																@else
@@ -236,7 +236,7 @@
 														<h2 class="page-heading px-3 mb-5 d-flex fw-bold fs-2 flex-column justify-content-center my-0">Instructions</h2>
 														{!! $order->description !!}
 													</div>
-													
+
 												</div>
 											</div>
 
@@ -246,7 +246,7 @@
 										<!--begin:::Tab pane-->
 										<div class="tab-pane fade" id="kt_ecommerce_customer_messages" role="tabpanel">
 											<div class="d-flex justify-content-center">
-												<div class=" col-8">
+												<div class="col-11">
 
 													<!--begin::Card-->
 													<div class="card">
@@ -256,7 +256,7 @@
 															<!--end::Actions-->
 															<!--begin::Pagination-->
 															<div class="d-flex align-items-center">
-																
+
 															</div>
 															<!--end::Pagination-->
 														</div>
@@ -271,13 +271,13 @@
                                                                         <div class="border d-flex p-3 align-items-center rounded me-3">
                                                                             <!--begin::Send-->
                                                                             <div class="border d-flex p-3 align-items-center rounded me-3 btn-dark-primary">
-                                                                               
+
                                                                                 <div class="btn-group me-4">
                                                                                 <!--begin::Submit-->
                                                                                <button class="btn btn-primary fs-bold px-6 badge-custom-bg" type="submit" >Send</button>
-                                                                                    
+
                                                                                 <!--end::Submit-->
-                                                                                
+
                                                                             </div>
                                                                             <!--end::Send-->
                                                                             <!--begin::Upload attachement-->
@@ -287,17 +287,17 @@
 																			<p id="file_name" class="text-white"></p>
                                                                             <!--end::Upload attachement-->
                                                                             </div>
-                                                                            
-                                                                            
+
+
                                                                         </div>
-                                                                        
+
                                                                         <div class="text-center me-3">
                                                                             <input class="form-select form-select-solid form-select-sm badge-custom-bg" value="{{$order->order_id}}" name='order_id' hidden>
                                                                             order id: <span class="badge badge-primary text-dark ms-3 badge-custom-bg">{{$order->order_id}}</span>
                                                                         </div>
                                                                         <div class="d-flex align-items-center">
-                                                                           
-                                                                            
+
+
                                                                             <span id="delete_btn" class="btn btn-icon btn-sm btn-clean btn-active-light-primary clear_message_box btn-dark-primary" data-inbox="dismiss" data-toggle="tooltip" title="Discard reply">
 																				<i class="ki-duotone ki-trash fs-2 text-color">
 																					<span class="path1"></span>
@@ -308,7 +308,7 @@
 																				</i>
 																			</span>
                                                                         </div>
-                                                                       
+
                                                                     </div>
 
 																	<textarea class="form-control form-control-transparent border-0 h-100 text-white d-none" name="message" id="message_box" placeholder="Message Here" value=""></textarea>
@@ -352,14 +352,14 @@
                                                                     <!--end::Attachments-->
                                                                 </div>
                                                                 <!--end::Body-->
-                                
+
                                                             </form>
 															<!--end::Form-->
 															<!--begin::Title-->
 															<div class="d-flex flex-wrap gap-2 justify-content-end mb-8">
 
 																<div class="d-flex">
-																	
+
 																	<!--begin::Print-->
 																	<a href="#" class="btn btn-sm btn-icon btn-light btn-active-light-primary me-2 d-none" data-bs-toggle="tooltip" data-bs-placement="top" title="Print">
 																		<i class="ki-duotone ki-printer fs-2">
@@ -376,7 +376,7 @@
 															<!--end::Title-->
 															<!--begin::Message accordion-->
                                                             <livewire:message-box :order_id="$order->order_id" />
-															
+
 															<!--end::Message accordion-->
 
 														</div>
@@ -385,10 +385,10 @@
 												</div>
 											</div>
 										</div>
-										
+
 										<!--end:::Tab pane-->
 										<!--begin:::Tab pane-->
-									
+
 										<div class="tab-pane fade order-cus" id="kt_ecommerce_customer_orderFiles" role="tabpanel">
 											<div class="card card-flush">
 												<!--begin::Card header-->
@@ -408,15 +408,15 @@
 												<div class="justify-content-end d-flex">
 													<div class="col-lg-3 col-md-3 col-sm-6 mb-2 px-4 " >
 														<!--begin::Add customer-->
-														<button type="button" 
-														class="btn btn-flex btn-dark-primary w-100 justify-content-center px-2 badge-custom-bg deleteBtnForm" style="display: none;" 
+														<button type="button"
+														class="btn btn-flex btn-dark-primary w-100 justify-content-center px-2 badge-custom-bg deleteBtnForm" style="display: none;"
 														>
 															Delete</button>
 													</div>
 													<div class="col-lg-3 col-md-3 col-sm-6 mb-2 px-4 " >
 														<!--begin::Add customer-->
-														<button type="button" 
-														class="btn btn-flex btn-dark-primary w-100 justify-content-center px-2 badge-custom-bg downloadBtnForm" style="display: none;" 
+														<button type="button"
+														class="btn btn-flex btn-dark-primary w-100 justify-content-center px-2 badge-custom-bg downloadBtnForm" style="display: none;"
 														>
 															Download</button>
 													</div>
@@ -439,7 +439,7 @@
 															<form method="post" action="{{ route('admin.file.upload') }}" enctype="multipart/form-data" class="form"  id="kt_modal_upload_form">
 																<!--begin::Modal header-->
 																@csrf
-														  
+
 																<!--begin::Modal header-->
 																<div class="modal-header">
 																	<!--begin::Modal title-->
@@ -464,29 +464,29 @@
 																			<!--begin::Controls-->
 																			<div class="dropzone-panel mb-4">
 																				<label for="file-3" class="dropzone-select btn btn-sm btn-dark-primary me-2">Attach Files</label>
-																				<input type="file" id="file-3" name="file" class="d-none" 
+																				<input type="file" id="file-3" name="file" class="d-none"
 																				 accept=".pdf, .docx, .doc, .txt, .xls, .xlsx, .rtf, .xlsx, .csv, .pptx, .jpeg, .png, .gif"></input>
 																				<p id="attach_file_3"></p>
 
-																		 	 
-																		 
+
+
 																				<input type="hidden" value="Customer" name="Writer">
 																				<input type="hidden" value="{{ $folder->name }}" name="folder_name">
 																				<input type="hidden" value="{{ $folder->id }}" name="folder_id">
-																		   
+
 																			</div>
 																			<!--end::Controls-->
 																		</div>
 																		<!--end::Dropzone-->
 																		<!--begin::Hint-->
 																		<span class="form-text fs-color-white custom-fs-13 mb-2">
-																			Accepted file formats: DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPEG, PNG, GIF. 
+																			Accepted file formats: DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPEG, PNG, GIF.
 																			Maximum file size: 500 MB per file.
 																		</span>
-																		
+
 																		<!--end::Hint-->
 																		<div class="d-flex justify-content-end">
-																	   
+
 																			<input type="submit" class="btn btn-sm btn-dark-primary" Value="Upload Files">
 																		</div>
 																	</div>
@@ -504,46 +504,46 @@
 												<div class="card-body custom-overflow-x-auto p-0">
 													<!--begin::Table header-->
 													<div class="d-flex flex-stack">
-														
-														<?php 
+
+														<?php
 
 
 														$folder = App\Models\Folder::find($folder->id);
-														
+
 														$files = DB::table('folders')
 														->join('files', 'folders.id', '=', 'files.folder_id')
 														->select('files.*')
 														->latest('files.created_at')
 														->where('folders.id', $folder->id)
 														->paginate(10);
-														
-														
+
+
 														$filesCount = $files->total(); // Use $files->total() instead of $files::count()
-														
-														
+
+
 														$totalSize = 0;
-														
+
 														// Loop through each file to calculate total size
 														foreach ($files as $file) {
 														$totalSize += $file->total_size; // Assuming 'size' is the column representing the file size
 														}
-														
-														
+
+
 														$units = ['B', 'KB', 'MB', 'GB', 'TB'];
-														
+
 														for ($i = 0; $totalSize >= 1024 && $i < count($units) - 1; $i++) {
 														$totalSize /= 1024;
 														}
-														
+
 														$formattedSize = round($totalSize, 0) . ' ' . $units[$i];
 														if (!$folder) {
 														// Handle case where folder with given ID is not found
 														return abort(404);
 														}
-														
-														
+
+
 														?>
-														
+
 
 														<!--end::Folder path-->
 														<!--begin::Folder Stats-->
@@ -559,8 +559,8 @@
 													<form id="delete_or_download_form" action="{{ route('admin.all.files.download', ['folder_name'=>$folder->name]) }}" method="GET" enctype="multipart/form-data">
 																<input type="hidden" name="delete" id="delete_input_field">
 																<input type="hidden" name="download" id="download_input_field">
-																<input type="hidden" name="folder_name" value="{{$folder->name??''}}">	
-														
+																<input type="hidden" name="folder_name" value="{{$folder->name??''}}">
+
 														<div class="table-responsive">
 															<table id="kt_file_manager_list" data-kt-filemanager-table="files" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
 																<thead>
@@ -583,21 +583,21 @@
 																		<th class="w-125px sorting_disabled text-color" rowspan="1" colspan="1" style="width: 125px;"></th>
 																	</tr>
 																</thead>
-																
+
 																<tbody class="fw-semibold text-gray-600">
 																	@if($files)
 																	@foreach ($files as $file)
 
 
 																	<tr class="odd">
-																		
+
 																			<td>
 																				<div class="form-check form-check-sm form-check-custom form-check-solid">
 																					<input class="form-check-input" type="checkbox" name="selected_ids[]" value="{{ $file->id }}">
 																				</div>
 																			</td>
-																		
-															
+
+
 																		<td class="text-white">
 																			<div class="d-flex align-items-center text-white">
 																				<span class="icon-wrapper"><i class="ki-duotone ki-file fs-2x text-primary me-4"><span class="path1"></span><span class="path2"></span></i></span>
@@ -611,7 +611,7 @@
 																		<td class="text-white" data-order="2023-08-19T14:40:00+05:00">{{ $file->download_time }}</td>
 																		<td class="text-end text-white" data-kt-filemanager-table="action_dropdown">
 																			<div class="d-flex justify-content-end">
-																				
+
 																				<!--begin::More-->
 																				<div class="ms-2">
 																					<button type="button" class="btn btn-sm btn-icon custom-icon message" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -626,18 +626,18 @@
 																					<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-150px py-4" data-kt-menu="true">
 																						<!--begin::Menu item-->
 																						<div class="menu-item px-3">
-																							
-																							
-																							
+
+
+
 																						<a href="{{ route('admin.files.download', ['id' => $file->id,'folder_name'=>$folder->name]) }}" class="menu-link px-3 shah">
 																							<button type="button" class="downloadPdf">Download File</button>
 																						</a>
 
-                                                
+
 																						</div>
 																						<!--end::Menu item-->
-										
-										
+
+
 																						<!--begin::Menu item-->
 																						<div class="menu-item px-3">
 																							<a class="menu-link text-danger px-3" onclick="confirmDelete({{ $file->id }}, '{{ $folder->name }}')">Delete</a>
@@ -650,12 +650,12 @@
 																			</div>
 																		</td>
 																	</tr>
-																	
-																	
+
+
 																	@endforeach
 																	@endif
 																</tbody>
-																
+
 															</table>
 														</div>
 													</form>
@@ -5889,7 +5889,7 @@ $(document).on('click', '.deleteBtnForm', function(e){
 		}
 
 		$('#delete_or_download_form').submit();
-		console.log('delete btn'); 
+		console.log('delete btn');
 	});
 
 $(document).on('click', '.downloadBtnForm', function(e){
@@ -5904,7 +5904,7 @@ $(document).on('click', '.downloadBtnForm', function(e){
 			deleteInput.val('');
 		}
 		$('#delete_or_download_form').submit();
-		console.log('download btn'); 
+		console.log('download btn');
 	});
 </script>
 
@@ -5993,28 +5993,28 @@ document.getElementById("media").addEventListener("change", function() {
 </script>
 <script>
 
-    
-    
+
+
       $(document).on('click', '.downloadPdf', function () {
-           
+
            setTimeout(function () {
         window.location.href = window.location.href;
         }, 4000);
         });
-    
+
 
     $(document).ready(function() {
-        
-        
+
+
          $('.clear_message_box').on('click', function (e){
 			messageEditor.setText('');
             $('#message_box').val('');
             $('#file_name').text('');
 
         });
-        
-     
-       
+
+
+
         $('#kt_inbox_reply_form').submit(function(e) {
             e.preventDefault(); // Prevent the form from submitting in the traditional way
 console.log('hello')
@@ -6035,7 +6035,7 @@ console.log(element.value)
             var url = '{{ route("admin.send-message")}}'
             // Example of sending formData using AJAX:
             $.ajax({
-                
+
                 type: 'POST',
                 url: url,
                     data: formData,
@@ -6044,7 +6044,7 @@ console.log(element.value)
                 success: function(response) {
                     console.log('Server response:', response);
                 	Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
-                	
+
                 	 $('#message_box').val('');
                 	 $('#file_name').text('');
 					 messageEditor.setText('');
@@ -6086,8 +6086,8 @@ console.log(element.value)
 					 console.error(error);
 				 }
 			 });
- 
-			 
+
+
 		 }
 	 });
  }
@@ -6095,7 +6095,7 @@ console.log(element.value)
 
 
 <script>
-	
+
 
 
     // Function to handle table search
@@ -6152,7 +6152,7 @@ console.log(element.value)
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
 <script>
-	
+
 
 	document.getElementById("file-3").addEventListener("change", function() {
 		var fileName = this.files[0].name;
@@ -6201,7 +6201,7 @@ console.log(element.value)
             var url = '{{ route("admin.send-message")}}'
             // Example of sending formData using AJAX:
             $.ajax({
-               
+
                 type: 'POST',
                 url: url,
                     data: formData,
@@ -6232,7 +6232,7 @@ console.log(element.value)
         });
 
     // clear message box
-       
+
 
 
 

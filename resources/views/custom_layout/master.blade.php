@@ -52,7 +52,7 @@
             window.top.location.replace(window.self.location.href);
         }
     </script>
-    
+
 
 
  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -63,19 +63,19 @@
 
      // Enable pusher logging - don't include this in production
      Pusher.logToConsole = true;
- 
+
      var pusher = new Pusher('28e13a39c3918e12f8a9', {
        cluster: 'ap2'
      });
- 
+
      var channel = pusher.subscribe('pusher');
      channel.bind('SendMessage', function(data) {
          var message=JSON.stringify(data.receiver);
  if({{Auth()->user()->id}} == message){
      Swal.fire(data.status, ' order id  ' + data.order, 'success');
-     
+
 }
-    
+
        console.log(JSON.stringify(data))
      });
    </script>
@@ -127,32 +127,26 @@
             fw-semibold
             px-2 px-lg-0
         " id="kt_app_header_menu" data-kt-menu="true">
-        <div class="menu-item here show menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
-            <!--begin:Menu link--><a href="menu-link" class=""> <span class="menu-link"><span
-                        class="menu-title"><a href="{{ route('front.index') }}"
-                            class="active custom-menu">Home</a></span><span
-                        class="menu-arrow d-lg-none"></span></span><!--end:Menu link-->
+         <!--begin:Menu item-->
+         <div class="menu-item here show menu-here-bg menu-lg-down-accordion me-0 me-lg-2 p-4">
+            <!--begin:Menu link--><a href="{{ route('front.index') }}"
+                            class="active custom-menu">Home</a><!--end:Menu link-->
         </div><!--end:Menu item-->
-        <div class="menu-item here show menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
-            <!--begin:Menu link--><a href="menu-link" class=""> <span class="menu-link"><span
-                        class="menu-title"><a href="{{ route('front.samplepaper') }}"
-                            class="active custom-menu">Sample Papers</a></span><span
-                        class="menu-arrow d-lg-none"></span></span><!--end:Menu link-->
+        <div class="menu-item here show menu-here-bg menu-lg-down-accordion me-0 me-lg-2 p-4">
+            <!--begin:Menu link--><a href="{{ route('front.samplepaper') }}"
+                            class="active custom-menu">Sample Papers</a><!--end:Menu link-->
         </div><!--end:Menu item-->
-        <div class="menu-item here show menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
-            <!--begin:Menu link--><a href="menu-link" class=""> <span class="menu-link"><span
-                        class="menu-title"><a href="{{ route('front.customerjourney') }}"
-                            class="active custom-menu">Your Journey With Us</a></span><span
-                        class="menu-arrow d-lg-none"></span></span><!--end:Menu link-->
+        <div class="menu-item here show menu-here-bg menu-lg-down-accordion me-0 me-lg-2 p-4">
+            <!--begin:Menu link--><a href="{{ route('front.customerjourney') }}"
+                            class="active custom-menu">Your Journey With Us</a>
         </div><!--end:Menu item-->
-    
-            
-        <div class="menu-item here show menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
-            <!--begin:Menu link--><a href="menu-link" class=""> <span class="menu-link"><span
-                        class="menu-title"><a href="{{ route('front.contact') }}"
-                            class="active custom-menu">Contact Us</a></span><span
-                        class="menu-arrow d-lg-none"></span></span><!--end:Menu link-->
+
+
+        <div class="menu-item here show menu-here-bg menu-lg-down-accordion me-0 me-lg-2 p-4">
+            <!--begin:Menu link--><a href="{{ route('front.contact') }}"
+                            class="active custom-menu">Contact Us</a><!--end:Menu link-->
         </div><!--end:Menu item-->
+
                     </div>
                     <!--end::Menu-->
                 </div>
@@ -447,7 +441,7 @@
                                 </a>
                             </div>
                             <!--end::Menu item-->
-                            
+
                             <!--begin::Menu item-->
                             <div class="menu-item px-5">
                                 <a href="{{ route('admin.show.profile') }}" class="menu-link px-5 fs-color-white custom-fs-13">
@@ -455,7 +449,7 @@
                                 </a>
                             </div>
                             <!--end::Menu item-->
-                           
+
                             <!--begin::Menu item-->
                             <div class="menu-item px-5">
                                 <a href="{{route('admin.completed-order')}}" class="menu-link px-5 fs-color-white custom-fs-13">
@@ -486,14 +480,14 @@
                                     </a>
                                 </form> --}}
 
-                                
+
                                 <form action="{{ route('admin.logout') }}" method="post">
                                     @csrf
                                     <button type="submit" class="menu-link px-5 fs-color-white custom-fs-13">
                                         Log out
                                     </button>
                                 </form>
-                                
+
                             </div>
                             <!--end::Menu item-->
                         </div>
@@ -1843,12 +1837,12 @@
 
 
     <!--begin::Javascript-->
-    
+
     @livewireScripts
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
      @yield('customJs')
-     
+
      <script>
         $.ajaxSetup({
             headers: {
@@ -1871,7 +1865,7 @@
     </script>
     <!--begin::Global Javascript Bundle(mandatory for all pages)-->
 
-    
+
     <script src="{{ asset('backend/assets/plugins/global/plugins.bundle.js') }}"></script>
     <script src="{{ asset('backend/assets/js/scripts.bundle.js') }}"></script>
     <!--end::Global Javascript Bundle-->
@@ -1898,7 +1892,7 @@
     <script src="{{ asset('backend/assets/js/custom/utilities/modals/create-app.js') }}"></script>
     <script src="{{ asset('backend/assets/js/custom/utilities/modals/new-target.js') }}"></script>
     <script src="{{ asset('backend/assets/js/custom/utilities/modals/users-search.js') }}"></script>
- 
+
     <!--end::Custom Javascript-->
     	<script>
 		@if(Session::has('message'))
@@ -1918,13 +1912,13 @@
 
 				case 'error':
 				toastr.error(" {{ Session::get('message') }} ");
-				break; 
+				break;
 			}
-		@endif 
+		@endif
 	</script>
-	
 
-	
+
+
     <!--end::Javascript-->
 
 </body>
