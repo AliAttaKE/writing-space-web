@@ -23,7 +23,7 @@
                             <!--end::Breadcrumb-->
                         </div>
                         <!--end::Page title-->
-        
+
                         <!--begin::Actions-->
                         <div class="d-flex align-items-center gap-2 gap-lg-3">
                             <!--begin::Primary button-->
@@ -31,8 +31,8 @@
                             <!--end::Primary button-->
                         </div>
                         <!--end::Actions-->
-        
-        
+
+
                     </div>
                     <!--end::Toolbar container-->
                 </div>
@@ -238,7 +238,7 @@
                                             </tr>
                                         </tbody></table>
                                         <!--end::Item template-->
-    
+
                                     </div>
                                     <!--end::Wrapper-->
 
@@ -266,13 +266,13 @@
 
                                 </form>
                                 <!--end::Form-->
-    
+
                             </div>
                             <!--end::Card body-->
                         </div>
                         <!--end::Card-->
-                        
-    
+
+
                     </div>
                     <!--end::Content-->
                 </div>
@@ -283,7 +283,7 @@
         <!--end::Content-->
     </div>
     <!--end::Content wrapper-->
-    <div class="modal fade" id="view-invoice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade view-invoice" id="view-invoice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header border-0">
@@ -416,7 +416,7 @@
                                     <!--end::Invoice 2 content-->
                                 </div>
                                 <!--end::Content-->
-    
+
                             </div>
                             <!--end::Layout-->
                         </div>
@@ -466,7 +466,7 @@
                 }
             });
         }
-    
+
         // Attach the search handler to the input change event
         $('[data-kt-user-table-filter="search"]').on('input', function() {
             handleTableSearch();
@@ -495,28 +495,28 @@
         $(document).ready(function() {
             // Initialize DataTables
             var table = $('#kt_table_invoice').DataTable();
-    
+
             // Filter form submission
             $('[data-kt-user-table-filter="filter"]').on('click', function(e) {
                 e.preventDefault();
-    
+
                 // Get filter values
                 var invoiceId = $('input[name="invoice-id"]').val();
                 var item = $('input[name="item"]').val();
-    
+
                 // Apply filters
                 table.columns(1).search(invoiceId).draw();
                 table.columns(2).search(item).draw();
             });
-    
+
             // Reset filter form
             $('[data-kt-user-table-filter="reset"]').on('click', function(e) {
                 e.preventDefault();
-    
+
                 // Reset input fields
                 $('input[name="invoice-id"]').val('');
                 $('input[name="item"]').val('');
-    
+
                 // Clear filters
                 table.columns().search('').draw();
             });
@@ -527,7 +527,7 @@
             $('#kt_table_invoice').DataTable();
         });
     </script>
-    
+
 
 
 

@@ -78,8 +78,8 @@
                                 <!--end::Separator-->
                                 <!--begin::Content-->
                                 <form
-                                id="filterForm" 
-                                action="{{ route('admin.revision-order') }}" 
+                                id="filterForm"
+                                action="{{ route('admin.revision-order') }}"
                                 method="GET"
                                 enctype="multipart/form-data">
                                 <!--begin::Content-->
@@ -124,7 +124,7 @@
                             <!--end::Menu 1-->
                             <!--end::Filter-->
                             <!--begin::Export-->
-                            <button type="button" class="btn btn-light-primary me-3 badge-custom-bg" 
+                            <button type="button" class="btn btn-light-primary me-3 badge-custom-bg"
                             {{-- data-bs-toggle="modal" data-bs-target="#kt_modal_export_users" --}}
                             onclick="window.location.href='{{ route('admin.export.orders',['value' => 'Revision']) }}'"
                             >
@@ -451,7 +451,7 @@
                     <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_new_orders">
                         <thead>
                             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                              
+
                                 <th class="min-w-70px fw_800 pb-8">order No</th>
                                 <th class="min-w-50px fw_800 pb-8">Topic</th>
                                 <th class="min-w-70px fw_800 pb-8">Pages</th>
@@ -467,21 +467,21 @@
 @if($order)
 @foreach ($order as $o)
 <tr>
-   
+
     <td><a class="fs-color-yellow" href="{{route('admin.admin-order-detail',[$o->order_id])}}">{{$o->order_id}}</a></td>
     <td class="limit-text">{{$o->topic}}</td>
 
     <td>{{$o->number_of_pages}}</td>
-    <td>{{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($o->deadline)->format('Y/m/d h:iA') }}</td>
+    <td>{{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</td>
     <td>
         @if($o->order_show == 'Enable')
         <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">{{$o->order_show}}</span>
         @else
         <span class="badge badge-light-danger fw-bold me-auto px-4 py-3">{{$o->order_show}}</span>
         @endif
-       
-    
+
+
     </td>
     <td><a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm badge-custom-bg" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
             <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
@@ -489,8 +489,8 @@
         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4 badge-custom-bg" data-kt-menu="true">
             <!--begin::Menu item-->
             <div class="menu-item px-3">
-          <li><a href="order-details.php" class="menu-link d-flex justify-content-center px-3 text-white" data-bs-toggle="modal" data-bs-target="#view-invoice_{{$o->id}}">View</a></li>      
-           
+          <li><a href="order-details.php" class="menu-link d-flex justify-content-center px-3 text-white" data-bs-toggle="modal" data-bs-target="#view-invoice_{{$o->id}}">View</a></li>
+
             <!--end::Menu item-->
             <!--begin::Menu item-->
             <!--<div class="menu-item px-3">-->
@@ -503,19 +503,19 @@
                    <li><a class="menu-link d-flex justify-content-center px-3 text-white" onclick="delivered({{$o->id}},'Revision')">Revision</a></li>
                     <li><a class="menu-link d-flex justify-content-center px-3 text-white" onclick="delivered({{$o->id}},'Refund')">Refund</a></li>
                      <li><a class="menu-link d-flex justify-content-center px-3 text-white" onclick="delivered({{$o->id}},'Canceled')">Canceled</a></li>
-                      
+
             </div>
             <!--end::Menu item-->
             <!--begin::Menu item-->
             <div class="menu-item px-3">
                  <!--<a href="#" class="menu-link d-flex justify-content-center px-3" download>Download</a>-->
-                
+
             </div>
             <!--end::Menu item-->
         </div>
     </td>
 </tr>
-<div class="modal fade" id="view-invoice_{{$o->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade view-invoice" id="view-invoice_{{$o->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content badge-custom-bg">
             <div class="modal-header border-0">
@@ -611,14 +611,14 @@
                                                 <!--end::Text-->
                                             </div>
                                             <!--end::Col-->
-                                            <div class="col-md-3">
+                                            {{-- <div class="col-md-3"> --}}
                                                 <!--end::Label-->
-                                                <div class="fw-semibold custom-fs-13 fs-color-white mb-1">Spacing:</div>
+                                                {{-- <div class="fw-semibold custom-fs-13 fs-color-white mb-1">Spacing:</div> --}}
                                                 <!--end::Label-->
                                                 <!--end::Text-->
-                                                <div class="fw-bold custom-fs-13 fs-color-white">{{$o->spacing}}</div>
+                                                {{-- <div class="fw-bold custom-fs-13 fs-color-white">{{$o->spacing}}</div> --}}
                                                 <!--end::Text-->
-                                            </div>
+                                            {{-- </div> --}}
                                             <!--end::Col-->
                                             <div class="col-md-3">
                                                 <!--end::Label-->
@@ -643,7 +643,7 @@
                                                 <div class="fw-semibold custom-fs-13 fs-color-white mb-1">Order Date:</div>
                                                 <!--end::Label-->
                                                 <!--end::Text-->
-                                                <div class="fw-bold custom-fs-13 fs-color-white"> {{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}</div>
+                                                <div class="fw-bold custom-fs-13 fs-color-white"> {{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</div>
                                                 <!--end::Text-->
 
                                             </div>
@@ -652,7 +652,7 @@
                                                 <div class="fw-semibold custom-fs-13 fs-color-white mb-1">DeadLine:</div>
                                                 <!--end::Label-->
                                                 <!--end::Text-->
-                                                <div class="fw-bold custom-fs-13 fs-color-white">{{ \Carbon\Carbon::parse($o->deadline)->format('Y/m/d h:iA') }}</div>
+                                                <div class="fw-bold custom-fs-13 fs-color-white">{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</div>
                                                 <!--end::Text-->
 
                                             </div>
@@ -689,29 +689,29 @@
                                         <div class="row g-5 mb-12">
                                             <!--end::Col-->
                                             <div class="col-sm-9">
-                                               
+
                                                 <br>
                                                 <div class="col-md-12">
                                                     <!--end::Label-->
                                                     <div class="fw-semibold custom-fs-13 fs-color-white mb-1">Description:</div>
                                                     <!--end::Label-->
                                                     <!--end::Text-->
-                                                   
-                                                   
+
+
                                                     <div class="fw-bold fs-color-white custom-fs-13">{!! $o->description !!}</div>
-                                                  
+
                                                     <!--end::Text-->
                                                 </div>
                                                 <div class="col-md-12 fs-color-white custom-fs-13">
-                                                    
+
                                                     <?php
                                                     $revisionSubmit = null; // Initialize the variable
-                                                
+
                                                     if ($o->order_id) {
                                                         $revisionSubmit = \App\Models\RevisionSubmit::where('order_id', $o->order_id)->first();
                                                     }
-                                                    
-                                               
+
+
 
                                                     //   dd($o->order_id);
                                                     ?>
@@ -721,15 +721,15 @@
                                                         @if($revisionSubmit){!! $revisionSubmit->revision_request !!}@endif</div>
                                                     <!--end::Label-->
                                                     <!--end::Text-->
-                                                   
-                                                   
-                                                   
-                                                  
+
+
+
+
                                                     <!--end::Text-->
                                                 </div>
                                                 <br>
-                                   
-                                                
+
+
                                             </div>
                                         </div>
                                         <!--end::Row-->
@@ -756,9 +756,9 @@
 </div>
 @endforeach
 @endif
-                         
 
-                           
+
+
                         </tbody>
                     </table>
                     <!--end::Table-->
@@ -895,17 +895,17 @@ $.ajax({
                         console.error(error);
                     }
                 });
-     
+
 
                 Swal.fire('Deleted!', 'Your data has been deleted.', 'success');
             }
         });
     }
-    
+
      function delivered(id,status)
  {
-     
-   
+
+
    console.log(id);
         Swal.fire({
             title: 'Are you sure?',
@@ -938,7 +938,7 @@ $.ajax({
                         console.error(error);
                     }
                 });
-     
+
 
                 Swal.fire('Deleted!', 'Your order Sttatus Change.', 'success');
             }

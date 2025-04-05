@@ -236,7 +236,7 @@
 																								<th class="min-w-50px fw_800 pb-8">Subject</th>
 																								<th class="min-w-80px fw_800 pb-8">Spacing</th>
 																								<th class="min-w-50px fw_800 pb-8">Doc Type</th>
-																								<th class="min-w-80px fw_800 pb-8">Sources</th>
+																								<!-- <th class="min-w-80px fw_800 pb-8">Sources</th> -->
 
 																							</tr>
 
@@ -252,7 +252,7 @@
 																								<td>xyz</td>
 																								<td>xyz</td>
 																								<td>xyz</td>
-																								<td>xyz</td>
+																								<!-- <td>xyz</td> -->
 																						</tbody>
 																					</table>
 																					<!--end::Table-->

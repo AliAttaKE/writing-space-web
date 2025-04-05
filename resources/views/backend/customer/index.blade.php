@@ -65,7 +65,7 @@
                                                 <span class="path2"></span>
                                             </i>
                                         </div>
-                                           
+
                                         <div class="fw-semibold fs-color-white">Current Orders</div>
                                     </div>
                                     <!--end::Stats-->
@@ -332,7 +332,7 @@
 											<!--end::Symbol-->
 											<!--begin::Stats-->
 											<div class="m-0">
-											
+
 
 
 												@php
@@ -371,10 +371,10 @@
 							<div class="mb-2">
 								<!--begin::Title-->
 								<h1 class="fw-semibold text-gray-800 text-center lh-lg fs-color-white">
-								Discover Our Amazing 
+								Discover Our Amazing
 									<span class="fw-bolder fs-color-yellow"> Offers!</span>
 								</h1>
-								
+
 								  <p class="text-center text-gray-700 fs-color-white custom-fs-13">
                 Take advantage of incredible discounts tailored just for you. From special percentages off to deals based on your needs, we've got something for everyone.
             </p>
@@ -403,8 +403,8 @@
                                     <!--end::Statistics-->
        <!--                         </div>-->
                             @endforeach
-							@endif    
-                                
+							@endif
+
 
 								<div class="text-center mb-1">
 							<!--begin::Link-->
@@ -412,13 +412,13 @@
 							<a class="btn btn-sm btn-light badge-custom-bg" id="btn-dark-primary" href="{{ route('customer.brand.ambassadors') }}">
 							Start Saving Today
 							 </a>
-						
+
 						</div>
 						<!--end::Links-->
 					</div>
-						
-						
-						
+
+
+
 					<!--end::Body-->
 				</div>
 			</div>
@@ -475,7 +475,7 @@
                                     <!--end::Statistics-->
                                 </div>
                                 <!--end::Item-->
-								
+
                                 <!--begin::Separator-->
                                 <div class="separator separator-dashed my-3"></div>
                                 <!--end::Separator-->
@@ -560,7 +560,7 @@
                                     <!--end::Statistics-->
                                 </div>
                                 <!--end::Item-->
-								
+
                                 <!--begin::Separator-->
                                 <div class="separator separator-dashed my-3"></div>
                                 <!--end::Separator-->
@@ -614,7 +614,7 @@
                             <!--end::Body-->
                         </div>
 
-						
+
 							<!--begin::List widget 25-->
 							<div class="card card-flush mb-5 ">
 								<!--begin::Header-->
@@ -624,7 +624,7 @@
 										<!--begin::Row-->
 										<div class="row align-items-center h-100">
 											<!--begin::Col-->
-											
+
 													<div class="ps-xl-2">
 															<div class="text-white mb-6 pt-6">
 																<span class="fs-4 fw-semibold me-2 d-block lh-1 pb-2 fs-color-yellow custom-fs-22">Get best offer</span>
@@ -633,7 +633,7 @@
 															</div>
 
 														<span class="fw-semibold text-white fs-6 mb-8 d-block opacity-75">
-														
+
 														</span>
 
 														<!--begin::Items-->
@@ -669,11 +669,11 @@
 													<!--end::Action-->
 												</div>
 
-									
-											
 
-											
-											
+
+
+
+
 											<!--end::Col-->
 
 											<!--begin::Col-->
@@ -692,7 +692,7 @@
 								<!--end::Header-->
 							</div>
 							<!--end::LIst widget 25-->
-							
+
 					<div class="row g-5 g-xl-10">
 						<!--begin::Col-->
 						<div class="col-12">
@@ -745,9 +745,9 @@
 														<tr>
 															<td>{{$key+1}}</td>
 															<td>
-																<a href="{{route('customer.reply-message',$msg->order_id )}}">	
+																<a href="{{route('customer.reply-message',$msg->order_id )}}">
 																	{{ $msg->order_id }}
-																</a>	
+																</a>
 															</td>
 															<!-- <td>{!! $msg->message !!}</td> -->
 															<td>{!! substr($msg->message, 0, 12) !!}</td>
@@ -757,9 +757,9 @@
 														</tr>
 													@endforeach
 												@endif
-												
+
 											</tbody>
-											
+
 										</table>
 										<br>
 										<a class="btn btn-sm btn-light badge-custom-bg" id="btn-dark-primary" href="{{route('customer.message-managememnt')}}">
@@ -830,7 +830,7 @@
 														<tr>
 															<td>{{$key+1}}</td>
 															<td>
-																<a href="{{route('customer.folders.view',$folder->id )}}">	
+																<a href="{{route('customer.folders.view',$folder->id )}}">
 																{{ $folder->name }}
 																</a>
 															</td>
@@ -861,7 +861,7 @@
 			<!--end::Row-->
 			<!--begin::Row-->
 			<div class="row g-5 mb-10 g-xl-10">
-				
+
 			<div class="col-xl-12">
 				<!--begin::Card-->
 				<div class="card card-custom-bg message-summ new-order-dashboard">
@@ -871,7 +871,7 @@
 						<!--end::Title-->
 
 					</div>
-					
+
 					<!--begin::Card header-->
 					<div class="card-header border-0 pt-6">
 
@@ -944,7 +944,7 @@
 								<button type="button" class="btn btn-danger" data-kt-user-table-select="delete_selected">Delete Selected</button>
 							</div>
 							<!--end::Group actions-->
-							
+
 						</div>
 						<!--end::Card toolbar-->
 					</div>
@@ -953,7 +953,7 @@
 					<div class="card-body table-custom-layout py-4">
 						<!--begin::Table-->
 						<table class="table align-middle table-row-dashed fs-6 gy-5" id="customer_profile_new_order_table"
-						
+
 						 >
 							<thead>
 								<tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
@@ -978,8 +978,8 @@
 										<td><a href="{{route('customer.order-detail',[$o->order_id])}}">{{$o->order_id}}</a></td>
 										<td class="limit-text">{{$o->topic}}</td>
 										<td>{{$o->number_of_pages}}</td>
-										<td>{{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}</td>
-										<td>{{ \Carbon\Carbon::parse($o->deadline)->format('Y/m/d h:iA') }}</td>
+										<td>{{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</td>
+										<td>{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</td>
 										<td>
 											@if($o->order_status == 'Pending')
 											<span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">{{$o->order_status}}</span>
@@ -998,7 +998,7 @@
 											</div>
 										</td>
 									</tr>
-									<div class="modal fade" id="view-invoice_{{$o->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal fade view-invoice" id="view-invoice_{{$o->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 										<div class="modal-dialog modal-dialog-centered modal-lg">
 											<div class="modal-content badge-custom-bg">
 												<div class="modal-header border-0">
@@ -1093,14 +1093,14 @@
 																					<!--end::Text-->
 																				</div>
 																				<!--end::Col-->
-																				<div class="col-md-3">
+																				{{-- <div class="col-md-3"> --}}
 																					<!--end::Label-->
-																					<div class="fw-semibold fs-7 mb-1 fs-color-white custom-fs-13">Spacing:</div>
+																					{{-- <div class="fw-semibold fs-7 mb-1 fs-color-white custom-fs-13">Spacing:</div> --}}
 																					<!--end::Label-->
 																					<!--end::Text-->
-																					<div class="fw-bold fs-6 fs-color-white custom-fs-13">{{$o->spacing}}</div>
+																					{{-- <div class="fw-bold fs-6 fs-color-white custom-fs-13">{{$o->spacing}}</div> --}}
 																					<!--end::Text-->
-																				</div>
+																				{{-- </div> --}}
 																				<!--end::Col-->
 																				<div class="col-md-3">
 																					<!--end::Label-->
@@ -1125,7 +1125,7 @@
 																					<div class="fw-semibold fs-7 mb-1 fs-color-white custom-fs-13">Order Date:</div>
 																					<!--end::Label-->
 																					<!--end::Text-->
-																					<div class="fw-bold fs-6 fs-color-white custom-fs-13"> {{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}</div>
+																					<div class="fw-bold fs-6 fs-color-white custom-fs-13"> {{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</div>
 																					<!--end::Text-->
 
 																				</div>
@@ -1134,7 +1134,7 @@
 																					<div class="fw-semibold fs-7 mb-1 fs-color-white custom-fs-13">DeadLine:</div>
 																					<!--end::Label-->
 																					<!--end::Text-->
-																					<div class="fw-bold fs-6 fs-color-white custom-fs-13">{{ \Carbon\Carbon::parse($o->deadline)->format('Y/m/d h:iA') }}</div>
+																					<div class="fw-bold fs-6 fs-color-white custom-fs-13">{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</div>
 																					<!--end::Text-->
 
 																				</div>
@@ -1248,7 +1248,7 @@
 	info: false
 });
 
-	
+
 $('#folder_table').DataTable({
     paging: false,
 	info: false
@@ -1262,7 +1262,7 @@ $('#folder_table').DataTable({
 	$(document).ready(function() {
 		// Initialize DataTables
 		var table = $('#message_summary_table').DataTable();
-		
+
 
 		// Attach the search handler to the input change event
 		$('[data-kt-user-table-filter="search"]').on('input', function() {

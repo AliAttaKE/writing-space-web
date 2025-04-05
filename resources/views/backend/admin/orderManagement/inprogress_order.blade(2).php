@@ -79,8 +79,8 @@
                                 <!--end::Separator-->
                                 <!--begin::Content-->
                                 <form
-                                        id="filterForm" 
-                                        action="{{ route('admin.inprogress-order') }}" 
+                                        id="filterForm"
+                                        action="{{ route('admin.inprogress-order') }}"
                                         method="GET"
                                         enctype="multipart/form-data">
                                         <!--begin::Content-->
@@ -125,7 +125,7 @@
                             <!--end::Menu 1-->
                             <!--end::Filter-->
                             <!--begin::Export-->
-                            <button type="button" class="btn btn-light-primary me-3" 
+                            <button type="button" class="btn btn-light-primary me-3"
                                 {{-- data-bs-toggle="modal" data-bs-target="#kt_modal_export_users" --}}
                                 onclick="window.location.href='{{ route('admin.export.orders',['value' => 'Inprogress']) }}'"
                                 >
@@ -481,46 +481,46 @@
     <td class="limit-text">{{$o->subject}}</td>
 
     <td>{{$o->number_of_pages}}</td>
-    <td>{{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($o->deadline)->format('Y/m/d h:iA') }}</td>
+    <td>{{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</td>
     <td>
         @if($o->order_show == 'Enable')
         <span class="badge badge-light-success fw-bold me-auto px-4 py-3">{{$o->order_show}}</span>
         @else
         <span class="badge badge-light-danger fw-bold me-auto px-4 py-3">{{$o->order_show}}</span>
         @endif
-       
-    
+
+
     </td>
     <td><a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
             <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
 
 
             <?php
-         
-            
+
+
             $revisionSubmit = null; // Initialize the variable
             $revisioncheck = null; // Initialize the variable
-            
+
             if ($o->order_id) {
                 $order = \App\Models\Orders::where('order_id', $o->order_id)->first();
-            
+
                 if ($order) {
                     $createdDate = \Carbon\Carbon::parse($order->created_at);
                     $currentDate = \Carbon\Carbon::now();
-                 
+
                     // Check if the order was created within the last 10 days
                     if ($createdDate->diffInDays($currentDate) <= 10) {
 
-                
+
                         // Order is within the last 10 days
                         $revisioncheck = \App\Models\Orders::where('order_id', $o->order_id)->first();
-                      
+
                     }
                 }
             }
-            
-           
+
+
             ?>
 
         <!--begin::Menu-->
@@ -530,7 +530,7 @@
                 <a href="order-details.php" class="menu-link d-flex justify-content-center px-3" data-bs-toggle="modal" data-bs-target="#view-invoice_{{$o->id}}">View</a>
             </div>
             @if($revisioncheck)
-            
+
             <div class="menu-item px-3">
                 <a class="menu-link d-flex justify-content-center px-3" data-bs-toggle="modal" data-bs-target="#view-revision_{{$o->id}}">Revision</a>
             </div>
@@ -548,13 +548,13 @@
             <!--begin::Menu item-->
             <div class="menu-item px-3">
                  <!--<a href="#" class="menu-link d-flex justify-content-center px-3" download>Download</a>-->
-                
+
             </div>
             <!--end::Menu item-->
         </div>
     </td>
 </tr>
-<div class="modal fade" id="view-invoice_{{$o->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade view-invoice" id="view-invoice_{{$o->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header border-0">
@@ -650,14 +650,14 @@
                                                 <!--end::Text-->
                                             </div>
                                             <!--end::Col-->
-                                            <div class="col-md-3">
-                                                <!--end::Label-->
-                                                <div class="fw-semibold fs-7 text-gray-600 mb-1">Spacing:</div>
+                                             <!-- <div class="col-md-3">
+                                                end::Label-->
+                                                <!-- <div class="fw-semibold fs-7 text-gray-600 mb-1">Spacing:</div> -->
                                                 <!--end::Label-->
                                                 <!--end::Text-->
-                                                <div class="fw-bold fs-6 text-gray-800">{{$o->spacing}}</div>
+                                                <!-- <div class="fw-bold fs-6 text-gray-800">{{$o->spacing}}</div> -->
                                                 <!--end::Text-->
-                                            </div>
+                                            <!-- </div>  -->
                                             <!--end::Col-->
                                             <div class="col-md-3">
                                                 <!--end::Label-->
@@ -670,7 +670,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <!--end::Label-->
-                                                <div class="fw-semibold fs-7 text-gray-600 mb-1">No# Extra Sources:</div>
+                                                <div class="fw-semibold fs-7 text-gray-600 mb-1">Sources:</div>
                                                 <!--end::Label-->
                                                 <!--end::Text-->
                                                 <div class="fw-bold fs-6 text-gray-800">{{$o->no_of_extra_sources}}</div>
@@ -682,7 +682,7 @@
                                                 <div class="fw-semibold fs-7 text-gray-600 mb-1">Order Date:</div>
                                                 <!--end::Label-->
                                                 <!--end::Text-->
-                                                <div class="fw-bold fs-6 text-gray-800"> {{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}</div>
+                                                <div class="fw-bold fs-6 text-gray-800"> {{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</div>
                                                 <!--end::Text-->
 
                                             </div>
@@ -691,7 +691,7 @@
                                                 <div class="fw-semibold fs-7 text-gray-600 mb-1">DeadLine:</div>
                                                 <!--end::Label-->
                                                 <!--end::Text-->
-                                                <div class="fw-bold fs-6 text-gray-800">{{ \Carbon\Carbon::parse($o->deadline)->format('Y/m/d h:iA') }}</div>
+                                                <div class="fw-bold fs-6 text-gray-800">{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</div>
                                                 <!--end::Text-->
 
                                             </div>
@@ -728,22 +728,22 @@
                                         <div class="row g-5 mb-12">
                                             <!--end::Col-->
                                             <div class="col-sm-9">
-                                               
+
                                                 <br>
                                                 <div class="col-md-12">
                                                     <!--end::Label-->
                                                     <div class="fw-semibold fs-7 text-gray-600 mb-1">Description:</div>
                                                     <!--end::Label-->
                                                     <!--end::Text-->
-                                                   
-                                                   
+
+
                                                     <div class="fw-bold fs-6 text-gray-800">{!! $o->description !!}</div>
-                                                  
+
                                                     <!--end::Text-->
                                                 </div>
                                                 <br>
-                                   
-                                                
+
+
                                             </div>
                                         </div>
                                         <!--end::Row-->
@@ -768,7 +768,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="view-revision_{{$o->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade view-invoice" id="view-revision_{{$o->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header border-0">
@@ -864,14 +864,14 @@
                                                 <!--end::Text-->
                                             </div>
                                             <!--end::Col-->
-                                            <div class="col-md-3">
-                                                <!--end::Label-->
-                                                <div class="fw-semibold fs-7 text-gray-600 mb-1">Spacing:</div>
+                                            <!-- <div class="col-md-3">
+                                                end::Label-->
+                                                <!-- <div class="fw-semibold fs-7 text-gray-600 mb-1">Spacing:</div> -->
                                                 <!--end::Label-->
                                                 <!--end::Text-->
-                                                <div class="fw-bold fs-6 text-gray-800">{{$o->spacing}}</div>
+                                                <!-- <div class="fw-bold fs-6 text-gray-800">{{$o->spacing}}</div> -->
                                                 <!--end::Text-->
-                                            </div>
+                                            <!-- </div> --> -->
                                             <!--end::Col-->
                                             <div class="col-md-3">
                                                 <!--end::Label-->
@@ -884,7 +884,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <!--end::Label-->
-                                                <div class="fw-semibold fs-7 text-gray-600 mb-1">No# Extra Sources:</div>
+                                                <div class="fw-semibold fs-7 text-gray-600 mb-1">Sources:</div>
                                                 <!--end::Label-->
                                                 <!--end::Text-->
                                                 <div class="fw-bold fs-6 text-gray-800">{{$o->no_of_extra_sources}}</div>
@@ -896,7 +896,7 @@
                                                 <div class="fw-semibold fs-7 text-gray-600 mb-1">Order Date:</div>
                                                 <!--end::Label-->
                                                 <!--end::Text-->
-                                                <div class="fw-bold fs-6 text-gray-800"> {{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}</div>
+                                                <div class="fw-bold fs-6 text-gray-800"> {{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</div>
                                                 <!--end::Text-->
 
                                             </div>
@@ -905,7 +905,7 @@
                                                 <div class="fw-semibold fs-7 text-gray-600 mb-1">DeadLine:</div>
                                                 <!--end::Label-->
                                                 <!--end::Text-->
-                                                <div class="fw-bold fs-6 text-gray-800">{{ \Carbon\Carbon::parse($o->deadline)->format('Y/m/d h:iA') }}</div>
+                                                <div class="fw-bold fs-6 text-gray-800">{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</div>
                                                 <!--end::Text-->
 
                                             </div>
@@ -942,17 +942,17 @@
                                         <div class="row g-5 mb-12">
                                             <!--end::Col-->
                                             <div class="col-sm-9">
-                                               
+
                                                 <br>
                                                 <div class="col-md-12">
                                                     <!--end::Label-->
                                                     <div class="fw-semibold fs-7 text-gray-600 mb-1">Description:</div>
                                                     <!--end::Label-->
                                                     <!--end::Text-->
-                                                   
-                                                   
+
+
                                                     <div class="fw-bold fs-6 text-gray-800">{!! $o->description !!}</div>
-                                                  
+
                                                     <!--end::Text-->
                                                 </div>
                                                 <br>
@@ -965,18 +965,18 @@
                                                     <form  action="{{ route('admin.revision.submit') }}" method="post" enctype="multipart/form-data">
                                                     @csrf
                                                         <input type="hidden" value="{{$o->order_id}}" name="order_id">
-                                                   
-                                                   
+
+
                                                     <textarea name="revision_request" id="" cols="100" rows="10"></textarea>
 
                                                     <button type="submit"> Request for revision</button>
                                                     </form>
-                                                  
+
                                                     <!--end::Text-->
                                                 </div>
                                                 <br>
-                                   
-                                                
+
+
                                             </div>
                                         </div>
                                         <!--end::Row-->
@@ -1003,9 +1003,9 @@
 </div>
 @endforeach
 @endif
-                         
 
-                           
+
+
                         </tbody>
                     </table>
                     <!--end::Table-->
@@ -1141,7 +1141,7 @@ $.ajax({
                         console.error(error);
                     }
                 });
-     
+
 
                 Swal.fire('Deleted!', 'Your data has been deleted.', 'success');
             }

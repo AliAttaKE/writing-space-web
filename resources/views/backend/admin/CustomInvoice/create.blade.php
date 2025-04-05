@@ -15,9 +15,9 @@
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <!-- <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                        
+
                         <li class="breadcrumb-item text-muted fs-color-white custom-fs-13">Invoice Management</li>
-                        
+
                     </ul> -->
                     <!--end::Breadcrumb-->
                 </div>
@@ -83,7 +83,7 @@
                                             <input type="text" name="invoice_id"
                                                 class="form-control form-control-flush fw-bold text-muted fs-3 w-320px fs-color-white custom-fs-23"
                                                 id="invoiceRandomNumber" readonly>
-                                                
+
                                         </div>
                                         <!--end::Input group-->
                                     </div>
@@ -190,7 +190,7 @@
                                                     </tr>
                                                 </tbody>
 
-                                                
+
                                                 <!--end::Table body-->
                                                 <!--begin::Table foot-->
                                                 <tfoot>
@@ -226,7 +226,7 @@
                                                             <span id="_grand_total">0.00</span>
                                                         </th>
                                                     </tr>
-                                                    
+
 
                                                 </tfoot>
                                                 <!--end::Table foot-->
@@ -268,7 +268,7 @@
                             <!--end::Card body-->
                         </div>
                         <!--end::Card-->
-                        
+
                         {{-- Show custom invoice records --}}
                         {{-- @include('backend.admin.CustomInvoice._show', ['customInvoices' => $customInvoices]) --}}
                         <div class="card mb-10 card-custom-bg table-summ">
@@ -510,7 +510,7 @@
                                             id="kt_table_invoice" aria-describedby="kt_table_invoice_info">
                                             <thead>
                                                 <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                        
+
                                                     <th class="min-w-100px sorting" tabindex="0"
                                                         aria-controls="kt_table_invoice" rowspan="1" colspan="1"
                                                         aria-label="Invoice Id: activate to sort column ascending"
@@ -523,12 +523,12 @@
                                                         aria-controls="kt_table_invoice" rowspan="1" colspan="1"
                                                         aria-label="Bill To: activate to sort column ascending"
                                                         style="width: 249.141px;">Bill To</th>
-                        
+
                                                     <th class="min-w-80px sorting" tabindex="0"
                                                         aria-controls="kt_table_invoice" rowspan="1" colspan="1"
                                                         aria-label="Bill To: activate to sort column ascending"
                                                         style="width: 249.141px;">Created Date</th>
-                                                    
+
                                                     <th class="text-end min-w-70px sorting" tabindex="0"
                                                         aria-controls="kt_table_invoice" rowspan="1" colspan="1"
                                                         aria-label="Actions: activate to sort column ascending"
@@ -536,10 +536,10 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="text-gray-600 fw-semibold">
-                        
+
                                                     @foreach ($customInvoices as $invoice)
                                                     <tr class="odd">
-                        
+
                                                         <td class="text-white">{{$invoice->invoice_id}}</td>
                                                         <td class="">
                                                             <div class="">
@@ -600,7 +600,7 @@
                                                         <td class="text-white">
                                                             {{$invoice->created_at}}
                                                         </td>
-                                                       
+
                                                         <td class="text-end">
                                                             <a href="#"
                                                                 class="btn badge-custom-bg btn-flex btn-center btn-sm"
@@ -610,32 +610,32 @@
                                                             <!--begin::Menu-->
                                                             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4 badge-custom-bg"
                                                                 data-kt-menu="true">
-                        
+
                                                                 <!--begin::Menu item-->
                                                                 <div class="menu-item px-3">
-                                                                    <a 
+                                                                    <a
                                                                     {{-- href="{{route('admin.send.custom.invoice', ['id' => $invoice->id])}}" --}}
                                                                         class="menu-link px-3 d-flex justify-content-center sendEmailByid text-white" data-id="{{$invoice->id}}">Send Invoice</a>
                                                                 </div>
                                                                 <!--end::Menu item-->
-                                                                
+
                                                                 <!--begin::Menu item-->
                                                                 <div class="menu-item px-3">
                                                                     <a href="{{ route('admin.view.custom.invoice', ['id' => $invoice->id]) }}"
                                                                         class="menu-link px-3 d-flex justify-content-center text-white">Edit</a>
-                                                                     
+
                                                                 </div>
                                                                 <!--end::Menu item-->
-                        
+
                                                                 <!--begin::Menu item-->
                                                                 <div class="menu-item px-3">
                                                                     <a href="#" data-id="{{$invoice->id}}"
                                                                         {{-- data-bs-toggle="modal" data-bs-target="#view_invoice{{$invoice->invoice_id}}" --}}
                                                                         class="menu-link px-3 d-flex justify-content-center viewInvoice text-white">View</a>
-                                                                     
+
                                                                 </div>
                                                                 <!--end::Menu item-->
-                                                                
+
                                                                 <!--begin::Menu item-->
                                                                 <div class="menu-item px-3">
                                                                     <a href="#"
@@ -643,15 +643,15 @@
                                                                         onclick="confirmDelete({{$invoice->id}})">Delete</a>
                                                                 </div>
                                                                 <!--end::Menu item-->
-                                                                
+
                                                             </div>
                                                             <!--end::Menu-->
                                                         </td>
                                                     </tr>
                                                     @endforeach
-                        
-                                                    
-                                                
+
+
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -722,7 +722,7 @@
                             </div>
                             <!--end::Card body-->
                         </div>
-                        
+
 
                     </div>
                     <!--end::Content-->
@@ -734,10 +734,10 @@
         <!--end::Content-->
     </div>
 
- 
-   
+
+
 <!--end::Content wrapper-->
-<div class="modal fade" id="view_invoice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade view-invoice" id="view_invoice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content badge-custom-bg">
             <div class="modal-header border-0">
@@ -797,7 +797,7 @@
                                                 <div class="fw-semibold fs-color-white custom-fs-13" id="to_email">
                                                     <br />
                                                     <span id="to_note"></span>
-                                                    
+
                                                 </div>
                                                 <!--end::Description-->
                                             </div>
@@ -814,7 +814,7 @@
                                                 <div class="fw-semibold fs-color-white custom-fs-13" id="from_email">
                                                     <br />
                                                     <span id="from_note"></span>
-                                                    
+
                                                 </div>
                                                 <!--end::Description-->
                                             </div>
@@ -829,18 +829,18 @@
                                             $price_per_pages = json_decode($invoice->price_per_page);
                                         @endphp --}}
 
-                                       
+
                                         <!--begin::Content-->
                                         <div class="flex-grow-1 mb-12">
                                             <!--end::Label-->
                                             {{-- <div class="fw-semibold fs-color-white custom-fs-13 mb-1">Item Name:</div> --}}
                                             <!--end::Label-->
-                                           
+
                                             {{-- @for ($i = 0; $i < count($item_names); $i++)
                                             @php
                                                 $totalPrice = 0;
                                                 $tax = 0;
-                                                $discount = 0; 
+                                                $discount = 0;
                                                 $totalPrice += $pagess[$i] * $price_per_pages[$i];
                                             @endphp --}}
 
@@ -890,7 +890,7 @@
                                                         <td colspan="" class="text-end" id="_discount">Discount: {{$discount != 0 ? $discount : '0'}}</td>
                                                     </tr>
                                                     <tr>
-                                                        
+
                                                         <td colspan="4"  class="text-end" id="_total">Total: <b>{{$totalPrice}}</b></td>
                                                     </tr>
                                                 </tbody>
@@ -952,19 +952,19 @@
                 </div>
             </div>
             <div class="modal-footer border-0 justify-content-between">
-                
+
                 {{-- <div class="">
-                    <button type="button" 
-                    class="btn btn-success my-1 me-12 modalInvoiceDownload" 
+                    <button type="button"
+                    class="btn btn-success my-1 me-12 modalInvoiceDownload"
                     >Download Invoice</button>
                 </div> --}}
 
                 <div class="">
-                    <button type="button" 
+                    <button type="button"
                     class="btn btn-dark-primary my-1 me-12 sendInvoiceByEmail"
                     >Send Invoice</button>
                 </div>
-                
+
                 <div class="">
                     <button type="button" class="btn badge-custom-bg-2" data-bs-dismiss="modal">Close</button>
                 </div>
@@ -985,7 +985,7 @@
 @section('customJs')
 <script>
     $(document).ready( function (){
-        
+
         //download invoice from modal;
         $(document).on('click', '.modalInvoiceDownload', function (e){
             // alert('okay');
@@ -1002,8 +1002,8 @@
                         toastr.success(response.message);
                     }
                 }
-            
-            
+
+
             });//ajax
 
         });
@@ -1013,7 +1013,7 @@
             e.preventDefault();
             if ($("#to_email").val().trim() !== "") {
                 // alert('ok');
-                $("#kt_invoice_form").submit(); 
+                $("#kt_invoice_form").submit();
             }
         });
 
@@ -1022,7 +1022,7 @@
             var pages = parseFloat(row.find('input[name="pages[]"]').val());
             var pricePerPage = parseFloat(row.find('input[name="price_per_page[]"]').val());
             var itemTotal = pages * pricePerPage;
-            row.find('span[data-kt-element="total"]').text(itemTotal.toFixed(2)); 
+            row.find('span[data-kt-element="total"]').text(itemTotal.toFixed(2));
             return itemTotal;
         }
 
@@ -1030,17 +1030,17 @@
         function updateTotal() {
             var total = 0;
             $('#newItem tr[data-kt-element="item"]').each(function() {
-                total += updateRowTotal($(this)); 
+                total += updateRowTotal($(this));
             });
             $('#_sub_total').text(total.toFixed(2));
-            updateGrandTotal(); 
+            updateGrandTotal();
         }
 
 
         function updateGrandTotal() {
             var subTotal = parseFloat($('#_sub_total').text());
-            
-            var grandTotal = subTotal; 
+
+            var grandTotal = subTotal;
             $('#_grand_total').text(grandTotal.toFixed(2));
         }
 
@@ -1052,7 +1052,7 @@
             newRow.find('input[type="number"]').val('1');
             newRow.find('span[data-kt-element="total"]').text('0.00');
             $('#newItem').append(newRow);
-            updateTotal(); 
+            updateTotal();
         });
 
 
@@ -1102,7 +1102,7 @@ console.log(searchText)
     $('[data-kt-user-table-filter="search"]').on('input', function () {
         handleTableSearch();
     });
-    
+
 </script>
 <script>
 $(document).ready(function() {
@@ -1116,7 +1116,7 @@ $(document).ready(function() {
         $.ajax({
             type: "GET",
             url: '{{ route("admin.send.invoice.by.email", ["email" => "__email"]) }}'.replace('__email', email),
-            dataType: "json", 
+            dataType: "json",
             success: function (response) {
                 console.log(response.message);
                 if(response.status)
@@ -1124,8 +1124,8 @@ $(document).ready(function() {
                     toastr.success(response.message);
                 }
             }
-        
-        
+
+
         });//ajax
     });
 
@@ -1138,7 +1138,7 @@ $(document).ready(function() {
         $.ajax({
             type: "GET",
             url: '{{ route("admin.send.custom.invoice", ["id" => "__id"]) }}'.replace('__id', id),
-            dataType: "json", 
+            dataType: "json",
             success: function (response) {
                 console.log(response.message);
                 if(response.status)
@@ -1146,12 +1146,12 @@ $(document).ready(function() {
                     toastr.success(response.message);
                 }
             }
-        
-        
+
+
         });//ajax
     });
 
-    
+
     // view in modal
     $(document).on('click', '.viewInvoice', function (e){
         e.preventDefault();
@@ -1210,8 +1210,8 @@ $(document).ready(function() {
                         subTotal += pages[i] * pricePerPage[i];
                     }
 
-                    // tax = 0.1 * subTotal; 
-                    // discount = 0.05 * subTotal; 
+                    // tax = 0.1 * subTotal;
+                    // discount = 0.05 * subTotal;
                     total = subTotal + tax - discount;
 
                     $('#_subTotal b').text(subTotal.toFixed(2));
@@ -1229,7 +1229,7 @@ $(document).ready(function() {
     });
 
 
-   
+
 
     function generateRandomNumber() {
         var randomNumber = Math.floor(Math.random() * (99999999 - 11111 + 1)) + 11111;
@@ -1263,7 +1263,7 @@ $(document).ready(function() {
 
 
 
-    
+
 
 
 });//main document

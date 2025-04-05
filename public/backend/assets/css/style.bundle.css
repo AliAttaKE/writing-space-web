@@ -51104,4 +51104,11 @@ body,
   [data-kt-app-layout=dark-header] .app-header .page-heading {
     color: #ffffff !important;
   }
+}.view-invoice .fw-bold {
+    font-weight: 400 !important;
+}
+.view-invoice .fw-semibold {
+    font-weight: 600 !important;
+    color: #FFC056 !important;
+    font-size:14px !important;
 }

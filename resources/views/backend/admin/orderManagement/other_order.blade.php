@@ -89,8 +89,8 @@
 	                                                        <!--end::Separator-->
 	                                                        <!--begin::Content-->
 	                                                        <form
-                                        id="filterForm" 
-                                        action="{{ route('admin.other-order') }}" 
+                                        id="filterForm"
+                                        action="{{ route('admin.other-order') }}"
                                         method="GET"
                                         enctype="multipart/form-data">
                                         <!--begin::Content-->
@@ -135,7 +135,7 @@
                                             <!--end::Menu 1-->
                                             <!--end::Filter-->
                                             <!--begin::Export-->
-                                            <button type="button" class="btn btn-light-primary me-3 badge-custom-bg" 
+                                            <button type="button" class="btn btn-light-primary me-3 badge-custom-bg"
                                             {{-- data-bs-toggle="modal" data-bs-target="#kt_modal_export_users" --}}
                                             onclick="window.location.href='{{ route('admin.export.orders',['value' => 'Refund']) }}'"
                                             >
@@ -474,12 +474,12 @@
 	                                                <th class="min-w-80px fw_800 pb-8">Due Date</th>
 	                                                <th class="min-w-80px fw_800 pb-8">Status</th>
 	                                                <th class="min-w-50px fw_800 pb-8">Action</th>
-	                                                
+
 	                                            </tr>
-	                                           
+
 	                                        </thead>
 	                                        <tbody class="text-gray-600 fw-semibold text-color">
-	                                            
+
                                                 @if($order_refund)
                                                 @foreach ($order_refund as $o)
                                                 <tr>
@@ -490,18 +490,18 @@
                                                     </td> --}}
                                                     <td><a class="fs-color-yellow" href="{{route('admin.admin-order-detail',[$o->order_id])}}">{{$o->order_id}}</a></td>
                                                     <td class="limit-text">{{$o->topic}}</td>
-                                                
+
                                                     <td>{{$o->number_of_pages}}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}</td>
-                                                                                                <td>{{ \Carbon\Carbon::parse($o->deadline)->format('Y/m/d h:iA') }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</td>
+                                                                                                <td>{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</td>
                                                     <td>
                                                         @if($o->order_show == 'Enable')
                                                         <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">{{$o->order_show}}</span>
                                                         @else
                                                         <span class="badge badge-light-danger fw-bold me-auto px-4 py-3">{{$o->order_show}}</span>
                                                         @endif
-                                                       
-                                                    
+
+
                                                     </td>
                                                     <td><a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm badge-custom-bg" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
                                                             <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
@@ -509,7 +509,7 @@
                                                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4 badge-custom-bg" data-kt-menu="true">
                                                             <!--begin::Menu item-->
                                                             <div class="menu-item px-3">
-                                                                
+
                                                           <li><a href="#" class="menu-link d-flex justify-content-center px-3 text-white" data-bs-toggle="modal" data-bs-target="#view-invoice_{{$o->id}}">View</a></li>
                                                             <!--end::Menu item-->
                                                             <!--begin::Menu item-->
@@ -523,19 +523,19 @@
                                                                 <li><a class="menu-link d-flex justify-content-center px-3 text-color" onclick="delivered({{$o->id}},'Revision')">Revision</a></li>
                                                                     <li><a class="menu-link d-flex justify-content-center px-3 text-color" onclick="delivered({{$o->id}},'Refund')">Refund</a></li>
                                                                     <li><a class="menu-link d-flex justify-content-center px-3 text-color" onclick="delivered({{$o->id}},'Canceled')">Canceled</a></li>
-                      
+
             </div>
                                                             <!--end::Menu item-->
                                                             <!--begin::Menu item-->
                                                             <div class="menu-item px-3">
-                                                                
+
                                                                  <!--<a href="#" class="menu-link d-flex justify-content-center px-3" download>Download</a>-->
                                                             </div>
                                                             <!--end::Menu item-->
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <div class="modal fade" id="view-invoice_{{$o->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal fade view-invoice" id="view-invoice_{{$o->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered modal-lg">
                                                         <div class="modal-content badge-custom-bg">
                                                             <div class="modal-header border-0">
@@ -631,14 +631,14 @@
                                                                                                 <!--end::Text-->
                                                                                             </div>
                                                                                             <!--end::Col-->
-                                                                                            <div class="col-md-3">
+                                                                                            {{-- <div class="col-md-3"> --}}
                                                                                                 <!--end::Label-->
-                                                                                                <div class="fw-semibold fs-color-white custom-fs-13 mb-1">Spacing:</div>
+                                                                                                {{-- <div class="fw-semibold fs-color-white custom-fs-13 mb-1">Spacing:</div> --}}
                                                                                                 <!--end::Label-->
                                                                                                 <!--end::Text-->
-                                                                                                <div class="fw-bold fs-color-white custom-fs-13">{{$o->spacing}}</div>
+                                                                                                {{-- <div class="fw-bold fs-color-white custom-fs-13">{{$o->spacing}}</div> --}}
                                                                                                 <!--end::Text-->
-                                                                                            </div>
+                                                                                            {{-- </div> --}}
                                                                                             <!--end::Col-->
                                                                                             <div class="col-md-3">
                                                                                                 <!--end::Label-->
@@ -647,7 +647,7 @@
                                                                                                 <!--end::Text-->
                                                                                                 <div class="fw-bold fs-color-white custom-fs-13">{{$o->powerpoint_slide}}</div>
                                                                                                 <!--end::Text-->
-                                                
+
                                                                                             </div>
                                                                                             <div class="col-md-3">
                                                                                                 <!--end::Label-->
@@ -656,25 +656,25 @@
                                                                                                 <!--end::Text-->
                                                                                                 <div class="fw-bold fs-color-white custom-fs-13">{{$o->no_of_extra_sources}}</div>
                                                                                                 <!--end::Text-->
-                                                
+
                                                                                             </div>
                                                                                             <div class="col-md-3">
                                                                                                 <!--end::Label-->
                                                                                                 <div class="fw-semibold fs-color-white custom-fs-13 mb-1">Order Date:</div>
                                                                                                 <!--end::Label-->
                                                                                                 <!--end::Text-->
-                                                                                                <div class="fw-bold fs-color-white custom-fs-13"> {{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}</div>
+                                                                                                <div class="fw-bold fs-color-white custom-fs-13"> {{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</div>
                                                                                                 <!--end::Text-->
-                                                
+
                                                                                             </div>
                                                                                             <div class="col-md-3">
                                                                                                 <!--end::Label-->
                                                                                                 <div class="fw-semibold fs-color-white custom-fs-13 mb-1">DeadLine:</div>
                                                                                                 <!--end::Label-->
                                                                                                 <!--end::Text-->
-                                                                                                <div class="fw-bold fs-color-white custom-fs-13">{{ \Carbon\Carbon::parse($o->deadline)->format('Y/m/d h:iA') }}</div>
+                                                                                                <div class="fw-bold fs-color-white custom-fs-13">{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</div>
                                                                                                 <!--end::Text-->
-                                                
+
                                                                                             </div>
                                                                                             <div class="col-md-3">
                                                                                                 <!--end::Label-->
@@ -683,7 +683,7 @@
                                                                                                 <!--end::Text-->
                                                                                                 <div class="fw-bold fs-color-white custom-fs-13">{{$o->statistical_analysis}}</div>
                                                                                                 <!--end::Text-->
-                                                
+
                                                                                             </div>
                                                                                             <div class="col-md-3">
                                                                                                 <!--end::Label-->
@@ -692,7 +692,7 @@
                                                                                                 <!--end::Text-->
                                                                                                 <div class="fw-bold fs-color-white custom-fs-13">{{$o->order_type}}</div>
                                                                                                 <!--end::Text-->
-                                                
+
                                                                                             </div>
                                                                                             <div class="col-md-3">
                                                                                                 <!--end::Label-->
@@ -701,7 +701,7 @@
                                                                                                 <!--end::Text-->
                                                                                                 <div class="fw-bold fs-color-white custom-fs-13">{{$o->order_status}}</div>
                                                                                                 <!--end::Text-->
-                                                
+
                                                                                             </div>
                                                                                         </div>
                                                                                         <!--end::Content-->
@@ -709,22 +709,22 @@
                                                                                         <div class="row g-5 mb-12">
                                                                                             <!--end::Col-->
                                                                                             <div class="col-sm-9">
-                                                                                               
+
                                                                                                 <br>
                                                                                                 <div class="col-md-12">
                                                                                                     <!--end::Label-->
                                                                                                     <div class="fw-semibold fs-color-white custom-fs-13 mb-1">Description:</div>
                                                                                                     <!--end::Label-->
                                                                                                     <!--end::Text-->
-                                                                                                   
-                                                                                                   
+
+
                                                                                                     <div class="fw-bold fs-color-white custom-fs-13">{!! $o->description !!}</div>
-                                                                                                  
+
                                                                                                     <!--end::Text-->
                                                                                                 </div>
                                                                                                 <br>
-                                                                                   
-                                                                                                
+
+
                                                                                             </div>
                                                                                         </div>
                                                                                         <!--end::Row-->
@@ -734,7 +734,7 @@
                                                                                 <!--end::Invoice 2 content-->
                                                                             </div>
                                                                             <!--end::Content-->
-                                                
+
                                                                         </div>
                                                                         <!--end::Layout-->
                                                                     </div>
@@ -751,7 +751,7 @@
                                                 </div>
                                                 @endforeach
                                                 @endif
-	                                            
+
 	                                        </tbody>
 											</table>
                                     <!--end::Table-->
@@ -818,8 +818,8 @@
 	                                                        <!--end::Separator-->
 	                                                        <!--begin::Content-->
 	                                                        <form
-                                        id="filterForm" 
-                                        action="{{ route('admin.other-order') }}" 
+                                        id="filterForm"
+                                        action="{{ route('admin.other-order') }}"
                                         method="GET"
                                         enctype="multipart/form-data">
 
@@ -866,7 +866,7 @@
                                             <!--end::Menu 1-->
                                             <!--end::Filter-->
                                             <!--begin::Export-->
-                                            <button type="button" class="btn btn-light-primary me-3 badge-custom-bg" 
+                                            <button type="button" class="btn btn-light-primary me-3 badge-custom-bg"
                                             {{-- data-bs-toggle="modal" data-bs-target="#kt_modal_export_users" --}}
                                             onclick="window.location.href='{{ route('admin.export.orders',['value' => 'Canceled']) }}'"
                                             >
@@ -982,12 +982,12 @@
 	                                                <th class="min-w-80px fw_800 pb-8 fs-color-white">Due Date</th>
 	                                                <th class="min-w-80px fw_800 pb-8 fs-color-white">Status</th>
 	                                                <th class="min-w-50px fw_800 pb-8 fs-color-white">Action</th>
-	                                                
+
 	                                            </tr>
-	                                           
+
 	                                        </thead>
 	                                        <tbody class="text-gray-600 fw-semibold text-color">
-	                                            
+
                                                 @if($order_canceled)
                                                 @foreach ($order_canceled as $o)
                                                 <tr>
@@ -998,18 +998,18 @@
                                                     </td> --}}
                                                     <td><a class="fs-color-yellow" href="{{route('admin.admin-order-detail',[$o->order_id])}}">{{$o->order_id}}</a></td>
                                                     <td class="limit-text">{{$o->subject}}</td>
-                                                
+
                                                     <td>{{$o->number_of_pages}}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}</td>
-                                                                                                <td>{{ \Carbon\Carbon::parse($o->deadline)->format('Y/m/d h:iA') }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</td>
+                                                                                                <td>{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</td>
                                                     <td>
                                                         @if($o->order_show == 'Enable')
                                                         <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">{{$o->order_show}}</span>
                                                         @else
                                                         <span class="badge badge-light-danger fw-bold me-auto px-4 py-3">{{$o->order_show}}</span>
                                                         @endif
-                                                       
-                                                    
+
+
                                                     </td>
                                                     <td><a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm badge-custom-bg" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
                                                             <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
@@ -1042,7 +1042,7 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <div class="modal fade" id="view-invoice-canceled_{{$o->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal fade view-invoice" id="view-invoice-canceled_{{$o->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered modal-lg">
                                                         <div class="modal-content badge-custom-bg">
                                                             <div class="modal-header border-0">
@@ -1138,14 +1138,14 @@
                                                                                                 <!--end::Text-->
                                                                                             </div>
                                                                                             <!--end::Col-->
-                                                                                            <div class="col-md-3">
+                                                                                            {{-- <div class="col-md-3"> --}}
                                                                                                 <!--end::Label-->
-                                                                                                <div class="fw-semibold fs-color-white custom-fs-13 mb-1">Spacing:</div>
+                                                                                                {{-- <div class="fw-semibold fs-color-white custom-fs-13 mb-1">Spacing:</div> --}}
                                                                                                 <!--end::Label-->
                                                                                                 <!--end::Text-->
-                                                                                                <div class="fw-bold fs-color-white custom-fs-13">{{$o->spacing}}</div>
+                                                                                                {{-- <div class="fw-bold fs-color-white custom-fs-13">{{$o->spacing}}</div> --}}
                                                                                                 <!--end::Text-->
-                                                                                            </div>
+                                                                                            {{-- </div> --}}
                                                                                             <!--end::Col-->
                                                                                             <div class="col-md-3">
                                                                                                 <!--end::Label-->
@@ -1154,7 +1154,7 @@
                                                                                                 <!--end::Text-->
                                                                                                 <div class="fw-bold fs-color-white custom-fs-13">{{$o->powerpoint_slide}}</div>
                                                                                                 <!--end::Text-->
-                                                
+
                                                                                             </div>
                                                                                             <div class="col-md-3">
                                                                                                 <!--end::Label-->
@@ -1163,25 +1163,25 @@
                                                                                                 <!--end::Text-->
                                                                                                 <div class="fw-bold fs-color-white custom-fs-13">{{$o->no_of_extra_sources}}</div>
                                                                                                 <!--end::Text-->
-                                                
+
                                                                                             </div>
                                                                                             <div class="col-md-3">
                                                                                                 <!--end::Label-->
                                                                                                 <div class="fw-semibold fs-color-white custom-fs-13 mb-1">Order Date:</div>
                                                                                                 <!--end::Label-->
                                                                                                 <!--end::Text-->
-                                                                                                <div class="fw-bold fs-color-white custom-fs-13"> {{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}</div>
+                                                                                                <div class="fw-bold fs-color-white custom-fs-13"> {{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</div>
                                                                                                 <!--end::Text-->
-                                                
+
                                                                                             </div>
                                                                                             <div class="col-md-3">
                                                                                                 <!--end::Label-->
                                                                                                 <div class="fw-semibold fs-color-white custom-fs-13 mb-1">DeadLine:</div>
                                                                                                 <!--end::Label-->
                                                                                                 <!--end::Text-->
-                                                                                                <div class="fw-bold fs-color-white custom-fs-13">{{ \Carbon\Carbon::parse($o->deadline)->format('Y/m/d h:iA') }}</div>
+                                                                                                <div class="fw-bold fs-color-white custom-fs-13">{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</div>
                                                                                                 <!--end::Text-->
-                                                
+
                                                                                             </div>
                                                                                             <div class="col-md-3">
                                                                                                 <!--end::Label-->
@@ -1190,7 +1190,7 @@
                                                                                                 <!--end::Text-->
                                                                                                 <div class="fw-bold fs-color-white custom-fs-13">{{$o->statistical_analysis}}</div>
                                                                                                 <!--end::Text-->
-                                                
+
                                                                                             </div>
                                                                                             <div class="col-md-3">
                                                                                                 <!--end::Label-->
@@ -1199,7 +1199,7 @@
                                                                                                 <!--end::Text-->
                                                                                                 <div class="fw-bold fs-color-white custom-fs-13">{{$o->order_type}}</div>
                                                                                                 <!--end::Text-->
-                                                
+
                                                                                             </div>
                                                                                             <div class="col-md-3">
                                                                                                 <!--end::Label-->
@@ -1208,7 +1208,7 @@
                                                                                                 <!--end::Text-->
                                                                                                 <div class="fw-bold fs-color-white custom-fs-13">{{$o->order_status}}</div>
                                                                                                 <!--end::Text-->
-                                                
+
                                                                                             </div>
                                                                                         </div>
                                                                                         <!--end::Content-->
@@ -1216,22 +1216,22 @@
                                                                                         <div class="row g-5 mb-12">
                                                                                             <!--end::Col-->
                                                                                             <div class="col-sm-9">
-                                                                                               
+
                                                                                                 <br>
                                                                                                 <div class="col-md-12">
                                                                                                     <!--end::Label-->
                                                                                                     <div class="fw-semibold fs-color-white custom-fs-13 mb-1">Description:</div>
                                                                                                     <!--end::Label-->
                                                                                                     <!--end::Text-->
-                                                                                                   
-                                                                                                   
+
+
                                                                                                     <div class="fw-bold fs-color-white custom-fs-13">{!! $o->description !!}</div>
-                                                                                                  
+
                                                                                                     <!--end::Text-->
                                                                                                 </div>
                                                                                                 <br>
-                                                                                   
-                                                                                                
+
+
                                                                                             </div>
                                                                                         </div>
                                                                                         <!--end::Row-->
@@ -1241,7 +1241,7 @@
                                                                                 <!--end::Invoice 2 content-->
                                                                             </div>
                                                                             <!--end::Content-->
-                                                
+
                                                                         </div>
                                                                         <!--end::Layout-->
                                                                     </div>
@@ -1258,8 +1258,8 @@
                                                 </div>
                                                 @endforeach
                                                 @endif
-	                                            
-	                                            
+
+
 	                                        </tbody>
 											</table>
                                     <!--end::Table-->
@@ -1271,7 +1271,7 @@
                         <!--end::Content container-->
                     </div>
                     <!--end::Content-->
-                    
+
                 </div>
                 <!--end::Content wrapper-->
 <!--begin::Drawers-->
@@ -1314,7 +1314,7 @@ console.log(searchText)
     $('[data-kt-user-table-filter="search"]').on('input', function () {
         handleTableSearch();
     });
-    
+
 </script>
 <script>
     // Function to handle table search
@@ -1341,7 +1341,7 @@ console.log(searchText)
     $('[data-kt-user-table-filter_2="search1"]').on('input', function () {
         handleTableEnableSearch();
     });
-    
+
 </script>
 <script>
     $(document).ready(function () {
@@ -1489,11 +1489,11 @@ function confirmEnableDelete() {
         });
     }
 
-     
+
     function delivered(id,status)
  {
-     
-   
+
+
    console.log(id);
         Swal.fire({
             title: 'Are you sure?',
@@ -1526,7 +1526,7 @@ $.ajax({
                         console.error(error);
                     }
                 });
-     
+
 
                 Swal.fire('Deleted!', 'Your order Sttatus Change.', 'success');
             }
@@ -1551,8 +1551,8 @@ $.ajax({
             }
         });
     }
-    
-    
+
+
 </script>
 <script>
     $(document).ready(function () {
@@ -1562,8 +1562,8 @@ $.ajax({
         $('#kt_table_cancelledOrder').DataTable();
     });
 </script>
-                                  
 
 
-                
+
+
 @endsection

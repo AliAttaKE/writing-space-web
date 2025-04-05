@@ -108,8 +108,8 @@
                                     <div class="separator border-gray-200"></div>
                                     <!--end::Separator-->
                                     <form
-                                        id="filterForm" 
-                                        action="{{ route('admin.placeOrder') }}" 
+                                        id="filterForm"
+                                        action="{{ route('admin.placeOrder') }}"
                                         method="GET"
                                         enctype="multipart/form-data">
                                         <!--begin::Content-->
@@ -304,8 +304,8 @@
                                             <td class="limit-text">{{ $o->subject }}</td>
 
                                             <td>{{ $o->number_of_pages }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($o->deadline)->format('Y/m/d h:iA') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</td>
 
                                             <td><span
                                                     class="badge badge-light-danger fw-bold me-auto px-4 py-3 badge-custom-bg">{{ $o->order_show }}</span>
@@ -342,7 +342,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <div class="modal fade" id="view-invoice_{{ $o->id }}" tabindex="-1"
+                                        <div class="modal fade view-invoice" id="view-invoice_{{ $o->id }}" tabindex="-1"
                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered modal-lg">
                                                 <div class="modal-content badge-custom-bg">
@@ -518,7 +518,7 @@
                                                                                         <!--end::Text-->
                                                                                         <div
                                                                                             class="fw-bold fs-color-white custom-fs-13">
-                                                                                            {{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}
+                                                                                            {{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}
                                                                                         </div>
                                                                                         <!--end::Text-->
 
@@ -532,7 +532,7 @@
                                                                                         <!--end::Text-->
                                                                                         <div
                                                                                             class="fw-bold fs-color-white custom-fs-13">
-                                                                                            {{ \Carbon\Carbon::parse($o->deadline)->format('Y/m/d h:iA') }}
+                                                                                            {{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}
                                                                                         </div>
                                                                                         <!--end::Text-->
 
@@ -870,12 +870,12 @@
                                                     <!--end::Input-->
                                                     <p id="error_title" class="text-danger"></p>
                                                 </div>
-                                                
-                                                
-                                                
+
+
+
                                                 <div class="fv-row mb-10">
                                                     <!--begin::Label-->
-                                                 
+
                                                     <label class="d-flex align-items-center fs-5 fw-semibold mb-2">
                                                         <span class="required fs-color-white custom-fs-17">Topic:</span>
                                                         <span class="ms-1" data-bs-toggle="tooltip"
@@ -887,17 +887,17 @@
                                                     </label>
                                                     <!--end::Label-->
                                                     <!--begin::Input-->
-                                                   
-                                                   
-                                                       
+
+
+
                                                        <input type="text" name="topic" id="topic_" class="form-control form-control-lg form-control-solid btn-dark-primary"
                                                        placeholder="Enter title"/>
                                                        <p id="error_topic" class="text-danger"></p>
-                                                   
+
                                                     <!--end::Input-->
                                                 </div>
-                                                
-                                                
+
+
                                                 <!--end::Input group-->
                                                 <!--begin::Input group-->
                                                 <div class="fv-row row">
@@ -1059,7 +1059,7 @@
                                                                             class="path3"></span></i></span>
                                                             </label>
                                                             <!--end::Label-->
-                                                            <!--begin::Input--> 
+                                                            <!--begin::Input-->
                                                             <select name="paper_format" id="paper_format"
                                                                 class="form-select form-select-solid btn-dark-primary"
                                                                 data-control="select2" data-hide-search="true"
@@ -1589,12 +1589,12 @@
                     <div class="stepper stepper-pills stepper-column d-flex flex-column flex-xl-row flex-row-fluid"
                         id="kt_modal_create_app_stepper">
                         <!--begin::Aside-->
-                       
+
                         <!--begin::Aside-->
                         <!--begin::Content-->
                         <div class="flex-row-fluid py-lg-5 px-lg-15">
                             <!--begin::Form-->
-                          
+
                             <form id="importForm" enctype="multipart/form-data">
                                 <div class="modal-body">
                                     <div class="form-group">
@@ -1602,7 +1602,7 @@
                                         <input type="file" name="file" class="form-control" required>
                                     </div>
                                 </div>
-                            
+
                                 <div class="modal-footer">
                                     <div class="row w-100">
                                         <div class="col-md-6 text-left">
@@ -1618,13 +1618,13 @@
                                     </div>
                                 </div>
                             </form>
-                            
 
-                                  
 
-                              
 
-                               
+
+
+
+
                                 <!--end::Form-->
                             </div>
                         </div>
@@ -1638,7 +1638,7 @@
         </div>
         <!--end::Modal dialog-->
     </div>
-    
+
 @endsection
 @section('customJs')
 
@@ -1752,7 +1752,7 @@ quill.on('text-change', function() {
             });
         });
     </script>
-  
+
     <!-- Add jQuery library -->
 
 
@@ -1780,7 +1780,7 @@ quill.on('text-change', function() {
             const submitButton = document.querySelector('#submit');
 
 
-           
+
 
 
             if (currentStep === 1) {
@@ -1788,7 +1788,7 @@ quill.on('text-change', function() {
                 continueButton.style.display = 'block';
                 submitButton.style.display = 'none';
 
-                
+
 
 
             } else if (currentStep < 4) {
@@ -1818,139 +1818,139 @@ quill.on('text-change', function() {
 
         const continueButton = document.querySelector('#next');
         continueButton.addEventListener("click", function() {
-            
+
             var selectElement = document.getElementById('subject');
             var errorMsg = document.getElementById('error_title');
 
             if (selectElement.value === '') {
-                errorMsg.innerText = 'Please select a value';   
-                return; 
+                errorMsg.innerText = 'Please select a value';
+                return;
             } else {
-                errorMsg.innerText = ''; 
+                errorMsg.innerText = '';
             }
 
-            var inputTopic = document.getElementById('topic_');    
+            var inputTopic = document.getElementById('topic_');
             var errorMsg = document.getElementById('error_topic');
             if (inputTopic.value === '') {
-                errorMsg.innerText = 'Please fill topic';   
-                return; 
+                errorMsg.innerText = 'Please fill topic';
+                return;
             }else {
-                errorMsg.innerText = ''; 
+                errorMsg.innerText = '';
             }
-            
-            var textareaValue = document.getElementById('mce_0').value;  
+
+            var textareaValue = document.getElementById('mce_0').value;
             var errorMsg = document.getElementById('error_message');
             if (textareaValue === '') {
                 errorMsg.innerText = 'Please enter a message';
                 return;
             } else {
-                errorMsg.innerText = ''; 
+                errorMsg.innerText = '';
             }
 
-            
+
 
             if(currentStep && currentStep === 2) {
 
                 var selectLevelElement = document.getElementById('academic_level');
                 var errorMsg = document.getElementById('academic_level_msg');
                 if (selectLevelElement.value === '') {
-                    errorMsg.innerText = 'Please select academic level';   
-                    return; 
+                    errorMsg.innerText = 'Please select academic level';
+                    return;
                 } else {
-                    errorMsg.innerText = ''; 
+                    errorMsg.innerText = '';
                 }
 
                 var selectLevelElement = document.getElementById('type_of_paper');
                 var errorMsg = document.getElementById('type_of_paper_msg');
                 if (selectLevelElement.value === '') {
-                    errorMsg.innerText = 'Please select type of paper';   
-                    return; 
+                    errorMsg.innerText = 'Please select type of paper';
+                    return;
                 } else {
-                    errorMsg.innerText = ''; 
+                    errorMsg.innerText = '';
                 }
 
                 var selectLevelElement = document.getElementById('paper_format');
                 var errorMsg = document.getElementById('paper_format_msg');
                 if (selectLevelElement.value === '') {
-                    errorMsg.innerText = 'Please select paper format';   
-                    return; 
+                    errorMsg.innerText = 'Please select paper format';
+                    return;
                 } else {
-                    errorMsg.innerText = ''; 
+                    errorMsg.innerText = '';
                 }
 
                 var selectLevelElement = document.getElementById('language_spelling');
                 var errorMsg = document.getElementById('language_spelling_msg');
                 if (selectLevelElement.value === '') {
-                    errorMsg.innerText = 'Please select languague spelling';   
-                    return; 
+                    errorMsg.innerText = 'Please select languague spelling';
+                    return;
                 } else {
-                    errorMsg.innerText = ''; 
+                    errorMsg.innerText = '';
                 }
 
-                var inputTopic = document.getElementById('number_of_pages');    
+                var inputTopic = document.getElementById('number_of_pages');
                 var errorMsg = document.getElementById('number_of_pages_msg');
                 if (inputTopic.value === '') {
-                    errorMsg.innerText = 'Please fill number of pages';   
-                    return; 
+                    errorMsg.innerText = 'Please fill number of pages';
+                    return;
                 }else {
-                    errorMsg.innerText = ''; 
+                    errorMsg.innerText = '';
                 }
 
                 var selectLevelElement = document.getElementById('spacing');
                 var errorMsg = document.getElementById('spacing_msg');
                 if (selectLevelElement.value === '') {
-                    errorMsg.innerText = 'Please select spacing';   
-                    return; 
+                    errorMsg.innerText = 'Please select spacing';
+                    return;
                 } else {
-                    errorMsg.innerText = ''; 
+                    errorMsg.innerText = '';
                 }
 
-                
 
-                var inputTopic = document.getElementById('powerpoint_slide');    
+
+                var inputTopic = document.getElementById('powerpoint_slide');
                 var errorMsg = document.getElementById('powerpoint_slide_msg');
                 if (inputTopic.value === '') {
-                    errorMsg.innerText = 'Please fill power point slide';   
-                    return; 
+                    errorMsg.innerText = 'Please fill power point slide';
+                    return;
                 }else {
-                    errorMsg.innerText = ''; 
+                    errorMsg.innerText = '';
                 }
-                
-                
+
+
             }
-            
+
             if(currentStep && currentStep === 3) {
 
-                var inputTopic = document.getElementById('number_');    
+                var inputTopic = document.getElementById('number_');
                 var errorMsg = document.getElementById('number_msg');
                 if (inputTopic.value === '') {
-                    errorMsg.innerText = 'Please fill extra sources';   
-                    return; 
+                    errorMsg.innerText = 'Please fill extra sources';
+                    return;
                 }else {
-                    errorMsg.innerText = ''; 
+                    errorMsg.innerText = '';
                 }
-                
+
 
                 var selectLevelElement = document.getElementById('deadline');
                 var errorMsg = document.getElementById('deadline_msg');
                 if (selectLevelElement.value === '') {
-                    errorMsg.innerText = 'Please select deadline';   
-                    return; 
+                    errorMsg.innerText = 'Please select deadline';
+                    return;
                 } else {
-                    errorMsg.innerText = ''; 
+                    errorMsg.innerText = '';
                 }
 
                 var selectLevelElement = document.getElementById('statistical_analysis');
                 var errorMsg = document.getElementById('statistical_analysis_msg');
                 if (selectLevelElement.value === '') {
-                    errorMsg.innerText = 'Please select statistical analysis';   
-                    return; 
+                    errorMsg.innerText = 'Please select statistical analysis';
+                    return;
                 } else {
-                    errorMsg.innerText = ''; 
+                    errorMsg.innerText = '';
                 }
             }
 
-           
+
 
             if (currentStep < 4) {
                 currentStep++;
@@ -1972,7 +1972,7 @@ quill.on('text-change', function() {
         });
 
 
-       
+
 
 
 
@@ -2020,10 +2020,10 @@ quill.on('text-change', function() {
 
 
         $('#number_of_pages').on('input', function() {
-    var number_of_pages = $(this).val(); 
+    var number_of_pages = $(this).val();
 
-   
-    var no_of_extra_sourcesww =   $('.no_of_extra_sources').val(number_of_pages); 
+
+    var no_of_extra_sourcesww =   $('.no_of_extra_sources').val(number_of_pages);
 
 });
 

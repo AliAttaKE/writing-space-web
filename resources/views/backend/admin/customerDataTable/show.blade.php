@@ -15,9 +15,9 @@
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <!-- <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                        
+
                         <li class="breadcrumb-item text-muted">Customer Management Table</li>
-                        
+
                     </ul> -->
                     <!--end::Breadcrumb-->
                 </div>
@@ -38,7 +38,7 @@
                     <!--begin::Card header-->
                     <div class="card-header border-0 pt-6">
                         <!--begin::Card title-->
-                     
+
                         <!--begin::Card title-->
                         <!--begin::Card toolbar-->
                         <div class="card-toolbar">
@@ -63,7 +63,7 @@
                                     <div class="separator border-gray-200"></div>
                                     <!--end::Separator-->
                                     <!--begin::Content-->
-                                    
+
                                 </div>
                                 <!--end::Menu 1-->
                                 <!--end::Filter-->
@@ -81,7 +81,7 @@
                             </div>
                             <!--end::Toolbar-->
                             <!--begin::Group actions-->
-                          
+
                         </div>
                         <!--end::Card toolbar-->
                     </div>
@@ -92,15 +92,15 @@
                         <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_customers_table">
                             <thead>
                                 <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0 text-color">
-                                  
+
                                     <th class="min-w-125px">Customer Name</th>
-                                    <th class="min-w-125px">Account Id</th> 
+                                    <th class="min-w-125px">Account Id</th>
                                     <th class="min-w-125px">Email</th>
                                     <th class="min-w-125px">Language</th>
                                     <th class="min-w-125px">Customer Group</th>
-                                   
+
                                     <th class="min-w-125px">Created Date</th>
-                                 
+
                                 </tr>
                             </thead>
                             <tbody class="fw-semibold text-gray-600 text-color">
@@ -112,8 +112,8 @@
 											<input class="form-check-input" type="checkbox" value="1" />
 										</div>
 									</td> --}}
-									
-									
+
+
                                             <td>
                                                 {{ $customer->name }}
                                             </td>
@@ -130,9 +130,9 @@
 
                                             <td><a href="#" class="text-warning">{{ $customer->tier }}</a>
                                             </td>
-                                            
+
                                             <td>{{ $customer->created_at }}</td>
-                                       
+
                                         </tr>
                                     @endforeach
                                 @else
@@ -148,8 +148,8 @@
                         <!--end::Table-->
                     </div>
                     <!--end::Card body-->
-              
-                
+
+
                    <div class="flex-lg-row-fluid ms-lg-15">
                     <!--begin:::Tabs-->
                     <ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-semibold mb-8" role="tablist">
@@ -158,8 +158,8 @@
                             <a class="nav-link text-white pb-4 active" data-bs-toggle="tab" href="#kt_customer_view_overview_tab" aria-selected="true" role="tab">Overview</a>
                         </li>
                         <!--end:::Tab item-->
-                        
-                      
+
+
                     </ul>
                     <!--end:::Tabs-->
                     <!--begin:::Tab content-->
@@ -177,13 +177,13 @@
                                         <!--begin::Card title-->
                                           @if($used_subscription!= null)
 
-                                       
+
                                         <!--begin::Card title-->
                                         <div class="card-title">
-                                            <h2 class="fw-bold fs-color-white custom-fs-13">Package </h2><span class="badge badge-warning ms-3"> 
-                                            
+                                            <h2 class="fw-bold fs-color-white custom-fs-13">Package </h2><span class="badge badge-warning ms-3">
+
                                             {{$used_subscription->subscription['subscription_name']}}
-                                            
+
                                             </span>
                                         </div>
                                         <!--end::Card title-->
@@ -200,7 +200,7 @@
                                          <input type="hidden" value="{{$used_subscription->subscription['cost_per_page']}}" id="cost_per_page">
                                     </div>
 
-                                    
+
 
 
                                     <!--@if($used_subscription->status == 'Active' && $used_subscription->due_date >= now())-->
@@ -208,7 +208,7 @@
                                     <!--    @csrf-->
                                     <!--    <button type="submit" class="btn btn-danger">Cancel Package</button>-->
                                     <!--</form>-->
-                                  
+
                                     <!--@else -->
                                     <!--<form action="{{route('customer.cancel-subscription',[$used_subscription->id])}}" method="post" class="w-100">-->
                                     <!--      @csrf-->
@@ -218,10 +218,10 @@
 
                                 @else
                                 <div class="card-title">
-                                            <h2 class="fw-bold fs-color-white custom-fs-13">Package </h2><span class="badge badge-warning ms-3"> 
-                                            
+                                            <h2 class="fw-bold fs-color-white custom-fs-13">Package </h2><span class="badge badge-warning ms-3">
+
                                             BestPakage
-                                            
+
                                             </span>
                                         </div>
                                         <!--end::Card title-->
@@ -233,18 +233,18 @@
                                         <div class="fs-7 fw-normal text-muted">Total Used pages: 0</div>
                                         <div class="fs-7 fw-normal text-muted">Expire Date: 0</div>
                                         <div class="fs-7 fw-normal text-muted">Status:</span>UnActive</div>
-                                       
+
                                     </div>
 
-                                  
-                                        
-                                   
+
+
+
                                 @endif
                                 </div>
                                 <!--end::Card-->
                             </div>
 
-                            
+
                             <!--begin::Statements-->
                             <div class="card mb-6 mb-xl-9 card-custom-bg message-summ">
                                <!--begin::Header-->
@@ -255,7 +255,7 @@
                                     </div>
                                     <!--end::Title-->
                                     <!--begin::Toolbar-->
-                                    
+
                                     <!--end::Toolbar-->
                                 </div>
                                 <!--end::Header-->
@@ -316,7 +316,7 @@
                                                                         <!--end::Menu item-->
                                                                         <!--begin::Menu item-->
                                                                         <div class="menu-item px-3">
-                                                                        <a  class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white" 
+                                                                        <a  class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white"
                                                                                     onclick="window.location.href='{{ route('customer.export.invoice',['value' => $invoice->order_id]) }}'">
                                                                                 Export
                                                                             </a>
@@ -326,7 +326,7 @@
                                                                     <!--end::Menu-->
                                                                 </td>
                                                             </tr>
-                                                            <div class="modal" id="view-invoice_{{$invoice->order_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal view-invoice" id="view-invoice_{{$invoice->order_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog modal-dialog-centered modal-lg">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header border-0 badge-custom-bg">
@@ -398,7 +398,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>               
+                                                            </div>
                                                         @endif
                                                     @endforeach
                                                 </tbody>
@@ -422,7 +422,7 @@
                                     </div>
                                     <!--end::Title-->
                                     <!--begin::Toolbar-->
-                                  
+
                                     <!--end::Toolbar-->
                                 </div>
                                 <!--end::Header-->
@@ -485,7 +485,7 @@
                                                                         <div class="menu-item px-3">
                                                                             <!-- <a href="#" class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white" id="badge-custom-bg" download="">Download</a> -->
 
-                                                                            <a class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white" 
+                                                                            <a class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white"
                                                                                     onclick="window.location.href='{{ route('customer.export.invoice',['value' => $invoice->order_id]) }}'">
                                                                                 Export
                                                                             </a>
@@ -496,7 +496,7 @@
                                                                     <!--end::Menu-->
                                                                 </td>
                                                             </tr>
-                                                            <div class="modal" id="view-invoice_2{{$invoice->order_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal view-invoice" id="view-invoice_2{{$invoice->order_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog modal-dialog-centered modal-lg">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header border-0 badge-custom-bg">
@@ -568,7 +568,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>                   
+                                                            </div>
                                                         @endif
                                                     @endforeach
                                                 </tbody>
@@ -581,16 +581,16 @@
                                 </div>
                             </div>
                             <!--end::Statements main card-->
-                            
+
                         </div>
-                          
-                           
+
+
                         </div>
-                       
+
                     </div>
                     <!--end:::Tab content-->
                 </div>
-                
+
                    <div class="modal fade" id="kt_modal_add_payment" tabindex="-1" aria-hidden="true">
                 <!--begin::Modal dialog-->
                 <div class="modal-dialog mw-650px">
@@ -699,7 +699,7 @@
                 </div>
                 <!--end::Modal dialog-->
             </div>
-            
+
              <div class="modal fade" id="kt_modal_adjust_balance" tabindex="-1" aria-hidden="true">
                 <!--begin::Modal dialog-->
                 <div class="modal-dialog modal-dialog-centered mw-650px">
@@ -892,7 +892,7 @@
                                                     <div class="image-input-wrapper w-125px h-125px" style="background-image: url({{ asset('backend/assets/media/ws/profile.png') }})"></div>
                                                     <!--end::Preview existing avatar-->
                                                     @endif
-                                                    
+
                                                     <!--begin::Edit-->
                                                     <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" aria-label="Change avatar" data-bs-original-title="Change avatar" data-kt-initialized="1">
                                                         <i class="ki-duotone ki-pencil fs-7">
@@ -957,7 +957,7 @@
                                             <!--end::Input-->
                                         </div>
                                         <!--end::Input group-->
-                                
+
                                         <!--begin::Input group-->
                                         <div class="fv-row mb-15">
                                             <!--begin::Label-->
@@ -970,7 +970,7 @@
                                         <!--end::Input group-->
                                     </div>
                                     <!--end::User form-->
-                                    
+
                                     <!--begin::Billing toggle-->
                                     <div class="fw-bold fs-3 rotate collapsible collapsed mb-7 fs-color-white custom-fs-18" data-bs-toggle="collapse" href="#kt_modal_update_customer_billing_info" role="button" aria-expanded="false" aria-controls="kt_modal_update_customer_billing_info">Additional Information
                                         <span class="ms-2 rotate-180">
@@ -1059,10 +1059,10 @@
                                                         {{ $country->nicename }}
                                                     </option>
                                                 @endforeach
-                                            
+
                                             </select>
                                                 <!--end::Input-->
-                                           
+
                                         </div>
                                         <!--end::Input group-->
                                         @endif
@@ -1208,7 +1208,7 @@
                                                     <!--begin::Col-->
                                                     <div class="col-6">
                                                         <input name="card_expiry_year" id="card_expiry_year" placeholder="Year" />
-            
+
                                                     </div>
                                                     <!--end::Col-->
                                                 </div>
@@ -1671,7 +1671,7 @@
             </div>
             <!--end::Content container-->
         </div>
-        
+
           </div>
         <!--end::Content-->
     </div>

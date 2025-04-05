@@ -76,7 +76,7 @@
                                                 <span class="path2"></span>
                                             </i>
                                         </div>
-                                           
+
                                         <div class="fw-semibold fs-color-white">Current Orders</div>
                                     </div>
                                     <!--end::Stats-->
@@ -146,10 +146,10 @@
                                     @if (Auth::user()->address_1)
                                         {{ Auth::user()->address_1 }}
                                     @else
-                                    
-                                        
+
+
                                     @endif
-                            
+
                                     </div>
                                     <!--begin::Details item-->
                                     <!--begin::Details item-->
@@ -172,28 +172,28 @@
                                         <div class="fw-bold fs-color-white custom-fs-17">Description</div>
                                         @if (Auth::user()->description)
                                             <div class="text-gray-600 fs-color-white custom-fs-17">{{ Auth::user()->description }}</div>
-                                           
+
                                         @else
                                         <p class="text-gray-600">
                                             <br>
                                             <br>
-                                          
+
                                         </p>
                                         @endif
-                                        
+
                                     </div>
                                     <!--end::Notes-->
                                 </div>
                             </div>
                             <!--end::Details content-->
                             @endauth
-                            
+
                         </div>
                         <!--end::Card body-->
                     </div>
-                    <!--end::Card--> 
+                    <!--end::Card-->
                     @endauth
-                    
+
                 </div>
                 <!--end::Sidebar-->
                 <!--begin::Content-->
@@ -205,8 +205,8 @@
                             <a class="nav-link text-white pb-4 active" data-bs-toggle="tab" href="#kt_customer_view_overview_tab" aria-selected="true" role="tab">Overview</a>
                         </li>
                         <!--end:::Tab item-->
-                        
-                      
+
+
                     </ul>
                     <!--end:::Tabs-->
                     <!--begin:::Tab content-->
@@ -224,13 +224,13 @@
                                         <!--begin::Card title-->
                                           @if($used_subscription!= null)
 
-                                       
+
                                         <!--begin::Card title-->
                                         <div class="card-title">
-                                            <h2 class="fw-bold fs-color-white custom-fs-13">Package </h2><span class="badge badge-warning ms-3"> 
-                                            
+                                            <h2 class="fw-bold fs-color-white custom-fs-13">Package </h2><span class="badge badge-warning ms-3">
+
                                             {{$used_subscription->subscription['subscription_name']}}
-                                            
+
                                             </span>
                                         </div>
                                         <!--end::Card title-->
@@ -258,7 +258,7 @@
                                     <!--    @csrf-->
                                     <!--    <button type="submit" class="btn btn-danger">Cancel Package</button>-->
                                     <!--</form>-->
-                                  
+
                                     <!--@else -->
                                     <!--<form action="{{route('customer.cancel-subscription',[$used_subscription->id])}}" method="post" class="w-100">-->
                                     <!--      @csrf-->
@@ -268,10 +268,10 @@
 
                                 @else
                                 <div class="card-title">
-                                            <h2 class="fw-bold fs-color-white custom-fs-13">Package </h2><span class="badge badge-warning ms-3"> 
-                                            
+                                            <h2 class="fw-bold fs-color-white custom-fs-13">Package </h2><span class="badge badge-warning ms-3">
+
                                             BestPakage
-                                            
+
                                             </span>
                                         </div>
                                         <!--end::Card title-->
@@ -283,19 +283,19 @@
                                         <div class="fs-7 fw-normal text-muted">Total Used pages: 0</div>
                                         <div class="fs-7 fw-normal text-muted">Expire Date: 0</div>
                                         <div class="fs-7 fw-normal text-muted">Status:</span>UnActive</div>
-                                       
+
                                     </div>
 
                                             <button type="button" class="btn badge-custom-bg mb-3" onclick="showPurchaseAlert()">Add Pages</button>
 
                                         <!--<button type="button" class="btn badge-custom-bg mb-3">Add Pages</button>-->
-                                   
+
                                 @endif
                                 </div>
                                 <!--end::Card-->
                             </div>
 
-                            
+
                             <!--begin::Statements-->
                             <div class="card mb-6 mb-xl-9 card-custom-bg message-summ">
                                <!--begin::Header-->
@@ -374,7 +374,7 @@
                                                                         <!--end::Menu item-->
                                                                         <!--begin::Menu item-->
                                                                         <div class="menu-item px-3">
-                                                                        <a  class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white" 
+                                                                        <a  class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white"
                                                                                     onclick="window.location.href='{{ route('customer.export.invoice',['value' => $invoice->order_id]) }}'">
                                                                                 Export
                                                                             </a>
@@ -384,7 +384,7 @@
                                                                     <!--end::Menu-->
                                                                 </td>
                                                             </tr>
-                                                            <div class="modal" id="view-invoice_{{$invoice->order_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal view-invoice" id="view-invoice_{{$invoice->order_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog modal-dialog-centered modal-lg">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header border-0 badge-custom-bg">
@@ -456,7 +456,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>               
+                                                            </div>
                                                         @endif
                                                     @endforeach
                                                 </tbody>
@@ -549,7 +549,7 @@
                                                                         <div class="menu-item px-3">
                                                                             <!-- <a href="#" class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white" id="badge-custom-bg" download="">Download</a> -->
 
-                                                                            <a class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white" 
+                                                                            <a class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white"
                                                                                     onclick="window.location.href='{{ route('customer.export.invoice',['value' => $invoice->order_id]) }}'">
                                                                                 Export
                                                                             </a>
@@ -560,7 +560,7 @@
                                                                     <!--end::Menu-->
                                                                 </td>
                                                             </tr>
-                                                            <div class="modal" id="view-invoice_2{{$invoice->order_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal view-invoice" id="view-invoice_2{{$invoice->order_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog modal-dialog-centered modal-lg">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header border-0 badge-custom-bg">
@@ -632,7 +632,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>                   
+                                                            </div>
                                                         @endif
                                                     @endforeach
                                                 </tbody>
@@ -645,12 +645,12 @@
                                 </div>
                             </div>
                             <!--end::Statements main card-->
-                            
+
                         </div>
-                          
-                           
+
+
                         </div>
-                       
+
                     </div>
                     <!--end:::Tab content-->
                 </div>
@@ -961,7 +961,7 @@
                                                     <div class="image-input-wrapper w-125px h-125px" style="background-image: url({{ asset('backend/assets/media/ws/profile.png') }})"></div>
                                                     <!--end::Preview existing avatar-->
                                                     @endif
-                                                    
+
                                                     <!--begin::Edit-->
                                                     <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" aria-label="Change avatar" data-bs-original-title="Change avatar" data-kt-initialized="1">
                                                         <i class="ki-duotone ki-pencil fs-7">
@@ -1026,7 +1026,7 @@
                                             <!--end::Input-->
                                         </div>
                                         <!--end::Input group-->
-                                
+
                                         <!--begin::Input group-->
                                         <div class="fv-row mb-15">
                                             <!--begin::Label-->
@@ -1039,7 +1039,7 @@
                                         <!--end::Input group-->
                                     </div>
                                     <!--end::User form-->
-                                    
+
                                     <!--begin::Billing toggle-->
                                     <div class="fw-bold fs-3 rotate collapsible collapsed mb-7 fs-color-white custom-fs-18" data-bs-toggle="collapse" href="#kt_modal_update_customer_billing_info" role="button" aria-expanded="false" aria-controls="kt_modal_update_customer_billing_info">Additional Information
                                         <span class="ms-2 rotate-180">
@@ -1128,10 +1128,10 @@
                                                         {{ $country->nicename }}
                                                     </option>
                                                 @endforeach
-                                            
+
                                             </select>
                                                 <!--end::Input-->
-                                           
+
                                         </div>
                                         <!--end::Input group-->
                                         @endif
@@ -1277,7 +1277,7 @@
                                                     <!--begin::Col-->
                                                     <div class="col-6">
                                                         <input name="card_expiry_year" id="card_expiry_year" placeholder="Year" />
-            
+
                                                     </div>
                                                     <!--end::Col-->
                                                 </div>
@@ -1407,11 +1407,11 @@
                 e.preventDefault();
                 // alert('submitted');
                 var data = new FormData(this);
-                
+
                 var email = data.get('email');
                 if (email == '' || !isValidEmailAddress(email)) {
                     toastr.error('Oops! Please enter a valid email address');
-                    return; 
+                    return;
                 }
 
                 $('.saveBtn').text('Saving...');
@@ -1427,7 +1427,7 @@
                        $('#kt_modal_update_customer').hide();
                        $('.modal-backdrop').hide();
                        toastr.success('Profile updated successfully!!');
-                       
+
                     },
                     error: function(xhr, status, error) {
                         if (xhr.status === 422) {
@@ -1453,9 +1453,9 @@
 
         });
 
-        
 
-        
+
+
 
         function isValidEmailAddress(email) {
              var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
@@ -1470,42 +1470,42 @@
             });
 
             $(document).on('click','.addPages', function(){
-                
-                
+
+
                 var pages = $('#no_of_page').val();
-                
-                
-                
+
+
+
                                 $.ajax({
                 type: 'get',
                 url: "{{ route('pakage_limit.get') }}",
                 data: { totalSubscription: pages },
                 success: function (response) {
-                   
-                    
+
+
                     if (response.success === 'Package limit exceeded') {
                         console.log("Package limit exceeded");
-                        
+
                           localStorage.setItem('no_of_page', pages);
-                
+
                         var used_package = $('#used_package_id').val();
                 localStorage.setItem('used_package_id', used_package);
-                
+
                         var packageid = $('#package_id').val();
                 localStorage.setItem('package_id', packageid);
-                
+
                         var cost_perpage = $('#cost_per_page').val();
                 localStorage.setItem('cost_per_page', cost_perpage);
-                
+
 
 
                 console.log(pages);
-                
+
                 if(pages && pages != null)
                 {
                     $("#add_pages_modal").modal('hide');
                     // $("#payment_modal").modal('show');
-                    
+
                      var url2 = '{{ route('customer.checkout') }}';
                 $.ajax({
                     type: 'GET',
@@ -1518,12 +1518,12 @@
 
                         let idgetsession = response.sessionId;
 
-                       
+
                         Swal.fire('Success', 'Add Payment Details!', 'success');
 
                                 if (response && response.sessionId) {
 
-                      
+
                         window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
 
 
@@ -1539,26 +1539,26 @@
                         console.error(error);
                     }
                 });
-                    
+
 
                 }else{
                     toastr.error('pages number not given!');
                 }
-                
-                        
-                        
+
+
+
                     } else if (response.success === 'Package limit not exceeded') {
                     alert("Message for new customer when we do not have capacity:Thank you for your interest in our services! We are currently at full capacity and unable to take new subscriptions at this moment. Please leave your email with us, and we'll notify you as soon as slots become available. We appreciate your understanding and look forward to serving you in the future.");
-                       
+
                     }
-                    
+
                     else if (response.success === 'Package pages limit not exceeded') {
                   alert("The package's page limit has not been exceeded. You can continue using the service.");
-                       
+
                     }
                     else {
                         console.log("An unexpected error occurred");
-                       
+
                     }
                 },
                 error: function (error) {
@@ -1569,16 +1569,16 @@
 
 
 
-                
-                
-              
-                
+
+
+
+
 
 
 
             });
 
-            
+
 
     });
 
@@ -1605,7 +1605,7 @@
             console.log('card_details '+ card_detail);
             console.log('num_pages '+ num_pages);
             console.log('user_num '+ user_id);
-            
+
             var url = '{{ route('customer.customer_payment', ['id' => ':id']) }}';
             url = url.replace(':id', user_id);
 
@@ -1658,13 +1658,13 @@
                 }
             });
 
-            
+
         }
-        
+
 </script>
 <script>
     $(document).ready(function() {
-        
+
         $('#packages_filter_date').on('change', function() {
             var selectedDate = $(this).val();
             var url = '{{ route('customer.filter.date') }}';
@@ -1677,9 +1677,9 @@
                 success: function(response) {
                     if (response.status == true && response.data.length > 0) {
                         var datas = response.data;
-                        var rows = ''; 
+                        var rows = '';
                         $('#old_package_payment_tbody').hide();
-                        $('#new_package_payment_tbody').empty(); 
+                        $('#new_package_payment_tbody').empty();
                         for (var data of datas) {
                             var row = `
                             <tr>
@@ -1717,18 +1717,18 @@
                 },
 
                 error: function(xhr, status, error) {
-                console.log("Error status:", xhr.status);                
-                $('#new_package_payment_tbody').empty(); 
+                console.log("Error status:", xhr.status);
+                $('#new_package_payment_tbody').empty();
                 $('#old_package_payment_tbody').hide();
                 var errorMessage = "Data not found";
                 $('#new_package_payment_tbody').append(`<tr><td colspan="6">${errorMessage}</td></tr>`);
             }
             });
-      
+
         });
 
         $('.reset_package_filter').on('click', function(){
-            $('#new_package_payment_tbody').empty(); 
+            $('#new_package_payment_tbody').empty();
             $('#old_package_payment_tbody').show();
         });
 
@@ -1746,9 +1746,9 @@
                 success: function(response) {
                    if (response.status == true && response.data.length > 0) {
                         var datas = response.data;
-                        var rows = ''; 
+                        var rows = '';
                         $('#old_custom_payment_tbody').hide();
-                        $('#new_custom_payment_tbody').empty(); 
+                        $('#new_custom_payment_tbody').empty();
                         for (var data of datas) {
                             var row = `
                             <tr>
@@ -1785,18 +1785,18 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.log("Error status:", xhr.status);                
-                    $('#new_custom_payment_tbody').empty(); 
+                    console.log("Error status:", xhr.status);
+                    $('#new_custom_payment_tbody').empty();
                     $('#old_custom_payment_tbody').hide();
                     var errorMessage = "Data not found";
                     $('#new_custom_payment_tbody').append(`<tr><td colspan="6">${errorMessage}</td></tr>`);
                 }
             });
-      
+
         });
 
         $('.reset_custom_filter').on('click', function(){
-            $('#new_custom_payment_tbody').empty(); 
+            $('#new_custom_payment_tbody').empty();
             $('#old_custom_payment_tbody').show();
         });
 
@@ -1808,19 +1808,19 @@
     $(document).ready(function() {
         $('#kt_table_custom_payment').DataTable();
         $('#kt_table_packages_payment').DataTable();
-        
-       
+
+
     });
     $(document).ready(function(){
         $('.usage-table-customer').DataTable();
 
 
 
-        
+
     })
 
 
-  
+
     function showPurchaseAlert() {
         Swal.fire({
             title: 'Purchase Required',

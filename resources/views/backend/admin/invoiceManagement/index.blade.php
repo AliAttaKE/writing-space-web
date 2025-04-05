@@ -3,7 +3,7 @@
     <div class="d-flex flex-column flex-column-fluid">
 
 
-        
+
         <!--begin::Toolbar-->
         <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
             <!--begin::Toolbar container-->
@@ -16,9 +16,9 @@
                     <!--end::Title-->
                     <!--begin::Breadcrumb-->
                     <!-- <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                        
+
                         <li class="breadcrumb-item fs-color-white custom-fs-13">Invoice Management</li>
-                        
+
                     </ul> -->
                     <!--end::Breadcrumb-->
                 </div>
@@ -358,7 +358,7 @@
                                                             <a href="#" data-id="{{$invoice->id}}"
                                                                 {{-- data-bs-toggle="modal" data-bs-target="#view_invoice{{$invoice->invoice_id}}" --}}
                                                                 class="menu-link invoice-menu px-3 d-flex justify-content-center viewInvoice text-white">View</a>
-                                                             
+
                                                         </div>
                                                         <!--end::Menu item-->
                                                         <!--begin::Menu item-->
@@ -397,7 +397,7 @@
                                         <!--begin::Col-->
                                         <!--<div class="col-6">-->
                                         <!--    <a href="#"-->
-                                            
+
                                         <!--        class="btn btn-dark-primary w-100">Download</a>-->
                                         <!--</div>-->
                                         <!--end::Col-->
@@ -430,9 +430,9 @@
     </div>
     <!--end::Content wrapper-->
 
-       
+
 <!--end::Content wrapper-->
-<div class="modal fade" id="view_invoice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade view-invoice" id="view_invoice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content badge-custom-bg">
             <div class="modal-header border-0">
@@ -462,7 +462,7 @@
                                     <div class="m-0">
                                         <!--begin::Label-->
                                         <div class="fw-bold fs-3 text-gray-800 mb-8 fs-color-white custom-fs-13" id="order_id"></div>
-                                       
+
                                         <!--end::Label-->
                                         <!--begin::Row-->
                                         <div class="row g-5 mb-11">
@@ -492,7 +492,7 @@
                                                 <div class="fw-semibold fs-color-white custom-fs-13" id="email">
                                                     <br />
                                                     <span id="note"></span>
-                                                    
+
                                                 </div>
                                                 <!--end::Description-->
                                             </div>
@@ -509,7 +509,7 @@
                                                 <div class="fw-semibold fs-color-white custom-fs-13" id="to_email">
                                                     <br />
                                                     <span id="to_note"></span>
-                                                    
+
                                                 </div>
                                                 <!--end::Description-->
                                             </div>
@@ -524,18 +524,18 @@
                                             $price_per_pages = json_decode($invoice->price_per_page);
                                         @endphp --}}
 
-                                       
+
                                         <!--begin::Content-->
                                         <div class="flex-grow-1 mb-12">
                                             <!--end::Label-->
                                             {{-- <div class="fw-semibold fs-color-white custom-fs-13 mb-1">Item Name:</div> --}}
                                             <!--end::Label-->
-                                           
+
                                             {{-- @for ($i = 0; $i < count($item_names); $i++)
                                             @php
                                                 $totalPrice = 0;
                                                 $tax = 0;
-                                                $discount = 0; 
+                                                $discount = 0;
                                                 $totalPrice += $pagess[$i] * $price_per_pages[$i];
                                             @endphp --}}
 
@@ -569,7 +569,7 @@
                                                 </tfoot>
                                             </table>
 
-                                          
+
                                             <!--end::Text-->
                                             <div class="fw-bold fs-6 text-gray-800"></div>
                                             <!--end::Text-->
@@ -627,19 +627,19 @@
                 </div>
             </div>
             <div class="modal-footer border-0 justify-content-between">
-                
+
                 <div class="">
-                    <button type="button" 
-                    class="btn btn-dark-primary my-1 me-12 downloadInvoice" 
+                    <button type="button"
+                    class="btn btn-dark-primary my-1 me-12 downloadInvoice"
                     >Download Invoice</button>
                 </div>
 
                 <div class="">
-                    <button type="button" 
+                    <button type="button"
                     class="btn btn-dark-primary my-1 me-12 sendInvoiceByEmail"
                     >Send Invoice</button>
                 </div>
-                
+
                 <div class="">
                     <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
                 </div>
@@ -661,7 +661,7 @@
         var hostUrl = "assets/";
     </script>
     <script>
-        $(document).ready(function() {        
+        $(document).ready(function() {
         // view in modal
         let invoice;
         $(document).on('click', '.viewInvoice', function (e){
@@ -704,7 +704,7 @@
                         $('#price_per_page').text(data.price_per_page || '');
                         // $('#to_note').text(data.to_note || '');
                         total = (data.price_per_page * data.page);
-                        
+
 
                         $('#total b').text(subTotal.toFixed(2));
                         $('#_tax').append(tax.toFixed(2));
@@ -713,7 +713,7 @@
 
 
                         //download invoice
-                       
+
 
 
                     }else {
@@ -731,7 +731,7 @@
             $.ajax({
                 type: "GET",
                 url: '{{ route("admin.generate.invoice", ["order_id" => "__order_id"]) }}'.replace('__order_id', order_id),
-                dataType: "json", 
+                dataType: "json",
                 success: function (response) {
                     console.log(response.message);
                     if(response.status)
@@ -739,8 +739,8 @@
                         toastr.success(response.message);
                     }
                 }
-            
-            
+
+
             });//ajax
         })
 
@@ -751,7 +751,7 @@
             $.ajax({
                 type: "GET",
                 url: '{{ route("admin.invoice.by.email", ["email" => "__email"]) }}'.replace('__email', email),
-                dataType: "json", 
+                dataType: "json",
                 success: function (response) {
                     console.log(response.message);
                     if(response.status)
@@ -759,7 +759,7 @@
                         toastr.success(response.message);
                     }
                 }
-            
+
             });//ajax
         });
 

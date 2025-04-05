@@ -570,8 +570,8 @@
                                     <td class="limit-text">{{$o->topic}}</td>
 
                                     <td>{{$o->number_of_pages}}</td>
-                                    <td>{{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($o->deadline)->format('Y/m/d h:iA') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</td>
                                     <td>
                                         @if($o->order_show == 'Enable')
                                         <span
@@ -621,7 +621,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="view-invoice_{{$o->id}}" tabindex="-1"
+                                <div class="modal fade view-invoice" id="view-invoice_{{$o->id}}" tabindex="-1"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-lg">
                                         <div class="modal-content badge-custom-bg">
@@ -746,18 +746,18 @@
                                                                                 <!--end::Text-->
                                                                             </div>
                                                                             <!--end::Col-->
-                                                                            <div class="col-md-3">
+                                                                            {{-- <div class="col-md-3"> --}}
                                                                                 <!--end::Label-->
-                                                                                <div
+                                                                                {{-- <div
                                                                                     class="fw-semibold fs-color-white custom-fs-13 mb-1">
-                                                                                    Spacing:</div>
+                                                                                    Spacing:</div> --}}
                                                                                 <!--end::Label-->
                                                                                 <!--end::Text-->
-                                                                                <div
+                                                                                {{-- <div
                                                                                     class="fw-bold fs-color-white custom-fs-13">
-                                                                                    {{$o->spacing}}</div>
+                                                                                    {{$o->spacing}}</div> --}}
                                                                                 <!--end::Text-->
-                                                                            </div>
+                                                                            {{-- </div> --}}
                                                                             <!--end::Col-->
                                                                             <div class="col-md-3">
                                                                                 <!--end::Label-->
@@ -1180,8 +1180,8 @@
                                     <td class="limit-text">{{$o->subject}}</td>
 
                                     <td>{{$o->number_of_pages}}</td>
-                                    <td>{{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($o->deadline)->format('Y/m/d h:iA') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</td>
                                     <td>
                                         @if($o->order_show == 'Enable')
                                         <span
@@ -1230,7 +1230,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="view-invoice-canceled_{{$o->id}}" tabindex="-1"
+                                <div class="modal fade view-invoice" id="view-invoice-canceled_{{$o->id}}" tabindex="-1"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-lg">
                                         <div class="modal-content badge-custom-bg">
@@ -1355,18 +1355,18 @@
                                                                                 <!--end::Text-->
                                                                             </div>
                                                                             <!--end::Col-->
-                                                                            <div class="col-md-3">
+                                                                            {{-- <div class="col-md-3"> --}}
                                                                                 <!--end::Label-->
-                                                                                <div
+                                                                                {{-- <div
                                                                                     class="fw-semibold fs-color-white custom-fs-13 mb-1">
-                                                                                    Spacing:</div>
+                                                                                    Spacing:</div> --}}
                                                                                 <!--end::Label-->
                                                                                 <!--end::Text-->
-                                                                                <div
+                                                                                {{-- <div
                                                                                     class="fw-bold fs-color-white custom-fs-13">
-                                                                                    {{$o->spacing}}</div>
+                                                                                    {{$o->spacing}}</div> --}}
                                                                                 <!--end::Text-->
-                                                                            </div>
+                                                                            {{-- </div> --}}
                                                                             <!--end::Col-->
                                                                             <div class="col-md-3">
                                                                                 <!--end::Label-->
@@ -1556,24 +1556,24 @@
     $('#kt_table_cancelledOrder').DataTable({
         searching: true, // Enable searching
     });
-            
+
         });
 </script>
-    
+
 
     @endsection
 
     @section('customJs')
-    
-    
-    
+
+
+
 
     <!--<script>-->
     <!-- window.onload = function() {-->
     <!--        alert("dsadsa");-->
     <!--    };-->
     <!--    $(document).ready(function () {-->
-            
+
     <!--        alert("dsadsa");-->
     <!--        $('#kt_table_rev_req').DataTable();-->
     <!--    });-->
@@ -1582,9 +1582,9 @@
         // });
     <!--</script>-->
 
-   
- 
-   
+
+
+
 
 
 

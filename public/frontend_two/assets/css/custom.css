@@ -983,4 +983,11 @@ h1.head-policy {
   font-size: 40px;
   font-weight: 800;
   line-height: 61px;
+}.view-invoice .fw-bold {
+    font-weight: 400 !important;
+}
+.view-invoice .fw-semibold {
+    font-weight: 600 !important;
+    color: #FFC056 !important;
+    font-size:14px !important;
 }

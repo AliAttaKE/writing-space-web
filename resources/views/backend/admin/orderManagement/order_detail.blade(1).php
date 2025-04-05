@@ -130,7 +130,7 @@
 																								<th class="min-w-80px fw_800 pb-8">Citation</th>
 																								<th class="min-w-50px fw_800 pb-8">Subject</th>
 																								<th class="min-w-50px fw_800 pb-8">Doc Type</th>
-																								<th class="min-w-80px fw_800 pb-8">Sources</th>
+																								<!-- <th class="min-w-80px fw_800 pb-8">Sources</th> -->
 
 																							</tr>
 
@@ -145,7 +145,7 @@
 																								<td>{{$order->paper_format}}</td>
 																								<td>{{$order->subject}}</td>
 																								<td>{{$order->type_of_paper}}</td>
-																								<td>{{$order->no_of_extra_sources}}</td>
+																								<!-- <td>{{$order->no_of_extra_sources}}</td> -->
 																						</tbody>
 																					</table>
 																					<!--end::Table-->

@@ -286,7 +286,7 @@
                                                     <!--end::Menu-->
                                                 </td>
                                             </tr>
-                                            <div class="modal fade" id="view-invoice_{{$subs->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade view-invoice" id="view-invoice_{{$subs->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered modal-lg">
                                                     <div class="modal-content badge-custom-bg">
                                                         <div class="modal-header border-0">
@@ -396,7 +396,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="modal fade" id="kt_modal_edit_{{$subs->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade view-invoice" id="kt_modal_edit_{{$subs->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered modal-lg">
                                                     <div class="modal-content badge-custom-bg">
                                                         <div class="modal-header border-0">

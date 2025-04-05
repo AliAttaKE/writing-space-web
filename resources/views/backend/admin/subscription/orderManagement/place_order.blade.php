@@ -251,7 +251,7 @@
                                                 <td class="limit-text">{{$o->subject}}</td>
 
                                                 <td>{{$o->number_of_pages}}</td>
-                                                <td>{{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($o->created_at)->add($o->deadline)->format('Y/m/d h:iA') }}</td>
 
                                                 <td><span class="badge badge-light-danger fw-bold me-auto px-4 py-3">{{$o->order_show}}</span></td>
@@ -277,7 +277,7 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <div class="modal fade" id="view-invoice_{{$o->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade view-invoice" id="view-invoice_{{$o->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header border-0">
@@ -373,14 +373,14 @@
                                                                                             <!--end::Text-->
                                                                                         </div>
                                                                                         <!--end::Col-->
-                                                                                        <div class="col-md-3">
+                                                                                        {{-- <div class="col-md-3"> --}}
                                                                                             <!--end::Label-->
-                                                                                            <div class="fw-semibold fs-7 text-gray-600 mb-1">Spacing:</div>
+                                                                                            {{-- <div class="fw-semibold fs-7 text-gray-600 mb-1">Spacing:</div> --}}
                                                                                             <!--end::Label-->
                                                                                             <!--end::Text-->
-                                                                                            <div class="fw-bold fs-6 text-gray-800">{{$o->spacing}}</div>
+                                                                                            {{-- <div class="fw-bold fs-6 text-gray-800">{{$o->spacing}}</div> --}}
                                                                                             <!--end::Text-->
-                                                                                        </div>
+                                                                                        {{-- </div> --}}
                                                                                         <!--end::Col-->
                                                                                         <div class="col-md-3">
                                                                                             <!--end::Label-->
@@ -389,25 +389,25 @@
                                                                                             <!--end::Text-->
                                                                                             <div class="fw-bold fs-6 text-gray-800">{{$o->powerpoint_slide}}</div>
                                                                                             <!--end::Text-->
-                                            
+
                                                                                         </div>
                                                                                         <div class="col-md-3">
                                                                                             <!--end::Label-->
-                                                                                            <div class="fw-semibold fs-7 text-gray-600 mb-1">No# Extra Sources:</div>
+                                                                                            <div class="fw-semibold fs-7 text-gray-600 mb-1">Sources:</div>
                                                                                             <!--end::Label-->
                                                                                             <!--end::Text-->
                                                                                             <div class="fw-bold fs-6 text-gray-800">{{$o->no_of_extra_sources}}</div>
                                                                                             <!--end::Text-->
-                                            
+
                                                                                         </div>
                                                                                         <div class="col-md-3">
                                                                                             <!--end::Label-->
                                                                                             <div class="fw-semibold fs-7 text-gray-600 mb-1">Order Date:</div>
                                                                                             <!--end::Label-->
                                                                                             <!--end::Text-->
-                                                                                            <div class="fw-bold fs-6 text-gray-800"> {{ \Carbon\Carbon::parse($o->created_at)->format('Y/m/d h:iA') }}</div>
+                                                                                            <div class="fw-bold fs-6 text-gray-800"> {{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</div>
                                                                                             <!--end::Text-->
-                                            
+
                                                                                         </div>
                                                                                         <div class="col-md-3">
                                                                                             <!--end::Label-->
@@ -416,7 +416,7 @@
                                                                                             <!--end::Text-->
                                                                                             <div class="fw-bold fs-6 text-gray-800">{{ \Carbon\Carbon::parse($o->created_at)->add($o->deadline)->format('Y/m/d h:iA') }}</div>
                                                                                             <!--end::Text-->
-                                            
+
                                                                                         </div>
                                                                                         <div class="col-md-3">
                                                                                             <!--end::Label-->
@@ -425,7 +425,7 @@
                                                                                             <!--end::Text-->
                                                                                             <div class="fw-bold fs-6 text-gray-800">{{$o->statistical_analysis}}</div>
                                                                                             <!--end::Text-->
-                                            
+
                                                                                         </div>
                                                                                         <div class="col-md-3">
                                                                                             <!--end::Label-->
@@ -434,7 +434,7 @@
                                                                                             <!--end::Text-->
                                                                                             <div class="fw-bold fs-6 text-gray-800">{{$o->order_type}}</div>
                                                                                             <!--end::Text-->
-                                            
+
                                                                                         </div>
                                                                                     </div>
                                                                                     <!--end::Content-->
@@ -442,22 +442,22 @@
                                                                                     <div class="row g-5 mb-12">
                                                                                         <!--end::Col-->
                                                                                         <div class="col-sm-9">
-                                                                                           
+
                                                                                             <br>
                                                                                             <div class="col-md-12">
                                                                                                 <!--end::Label-->
                                                                                                 <div class="fw-semibold fs-7 text-gray-600 mb-1">Description:</div>
                                                                                                 <!--end::Label-->
                                                                                                 <!--end::Text-->
-                                                                                               
-                                                                                               
+
+
                                                                                                 <div class="fw-bold fs-6 text-gray-800">{!! $o->description !!}</div>
-                                                                                              
+
                                                                                                 <!--end::Text-->
                                                                                             </div>
                                                                                             <br>
-                                                                               
-                                                                                            
+
+
                                                                                         </div>
                                                                                     </div>
                                                                                     <!--end::Row-->
@@ -467,7 +467,7 @@
                                                                             <!--end::Invoice 2 content-->
                                                                         </div>
                                                                         <!--end::Content-->
-                                            
+
                                                                     </div>
                                                                     <!--end::Layout-->
                                                                 </div>
@@ -482,10 +482,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
 @endforeach
 @endif
-                                           
+
 
                                         </tbody>
                                     </table>
@@ -689,7 +689,7 @@
                                                     <i class="ki-duotone ki-information-5 text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>
                                             </div>
                                             <!--end::heading-->
-                                            
+
                                                 <!--begin::Input group-->
                                                 <div class="fv-row mb-10">
                                                     <!--begin::Label-->
@@ -1325,7 +1325,7 @@
                                                         <option value="Writing">Writing</option>
                                                         <option value="Zoology">Zoology</option>
                                                         <option value="Other (not listed above) ">Other (not listed above) </option>
-                                                        
+
                                                     </select>
                                                     <!--end::Input-->
                                                 </div>
@@ -1352,7 +1352,7 @@
 
                                                 </div>
                                                 <!--end::Input group-->
-                                          
+
                                         </div>
                                     </div>
                                     <!--end::Step 1-->
@@ -1363,7 +1363,7 @@
                                     <!--begin::Step 2-->
                                     <div data-kt-stepper-element="content">
                                         <div class="w-100">
-                                           
+
                                                 <!--begin::Input group-->
                                                 <div class="fv-row">
                                                     <!--begin::heading-->
@@ -1394,7 +1394,7 @@
                                                                 <option value="Master">Master</option>
                                                                 <option value="Doctoral">Doctoral</option>
                                                                 <option value="Corporate/Professional">Corporate/Professional</option>
-                                                                
+
                                                             </select>
                                                             <!--end::Input-->
                                                             <p>"Please select the option that is the closest to your next obtainable degree."</p>
@@ -1451,7 +1451,7 @@
                                                                 <option value="SWOT">SWOT</option>
                                                                 <option value="Other (explain in description)">Other (explain in description)</option>
                                                                 <option value="Other (not listed above)">Other (not listed above)</option>
-                                                                
+
                                                             </select>
                                                             <!--end::Input-->
                                                         </div>
@@ -1489,7 +1489,7 @@
                                                                 <option value="Bluebook">Bluebook</option>
                                                                 <option value="Does Not Matter">Does Not Matter</option>
                                                                 <option value="Other (Not Listed Above)">Other (Not Listed Above)</option>
-                                                                
+
                                                             </select>
                                                             <!--end::Input-->
                                                         </div>
@@ -1588,7 +1588,7 @@
                                                     <!--end::Input group-->
                                                 </div>
                                                 <!--end::Input group-->
-                                           
+
                                         </div>
                                     </div>
                                     <!--end::Step 2-->
@@ -1605,7 +1605,7 @@
                                                     <i class="ki-duotone ki-information-5 text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>
                                             </div>
                                             <!--end::heading-->
-                                          
+
                                                 <!--begin::Input group-->
                                                 <div class="fv-row mb-10">
                                                     <!--begin::Label-->
@@ -1671,7 +1671,7 @@
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
-                                            
+
                                         </div>
                                     </div>
                                     <!--end::Step 3-->
@@ -2083,7 +2083,7 @@
                         console.error(error);
                     }
                 });
-     
+
 
                 Swal.fire('Deleted!', 'Your data has been deleted.', 'success');
             }

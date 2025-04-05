@@ -255,7 +255,7 @@
                                 aria-controls="kt_table_invoice" rowspan="1" colspan="1"
                                 aria-label="Bill To: activate to sort column ascending"
                                 style="width: 249.141px;">Created Date</th>
-                            
+
                             <th class="text-end min-w-70px sorting" tabindex="0"
                                 aria-controls="kt_table_invoice" rowspan="1" colspan="1"
                                 aria-label="Actions: activate to sort column ascending"
@@ -327,7 +327,7 @@
                                 <td>
                                     {{$invoice->created_at}}
                                 </td>
-                               
+
                                 <td class="text-end">
                                     <a href="#"
                                         class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm"
@@ -344,12 +344,12 @@
                                                 class="menu-link px-3 d-flex justify-content-center">Send Invoice</a>
                                         </div>
                                         <!--end::Menu item-->
-                                        
+
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
                                             <a href="{{ route('admin.view.custom.invoice', ['id' => $invoice->id]) }}"
                                                 class="menu-link px-3 d-flex justify-content-center">View</a>
-                                             
+
                                         </div>
                                         <!--end::Menu item-->
 
@@ -358,7 +358,7 @@
                                             <a href="#"
                                                 data-bs-toggle="modal" data-bs-target="#view_invoice{{$invoice->invoice_id}}"
                                                 class="menu-link px-3 d-flex justify-content-center">View in Modal</a>
-                                             
+
                                         </div>
                                         <!--end::Menu item-->
 
@@ -368,7 +368,7 @@
                                                 class="menu-link px-3 d-flex justify-content-center">Edit</a>
                                         </div>
                                         <!--end::Menu item-->
-                                        
+
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
                                             <a href="#"
@@ -376,15 +376,15 @@
                                                 onclick="confirmDelete({{$invoice->id}})">Delete</a>
                                         </div>
                                         <!--end::Menu item-->
-                                        
+
                                     </div>
                                     <!--end::Menu-->
                                 </td>
                             </tr>
                             @endforeach
 
-                            
-                        
+
+
                     </tbody>
                 </table>
             </div>
@@ -455,7 +455,7 @@
 
 
 <!--end::Content wrapper-->
-<div class="modal fade" id="view_invoice{{$invoice->invoice_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade view-invoice" id="view_invoice{{$invoice->invoice_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header border-0">
@@ -544,18 +544,18 @@
                                             $price_per_pages = json_decode($invoice->price_per_page);
                                         @endphp
 
-                                       
+
                                         <!--begin::Content-->
                                         <div class="flex-grow-1 mb-12">
                                             <!--end::Label-->
                                             {{-- <div class="fw-semibold fs-7 text-gray-600 mb-1">Item Name:</div> --}}
                                             <!--end::Label-->
-                                           
+
                                             @for ($i = 0; $i < count($item_names); $i++)
                                             @php
                                                 $totalPrice = 0;
                                                 $tax = 0;
-                                                $discount = 0; 
+                                                $discount = 0;
                                                 $totalPrice += $pagess[$i] * $price_per_pages[$i];
                                             @endphp
                                             <table class="table">
@@ -580,7 +580,7 @@
                                                         <td colspan="" class="text-end" id="_discount">Discount: {{$discount != 0 ? $discount : '0'}}</td>
                                                     </tr>
                                                     <tr>
-                                                        
+
                                                         <td colspan="4"  class="text-end" id="_total">Total: <b>{{$totalPrice}}</b></td>
                                                     </tr>
                                                 </tbody>
@@ -643,8 +643,8 @@
             </div>
             <div class="modal-footer border-0 justify-content-between">
                 <div class="">
-                    <button type="button" 
-                    class="btn btn-success my-1 me-12" 
+                    <button type="button"
+                    class="btn btn-success my-1 me-12"
                     onclick="window.location.href='{{ route('admin.generate.custom.invoice', ['id' => $invoice->id]) }}'">Download Invoice</button>
                 </div>
                 <div class="">

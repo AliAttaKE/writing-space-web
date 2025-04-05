@@ -29,10 +29,10 @@
                             <!--begin::Actions-->
                             <div class="d-flex align-items-center gap-2 gap-lg-3">
 
-                               
+
                                 <a href="#" class="btn btn-sm fw-bold btn-primary badge-custom-bg"
                                     data-bs-toggle="modal" data-bs-target="#kt_modal_create_subs">Create Packages</a>
-                               
+
                             </div>
                             <!--end::Actions-->
                         </div>
@@ -351,7 +351,7 @@
                                                 </td>
                                             </tr>
                                             {{-- up-package-form--}}
-                                            <div class="modal fade" id="view-invoice_{{$subs->id}}" tabindex="-1"
+                                            <div class="modal fade view-invoice" id="view-invoice_{{$subs->id}}" tabindex="-1"
                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered modal-lg">
                                                     <div class="modal-content badge-custom-bg">
@@ -1035,7 +1035,7 @@
                                                                                                         value="{{$subs->set_time}}"
                                                                                                         min="1"
                                                                                                         >
-                                                                                                        
+
                                                                                                     <!--end::Input-->
 
                                                                                                 </div>
@@ -1317,11 +1317,11 @@
                                                                                 <div data-kt-stepper-element="content">
 
                                                                                     <div class="w-100" id="myForm">
-                                                                                        
+
                                                                                         <!--begin::Input group-->
                                                                                         <div class="row mb-10">
-                                            
-                                                                                           
+
+
                                                                                             <div class="col-md-4 mb-3">
                                                                                                 <div class="d-flex fv-row mb-5">
                                                                                                     <!--begin::Radio-->
@@ -1353,7 +1353,7 @@
                                                                                                     <!--end::Radio-->
                                                                                                 </div>
                                                                                                 <p id="daily_msg" class="text-danger"></p>
-                                           
+
                                                                                                 <div class="d-flex fv-row mb-5">
                                                                                                     <!--begin::Radio-->
                                                                                                     <div class="form-check form-check-custom form-check-solid">
@@ -1362,7 +1362,7 @@
                                                                                                             {{ $subs->select_days >= 1 ? 'checked' : '' }}
                                                                                                             onchange="toggleSelectDays()">
 
-                                                                                                          
+
 
 
                                                                                                         <label class="form-check-label"
@@ -1375,7 +1375,7 @@
                                                                                                 </div>
                                                                                                 <p id="select_days_checkbox_msg" class="text-danger"></p>
                                                                                             </div>
-                                            
+
                                                                                             <div class="mb-3 mb-3" id="select_days_div" @if($subs->select_days >= 1) style="display: block;" @else style="display: none;" @endif>
                                                                                                 <label class="d-flex align-items-center fs-5 fw-semibold mb-2">
                                                                                                     <span class="required fs-color-white custom-fs-13">Select
@@ -1386,13 +1386,13 @@
                                                                                                     name="select_days" id="select_days_input" placeholder="5" value="{{$subs->select_days}}"
                                                                                                     min="1" />
                                                                                                 <p id="select_days_input_msg" class="text-danger"></p>
-                                            
+
                                                                                             </div>
-                                            
-                                                                                            
-                                            
+
+
+
                                                                                         </div>
-                                                                                        
+
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -2455,7 +2455,7 @@ function toggleSelectDays() {
     console.log(selectDaysCheckbox.checked);
 
     if (selectDaysCheckbox.checked) {
-      
+
         selectDaysInput.style.display = "block";
         selectDaysDiv.style.display = "block";
         dailyCheckbox.disabled = true;
@@ -2479,7 +2479,7 @@ var dailyCheckbox = document.getElementById("daily1");
 console.log(selectDaysCheckbox.checked);
 
 if (selectDaysCheckbox.checked) {
-  
+
     selectDaysInput.style.display = "block";
     selectDaysDiv.style.display = "block";
     dailyCheckbox.disabled = true;
@@ -2664,78 +2664,78 @@ function toggleDaily1() {
     continueButton.addEventListener("click", function() {
         // Go to the next step (if not already at the last step)
 
-        var inputTopic = document.getElementById('package_name');    
+        var inputTopic = document.getElementById('package_name');
         var errorMsg = document.getElementById('package_name_msg');
         if (inputTopic.value === '') {
-            errorMsg.innerText = 'Please fill package name';   
-            return; 
+            errorMsg.innerText = 'Please fill package name';
+            return;
         }else {
-            errorMsg.innerText = ''; 
+            errorMsg.innerText = '';
         }
-        
-        
+
+
         if(currentStep && currentStep === 2)
         {
-            var inputTopic = document.getElementById('cost_per_page');    
+            var inputTopic = document.getElementById('cost_per_page');
             var errorMsg = document.getElementById('cost_per_page_msg');
             if (inputTopic.value === '') {
-                errorMsg.innerText = 'Please fill cost per page';   
-                return; 
+                errorMsg.innerText = 'Please fill cost per page';
+                return;
             }else {
-                errorMsg.innerText = ''; 
+                errorMsg.innerText = '';
             }
-            
+
             var selectLevelElement = document.getElementById('set_time');
             var errorMsg = document.getElementById('set_time_msg');
             if (selectLevelElement.value === '') {
-                errorMsg.innerText = 'Please select time limit';   
-                return; 
+                errorMsg.innerText = 'Please select time limit';
+                return;
             } else {
-                errorMsg.innerText = ''; 
+                errorMsg.innerText = '';
             }
-            
-        }    
+
+        }
 
         if(currentStep && currentStep === 3)
         {
-            var inputTopic = document.getElementById('min_page');    
+            var inputTopic = document.getElementById('min_page');
             var errorMsg = document.getElementById('min_page_msg');
             if (inputTopic.value === '') {
-                errorMsg.innerText = 'Please fill min page';   
-                return; 
+                errorMsg.innerText = 'Please fill min page';
+                return;
             }else {
-                errorMsg.innerText = ''; 
+                errorMsg.innerText = '';
             }
-            var inputTopic = document.getElementById('max_page');    
+            var inputTopic = document.getElementById('max_page');
             var errorMsg = document.getElementById('max_page_msg');
             if (inputTopic.value === '') {
-                errorMsg.innerText = 'Please fill max page';   
-                return; 
+                errorMsg.innerText = 'Please fill max page';
+                return;
             }else {
-                errorMsg.innerText = ''; 
+                errorMsg.innerText = '';
             }
-           
-        }     
+
+        }
 
         if(currentStep && currentStep === 4)
         {
 
-          
+
             var dailyCheckbox = document.getElementById('daily');
             var selectDaysCheckbox = document.getElementById('select_days_checkbox');
             var errorMsg = document.getElementById('daily_msg');
 
             if (!dailyCheckbox.checked && !selectDaysCheckbox.checked) {
-                errorMsg.innerText = 'Please check any one of the following';   
-                return; 
+                errorMsg.innerText = 'Please check any one of the following';
+                return;
             } else {
-                errorMsg.innerText = ''; 
+                errorMsg.innerText = '';
             }
 
-            
-            
+
+
         }
-        
+
         if (currentStep < 5) {
             currentStep++;
             updateStepper();
@@ -2745,7 +2745,7 @@ function toggleDaily1() {
         console.log(`current step dsd: ${currentStep}`);
 
 
-        
+
     });
 
     const backButton = document.querySelector('#previous');
@@ -2787,7 +2787,7 @@ function toggleDaily1() {
             $(step).find('[data-kt-stepper-element="content"]').removeClass('current');
             $(step).hide();
         });
-        
+
 
         // Add 'current' class to the current step
         $(steps[currentStep - 1]).find('[data-kt-stepper-element="content"]').addClass('current');
@@ -2892,7 +2892,7 @@ function toggleDaily1() {
                             console.error(error);
                         }
                     });
-        
+
 
                     Swal.fire('Deleted!', 'Your data has been deleted.', 'success');
                 }
