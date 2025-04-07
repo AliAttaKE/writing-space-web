@@ -527,8 +527,7 @@ class CustomerPlaceOrderController extends Controller
                 'user_id' => $user->id,
                 'payment_status' => 'Paid',
                 'order_id' => $order_id,
-                'total_cost' => '',
-                'cost' => '',
+
                 'additional_cost' => $total,
                 'statistical_analysis' => $statistical_analysis,
                 'email' => $input['email'],
