@@ -1664,7 +1664,7 @@ $permissions = 0775;
 
 
                         $discount = 0.0;
-
+                        $purchaseDate = now()->format('Y-m-d');
                         $total = $transaction->merchantAmount;
 
                         $data = [
