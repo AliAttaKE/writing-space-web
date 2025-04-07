@@ -130,10 +130,10 @@ class InvocieController extends Controller
             'discount' => $discount,
             'total' => $total,
         ];
- dd($invoiceData);
+ //dd($invoiceData);
         // Render the HTML using your Blade template
-        $invoiceHtml = View::make('emails.invoice_custom_template', ['invoice' => $invoiceData])->render();
-        dd($invoiceHtml);
+        $invoiceHtml = View::make('emails.invoice_custom_template', ['invoiceData' => $invoiceData])->render();
+        //dd($invoiceHtml);
         // Set up Dompdf options and instance
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);

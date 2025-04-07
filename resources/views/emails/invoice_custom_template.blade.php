@@ -17,13 +17,12 @@ use Carbon\Carbon;
     <div style="max-width: 800px; margin: 20px auto; background-color: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <div style="margin-bottom: 20px; text-align: center;">
             <h2>Invoice</h2>
-            
+
         </div>
-        
-        
-        
+
+
+
         <?php
-        
         $formattedDate = Carbon::parse($invoiceData['dateOfIssue'])->format('F d, Y');
         ?>
         <div style="margin-bottom: 20px;">
