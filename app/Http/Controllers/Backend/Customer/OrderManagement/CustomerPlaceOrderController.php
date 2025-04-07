@@ -551,81 +551,81 @@ class CustomerPlaceOrderController extends Controller
 
 
              $remainingPercentage = ($subs->remaining_pages / $subs->total_pages) * 100;
-if ($remainingPercentage <= 10) {
-    // New warning email content
-    $warningEmailContent = "
-        <p>Hello {$user->name},</p>
-        <p>We've noticed that you're nearing the end of the pages available in your current package at Writing Space. To ensure you continue enjoying our services without interruption, we wanted to give you a heads-up and an exclusive offer.</p>
+            if ($remainingPercentage <= 10) {
+                // New warning email content
+                $warningEmailContent = "
+                    <p>Hello {$user->name},</p>
+                    <p>We've noticed that you're nearing the end of the pages available in your current package at Writing Space. To ensure you continue enjoying our services without interruption, we wanted to give you a heads-up and an exclusive offer.</p>
 
-        <p><strong>Current Package Details:</strong></p>
-        <ul>
-            <li>Package Type: $sub_name</li>
-            <li>Pages Remaining: {$subs->remaining_pages}</li>
-        </ul>
+                    <p><strong>Current Package Details:</strong></p>
+                    <ul>
+                        <li>Package Type: $sub_name</li>
+                        <li>Pages Remaining: {$subs->remaining_pages}</li>
+                    </ul>
 
-        <p><strong>Exclusive Renewal Offer:</strong> We value your commitment to Writing Space and would like to offer you a special discount on your next package purchase. This is a great opportunity to continue accessing our comprehensive academic resources at a reduced rate.</p>
+                    <p><strong>Exclusive Renewal Offer:</strong> We value your commitment to Writing Space and would like to offer you a special discount on your next package purchase. This is a great opportunity to continue accessing our comprehensive academic resources at a reduced rate.</p>
 
-        <p><strong>Next Steps to Take Advantage of This Offer:</strong> Please contact our support team directly to claim your discounted renewal. They are ready to assist you in setting up your new package and ensuring you don't miss a beat in your academic journey.</p>
+                    <p><strong>Next Steps to Take Advantage of This Offer:</strong> Please contact our support team directly to claim your discounted renewal. They are ready to assist you in setting up your new package and ensuring you don't miss a beat in your academic journey.</p>
 
-        <p>Contact Support:</p>
-        <ul>
-            <li>Email: <a href='mailto:support@writing-space.com'>support@writing-space.com</a></li>
-        </ul>
+                    <p>Contact Support:</p>
+                    <ul>
+                        <li>Email: <a href='mailto:support@writing-space.com'>support@writing-space.com</a></li>
+                    </ul>
 
-        <p>Act now to replenish your page count and keep your academic resources flowing! We’re here to support your educational endeavors every step of the way.</p>
+                    <p>Act now to replenish your page count and keep your academic resources flowing! We’re here to support your educational endeavors every step of the way.</p>
 
-        <p>Thank you for choosing Writing Space. Let’s continue making your academic experience as successful and hassle-free as possible.</p>
+                    <p>Thank you for choosing Writing Space. Let’s continue making your academic experience as successful and hassle-free as possible.</p>
 
-        <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
-    ";
+                    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
+                ";
 
-    // Send the warning email
-    Mail::html($warningEmailContent, function ($message) use ($user) {
-        $message->to($user->email)
-                ->subject('Package Pages About to be Finished (90% used)');
-    });
-
-
-      Mail::html($warningEmailContent, function ($message) use ($user) {
-        $message->to($user->email)
-                ->subject('Your Writing Space Package is Expiring Soon – Keep Your Benefits Rolling!');
-    });
-}
+                // Send the warning email
+                Mail::html($warningEmailContent, function ($message) use ($user) {
+                    $message->to($user->email)
+                            ->subject('Package Pages About to be Finished (90% used)');
+                });
 
 
-if ($subs->remaining_pages == 0) {
-    $finishedEmailContent = "
-        <p>Hi {$user->name},</p>
-        <p>It looks like you've used up all the pages in your Writing Space package. We hope you found each page helpful for your academic projects!</p>
+                Mail::html($warningEmailContent, function ($message) use ($user) {
+                    $message->to($user->email)
+                            ->subject('Your Writing Space Package is Expiring Soon – Keep Your Benefits Rolling!');
+                });
+            }
 
-        <p><strong>Exclusive Renewal Offer:</strong></p>
-        <p>We deeply appreciate your dedication to Writing Space and are thrilled to extend an exclusive renewal offer just for you! Enjoy a special discount on your next package purchase and continue accessing our premium academic resources at an unbeatable rate.</p>
 
-        <p><strong>Why Renew Now?</strong></p>
-        <ul>
-            <li><strong>Save More:</strong> Take advantage of our limited-time discount to maximize your investment.</li>
-            <li><strong>Seamless Access:</strong> Continue leveraging our comprehensive tools and materials to excel in your academic endeavors.</li>
-            <li><strong>Enhanced Support:</strong> Benefit from our ongoing commitment to your educational success with uninterrupted service.</li>
-        </ul>
+    if ($subs->remaining_pages == 0) {
+        $finishedEmailContent = "
+            <p>Hi {$user->name},</p>
+            <p>It looks like you've used up all the pages in your Writing Space package. We hope you found each page helpful for your academic projects!</p>
 
-        <p><strong>How to Redeem Your Offer:</strong></p>
-        <p>Claiming your discounted renewal is simple! Just reach out to our dedicated support team, and they will guide you through the easy renewal process, ensuring you stay on track with your academic goals.</p>
+            <p><strong>Exclusive Renewal Offer:</strong></p>
+            <p>We deeply appreciate your dedication to Writing Space and are thrilled to extend an exclusive renewal offer just for you! Enjoy a special discount on your next package purchase and continue accessing our premium academic resources at an unbeatable rate.</p>
 
-        <p><strong>Contact Support:</strong></p>
-        <ul>
-            <li>Email: support@writing-space.com</li>
-        </ul>
+            <p><strong>Why Renew Now?</strong></p>
+            <ul>
+                <li><strong>Save More:</strong> Take advantage of our limited-time discount to maximize your investment.</li>
+                <li><strong>Seamless Access:</strong> Continue leveraging our comprehensive tools and materials to excel in your academic endeavors.</li>
+                <li><strong>Enhanced Support:</strong> Benefit from our ongoing commitment to your educational success with uninterrupted service.</li>
+            </ul>
 
-        <p><strong>Act Now!</strong> Don’t miss this opportunity to replenish your page count and keep your academic resources flowing seamlessly. Renew today and continue your journey towards excellence with Writing Space by your side every step of the way.</p>
+            <p><strong>How to Redeem Your Offer:</strong></p>
+            <p>Claiming your discounted renewal is simple! Just reach out to our dedicated support team, and they will guide you through the easy renewal process, ensuring you stay on track with your academic goals.</p>
 
-        <p>Warm regards,<br>The Writing Space Team</p>
-    ";
+            <p><strong>Contact Support:</strong></p>
+            <ul>
+                <li>Email: support@writing-space.com</li>
+            </ul>
 
-    Mail::html($finishedEmailContent, function ($message) use ($user) {
-        $message->to($user->email)
-                ->subject('Time to Renew? Your Writing Space Pages Are All Used Up!');
-    });
-}
+            <p><strong>Act Now!</strong> Don’t miss this opportunity to replenish your page count and keep your academic resources flowing seamlessly. Renew today and continue your journey towards excellence with Writing Space by your side every step of the way.</p>
+
+            <p>Warm regards,<br>The Writing Space Team</p>
+        ";
+
+        Mail::html($finishedEmailContent, function ($message) use ($user) {
+            $message->to($user->email)
+                    ->subject('Time to Renew? Your Writing Space Pages Are All Used Up!');
+        });
+    }
 
 
             $invoice = Invoice::create([
@@ -1471,7 +1471,55 @@ $permissions = 0775;
             return redirect()->route('front.subscriptions');
         }
     }
+    public function email_tester()
+    {
+        $subject = "Testing Email";
+        $purchaseDate = now()->format('Y-m-d');
+        $emailContent = "
 
+            <p>Hello {Raheel},</p>
+            <p>Congratulations on securing your new package at Writing Space! We're excited to support you with enhanced services and resources tailored to your academic needs.</p>
+
+            <p><strong>Package Details:</strong></p>
+            <ul>
+                <li><strong>Package Type:</strong> Tester </li>
+                <li><strong>Purchase Date:</strong> {$purchaseDate}</li>
+                <li><strong>Total Amount:</strong> $200 $</li>
+                <li><strong>Total Pages:</strong> $100</li>
+            </ul>
+
+            <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
+            <p>You can now access all the features and benefits of your package through your dashboard. Explore the additional resources and services available to you and make the most of your Writing Space experience!</p>
+            <p>If you have any questions about your package or need further assistance, our customer support team is ready to help.</p>
+            <p>Thank you for choosing Writing Space! We look forward to helping you achieve your academic goals.</p>
+
+            <p>Best regards,</p>
+            <p>Customer Success Team</p>
+            <p>Writing Space</p>
+        ";
+        Mail::to('jamers786@gmail.com')->send(new PkgInvoiceEmailTemplate(
+            [
+                'invoiceNumber' => '123456789',
+                'receiptNumber' => '123456789',
+                'dateOfIssue' => '2023-09-10',
+                'dueDate' => '2023-09-15',
+                'customerName' => 'Raheel',
+                'customerEmail' => 'raheel@gmail.com',
+                'customerAdress' => '123456789',
+                'orderid' => '123456789',
+                'itemName' => 'Package',
+                'totalPages' => '100',
+                'pricePerPage' => '200',
+                'payment_status' => 'Paid',
+                'subTotal' => '200',
+                'discount' => '0',
+                'total' => '200',
+            ],
+            $subject,
+            $emailContent
+        ));
+
+    }
     public function pay_sub($orderid)
     {
         try {

@@ -630,7 +630,7 @@ Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->nam
     Route::get('card/show/{sessionid}', [CustomerPlaceOrderController::class, 'checkoutshow'])->name('card.show');
     Route::get('card/show/checkoutshowmangepages/{sessionid}', [CustomerPlaceOrderController::class, 'checkoutshowmangepages'])->name('card.show.mangepages');
         Route::post('pakage/add/order/pages', [CustomerPlaceOrderController::class, 'pakageaddorderpage'])->name('pakage.add.order.pages');
-
+    Route::get('/email-tester', [CustomerPlaceOrderController::class, 'email_tester'])->name('email_tester');
 
     Route::get('card/show/sub/{sessionid}', [CustomerPlaceOrderController::class, 'checkoutshowsub'])->name('card.show.sub');
     Route::get('card/show/addpage/{sessionid}', [CustomerPlaceOrderController::class, 'checkoutshowaddpage'])->name('card.show.addpage');
