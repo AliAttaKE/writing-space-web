@@ -28,6 +28,7 @@ class PkgInvoiceEmailTemplate extends Mailable
         $this->invoiceData = $invoiceData;
         $this->receiptData = $receiptData;
         $this->subject = $subject ?? 'Invoice'; // Default subject if not provided
+        $this->emailContent = $emailContent;
     }
 
     /**
@@ -86,7 +87,7 @@ class PkgInvoiceEmailTemplate extends Mailable
         return $this->subject($this->subject)
                     ->view('emails.invoicec_text_pkg_template')
                     ->with([
-                        'welcomeContent' => $emailContent,
+                        'welcomeContent' => $this->emailContent,
                         'invoiceData'    => $this->invoiceData
                     ])
                     ->attachData($invoicePdfContent, 'invoice.pdf', [
