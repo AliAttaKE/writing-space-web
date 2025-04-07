@@ -1567,11 +1567,11 @@ $permissions = 0775;
 
                         $user->subscription_id = $orderidexplode;
                         $user->save();
-
                         $email = Email::where('type', 'Subscription Renew')->first();
                         if ($email) {
                             Mail::to($user->email)->send(new EmailTemplate($user, $email));
                         }
+
 
                         // return response()->json(['message' => 'Successfully Updated Subscription1']);
 
@@ -1627,10 +1627,10 @@ $permissions = 0775;
                         ]);
 
 
-                        $email = Email::where('type', 'package_purchase')->first();
-                        if ($email) {
-                            Mail::to($user->email)->send(new EmailTemplate($user, $email));
-                        }
+                        // $email = Email::where('type', 'package_purchase')->first();
+                        // if ($email) {
+                        //     Mail::to($user->email)->send(new EmailTemplate($user, $email));
+                        // }
 
 
                         $createdAt = $invoice->created_at;
@@ -1659,75 +1659,102 @@ $permissions = 0775;
                         $total = $transaction->merchantAmount;
 
 
-                        if ($email) {
-                            $subject = 'Invoice package purchase';
-                            Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
-                                [
-                                    'invoiceNumber' => $invoiceNumber,
-                                    'receiptNumber' => $receiptNumber,
-                                    'dateOfIssue' => $dateOfIssue,
-                                    'dueDate' => $dueDate,
-                                    'customerName' => $customerName,
-                                    'customerEmail' => $customerEmail,
-                                    'customerAdress' => $customerAdress,
-                                    'orderid' => $order->order_id,
-                                    'itemName' => $itemName,
-                                    'totalPages' => $totalPages,
-                                    'pricePerPage' => $pricePerPage,
-                                    'payment_status' => $payment_status,
-                                    'subTotal' => $subTotal,
-                                    'discount' => $discount,
-                                    'total' => $total,
-                                ],
-                                $subject
-                            ));
-                        }
+                        // if ($email) {
+                        //     $subject = 'Invoice package purchase';
+                            // Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
+                            //     [
+                            //         'invoiceNumber' => $invoiceNumber,
+                            //         'receiptNumber' => $receiptNumber,
+                            //         'dateOfIssue' => $dateOfIssue,
+                            //         'dueDate' => $dueDate,
+                            //         'customerName' => $customerName,
+                            //         'customerEmail' => $customerEmail,
+                            //         'customerAdress' => $customerAdress,
+                            //         'orderid' => $order->order_id,
+                            //         'itemName' => $itemName,
+                            //         'totalPages' => $totalPages,
+                            //         'pricePerPage' => $pricePerPage,
+                            //         'payment_status' => $payment_status,
+                            //         'subTotal' => $subTotal,
+                            //         'discount' => $discount,
+                            //         'total' => $total,
+                            //     ],
+                            //     $subject
+                            // ));
+                            // Mail::html($emailContent, function ($message) use ($user) {
+                            //     $message->to($user->email)
+                            //             ->subject('Welcome to Your New Writing Space Package – Thank You for Your Purchase!');
+                            // });
+                        // }
 
-$purchaseDate = now()->format('Y-m-d');
- $emailContent = "
+                    $purchaseDate = now()->format('Y-m-d');
+                    $emailContent = "
 
-    <p>Hello {$user->name},</p>
-    <p>Congratulations on securing your new package at Writing Space! We're excited to support you with enhanced services and resources tailored to your academic needs.</p>
+                        <p>Hello {$user->name},</p>
+                        <p>Congratulations on securing your new package at Writing Space! We're excited to support you with enhanced services and resources tailored to your academic needs.</p>
 
-    <p><strong>Package Details:</strong></p>
-    <ul>
-        <li><strong>Package Type:</strong> $subs->subscription_name</li>
-        <li><strong>Purchase Date:</strong> $purchaseDate</li>
-        <li><strong>Total Amount:</strong> $total $</li>
-        <li><strong>Total Pages:</strong> $totalPages</li>
-    </ul>
+                        <p><strong>Package Details:</strong></p>
+                        <ul>
+                            <li><strong>Package Type:</strong> $subs->subscription_name</li>
+                            <li><strong>Purchase Date:</strong> $purchaseDate</li>
+                            <li><strong>Total Amount:</strong> $total $</li>
+                            <li><strong>Total Pages:</strong> $totalPages</li>
+                        </ul>
 
-    <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
-    <p>You can now access all the features and benefits of your package through your dashboard. Explore the additional resources and services available to you and make the most of your Writing Space experience!</p>
-    <p>If you have any questions about your package or need further assistance, our customer support team is ready to help.</p>
-    <p>Thank you for choosing Writing Space! We look forward to helping you achieve your academic goals.</p>
+                        <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
+                        <p>You can now access all the features and benefits of your package through your dashboard. Explore the additional resources and services available to you and make the most of your Writing Space experience!</p>
+                        <p>If you have any questions about your package or need further assistance, our customer support team is ready to help.</p>
+                        <p>Thank you for choosing Writing Space! We look forward to helping you achieve your academic goals.</p>
 
-    <p>Best regards,</p>
-    <p>Customer Success Team</p>
-    <p>Writing Space</p>
-";
+                        <p>Best regards,</p>
+                        <p>Customer Success Team</p>
+                        <p>Writing Space</p>
+                    ";
+                    // Mail::html($emailContent, function ($message) use ($user) {
+                    //     $message->to($user->email)
+                    //             ->subject('Welcome to Your New Writing Space Package – Thank You for Your Purchase!');
+                    // });
+                    $subject = "Welcome to Your New Writing Space Package – Thank You for Your Purchase!";
+                    Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
+                        [
+                            'invoiceNumber' => $invoiceNumber,
+                            'receiptNumber' => $receiptNumber,
+                            'dateOfIssue' => $dateOfIssue,
+                            'dueDate' => $dueDate,
+                            'customerName' => $customerName,
+                            'customerEmail' => $customerEmail,
+                            'customerAdress' => $customerAdress,
+                            'orderid' => $order->order_id,
+                            'itemName' => $itemName,
+                            'totalPages' => $totalPages,
+                            'pricePerPage' => $pricePerPage,
+                            'payment_status' => $payment_status,
+                            'subTotal' => $subTotal,
+                            'discount' => $discount,
+                            'total' => $total,
+                        ],
+                        $subject,$emailContent
+                    ));
+                    // Mail::html($emailContent, function ($message) use ($user) {
+                    //     $message->to($user->email)
+                    //             ->subject('Welcome to Your New Writing Space Package – Thank You for Your Purchase!');
+                    // });
 
-Mail::html($emailContent, function ($message) use ($user) {
-    $message->to($user->email)
-            ->subject('Welcome to Your New Writing Space Package – Thank You for Your Purchase!');
-});
 
+                                            $user_id =  $pay->user_id;
+                                            $user = User::find($user_id);
+                                            Auth::login($user);
+                                            return redirect()->route('customer.thankyou.sub');
+                                        } //checkuser if
+                                    } //success attentication if
 
-
-                        $user_id =  $pay->user_id;
-                        $user = User::find($user_id);
-                        Auth::login($user);
-                        return redirect()->route('customer.thankyou.sub');
-                    } //checkuser if
-                } //success attentication if
-
-            } //resobse array if
-            else {
-                echo "Error decoding JSON";
-            }
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()]);
-        }
+                                } //resobse array if
+                                else {
+                                    echo "Error decoding JSON";
+                                }
+                            } catch (\Exception $e) {
+                                return response()->json(['error' => $e->getMessage()]);
+                            }
     } //end function here;
 
 

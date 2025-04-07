@@ -85,9 +85,9 @@ class InvocieController extends Controller
                     $currentSubs23 = User_Subscription::where('user_id', $user->id)->first();
                     $subs = Subscription::where('id', $currentSubs23->subscription_id)->first();
                     //dd($subs);
-                    $pages = $currentSubs23->pages;
-                    $pageCost = $currentSubs23->page_cost;
-
+                    $pages = $currentSubs23->total_pages;
+                    $pageCost = $subs->cost_per_page;
+                    //dd($subs);
                     $billAmount =  $pages * $pageCost;
                     $createdAt = $invoice->created_at;
                     $orderid = $invoice->order_id;
@@ -107,7 +107,7 @@ class InvocieController extends Controller
                     $itemName = $subs->subscription_name;
                     $totalPages = $invoice->total;
                     $pricePerPage = $invoice->price_per_page;
-                    $subTotal =$billAmount;
+                    $subTotal = $billAmount;
                     $payment_status ='Paid';
 
 
