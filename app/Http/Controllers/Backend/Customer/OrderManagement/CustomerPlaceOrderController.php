@@ -1623,7 +1623,50 @@ $permissions = 0775;
 
                         // return response()->json(['message' => 'Successfully Updated Subscription1']);
 
+                        $data = [
+                            'invoiceNumber' => $invoiceNumber,
+                            'receiptNumber' => $receiptNumber,
+                            'dateOfIssue' => $dateOfIssue,
+                            'dueDate' => $dueDate,
+                            'customerName' => $customerName,
+                            'customerEmail' => $customerEmail,
+                            'customerAdress' => $customerAdress,
+                            'orderid' => $order->order_id,
+                            'itemName' => $itemName,
+                            'totalPages' => $totalPages,
+                            'pricePerPage' => $pricePerPage,
+                            'payment_status' => $payment_status,
+                            'subTotal' => $subTotal,
+                            'discount' => $discount,
+                            'total' => $total,
+                        ];
+                        $emailContent = "
+                        <p>Hello {$user->name},</p>
+                        <p>Congratulations on securing your new package at Writing Space! We're excited to support you with enhanced services and resources tailored to your academic needs.</p>
 
+                        <p><strong>Package Details:</strong></p>
+                        <ul>
+                            <li><strong>Package Type:</strong> $subs->subscription_name</li>
+                            <li><strong>Purchase Date:</strong> $purchaseDate</li>
+                            <li><strong>Total Amount:</strong> $total $</li>
+                            <li><strong>Total Pages:</strong> $totalPages</li>
+                        </ul>
+
+                        <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
+                        <p>You can now access all the features and benefits of your package through your dashboard. Explore the additional resources and services available to you and make the most of your Writing Space experience!</p>
+                        <p>If you have any questions about your package or need further assistance, our customer support team is ready to help.</p>
+                        <p>Thank you for choosing Writing Space! We look forward to helping you achieve your academic goals.</p>
+
+                        <p>Best regards,</p>
+                        <p>Customer Success Team</p>
+                        <p>Writing Space</p>
+                    ";
+                        $subject = "Welcome to Your New Writing Space Package – Thank You for Your Purchase!";
+                        Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
+                            $data,$data,
+                            $subject,
+                            $emailContent
+                        ));
 
                         $user = User::find($user->id);
                         Auth::login($user);
@@ -1730,23 +1773,7 @@ $permissions = 0775;
                         //         $subject
                         //     ));
                         // }
-                        $data = [
-                                        'invoiceNumber' => $invoiceNumber,
-                                        'receiptNumber' => $receiptNumber,
-                                        'dateOfIssue' => $dateOfIssue,
-                                        'dueDate' => $dueDate,
-                                        'customerName' => $customerName,
-                                        'customerEmail' => $customerEmail,
-                                        'customerAdress' => $customerAdress,
-                                        'orderid' => $order->order_id,
-                                        'itemName' => $itemName,
-                                        'totalPages' => $totalPages,
-                                        'pricePerPage' => $pricePerPage,
-                                        'payment_status' => $payment_status,
-                                        'subTotal' => $subTotal,
-                                        'discount' => $discount,
-                                        'total' => $total,
-                        ];
+
         $purchaseDate = now()->format('Y-m-d');
         $emailContent = "
 
@@ -1775,6 +1802,24 @@ $permissions = 0775;
         //     $message->to($user->email)
         //             ->subject('Welcome to Your New Writing Space Package – Thank You for Your Purchase!');
         // });
+        $data = [
+            'invoiceNumber' => $invoiceNumber,
+            'receiptNumber' => $receiptNumber,
+            'dateOfIssue' => $dateOfIssue,
+            'dueDate' => $dueDate,
+            'customerName' => $customerName,
+            'customerEmail' => $customerEmail,
+            'customerAdress' => $customerAdress,
+            'orderid' => $order->order_id,
+            'itemName' => $itemName,
+            'totalPages' => $totalPages,
+            'pricePerPage' => $pricePerPage,
+            'payment_status' => $payment_status,
+            'subTotal' => $subTotal,
+            'discount' => $discount,
+            'total' => $total,
+        ];
+        dd($data);
         $subject = "Welcome to Your New Writing Space Package – Thank You for Your Purchase!";
         Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
             $data,$data,
