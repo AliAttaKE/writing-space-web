@@ -71,8 +71,8 @@ class PkgInvoiceEmailTemplate extends Mailable
         $receiptPdfContent = $receiptDompdf->output();
 
         // Define file names and paths
-        $invoiceFilename = 'invoice_' . time() . '.pdf';
-        $receiptFilename = 'receipt_' . time() . '.pdf';
+        $invoiceFilename = 'invoice_' . $invoiceData['invoiceNumber'] . '.pdf';
+        $receiptFilename = 'receipt_' . $invoiceData['invoiceNumber'] . '.pdf';
         $invoiceDir = storage_path('app/public/invoices');
         $receiptDir = storage_path('app/public/receipts');
         $receiptPath = storage_path('app/public/receipts/' . $receiptFilename);

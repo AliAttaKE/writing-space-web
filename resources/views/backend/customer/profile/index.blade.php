@@ -327,6 +327,7 @@
                                                     <tr class="text-start text-muted text-uppercase gs-0">
                                                         <th class="min-w-150px">Package</th>
                                                         <th class="min-w-100px">Invoice No.</th>
+                                                        <th class="min-w-100px">Receipt No.</th>
                                                         <th>Status</th>
                                                         <th>Amount</th>
                                                         <th class="min-w-100px">Date</th>
@@ -341,12 +342,15 @@
                                                             <tr>
                                                                 <td>{{ $invoice->subscription_name }}</td>
                                                                 <td>
-                                                                    <a href="{{ route('generate.invoice.by.id', ['id' => $invoice->order_id]) }}" class="text-gray-600 text-hover-primary mb-1">{{ $invoice->invoice_id}}</a>
+                                                                    <a href="{{ asset('storage/invoices/invoice_' . $invoice->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $invoice->invoice_id}}</a>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="{{ asset('storage/invoices/receipt_' . $invoice->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $invoice->invoice_id}}</a>
                                                                 </td>
                                                                 <td>
                                                                     @if ($invoice->total != null)
                                                                         <span class="badge badge-light-success badge-custom-bg">Successful</span>
-                                                                    @else
+                                                                    @else8
                                                                         <span class="badge badge-light-danger">No paid</span>
                                                                     @endif
                                                                 </td>
