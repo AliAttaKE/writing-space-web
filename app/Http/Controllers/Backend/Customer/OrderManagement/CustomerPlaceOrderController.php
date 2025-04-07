@@ -1616,10 +1616,10 @@ $permissions = 0775;
                         $user->subscription_id = $orderidexplode;
                         $user->save();
 
-                        $email = Email::where('type', 'Subscription Renew')->first();
-                        if ($email) {
-                            Mail::to($user->email)->send(new EmailTemplate($user, $email));
-                        }
+                        // $email = Email::where('type', 'Subscription Renew')->first();
+                        // if ($email) {
+                        //     Mail::to($user->email)->send(new EmailTemplate($user, $email));
+                        // }
 
                         // return response()->json(['message' => 'Successfully Updated Subscription1']);
 
@@ -1819,7 +1819,6 @@ $permissions = 0775;
             'discount' => $discount,
             'total' => $total,
         ];
-        dd($data);
         $subject = "Welcome to Your New Writing Space Package – Thank You for Your Purchase!";
         Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
             $data,$data,
