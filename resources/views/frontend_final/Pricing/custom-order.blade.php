@@ -72,7 +72,7 @@
                                 @php
                                     // Remove unwanted words from the 'min' field if needed
                                     $cleanMin = preg_replace('/^(Only|Just|Need it in)\s+/', '', trim($p->min));
-                        
+
                                     // Define the phrases you want to remove from the page_limit field
                                     $removePhrases = [
                                         "ensures your urgent needs,",
@@ -96,7 +96,7 @@
                                             @if ($cleanMin == '15')
                                                 {{ $cleanMin }} {{ $p->duration_type }} or {{ $p->max }}
                                             @else
-                                                {{ $cleanMin }} {{ $p->max }} {{ $p->duration_type }}
+                                                {{ $cleanMin }} - {{ $p->max }} {{ $p->duration_type }}
                                             @endif
                                         </span>
                                     </td>
@@ -109,18 +109,18 @@
                                 </tr>
                             @endforeach
                         @endif
-                        
+
 
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="d-flex justify-content-center align-items-center mt-5">
-              
-                               
+
+
         <a href="{{ route('customer.customerPlaceOrder') }}" class="gradient-btn border-0 text-decoration-none btn-custom-width">Order Now</a>
-                       
-      
+
+
             </div>
         </div>
     </div>
@@ -133,7 +133,7 @@
         <img src="{{ asset('fronted_final/assets/images/heart-line-small-left.png')}}" alt="heart-line 1" class="heartbeat-line start" />
         <div class="text-container flex-grow-1 text-center position-relative mt-5">
             <h1 class="heading">Premium Services – <br>
-                Each Service has a Cost; Flat Fee in Dollars! 
+                Each Service has a Cost; Flat Fee in Dollars!
             </h1>
             <div class="position-absolute sub-text4">
                 <span class="main-text ">Unlock Academic Success with Every Paper!</span> <br />
@@ -331,7 +331,7 @@
             <p class="yellow-text fw-bold">
                 Got work in bulk? Let us guide you towards the perfect solution. Our Packages Pricing offers tailored plans to suit your needs, providing maximum value for your academic endeavors.
             </p>
-            
+
             <a href="{{ route('customer.customerPlaceOrder') }}" class="gradient-btn border-0 text-decoration-none btn-custom-width">Order Now</a>
         <a href="{{ route('front.subscriptions') }}" class="gradient-btn border-0 ms-4 text-decoration-none btn-custom-width">Learn More</a>
         </div>
