@@ -23,7 +23,7 @@ class PkgInvoiceEmailTemplate extends Mailable
      *
      * @return void
      */
-    public function __construct($invoiceData = null, $receiptData = null, $subject = null)
+    public function __construct($invoiceData = null, $receiptData = null, $subject = null,$emailContent = null)
     {
         $this->invoiceData = $invoiceData;
         $this->receiptData = $receiptData;
@@ -86,7 +86,7 @@ class PkgInvoiceEmailTemplate extends Mailable
         return $this->subject($this->subject)
                     ->view('emails.invoicec_text_pkg_template')
                     ->with([
-                        'welcomeContent' => $this->welcomeContent,
+                        'welcomeContent' => $emailContent,
                         'invoiceData'    => $this->invoiceData
                     ])
                     ->attachData($invoicePdfContent, 'invoice.pdf', [

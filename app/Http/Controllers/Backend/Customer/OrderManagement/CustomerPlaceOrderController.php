@@ -1497,24 +1497,25 @@ $permissions = 0775;
             <p>Customer Success Team</p>
             <p>Writing Space</p>
         ";
+        $data = [
+            'invoiceNumber' => '123456789',
+            'receiptNumber' => '123456789',
+            'dateOfIssue' => '2023-09-10',
+            'dueDate' => '2023-09-15',
+            'customerName' => 'Raheel',
+            'customerEmail' => 'raheel@gmail.com',
+            'customerAdress' => '123456789',
+            'orderid' => '123456789',
+            'itemName' => 'Package',
+            'totalPages' => '100',
+            'pricePerPage' => '200',
+            'payment_status' => 'Paid',
+            'subTotal' => '200',
+            'discount' => '0',
+            'total' => '200',
+        ];
         Mail::to('jamers786@gmail.com')->send(new PkgInvoiceEmailTemplate(
-            [
-                'invoiceNumber' => '123456789',
-                'receiptNumber' => '123456789',
-                'dateOfIssue' => '2023-09-10',
-                'dueDate' => '2023-09-15',
-                'customerName' => 'Raheel',
-                'customerEmail' => 'raheel@gmail.com',
-                'customerAdress' => '123456789',
-                'orderid' => '123456789',
-                'itemName' => 'Package',
-                'totalPages' => '100',
-                'pricePerPage' => '200',
-                'payment_status' => 'Paid',
-                'subTotal' => '200',
-                'discount' => '0',
-                'total' => '200',
-            ],
+            $data,$data,
             $subject,
             $emailContent
         ));
