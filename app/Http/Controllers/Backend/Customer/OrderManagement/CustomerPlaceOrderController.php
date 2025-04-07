@@ -1704,7 +1704,7 @@ $permissions = 0775;
                         <p>Best regards,</p>
                         <p>Customer Success Team</p>
                         <p>Writing Space</p>
-                    ";
+                        ";
                         $subject = "Welcome to Your New Writing Space Package – Thank You for Your Purchase!";
                         Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
                             $data,$data,
@@ -1854,7 +1854,7 @@ $permissions = 0775;
             'customerName' => $customerName,
             'customerEmail' => $customerEmail,
             'customerAdress' => $customerAdress,
-            'orderid' => $order->order_id,
+            'orderid' => $orderid,
             'itemName' => $itemName,
             'totalPages' => $totalPages,
             'pricePerPage' => $pricePerPage,
