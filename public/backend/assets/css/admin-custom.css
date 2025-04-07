@@ -198,7 +198,7 @@ div#kt_app_sidebar_toggle i {
 }
 
 body#kt_app_body {
-    background-image: url(https://elementary-solutions.com/writing-space-web/public/backend/assets/media/ws/customer-dashboard.jpg) !important;
+    background-image: url('./backend/assets/media/ws/customer-dashboard.jpg') !important;
 }
 
 .text-color{

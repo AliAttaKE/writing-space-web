@@ -114,7 +114,7 @@ return [
     */
 
     'inject_assets' => true,
-    //'asset_url' => 'https://elementary-solutions.com/writing-space-web/public/',
+    //'asset_url' => config('app.url')
     /*
     |---------------------------------------------------------------------------
     | Navigate (SPA mode)
