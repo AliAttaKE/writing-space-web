@@ -198,7 +198,7 @@
                                         @if ($cleanMin == '15')
                                             <li>{{ $cleanMin }} {{ $p->duration_type }} or {{ $p->max }}</li>
                                         @else
-                                            <li>{{ $cleanMin }} {{ $p->max }} {{ $p->duration_type }}</li>
+                                            <li>{{ $cleanMin }} - {{ $p->max }} {{ $p->duration_type }}</li>
                                         @endif
 
                                         <li>${{ $p->cost_per_page }} per page</li>
