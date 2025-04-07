@@ -74,8 +74,13 @@ class PkgInvoiceEmailTemplate extends Mailable
         $receiptFilename = 'receipt_' . time() . '.pdf';
 
         $invoicePath = storage_path('app/public/invoices/' . $invoiceFilename);
+        if (!is_dir($invoicePath)) {
+            mkdir($invoicePath, 0777, true);
+        }
         $receiptPath = storage_path('app/public/receipts/' . $receiptFilename);
-
+        if (!is_dir($receiptPath)) {
+            mkdir($receiptPath, 0777, true);
+        }
         // Save PDFs to the server
         file_put_contents($invoicePath, $invoicePdfContent);
         file_put_contents($receiptPath, $receiptPdfContent);

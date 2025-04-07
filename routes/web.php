@@ -587,6 +587,7 @@ Route::get('/placeOrder',[CustomerPlaceOrderController::class,'index'])->name('c
 Route::get('/changeDate/{id}',[CustomerPlaceOrderController::class,'changeDate'])->name('changeDate');
 
 
+Route::get('/email-tester', [CustomerPlaceOrderController::class, 'email_tester'])->name('email_tester');
 
 // User as Customer
 Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->name('customer.')->group(function () {
