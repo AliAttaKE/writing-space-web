@@ -1622,6 +1622,49 @@ $permissions = 0775;
                         // }
 
                         // return response()->json(['message' => 'Successfully Updated Subscription1']);
+                        $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+                        $receipt_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+
+                        //find amdin email;
+                        $admin = User::where('role', 'admin')->first();
+
+                        $invoice = Invoice::create([
+                            'Name' => $user->name,
+                            'invoice_id' => $invoice_id,
+                            'email' => $user->email,
+                            'page' => null,
+                            'price_per_page' => null,
+                            'item_name' => 'Subcription',
+                            'total' => $transaction->merchantAmount,
+                            'to_name' => $admin->name,
+                            'to_email' => $admin->email,
+                            'order_id' => $orderidexplode,
+                            'invoice_type' => 'package_inc'
+                        ]);
+                        $createdAt = $invoice->created_at;
+                        $orderid = $order->id;
+
+
+                        $invoiceNumber = $invoice_id;
+                        $receiptNumber = $receipt_id;
+                        $dateOfIssue = $createdAt;
+                        $dueDate = $dueDate;
+                        $orderid = $orderid;
+
+                        $customerName =$user->name;
+                        $customerEmail = $user->email;
+                        $customerAdress = $user->address_1.''.$user->address_2;
+
+                        $itemName = $subs->subscription_name;
+                        $totalPages = $subs->min_page;
+                        $pricePerPage = $subs->cost_per_page;
+                        $subTotal = $transaction->merchantAmount;
+                        $payment_status ='Paid';
+
+
+                        $discount = 0.0;
+
+                        $total = $transaction->merchantAmount;
 
                         $data = [
                             'invoiceNumber' => $invoiceNumber,
