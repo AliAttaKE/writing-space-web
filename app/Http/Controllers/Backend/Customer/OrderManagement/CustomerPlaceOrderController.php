@@ -1643,6 +1643,7 @@ $permissions = 0775;
                         ]);
                         $createdAt = $invoice->created_at;
                         $orderid = $order->id;
+                        $dueDate = now()->addDays((int)$subs->set_time)->toDateTimeString();
 
 
                         $invoiceNumber = $invoice_id;
