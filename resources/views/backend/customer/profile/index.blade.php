@@ -1477,9 +1477,15 @@
             $(document).on('click','.addPages', function(){
 
 
-                var pages = $('#no_of_page').val();
+                var pages = $('#no_of_page').val().trim();
 
+                const isValid = /^[1-9][0-9]{0,4}$/.test(pages) && parseInt(pages) <= 100000;
 
+                if (!isValid) {
+                    //errorElem.textContent = "Please enter a valid number from 1 to 100000 without leading zero.";
+                    toastr.error('Please enter a valid number without leading zero.');
+                    return;
+                }
 
                                 $.ajax({
                 type: 'get',
@@ -1553,13 +1559,13 @@
 
 
                     } else if (response.success === 'Package limit not exceeded') {
-                    alert("Message for new customer when we do not have capacity:Thank you for your interest in our services! We are currently at full capacity and unable to take new subscriptions at this moment. Please leave your email with us, and we'll notify you as soon as slots become available. We appreciate your understanding and look forward to serving you in the future.");
-
+                    //alert("Message for new customer when we do not have capacity:Thank you for your interest in our services! We are currently at full capacity and unable to take new subscriptions at this moment. Please leave your email with us, and we'll notify you as soon as slots become available. We appreciate your understanding and look forward to serving you in the future.");
+                    Swal.fire('Success', 'We’re currently unable to add additional pages to your package. For assistance or alternative options, please contact our support team—we’re happy to help!', 'info');
                     }
 
                     else if (response.success === 'Package pages limit not exceeded') {
-                  alert("The package's page limit has not been exceeded. You can continue using the service.");
-
+                  //alert("The package's page limit has not been exceeded. You can continue using the service.");
+                  Swal.fire('Success', 'You can only purchase up to '+ response.remaining +' pages. Please enter a valid number.', 'error');
                     }
                     else {
                         console.log("An unexpected error occurred");

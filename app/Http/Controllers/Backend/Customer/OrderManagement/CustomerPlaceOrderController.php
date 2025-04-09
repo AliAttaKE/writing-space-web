@@ -544,6 +544,7 @@ class CustomerPlaceOrderController extends Controller
              $subs->remaining_rollover_pages = $subs->remaining_rollover_pages - $input['no_of_pages'];
              $subs->rollover_pages = $subs->rollover_pages + $input['no_of_pages'];
             $subs->updated_at = now();
+
             $subs->save();
             $user = User::find($order->user_id);
 
@@ -643,7 +644,7 @@ class CustomerPlaceOrderController extends Controller
 
 
             $path = "public/uploads_folders/" . $order_id;
-$permissions = 0775;
+        $permissions = 0775;
 
             if (!Storage::exists($path)) {
                 // Storage::makeDirectory($path);
@@ -846,7 +847,7 @@ $permissions = 0775;
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-web/public/redirectResponseUrl"
+                        "redirectResponseUrl": "http://localhost/writing-space-web/public/redirectResponseUrl"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -994,7 +995,7 @@ $permissions = 0775;
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-web/public/redirectResponseUrlSub"
+                        "redirectResponseUrl": "http://localhost/writing-space-web/public/redirectResponseUrlSub"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -1166,7 +1167,7 @@ $permissions = 0775;
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-web/public/redirectResponseUrladdpages"
+                        "redirectResponseUrl": "http://localhost/writing-space-web/public/redirectResponseUrladdpages"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -1336,7 +1337,7 @@ $permissions = 0775;
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "https://elementary-solutions.com/writing-space-web/public/redirectResponsemanagepages"
+                        "redirectResponseUrl": "http://localhost/writing-space-web/public/redirectResponsemanagepages"
                     },
                 "order": {
                     "amount": "' . $total . '",
@@ -1641,49 +1642,8 @@ $permissions = 0775;
                             'order_id' => $orderidexplode,
                             'invoice_type' => 'package_inc'
                         ]);
-                        $createdAt = $invoice->created_at;
-                        $orderid = $order->id;
-                        $dueDate = now()->addDays((int)$subs->set_time)->toDateTimeString();
+                                                $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
 
-
-                        $invoiceNumber = $invoice_id;
-                        $receiptNumber = $receipt_id;
-                        $dateOfIssue = $createdAt;
-                        $dueDate = $dueDate;
-                        $orderid = $orderid;
-
-                        $customerName =$user->name;
-                        $customerEmail = $user->email;
-                        $customerAdress = $user->address_1.''.$user->address_2;
-
-                        $itemName = $subs->subscription_name;
-                        $totalPages = $subs->min_page;
-                        $pricePerPage = $subs->cost_per_page;
-                        $subTotal = $transaction->merchantAmount;
-                        $payment_status ='Paid';
-
-
-                        $discount = 0.0;
-                        $purchaseDate = now()->format('Y-m-d');
-                        $total = $transaction->merchantAmount;
-
-                        $data = [
-                            'invoiceNumber' => $invoiceNumber,
-                            'receiptNumber' => $receiptNumber,
-                            'dateOfIssue' => $dateOfIssue,
-                            'dueDate' => $dueDate,
-                            'customerName' => $customerName,
-                            'customerEmail' => $customerEmail,
-                            'customerAdress' => $customerAdress,
-                            'orderid' => $orderid,
-                            'itemName' => $itemName,
-                            'totalPages' => $totalPages,
-                            'pricePerPage' => $pricePerPage,
-                            'payment_status' => $payment_status,
-                            'subTotal' => $subTotal,
-                            'discount' => $discount,
-                            'total' => $total,
-                        ];
                         $emailContent = "
                         <p>Hello {$user->name},</p>
                         <p>Congratulations on securing your new package at Writing Space! We're excited to support you with enhanced services and resources tailored to your academic needs.</p>
@@ -1706,11 +1666,8 @@ $permissions = 0775;
                         <p>Writing Space</p>
                         ";
                         $subject = "Welcome to Your New Writing Space Package – Thank You for Your Purchase!";
-                        Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
-                            $data,$data,
-                            $subject,
-                            $emailContent
-                        ));
+                        $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
+
 
                         $user = User::find($user->id);
                         Auth::login($user);
@@ -1768,108 +1725,30 @@ $permissions = 0775;
                         // }
 
 
-                        $createdAt = $invoice->created_at;
-                        $orderid = $order->id;
+                        $emailContent = "
+                        <p>Hello {$user->name},</p>
+                        <p>Congratulations on securing your new package at Writing Space! We're excited to support you with enhanced services and resources tailored to your academic needs.</p>
 
+                        <p><strong>Package Details:</strong></p>
+                        <ul>
+                            <li><strong>Package Type:</strong> $subs->subscription_name</li>
+                            <li><strong>Purchase Date:</strong> $purchaseDate</li>
+                            <li><strong>Total Amount:</strong> $total $</li>
+                            <li><strong>Total Pages:</strong> $totalPages</li>
+                        </ul>
 
-                        $invoiceNumber = $invoice_id;
-                        $receiptNumber = $receipt_id;
-                        $dateOfIssue = $createdAt;
-                        $dueDate = $dueDate;
-                        $orderid = $orderid;
+                        <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
+                        <p>You can now access all the features and benefits of your package through your dashboard. Explore the additional resources and services available to you and make the most of your Writing Space experience!</p>
+                        <p>If you have any questions about your package or need further assistance, our customer support team is ready to help.</p>
+                        <p>Thank you for choosing Writing Space! We look forward to helping you achieve your academic goals.</p>
 
-                        $customerName =$user->name;
-                        $customerEmail = $user->email;
-                        $customerAdress = $user->address_1.''.$user->address_2;
+                        <p>Best regards,</p>
+                        <p>Customer Success Team</p>
+                        <p>Writing Space</p>
+                        ";
+                        $subject = "Welcome to Your New Writing Space Package – Thank You for Your Purchase!";
 
-                        $itemName = $subs->subscription_name;
-                        $totalPages = $subs->min_page;
-                        $pricePerPage = $subs->cost_per_page;
-                        $subTotal =$transaction->merchantAmount;
-                        $payment_status ='Paid';
-
-
-                        $discount = 0.0;
-
-                        $total = $transaction->merchantAmount;
-
-
-                        // if ($email) {
-                        //     $subject = 'Invoice package purchase';
-                        //     Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
-                        //         [
-                        //             'invoiceNumber' => $invoiceNumber,
-                        //             'receiptNumber' => $receiptNumber,
-                        //             'dateOfIssue' => $dateOfIssue,
-                        //             'dueDate' => $dueDate,
-                        //             'customerName' => $customerName,
-                        //             'customerEmail' => $customerEmail,
-                        //             'customerAdress' => $customerAdress,
-                        //             'orderid' => $order->order_id,
-                        //             'itemName' => $itemName,
-                        //             'totalPages' => $totalPages,
-                        //             'pricePerPage' => $pricePerPage,
-                        //             'payment_status' => $payment_status,
-                        //             'subTotal' => $subTotal,
-                        //             'discount' => $discount,
-                        //             'total' => $total,
-                        //         ],
-                        //         $subject
-                        //     ));
-                        // }
-
-        $purchaseDate = now()->format('Y-m-d');
-        $emailContent = "
-
-            <p>Hello {$user->name},</p>
-            <p>Congratulations on securing your new package at Writing Space! We're excited to support you with enhanced services and resources tailored to your academic needs.</p>
-
-            <p><strong>Package Details:</strong></p>
-            <ul>
-                <li><strong>Package Type:</strong> $subs->subscription_name</li>
-                <li><strong>Purchase Date:</strong> $purchaseDate</li>
-                <li><strong>Total Amount:</strong> $total $</li>
-                <li><strong>Total Pages:</strong> $totalPages</li>
-            </ul>
-
-            <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
-            <p>You can now access all the features and benefits of your package through your dashboard. Explore the additional resources and services available to you and make the most of your Writing Space experience!</p>
-            <p>If you have any questions about your package or need further assistance, our customer support team is ready to help.</p>
-            <p>Thank you for choosing Writing Space! We look forward to helping you achieve your academic goals.</p>
-
-            <p>Best regards,</p>
-            <p>Customer Success Team</p>
-            <p>Writing Space</p>
-        ";
-
-        // Mail::html($emailContent, function ($message) use ($user) {
-        //     $message->to($user->email)
-        //             ->subject('Welcome to Your New Writing Space Package – Thank You for Your Purchase!');
-        // });
-        $data = [
-            'invoiceNumber' => $invoiceNumber,
-            'receiptNumber' => $receiptNumber,
-            'dateOfIssue' => $dateOfIssue,
-            'dueDate' => $dueDate,
-            'customerName' => $customerName,
-            'customerEmail' => $customerEmail,
-            'customerAdress' => $customerAdress,
-            'orderid' => $orderid,
-            'itemName' => $itemName,
-            'totalPages' => $totalPages,
-            'pricePerPage' => $pricePerPage,
-            'payment_status' => $payment_status,
-            'subTotal' => $subTotal,
-            'discount' => $discount,
-            'total' => $total,
-        ];
-        $subject = "Welcome to Your New Writing Space Package – Thank You for Your Purchase!";
-        Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
-            $data,$data,
-            $subject,
-            $emailContent
-        ));
-
+                        $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
 
                         $user_id =  $pay->user_id;
                         $user = User::find($user_id);
@@ -2124,7 +2003,7 @@ $permissions = 0775;
                         ));
                     }
 
- $emailContent = "
+    $emailContent = "
             <p>Hello {$user->name},</p>
             <p>We’ve successfully added additional pages to your existing order at Writing Space. Here are the details:</p>
 
@@ -2159,7 +2038,7 @@ $permissions = 0775;
                     Auth::login($user);
 
 
-                    return redirect('https://elementary-solutions.com/writing-space-web/public/customer/thankyou');
+                    return redirect('http://localhost/writing-space-web/public/customer/thankyou');
                 }
             }
         } catch (\Exception $e) {
@@ -2400,7 +2279,7 @@ Mail::html($emailContent, function ($message) use ($user) {
                     Auth::login($user);
 
 
-                    return redirect('https://elementary-solutions.com/writing-space-web/public/customer/thankyou');
+                    return redirect('http://localhost/writing-space-web/public/customer/thankyou');
                 }
             }
         } catch (\Exception $e) {
@@ -2671,7 +2550,7 @@ Mail::html($emailContent, function ($message) use ($user) {
                 $user = User::find($user_id);
                 Auth::login($user);
 
-                return redirect('https://elementary-solutions.com/writing-space-web/public/customer/thankyou');
+                return redirect('http://localhost/writing-space-web/public/customer/thankyou');
             }
         } else {
 
@@ -3334,6 +3213,87 @@ $permissions = 0775;
         } else {
             return response()->json(['message' => 'Packages'], 200);
         }
+    }
+
+    public function send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject)
+    {
+
+        try{
+            $createdAt = $invoice->created_at;
+            $orderid = $order->id;
+            $dueDate = now()->addDays((int)$subs->set_time)->toDateTimeString();
+
+
+            $invoiceNumber = $invoice_id;
+            $receiptNumber = $receipt_id;
+            $dateOfIssue = $createdAt;
+            $dueDate = $dueDate;
+            $orderid = $orderid;
+
+            $customerName =$user->name;
+            $customerEmail = $user->email;
+            $customerAdress = $user->address_1.''.$user->address_2;
+
+            $itemName = $subs->subscription_name;
+            $totalPages = $subs->min_page;
+            $pricePerPage = $subs->cost_per_page;
+            $subTotal = $transaction->merchantAmount;
+            $payment_status ='Paid';
+
+
+            $discount = 0.0;
+            $purchaseDate = now()->format('Y-m-d');
+            $total = $transaction->merchantAmount;
+
+            $data = [
+                'invoiceNumber' => $invoiceNumber,
+                'receiptNumber' => $receiptNumber,
+                'dateOfIssue' => $dateOfIssue,
+                'dueDate' => $dueDate,
+                'customerName' => $customerName,
+                'customerEmail' => $customerEmail,
+                'customerAdress' => $customerAdress,
+                'orderid' => $orderid,
+                'itemName' => $itemName,
+                'totalPages' => $totalPages,
+                'pricePerPage' => $pricePerPage,
+                'payment_status' => $payment_status,
+                'subTotal' => $subTotal,
+                'discount' => $discount,
+                'total' => $total,
+            ];
+            $emailContent = "
+            <p>Hello {$user->name},</p>
+            <p>Congratulations on securing your new package at Writing Space! We're excited to support you with enhanced services and resources tailored to your academic needs.</p>
+
+            <p><strong>Package Details:</strong></p>
+            <ul>
+                <li><strong>Package Type:</strong> $subs->subscription_name</li>
+                <li><strong>Purchase Date:</strong> $purchaseDate</li>
+                <li><strong>Total Amount:</strong> $total $</li>
+                <li><strong>Total Pages:</strong> $totalPages</li>
+            </ul>
+
+            <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
+            <p>You can now access all the features and benefits of your package through your dashboard. Explore the additional resources and services available to you and make the most of your Writing Space experience!</p>
+            <p>If you have any questions about your package or need further assistance, our customer support team is ready to help.</p>
+            <p>Thank you for choosing Writing Space! We look forward to helping you achieve your academic goals.</p>
+
+            <p>Best regards,</p>
+            <p>Customer Success Team</p>
+            <p>Writing Space</p>
+            ";
+            $subject = "Welcome to Your New Writing Space Package – Thank You for Your Purchase!";
+            Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
+                $data,$data,
+                $subject,
+                $emailContent
+            ));
+        }
+        catch(\Exception $e){
+            dd($e);
+        }
+
     }
 
 }
