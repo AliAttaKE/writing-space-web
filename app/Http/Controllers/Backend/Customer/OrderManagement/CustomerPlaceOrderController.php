@@ -847,7 +847,7 @@ class CustomerPlaceOrderController extends Controller
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": APP_URL . "/redirectResponseUrl"
+                        "redirectResponseUrl": "' . env("APP_URL").'"/redirectResponseUrl"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -995,7 +995,7 @@ class CustomerPlaceOrderController extends Controller
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": APP_URL ."/redirectResponseUrlSub"
+                        "redirectResponseUrl": "' . env("APP_URL").'"/redirectResponseUrlSub"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -1167,7 +1167,7 @@ class CustomerPlaceOrderController extends Controller
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": APP_URL ."/redirectResponseUrladdpages"
+                        "redirectResponseUrl": "' . env("APP_URL").'"/redirectResponseUrladdpages"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -1337,7 +1337,7 @@ class CustomerPlaceOrderController extends Controller
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": APP_URL ."/redirectResponsemanagepages"
+                        "redirectResponseUrl": "' . env("APP_URL").'"/redirectResponsemanagepages"
                     },
                 "order": {
                     "amount": "' . $total . '",
