@@ -1937,10 +1937,7 @@ class CustomerPlaceOrderController extends Controller
                     $data['customer_email'] = $user->email;
 
 
-                    $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first();
-                    if ($email) {
-                        Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
-                    }
+
 
 
 
@@ -1979,29 +1976,6 @@ class CustomerPlaceOrderController extends Controller
                     $total = $billAmount;
 
 
-                    if ($email) {
-                        $subject = 'Invoice package purchase';
-                        Mail::to($user->email)->send(new PkgIdInvoiceEmailTemplate1(
-                            [
-                                'invoiceNumber' => $invoiceNumber,
-                                'dateOfIssue' => $dateOfIssue,
-                                'dueDate' => $dueDate,
-                                'customerName' => $customerName,
-                                'customerEmail' => $customerEmail,
-                                'customerAdress' => $customerAdress,
-                                'orderid' => $order->order_id,
-                                'itemName' => $itemName,
-                                'totalPages' => $totalPages,
-                                'remaining_pages' => $remaining_pages,
-                                'pricePerPage' => $pricePerPage,
-                                'payment_status' => $payment_status,
-                                'subTotal' => $subTotal,
-                                'discount' => $discount,
-                                'total' => $total,
-                            ],
-                            $subject
-                        ));
-                    }
 
     $emailContent = "
             <p>Hello {$user->name},</p>
@@ -2189,88 +2163,33 @@ class CustomerPlaceOrderController extends Controller
                     $currentSubs23 = Orders::where('user_id', $user23->id)->first();
                     // $currentSubs23 = User_Subscription::where('user_id', $user23->id)->first();
 
-                    $createdAt = $invoice->created_at;
-                    $orderid = $order->id;
-
-
-                    $invoiceNumber = $invoice->idinvoice_id;
-                    $dateOfIssue = $createdAt;
-                    $dueDate = $currentSubs23->due_date;
-                    $orderid = $orderid;
-
-                     $remaining_pages = $currentSubs23->remaining_pages;
-
-                    $customerName =$user->name;
-                    $customerEmail = $user->email;
-                    $customerAdress = $user->address_1.''.$user->address_2;
-
-                    $itemName = 'Custom order Add Pages';
-                    $totalPages = $order_detail->page;
-                    $pricePerPage =  $order->cost_per_page;
-                    $subTotal =$order_detail->total;
-                    $payment_status ='Paid';
 
 
 
+            $emailContent = "
 
-                    $discount = 0.0;
+                <p>Hi {$user->name},</p>
+                <p>Thank you for expanding your order at Writing Space! We've successfully processed the purchase of additional pages for your ongoing project.</p>
 
-                    $total = $order_detail->total;
+                <p><strong>Order Details:</strong></p>
+                <ul>
+                    <li><strong>Order ID:</strong>{$order->order_id}</li>
+                    <li><strong>Additional Pages Purchased:</strong> {$order->number_of_pages}</li>
+                    <li><strong>Date of Purchase:</strong>  $invoice->created_at</li>
+                </ul>
 
-                    $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first();
+                <p>Your invoice and receipt for this transaction are attached as a PDF. Please review these documents for your records.</p>
+                <p>Should you have any queries or require further assistance, feel free to reach out to our support team.</p>
+                <p>We appreciate your continued trust in Writing Space, and we're here to assist you every step of the way!</p>
 
-                    if ($email) {
-                        $subject = 'Confirmation of Additional Pages (In Packages) for Order ID';
-                        Mail::to($user->email)->send(new PkgIdmanageInvoiceEmailTemplate(
-                            [
-                                'invoiceNumber' => $invoiceNumber,
-                                'dateOfIssue' => $dateOfIssue,
-                                'dueDate' => $dueDate,
-                                'customerName' => $customerName,
-                                'customerEmail' => $customerEmail,
-                                'customerAdress' => $customerAdress,
-                                'orderid' => $order->order_id,
-                                'itemName' => $itemName,
-                                'totalPages' => $totalPages,
-                                'remaining_pages' => $remaining_pages,
-                                'pricePerPage' => $pricePerPage,
-                                'payment_status' => $payment_status,
-                                'subTotal' => $subTotal,
-                                'discount' => $discount,
-                                'total' => $total,
-                            ],
-                            $subject
-                        ));
-                    }
+                <p>Best regards,</p>
+                <p>Customer Success Team</p>
+                <p>Writing Space</p>
+            ";
 
 
-$emailContent = "
-
-    <p>Hi {$user->name},</p>
-    <p>Thank you for expanding your order at Writing Space! We've successfully processed the purchase of additional pages for your ongoing project.</p>
-
-    <p><strong>Order Details:</strong></p>
-    <ul>
-        <li><strong>Order ID:</strong>{$order->order_id}</li>
-        <li><strong>Additional Pages Purchased:</strong> {$order->number_of_pages}</li>
-        <li><strong>Date of Purchase:</strong>  $invoice->created_at</li>
-    </ul>
-
-    <p>Your invoice and receipt for this transaction are attached as a PDF. Please review these documents for your records.</p>
-    <p>Should you have any queries or require further assistance, feel free to reach out to our support team.</p>
-    <p>We appreciate your continued trust in Writing Space, and we're here to assist you every step of the way!</p>
-
-    <p>Best regards,</p>
-    <p>Customer Success Team</p>
-    <p>Writing Space</p>
-";
-
-Mail::html($emailContent, function ($message) use ($user) {
-    $message->to($user->email)
-            ->subject('Confirmation of Additional Pages Purchase – Order ID {$order->order_id}');
-});
-
-
+            $subject = "Confirmation of Additional Pages Purchase – Order ID {$order->order_id}";
+            $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
 
 
                     $user_id =  $pay->user_id;
@@ -2498,51 +2417,8 @@ Mail::html($emailContent, function ($message) use ($user) {
                 $invoiceNumber = $invoice_id;
                  $receiptNumber = $receipt_id;
 
-                $dateOfIssue = $createdAt;
-                $dueDate = $input->due_date;
-                $orderid = $orderid;
-                $order = $order;
+                $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
 
-                $customerName =$user->name;
-                $customerEmail = $user->email;
-                $customerAdress = $user->address_1.''.$user->address_2;
-
-                $itemName = $input->subject;
-                $totalPages = $order->number_of_pages;
-                $pricePerPage = $order->cost_per_page;
-                $subTotal =$order->total_cost;
-                $payment_status ='Paid';
-
-
-                $discount = 0.0;
-
-                $total = $order->total_cost;
-
-
-                if ($email) {
-                    $subject = 'Your Writing Space Purchase Confirmation – Order ID '.$order_id;
-                    Mail::to($user->email)->send(new InvoiceEmailTemplate(
-                        [
-                            'invoiceNumber' => $invoiceNumber,
-                              'receiptNumber' => $receiptNumber,
-                            'dateOfIssue' => $dateOfIssue,
-                            'dueDate' => $dueDate,
-                            'customerName' => $customerName,
-                            'customerEmail' => $customerEmail,
-                            'customerAdress' => $customerAdress,
-                            'orderid' => $order_id,
-                            'order' => $order,
-                            'itemName' => $itemName,
-                            'totalPages' => $totalPages,
-                            'pricePerPage' => $pricePerPage,
-                            'payment_status' => $payment_status,
-                            'subTotal' => $subTotal,
-                            'discount' => $discount,
-                            'total' => $total,
-                        ],
-                        $subject
-                    ));
-                }
 
 
 
