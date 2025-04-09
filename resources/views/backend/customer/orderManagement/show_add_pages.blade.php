@@ -165,12 +165,12 @@
                         <h5>Order Details</h5>
                     </div>
                     <div class="card-bod total-amt py-3 px-2 rounded-3 bg-transparent">
-                      
+
                         <ul class="d-flex d-flex list-unstyled justify-content-between">
                              <li class="">Number of Pages</li>
                             <li class=""><span id="no_of_page">00</span></li>
                         </ul>
-                       
+
                         <ul class="d-flex d-flex list-unstyled justify-content-between">
                             <li class="">Total Amount</li>
                             <li class="">$ <span id="order_total">00</span></li>
@@ -226,8 +226,8 @@ if (self === top) {
 }
 
 PaymentSession.configure({
- 
-   
+
+
     session: "{{$sessionid}}",
     fields: {
         // ATTACH HOSTED FIELDS TO YOUR PAYMENT PAGE FOR A CREDIT CARD
@@ -239,7 +239,7 @@ PaymentSession.configure({
             nameOnCard: "#cardholder-name"
         }
     },
-   
+
     //SPECIFY YOUR MITIGATION OPTION HERE
     frameEmbeddingMitigation: ["javascript"],
     callbacks: {
@@ -251,27 +251,27 @@ PaymentSession.configure({
             if (response.status) {
                 if ("ok" == response.status) {
                     console.log(response.session.id);
-                    
+
                     console.log("Session updated with data: " + response.session.id);
                    // alert("Session updated with data: " + response.session.id);
-                   
-                   
+
+
                var no_of_page = JSON.parse(localStorage.getItem('no_of_page'));
-               
+
                var used_package_id = JSON.parse(localStorage.getItem('used_package_id'));
                var package_id = JSON.parse(localStorage.getItem('package_id'));
                var cost_per_page = JSON.parse(localStorage.getItem('cost_per_page'));
                var order_id = JSON.parse(localStorage.getItem('order_id'));
-              
 
-                        
+
+
                  console.log(no_of_page);
                   console.log(used_package_id);
                    console.log(package_id);
                     console.log(cost_per_page);
                      console.log(order_id);
-                     
-                     
+
+
                      if (order_id !== null) {
                          console.log("asasass");
                             $.ajax({
@@ -307,25 +307,25 @@ PaymentSession.configure({
                                 var Url = "{{ route('customer.otp', ['creqValue' => ':creqValue']) }}".replace(':creqValue', creqValue);
 
                                 if (ajaxResponse) {
-                                    console.log('if');
+                                    console.log(Url);
                                   window.location.href = Url;
                                 } else {
                                     console.log('Error or other condition');
                                 }
 
-                             
+
                             },
                             error: function (xhr) {
                                 console.log(xhr);
 
-                              
+
                             }
 
                         });
 
-  
+
 } else {
-  
+
       $.ajax({
                             url: '{{ route("customer.payment.store.addpages") }}',
                             type: 'POST',
@@ -359,42 +359,42 @@ PaymentSession.configure({
                                 var Url = "{{ route('customer.otp', ['creqValue' => ':creqValue']) }}".replace(':creqValue', creqValue);
 
                                 if (ajaxResponse) {
-                                    console.log('if');
+                                    console.log(Url);
                                   window.location.href = Url;
                                 } else {
                                     console.log('Error or other condition');
                                 }
 
-                             
+
                             },
                             error: function (xhr) {
                                 console.log(xhr);
 
-                              
+
                             }
 
                         });
 }
-                  
-        
-                     
-  
+
+
+
+
                     //check if the security code was provided by the user
                     if (response.sourceOfFunds.provided.card.securityCode) {
                         console.log("Security code was provided.");
                      //   alert("Security code was provided.");
                     }
-  
+
                     //check if the user entered a Mastercard credit card
                     if (response.sourceOfFunds.provided.card.scheme == 'MASTERCARD') {
                         console.log("The user entered a Mastercard credit card.")
                        // alert("The user entered a Mastercard credit card.");
                     }
                 } else if ("fields_in_error" == response.status)  {
-  
+
                     console.log("Session update failed with field errors.");
                    // alert("Session update failed with field errors.");
-                    
+
                     if (response.errors.cardNumber) {
                         console.log("Card number invalid or missing.");
                      //   alert("Card number invalid or missing.");
@@ -433,7 +433,7 @@ PaymentSession.configure({
  });
 
 function pay() {
-    
+
     // UPDATE THE SESSION WITH THE INPUT FROM HOSTED FIELDS
     PaymentSession.updateSessionFromForm('card');
 }
@@ -441,14 +441,14 @@ function pay() {
 
  var cost_per_page = JSON.parse(localStorage.getItem('cost_per_page'));
   var no_of_page = JSON.parse(localStorage.getItem('no_of_page'));
-  
+
   var totalAmountPage = no_of_page*cost_per_page;
   document.getElementById("order_total").innerText = totalAmountPage;
     document.getElementById("no_of_page").innerText = no_of_page;
 
 
-            
-        
+
+
 
 </script>
 </body>

@@ -818,7 +818,7 @@ class CustomerPlaceOrderController extends Controller
         // return response()->json(['response' => $response]);
 
 
-
+        $localurl = url("/redirectResponseUrladdpages");
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -847,7 +847,7 @@ class CustomerPlaceOrderController extends Controller
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "' . env("APP_URL").'"/redirectResponseUrl"
+                        "redirectResponseUrl":"'.$localurl.'"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -995,7 +995,7 @@ class CustomerPlaceOrderController extends Controller
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "' . env("APP_URL").'"/redirectResponseUrlSub"
+                        "redirectResponseUrl":"'.url("/redirectResponseUrlSub").'"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -1138,7 +1138,7 @@ class CustomerPlaceOrderController extends Controller
         //return response()->json(['response' => $response]);
 
 
-
+        $localurl = url("/redirectResponseUrladdpages");
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -1167,7 +1167,7 @@ class CustomerPlaceOrderController extends Controller
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "' . env("APP_URL").'"/redirectResponseUrladdpages"
+                        "redirectResponseUrl":"'.$localurl.'",
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -1337,7 +1337,7 @@ class CustomerPlaceOrderController extends Controller
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "' . env("APP_URL").'"/redirectResponsemanagepages"
+                        "redirectResponseUrl":"'.url("/redirectResponsemanagepages").'",
                     },
                 "order": {
                     "amount": "' . $total . '",
@@ -2675,7 +2675,7 @@ class CustomerPlaceOrderController extends Controller
 
 
         $path = "public/uploads_folders/" . $order_id;
-$permissions = 0775;
+        $permissions = 0775;
 
 
         if (!Storage::exists($path)) {

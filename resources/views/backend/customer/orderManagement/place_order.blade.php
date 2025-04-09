@@ -2393,7 +2393,7 @@ document.querySelectorAll('input[type="checkbox"][id^="toggleSwitch"]').forEach(
                                 var Url = "{{ route('customer.otp', ['creqValue' => ':creqValue']) }}".replace(':creqValue', creqValue);
 
                                 if (ajaxResponse) {
-                                    console.log('if');
+                                    console.log(Url);
                                     window.location.href = Url;
                                 } else {
                                     console.log('Error or other condition');
