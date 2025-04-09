@@ -2012,7 +2012,7 @@ class CustomerPlaceOrderController extends Controller
                     Auth::login($user);
 
 
-                    return redirect('http://localhost/writing-space-web/public/customer/thankyou');
+                    return redirect(APP_URL .'/customer/thankyou');
                 }
             }
         } catch (\Exception $e) {
@@ -2198,7 +2198,7 @@ class CustomerPlaceOrderController extends Controller
                     Auth::login($user);
 
 
-                    return redirect('http://localhost/writing-space-web/public/customer/thankyou');
+                    return redirect(APP_URL .'/customer/thankyou');
                 }
             }
         } catch (\Exception $e) {
@@ -2426,7 +2426,7 @@ class CustomerPlaceOrderController extends Controller
                 $user = User::find($user_id);
                 Auth::login($user);
 
-                return redirect('http://localhost/writing-space-web/public/customer/thankyou');
+                return redirect(APP_URL .'/customer/thankyou');
             }
         } else {
 
