@@ -847,7 +847,7 @@ class CustomerPlaceOrderController extends Controller
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "http://localhost/writing-space-web/public/redirectResponseUrl"
+                        "redirectResponseUrl": APP_URL . "/redirectResponseUrl"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -995,7 +995,7 @@ class CustomerPlaceOrderController extends Controller
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "http://localhost/writing-space-web/public/redirectResponseUrlSub"
+                        "redirectResponseUrl": APP_URL ."/redirectResponseUrlSub"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -1167,7 +1167,7 @@ class CustomerPlaceOrderController extends Controller
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "http://localhost/writing-space-web/public/redirectResponseUrladdpages"
+                        "redirectResponseUrl": APP_URL ."/redirectResponseUrladdpages"
                     },
                 "order": {
                     "amount": "' . $total_cost . '",
@@ -1337,7 +1337,7 @@ class CustomerPlaceOrderController extends Controller
             "ipAddress":"182.185.178.141"
             },
                     "authentication": {
-                        "redirectResponseUrl": "http://localhost/writing-space-web/public/redirectResponsemanagepages"
+                        "redirectResponseUrl": APP_URL ."/redirectResponsemanagepages"
                     },
                 "order": {
                     "amount": "' . $total . '",
