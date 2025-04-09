@@ -125,7 +125,7 @@ class CustomerPlaceOrderController extends Controller
              ->latest()
             ->get();
 
-        $order_canceled = Orders::where('order_status', 'Canceled')
+            $order_canceled = Orders::where('order_status', 'Canceled')
             ->when($request->order_id != null, function ($q) use ($request) {
                 return $q->where('order_id', $request->order_id);
             })
@@ -594,39 +594,39 @@ class CustomerPlaceOrderController extends Controller
             }
 
 
-    if ($subs->remaining_pages == 0) {
-        $finishedEmailContent = "
-            <p>Hi {$user->name},</p>
-            <p>It looks like you've used up all the pages in your Writing Space package. We hope you found each page helpful for your academic projects!</p>
+        if ($subs->remaining_pages == 0) {
+            $finishedEmailContent = "
+                <p>Hi {$user->name},</p>
+                <p>It looks like you've used up all the pages in your Writing Space package. We hope you found each page helpful for your academic projects!</p>
 
-            <p><strong>Exclusive Renewal Offer:</strong></p>
-            <p>We deeply appreciate your dedication to Writing Space and are thrilled to extend an exclusive renewal offer just for you! Enjoy a special discount on your next package purchase and continue accessing our premium academic resources at an unbeatable rate.</p>
+                <p><strong>Exclusive Renewal Offer:</strong></p>
+                <p>We deeply appreciate your dedication to Writing Space and are thrilled to extend an exclusive renewal offer just for you! Enjoy a special discount on your next package purchase and continue accessing our premium academic resources at an unbeatable rate.</p>
 
-            <p><strong>Why Renew Now?</strong></p>
-            <ul>
-                <li><strong>Save More:</strong> Take advantage of our limited-time discount to maximize your investment.</li>
-                <li><strong>Seamless Access:</strong> Continue leveraging our comprehensive tools and materials to excel in your academic endeavors.</li>
-                <li><strong>Enhanced Support:</strong> Benefit from our ongoing commitment to your educational success with uninterrupted service.</li>
-            </ul>
+                <p><strong>Why Renew Now?</strong></p>
+                <ul>
+                    <li><strong>Save More:</strong> Take advantage of our limited-time discount to maximize your investment.</li>
+                    <li><strong>Seamless Access:</strong> Continue leveraging our comprehensive tools and materials to excel in your academic endeavors.</li>
+                    <li><strong>Enhanced Support:</strong> Benefit from our ongoing commitment to your educational success with uninterrupted service.</li>
+                </ul>
 
-            <p><strong>How to Redeem Your Offer:</strong></p>
-            <p>Claiming your discounted renewal is simple! Just reach out to our dedicated support team, and they will guide you through the easy renewal process, ensuring you stay on track with your academic goals.</p>
+                <p><strong>How to Redeem Your Offer:</strong></p>
+                <p>Claiming your discounted renewal is simple! Just reach out to our dedicated support team, and they will guide you through the easy renewal process, ensuring you stay on track with your academic goals.</p>
 
-            <p><strong>Contact Support:</strong></p>
-            <ul>
-                <li>Email: support@writing-space.com</li>
-            </ul>
+                <p><strong>Contact Support:</strong></p>
+                <ul>
+                    <li>Email: support@writing-space.com</li>
+                </ul>
 
-            <p><strong>Act Now!</strong> Don’t miss this opportunity to replenish your page count and keep your academic resources flowing seamlessly. Renew today and continue your journey towards excellence with Writing Space by your side every step of the way.</p>
+                <p><strong>Act Now!</strong> Don’t miss this opportunity to replenish your page count and keep your academic resources flowing seamlessly. Renew today and continue your journey towards excellence with Writing Space by your side every step of the way.</p>
 
-            <p>Warm regards,<br>The Writing Space Team</p>
-        ";
+                <p>Warm regards,<br>The Writing Space Team</p>
+            ";
 
-        Mail::html($finishedEmailContent, function ($message) use ($user) {
-            $message->to($user->email)
-                    ->subject('Time to Renew? Your Writing Space Pages Are All Used Up!');
-        });
-    }
+            Mail::html($finishedEmailContent, function ($message) use ($user) {
+                $message->to($user->email)
+                        ->subject('Time to Renew? Your Writing Space Pages Are All Used Up!');
+            });
+        }
 
 
             $invoice = Invoice::create([
@@ -1625,7 +1625,9 @@ class CustomerPlaceOrderController extends Controller
                         // return response()->json(['message' => 'Successfully Updated Subscription1']);
                         $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
                         $receipt_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
-
+                        $purchaseDate = now()->format('Y-m-d');
+                        $total = $transaction->merchantAmount;
+                        $totalPages = $subs->min_page;
                         //find amdin email;
                         $admin = User::where('role', 'admin')->first();
 
@@ -1642,7 +1644,6 @@ class CustomerPlaceOrderController extends Controller
                             'order_id' => $orderidexplode,
                             'invoice_type' => 'package_inc'
                         ]);
-                                                $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
 
                         $emailContent = "
                         <p>Hello {$user->name},</p>
@@ -1666,6 +1667,7 @@ class CustomerPlaceOrderController extends Controller
                         <p>Writing Space</p>
                         ";
                         $subject = "Welcome to Your New Writing Space Package – Thank You for Your Purchase!";
+
                         $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
 
 
@@ -1678,6 +1680,7 @@ class CustomerPlaceOrderController extends Controller
                         $user->save();
 
                         $subs = Subscription::find($orderidexplode);
+                        $purchaseDate = now()->format('Y-m-d');
 
                         $dueDate = now()->addDays((int)$subs->set_time)->toDateTimeString();
                         $User_Subscription = User_Subscription::create([
@@ -1690,7 +1693,7 @@ class CustomerPlaceOrderController extends Controller
                             'status' => 'Active',
                             'due_date' => $dueDate
                         ]);
-
+                        $totalPages = $subs->min_page;
                         $pakge = PakageLimit::first();
                         $remaining_pages =  $pakge->renaming - $subs->total_subscription;
 
@@ -1700,7 +1703,7 @@ class CustomerPlaceOrderController extends Controller
                         $pakge->update(['renaming' => $remaining_pages, 'consum' => $consum_pages]);
                         $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
                         $receipt_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
-
+                        $total = $transaction->merchantAmount;
                         //find amdin email;
                         $admin = User::where('role', 'admin')->first();
 
@@ -1905,6 +1908,7 @@ class CustomerPlaceOrderController extends Controller
                     }
                     $order_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
                     $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+                    $receipt_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
 
                     $pakge = PakageLimit::first();
                     $remaining_pages =  $pakge->renaming - $pages;
@@ -1949,31 +1953,7 @@ class CustomerPlaceOrderController extends Controller
                     $user23 = User::findOrFail($pay->user_id);
                     $currentSubs23 = User_Subscription::where('user_id', $user23->id)->first();
 
-                    $createdAt = $invoice->created_at;
-                    $orderid = $order->id;
 
-
-                    $invoiceNumber = $invoice_id;
-                    $dateOfIssue = $createdAt;
-                    $dueDate = $currentSubs23->due_date;
-                    $orderid = $orderid;
-
-                     $remaining_pages = $currentSubs23->remaining_pages;
-
-                    $customerName =$user->name;
-                    $customerEmail = $user->email;
-                    $customerAdress = $user->address_1.''.$user->address_2;
-
-                    $itemName = $subs->subscription_name;
-                    $totalPages = $pages;
-                    $pricePerPage = $pageCost;
-                    $subTotal =$billAmount;
-                    $payment_status ='Paid';
-
-
-                    $discount = 0.0;
-
-                    $total = $billAmount;
 
 
 
@@ -2003,11 +1983,9 @@ class CustomerPlaceOrderController extends Controller
             <p>Customer Success Team</p>
             <p>Writing Space</p>
         ";
+        $subject = 'Confirmation of Additional Pages Added to Order ID - ' . $order_id;
 
-        Mail::html($emailContent, function ($message) use ($user, $order_id) {
-            $message->to($user->email)
-                    ->subject('Confirmation of Additional Pages Added to Order ID - ' . $order_id);
-        });
+        $this->send_invoice($invoiceNumber, $receipt_id, $order_id, $subs, $invoice, $transaction, $user,$emailContent,$subject);
 
                     Auth::login($user);
 
@@ -3093,10 +3071,10 @@ class CustomerPlaceOrderController extends Controller
 
     public function send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject)
     {
-
+       // dd($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
         try{
             $createdAt = $invoice->created_at;
-            $orderid = $order->id;
+            $orderid = $orderidexplode;
             $dueDate = now()->addDays((int)$subs->set_time)->toDateTimeString();
 
 
@@ -3138,27 +3116,7 @@ class CustomerPlaceOrderController extends Controller
                 'discount' => $discount,
                 'total' => $total,
             ];
-            $emailContent = "
-            <p>Hello {$user->name},</p>
-            <p>Congratulations on securing your new package at Writing Space! We're excited to support you with enhanced services and resources tailored to your academic needs.</p>
 
-            <p><strong>Package Details:</strong></p>
-            <ul>
-                <li><strong>Package Type:</strong> $subs->subscription_name</li>
-                <li><strong>Purchase Date:</strong> $purchaseDate</li>
-                <li><strong>Total Amount:</strong> $total $</li>
-                <li><strong>Total Pages:</strong> $totalPages</li>
-            </ul>
-
-            <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
-            <p>You can now access all the features and benefits of your package through your dashboard. Explore the additional resources and services available to you and make the most of your Writing Space experience!</p>
-            <p>If you have any questions about your package or need further assistance, our customer support team is ready to help.</p>
-            <p>Thank you for choosing Writing Space! We look forward to helping you achieve your academic goals.</p>
-
-            <p>Best regards,</p>
-            <p>Customer Success Team</p>
-            <p>Writing Space</p>
-            ";
             $subject = "Welcome to Your New Writing Space Package – Thank You for Your Purchase!";
             Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
                 $data,$data,
