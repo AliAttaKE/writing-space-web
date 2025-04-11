@@ -7456,111 +7456,112 @@ function modal_open122() {
     let pageValidation = document.getElementById("pageCount").value;
 
     var pages = $('#pageCount').val();
-
-    // AJAX call to check package limit
-    // $.ajax({
-    //     type: 'GET', // Use uppercase for clarity
-    //     url: "{{ route('pakage_limit.get') }}", // Ensure this route is correctly defined
-    //     data: { totalSubscription: pages },
-    //     success: function (response) {
-    //         if (response.success === 'Package pages limit not exceeded') {
-    //            // alert("The package's page limit has not been exceeded. You can continue using the service.");
-    //           //  location.reload(); // Reload the page after the user dismisses the alert
-    //             // Stop further execution of the whole function
-    //             return;
-    //         }
-    //     },
-    //     error: function (xhr, status, error) {
-    //         console.error("AJAX Error:", error); // Logs the error for debugging
-    //         Swal.fire({
-    //             title: 'Error',
-    //             text: "There was an issue processing your request. Please try again later.",
-    //             icon: 'error',
-    //             confirmButtonText: 'OK',
-    //         });
-    //     }
-    // });
-
-    // Ensure this part of the code does not execute if the above condition is met
     if (!pageValidation) {
         alert("Please fill the Add More Pages field");
         return; // Prevent further execution if validation fails
     }
+    // AJAX call to check package limit
+    $.ajax({
+        type: 'GET', // Use uppercase for clarity
+        url: "{{ route('pakage_limit.get') }}", // Ensure this route is correctly defined
+        data: { totalSubscription: pages },
+        success: function (response) {
+            if (response.success === 'Package pages limit not exceeded') {
+               // alert("The package's page limit has not been exceeded. You can continue using the service.");
+              //  location.reload(); // Reload the page after the user dismisses the alert
+                // Stop further execution of the whole function
+                let pageValidationtotalCost = $('#totalCost1').val();
+                var selectedValue = getSelectedRadioButtonValue();
+                console.log("Selected value:", pageValidationtotalCost +' > '+ pageValidation);
 
-    let pageValidationtotalCost = $('#totalCost1').val();
-    var selectedValue = getSelectedRadioButtonValue();
-    console.log("Selected value:", pageValidationtotalCost +' > '+ pageValidation);
-
-    if (selectedValue === 'currentpakage') {
-        if (pageValidationtotalCost >= pageValidation) {
-            // Open modal if the condition is met
-            modal_open112();
-        } else {
-            Swal.fire({
-                title: 'Thank You for Choosing Us!',
-                text: 'Thank you for choosing our services! We noticed that your required pages exceed the remaining pages in your current package. To continue enjoying uninterrupted access, we invite you to consider purchasing additional pages. These will be available at the same rate as your original package purchase. We appreciate your support and look forward to continuing to serve you.',
-                icon: 'info',
-                confirmButtonText: 'Purchase More Pages',
-                cancelButtonText: 'Cancel',
-                showCancelButton: true,
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                customClass: {
-                    popup: 'custom-swal-popup',
-                    title: 'custom-swal-title',
-                    htmlContainer: 'custom-swal-text',
-                    confirmButton: 'custom-swal-confirm-button',
-                    cancelButton: 'custom-swal-cancel-button'
-                }
-            });
-        }
-    } else {
-        // Handle case for other selected value
-        localStorage.setItem('no_of_page', pageValidation);
-
-        var used_package = $('#used_package_id').val();
-        localStorage.setItem('used_package_id', used_package);
-
-        var packageid = $('#package_id').val();
-        localStorage.setItem('package_id', packageid);
-
-        var cost_perpage = $('#cost_per_page').val();
-        localStorage.setItem('cost_per_page', cost_perpage);
-
-        var order_id = {{$order->order_id}};
-        localStorage.setItem('order_id', order_id);
-
-
-
-
-        if (pageValidation && pageValidation != null) {
-
-
-            var url2 = '{{ route('customer.checkout') }}';
-            $.ajax({
-                type: 'GET',
-                url: url2,
-                success: function (response) {
-                    console.log(response.sessionId);
-
-
-                    if (response && response.sessionId) {
-                        // Redirect to the specified route with the sessionId
-                        window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
+                if (selectedValue === 'currentpakage') {
+                    if (pageValidationtotalCost >= pageValidation) {
+                        // Open modal if the condition is met
+                        alert('am going ');
+                        modal_open112();
                     } else {
-                        console.error('Invalid response format or missing sessionId.');
+                        Swal.fire({
+                            title: 'Thank You for Choosing Us!',
+                            text: 'Thank you for choosing our services! We noticed that your required pages exceed the remaining pages in your current package. To continue enjoying uninterrupted access, we invite you to consider purchasing additional pages. These will be available at the same rate as your original package purchase. We appreciate your support and look forward to continuing to serve you.',
+                            icon: 'info',
+                            confirmButtonText: 'Purchase More Pages',
+                            cancelButtonText: 'Cancel',
+                            showCancelButton: true,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            customClass: {
+                                popup: 'custom-swal-popup',
+                                title: 'custom-swal-title',
+                                htmlContainer: 'custom-swal-text',
+                                confirmButton: 'custom-swal-confirm-button',
+                                cancelButton: 'custom-swal-cancel-button'
+                            }
+                        });
                     }
-                },
-                error: function (error) {
-                    // Handle any errors here
-                    window.location.href = '{{ route("login") }}';
-                    console.error(error);
+                } else {
+                    // Handle case for other selected value
+                    localStorage.setItem('no_of_page', pageValidation);
+
+                    var used_package = $('#used_package_id').val();
+                    localStorage.setItem('used_package_id', used_package);
+
+                    var packageid = $('#package_id').val();
+                    localStorage.setItem('package_id', packageid);
+
+                    var cost_perpage = $('#cost_per_page').val();
+                    localStorage.setItem('cost_per_page', cost_perpage);
+
+                    var order_id = {{$order->order_id}};
+                    localStorage.setItem('order_id', order_id);
+
+
+
+
+                    if (pageValidation && pageValidation != null) {
+
+
+                        var url2 = '{{ route('customer.checkout') }}';
+                        $.ajax({
+                            type: 'GET',
+                            url: url2,
+                            success: function (response) {
+                                console.log(response.sessionId);
+
+
+                                if (response && response.sessionId) {
+                                    // Redirect to the specified route with the sessionId
+                                    window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
+                                } else {
+                                    console.error('Invalid response format or missing sessionId.');
+                                }
+                            },
+                            error: function (error) {
+                                // Handle any errors here
+                                window.location.href = '{{ route("login") }}';
+                                console.error(error);
+                            }
+                        });
+                    } else {
+                        toastr.error('Pages number not given!');
+                    }
                 }
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error:", error); // Logs the error for debugging
+            Swal.fire({
+                title: 'Error',
+                text: "There was an issue processing your request. Please try again later.",
+                icon: 'error',
+                confirmButtonText: 'OK',
             });
-        } else {
-            toastr.error('Pages number not given!');
         }
-    }
+    });
+
+    // Ensure this part of the code does not execute if the above condition is met
+    
+
+    
 }
 
 
