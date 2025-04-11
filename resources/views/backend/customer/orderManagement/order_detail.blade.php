@@ -7492,7 +7492,7 @@ function modal_open122() {
     console.log("Selected value:", pageValidationtotalCost +' > '+ pageValidation);
 
     if (selectedValue === 'currentpakage') {
-        if (pageValidationtotalCost <= pageValidation) {
+        if (pageValidationtotalCost >= pageValidation) {
             // Open modal if the condition is met
             modal_open112();
         } else {
