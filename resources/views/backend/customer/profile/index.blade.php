@@ -1566,7 +1566,7 @@
 
                     else if (response.success === 'Package pages limit not exceeded') {
                   //alert("The package's page limit has not been exceeded. You can continue using the service.");
-                  Swal.fire('Success', 'You can only purchase up to '+ response.remaining +' pages. Please enter a valid number.', 'error');
+                  Swal.fire('Error', 'You can only purchase up to '+ response.remaining +' pages. Please enter a valid number.', 'error');
                     }
                     else {
                         console.log("An unexpected error occurred");
