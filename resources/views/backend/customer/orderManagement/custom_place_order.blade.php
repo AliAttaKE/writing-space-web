@@ -1711,16 +1711,16 @@ aria-hidden="true">
         emptyFields.push('Description');
     }
 
- formElements.forEach(function (element) {
-    // Check if the element is an input, select, or textarea
-    if (
-        (element.tagName === "INPUT" || element.tagName === "SELECT" || element.tagName === "TEXTAREA") &&
-        !element.value.trim()
-    ) {
-        isNull = true;
-        emptyFields.push(element.name || element.id); // Add the field name or id to the array
-    }
-});
+    formElements.forEach(function (element) {
+        // Check if the element is an input, select, or textarea
+        if (
+            (element.tagName === "INPUT" || element.tagName === "SELECT" || element.tagName === "TEXTAREA") &&
+            !element.value.trim()
+        ) {
+            isNull = true;
+            emptyFields.push(element.name || element.id); // Add the field name or id to the array
+        }
+    });
 
         // Display alert if any input is null
        if (isNull) {

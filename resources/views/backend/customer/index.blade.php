@@ -498,6 +498,22 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Section-->
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Additional Pages Available for Purchase</div>
+                                    <!--end::Section-->
+                                    <!--begin::Statistics-->
+                                    <div class="d-flex align-items-senter" style="color:#17C653">
+										{{(float)$used_subscription->rollover_pages}}
+                                    </div>
+                                    <!--end::Statistics-->
+                                </div>
+                                <!--end::Item-->
+
+                                <!--begin::Separator-->
+                                <div class="separator separator-dashed my-3"></div>
+                                <!--end::Separator-->
+                                <!--begin::Item-->
+                                <div class="d-flex flex-stack">
+                                    <!--begin::Section-->
                                     <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Expire Date</div>
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
