@@ -86,10 +86,10 @@ class PakageLimitController extends Controller
 
 
 
-                 return response()->json(['success' => 'Package limit exceeded'], 200);
+                 return response()->json(['success' => 'Package pages limit not exceeded'], 200);
                 } else {
 
-                    return response()->json(['success' => 'Package pages limit not exceeded','remaining'=>$sub_check], 200);
+                    return response()->json(['success' => 'Package limit exceeded','remaining'=>$sub_check], 200);
                 }
 
             } else {
