@@ -543,7 +543,7 @@ class CustomerPlaceOrderController extends Controller
             $remianingPages = $subs->remaining_pages;
             $subs->remaining_pages = $remianingPages - $input['no_of_pages'];
            //  $subs->remaining_rollover_pages = $subs->remaining_rollover_pages - $input['no_of_pages'];
-             $subs->rollover_pages = $subs->rollover_pages - $input['no_of_pages'];
+            //$subs->rollover_pages = $subs->rollover_pages - $input['no_of_pages'];
             $subs->updated_at = now();
             $subs->save();
             $user = User::find($order->user_id);
