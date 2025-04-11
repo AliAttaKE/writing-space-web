@@ -2179,6 +2179,7 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
                         $new_page = (float)$order->number_of_pages + (float)$order_detail->page;
                         $order->number_of_pages = $new_page;
                         $order->deadline = $formattedDate;
+                        $order->no_of_extra_sources = $order->no_of_extra_sources + $order_detail->page;
                         $order->save();
                         $user = User::find($order->user_id);
                         $invoice = Invoice::create([
