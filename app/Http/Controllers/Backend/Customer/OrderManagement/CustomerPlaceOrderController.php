@@ -1798,7 +1798,7 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
 
             $randomNumber = mt_rand(100, 999);
             $transactionIdurl = $transactionId . $randomNumber;
-            dd('test');
+            
 
 
             $curl = curl_init();
@@ -1901,6 +1901,8 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
 
                         if ($orderdetailspk) {
                             $orderdetailspk->number_of_pages += $pages;
+                            $orderdetailspk->no_of_extra_sources += $pages;
+
                             $orderdetailspk->save();
                             $user1 = User::findOrFail($pay->user_id);
                             $currentSubs1 = User_Subscription::where('user_id', $user1->id)->first();
