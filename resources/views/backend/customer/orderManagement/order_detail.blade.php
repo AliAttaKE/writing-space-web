@@ -7480,7 +7480,7 @@ function modal_open122() {
                         alert('am going ');
                         modal_open112();
                     } else {
-                        alert('dfs');
+                       // alert('dfs');
                         Swal.fire({
                             title: 'Thank You for Choosing Us!',
                             text: 'Thank you for choosing our services! We noticed that your required pages exceed the remaining pages in your current package. To continue enjoying uninterrupted access, we invite you to consider purchasing additional pages. These will be available at the same rate as your original package purchase. We appreciate your support and look forward to continuing to serve you.',
@@ -7546,6 +7546,24 @@ function modal_open122() {
                         toastr.error('Pages number not given!');
                     }
                 }
+            }else{
+                Swal.fire({
+                            title: 'Thank You for Choosing Us!',
+                            text: 'Thank you for choosing our services! We noticed that your required pages exceed the remaining pages in your current package. To continue enjoying uninterrupted access, we invite you to consider purchasing additional pages. These will be available at the same rate as your original package purchase. We appreciate your support and look forward to continuing to serve you.',
+                            icon: 'info',
+                            confirmButtonText: 'Purchase More Pages',
+                            cancelButtonText: 'Cancel',
+                            showCancelButton: true,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            customClass: {
+                                popup: 'custom-swal-popup',
+                                title: 'custom-swal-title',
+                                htmlContainer: 'custom-swal-text',
+                                confirmButton: 'custom-swal-confirm-button',
+                                cancelButton: 'custom-swal-cancel-button'
+                            }
+                        });
             }
         },
         error: function (xhr, status, error) {
