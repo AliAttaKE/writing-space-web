@@ -2046,7 +2046,7 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
                     Auth::login($user);
 
 
-                    return redirect(APP_URL .'/customer/thankyou');
+                    return redirect(url('/customer/thankyou'));
                 }
             }
         } catch (\Exception $e) {
@@ -2558,7 +2558,7 @@ Mail::html($emailContent, function ($message) use ($user) {
                 $user = User::find($user_id);
                 Auth::login($user);
 
-                return redirect(APP_URL .'/customer/thankyou');
+                return redirect(url('/customer/thankyou'));
             }
         } else {
 
