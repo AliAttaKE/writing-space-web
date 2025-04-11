@@ -1913,7 +1913,7 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
                     }
                     $order_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
                     $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
-
+                    $receipt_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
                     $pakge = PakageLimit::first();
                     $remaining_pages =  $pakge->renaming - $pages;
                     $consum_pages = $pakge->consum + $pages;
@@ -2038,7 +2038,7 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
             <p>Writing Space</p>
         ";
         $subject = "Your Additional Pages Added to Order ID - $order_id";
-        $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
+        $this->send_invoice($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject);
         // Mail::html($emailContent, function ($message) use ($user, $order_id) {
         //     $message->to($user->email)
         //             ->subject('Confirmation of Additional Pages Added to Order ID - ' . $order_id);
