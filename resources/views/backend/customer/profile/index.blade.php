@@ -1536,7 +1536,7 @@
                                 if (response && response.sessionId) {
 
 
-                       // window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
+                        window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
 
 
                         } else {
