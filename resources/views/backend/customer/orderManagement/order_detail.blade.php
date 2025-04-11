@@ -7463,17 +7463,10 @@ function modal_open122() {
         url: "{{ route('pakage_limit.get') }}", // Ensure this route is correctly defined
         data: { totalSubscription: pages },
         success: function (response) {
-            if (response.success === 'Package limit exceeded') {
+            if (response.success === 'Package pages limit not exceeded') {
                // alert("The package's page limit has not been exceeded. You can continue using the service.");
               //  location.reload(); // Reload the page after the user dismisses the alert
                 // Stop further execution of the whole function
-                Swal.fire({
-                title: 'Success',
-                text: "The package's page limit has not been exceeded. You can continue using the service.",
-                icon: 'success',
-                confirmButtonText: 'OK',
-            });
-            location.reload();
                 return;
             }
         },
