@@ -1798,7 +1798,7 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
 
             $randomNumber = mt_rand(100, 999);
             $transactionIdurl = $transactionId . $randomNumber;
-
+            dd('test');
 
 
             $curl = curl_init();
