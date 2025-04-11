@@ -7458,28 +7458,28 @@ function modal_open122() {
     var pages = $('#pageCount').val();
 
     // AJAX call to check package limit
-    $.ajax({
-        type: 'GET', // Use uppercase for clarity
-        url: "{{ route('pakage_limit.get') }}", // Ensure this route is correctly defined
-        data: { totalSubscription: pages },
-        success: function (response) {
-            if (response.success === 'Package pages limit not exceeded') {
-               // alert("The package's page limit has not been exceeded. You can continue using the service.");
-              //  location.reload(); // Reload the page after the user dismisses the alert
-                // Stop further execution of the whole function
-                return;
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error("AJAX Error:", error); // Logs the error for debugging
-            Swal.fire({
-                title: 'Error',
-                text: "There was an issue processing your request. Please try again later.",
-                icon: 'error',
-                confirmButtonText: 'OK',
-            });
-        }
-    });
+    // $.ajax({
+    //     type: 'GET', // Use uppercase for clarity
+    //     url: "{{ route('pakage_limit.get') }}", // Ensure this route is correctly defined
+    //     data: { totalSubscription: pages },
+    //     success: function (response) {
+    //         if (response.success === 'Package pages limit not exceeded') {
+    //            // alert("The package's page limit has not been exceeded. You can continue using the service.");
+    //           //  location.reload(); // Reload the page after the user dismisses the alert
+    //             // Stop further execution of the whole function
+    //             return;
+    //         }
+    //     },
+    //     error: function (xhr, status, error) {
+    //         console.error("AJAX Error:", error); // Logs the error for debugging
+    //         Swal.fire({
+    //             title: 'Error',
+    //             text: "There was an issue processing your request. Please try again later.",
+    //             icon: 'error',
+    //             confirmButtonText: 'OK',
+    //         });
+    //     }
+    // });
 
     // Ensure this part of the code does not execute if the above condition is met
     if (!pageValidation) {
