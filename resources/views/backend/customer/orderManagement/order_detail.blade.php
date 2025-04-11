@@ -7477,7 +7477,7 @@ function modal_open122() {
                 if (selectedValue === 'currentpakage') {
                     if (pageValidationtotalCost >= pageValidation) {
                         // Open modal if the condition is met
-                        alert('am going ');
+                        //alert('am going ');
                         modal_open112();
                     } else {
                        // alert('dfs');

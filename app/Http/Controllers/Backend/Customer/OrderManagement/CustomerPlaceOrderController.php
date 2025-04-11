@@ -62,6 +62,7 @@ class CustomerPlaceOrderController extends Controller
             $remaining_pages =  $User_Subscription->remaining_pages - $request->page;
             $Orders = Orders::where('order_id', $request->order_id)->first();
             $Orders_pages = $Orders->number_of_pages + $request->page;
+            $Orders_pages = $Orders->no_of_extra_sources + $request->page;
             $Orders->update(['number_of_pages' => $Orders_pages, 'deadline' => $request->deadline]);
             $User_Subscription->update(['remaining_pages' => $remaining_pages]);
 
