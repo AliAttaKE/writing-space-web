@@ -77,7 +77,8 @@ class PakageLimitController extends Controller
         $paper = PakageLimit::first();
 
 
-       $sub_check = $subs->remaining_rollover_pages - $subs->rollover_pages;
+       //$sub_check = $subs->remaining_rollover_pages - $subs->rollover_pages;
+       $sub_check = $subs->rollover_pages;
 
 
             if ($paper->renaming > $request->totalSubscription) {

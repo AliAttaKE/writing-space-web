@@ -1884,7 +1884,7 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
 
                     $currentSubs->total_pages += $pages;
                     $currentSubs->remaining_pages += $pages;
-                    $currentSubs->rollover_pages += $pages;
+                    $currentSubs->rollover_pages -= $pages;
                     $currentSubs->save();
 
 
@@ -2037,11 +2037,12 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
             <p>Customer Success Team</p>
             <p>Writing Space</p>
         ";
-
-        Mail::html($emailContent, function ($message) use ($user, $order_id) {
-            $message->to($user->email)
-                    ->subject('Confirmation of Additional Pages Added to Order ID - ' . $order_id);
-        });
+        $subject = "Your Additional Pages Added to Order ID - $order_id";
+        $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
+        // Mail::html($emailContent, function ($message) use ($user, $order_id) {
+        //     $message->to($user->email)
+        //             ->subject('Confirmation of Additional Pages Added to Order ID - ' . $order_id);
+        // });
 
                     Auth::login($user);
 
