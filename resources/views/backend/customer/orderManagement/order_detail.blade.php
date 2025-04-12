@@ -7453,17 +7453,17 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 <script>
 
 function modal_open122() {
-    let pageValidation = document.getElementById("pageCount").value;
+    let page_add = document.getElementById("pageCount").value;
 
     var pages = $('#pageCount').val();
     if (!pageValidation) {
         alert("Please fill the Add More Pages field");
         return; // Prevent further execution if validation fails
     }
-    let pageValidationtotalCost = $('#totalCost1').val();
+    let page_remaining = $('#totalCost1').val();
     var selectedValue = getSelectedRadioButtonValue();
     if (selectedValue === 'currentpakage') {
-        if (pageValidation <= pageValidationtotalCost) {
+                    if (page_add <= page_remaining) {
                         // Open modal if the condition is met
                         //alert('am going ');
                         modal_open112();
@@ -7505,7 +7505,7 @@ function modal_open122() {
 
 
 
-        if (pageValidation && pageValidation != null) {
+
 
             $.ajax({
                 type: 'GET', // Use uppercase for clarity
@@ -7543,9 +7543,7 @@ function modal_open122() {
                     }
                 }
             });
-        } else {
-            toastr.error('Pages number not given!');
-        }
+
     }
     // AJAX call to check package limit
 
