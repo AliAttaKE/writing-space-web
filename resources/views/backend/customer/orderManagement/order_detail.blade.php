@@ -7463,7 +7463,7 @@ function modal_open122() {
     let pageValidationtotalCost = $('#totalCost1').val();
     var selectedValue = getSelectedRadioButtonValue();
     if (selectedValue === 'currentpakage') {
-        if (pageValidation >= pageValidationtotalCost) {
+        if (pageValidation <= pageValidationtotalCost) {
                         // Open modal if the condition is met
                         //alert('am going ');
                         modal_open112();
