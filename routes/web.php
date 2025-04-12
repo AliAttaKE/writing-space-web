@@ -487,6 +487,8 @@ Route::post('/sign-up-process', [IndexController::class, 'customCUstomerRegistra
 Route::get('/verify-account/{verify_code}', [IndexController::class, 'accountVerify'])->name('front.verify.account');
 
 Route::get('/pakage_limit_total', [PakageLimitController::class, 'get'])->name('pakage_limit.get');
+Route::get('/pakage_limit_total_rollover', [PakageLimitController::class, 'get_rollover'])->name('pakage_limit.get.rollover');
+
 Route::get('/pakage_limit_total_pakg_pur', [PakageLimitController::class, 'get_pkg'])->name('pakage_limit.get_pkg_pur');
 
 

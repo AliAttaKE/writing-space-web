@@ -1184,7 +1184,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																						<div class="form-check mt-4">
 																							<input class="form-check-input radiobuttonpayment" value="cardpakage" type="radio" name="flexRadioDefault" id="flexRadioDefault2"  checked>
 																							<label class="form-check-label text-white" for="flexRadioDefault2">
-																								Purchase <span class="RequiredPages">0</span> Additional Pages (Pages Remaining in Your Package: <span class="RemainingPages">0</span>)Total $<span id="totalcostreq">0</span> (Per Page $<span id="pakg_cost_per_page">{{$order->cost_per_page}}</span>)
+																								Purchase <span class="RequiredPages">0</span> Additional Pages (Additional Pages Available for Purchase: <span class="RemainingPages">0</span>)Total $<span id="totalcostreq">0</span> (Per Page $<span id="pakg_cost_per_page">{{$order->cost_per_page}}</span>)
 																							</label>
 
 
@@ -7499,7 +7499,8 @@ function modal_open122() {
                             }
                         });
                     }
-                } else {
+                }
+                else {
                     // Handle case for other selected value
                     localStorage.setItem('no_of_page', pageValidation);
 
@@ -7520,28 +7521,53 @@ function modal_open122() {
 
                     if (pageValidation && pageValidation != null) {
 
-
-                        var url2 = '{{ route('customer.checkout') }}';
                         $.ajax({
-                            type: 'GET',
-                            url: url2,
+                            type: 'GET', // Use uppercase for clarity
+                            url: "{{ route('pakage_limit.get.rollover') }}", // Ensure this route is correctly defined
+                            data: { totalSubscription: pages },
                             success: function (response) {
-                                console.log(response.sessionId);
+                                if (response.success === 'Package Rollover pages limit not exceeded') {
+                                    var url2 = '{{ route('customer.checkout') }}';
+                                    $.ajax({
+                                        type: 'GET',
+                                        url: url2,
+                                        success: function (response) {
+                                            console.log(response.sessionId);
 
 
-                                if (response && response.sessionId) {
-                                    // Redirect to the specified route with the sessionId
-                                    window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
-                                } else {
-                                    console.error('Invalid response format or missing sessionId.');
-                                }
-                            },
-                            error: function (error) {
-                                // Handle any errors here
-                                window.location.href = '{{ route("login") }}';
-                                console.error(error);
-                            }
+                                            if (response && response.sessionId) {
+                                                // Redirect to the specified route with the sessionId
+                                                window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
+                                            } else {
+                                                console.error('Invalid response format or missing sessionId.');
+                                            }
+                                        },
+                                        error: function (error) {
+                                            // Handle any errors here
+                                            window.location.href = '{{ route("login") }}';
+                                            console.error(error);
+                                        }
+                                    });
+                                }else{
+                                    Swal.fire({
+                                        title: 'Thank You for Choosing Us!',
+                                        text: 'Thank you for choosing our services! We noticed that your required pages exceed the remaining pages in your current package. To continue enjoying uninterrupted access, we invite you to consider purchasing additional pages. These will be available at the same rate as your original package purchase. We appreciate your support and look forward to continuing to serve you.',
+                                        icon: 'info',
+                                        confirmButtonText: 'Purchase More Pages',
+                                        cancelButtonText: 'Cancel',
+                                        showCancelButton: true,
+                                        allowOutsideClick: false,
+                                        allowEscapeKey: false,
+                                        customClass: {
+                                            popup: 'custom-swal-popup',
+                                            title: 'custom-swal-title',
+                                            htmlContainer: 'custom-swal-text',
+                                            confirmButton: 'custom-swal-confirm-button',
+                                            cancelButton: 'custom-swal-cancel-button'
+                                        }
                         });
+
+                                }
                     } else {
                         toastr.error('Pages number not given!');
                     }
@@ -7578,7 +7604,7 @@ function modal_open122() {
     });
 
     // Ensure this part of the code does not execute if the above condition is met
-    
+
 
 
 }

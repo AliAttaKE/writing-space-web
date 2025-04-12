@@ -86,6 +86,49 @@ class PakageLimitController extends Controller
 
 
 
+                 return response()->json(['success' => 'Package Rollover pages limit not exceeded'], 200);
+                } else {
+
+                    return response()->json(['success' => 'Package Rollover pages limit exceeded','remaining'=>$sub_check], 200);
+                }
+
+            } else {
+
+                return response()->json(['success' => 'Package limit not exceeded'], 200);
+            }
+
+
+
+        return response()->json(['success' => 'Package Limit']);
+    } catch (\Exception $e) {
+        // Return an error response if something goes wrong during creation
+        return response()->json(['error' => 'Oops! Something went wrong'], 500);
+    }
+}
+
+public function get_rollover(Request $request)
+{
+    try {
+
+
+         $user = Auth::user();
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $subs = User_Subscription::where('user_id', $user->id)->first();
+        $paper = PakageLimit::first();
+
+
+       $sub_check =  $subs->rollover_pages;
+       //$sub_check = $subs->remaining_pages;
+
+
+            if ($paper->renaming > $request->totalSubscription) {
+                if ($sub_check >= $request->totalSubscription) {
+
+
+
                  return response()->json(['success' => 'Package pages limit not exceeded'], 200);
                 } else {
 
@@ -105,7 +148,6 @@ class PakageLimitController extends Controller
         return response()->json(['error' => 'Oops! Something went wrong'], 500);
     }
 }
-
 
 
   public function get_pkg(Request $request)
