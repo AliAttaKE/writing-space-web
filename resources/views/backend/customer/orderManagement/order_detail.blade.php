@@ -1184,7 +1184,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																						<div class="form-check mt-4">
 																							<input class="form-check-input radiobuttonpayment" value="cardpakage" type="radio" name="flexRadioDefault" id="flexRadioDefault2"  checked>
 																							<label class="form-check-label text-white" for="flexRadioDefault2">
-																								Purchase <span class="RequiredPages">0</span> Additional Pages (Additional Pages Available for Purchase: <span class="RemainingPages">0</span>)Total $<span id="totalcostreq">0</span> (Per Page $<span id="pakg_cost_per_page">{{$order->cost_per_page}}</span>)
+																								Purchase <span class="RequiredPages">0</span> Additional Pages (Additional Pages Available for Purchase: <span class="rollover">0</span>)Total $<span id="totalcostreq">0</span> (Per Page $<span id="pakg_cost_per_page">{{$order->cost_per_page}}</span>)
 																							</label>
 
 
@@ -8424,9 +8424,12 @@ function submit_payment() {
 @if ($used_subscription)
 	var total_pages = {{ $used_subscription->total_pages ?? 0 }};
 	var remaining_pages = {{ $used_subscription->remaining_pages ?? 0 }};
+    var rollover_pages = {{ $used_subscription->remaining_pages ?? 0 }};
 
 	var RequiredPagesRemainingPages =  remaining_pages;
 	$('.RemainingPages').text(RequiredPagesRemainingPages);
+    $('.rollover').text(rollover_pages8);
+
 @else
 	$('.RemainingPages').text('N/A');
 @endif
