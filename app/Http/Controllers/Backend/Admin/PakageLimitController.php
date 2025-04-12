@@ -120,7 +120,7 @@ public function get_rollover(Request $request)
         $paper = PakageLimit::first();
 
 
-       $sub_check = $subs->remaining_rollover_pages - $subs->rollover_pages;
+       $sub_check = $subs->rollover_pages;
        //$sub_check = $subs->remaining_pages;
 
 
