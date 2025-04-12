@@ -7456,7 +7456,7 @@ function modal_open122() {
     let page_add = document.getElementById("pageCount").value;
 
     var pages = $('#pageCount').val();
-    if (!pageValidation) {
+    if (!page_add) {
         alert("Please fill the Add More Pages field");
         return; // Prevent further execution if validation fails
     }
