@@ -7460,22 +7460,10 @@ function modal_open122() {
         alert("Please fill the Add More Pages field");
         return; // Prevent further execution if validation fails
     }
-    // AJAX call to check package limit
-    $.ajax({
-        type: 'GET', // Use uppercase for clarity
-        url: "{{ route('pakage_limit.get') }}", // Ensure this route is correctly defined
-        data: { totalSubscription: pages },
-        success: function (response) {
-            if (response.success === 'Package pages limit not exceeded') {
-               // alert("The package's page limit has not been exceeded. You can continue using the service.");
-              //  location.reload(); // Reload the page after the user dismisses the alert
-                // Stop further execution of the whole function
-                let pageValidationtotalCost = $('#totalCost1').val();
-                var selectedValue = getSelectedRadioButtonValue();
-                console.log("Selected value:", pageValidationtotalCost +' > '+ pageValidation);
-
-                if (selectedValue === 'currentpakage') {
-                    if (pageValidationtotalCost >= pageValidation) {
+    let pageValidationtotalCost = $('#totalCost1').val();
+    var selectedValue = getSelectedRadioButtonValue();
+    if (selectedValue === 'currentpakage') {
+        if (pageValidation >= pageValidationtotalCost) {
                         // Open modal if the condition is met
                         //alert('am going ');
                         modal_open112();
@@ -7499,168 +7487,68 @@ function modal_open122() {
                             }
                         });
                     }
-                }
-                else {
-                    // Handle case for other selected value
-                    localStorage.setItem('no_of_page', pageValidation);
+    }else{
+        localStorage.setItem('no_of_page', pageValidation);
 
-                    var used_package = $('#used_package_id').val();
-                    localStorage.setItem('used_package_id', used_package);
+        var used_package = $('#used_package_id').val();
+        localStorage.setItem('used_package_id', used_package);
 
-                    var packageid = $('#package_id').val();
-                    localStorage.setItem('package_id', packageid);
+        var packageid = $('#package_id').val();
+        localStorage.setItem('package_id', packageid);
 
-                    var cost_perpage = $('#cost_per_page').val();
-                    localStorage.setItem('cost_per_page', cost_perpage);
+        var cost_perpage = $('#cost_per_page').val();
+        localStorage.setItem('cost_per_page', cost_perpage);
 
-                    var order_id = {{$order->order_id}};
-                    localStorage.setItem('order_id', order_id);
+        var order_id = {{$order->order_id}};
+        localStorage.setItem('order_id', order_id);
 
 
 
 
-                    if (pageValidation && pageValidation != null) {
+        if (pageValidation && pageValidation != null) {
 
+            $.ajax({
+                type: 'GET', // Use uppercase for clarity
+                url: "{{ route('pakage_limit.get.rollover') }}", // Ensure this route is correctly defined
+                data: { totalSubscription: pages },
+                success: function (response) {
+                    if (response.success === 'Package Rollover pages limit not exceeded') {
+                        var url2 = '{{ route('customer.checkout') }}';
                         $.ajax({
-                            type: 'GET', // Use uppercase for clarity
-                            url: "{{ route('pakage_limit.get.rollover') }}", // Ensure this route is correctly defined
-                            data: { totalSubscription: pages },
+                            type: 'GET',
+                            url: url2,
                             success: function (response) {
-                                if (response.success === 'Package Rollover pages limit not exceeded') {
-                                    var url2 = '{{ route('customer.checkout') }}';
-                                    $.ajax({
-                                        type: 'GET',
-                                        url: url2,
-                                        success: function (response) {
-                                            console.log(response.sessionId);
+                                console.log(response.sessionId);
 
 
-                                            if (response && response.sessionId) {
-                                                // Redirect to the specified route with the sessionId
-                                                window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
-                                            } else {
-                                                console.error('Invalid response format or missing sessionId.');
-                                            }
-                                        },
-                                        error: function (error) {
-                                            // Handle any errors here
-                                            window.location.href = '{{ route("login") }}';
-                                            console.error(error);
-                                        }
-                                    });
-                                }else if (response.success === 'Package Rollover pages limit exceeded') {
-                                    //alert("The package's page limit has not been exceeded. You can continue using the service.");
-                                    Swal.fire('Error', 'You can only purchase up to '+ response.remaining +' pages. Please enter a valid number.', 'error');
-                                }else {
-                        //alert("Message for new customer when we do not have capacity:Thank you for your interest in our services! We are currently at full capacity and unable to take new subscriptions at this moment. Please leave your email with us, and we'll notify you as soon as slots become available. We appreciate your understanding and look forward to serving you in the future.");
-                                        Swal.fire('Success', 'We’re currently unable to add additional pages to your package. For assistance or alternative options, please contact our support team—we’re happy to help!', 'info');
+                                if (response && response.sessionId) {
+                                    // Redirect to the specified route with the sessionId
+                                    window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
+                                } else {
+                                    console.error('Invalid response format or missing sessionId.');
                                 }
+                            },
+                            error: function (error) {
+                                // Handle any errors here
+                                window.location.href = '{{ route("login") }}';
+                                console.error(error);
                             }
                         });
-                    } else {
-                        toastr.error('Pages number not given!');
+                    }else if (response.success === 'Package Rollover pages limit exceeded') {
+                        //alert("The package's page limit has not been exceeded. You can continue using the service.");
+                        Swal.fire('Error', 'You can only purchase up to '+ response.remaining +' pages. Please enter a valid number.', 'error');
+                    }else {
+            //alert("Message for new customer when we do not have capacity:Thank you for your interest in our services! We are currently at full capacity and unable to take new subscriptions at this moment. Please leave your email with us, and we'll notify you as soon as slots become available. We appreciate your understanding and look forward to serving you in the future.");
+                            Swal.fire('Success', 'We’re currently unable to add additional pages to your package. For assistance or alternative options, please contact our support team—we’re happy to help!', 'info');
                     }
                 }
-            }else{
-                if (selectedValue === 'currentpakage') {
-                    if (pageValidationtotalCost >= pageValidation) {
-                        // Open modal if the condition is met
-                        //alert('am going ');
-                        modal_open112();
-                    } else {
-                       // alert('dfs');
-                        Swal.fire({
-                            title: 'Thank You for Choosing Us!',
-                            text: 'Thank you for choosing our services! We noticed that your required pages exceed the remaining pages in your current package. To continue enjoying uninterrupted access, we invite you to consider purchasing additional pages. These will be available at the same rate as your original package purchase. We appreciate your support and look forward to continuing to serve you.',
-                            icon: 'info',
-                            confirmButtonText: 'Purchase More Pages',
-                            cancelButtonText: 'Cancel',
-                            showCancelButton: true,
-                            allowOutsideClick: false,
-                            allowEscapeKey: false,
-                            customClass: {
-                                popup: 'custom-swal-popup',
-                                title: 'custom-swal-title',
-                                htmlContainer: 'custom-swal-text',
-                                confirmButton: 'custom-swal-confirm-button',
-                                cancelButton: 'custom-swal-cancel-button'
-                            }
-                        });
-                    }
-                }
-                else {
-                    // Handle case for other selected value
-                    localStorage.setItem('no_of_page', pageValidation);
-
-                    var used_package = $('#used_package_id').val();
-                    localStorage.setItem('used_package_id', used_package);
-
-                    var packageid = $('#package_id').val();
-                    localStorage.setItem('package_id', packageid);
-
-                    var cost_perpage = $('#cost_per_page').val();
-                    localStorage.setItem('cost_per_page', cost_perpage);
-
-                    var order_id = {{$order->order_id}};
-                    localStorage.setItem('order_id', order_id);
-
-
-
-
-                    if (pageValidation && pageValidation != null) {
-
-                        $.ajax({
-                            type: 'GET', // Use uppercase for clarity
-                            url: "{{ route('pakage_limit.get.rollover') }}", // Ensure this route is correctly defined
-                            data: { totalSubscription: pages },
-                            success: function (response) {
-                                if (response.success === 'Package Rollover pages limit not exceeded') {
-                                    var url2 = '{{ route('customer.checkout') }}';
-                                    $.ajax({
-                                        type: 'GET',
-                                        url: url2,
-                                        success: function (response) {
-                                            console.log(response.sessionId);
-
-
-                                            if (response && response.sessionId) {
-                                                // Redirect to the specified route with the sessionId
-                                                window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
-                                            } else {
-                                                console.error('Invalid response format or missing sessionId.');
-                                            }
-                                        },
-                                        error: function (error) {
-                                            // Handle any errors here
-                                            window.location.href = '{{ route("login") }}';
-                                            console.error(error);
-                                        }
-                                    });
-                                }else if (response.success === 'Package Rollover pages limit exceeded') {
-                                    //alert("The package's page limit has not been exceeded. You can continue using the service.");
-                                    Swal.fire('Error', 'You can only purchase up to '+ response.remaining +' pages. Please enter a valid number.', 'error');
-                                }else {
-                        //alert("Message for new customer when we do not have capacity:Thank you for your interest in our services! We are currently at full capacity and unable to take new subscriptions at this moment. Please leave your email with us, and we'll notify you as soon as slots become available. We appreciate your understanding and look forward to serving you in the future.");
-                                        Swal.fire('Success', 'We’re currently unable to add additional pages to your package. For assistance or alternative options, please contact our support team—we’re happy to help!', 'info');
-                                }
-                            }
-                        });
-                    } else {
-                        toastr.error('Pages number not given!');
-                    }
-                }
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error("AJAX Error:", error); // Logs the error for debugging
-            Swal.fire({
-                title: 'Error',
-                text: "There was an issue processing your request. Please try again later.",
-                icon: 'error',
-                confirmButtonText: 'OK',
             });
+        } else {
+            toastr.error('Pages number not given!');
         }
-    });
+    }
+    // AJAX call to check package limit
+
 
     // Ensure this part of the code does not execute if the above condition is met
 
@@ -8424,7 +8312,7 @@ function submit_payment() {
 @if ($used_subscription)
 	var total_pages = {{ $used_subscription->total_pages ?? 0 }};
 	var remaining_pages = {{ $used_subscription->remaining_pages ?? 0 }};
-    var rollover_pages = {{ $used_subscription->remaining_pages ?? 0 }};
+    var rollover_pages = {{ $used_subscription->rollover_pages ?? 0 }};
 
 	var RequiredPagesRemainingPages =  remaining_pages;
 	$('.RemainingPages').text(RequiredPagesRemainingPages);
