@@ -7488,7 +7488,7 @@ function modal_open122() {
                         });
                     }
     }else{
-        localStorage.setItem('no_of_page', pageValidation);
+        localStorage.setItem('no_of_page', page_add);
 
         var used_package = $('#used_package_id').val();
         localStorage.setItem('used_package_id', used_package);
