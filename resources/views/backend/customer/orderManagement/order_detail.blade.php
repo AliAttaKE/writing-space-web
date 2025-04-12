@@ -8316,7 +8316,7 @@ function submit_payment() {
 
 	var RequiredPagesRemainingPages =  remaining_pages;
 	$('.RemainingPages').text(RequiredPagesRemainingPages);
-    $('.rollover').text(rollover_pages8);
+    $('.rollover').text(rollover_pages);
 
 @else
 	$('.RemainingPages').text('N/A');
