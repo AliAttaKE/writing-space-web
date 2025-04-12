@@ -7555,12 +7555,21 @@ function modal_open122() {
                         //alert("Message for new customer when we do not have capacity:Thank you for your interest in our services! We are currently at full capacity and unable to take new subscriptions at this moment. Please leave your email with us, and we'll notify you as soon as slots become available. We appreciate your understanding and look forward to serving you in the future.");
                                         Swal.fire('Success', 'We’re currently unable to add additional pages to your package. For assistance or alternative options, please contact our support team—we’re happy to help!', 'info');
                                 }
+                            }
+                        });
                     } else {
                         toastr.error('Pages number not given!');
                     }
                 }
             }else{
-                Swal.fire({
+                if (selectedValue === 'currentpakage') {
+                    if (pageValidationtotalCost >= pageValidation) {
+                        // Open modal if the condition is met
+                        //alert('am going ');
+                        modal_open112();
+                    } else {
+                       // alert('dfs');
+                        Swal.fire({
                             title: 'Thank You for Choosing Us!',
                             text: 'Thank you for choosing our services! We noticed that your required pages exceed the remaining pages in your current package. To continue enjoying uninterrupted access, we invite you to consider purchasing additional pages. These will be available at the same rate as your original package purchase. We appreciate your support and look forward to continuing to serve you.',
                             icon: 'info',
@@ -7577,6 +7586,69 @@ function modal_open122() {
                                 cancelButton: 'custom-swal-cancel-button'
                             }
                         });
+                    }
+                }
+                else {
+                    // Handle case for other selected value
+                    localStorage.setItem('no_of_page', pageValidation);
+
+                    var used_package = $('#used_package_id').val();
+                    localStorage.setItem('used_package_id', used_package);
+
+                    var packageid = $('#package_id').val();
+                    localStorage.setItem('package_id', packageid);
+
+                    var cost_perpage = $('#cost_per_page').val();
+                    localStorage.setItem('cost_per_page', cost_perpage);
+
+                    var order_id = {{$order->order_id}};
+                    localStorage.setItem('order_id', order_id);
+
+
+
+
+                    if (pageValidation && pageValidation != null) {
+
+                        $.ajax({
+                            type: 'GET', // Use uppercase for clarity
+                            url: "{{ route('pakage_limit.get.rollover') }}", // Ensure this route is correctly defined
+                            data: { totalSubscription: pages },
+                            success: function (response) {
+                                if (response.success === 'Package Rollover pages limit not exceeded') {
+                                    var url2 = '{{ route('customer.checkout') }}';
+                                    $.ajax({
+                                        type: 'GET',
+                                        url: url2,
+                                        success: function (response) {
+                                            console.log(response.sessionId);
+
+
+                                            if (response && response.sessionId) {
+                                                // Redirect to the specified route with the sessionId
+                                                window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
+                                            } else {
+                                                console.error('Invalid response format or missing sessionId.');
+                                            }
+                                        },
+                                        error: function (error) {
+                                            // Handle any errors here
+                                            window.location.href = '{{ route("login") }}';
+                                            console.error(error);
+                                        }
+                                    });
+                                }else if (response.success === 'Package Rollover pages limit exceeded') {
+                                    //alert("The package's page limit has not been exceeded. You can continue using the service.");
+                                    Swal.fire('Error', 'You can only purchase up to '+ response.remaining +' pages. Please enter a valid number.', 'error');
+                                }else {
+                        //alert("Message for new customer when we do not have capacity:Thank you for your interest in our services! We are currently at full capacity and unable to take new subscriptions at this moment. Please leave your email with us, and we'll notify you as soon as slots become available. We appreciate your understanding and look forward to serving you in the future.");
+                                        Swal.fire('Success', 'We’re currently unable to add additional pages to your package. For assistance or alternative options, please contact our support team—we’re happy to help!', 'info');
+                                }
+                            }
+                        });
+                    } else {
+                        toastr.error('Pages number not given!');
+                    }
+                }
             }
         },
         error: function (xhr, status, error) {
