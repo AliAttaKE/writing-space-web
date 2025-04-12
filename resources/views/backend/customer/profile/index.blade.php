@@ -1490,87 +1490,85 @@
 
                                 $.ajax({
                 type: 'get',
-                url: "{{ route('pakage_limit.get') }}",
+                url: "{{ route('pakage_limit.get.rollover') }}",
                 data: { totalSubscription: pages },
                 success: function (response) {
 
 
-                    if (response.success === 'Package limit exceeded') {
+                    if (response.success === 'Package Rollover pages limit not exceeded') {
                         console.log("Package limit exceeded");
 
                           localStorage.setItem('no_of_page', pages);
 
                         var used_package = $('#used_package_id').val();
-                localStorage.setItem('used_package_id', used_package);
+                            localStorage.setItem('used_package_id', used_package);
 
-                        var packageid = $('#package_id').val();
-                localStorage.setItem('package_id', packageid);
+                                    var packageid = $('#package_id').val();
+                            localStorage.setItem('package_id', packageid);
 
-                        var cost_perpage = $('#cost_per_page').val();
-                localStorage.setItem('cost_per_page', cost_perpage);
-
-
-
-                console.log(pages);
-
-                if(pages && pages != null)
-                {
-                    $("#add_pages_modal").modal('hide');
-                    // $("#payment_modal").modal('show');
-
-                     var url2 = '{{ route('customer.checkout') }}';
-                $.ajax({
-                    type: 'GET',
-                    url: url2,
-
-                    // Assuming id is a parameter you want to send
-                    success: function(response) {
-                       console.log(response.sessionId);
-
-
-                        let idgetsession = response.sessionId;
-
-
-                        Swal.fire('Success', 'Add Payment Details!', 'success');
-
-                                if (response && response.sessionId) {
-
-
-                        window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
-
-
-                        } else {
-                        console.error('Invalid response format or missing sessionId.');
-                        }
-
-
-                    },
-
-                    error: function(error) {
-                      window.location.href = '{{ route("login") }}';
-                        console.error(error);
-                    }
-                });
-
-
-                }else{
-                    toastr.error('pages number not given!');
-                }
+                                    var cost_perpage = $('#cost_per_page').val();
+                            localStorage.setItem('cost_per_page', cost_perpage);
 
 
 
-                    } else if (response.success === 'Package limit not exceeded') {
-                    //alert("Message for new customer when we do not have capacity:Thank you for your interest in our services! We are currently at full capacity and unable to take new subscriptions at this moment. Please leave your email with us, and we'll notify you as soon as slots become available. We appreciate your understanding and look forward to serving you in the future.");
-                    Swal.fire('Success', 'We’re currently unable to add additional pages to your package. For assistance or alternative options, please contact our support team—we’re happy to help!', 'info');
+                            console.log(pages);
+
+                            if(pages && pages != null)
+                            {
+                                $("#add_pages_modal").modal('hide');
+                                // $("#payment_modal").modal('show');
+
+                                var url2 = '{{ route('customer.checkout') }}';
+                                $.ajax({
+                                    type: 'GET',
+                                    url: url2,
+
+                                // Assuming id is a parameter you want to send
+                                    success: function(response) {
+                                    console.log(response.sessionId);
+
+
+                                    let idgetsession = response.sessionId;
+
+
+                                    Swal.fire('Success', 'Add Payment Details!', 'success');
+
+                                            if (response && response.sessionId) {
+
+
+                                    window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
+
+
+                                    } else {
+                                    console.error('Invalid response format or missing sessionId.');
+                                    }
+
+
+                                        },
+
+                                        error: function(error) {
+                                        window.location.href = '{{ route("login") }}';
+                                            console.error(error);
+                                        }
+                                    });
+
+
+                            }else{
+                                toastr.error('pages number not given!');
+                            }
+
+
+
                     }
 
-                    else if (response.success === 'Package pages limit not exceeded') {
-                  //alert("The package's page limit has not been exceeded. You can continue using the service.");
-                  Swal.fire('Error', 'You can only purchase up to '+ response.remaining +' pages. Please enter a valid number.', 'error');
+
+                    else if (response.success === 'Package Rollover pages limit exceeded') {
+                        //alert("The package's page limit has not been exceeded. You can continue using the service.");
+                        Swal.fire('Error', 'You can only purchase up to '+ response.remaining +' pages. Please enter a valid number.', 'error');
                     }
                     else {
-                        console.log("An unexpected error occurred");
-
+                        //alert("Message for new customer when we do not have capacity:Thank you for your interest in our services! We are currently at full capacity and unable to take new subscriptions at this moment. Please leave your email with us, and we'll notify you as soon as slots become available. We appreciate your understanding and look forward to serving you in the future.");
+                        Swal.fire('Success', 'We’re currently unable to add additional pages to your package. For assistance or alternative options, please contact our support team—we’re happy to help!', 'info');
                     }
                 },
                 error: function (error) {

@@ -7548,25 +7548,12 @@ function modal_open122() {
                                             console.error(error);
                                         }
                                     });
-                                }else{
-                                    Swal.fire({
-                                        title: 'Thank You for Choosing Us!',
-                                        text: 'Thank you for choosing our services! We noticed that your required pages exceed the remaining pages in your current package. To continue enjoying uninterrupted access, we invite you to consider purchasing additional pages. These will be available at the same rate as your original package purchase. We appreciate your support and look forward to continuing to serve you.',
-                                        icon: 'info',
-                                        confirmButtonText: 'Purchase More Pages',
-                                        cancelButtonText: 'Cancel',
-                                        showCancelButton: true,
-                                        allowOutsideClick: false,
-                                        allowEscapeKey: false,
-                                        customClass: {
-                                            popup: 'custom-swal-popup',
-                                            title: 'custom-swal-title',
-                                            htmlContainer: 'custom-swal-text',
-                                            confirmButton: 'custom-swal-confirm-button',
-                                            cancelButton: 'custom-swal-cancel-button'
-                                        }
-                        });
-
+                                }else if (response.success === 'Package Rollover pages limit exceeded') {
+                                    //alert("The package's page limit has not been exceeded. You can continue using the service.");
+                                    Swal.fire('Error', 'You can only purchase up to '+ response.remaining +' pages. Please enter a valid number.', 'error');
+                                }else {
+                        //alert("Message for new customer when we do not have capacity:Thank you for your interest in our services! We are currently at full capacity and unable to take new subscriptions at this moment. Please leave your email with us, and we'll notify you as soon as slots become available. We appreciate your understanding and look forward to serving you in the future.");
+                                        Swal.fire('Success', 'We’re currently unable to add additional pages to your package. For assistance or alternative options, please contact our support team—we’re happy to help!', 'info');
                                 }
                     } else {
                         toastr.error('Pages number not given!');

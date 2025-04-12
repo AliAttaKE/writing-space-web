@@ -86,10 +86,10 @@ class PakageLimitController extends Controller
 
 
 
-                 return response()->json(['success' => 'Package Rollover pages limit not exceeded'], 200);
+                 return response()->json(['success' => 'Package pages limit not exceeded'], 200);
                 } else {
 
-                    return response()->json(['success' => 'Package Rollover pages limit exceeded','remaining'=>$sub_check], 200);
+                    return response()->json(['success' => 'Package limit exceeded','remaining'=>$sub_check], 200);
                 }
 
             } else {
@@ -120,7 +120,7 @@ public function get_rollover(Request $request)
         $paper = PakageLimit::first();
 
 
-       $sub_check =  $subs->rollover_pages;
+       $sub_check = $subs->remaining_rollover_pages - $subs->rollover_pages;
        //$sub_check = $subs->remaining_pages;
 
 
@@ -129,15 +129,14 @@ public function get_rollover(Request $request)
 
 
 
-                 return response()->json(['success' => 'Package pages limit not exceeded'], 200);
+                    return response()->json(['success' => 'Package Rollover pages limit not exceeded'], 200);
                 } else {
 
-                    return response()->json(['success' => 'Package limit exceeded','remaining'=>$sub_check], 200);
+                    return response()->json(['success' => 'Package Rollover pages limit exceeded','remaining'=>$sub_check], 200);
                 }
-
             } else {
 
-                return response()->json(['success' => 'Package limit not exceeded'], 200);
+                return response()->json(['success' => 'Error'], 200);
             }
 
 
