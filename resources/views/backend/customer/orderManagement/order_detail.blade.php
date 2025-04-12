@@ -7453,14 +7453,14 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 <script>
 
 function modal_open122() {
-    let page_add = document.getElementById("pageCount").value;
+    let page_add = Number(document.getElementById("pageCount").value);
 
     var pages = $('#pageCount').val();
     if (!page_add) {
         alert("Please fill the Add More Pages field");
         return; // Prevent further execution if validation fails
     }
-    let page_remaining = $('#totalCost1').val();
+    let page_remaining = Number($('#totalCost1').val());
     var selectedValue = getSelectedRadioButtonValue();
  
     if (selectedValue === 'currentpakage') {
