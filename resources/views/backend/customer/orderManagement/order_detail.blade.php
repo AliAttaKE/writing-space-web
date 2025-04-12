@@ -7462,7 +7462,9 @@ function modal_open122() {
     }
     let page_remaining = $('#totalCost1').val();
     var selectedValue = getSelectedRadioButtonValue();
+ 
     if (selectedValue === 'currentpakage') {
+        alert(page_add <= page_remaining);
                     if (page_add <= page_remaining) {
                         // Open modal if the condition is met
                         //alert('am going ');
