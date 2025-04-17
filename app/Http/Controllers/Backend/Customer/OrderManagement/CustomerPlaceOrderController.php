@@ -2638,13 +2638,15 @@ Mail::html($emailContent, function ($message) use ($user) {
             $subsDetails = User_Subscription::where('user_id', $user_id)->first();
             $subscribed = $subsDetails->user_id ?? '';
 
-      dd($subscribed , $subsDetails->rollover_pages, $subsDetails->remaining_pages);
-            if ($subscribed && $subsDetails->remaining_pages != 0) {
-                if ($subscribed && $subsDetails->rollover_pages != 0) {
+     // dd($subscribed , $subsDetails->rollover_pages, $subsDetails->remaining_pages);
+
+     $totalPages = $subsDetails->remaining_pages + $subsDetails->rollover_pages;
+            if ($subscribed && $totalPages > 0) {
+               
                     $subsDetailsamount = Subscription::where('id', $subsDetails->subscription_id)->first();
                     $cost_per_page = $subsDetailsamount->cost_per_page;
                     return view('backend.customer.orderManagement.custom_place_order', compact('Languages','used_subscription','Addons', 'pricing', 'subjects', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails', 'cost_per_page'));
-                }
+                
             }
         }
         $subscribed = null;
