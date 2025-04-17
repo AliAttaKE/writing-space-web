@@ -2637,6 +2637,8 @@ Mail::html($emailContent, function ($message) use ($user) {
             $user_id = Auth::user()->id;
             $subsDetails = User_Subscription::where('user_id', $user_id)->first();
             $subscribed = $subsDetails->user_id ?? '';
+
+            dd($subscribed , $subsDetails->rollover_pages, $subsDetails->remaining_pages);
             if ($subscribed && $subsDetails->rollover_pages != 0 && $subsDetails->remaining_pages != 0) {
                 $subsDetailsamount = Subscription::where('id', $subsDetails->subscription_id)->first();
                 $cost_per_page = $subsDetailsamount->cost_per_page;
