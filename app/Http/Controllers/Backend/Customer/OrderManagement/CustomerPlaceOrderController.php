@@ -2637,7 +2637,7 @@ Mail::html($emailContent, function ($message) use ($user) {
             $user_id = Auth::user()->id;
             $subsDetails = User_Subscription::where('user_id', $user_id)->first();
             $subscribed = $subsDetails->user_id ?? '';
-            if ($subscribed) {
+            if ($subscribed && $subsDetails->rollover_pages != 0) {
                 $subsDetailsamount = Subscription::where('id', $subsDetails->subscription_id)->first();
                 $cost_per_page = $subsDetailsamount->cost_per_page;
                 return view('backend.customer.orderManagement.custom_place_order', compact('Languages','used_subscription','Addons', 'pricing', 'subjects', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails', 'cost_per_page'));
