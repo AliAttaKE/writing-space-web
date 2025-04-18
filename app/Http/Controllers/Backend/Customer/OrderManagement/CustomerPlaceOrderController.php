@@ -1571,7 +1571,7 @@ $permissions = 0775;
                         $user->save();
                         $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
                         $receipt_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
-
+                        $total = (float)$order->totalAuthorizedAmount;
                         //find amdin email;
                         $admin = User::where('role', 'admin')->first();
 
@@ -2642,11 +2642,11 @@ Mail::html($emailContent, function ($message) use ($user) {
 
      $totalPages = $subsDetails->remaining_pages + $subsDetails->rollover_pages;
             if ($subscribed && $totalPages > 0) {
-               
+
                     $subsDetailsamount = Subscription::where('id', $subsDetails->subscription_id)->first();
                     $cost_per_page = $subsDetailsamount->cost_per_page;
                     return view('backend.customer.orderManagement.custom_place_order', compact('Languages','used_subscription','Addons', 'pricing', 'subjects', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails', 'cost_per_page'));
-                
+
             }
         }
         $subscribed = null;
