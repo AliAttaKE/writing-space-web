@@ -1048,11 +1048,10 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 										</div>
 
 										@php
-                                                $hasSubscription = DB::table('user_subscription')->where('user_id', Auth::id())->exists();
-                                          
-												$totalPages = $hasSubscription->remaining_pages + $hasSubscription->rollover_pages;
-										 @endphp
-
+										$subscription = DB::table('user_subscription')->where('user_id', Auth::id())->first();
+										$hasSubscription = $subscription !== null;
+										$totalPages = $hasSubscription ? ($subscription->remaining_pages + $subscription->rollover_pages) : 0;
+									@endphp
 
 
 
