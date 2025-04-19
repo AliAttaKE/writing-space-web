@@ -1562,7 +1562,7 @@ $permissions = 0775;
                         $checkUserSub->total_pages = (float)$subs->min_page + (float)$checkUserSub->remaining_pages;
                         $checkUserSub->rollover_pages = $subs->rollover_limit;
                         $checkUserSub->remaining_pages = (float)$subs->min_page + (float)$checkUserSub->remaining_pages;
-                        $checkUserSub->remaining_rollover_pages = $subs->rollover_limit + (float)$checkUserSub->remaining_rollover_pages;
+                        $checkUserSub->remaining_rollover_pages = $subs->rollover_limit + (float)$checkUserSub->rollover_pages;
                         $checkUserSub->status = 'Active';
                         $checkUserSub->due_date = now()->addDays((int)$subs->set_time)->toDateTimeString();
                         $checkUserSub->save();
