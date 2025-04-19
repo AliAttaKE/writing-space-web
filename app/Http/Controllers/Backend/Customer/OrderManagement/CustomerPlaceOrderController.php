@@ -1559,10 +1559,10 @@ $permissions = 0775;
                     if ($checkUserSub) {
                         $subs = Subscription::find($orderidexplode);
                         $checkUserSub->subscription_id = $orderidexplode;
-                        $checkUserSub->total_pages = (float)$subs->total_subscription + (float)$checkUserSub->remaining_pages;
+                        $checkUserSub->total_pages = (float)$subs->min_page + (float)$checkUserSub->remaining_pages;
                         $checkUserSub->rollover_pages = $subs->rollover_limit;
-                        $checkUserSub->remaining_pages = (float)$subs->total_subscription + (float)$checkUserSub->remaining_pages;
-                        $checkUserSub->remaining_rollover_pages = $subs->rollover_limit;
+                        $checkUserSub->remaining_pages = (float)$subs->min_page + (float)$checkUserSub->remaining_pages;
+                        $checkUserSub->remaining_rollover_pages = $subs->rollover_limit + (float)$checkUserSub->remaining_rollover_pages;
                         $checkUserSub->status = 'Active';
                         $checkUserSub->due_date = now()->addDays((int)$subs->set_time)->toDateTimeString();
                         $checkUserSub->save();
