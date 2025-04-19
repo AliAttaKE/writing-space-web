@@ -2636,19 +2636,22 @@ Mail::html($emailContent, function ($message) use ($user) {
         if (auth()->check()) {
             $user_id = Auth::user()->id;
             $subsDetails = User_Subscription::where('user_id', $user_id)->first();
-            $subscribed = $subsDetails->user_id ?? '';
-
-     // dd($subscribed , $subsDetails->rollover_pages, $subsDetails->remaining_pages);
-
-     $totalPages = $subsDetails->remaining_pages + $subsDetails->rollover_pages;
-            if ($subscribed && $totalPages > 0) {
-
+        
+            if ($subsDetails) {
+                $subscribed = $subsDetails->user_id;
+                $totalPages = $subsDetails->remaining_pages + $subsDetails->rollover_pages;
+        
+                if ($subscribed && $totalPages > 0) {
                     $subsDetailsamount = Subscription::where('id', $subsDetails->subscription_id)->first();
                     $cost_per_page = $subsDetailsamount->cost_per_page;
-                    return view('backend.customer.orderManagement.custom_place_order', compact('Languages','used_subscription','Addons', 'pricing', 'subjects', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails', 'cost_per_page'));
-
+        
+                    return view('backend.customer.orderManagement.custom_place_order', compact(
+                        'Languages', 'used_subscription', 'Addons', 'pricing', 'subjects', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails', 'cost_per_page'
+                    ));
+                }
             }
         }
+        
         $subscribed = null;
         $subsDetails = null;
 
