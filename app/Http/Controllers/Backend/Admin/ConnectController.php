@@ -85,8 +85,7 @@ class ConnectController extends Controller
         return redirect('/customer/dashboard');
     } catch (Exception $e) {
         return redirect()
-            ->route('login')
-            ->with('error', $e->getMessage());
+            ->route('login');
     }
 }
 

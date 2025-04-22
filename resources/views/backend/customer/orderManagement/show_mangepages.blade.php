@@ -178,9 +178,13 @@
                     <div class="card-bod total-amt py-3 px-2 rounded-3  bg-transparent">
 
                         <ul class="d-flex d-flex list-unstyled justify-content-between">
-                             <li class="text-white">Add more Pages</li>
+                             <li class="text-white">Total Pages</li>
                             <li class="text-white"><span id="numberOfPage"></span></li>
                         </ul>
+                        <ul class="d-flex d-flex list-unstyled justify-content-between">
+                            <li class="text-white">Cost Per Page</li>
+                           <li class="text-white"><span id="costperpage"></span></li>
+                       </ul>
                         <!--<ul class="d-flex d-flex list-unstyled justify-content-between">-->
                         <!--    <li class="fs-12">Deadline Adjustment</li>-->
                         <!--    <li class=""><span id="Deadline"></span></li>-->
@@ -392,11 +396,12 @@ function pay() {
            var total = JSON.parse(localStorage.getItem('total'));
 
              var page = JSON.parse(localStorage.getItem('page'));
-
-
+             var costperpage = JSON.parse(localStorage.getItem('page'));
+             var costperpage1 = JSON.parse(localStorage.getItem('costperpage1'));
 
 
                            document.getElementById("numberOfPage").innerText = page;
+                           document.getElementById("costperpage").innerText = costperpage1;
                             document.getElementById("order_total").innerText = total;
 
 
