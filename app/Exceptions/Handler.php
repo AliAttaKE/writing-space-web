@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -25,6 +27,22 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        // Handle CSRF token mismatches (which normally cause a 419)
+        $this->renderable(function (TokenMismatchException $e, $request) {
+            return redirect()
+                ->guest(route('login'))
+                ->with('error', 'Your session has expired. Please log in again.');
+        });
+
+        // If you ever throw a generic HttpException with status 419
+        $this->renderable(function (Throwable $e, $request) {
+            if (method_exists($e, 'getStatusCode') && $e->getStatusCode() === 419) {
+                return redirect()
+                    ->guest(route('login'))
+                    ->with('error', 'Page expired. Please log in again.');
+            }
         });
     }
 }

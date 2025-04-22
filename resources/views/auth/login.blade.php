@@ -13,9 +13,14 @@
                 <div class="alert alert-danger" role="alert">
                     {{ Session::get('error') }}
                 </div>
-            @endif
+                 @endif
+                 @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <div class="mb-3">
-                 
+
                      <input type="email" name="email" placeholder="Username or Email"  class="w-100" value="{{ old('email') }}">
                                 @error('email')
                                     <span class="text-danger">{{ $message }}</span>
@@ -42,7 +47,7 @@
                     {{-- <a href="#" class="gradient-button fw-bold login-button" data-bs-toggle="modal" data-bs-target="#login-modal">Login</a> --}}
                     <button type="submit" class="gradient-button fw-bold login-button w-100" >Login</button>
                     {{-- <button type="submit" class="gradient-button fw-bold login-button" data-bs-toggle="modal" data-bs-target="#login-modal">Login</button> --}}
-              
+
                 </div>
 
                 <div class="mb-3 text-center fw-bold text-white">
@@ -143,10 +148,10 @@
 
          if (accessToken) {
 
-            
+
              // Using jQuery for simplicity, make sure to include the jQuery library
              $.ajax({
-             
+
                  url: '{{ route('microsoft.handle.ajax') }}',
                  type: 'GET',
                  data: { access_token: accessToken },

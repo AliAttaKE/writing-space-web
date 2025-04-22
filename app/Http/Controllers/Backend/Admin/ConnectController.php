@@ -84,7 +84,9 @@ class ConnectController extends Controller
         session()->put('id', $findUser->id);
         return redirect('/customer/dashboard');
     } catch (Exception $e) {
-        dd($e->getMessage());
+        return redirect()
+            ->route('login')
+            ->with('error', $e->getMessage());
     }
 }
 
