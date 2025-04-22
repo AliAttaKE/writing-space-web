@@ -415,8 +415,17 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
 
 
     Route::get('/custom-setting',[CustomSettingController::class,'custom_setting'])->name('custom-setting');
+
     Route::post('/custom-edit/{id}',[CustomSettingController::class,'custom_edit'])->name('custom_edit');
     Route::get('export/pricing', [CustomSettingController::class, 'PricingExport'])->name('export.pricing');
+
+    Route::get('/custom-setting-Package',[CustomSettingController::class,'custom_setting_package'])->name('custom-setting-package');
+    Route::post('/custom-edit-pkg/{id}',[CustomSettingController::class,'custom_edit_pkg'])->name('custom_edit_pkg');
+    Route::get('export/pricing/pkg', [CustomSettingController::class, 'PricingExportpkg'])->name('export.pricing.pkg');
+
+    Route::get('/custom-setting-order',[CustomSettingController::class,'custom_setting_order'])->name('custom-setting-order');
+    Route::post('/custom-edit-order/{id}',[CustomSettingController::class,'custom_edit_order'])->name('custom_edit_order');
+    Route::get('export/pricing/order', [CustomSettingController::class, 'PricingExportorder'])->name('export.pricing.order');
 
 
     Route::get('subscription',[AddSubscriptionController::class,'index'])->name('subscription');

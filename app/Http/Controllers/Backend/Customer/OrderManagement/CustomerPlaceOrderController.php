@@ -12,6 +12,8 @@ use App\Models\Orders;
 use App\Models\Pricing;
 use App\Models\Subject;
 use App\Models\Folder;
+use App\Models\PricingPakage;
+use App\Models\PricingOrder;
 use App\Models\PakageLimit;
 use Illuminate\Support\Facades\Storage;
 use DB;
@@ -2621,7 +2623,7 @@ Mail::html($emailContent, function ($message) use ($user) {
 
 
 
-        $pricing = Pricing::orderBy('id', 'desc')->get();
+       
         $Addons = Addons::orderBy('id', 'desc')->first();
 
 
@@ -2644,14 +2646,14 @@ Mail::html($emailContent, function ($message) use ($user) {
                 if ($subscribed && $totalPages > 0) {
                     $subsDetailsamount = Subscription::where('id', $subsDetails->subscription_id)->first();
                     $cost_per_page = $subsDetailsamount->cost_per_page;
-        
+                    $pricing = PricingPakage::orderBy('id', 'desc')->get();
                     return view('backend.customer.orderManagement.custom_place_order', compact(
                         'Languages', 'used_subscription', 'Addons', 'pricing', 'subjects', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails', 'cost_per_page'
                     ));
                 }
             }
         }
-        
+        $pricing = PricingOrder::orderBy('id', 'desc')->get();
         $subscribed = null;
         $subsDetails = null;
 
