@@ -2621,8 +2621,6 @@ Mail::html($emailContent, function ($message) use ($user) {
             $used_subscription->subscription = $subscription;
         }
 
-
-
        
         $Addons = Addons::orderBy('id', 'desc')->first();
 
@@ -2634,6 +2632,9 @@ Mail::html($emailContent, function ($message) use ($user) {
         $deadline = Deadline::all();
         $paper_format = Paper_Format::all();
         $Languages = Language::all();
+
+       // $pricing = Pricing::orderBy('id', 'desc')->get();       
+
 
         if (auth()->check()) {
             $user_id = Auth::user()->id;
@@ -2653,13 +2654,20 @@ Mail::html($emailContent, function ($message) use ($user) {
                 }
             }
         }
-        $pricing = PricingOrder::orderBy('id', 'desc')->get();
+     $pricing = PricingOrder::orderBy('id', 'desc')->get();
+
+    
         $subscribed = null;
         $subsDetails = null;
 
         return view('backend.customer.orderManagement.place_order', compact('Languages','pricing', 'subjects', 'Addons', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails'));
     }
 
+
+
+
+
+    
 
     public function addMorePages(Request $request)
     {
@@ -2722,7 +2730,7 @@ Mail::html($emailContent, function ($message) use ($user) {
 
     public function changeDate($id)
     {
-        $pricing = Pricing::find($id);
+        $pricing = PricingOrder::find($id);
         if ($pricing) {
 
             return response()->json(['success' => true, 'message' => $pricing]);

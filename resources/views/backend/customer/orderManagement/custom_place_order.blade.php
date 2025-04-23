@@ -912,6 +912,9 @@
 <!--end::Scrolltop-->
 
 
+
+
+
 <div class="modal fade modal-place-order" id="modal-1" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
