@@ -2648,6 +2648,7 @@ Mail::html($emailContent, function ($message) use ($user) {
                     $subsDetailsamount = Subscription::where('id', $subsDetails->subscription_id)->first();
                     $cost_per_page = $subsDetailsamount->cost_per_page;
                     $pricing = PricingPakage::orderBy('id', 'desc')->get();
+                    
                     return view('backend.customer.orderManagement.custom_place_order', compact(
                         'Languages', 'used_subscription', 'Addons', 'pricing', 'subjects', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails', 'cost_per_page'
                     ));

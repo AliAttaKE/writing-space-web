@@ -7,12 +7,12 @@
         align-items: center;
     }
     .custom-popup-class {
-        width: 70%;
-        height: 100%;
+        width: 70%; 
+        height: 100%; 
     }
     .custom-popup-class1 {
-        width: 30%;
-        height: 70%;
+        width: 30%; 
+        height: 70%; 
     }
     .switch {
         position: relative;
@@ -139,14 +139,14 @@
                         <!--begin::Toolbar container-->
                         <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
                             <!--begin::Page title-->
-                            {{-- <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                            <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                                 <!--begin::Title-->
                                 <h1
                                     class="page-heading d-flex text-white fw-bold fs-1 flex-column justify-content-center my-0">
                                     Custom New Orders</h1>
                                 <!--end::Title-->
 
-                            </div> --}}
+                            </div>
                         </div>
                         <!--end::Toolbar container-->
                     </div>
@@ -156,73 +156,47 @@
                         <!--begin::Content container-->
                         <div id="kt_app_content_container" class="app-container container-xxl mb-10">
                             <h1
-                                class="page-heading d-flex fw-bold fs-1 flex-column justify-content-center my-0 text-center fs-color-white">
+                                class="page-heading d-flex text-white fw-bold fs-1 flex-column justify-content-center my-0 text-center">
                                 Custom Example Essay Writing Service</h1>
                         </div>
                         <!--end::Content container-->
                         <!--begin::Content container-->
                         <div id="kt_app_content_container" class="app-container container-xxl mb-5">
                             <h3
-                                class="page-heading d-flex  fw-bold fs-3 flex-column justify-content-center my-0 text-center fs-color-white">
+                                class="page-heading d-flex text-white fw-bold fs-3 flex-column justify-content-center my-0 text-center">
                                 Pricing Plans & Delivery Dates</h3>
                         </div>
                         <!--end::Content container-->
                         <div class="px-10 mb-20">
                             <div class="plans">
                                 @if ($pricing)
-                                @foreach ($pricing as $p)
-                                    @php
-                                        // Remove unwanted words from the 'min' field if needed
-                                        $cleanMin = preg_replace('/^(Only|Just|Need it in)\s+/', '', trim($p->min));
+                                    @foreach ($pricing as $p)
+                                        <ul id="pricing_{{ $p->id }}" class="prising-plans selected-plan">
+                                            <li>{{ $p->text }}</li>
+                                            @if ($p->min == '15')
+                                                <li>{{ $p->min }} {{ $p->duration_type }} or {{ $p->max }}
+                                                </li>
+                                            @else
+                                                <li>{{ $p->min }} - {{ $p->max }} {{ $p->duration_type }}
+                                                </li>
+                                            @endif
 
-                                        // Define the phrases you want to remove from the page_limit field
-                                        $removePhrases = [
-                                            "ensures your urgent needs,",
-                                            "for up to",
-                                            "up to",
-                                            "limit of",
-                                            "With a",
-                                            "-page",
-                                            "-"
-                                        ];
-                                        // Remove these phrases (case-insensitive) from the page_limit field
-                                        $cleanPageLimit = str_ireplace($removePhrases, "", $p->page_limit);
-                                        $cleanPageLimit = trim($cleanPageLimit);
-                                    @endphp
-
-                                    <ul id="pricing_{{ $p->id }}" class="prising-plans selected-plan">
-                                        <li class="fs-color-yellow mb-3">{{ $p->text }}</li>
-                                        @if ($cleanMin == '15')
-                                            <li>{{ $cleanMin }} {{ $p->duration_type }} or {{ $p->max }}</li>
-                                        @else
-                                            <li>{{ $cleanMin }} - {{ $p->max }} {{ $p->duration_type }}</li>
-                                        @endif
-
-                                        <li>${{ $p->cost_per_page }} per page</li>
-                                        <li>{{ $cleanPageLimit }} page-limit</li>
-                                        <li style="display: none;" id="click_{{ $p->id }}">
-                                            <i class="fa-solid fa-check" style="color:#2196F3;"></i>
-                                        </li>
-                                    </ul>
-                                @endforeach
-                            @endif
-
+                                            <li>{{ $p->cost }}</li>
+                                            <li>${{ $p->cost_per_page }} per page</li>
+                                            <li>{{ $p->page_limit }} page-limit</li>
+                                            <li style="display: none;" id="click_{{ $p->id }}"><i class="fa-solid fa-check"
+                                                    style="color:#2196F3;"></i></li>
+                                        </ul>
+                                    @endforeach
+                                @endif
 
                             </div>
                         </div>
                         <!--begin::Content container-->
                         <div id="kt_app_content_container" class="app-container container-xxl mb-20">
-                          {{-- <h3
-                                class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 text-center fs-color-white">
-                                New customer? Try out our service with a 10% discount (coupon code:<span id="my_coupon"
-                                    class="my_coupon">10OFFNEW</span>)</h3>  --}}
-
-                                    <h3
-                                    class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 text-center fs-color-white">
-                                    <span id="my_coupon"
-                                        class="my_coupon"></span></h3>
-
-
+                            <h3
+                                class="page-heading d-flex text-white fw-bold fs-3 flex-column justify-content-center my-0 text-center">
+                                New customer? Try out our service with a 10% discount</h3>
                         </div>
                         <!--end::Content container-->
                         <div class="px-20">
@@ -231,56 +205,54 @@
                                     <!--begin::Content container-->
                                     <div id="kt_app_content_container" class=" mb-10">
                                         <h1
-                                            class="page-heading d-flex text-gray-900 fw-bold fs-1 flex-column justify-content-center my-0 text-decoration-underline fs-color-white">
+                                            class="page-heading d-flex text-white fw-bold fs-1 flex-column justify-content-center my-0 text-decoration-underline">
                                             Let’s Get Started On Your Order</h1>
                                     </div>
                                     <!--end::Content container-->
                                     <!--begin::Content container-->
-                                    <div id="kt_app_content_container" class=" mb-10">
-                                        <h3
-                                            class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 border-bottom fs-color-white">
-                                            When would you like to receive this order?</h3>
-                                    </div>
+                                    <!--<div id="kt_app_content_container" class=" mb-10">-->
+                                    <!--    <h3-->
+                                    <!--        class="page-heading d-flex text-white fw-bold fs-3 flex-column justify-content-center my-0 border-bottom">-->
+                                    <!--        When would you like to receive this order?</h3>-->
+                                    <!--</div>-->
                                     <div class="">
 
                                         <form action="" class="kt_invoice_form">
-                                            <div class="col-md-6 mb-10">
-                                                <select name="pricing" id="pricing"
-                                                    class="form-select form-select-solid btn-dark-primary select22"
-                                                    data-control="select2" data-hide-search="true"
-                                                    data-placeholder="Select Pricing">
-                                                    <option></option>
-                                                    @if ($pricing)
-                                                    @foreach ($pricing as $p)
-                                                    @if ($p->min == '15')
-                                                    <option value="{{ $p->id }}">
-                                                        {{ $p->min }} {{ $p->duration_type }} or
-                                                        {{ $p->max }} = ${{ $p->cost_per_page }} per
-                                                        page</option>
-                                                    @else
-                                                    <option value="{{ $p->id }}">
-                                                        {{ $p->min }} - {{ $p->max }}
-                                                        {{ $p->duration_type }} = ${{ $p->cost_per_page }}
-                                                        per page</option>
-                                                    @endif
-                                                    @endforeach
-                                                    @endif
-
-                                                </select>
-                                            </div>
+                                            <!--<div class="col-md-6 mb-10">-->
+                                            <!--    <select name="pricing" id="pricing"-->
+                                            <!--        class="form-select form-select-solid" data-control="select2"-->
+                                            <!--        data-hide-search="true" data-placeholder="Select Pricing">-->
+                                            <!--        <option></option>-->
+                                            <!--        @if ($pricing)-->
+                                            <!--        @foreach ($pricing as $p)-->
+                                            <!--        @if ($p->min == '15')-->
+                                            <!--        <option value="{{ $p->id }}">-->
+                                            <!--            {{ $p->min }} {{ $p->duration_type }} or-->
+                                            <!--            {{ $p->max }} = ${{ $p->cost_per_page }} per-->
+                                            <!--            page</option>-->
+                                            <!--        @else-->
+                                            <!--        <option value="{{ $p->id }}">-->
+                                            <!--            {{ $p->min }}-{{ $p->max }}-->
+                                            <!--            {{ $p->duration_type }} = ${{ $p->cost_per_page }}-->
+                                            <!--            per page</option>-->
+                                            <!--        @endif-->
+                                            <!--        @endforeach-->
+                                            <!--        @endif-->
+                                            <!--    </select>-->
+                                            <!--</div>-->
                                             <div class="row col-md-8 mb-20">
                                                 <div class="col-md-6">
-                                                    <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Select
+                                                    <label for="" class="mb-3 fs-6 fw-semibold text-white">Select
                                                         Specific
                                                         Date</label>
                                                     <input type="date" id="meeting-date"
-                                                        class="form-control btn-dark-primary meeting-date1" name="meeting-date"
+                                                        class="form-control btn-dark-primary" name="meeting-date"
                                                         value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
                                                         min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
-                                                        />
+                                                        max="2024-12-12" />
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Select
+                                                    <label for="" class="mb-3 fs-6 fw-semibold text-white">Select
                                                         Specific
                                                         Date</label>
                                                     <div class="d-flex">
@@ -294,27 +266,23 @@
                                                         </div>
                                                         <div class="me-3">
                                                             @php
-                                                            $currentHour = \Carbon\Carbon::now()->format('H');
+                                                                $currentHour = \Carbon\Carbon::now()->format('H');
                                                             @endphp
 
                                                             <select name="ampm" id="ampm"
-                                                                class="form-select form-select-solid btn-dark-primary select22"
+                                                                class="form-select form-select-solid btn-dark-primary text-white select22"
                                                                 data-control="select2" data-hide-search="true"
                                                                 data-placeholder="AM">
                                                                 <option></option>
-                                                                <option value="AM" {{ $currentHour < 12 ? 'selected'
-                                                                    : '' }}>
-                                                                    AM
+                                                                <option value="AM" {{ $currentHour < 12 ? 'selected': '' }}>AM
                                                                 </option>
-                                                                <option value="PM" {{ $currentHour>= 12 ? 'selected' :
-                                                                    '' }}>
-                                                                    PM
+                                                                <option value="PM" {{ $currentHour >= 12 ? 'selected' :'' }}>PM
                                                                 </option>
                                                             </select>
                                                         </div>
                                                         <div class="align-items-center d-flex">
                                                             <label for=""
-                                                                class="mb-3 fs-6 fw-semibold fs-color-white">EST</label>
+                                                                class="mb-3 fs-6 fw-semibold text-white">EST</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -322,157 +290,98 @@
                                             </div>
                                             <div id="kt_app_content_container" class=" mb-10">
                                                 <h3
-                                                    class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 border-bottom text-white">
+                                                    class="page-heading d-flex text-white fw-bold fs-3 flex-column justify-content-center my-0 border-bottom">
                                                     Your Order Details</h3>
                                             </div>
-                                            <div style="display:none">
-                                                @auth
-                                                <div class="col-md-6 mb-10">
-                                                    <label for="" class="mb-3 fs-6 fw-semibold">Email Address:*</label>
-                                                    <div class="d-flex">
-                                                        <input type="text" placeholder="Email Address" name="email"
-                                                            value="{{ auth()->user()->email }}" id="email"
-                                                            autocomplete="off" class="form-control bg-transparent" />
-                                                        <button type="button" class="border-0 bg-white"
-                                                            data-bs-toggle="modal" data-bs-target="#modal-1"><i
-                                                                class="bi bi-info-circle-fill ms-3"></i></button>
-                                                    </div>
-                                                    <div class="d-flex">
-                                                        <input type="hidden" placeholder="Email Address" name="user_id"
-                                                            id="user_id" value="{{ Auth::user()->id }}"
-                                                            autocomplete="off" class="form-control bg-transparent" />
-                                                    </div>
+                                            <div class="col-md-6 mb-10">
+                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Email
+                                                    Address:*</label>
+                                                <div class="d-flex">
+                                                    <input type="text" placeholder="Email Address" name="email"
+                                                        id="email" autocomplete="off"
+                                                        class="form-control  btn-dark-primary" value="{{ Auth::user()->email }}" readonly /><button type="button"
+                                                        class="border-0 bg-cus bg-transparent" data-bs-toggle="modal"
+                                                        data-bs-target="#modal-1"><i
+                                                            class="bi bi-info-circle-fill ms-3"></i></button>
                                                 </div>
-                                                <div class="col-md-6 mb-10">
-                                                    <label for="" class="mb-3 fs-6 fw-semibold">Backup Email Address
-                                                        (optional):</label>
-                                                    <div class="d-flex">
-                                                        <input type="text" placeholder="Email Address"
-                                                            name="backup-email" id="backup-email"
-                                                            value="{{ auth()->user()->email }}" autocomplete="off"
-                                                            class="form-control bg-transparent" />
-                                                        <button type="button" class="border-0 bg-white"
-                                                            data-bs-toggle="modal" data-bs-target="#modal-2"><i
-                                                                class="bi bi-info-circle-fill ms-3"></i></button>
-                                                    </div>
+                                                <div class="d-flex">
+                                                    <input type="hidden" placeholder="Email Address" name="user_id"
+                                                        id="user_id" value="{{ Auth::user()->id }}" autocomplete="off"
+                                                        class="form-control bg-transparent" />
                                                 </div>
-                                                @else
-                                                <div class="col-md-6 mb-10">
-                                                    <label for="" class="mb-3 fs-6 fw-semibold">Email Address:*</label>
-                                                    <div class="d-flex">
-                                                        <input type="text" placeholder="Email Address" name="email"
-                                                            value="test@gmail.com" id="email" autocomplete="off"
-                                                            class="form-control bg-transparent" />
-                                                        <button type="button" class="border-0 bg-white"
-                                                            data-bs-toggle="modal" data-bs-target="#modal-1"><i
-                                                                class="bi bi-info-circle-fill ms-3"></i></button>
-                                                    </div>
-                                                    <div class="d-flex">
-                                                        <input type="hidden" placeholder="Email Address" name="user_id"
-                                                            id="user_id" value="test@gmail.com" autocomplete="off"
-                                                            class="form-control bg-transparent" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 mb-10">
-                                                    <label for="" class="mb-3 fs-6 fw-semibold">Backup Email Address
-                                                        (optional):</label>
-                                                    <div class="d-flex">
-                                                        <input type="text" placeholder="Email Address"
-                                                            name="backup-email" id="backup-email" value="test@gmail.com"
-                                                            autocomplete="off" class="form-control bg-transparent" />
-                                                        <button type="button" class="border-0 bg-white"
-                                                            data-bs-toggle="modal" data-bs-target="#modal-2"><i
-                                                                class="bi bi-info-circle-fill ms-3"></i></button>
-                                                    </div>
-                                                </div>
-                                                @endauth
                                             </div>
                                             <div class="col-md-6 mb-10">
-                                                <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Number of
+                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Backup Email
+                                                    Address (optional):</label>
+                                                <div class="d-flex">
+                                                    <input type="text" placeholder="Email Address" name="backup-email"
+                                                        id="backup-email" autocomplete="off"
+                                                        class="form-control btn-dark-primary" value="{{ Auth::user()->email }}" readonly /><button type="button"
+                                                        class="border-0 bg-cus bg-transparent" data-bs-toggle="modal"
+                                                        data-bs-target="#modal-2"><i
+                                                            class="bi bi-info-circle-fill ms-3"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-10">
+                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Number of
                                                     Pages:</label>
                                                 <div class="d-flex">
-                                                    <input type="number" placeholder="1" id="no-page" name="no-page"
-                                                    autocomplete="off" onkeyup="functionToword()"
-                                                    class="form-control bg-transparent w-25 me-2 fs-white-color btn-dark-primary nopage"
-                                                    min="0" />
-                                             <button
-                                                        type="button"
-                                                        class="border-0 bg-cus fs-6 fw-semibold fs-color-white btn-dark-primary"
+                                                    <input type="number" placeholder="1" id='no-page' name="no-page"
+                                                        autocomplete="off" class="form-control w-25 btn-dark-primary"
+                                                        id="noofsources" /><button type="button"
+                                                        class="border-0 bg-cus fs-6 fw-semibold btn-dark-primary"
                                                         data-bs-toggle="modal" data-bs-target="#modal-3"><i
                                                             class="bi bi-info-circle-fill mx-3"></i> 1 page =
                                                         approximately 300 words</button>
-                                                        <input type="hidden" id="page_limit">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
-                                                <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Number of
+                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Number of
                                                     Word</label>
                                                 <div class="d-flex">
                                                     <input id='no-word' name="no-word" autocomplete="off"
-                                                        class="form-control btn-dark-primary w-25 noofword" readonly />
+                                                        class="form-control w-25 btn-dark-primary" readonly />
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
-                                                <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Number of
+                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Number of
                                                     sources:</label>
                                                 <div class="d-flex">
                                                     <input type="number" id="no_of_extra_sources" placeholder="1"
-                                                         name="no_of_extra_sources" autocomplete="off"
-                                                        class="form-control bg-transparent btn-dark-primary w-25 me-2 numberofsource" /><button
+                                                        name="no_of_extra_sources" autocomplete="off"
+                                                        class="form-control bg-transparent w-25 btn-dark-primary" /><button
                                                         type="button"
-                                                        class="border-0 bg-cus fs-6 fw-semibold fs-color-white btn-dark-primary"
+                                                        class="border-0 bg-cus fs-6 fw-semibold btn-dark-primary"
                                                         data-bs-toggle="modal" data-bs-target="#modal-4"><i
                                                             class="bi bi-info-circle-fill mx-3"></i> Details &
                                                         Limitations</button>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
-                                                <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Specific
-                                                    topic or
-                                                    title:*</label>
-                                                <div class="d-flex">
-                                                    <input type="text" placeholder="Specific topic or title"
-                                                        name="topic" id="topic" autocomplete="off"
-                                                        class="form-control bg-transparent btn-dark-primary" /><button
-                                                        type="button"
-                                                        class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
-                                                        data-bs-toggle="modal" data-bs-target="#modal-6"><i
-                                                            class="bi bi-info-circle-fill mx-3"></i></button>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 mb-10">
-                                                <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Bibliography
+                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Bibliography
                                                     format & citation style:*</label>
-                                                    <div class="d-flex">
                                                 <select name="paper_format" id="paper_format"
                                                     class="form-select form-select-solid btn-dark-primary select22"
                                                     data-control="select2" data-hide-search="true"
                                                     data-placeholder="Choose">
                                                     <option></option>
                                                     @if ($paper_format)
-                                                    @foreach ($paper_format as $p)
-                                                    <option value="{{ $p->title }}">{{ $p->title }}
-                                                    </option>
-                                                    @endforeach
+                                                        @foreach ($paper_format as $p)
+                                                            <option value="{{ $p->title }}">{{ $p->title }}
+                                                            </option>
+                                                        @endforeach
                                                     @endif
                                                 </select>
-                                                <button
-                                                type="button"
-                                                style="background:transparent;"
-                                                class="border-0 bg-cus fs-6 fw-semibold "
-                                                data-bs-toggle="modal" data-bs-target="#modal-16"><i
-                                                    class="bi bi-info-circle-fill mx-3"></i></button>
-                                            </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
-                                                <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Are you
+                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Are you
                                                     submitting
                                                     resources to the writer?:</label>
                                                 <div class="d-flex">
 
 
                                                     <select name="submitting" id="submitting"
-                                                        class="form-control bg-transparent w-25 btn-dark-primary me-2 ">
+                                                        class="form-control bg-transparent w-25 btn-dark-primary select22">
                                                         <option value="Yes">Yes
                                                         </option>
                                                         <option value="No">No
@@ -481,88 +390,74 @@
 
 
                                                     <button type="button"
-                                                        class="border-0 bg-cus fs-6 fw-semibold fs-color-white btn-dark-primary "
+                                                        class="border-0 bg-cus fs-6 fw-semibold btn-dark-primary"
                                                         data-bs-toggle="modal" data-bs-target="#modal-5"><i
                                                             class="bi bi-info-circle-fill mx-3"></i> Details &
                                                         Limitations</button>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
-                                                <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Type of
+                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Type of
                                                     document:*</label>
-                                                    <div class="d-flex">
                                                 <select name="term_of_paper" id="term_of_paper"
                                                     class="form-select form-select-solid btn-dark-primary select22"
                                                     data-control="select2" data-hide-search="true"
                                                     data-placeholder="Choose">
-                                                    <option disabled selected>Choose</option>
                                                     @if ($term)
-                                                    @foreach ($term as $s)
-                                                    <option value="{{ $s->title }}">{{ $s->title }}
-                                                    </option>
-                                                    @endforeach
+                                                        @foreach ($term as $s)
+                                                            <option value="{{ $s->title }}">{{ $s->title }}
+                                                            </option>
+                                                        @endforeach
                                                     @endif
                                                 </select>
-                                                <button
-                                                type="button"
-                                                style="background:transparent;"
-                                                class="border-0 bg-cus fs-6 fw-semibold "
-                                                data-bs-toggle="modal" data-bs-target="#modal-17"><i
-                                                    class="bi bi-info-circle-fill mx-3"></i></button>
-                                            </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
-                                                <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">General
-                                                    subject or
+                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">General subject
+                                                    or
                                                     field:*</label>
-                                                    <div class="d-flex">
                                                 <select name="subject" id="subject"
                                                     class="form-select form-select-solid btn-dark-primary select22"
                                                     data-control="select2" data-hide-search="true"
                                                     data-placeholder="Choose">
                                                     <option></option>
                                                     @if ($subjects)
-                                                    @foreach ($subjects as $s)
-                                                    <option value="{{ $s->title }}">{{ $s->title }}
-                                                    </option>
-                                                    @endforeach
+                                                        @foreach ($subjects as $s)
+                                                            <option value="{{ $s->title }}">{{ $s->title }}
+                                                            </option>
+                                                        @endforeach
                                                     @endif
                                                 </select>
-                                                <button
-                                                type="button"
-                                                style="background:transparent;"
-                                                class="border-0 bg-cus fs-6 fw-semibold "
-                                                data-bs-toggle="modal" data-bs-target="#modal-18"><i
-                                                    class="bi bi-info-circle-fill mx-3"></i></button>
                                             </div>
-                                            </div>
-
                                             <div class="col-md-6 mb-10">
-                                                <label for="" class="mb-3 fs-6 fw-semibold fs-color-white ">Academic
+                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Specific topic or
+                                                    title:*</label>
+                                                <div class="d-flex">
+                                                    <input type="text" placeholder="Specific topic or title"
+                                                        name="topic" id="topic" autocomplete="off"
+                                                        class="form-control  btn-dark-primary" /><button type="button"
+                                                        class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
+                                                        data-bs-toggle="modal" data-bs-target="#modal-6"><i
+                                                            class="bi bi-info-circle-fill mx-3"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-10">
+                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Academic
                                                     Level:*</label>
-                                                    <div class="d-flex">
                                                 <select name="academic_level" id="academic_level"
                                                     class="form-select form-select-solid btn-dark-primary select22"
                                                     data-control="select2" data-hide-search="true"
                                                     data-placeholder="Choose">
                                                     <option></option>
                                                     @if ($academic)
-                                                    @foreach ($academic as $s)
-                                                    <option value="{{ $s->title }}">{{ $s->title }}
-                                                    </option>
-                                                    @endforeach
+                                                        @foreach ($academic as $s)
+                                                            <option value="{{ $s->title }}">{{ $s->title }}
+                                                            </option>
+                                                        @endforeach
                                                     @endif
                                                 </select>
-                                                <button
-                                                type="button"
-                                                style="background:transparent;"
-                                                class="border-0 bg-cus fs-6 fw-semibold "
-                                                data-bs-toggle="modal" data-bs-target="#modal-19"><i
-                                                    class="bi bi-info-circle-fill mx-3"></i></button>
-                                            </div>
                                             </div>
                                             <div class="col-md-6 mb-20">
-                                                <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Language &
+                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Language &
                                                     spelling style:*</label>
                                                 <div class="d-flex">
                                                     <select name="language_spelling" id="language_spelling"
@@ -575,7 +470,7 @@
                                                             <option value="{{ $s->title }}">{{ $s->title }}
                                                             </option>
                                                         @endforeach
-                                                        @endif
+                                                    @endif
                                                     </select>
                                                     <button type="button"
                                                         class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
@@ -586,76 +481,76 @@
 
                                             <div class="col-md-6 mb-10">
                                                 <!--begin::Label-->
-                                                <p class="fs-color-white custom-fs-13"><strong>PowerPoint Slides:* </strong>"The number of Power
+                                                <p class="fs-color-white custom-fs-13"><strong>PowerPoint Slides:*
+                                                    </strong>"The number of Power
                                                     Point slides that will be delivered to you separately from
                                                     your paper. Useful for those who need to present in front of
                                                     class."</p>
                                                 <label class="d-flex align-items-center fs-5 fw-semibold mb-2">
-                                                    <span class="required fs-color-white custom-fs-17">PowerPoint Slides:</span>
-                                                    <span class="ms-1" data-bs-toggle="tooltip" aria-label="Specify your unique app name" data-bs-original-title="Specify your unique app name" data-kt-initialized="1">
-                                                        <!-- <i class="ki-duotone ki-information-5 text-gray-500 fs-6 d-none"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span> -->
+                                                    <span class="required fs-color-white custom-fs-17">PowerPoint
+                                                        Slides:</span>
+                                                    <span class="ms-1" data-bs-toggle="tooltip"
+                                                        aria-label="Specify your unique app name"
+                                                        data-bs-original-title="Specify your unique app name"
+                                                        data-kt-initialized="1">
+                                                        <!-- <i class="ki-duotone ki-information-5 text-gray-500 fs-6"><span
+                                                                class="path1"></span><span class="path2"></span><span
+                                                                class="path3"></span></i></span> -->
                                                 </label>
                                                 <!--end::Label-->
                                                 <!--begin::Input-->
-                                                <div class="d-flex">
-                                                <input type="number" class="form-control form-control-lg form-control-solid btn-dark-primary" name="powerpoint_slide" placeholder="0" id="powerpoint_slide" value="0">
+                                                <input type="number"
+                                                    class="form-control form-control-lg form-control-solid btn-dark-primary"
+                                                    name="powerpoint_slide" placeholder="10" id="powerpoint_slide">
                                                 <p id="powerpoint_slide_msg" class="text-danger"></p>
                                                 <!--end::Input-->
-                                                <button
-                                                type="button"
-                                                style="background:transparent;"
-                                                class="border-0 bg-cus fs-6 fw-semibold "
-                                                data-bs-toggle="modal" data-bs-target="#modal-20"><i
-                                                    class="bi bi-info-circle-fill mx-3"></i></button>
                                             </div>
-                                            </div>
+
                                             <div class="col-md-6 mb-10">
-                                                <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Statistical
+                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Statistical
                                                     Analysis:*<button type="button"
-                                                        class="border-0 fs-6 fw-semibold bg-transparent"
+                                                        class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
                                                         data-bs-toggle="modal" data-bs-target="#modal-9"><i
                                                             class="bi bi-info-circle-fill mx-3"></i></button></label>
                                                 <div class="d-flex">
-                                                    <input class="form-check-input cus-border" value="no" type="radio"
+                                                    <input class="form-check-input" value="no" type="radio"
                                                         name="flexRadioDefault" id="statistical_analysis" checked>
                                                     <label class="fs-6 fw-semibold mx-3 text-white"
                                                         for="flexRadioDefault1">
                                                         No
                                                     </label>
-                                                    <input class="form-check-input cus-border" value="yes" type="radio"
+                                                    <input class="form-check-input" value="yes" type="radio"
                                                         name="flexRadioDefault" id="statistical_analysis_yes">
-                                                    <label class="fs-6 fw-semibold mx-3 fs-color-white"
+                                                    <label class="fs-6 fw-semibold mx-3 text-white"
                                                         for="flexRadioDefault2">
-                                                        Yes
-                                                        (+15% to subtotal)
+                                                        Yes (+15% to subtotal)
 
                                                     </label>
                                                 </div>
                                             </div>
 
+
                                             <div id="kt_app_content_container" class="d-flex mb-10">
                                                 <h3
-                                                    class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 border-bottom fs-color-white">
+                                                    class="page-heading d-flex text-white fw-bold fs-3 flex-column justify-content-center my-0 border-bottom">
                                                     Description & Detailed Specifications</h3> <button type="button"
                                                     class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
                                                     data-bs-toggle="modal" data-bs-target="#modal-8"><i
                                                         class="bi bi-info-circle-fill mx-3"></i></button>
                                             </div>
                                             <div class="col-md-6 mb-10">
-                                                <label for="" class="mb-3 fs-6 fw-semibold fs-color-white">Your
+                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Your
                                                     instructions,
                                                     requirements, specifications, etc.*:</label>
-                                                <!-- <div id="toolbar">
-                                                        <button class="ql-bold">Bold</button>
-                                                        <button class="ql-italic">Italic</button>
-                                                    </div> -->
-
-                                                <!-- Create the editor container -->
+                                                <!-- <div class="d-flex">
+                                                    <textarea name="description" id="description"
+                                                        class="form-control form-control-solid btn-dark-primary" rows="3"
+                                                        placeholder="Your Instructions !"></textarea>
+                                                </div> -->
                                                 <div id="description" class="btn-dark-primary text-white custom-height">
 
                                                 </div>
 
-                                                <!-- <textarea id="description" name="description"></textarea> -->
                                             </div>
 
 
@@ -672,17 +567,17 @@
                                     <div class="card btn-dark-primary">
                                         <div class="p-5  border-bottom mb-5">
                                             <h1
-                                                class="page-heading d-flex text-gray-900 fw-bold fs-1 flex-column my-0 mb-3 fs-color-white">
+                                                class="page-heading d-flex text-white fw-bold fs-1 flex-column my-0 mb-3">
                                                 Order Summary:</h1>
                                         </div>
                                         <div class="p-5 d-flex border-bottom">
                                             <div class="col-6 align-items-center d-flex">
-                                                <label for="" class="mb-3 fs-6 fw-semibold">Currency:</label>
+                                                <label for="" class="mb-3 fs-6 fw-semibold text-white">Currency:</label>
                                             </div>
                                             <div class="col-6 d-flex  align-items-center">
                                                 <img src="{{asset('backend/assets/media/ws/flag.webp')}}"
                                                     class="mb-3 h-25px w-25px rounded-circle" alt=""><i
-                                                    class="bi bi-currency-dollar mx-3 mb-3 fs-color-white"></i>
+                                                    class="bi bi-currency-dollar mx-3 mb-3"></i>
                                                 <p class="mb-3 fs-6 fw-semibold"> US Dollors</p>
                                             </div>
                                         </div>
@@ -704,7 +599,9 @@
                                                 </div>
                                                 <div class="col-6 d-flex  align-items-center justify-content-end">
                                                     <label for="" class="mt-3 fs-6 fw-semibold">US $<span
-                                                            id="cost_per_page">0</span> per page</label>
+                                                            id="cost_per_page"
+                                                            class="costperpage">{{$cost_per_page}}</span> per
+                                                        page</label>
                                                 </div>
 
                                             </div>
@@ -724,7 +621,7 @@
                                                         Type:</label>
                                                 </div>
                                                 <div class="col-6 d-flex  align-items-center justify-content-end">
-                                                    <label for="" class="mt-3 fs-6 fw-semibold text-end"
+                                                    <label for="" class="mt-3 fs-6 fw-semibold"
                                                         id="document_type_show"></label>
                                                 </div>
                                             </div>
@@ -767,12 +664,11 @@
                                         <div class="p-5 border-bottom">
                                             <div class="d-flex">
                                                 <h3
-                                                    class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column my-3 fs-color-white">
-                                                    Optional Add-Ons:</h3>
-                                                    {{-- <button type="button"
+                                                    class="page-heading d-flex text-white fw-bold fs-3 flex-column my-3">
+                                                    Optional Add-Ons:</h3><button type="button"
                                                     class="border-0 bg-transparent"><i
                                                         class="bi bi-info-circle-fill ms-3"
-                                                        title="Additional Features that you may find useful"></i></button> --}}
+                                                        title="Additional Features that you may find useful"></i></button>
                                             </div>
                                             <div class="d-flex">
                                                 <div class="col-6 align-items-center d-flex ok">
@@ -782,15 +678,15 @@
                                                         data-bs-target="#modal-10"><i
                                                             class="bi bi-info-circle-fill ms-3"></i></button>
                                                 </div>
-                                                @if($Addons)
                                                 <div class="col-6 d-flex  align-items-center justify-content-end">
                                                     <label for="" class="mt-3 fs-6 fw-semibold me-3">$<span
                                                             id="">{{ $Addons->paper_summary }}</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" class="toggleSwitch" id="toggleSwitch" data-target="1">
+                                                            <input type="checkbox" id="" data-target="1" checked>
                                                             <span class="slider"></span>
                                                         </label>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -807,7 +703,7 @@
                                                             id="">{{ $Addons->paper_utline_in_bullets }}</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" class="toggleSwitch" id="toggleSwitch" data-target="2">
+                                                            <input type="checkbox" id="" data-target="2" checked>
                                                             <span class="slider"></span>
                                                         </label>
                                                     </div>
@@ -827,7 +723,7 @@
                                                             id="">{{ $Addons->paper_abstract }}</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" class="toggleSwitch" id="toggleSwitch" data-target="3">
+                                                            <input type="checkbox" id="" data-target="3" checked>
                                                             <span class="slider"></span>
                                                         </label>
                                                     </div>
@@ -848,42 +744,62 @@
 
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" class="toggleSwitch" id="toggleSwitch" data-target="4">
+                                                            <input type="checkbox" id="" data-target="4" checked>
                                                             <span class="slider"></span>
                                                         </label>
                                                     </div>
                                                 </div>
                                             </div>
-                                              @endif
+                                        </div>
+                                        <div class="card-body pt-0 bg-transparent"
+                                            style="background-color: white; color: white;">
+                                            <div class="fs-7 fw-normal text-muted" style="color: white;"> <span
+                                                    class="mt-3 fs-6 fw-semibold me-3" style="color: white">Total
+                                                    Package pages: {{ $used_subscription->total_pages}}</span></div>
+                                            <div class="fs-7 fw-normal text-muted" style="color: white;"><span
+                                                    class="mt-3 fs-6 fw-semibold me-3" style="color: white">Total Used
+                                                    pages:
+                                                    {{(float) $used_subscription->total_pages - (float) $used_subscription->remaining_pages}}</span>
+                                            </div>
+                                            <div class="fs-7 fw-normal text-muted" style="color: white;"><span
+                                                    class="mt-3 fs-6 fw-semibold me-3" style="color: white">Expire Date:
+                                                    {{$used_subscription->due_date}}</span></div>
+                                            <div class="fs-7 fw-normal text-muted"><span
+                                                    class="mt-3 fs-6 fw-semibold me-3" style="color: white"><span
+                                                        style="color: white">Status: </span>
+                                                    @if($used_subscription->status == 'Active')
+                                                        <span class="mt-3 fs-6 fw-semibold me-3 badge-custom-bg"
+                                                            style="color: green">{{$used_subscription->status}}</span>
+                                                    @else
+                                                        <span style="color: red">{{$used_subscription->status}}</span>
+                                                    @endif
+                                            </div>
+                                            <input type="hidden" value="{{$used_subscription->id}}"
+                                                id="used_package_id">
+                                            <input type="hidden" value="{{$used_subscription->subscription_id}}"
+                                                id="package_id">
+                                            <input type="hidden"
+                                                value="{{$used_subscription->subscription['cost_per_page']}}"
+                                                id="cost_per_page">
                                         </div>
 
-                                        <div class="p-5">
-                                            <div class="">
-                                                <label for="" class="mb-3 fs-6 fw-semibold">Coupon:</label>
-                                                <div class="d-flex">
-                                                    <input type="text" placeholder="" name="coupon" id="coupon"
-                                                        autocomplete="off"
-                                                        class="form-control bg-white w-75 btn-dark-primary" /><button
-                                                        type="button"
-                                                        class="form-control w-25 rounded bg-white ms-2 btn-dark-primary"
-                                                        onclick="coupon()"><i
-                                                            class="bi bi-arrow-right ms-1"></i></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="p-5 text-center">
+                                        <div class="p-5 text-center d-none">
                                             <label for="" class="mb-3 fs-6 fw-semibold text-center">Total
                                                 Price:</label>
                                             <h1
-                                                class="page-heading text-center d-flex text-gray-900 fw-bold fs-1 flex-column my-0 mb-3 fs-color-white">
+                                                class="page-heading text-center d-flex text-white fw-bold fs-1 flex-column my-0 mb-3">
                                                 US $<span id="total_cost">0</span></h1>
                                         </div>
                                         <div class="d-flex justify-content-center mb-5">
-                                            <button class="btn rounded-pill badge-custom-bg"
-                                                onclick="payment()">Continue
-                                                to Payment</button>
+                                            <button class="btn badge-custom-bg rounded-pill" type="button"
+                                                onclick="payment()">Continue to Place Order
+                                            </button>
                                         </div>
                                     </div>
+
+
+
+
                                 </div>
                             </div>
                         </div>
@@ -910,9 +826,6 @@
     </i>
 </div>
 <!--end::Scrolltop-->
-
-
-
 
 
 <div class="modal fade modal-place-order" id="modal-1" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -1223,11 +1136,14 @@
     <div class="modal-dialog">
         <div class="modal-content badge-custom-bg">
             <div class="modal-header border-0">
-                <h5 class="modal-title " id="exampleModalLabel">Add a Bulleted Summary to Your Order</h5>
+                <h5 class="modal-title " id="exampleModalLabel">Priority Support: Get the "VIP" Treatment</h5>
                 <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Receive a structured, bullet-point summary of the paper’s main ideas, arguments, evidence, and conclusions. This format is ideal for quick reference, efficient studying, creating slides, or preparing for discussions. A bulleted summary helps you absorb the core content at a glance without re-reading the full paper each time.
+                We will reply to your emails and support tickets with even greater urgency, usually within 30 minutes.
+                Plus, your prioritized "VIP" account will provide you with access to our priority phone number,
+                real-time order status updates, direct chat with your writer, the ability to quickly add additional
+                pages to your order with just a few clicks, and many other conveniences.
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
@@ -1240,11 +1156,14 @@
     <div class="modal-dialog">
         <div class="modal-content badge-custom-bg">
             <div class="modal-header border-0">
-                <h5 class="modal-title " id="exampleModalLabel">Add a Turnitin AI Detection Report to Your Order</h5>
+                <h5 class="modal-title " id="exampleModalLabel">We'll Store the Paper . . . Forever!</h5>
                 <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Get an official Turnitin AI detection report that evaluates the likelihood of AI-generated content within your paper. This tool is useful for meeting institutional requirements, ensuring transparency, and confirming that the work meets human-authorship standards. It provides peace of mind for students, educators, and academic reviewers alike.
+                In your online account, we will backup and permanently store the completed paper, all resource files
+                that you uploaded, and the order specifications that you provided. At any time in the future (and from
+                any location with any device), you'll be able to read or download all of those materials simply by
+                logging-in to your account. You'll never have to worry about losing or forgetting them!
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
@@ -1280,11 +1199,12 @@
     <div class="modal-dialog">
         <div class="modal-content badge-custom-bg">
             <div class="modal-header border-0">
-                <h5 class="modal-title " id="exampleModalLabel">Add a Turnitin Plagiarism Report to Your Order                </h5>
+                <h5 class="modal-title " id="exampleModalLabel">Get SMS Text Notifications!</h5>
                 <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Receive a comprehensive Turnitin plagiarism report showing any matched sources, similarity index, and citation accuracy. This report helps verify the originality of the content and ensures alignment with academic integrity guidelines. It's an essential add-on for students, researchers, or anyone submitting work to plagiarism-sensitive institutions.
+                You will receive an SMS text alert at every critical stage of the project, including when the order has
+                been completed! (US phones only.)
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
@@ -1292,97 +1212,6 @@
         </div>
     </div>
 </div>
-<div class="modal fade modal-place-order" id="modal-16" tabindex="-1" aria-labelledby="exampleModalLabel"
-aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content badge-custom-bg">
-        <div class="modal-header border-0">
-            <h5 class="modal-title " id="exampleModalLabel">Choose Bibliography Format & Citation Style
-
-            </h5>
-            <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            Select the required citation style for your paper, such as APA, MLA, Chicago, Harvard, or others. This ensures your references, in-text citations, and formatting follow the correct academic guidelines. If you're unsure which style to choose, check your assignment instructions or ask your instructor for clarification.
-
-        </div>
-        <div class="modal-footer border-0">
-            <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
-        </div>
-    </div>
-</div>
-</div>
-
-<div class="modal fade modal-place-order" id="modal-17" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content badge-custom-bg">
-            <div class="modal-header border-0">
-                <h5 class="modal-title " id="exampleModalLabel">Choose Type of Document</h5>
-                <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Specify the type of academic document you need, such as an essay, research paper, case study, report, or article. This helps tailor the structure, tone, and format of your order to meet expectations. Each document type has unique requirements, so choosing the correct one is essential for a high-quality result.
-            </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade modal-place-order" id="modal-18" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content badge-custom-bg">
-            <div class="modal-header border-0">
-                <h5 class="modal-title " id="exampleModalLabel">General Subject or Field</h5>
-                <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Indicate the general academic subject or field your paper falls under, such as psychology, economics, literature, nursing, etc. This helps assign a writer with relevant expertise in your topic area. Providing an accurate subject ensures more focused research, appropriate terminology, and stronger overall quality in your paper.
-            </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade modal-place-order" id="modal-19" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content badge-custom-bg">
-            <div class="modal-header border-0">
-                <h5 class="modal-title " id="exampleModalLabel">Academic Level</h5>
-                <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Select your academic level—such as high school, college, undergraduate, master’s, or PhD. This determines the depth of research, complexity of language, and citation expectations. Choosing the correct level ensures the paper meets the appropriate standards for your coursework or academic program.
-            </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade modal-place-order" id="modal-20" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content badge-custom-bg">
-            <div class="modal-header border-0">
-                <h5 class="modal-title " id="exampleModalLabel">PowerPoint Slides (Customer Selects Number of Pages)                </h5>
-                <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                If your order requires a presentation, you can request PowerPoint slides in addition to the written paper. Just select the number of slides needed. Each slide will be designed to visually support the paper’s key points. Ideal for class presentations, project defenses, or sharing research highlights with a clear visual impact.
-            </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <div class="modal fade modal-place-order" id="modal-15" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
@@ -1411,7 +1240,6 @@ aria-hidden="true">
                     <!--end::Step 4-->
                 </div>
             </div>
-
             <div class="modal-footer border-0">
                 <button type="submit" class="btn btn-dark-primary" onclick="submit_payment()">Submit</button>
                 <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
@@ -1460,12 +1288,7 @@ aria-hidden="true">
 
 
     $(document).ready(function () {
-        $('input[name="flexRadioDefault"]').on('change', function(){
-            var selectedValue = $(this).val();
-            // Capitalize first letter (No or Yes)
-            selectedValue = selectedValue.charAt(0).toUpperCase() + selectedValue.slice(1);
-            $('#statistic_percentage').text(selectedValue);
-        });
+
         $('#pricing').on('change', function () {
             var selectedValue = $(this).val();
             if (old !== '') {
@@ -1739,35 +1562,23 @@ aria-hidden="true">
 
         // Flag to check if any input is null
         var isNull = false;
-    var emptyFields = [];
 
-
-    var description = document.getElementById('description')?.textContent.trim();
-
-    // Check if the description is empty
-    if (!description) {
-        isNull = true;
-        emptyFields.push('Description');
-    }
-
-    formElements.forEach(function (element) {
-        // Check if the element is an input, select, or textarea
-        if (
-            (element.tagName === "INPUT" || element.tagName === "SELECT" || element.tagName === "TEXTAREA") &&
-            !element.value.trim()
-        ) {
-            isNull = true;
-            emptyFields.push(element.name || element.id); // Add the field name or id to the array
-        }
-    });
+        // Loop through each form element
+        formElements.forEach(function (element) {
+            // Check if the element is an input, select, or textarea
+            if (
+                (element.tagName === "INPUT" || element.tagName === "SELECT" || element.tagName ===
+                    "TEXTAREA") &&
+                !element.value.trim()
+            ) {
+                isNull = true;
+            }
+        });
 
         // Display alert if any input is null
-       if (isNull) {
-        // Join empty fields into a comma-separated string
-        const fieldList = emptyFields.join(', ');
-        Swal.fire('Error', `Please fill in the following required fields: ${fieldList}`, 'error');
-        return; // Stop further execution if fields are empty
-    }
+        if (isNull) {
+            alert("Please fill in all required fields.");
+        }
 
         // Return true if the form is valid, false otherwise
         if (!isNull) {
@@ -1853,16 +1664,14 @@ aria-hidden="true">
                     // alert(message);
 
                     if(message === 'Order placed successfully! customization'){
-                    //     Swal.fire({
-                    // icon: 'success',
-                    // title: 'Success!',
-                    // html: message,
-                    // customClass: {
-                    //     popup: 'custom-popup-class1',
-                    // }
-                    // });
-
-                     window.location.href = "{{ route('customer.thankyou') }}";
+                        Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    html: message,
+                    customClass: {
+                        popup: 'custom-popup-class1',
+                    }
+                    });
                     }else{
                         Swal.fire({
                     icon: 'success',
@@ -1873,12 +1682,12 @@ aria-hidden="true">
                     }
                     });
                     }
-
-
+                    
+                    
                     // toastr.success(message);
-                    // setTimeout(function () {
-                    //     location.reload();
-                    // }, 10000);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 10000);
 
 
                 },
@@ -1903,6 +1712,7 @@ aria-hidden="true">
         }
 
     }//end function here;
+
 
 
 
@@ -2003,8 +1813,6 @@ aria-hidden="true">
             }
         });
     }
-
-
 </script>
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
 <script src="{{ asset('backend/assets/plugins/global/plugins.bundle.js') }}"></script>
@@ -2058,37 +1866,11 @@ aria-hidden="true">
 
     $(document).ready(function() {
         $('.select22').select2({
-
+        
         allowClear: true,
         width: '100%'
-
+       
     });
-    });
-</script>
-
-<script>
-    // JavaScript to auto-update the label based on the selected date
-    document.addEventListener('DOMContentLoaded', function () {
-        const dateInput = document.querySelector('.specific_date');
-        const dateLabel = document.getElementById('day_date');
-
-        // Function to update the label with the selected date
-        function updateDateLabel() {
-            if (dateInput.value) {
-                // Convert the selected date to a readable format
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                const selectedDate = new Date(dateInput.value);
-                dateLabel.textContent = selectedDate.toLocaleDateString('en-US', options);
-            } else {
-                dateLabel.textContent = '';
-            }
-        }
-
-        // Initialize label on page load
-        updateDateLabel();
-
-        // Update label when the date changes
-        dateInput.addEventListener('change', updateDateLabel);
     });
 </script>
 
