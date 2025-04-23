@@ -242,14 +242,12 @@
                                             <!--</div>-->
                                             <div class="row col-md-8 mb-20">
                                                 <div class="col-md-6">
-                                                    <label for="" class="mb-3 fs-6 fw-semibold text-white">Select
-                                                        Specific
-                                                        Date</label>
+                                                    <label for="" class="mb-3 fs-6 fw-semibold text-white">Select Specific Date</label>
                                                     <input type="date" id="meeting-date"
-                                                        class="form-control btn-dark-primary" name="meeting-date"
+                                                        class="form-control btn-dark-primary specific_date" name="meeting-date"
                                                         value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
                                                         min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
-                                                        max="2024-12-12" />
+                                                       />
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="" class="mb-3 fs-6 fw-semibold text-white">Select
@@ -328,7 +326,7 @@
                                                 <div class="d-flex">
                                                     <input type="number" placeholder="1" id='no-page' name="no-page"
                                                         autocomplete="off" class="form-control w-25 btn-dark-primary"
-                                                        id="noofsources" /><button type="button"
+                                                        id="noofsources" min="0"/><button type="button"
                                                         class="border-0 bg-cus fs-6 fw-semibold btn-dark-primary"
                                                         data-bs-toggle="modal" data-bs-target="#modal-3"><i
                                                             class="bi bi-info-circle-fill mx-3"></i> 1 page =
@@ -349,7 +347,7 @@
                                                 <div class="d-flex">
                                                     <input type="number" id="no_of_extra_sources" placeholder="1"
                                                         name="no_of_extra_sources" autocomplete="off"
-                                                        class="form-control bg-transparent w-25 btn-dark-primary" /><button
+                                                        class="form-control bg-transparent w-25 btn-dark-primary" min="0" /><button
                                                         type="button"
                                                         class="border-0 bg-cus fs-6 fw-semibold btn-dark-primary"
                                                         data-bs-toggle="modal" data-bs-target="#modal-4"><i
@@ -381,7 +379,7 @@
 
 
                                                     <select name="submitting" id="submitting"
-                                                        class="form-control bg-transparent w-25 btn-dark-primary select22">
+                                                        class="form-control bg-transparent w-25 btn-dark-primary">
                                                         <option value="Yes">Yes
                                                         </option>
                                                         <option value="No">No
@@ -404,6 +402,8 @@
                                                     data-control="select2" data-hide-search="true"
                                                     data-placeholder="Choose">
                                                     @if ($term)
+                                                   <option value="" disabled selected>Type of document</option>
+
                                                         @foreach ($term as $s)
                                                             <option value="{{ $s->title }}">{{ $s->title }}
                                                             </option>
@@ -501,7 +501,7 @@
                                                 <!--begin::Input-->
                                                 <input type="number"
                                                     class="form-control form-control-lg form-control-solid btn-dark-primary"
-                                                    name="powerpoint_slide" placeholder="10" id="powerpoint_slide">
+                                                    name="powerpoint_slide" placeholder="10" id="powerpoint_slide"  min="0" value="0">
                                                 <p id="powerpoint_slide_msg" class="text-danger"></p>
                                                 <!--end::Input-->
                                             </div>
@@ -514,16 +514,17 @@
                                                             class="bi bi-info-circle-fill mx-3"></i></button></label>
                                                 <div class="d-flex">
                                                     <input class="form-check-input" value="no" type="radio"
-                                                        name="flexRadioDefault" id="statistical_analysis" checked>
+                                                        name="flexRadioDefault" id="" checked>
                                                     <label class="fs-6 fw-semibold mx-3 text-white"
                                                         for="flexRadioDefault1">
                                                         No
                                                     </label>
                                                     <input class="form-check-input" value="yes" type="radio"
-                                                        name="flexRadioDefault" id="statistical_analysis_yes">
+                                                        name="flexRadioDefault" id="">
                                                     <label class="fs-6 fw-semibold mx-3 text-white"
                                                         for="flexRadioDefault2">
-                                                        Yes (+15% to subtotal)
+                                                        Yes
+                                                        <!--(+15% to subtotal)-->
 
                                                     </label>
                                                 </div>
@@ -640,7 +641,7 @@
                                                         Sources:</label>
                                                 </div>
                                                 <div class="col-6 d-flex  align-items-center justify-content-end">
-                                                    <label for="" class="my-3 fs-6 fw-semibold">$<span
+                                                    <label for="" class="my-3 fs-6 fw-semibold"><span
                                                             id="extra_sources">0</span></label>
                                                 </div>
                                             </div>
@@ -655,12 +656,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="p-5 d-flex border-bottom">
-                                            <div class="col-12 align-items-center d-flex">
-                                                <label for="" class="my-3 fs-6 fw-semibold">Subtotal: US
-                                                    $<span id='sub_total'>0</span></label>
+                                     <div class="p-5 d-flex border-bottom" style="display: none !important;">
+                                                <div class="col-12 align-items-center d-flex">
+                                                    <label for="" class="my-3 fs-6 fw-semibold">
+                                                        Subtotal: US $<span id="sub_total">0</span>
+                                                    </label>
+                                                </div>
                                             </div>
-                                        </div>
+
                                         <div class="p-5 border-bottom">
                                             <div class="d-flex">
                                                 <h3
@@ -671,16 +674,18 @@
                                                         title="Additional Features that you may find useful"></i></button>
                                             </div>
                                             <div class="d-flex">
-                                                <div class="col-6 align-items-center d-flex ok">
+                                                <div class="col-5 align-items-center d-flex ok">
                                                     <label for="" class="mt-3 fs-6 fw-semibold cost_label"
-                                                        id="cost_label1">Summary:</label><button type="button"
-                                                        class="border-0 bg-transparent" data-bs-toggle="modal"
+                                                        id="cost_label1">Summary: <button type="button"
+                                                        class="border-0 bg-transparent p-0" data-bs-toggle="modal"
                                                         data-bs-target="#modal-10"><i
-                                                            class="bi bi-info-circle-fill ms-3"></i></button>
+                                                            class="bi bi-info-circle-fill"></i></button></label>
                                                 </div>
-                                                <div class="col-6 d-flex  align-items-center justify-content-end">
-                                                    <label for="" class="mt-3 fs-6 fw-semibold me-3">$<span
-                                                            id="">{{ $Addons->paper_summary }}</span></label>
+                                                <div class="col-7 d-flex  align-items-center justify-content-end">
+                                                    <!--<label for="" class="mt-3 fs-6 fw-semibold me-3">$<span-->
+                                                    <!--        id="">{{ $Addons->paper_summary }}</span></label>-->
+                                                      <label for="" class="mt-3 fs-6 fw-semibold me-3"><span
+                                                            id="">Free</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
                                                             <input type="checkbox" id="" data-target="1" checked>
@@ -691,16 +696,18 @@
                                                 </div>
                                             </div>
                                             <div class="d-flex">
-                                                <div class="col-6 align-items-center d-flex ok">
+                                                <div class="col-5 align-items-center d-flex ok">
                                                     <label for="" class="mt-3 fs-6 fw-semibold cost_label"
-                                                        id="cost_label2">Outline in Bullets:</label>
-                                                    <button type="button" class="border-0 bg-transparent"
+                                                        id="cost_label2">Outline in Bullets: <button type="button" class="border-0 bg-transparent p-0"
                                                         data-bs-toggle="modal" data-bs-target="#modal-11"><i
-                                                            class="bi bi-info-circle-fill ms-3"></i></button>
+                                                            class="bi bi-info-circle-fill"></i></button></label>
+                                                    
                                                 </div>
-                                                <div class="col-6 d-flex  align-items-center justify-content-end">
-                                                    <label for="" class="mt-3 fs-6 fw-semibold me-3">$<span
-                                                            id="">{{ $Addons->paper_utline_in_bullets }}</span></label>
+                                                <div class="col-7 d-flex  align-items-center justify-content-end">
+                                                    <!--<label for="" class="mt-3 fs-6 fw-semibold me-3">$<span-->
+                                                    <!--        id="">{{ $Addons->paper_utline_in_bullets }}</span></label>-->
+                                                     <label for="" class="mt-3 fs-6 fw-semibold me-3"><span
+                                                            id="">Free</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
                                                             <input type="checkbox" id="" data-target="2" checked>
@@ -711,16 +718,18 @@
 
                                             </div>
                                             <div class="d-flex">
-                                                <div class="col-6 align-items-center d-flex ok">
+                                                <div class="col-5 align-items-center d-flex ok">
                                                     <label for="" class="mt-3 fs-6 fw-semibold cost_label"
-                                                        id="cost_label3">AI Detection Report:</label>
-                                                    <button type="button" class="border-0 bg-transparent"
+                                                        id="cost_label3">AI Detection Report: <button type="button" class="border-0 bg-transparent p-0"
                                                         data-bs-toggle="modal" data-bs-target="#modal-12"><i
-                                                            class="bi bi-info-circle-fill ms-3"></i></button>
+                                                            class="bi bi-info-circle-fill"></i></button></label>
+                                                    
                                                 </div>
-                                                <div class="col-6 d-flex  align-items-center justify-content-end">
-                                                    <label for="" class="mt-3 fs-6 fw-semibold me-3">$<span
-                                                            id="">{{ $Addons->paper_abstract }}</span></label>
+                                                <div class="col-7 d-flex  align-items-center justify-content-end">
+                                                    <!--<label for="" class="mt-3 fs-6 fw-semibold me-3">$<span-->
+                                                    <!--        id="">{{ $Addons->paper_abstract }}</span></label>-->
+                                                     <label for="" class="mt-3 fs-6 fw-semibold me-3"><span
+                                                            id="">Free</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
                                                             <input type="checkbox" id="" data-target="3" checked>
@@ -731,16 +740,18 @@
                                             </div>
 
                                             <div class="d-flex">
-                                                <div class="col-6 align-items-center d-flex ok">
+                                                <div class="col-5 align-items-center d-flex ok">
                                                     <label for="" class="my-3 fs-6 fw-semibold cost_label"
-                                                        id="cost_label4">Plagiarism Report:</label>
-                                                    <button type="button" class="border-0 bg-transparent"
+                                                        id="cost_label4">Plagiarism Report: <button type="button" class="border-0 bg-transparent p-0"
                                                         data-bs-toggle="modal" data-bs-target="#modal-14"><i
-                                                            class="bi bi-info-circle-fill ms-3"></i></button>
+                                                            class="bi bi-info-circle-fill"></i></button></label>
+                                                    
                                                 </div>
-                                                <div class="col-6 d-flex  align-items-center justify-content-end">
-                                                    <label for="" class="mt-3 fs-6 fw-semibold me-3">$<span
-                                                            id="">{{ $Addons->turnitin_report }}</span></label>
+                                                <div class="col-7 d-flex  align-items-center justify-content-end">
+                                                    <!--<label for="" class="mt-3 fs-6 fw-semibold me-3">$<span-->
+                                                    <!--        id="">{{ $Addons->turnitin_report }}</span></label>-->
+                                                     <label for="" class="mt-3 fs-6 fw-semibold me-3"><span
+                                                            id="">Free</span></label>
 
                                                     <div class="switch-container">
                                                         <label class="switch">
@@ -751,6 +762,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <br>
                                         <div class="card-body pt-0 bg-transparent"
                                             style="background-color: white; color: white;">
                                             <div class="fs-7 fw-normal text-muted" style="color: white;"> <span
@@ -1562,23 +1574,35 @@
 
         // Flag to check if any input is null
         var isNull = false;
+    var emptyFields = []; 
+    
+    
+    var description = document.getElementById('description')?.textContent.trim();
 
-        // Loop through each form element
-        formElements.forEach(function (element) {
-            // Check if the element is an input, select, or textarea
-            if (
-                (element.tagName === "INPUT" || element.tagName === "SELECT" || element.tagName ===
-                    "TEXTAREA") &&
-                !element.value.trim()
-            ) {
-                isNull = true;
-            }
-        });
+    // Check if the description is empty
+    if (!description) {
+        isNull = true;
+        emptyFields.push('Description');
+    }
+
+ formElements.forEach(function (element) {
+    // Check if the element is an input, select, or textarea
+    if (
+        (element.tagName === "INPUT" || element.tagName === "SELECT" || element.tagName === "TEXTAREA") &&
+        !element.value.trim()
+    ) {
+        isNull = true;
+        emptyFields.push(element.name || element.id); // Add the field name or id to the array
+    }
+});
 
         // Display alert if any input is null
-        if (isNull) {
-            alert("Please fill in all required fields.");
-        }
+       if (isNull) {
+        // Join empty fields into a comma-separated string
+        const fieldList = emptyFields.join(', ');
+        Swal.fire('Error', `Please fill in the following required fields: ${fieldList}`, 'error');
+        return; // Stop further execution if fields are empty
+    }
 
         // Return true if the form is valid, false otherwise
         if (!isNull) {
@@ -1664,14 +1688,16 @@
                     // alert(message);
 
                     if(message === 'Order placed successfully! customization'){
-                        Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    html: message,
-                    customClass: {
-                        popup: 'custom-popup-class1',
-                    }
-                    });
+                    //     Swal.fire({
+                    // icon: 'success',
+                    // title: 'Success!',
+                    // html: message,
+                    // customClass: {
+                    //     popup: 'custom-popup-class1',
+                    // }
+                    // });
+                    
+                     window.location.href = "{{ route('customer.thankyou') }}";
                     }else{
                         Swal.fire({
                     icon: 'success',
@@ -1685,9 +1711,9 @@
                     
                     
                     // toastr.success(message);
-                    setTimeout(function () {
-                        location.reload();
-                    }, 10000);
+                    // setTimeout(function () {
+                    //     location.reload();
+                    // }, 10000);
 
 
                 },
@@ -1871,6 +1897,32 @@
         width: '100%'
        
     });
+    });
+</script>
+
+<script>
+    // JavaScript to auto-update the label based on the selected date
+    document.addEventListener('DOMContentLoaded', function () {
+        const dateInput = document.querySelector('.specific_date');
+        const dateLabel = document.getElementById('day_date');
+
+        // Function to update the label with the selected date
+        function updateDateLabel() {
+            if (dateInput.value) {
+                // Convert the selected date to a readable format
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const selectedDate = new Date(dateInput.value);
+                dateLabel.textContent = selectedDate.toLocaleDateString('en-US', options);
+            } else {
+                dateLabel.textContent = '';
+            }
+        }
+
+        // Initialize label on page load
+        updateDateLabel();
+
+        // Update label when the date changes
+        dateInput.addEventListener('change', updateDateLabel);
     });
 </script>
 
