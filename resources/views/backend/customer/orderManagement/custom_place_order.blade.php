@@ -1297,7 +1297,7 @@
             document.getElementById(`click_${selectedValue}`).style.display = 'block';
             old = selectedValue;
 
-            var url = '{{ route('changeDate', ['id' => ':selectedValue']) }}';
+            var url = '{{ route('changeDatepkg', ['id' => ':selectedValue']) }}';
             url = url.replace(':selectedValue', selectedValue);
 
             $.ajax({

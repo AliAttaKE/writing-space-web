@@ -596,6 +596,7 @@ Route::get('/pay/add/manage/{orderid}', [CustomerPlaceOrderController::class, 'p
 Route::get('dashboard', [CustomerController::class, 'index'])->name('dashboard');
 Route::get('/placeOrder',[CustomerPlaceOrderController::class,'index'])->name('customerPlaceOrder');
 Route::get('/changeDate/{id}',[CustomerPlaceOrderController::class,'changeDate'])->name('changeDate');
+Route::get('/changeDatepkg/{id}',[CustomerPlaceOrderController::class,'changeDatepkg'])->name('changeDatepkg');
 
 
 Route::get('/email-tester', [CustomerPlaceOrderController::class, 'email_tester'])->name('email_tester');

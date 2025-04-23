@@ -2739,6 +2739,16 @@ Mail::html($emailContent, function ($message) use ($user) {
             return response()->json(['success' => false, 'message' => 'Pricing not found'], 404);
         }
     }
+    public function changeDatepkg($id)
+    {
+        $pricing = PricingPakage::find($id);
+        if ($pricing) {
+
+            return response()->json(['success' => true, 'message' => $pricing]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Pricing not found'], 404);
+        }
+    }
 
 
     public function create_order(Request $request, $id)
