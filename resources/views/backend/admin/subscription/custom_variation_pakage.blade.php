@@ -240,7 +240,7 @@
                                                 <th class="min-w-100px">Custom</th>
                                                 <th class="min-w-100px">Cost</th>
                                                 <th class="min-w-100px">Duration</th>
-                                                <th class="min-w-100px">Cost per page</th>
+                                                {{-- <th class="min-w-100px">Cost per page</th> --}}
                                                 <th class="min-w-80px">Page Limit</th>
                                                 <th class="min-w-70px">Actions</th>
                                             </tr>
@@ -257,7 +257,7 @@
                                                 <td>{{$subs->text}}</td>
                                                 <td>{{$subs->cost}}</td>
                                                 <td>{{$subs->min}}  {{$subs->max}} {{$subs->duration_type}}</td>
-                                                <td>${{$subs->cost_per_page}}</td>
+                                                {{-- <td>${{$subs->cost_per_page}}</td> --}}
                                                 <td>{{$subs->page_limit}}</td>
 
                                                 <td>

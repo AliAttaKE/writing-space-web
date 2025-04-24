@@ -161,11 +161,11 @@
                         </div> --}}
                         <!--end::Content container-->
                         <!--begin::Content container-->
-                        {{-- <div id="kt_app_content_container" class="app-container container-xxl mb-5">
+                        <div id="kt_app_content_container" class="app-container container-xxl mb-5">
                             <h3
                                 class="page-heading d-flex text-white fw-bold fs-3 flex-column justify-content-center my-0 text-center">
                                 Pricing Plans & Delivery Dates</h3>
-                        </div> --}}
+                        </div>
                         <!--end::Content container-->
                         {{-- <div class="px-10 mb-20">
                             <div class="plans">
@@ -192,6 +192,50 @@
 
                             </div>
                         </div> --}}
+
+                        <div class="px-10 mb-20">
+                            <div class="plans">
+                                @if ($pricing)
+                                @foreach ($pricing as $p)
+                                    @php
+                                        // Remove unwanted words from the 'min' field if needed
+                                        $cleanMin = preg_replace('/^(Only|Just|Need it in)\s+/', '', trim($p->min));
+
+                                        // Define the phrases you want to remove from the page_limit field
+                                        $removePhrases = [
+                                            "ensures your urgent needs,",
+                                            "for up to",
+                                            "up to",
+                                            "limit of",
+                                            "With a",
+                                            "-page",
+                                            "-"
+                                        ];
+                                        // Remove these phrases (case-insensitive) from the page_limit field
+                                        $cleanPageLimit = str_ireplace($removePhrases, "", $p->page_limit);
+                                        $cleanPageLimit = trim($cleanPageLimit);
+                                    @endphp
+
+                                    <ul id="pricing_{{ $p->id }}" class="prising-plans selected-plan">
+                                        <li class="fs-color-yellow mb-3">{{ $p->text }}</li>
+                                        @if ($cleanMin == '15')
+                                            <li>{{ $cleanMin }} {{ $p->duration_type }} or {{ $p->max }}</li>
+                                        @else
+                                            <li>{{ $cleanMin }} - {{ $p->max }} {{ $p->duration_type }}</li>
+                                        @endif
+
+                                        {{-- <li>${{ $p->cost_per_page }} per page</li> --}}
+                                        <li>{{ $cleanPageLimit }} page-limit</li>
+                                        <li style="display: none;" id="click_{{ $p->id }}">
+                                            <i class="fa-solid fa-check" style="color:#2196F3;"></i>
+                                        </li>
+                                    </ul>
+                                @endforeach
+                            @endif
+
+
+                            </div>
+                        </div>
                         <!--begin::Content container-->
                         {{-- <div id="kt_app_content_container" class="app-container container-xxl mb-20">
                             <h3
@@ -215,6 +259,12 @@
                                     <!--        class="page-heading d-flex text-white fw-bold fs-3 flex-column justify-content-center my-0 border-bottom">-->
                                     <!--        When would you like to receive this order?</h3>-->
                                     <!--</div>-->
+
+                                    <div id="kt_app_content_container" class=" mb-10">
+                                        <h3
+                                            class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 border-bottom fs-color-white">
+                                            When would you like to receive this order?</h3>
+                                    </div>
                                     <div class="">
 
                                         <form action="" class="kt_invoice_form">
@@ -240,6 +290,32 @@
                                             <!--        @endif-->
                                             <!--    </select>-->
                                             <!--</div>-->
+                                            <div class="col-md-6 mb-10">
+                                                <select name="pricing" id="pricing"
+                                                    class="form-select form-select-solid btn-dark-primary select22"
+                                                    data-control="select2" data-hide-search="true"
+                                                    data-placeholder="Select Pricing">
+                                                    <option></option>
+                                                    @if ($pricing)
+                                                    @foreach ($pricing as $p)
+                                                    @if ($p->min == '15')
+                                                    <option value="{{ $p->id }}">
+                                                        {{ $p->min }} {{ $p->duration_type }} or
+                                                        {{ $p->max }} = ${{ $p->page_limit }}
+                                                        page limit</option>
+                                                    @else
+                                                    <option value="{{ $p->id }}">
+                                                        {{ $p->min }} - {{ $p->max }}
+                                                        {{ $p->duration_type }} = ${{ $p->page_limit }}
+                                                        limit page</option>
+
+                                                        
+                                                    @endif
+                                                    @endforeach
+                                                    @endif
+
+                                                </select>
+                                            </div>
                                             <div class="row col-md-8 mb-20">
                                                 <div class="col-md-6">
                                                     <label for="" class="mb-3 fs-6 fw-semibold text-white">Select Specific Date</label>
@@ -325,14 +401,18 @@
                                             <div class="col-md-6 mb-10">
                                                 <label for="" class="mb-3 fs-6 fw-semibold text-white">Number of
                                                     Pages:</label>
-                                                <div class="d-flex">
-                                                    <input type="number" placeholder="1" id='no-page' name="no-page"
-                                                        autocomplete="off" class="form-control w-25 btn-dark-primary"
-                                                        id="noofsources" min="0"/><button type="button"
+                                              
+                                                    <div class="d-flex">
+                                                        <input type="number" placeholder="1" id="no-page" name="no-page"
+                                                        autocomplete="off" onkeyup="functionToword()"
+                                                        class="form-control bg-transparent w-25 me-2 fs-white-color btn-dark-primary nopage"
+                                                        min="0" />
+                                                    <button type="button"
                                                         class="border-0 bg-cus fs-6 fw-semibold btn-dark-primary"
                                                         data-bs-toggle="modal" data-bs-target="#modal-3"><i
                                                             class="bi bi-info-circle-fill mx-3"></i> 1 page =
                                                         approximately 300 words</button>
+                                                        <input type="hidden" id="page_limit">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
@@ -1419,6 +1499,32 @@ aria-hidden="true">
 
     let old = '';
 
+    document.getElementsByClassName('nopage')[0].addEventListener('input', function () {
+
+// $('#coupon').val('');
+// $('#my_coupon').text('');
+
+localStorage.removeItem('discountCoupon');
+
+var page_limit = $('#page_limit').val();
+var nopagecheck = parseInt(this.value);
+
+if (page_limit === 'No') {
+this.value = nopagecheck;
+} else {
+
+page_limit = parseInt(page_limit);
+
+if (page_limit >= nopagecheck) {
+    var pricing = $('#pricing').val();
+    let nopage = this.value;
+    this.value = nopage;
+} else {
+    this.value = page_limit;
+}
+}
+});
+
 
     $(document).ready(function () {
         $('input[name="flexRadioDefault"]').on('change', function(){
@@ -1435,7 +1541,7 @@ aria-hidden="true">
             document.getElementById(`click_${selectedValue}`).style.display = 'block';
             old = selectedValue;
 
-            var url = '{{ route('changeDate', ['id' => ':selectedValue']) }}';
+            var url = '{{ route('changeDatepkg', ['id' => ':selectedValue']) }}';
             url = url.replace(':selectedValue', selectedValue);
 
             $.ajax({
@@ -1453,6 +1559,10 @@ aria-hidden="true">
                     if (max === 'later') {
                         max = '16'
                     }
+                    $('#page_limit').val('');
+                    $('.nopage').val('');
+                    $('#page_limit').val(data.page_limit);
+
                     var per_page = data.cost_per_page;
                     var elements = document.querySelectorAll('#cost_per_page');
                     console.log(elements)
