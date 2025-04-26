@@ -2185,8 +2185,9 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
                         $order->deadline = $formattedDate;
                         $order->no_of_extra_sources = $order->no_of_extra_sources + $order_detail->page;
                         $order->save();
-                        print_r($order->no_of_extra_sources + $order_detail->page );
-                        dd($order);
+                      //  print_r($order->no_of_extra_sources + $order_detail->page );
+                      //  dd($order);
+                      
                         $user = User::find($order->user_id);
                         $invoice = Invoice::create([
                             'Name' => $user->name,
