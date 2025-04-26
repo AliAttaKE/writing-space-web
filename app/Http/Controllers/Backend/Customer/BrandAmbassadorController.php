@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Models\BrandAmbassador;
 
 class BrandAmbassadorController extends Controller
 {
@@ -20,8 +21,10 @@ class BrandAmbassadorController extends Controller
         $users = User::whereIs_brand_amb(1)
                         ->where('brand_amb_created_by', auth()->user()->id)->paginate(5);
         $discounts = Coupon::where('discount_value', 'Percentage')->where('Active',1)->select('code','discount','min_pages')->get();    
+      
+        $brnadambassador = BrandAmbassador::get();
         //dd($discounts);        
-        return view('backend.customer.brandAmbassador.index', compact('users','discounts'));
+        return view('backend.customer.brandAmbassador.index', compact('users','discounts','brnadambassador'));
     }
 
     public function store(Request $request)
@@ -36,16 +39,6 @@ class BrandAmbassadorController extends Controller
         ]);
         
 
-       
-
-        // if(Auth::check() && Auth::user()->tier !== 'tier_4')
-        // {
-        //     return response()->json([
-        //         'status' => true,
-        //         'message' => 'You are not allowed to invite this brand ambassador.'
-        //     ], 200);
-        // }
-        
 
         $token = Str::random(45);
         $user = TempraryData::create([
@@ -65,8 +58,18 @@ class BrandAmbassadorController extends Controller
         try {
             
             Mail::send('emails.brand_ambassador_sign_up', ['data' => $data], function($message) use ($request) {
-                $message->to($request->email)->subject('Sign Up for Our Website');
+                $message->to($request->email)->subject($request->subject);
             });
+
+
+            $ambassador = new BrandAmbassador();
+            $ambassador->sender_id = Auth::user()->id;
+            $ambassador->sender_name = Auth::user()->name;
+            $ambassador->receiver_name = $request->name;
+            $ambassador->subject = $request->subject;
+            $ambassador->message = $request->message;
+            $ambassador->save();
+
             return response()->json(['status' => true, 'message' => 'Signup link sent to your email.'],200);
         } catch (\Exception $e) {
             return $e->getMessage().''.$e->getLine();

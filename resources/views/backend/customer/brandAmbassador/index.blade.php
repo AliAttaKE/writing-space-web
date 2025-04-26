@@ -132,56 +132,24 @@
                                             <thead>
                                                 <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
                                                     <th>#</th>
-                                                    <th>Name</th>
-                                                    <th>Email</th>
-                                                    <th>Role</th>
-                                                    <th>Action</th>
+                                                    <th>Sender ID</th>
+                                                    <th>sender Name</th>
+                                                    <th>Receiver Name</th>
+                                                    <th>Email Subject</th>
+                                                    <th>Email Message</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="fw-semibold text-gray-600">
-                                                @foreach ($users as $key => $user )
+                                                @foreach ($brnadambassador as $key => $b )
                                                 <tr>
                                                     <td>{{$key+1}}</td>
-                                                    <td>{{$user->name}}</td>
-                                                    <td>{{$user->email}}</td>
-                                                    <td>
-                                                        @if($user->is_brand_amb == 1)
-                                                        <span class="badge badge-light-success">Brand Ambassador</span>
-                                                        @else
-                                                        @endif
-                                                    </td>
-
-                                                    <td class="" data-kt-filemanager-table="action_dropdown">
-                                                        <div class="d-flex">
-                                                            <!--begin::More-->
-                                                            <div class="ms-2">
-                                                                <button type="button"
-                                                                    class="btn btn-sm btn-icon btn-light btn-active-light-primary"
-                                                                    data-kt-menu-trigger="click"
-                                                                    data-kt-menu-placement="bottom-end">
-                                                                    <i class="ki-duotone ki-dots-square fs-5 m-0">
-                                                                        <span class="path1"></span>
-                                                                        <span class="path2"></span>
-                                                                        <span class="path3"></span>
-                                                                        <span class="path4"></span>
-                                                                    </i>
-                                                                </button>
-                                                                <!--begin::Menu-->
-                                                                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-150px py-4"
-                                                                    data-kt-menu="true">
-                                                                    <!--begin::Menu item-->
-                                                                    <div class="menu-item px-3">
-                                                                        <a href="{{route('customer.brand.ambassadors.destroy', $user->id)}}"
-                                                                            class="menu-link px-3">Delete</a>
-                                                                    </div>
-                                                                    <!--end::Menu item-->
-
-                                                                </div>
-                                                                <!--end::Menu-->
-                                                            </div>
-                                                            <!--end::More-->
-                                                        </div>
-                                                    </td>
+                                                    <td>{{$b->sender_id}}</td>
+                                                    <td>{{$b->sender_name}}</td>
+                                                    <td>{{$b->receiver_name}}</td>
+                                                    <td>{{$b->subject}}</td>
+                                                    <td>{{$b->message}}</td>
+                                                   
+                                                
                                                 </tr>
 
                                                 @endforeach
@@ -212,7 +180,7 @@
                                 <!--begin::Modal header-->
                                 <div class="modal-header">
                                     <!--begin::Modal title-->
-                                    <h2 class="fw-bold fs-color-white custom-fs-23">Create New Brand Ambassador</h2>
+                                    <h2 class="fw-bold fs-color-white custom-fs-23">Share Your Experience with Your Peers.</h2>
                                     <!--end::Modal title-->
                                     <!--begin::Close-->
                                     <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal"
@@ -233,26 +201,19 @@
                                         @csrf
                                         <!--begin::Notice-->
                                         <!--begin::Notice-->
-                                        <div
+                                        {{-- <div
                                             class="notice d-flex bg-light-success rounded border-success border border-dashed mb-9 p-6">
-                                            {{-- <!--begin::Icon-->
-                                            <i class="ki-duotone ki-success fs-2tx text-primary me-4">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                                <span class="path3"></span>
-                                            </i>
-                                            <!--end::Icon--> --}}
-                                            <!--begin::Wrapper-->
+                                         
                                             <div class="d-flex flex-stack flex-grow-1">
-                                                <!--begin::Content-->
+                                              
                                                 <div class="fw-semibold">
-                                                    <div class="fs-6 text-gray-700">Share Your Experience with Your Peers..
+                                                    <div class="fs-6 text-gray-700">Share Your Experience with Your Peers.
                                                     </div>
                                                 </div>
-                                                <!--end::Content-->
+                                              
                                             </div>
-                                            <!--end::Wrapper-->
-                                        </div>
+                                           
+                                        </div> --}}
                                         <!--end::Notice-->
                                         <!--end::Notice-->
 
@@ -284,6 +245,19 @@
                                                 placeholder="Enter email address.." id="brand_abm_email" name="email"
                                                 value="{{ old('email') }}" />
                                             <span id="email_error" class="text-danger"></span>
+                                            <!--end::Input-->
+                                        </div>
+                                        <div class="fv-row mb-7">
+                                            <!--begin::Label-->
+                                            <label class="fs-6 fw-semibold form-label mb-2">
+                                                <span class="required fs-color-white custom-fs-13">Subject</span>
+                                            </label>
+                                            <!--end::Label-->
+                                            <!--begin::Input-->
+                                            <input type="subject" class="form-control form-control-solid btn-dark-primary"
+                                                placeholder="Enter email Subject.." id="brand_abm_subject" name="subject"
+                                                value="{{ old('subject') }}" />
+                                            <span id="subject_error" class="text-danger"></span>
                                             <!--end::Input-->
                                         </div>
                                         <!--end::Input group-->
@@ -375,6 +349,7 @@
 
                     var name = $('#brand_abm_name').val();
                     var email = $('#brand_abm_email').val();
+                    var subject = $('#brand_abm_subject').val();
                     var message = $('#brand_abm_message').val();
 
                     // if (!isValidEmailAddress(email)) {
@@ -383,50 +358,7 @@
                     // }
 
                     $('.sendEmail').prop('disabled', true);
-                    // $.ajax({
-                    //     type: "POST",
-                    //     url: "{{route('customer.brand.ambassadors')}}",
-                    //     data: {
-                    //         name: name,
-                    //         email: email,
-                    //         message: message,
-                    //         _token: "{{ csrf_token() }}"
-                    //     },
-                    //     dataType: "json",
-                    //     beforeSend: function() {
-
-                    //     },
-                    //     success: function(response) {
-                    //         if (response.status) {
-                    //             alert(response.message);
-                    //             $('#brand_abm_email').val('');
-                    //             $('#email_error').text('');
-
-                    //             $('#brand_abm_name').val('');
-                    //             $('#name_error').text('');
-
-                    //             $('#brand_abm_message').val('');
-                    //             $('#message_error').text('');
-
-                    //             $('#kt_modal_create_brand_ambassador_modal').modal('hide');
-                    //         } 
-
-
-
-                    //     },
-                    //     error: function(xhr, status, error) {
-                    //         $('.sendEmail').prop('disabled', true);
-                    //         console.log(xhr);
-                    //         console.log(status);
-                    //         console.log(error);
-                    //         $('#email_error').text(xhr.responseJSON.errors.email[0]);
-                    //         $('#name_error').text(xhr.responseJSON.errors.name[0]);
-                    //         $('#message_error').text(xhr.responseJSON.errors.message[0]);
-                    //     },
-                    //     complete: function() {
-                    //         $('.sendEmail').prop('disabled', false);
-                    //     }
-                    // });
+                   
 
                     $.ajax({
                         type: "POST",
@@ -434,6 +366,7 @@
                         data: {
                             name: name,
                             email: email,
+                            subject: subject,
                             message: message,
                             _token: "{{ csrf_token() }}"
                         },
