@@ -705,6 +705,7 @@ Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->nam
 
 
 Route::post('/date-check',[CustomerPlaceOrderController::class,'date_check'])->name('date-check');
+Route::post('/date-check-pkg',[CustomerPlaceOrderController::class,'date_check_pkg'])->name('date_check_pkg');
 Route::post('check-coupon',[CouponController::class,'check_coupon'])->name('check-coupon');
     // Role in permission routes;
     Route::get('/all/roles/permissions', [RoleSetupController::class, 'AllRolePermission'])->name('all.roles.permissions');

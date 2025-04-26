@@ -3235,6 +3235,29 @@ $permissions = 0775;
             return response()->json(['success' => false, 'message' => 'pricing not found'], 404);
         }
     }
+    public function date_check_pkg(Request $request)
+    {
+        $current = Carbon::now(); // Get the current date and time
+        $date = Carbon::parse($request->date); // Parse the date from the request
+
+        // Calculate the difference in days
+        $dayDiff = $current->diffInDays($date);
+        $data = '';
+        $pricing = PricingPakage::all();
+        if ($pricing->count() > 0) {
+            foreach ($pricing as $p) {
+                if ($p->max == 'Later') {
+                    $p->max = $dayDiff;
+                }
+                if ($p->min <= $dayDiff && $p->max >= $dayDiff) {
+                    $data = $p;
+                }
+            }
+            return response()->json(['success' => true, 'message' => $data]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'pricing not found'], 404);
+        }
+    }
     public function check_package($sub_id)
     {
         $user = User::find(auth()->user()->id);

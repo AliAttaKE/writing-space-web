@@ -268,28 +268,7 @@
                                     <div class="">
 
                                         <form action="" class="kt_invoice_form">
-                                            <!--<div class="col-md-6 mb-10">-->
-                                            <!--    <select name="pricing" id="pricing"-->
-                                            <!--        class="form-select form-select-solid" data-control="select2"-->
-                                            <!--        data-hide-search="true" data-placeholder="Select Pricing">-->
-                                            <!--        <option></option>-->
-                                            <!--        @if ($pricing)-->
-                                            <!--        @foreach ($pricing as $p)-->
-                                            <!--        @if ($p->min == '15')-->
-                                            <!--        <option value="{{ $p->id }}">-->
-                                            <!--            {{ $p->min }} {{ $p->duration_type }} or-->
-                                            <!--            {{ $p->max }} = ${{ $p->cost_per_page }} per-->
-                                            <!--            page</option>-->
-                                            <!--        @else-->
-                                            <!--        <option value="{{ $p->id }}">-->
-                                            <!--            {{ $p->min }}-{{ $p->max }}-->
-                                            <!--            {{ $p->duration_type }} = ${{ $p->cost_per_page }}-->
-                                            <!--            per page</option>-->
-                                            <!--        @endif-->
-                                            <!--        @endforeach-->
-                                            <!--        @endif-->
-                                            <!--    </select>-->
-                                            <!--</div>-->
+                                          
                                             <div class="col-md-6 mb-10">
                                                 <select name="pricing" id="pricing"
                                                     class="form-select form-select-solid btn-dark-primary select22"
@@ -301,15 +280,13 @@
                                                     @if ($p->min == '15')
                                                     <option value="{{ $p->id }}">
                                                         {{ $p->min }} {{ $p->duration_type }} or
-                                                        {{ $p->max }} = ${{ $p->page_limit }}
-                                                        page limit</option>
+                                                        {{ $p->max }} = ${{ $p->cost_per_page }} per
+                                                        page</option>
                                                     @else
                                                     <option value="{{ $p->id }}">
                                                         {{ $p->min }} - {{ $p->max }}
-                                                        {{ $p->duration_type }} = ${{ $p->page_limit }}
-                                                        limit page</option>
-
-                                                        
+                                                        {{ $p->duration_type }} = {{ $p->cost_per_page }}
+                                                        per page</option>
                                                     @endif
                                                     @endforeach
                                                     @endif
@@ -1533,118 +1510,192 @@ if (page_limit >= nopagecheck) {
             selectedValue = selectedValue.charAt(0).toUpperCase() + selectedValue.slice(1);
             $('#statistic_percentage').text(selectedValue);
         });
-        $('#pricing').on('change', function () {
-            var selectedValue = $(this).val();
-            if (old !== '') {
-                document.getElementById(`click_${old}`).style.display = 'none';
-            }
-            document.getElementById(`click_${selectedValue}`).style.display = 'block';
-            old = selectedValue;
 
-            var url = '{{ route('changeDatepkg', ['id' => ':selectedValue']) }}';
-            url = url.replace(':selectedValue', selectedValue);
 
-            $.ajax({
-                type: 'get',
-                url: url,
-                data: {
-                    id: selectedValue
-                }, // Assuming id is a parameter you want to send
-                success: function (response) {
-                    // Handle the success response here
-                    var data = response.message;
-                    console.log(response)
-                    var type = data.duration_type;
-                    var max = data.max;
-                    if (max === 'later') {
-                        max = '16'
-                    }
-                    $('#page_limit').val('');
-                    $('.nopage').val('');
-                    $('#page_limit').val(data.page_limit);
+        $("#meeting-date").on("input", function () {
 
-                    var per_page = data.cost_per_page;
-                    var elements = document.querySelectorAll('#cost_per_page');
-                    console.log(elements)
-                    // Loop through the elements and set the content
-                    elements.forEach(function (element) {
-                        element.innerHTML = per_page;
-                    });
+        
+var date = $(this).val();
+var pricing = $('#pricing').val();
+if (pricing == null || pricing == '') {
+    var url = '{{ route('date_check_pkg') }}';
 
-                    calculate_sub_total();
-                    // Get current date and time
-                    var currentDate = new Date();
-                    var currentTime = currentDate.getTime();
+    $.ajax({
+        type: 'post',
+        url: url,
+        data: {
+            date: date,
+            _token: '{{ csrf_token() }}',
+        },
+        // Assuming id is a parameter you want to send
+        success: function (response) {
+            var data = response.message;
+            selectedId = data.id;
+            console.log(selectedId)
+            $("#pricing").val(selectedId).trigger("change");
+        },
+        error: function (response) {
+            console.log(response)
+            var my = response.responseJSON;
+            Swal.fire('Error', my.error, 'error');
+        }
+    });
+}
 
-                    // Variables to store formatted date, time, and AM/PM
-                    var formattedDate;
-                    var formattedTime;
-                    var ampm;
-                    var day_date;
-                    // Check duration type and adjust date or time accordingly
-                    if (type === 'Days') {
+});
 
-                        currentDate.setDate(currentDate.getDate() + parseInt(max, 10));
-                        formattedDate = currentDate.toISOString().slice(0, 10);
-                        day_date = formatDate(formattedDate);
-                        document.getElementById('meeting-date').value = formattedDate;
-                        document.getElementById('meeting-date').setAttribute('min', formattedDate);
-                        document.getElementById('day_date').innerHTML = day_date;
+$('#pricing').on('change', function () {
 
-                        console.log('New Date:', formattedDate + day_date);
+$('.numberofsource').val('');
+$('.noofword').val('');
+$('.nopage').val('');
 
-                    } else if (type === 'Hours') {
-                        currentTime += parseInt(max, 10) * 60 * 60 * 1000;
-                        var newDate = new Date(currentTime);
+// Clear text elements
+$('#sub_total').text('');
+$('#no_of_pages').text('');
 
-                        // Use newDate after it's assigned
-                        formattedTime = newDate.toLocaleTimeString('en-US', {
-                            hour: 'numeric',
-                            minute: 'numeric',
-                            hour12: false
-                        }); // Remove AM/PM
-                        formattedDate = newDate.toISOString().slice(0, 10);
-                        ampm = newDate.toLocaleTimeString('en-US', {
-                            hour12: true
-                        }).split(' ')[1]; // Extract AM/PM
-                        day_date = formatDate(formattedDate);
+// Uncheck the checkbox if it's checked
+$('.toggleSwitch').prop('checked', false);
 
-                        if (newDate.getDate() !== currentDate.getDate()) {
-                            formattedDate = newDate.toISOString().slice(0, 10);
-                            day_date = formatDate(formattedDate);
-                            document.getElementById('day_date').innerHTML = day_date;
 
-                            console.log('Time and Date:', formattedDate, formattedTime,
-                                ampm);
-                            document.getElementById('meeting-date').value = formattedDate;
-                            document.getElementById('meeting-time').value = formattedTime;
-                            document.getElementById('meeting-date').setAttribute('min', formattedDate);
-                            document.getElementById('day_date').innerHTML = day_date;
+var selectedValue = $(this).val();
+if (old !== '') {
+    document.getElementById(`click_${old}`).style.display = 'none';
+}
+document.getElementById(`click_${selectedValue}`).style.display = 'block';
+old = selectedValue;
 
-                            $('#ampm').val(ampm).trigger('change');
+var url = '{{ route('changeDatepkg', ['id' => ':selectedValue']) }}';
+url = url.replace(':selectedValue', selectedValue);
 
-                        } else {
 
-                            console.log('New Time:', formattedTime, ampm, +day_date);
 
-                            formattedDate = newDate.toISOString().slice(0, 10);
-                            day_date = formatDate(formattedDate);
-                            document.getElementById('meeting-time').value = formattedTime;
-                            document.getElementById('meeting-date').value = formattedDate;
-                            document.getElementById('meeting-date').setAttribute('min', formattedDate);
-                            console.log(document.getElementById('meeting-date').getAttribute('min'))
-                            document.getElementById('day_date').innerHTML = day_date;
-                            $('#ampm').val(ampm).trigger('change');
-                        }
-                    }
-                },
-                error: function (error) {
-                    // Handle any errors here
-                    console.error(error);
-                }
-            });
+$.ajax({
+    type: 'get',
+    url: url,
+    data: {
+        id: selectedValue
+    }, // Assuming id is a parameter you want to send
+    success: function (response) {
+        // Handle the success response here
+        var data = response.message;
+        console.log(response)
+        var type = data.duration_type;
+        var max = data.max;
+        var min = data.min;
+        if (max === 'later') {
+            max = '100'
+        }
 
+        $('#page_limit').val('');
+        $('.nopage').val('');
+        $('#page_limit').val(data.page_limit);
+
+        var per_page = data.cost_per_page;
+        var elements = document.querySelectorAll('#cost_per_page');
+        console.log(elements)
+        // Loop through the elements and set the content
+        elements.forEach(function (element) {
+            element.innerHTML = per_page;
         });
+
+        calculate_sub_total();
+        // Get current date and time
+        var currentDate = new Date();
+        var currentTime = currentDate.getTime();
+
+        var currentDateMax = new Date();
+        var currentTimeMax = currentDate.getTime();
+
+        // Variables to store formatted date, time, and AM/PM
+        var formattedDate;
+        var formattedTime;
+        var ampm;
+        var day_date;
+        // Check duration type and adjust date or time accordingly
+        if (type === 'Days') {
+
+            currentDate.setDate(currentDate.getDate() + parseInt(min, 10));
+            formattedDate = currentDate.toISOString().slice(0, 10);
+
+            currentDateMax.setDate(currentDateMax.getDate() + parseInt(max, 10));
+            formattedDateMax = currentDateMax.toISOString().slice(0, 10);
+
+            day_date = formatDate(formattedDate);
+            document.getElementById('meeting-date').value = formattedDate;
+            document.getElementById('meeting-date').setAttribute('min', formattedDate);
+            document.getElementById('meeting-date').setAttribute('max', formattedDateMax);
+            document.getElementById('day_date').innerHTML = day_date;
+
+            console.log('New Date:', formattedDate + day_date);
+
+        } else if (type === 'Hours') {
+            currentTime += parseInt(min, 10) * 60 * 60 * 1000;
+            var newDate = new Date(currentTime);
+
+            currentTimeMax += parseInt(max, 10) * 60 * 60 * 1000;
+            var newDateMax = new Date(currentTimeMax);
+
+            // Use newDate after it's assigned
+            formattedTime = newDate.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: false
+            });
+            formattedTimeMax = newDate.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: false
+            }); // Remove AM/PM
+            formattedDate = newDate.toISOString().slice(0, 10);
+            formattedDateMax = newDateMax.toISOString().slice(0, 10);
+            ampm = newDate.toLocaleTimeString('en-US', {
+                hour12: true
+            }).split(' ')[1]; // Extract AM/PM
+            day_date = formatDate(formattedDate);
+
+            if (newDate.getDate() !== currentDate.getDate()) {
+                formattedDate = newDate.toISOString().slice(0, 10);
+                day_date = formatDate(formattedDate);
+                document.getElementById('day_date').innerHTML = day_date;
+
+                console.log('Time and Date:', formattedDate, formattedTime,
+                    ampm);
+                document.getElementById('meeting-date').value = formattedDate;
+                document.getElementById('meeting-time').value = formattedTime;
+                document.getElementById('meeting-date').setAttribute('min', formattedDate);
+                document.getElementById('meeting-date').setAttribute('max', formattedDateMax);
+
+                console.log('max ' + formattedDateMax)
+                document.getElementById('day_date').innerHTML = day_date;
+
+                $('#ampm').val(ampm).trigger('change');
+
+            } else {
+
+                console.log('New Time:', formattedTime, ampm, +day_date);
+
+                formattedDate = newDate.toISOString().slice(0, 10);
+                day_date = formatDate(formattedDate);
+                document.getElementById('meeting-time').value = formattedTime;
+                document.getElementById('meeting-date').value = formattedDate;
+                document.getElementById('meeting-date').setAttribute('min', formattedDate);
+                document.getElementById('meeting-date').setAttribute('max', formattedDateMax);
+                console.log(document.getElementById('meeting-date').getAttribute('min'))
+                console.log('max ' + formattedDateMax)
+                document.getElementById('day_date').innerHTML = day_date;
+                $('#ampm').val(ampm).trigger('change');
+            }
+        }
+    },
+    error: function (error) {
+        // Handle any errors here
+
+        console.error(error);
+    }
+});
+
+});
 
         $('#term_of_paper').on('change', function () {
             var value = $(this).val();
