@@ -8311,6 +8311,7 @@ function submit_payment() {
 
 
 @if ($used_subscription)
+
 	var total_pages = {{ $used_subscription->total_pages ?? 0 }};
 	var remaining_pages = {{ $used_subscription->remaining_pages ?? 0 }};
     var rollover_pages = {{ $used_subscription->rollover_pages ?? 0 }};
@@ -8320,6 +8321,7 @@ function submit_payment() {
     $('.rollover').text(rollover_pages);
 
 @else
+
 	$('.RemainingPages').text('N/A');
 @endif
 
@@ -8361,9 +8363,14 @@ console.log("sahriq totalpageCount:", totalpageCount);
 
 
 			  @if ($used_subscription)
-//	var cost = pageCount * parseInt({{$order->cost_per_page}});
+			  
+			  var cost_perpage_get ={{$used_subscription->subscription['cost_per_page']??''}};
+			  
 
-			 var cost_perpage_get = $('#cost_per_page').val();
+
+			// var cost_perpage_get = $('#cost_per_page').val();
+			 
+			console.log("cost par page",cost_perpage_get);
 
 		 var cost = pageCount * parseInt(cost_perpage_get);
 			$("#totalCost").text(cost.toFixed(2));
