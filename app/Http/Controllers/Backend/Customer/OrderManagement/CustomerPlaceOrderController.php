@@ -2297,7 +2297,7 @@ Mail::html($emailContent, function ($message) use ($user) {
                     Auth::login($user);
 
 
-                    return redirect('https://elementary-solutions.com/writing-space-laravel/public/customer/thankyou');
+                    return redirect('https://elementary-solutions.com/writing-space-web/public/customer/thankyou');
                 }
             }
         // } catch (\Exception $e) {
