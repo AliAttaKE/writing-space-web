@@ -303,7 +303,7 @@
                                 <div class="card-header">
                                     <!--begin::Title-->
                                     <div class="card-title">
-                                        <h2 class="fs-color-white custom-fs-23">Packages Payment Records</h2>
+                                        <h2 class="fs-color-white custom-fs-23">Payment Records</h2>
                                     </div>
                                     <!--end::Title-->
                                     <!--begin::Toolbar-->
@@ -326,7 +326,8 @@
                                             <table class="table align-middle table-row-dashed gy-5" id="kt_table_packages_payment">
                                                 <thead class="border-bottom border-gray-200 fs-7 fw-bold">
                                                     <tr class="text-start text-muted text-uppercase gs-0">
-                                                        <th class="min-w-150px">Package</th>
+                                                        <th class="min-w-150px">Package Type</th>
+                                                        <th class="min-w-150px">Order / Name ID</th>
                                                         <th class="min-w-100px">Invoice No.</th>
                                                         <th class="min-w-100px">Receipt No.</th>
                                                         <th>Status</th>
@@ -338,10 +339,25 @@
 
                                                 <tbody class="fs-6 fw-semibold text-gray-600" id="old_package_payment_tbody">
                                                     @foreach ($PackageInvoices as $invoice)
-
-                                                        @if($invoice->invoice_type == 'package_inc')
                                                             <tr>
-                                                                <td>{{ $invoice->subscription_name }}</td>
+                                                                <td>
+                                                                    @if($invoice->invoice_type == 'package_inc') 
+                                                                        Package
+                                                                    @elseif ($invoice->invoice_type == Null) 
+                                                                        Package - Addon
+                                                                    @elseif ($invoice->invoice_type == 'custom_inc')
+                                                                        Custom Order
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    @if($invoice->item_name == 'Subcription') 
+                                                                        {{ $invoice->subscription_name }}
+                                                                    @elseif ($invoice->item_name == 'Pages') 
+                                                                        {{ $invoice->package_id }}
+                                                                    @elseif ($invoice->item_name == 'Order')
+                                                                        {{ $invoice->order_id }}
+                                                                    @endif
+                                                                    </td>
                                                                 <td>
                                                                     <a href="{{ asset('storage/invoices/invoice_' . $invoice->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $invoice->invoice_id}}</a>
                                                                 </td>
@@ -351,7 +367,7 @@
                                                                 <td>
                                                                     @if ($invoice->total != null)
                                                                         <span class="badge badge-light-success badge-custom-bg">Successful</span>
-                                                                    @else8
+                                                                    @else
                                                                         <span class="badge badge-light-danger">No paid</span>
                                                                     @endif
                                                                 </td>
@@ -463,7 +479,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        @endif
+                                                        
                                                     @endforeach
                                                 </tbody>
                                                 <tbody class="fs-6 fw-semibold text-gray-600" id="new_package_payment_tbody"></tbody>
@@ -482,7 +498,7 @@
                                 <div class="card-header">
                                     <!--begin::Title-->
                                     <div class="card-title">
-                                        <h2 class="fs-color-white custom-fs-23">Custom Payment Records</h2>
+                                        <h2 class="fs-color-white custom-fs-23">Order Records</h2>
                                     </div>
                                     <!--end::Title-->
                                     <!--begin::Toolbar-->
@@ -504,42 +520,32 @@
                                             <table class="table align-middle table-row-dashed gy-5" id="kt_table_custom_payment">
                                                 <thead class="border-bottom border-gray-200 fs-7 fw-bold">
                                                     <tr class="text-start text-muted text-uppercase gs-0">
+                                                        <th class="min-w-150px">Order Date</th>
+                                                        <th class="min-w-150px">Order Type</th>
                                                         <th class="min-w-150px">Order Id</th>
-                                                        <th class="min-w-100px">Invoice No.</th>
+                                                        <th class="min-w-100px">Pages Purchased</th>
+                                                        <th class="min-w-100px">Pages Addon</th>
+                                                        <th class="min-w-100px">Pages Addon Type</th>
+                                                        <th class="min-w-100px">Pages Addon Date</th>
                                                         <th>Status</th>
-                                                        <th>Amount</th>
-                                                        <th class="min-w-100px">Date</th>
                                                         <th class="text-end min-w-100px pe-4">Actions</th>
                                                     </tr>
                                                 </thead>
 
                                                 <tbody class="fs-6 fw-semibold text-gray-600" id="old_custom_payment_tbody">
-                                                    @foreach ($CustomInvoices as $invoice)
-                                                        @if($invoice->invoice_type == 'custom_inc')
+                                                    @foreach ($orders as $order)
+                                                            
                                                             <tr>
-                                                                <td>{{ $invoice->order_id }}</td>
-                                                                <td>
-                                                                    <a href="#" class="text-gray-600 text-hover-primary mb-1">{{ $invoice->invoice_id}}</a>
-                                                                </td>
-                                                                <td>
-                                                                    @if ($invoice->total != null)
-                                                                        <span class="badge badge-light-success badge-custom-bg">Successful</span>
-                                                                    @else
-                                                                        <span class="badge badge-light-danger">No paid</span>
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    @php
-                                                                        $formattedAmount = number_format($invoice->total, 2);
-                                                                    @endphp
-                                                                    $ {{ $formattedAmount }}
-                                                                </td>
-                                                                <td>
-                                                                    @php
-                                                                        $date = \Carbon\Carbon::parse($invoice->created_at)->format('j M Y, g:i a');
-                                                                    @endphp
-                                                                    {{ $date }}
-                                                                </td>
+                                                                <td>{{ $order->created_at }}</td>
+                                                                <td>{{ ($order->order_type == 'Subscription') ? 'Package Order' : 'Custom Order' }}</td>
+                                                                <td>{{ $order->id }}</td>
+                                                                <td>{{ $order->order_id }}</td>
+                                                                <td>{{ $order->order_id }}</td>
+                                                                <td>{{ $order->order_id }}</td>
+                                                                <td>{{ $order->order_id }}</td>
+                                                                <td>{{ $order->order_status }}</td>
+                                                                
+                                                                
                                                                 <td class="pe-0">
                                                                     <a href="#" class="btn btn-sm btn-light image.png btn-active-light-primary badge-custom-bg" id="badge-custom-bg" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
                                                                         <i class="ki-duotone ki-down fs-5 ms-1"></i>
@@ -639,7 +645,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        @endif
+                                                        
                                                     @endforeach
                                                 </tbody>
                                                     <!--end::Table body-->

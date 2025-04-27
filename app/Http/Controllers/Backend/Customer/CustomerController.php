@@ -153,10 +153,12 @@ class CustomerController extends Controller
                         ->leftJoin('orders', 'invoices.order_id', '=', 'orders.order_id')
                         ->leftJoin('user_subscription', 'invoices.order_id', '=', 'user_subscription.subscription_id')
                         ->leftJoin('subscription', 'user_subscription.subscription_id', '=', 'subscription.id')
+                        ->leftJoin('user_subscription as sub2', 'sub2.id', '=', 'invoices.order_id')
+                        ->leftJoin('subscription as sub3', 'sub2.subscription_id', '=', 'sub3.id')
                         ->where('invoices.email', Auth::user()->email)
-                        ->whereNotNull('invoices.invoice_type')
-                        ->where('invoices.invoice_type', 'package_inc')
-                       ->select('invoices.*','orders.order_id as order_table_id','subscription.subscription_name')
+                        //->whereNotNull('invoices.invoice_type')
+                        //->where('invoices.invoice_type', 'package_inc')
+                       ->select('invoices.*','orders.order_id as order_table_id','subscription.subscription_name','sub3.subscription_name as package_id')
                         ->distinct() // Yeh duplicate records remove karega
                         ->latest('invoices.created_at')
                         ->get();
@@ -169,18 +171,19 @@ class CustomerController extends Controller
         ->whereIn('order_status', ['Pending', 'Completed', 'Revision', 'Refund', 'Canceled', 'In-Progress'])
         ->count();
 
+        $orders = Orders::where('user_id', Auth::user()->id)->get();
 
         $countPastOrders = Orders::whereUserId(Auth()->user()->id)->where('order_status', 'Delivered')->count();
         $countPackages = User_Subscription::whereUserId(Auth()->user()->id)->count();
-
-
-
-
-
+        // dd(compact(
+        //     'CustomInvoices','PackageInvoices','used_subscription', 'years',
+        //      'userPaymentRecords', 'yearsData', 'countries','userPaymentRecordssub',
+        //      'yearsDatasub','yearssub','countCurrentOrders','countPastOrders','countPackages'
+        //     ));
         return view('backend.customer.profile.index',compact(
             'CustomInvoices','PackageInvoices','used_subscription', 'years',
              'userPaymentRecords', 'yearsData', 'countries','userPaymentRecordssub',
-             'yearsDatasub','yearssub','countCurrentOrders','countPastOrders','countPackages'
+             'yearsDatasub','yearssub','countCurrentOrders','countPastOrders','countPackages','orders'
             ));
     }
 
