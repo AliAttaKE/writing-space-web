@@ -248,6 +248,7 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
     Route::get('/promotion/delete/{id}', [PromotionController::class, 'destroy'])->name('promotion.destroy');
 
     Route::get('show/customers/data', [CustomerDataController::class, 'index'])->name('show.customers.data');
+    Route::get('show/customers/referral', [CustomerDataController::class, 'referral'])->name('show.customers.referral');
     Route::get('export/customers', [CustomerDataController::class, 'exportCustomers'])->name('export.customers');
     // Roles Rouet
     Route::post('/role/store', [RoleController::class, 'store'])->name('role.store');

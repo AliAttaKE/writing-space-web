@@ -12,6 +12,7 @@ use App\Exports\CustomerDataExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Carbon;
 use DB;
+use App\Models\BrandAmbassador;
 
 class CustomerDataController extends Controller
 {
@@ -56,6 +57,15 @@ class CustomerDataController extends Controller
         // $customers = $customers->get();
         
         return view('backend.admin.customerDataTable.index',compact('customers'));
+     }
+     
+    public function referral(Request $request)
+    {
+       
+
+        $brnadambassador = BrandAmbassador::get();
+   
+        return view('backend.admin.customerDataTable.referral',compact('brnadambassador'));
      }
      
      
