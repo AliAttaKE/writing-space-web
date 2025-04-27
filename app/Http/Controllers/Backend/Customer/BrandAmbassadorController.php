@@ -22,7 +22,7 @@ class BrandAmbassadorController extends Controller
                         ->where('brand_amb_created_by', auth()->user()->id)->paginate(5);
         $discounts = Coupon::where('discount_value', 'Percentage')->where('Active',1)->select('code','discount','min_pages')->get();    
       
-        $brnadambassador = BrandAmbassador::get();
+        $brnadambassador = BrandAmbassador::where('sender_id',Auth::user()->id)->get();
         //dd($discounts);        
         return view('backend.customer.brandAmbassador.index', compact('users','discounts','brnadambassador'));
     }
@@ -53,6 +53,7 @@ class BrandAmbassadorController extends Controller
             'signupUrl' => $signupUrl,
             'name'      => $request->name,
             'message'   => $request->message,
+            'subject'   => $request->subject,
         ];
    
         try {
@@ -67,6 +68,7 @@ class BrandAmbassadorController extends Controller
             $ambassador->sender_name = Auth::user()->name;
             $ambassador->receiver_name = $request->name;
             $ambassador->subject = $request->subject;
+            $ambassador->email = $request->email;
             $ambassador->message = $request->message;
             $ambassador->save();
 

@@ -135,8 +135,9 @@
                                                     <th>Sender ID</th>
                                                     <th>sender Name</th>
                                                     <th>Receiver Name</th>
-                                                    <th>Email Subject</th>
-                                                    <th>Email Message</th>
+                                                    <th>Email</th>
+                                                    <th>Subject</th>
+                                                    <th>Message</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="fw-semibold text-gray-600">
@@ -146,6 +147,7 @@
                                                     <td>{{$b->sender_id}}</td>
                                                     <td>{{$b->sender_name}}</td>
                                                     <td>{{$b->receiver_name}}</td>
+                                                    <td>{{$b->email}}</td>
                                                     <td>{{$b->subject}}</td>
                                                     <td>{{$b->message}}</td>
                                                    

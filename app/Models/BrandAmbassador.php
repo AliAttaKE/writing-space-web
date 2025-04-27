@@ -13,6 +13,7 @@ class BrandAmbassador extends Model
         'sender_name',
         'receiver_name',
         'subject',
+        'email',
         'message',
     ];
 }

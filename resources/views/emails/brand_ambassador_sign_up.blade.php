@@ -17,7 +17,7 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-md-6 offset-md-3 text-center">
-                    <h1>Welcome to Our Brand Ambassador Program</h1>
+                    <h1>{{$data['subject']}}</h1>
                     <p>Mr.{{$data['name']}}.</p>
                     <p>{{$data['message']}}.</p>
                     <a href="{{ $data['signupUrl'] }}" class="btn btn-primary">Sign Up</a>
