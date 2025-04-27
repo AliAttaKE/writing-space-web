@@ -349,6 +349,15 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
     Route::get('deleteBlog/{id}',[BlogController::class,'deleteBlog'])->name('deleteBlog');
 
 
+
+
+    Route::get('pkg',[BlogController::class,'index_pkg'])->name('pkg');
+    Route::post('createpkg',[BlogController::class,'createpkg'])->name('createpkg');
+    Route::post('updatepkg/{id}',[BlogController::class,'updatepkg'])->name('updatepkg');
+    Route::get('deletepkg/{id}',[BlogController::class,'deletepkg'])->name('deletepkg');
+
+    
+
     Route::get('/restrictions', [RestrictionController::class, 'index'])->name('restrictions.index');
     Route::post('/restrictions/store', [RestrictionController::class, 'store'])->name('restrictions.store');
     Route::post('/restrictions/update', [RestrictionController::class, 'update'])->name('restrictions.update');
