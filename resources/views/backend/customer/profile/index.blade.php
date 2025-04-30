@@ -333,7 +333,6 @@
                                                         <th>Status</th>
                                                         <th>Amount</th>
                                                         <th class="min-w-100px">Date</th>
-                                                        <th class="text-end min-w-100px pe-4">Actions</th>
                                                     </tr>
                                                 </thead>
 
@@ -384,101 +383,10 @@
                                                                     {{ $date }}
                                                                 </td>
                                                                 <td class="pe-0">
-                                                                    <a href="#" class="btn btn-sm btn-light image.png btn-active-light-primary badge-custom-bg" id="badge-custom-bg" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
-                                                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
-                                                                    </a>
-                                                                    <!--begin::Menu-->
-                                                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded fs-color-white menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4 badge-custom-bg" data-kt-menu="true">
-                                                                        <!--begin::Menu item-->
-                                                                            <div class="menu-item px-3">
-                                                                                <a href="javascript:void(0)" class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white" data-bs-toggle="modal" data-bs-target="#view-invoice_{{$invoice->order_id}}">View</a>
-                                                                            </div>
-                                                                        <!--end::Menu item-->
-                                                                        <!--begin::Menu item-->
-                                                                        <div class="menu-item px-3">
-                                                                        <a  class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white"
-                                                                                    onclick="window.location.href='{{ route('customer.export.invoice',['value' => $invoice->order_id]) }}'">
-                                                                                Export
-                                                                            </a>
-                                                                        </div>
-                                                                        <!--end::Menu item-->
-                                                                    </div>
-                                                                    <!--end::Menu-->
+
                                                                 </td>
                                                             </tr>
-                                                            <div class="modal view-invoice" id="view-invoice_{{$invoice->order_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                <div class="modal-dialog modal-dialog-centered modal-lg">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header border-0 badge-custom-bg">
-                                                                            <!-- <h5 class="modal-title" id="exampleModalLabel">Invoice</h5> -->
-                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body badge-custom-bg">
-                                                                            <div class="">
-                                                                                <!--begin::Body-->
-                                                                                <div class="card-body">
-                                                                                    <!--begin::Layout-->
-                                                                                    <div class="d-flex flex-column flex-xl-row">
-                                                                                        <!--begin::Content-->
-                                                                                        <div class="flex-lg-row-fluid me-xl-18 mb-10 mb-xl-0">
-                                                                                            <!--begin::Invoice 2 content-->
-                                                                                            <div class="mt-n1">
-                                                                                                <!--begin::Top-->
-                                                                                                <div class="d-flex flex-stack pb-10">
-                                                                                                    <!--begin::Logo-->
-                                                                                                    <a href="#">
-                                                                                                        <img alt="Logo" src="{{asset('backend/assets/media/ws/ws-light-logo.png')}}" />
-                                                                                                    </a>
-                                                                                                    <!--end::Logo-->
-                                                                                                </div>
-                                                                                                <!--end::Top-->
-                                                                                                <!--begin::Wrapper-->
-                                                                                                <div class="m-0">
-                                                                                                    <!--begin::Label-->
-                                                                                                    <div class="fw-bold fs-3 text-gray-800 mb-8 fs-color-white">Order #{{$invoice->order_id}}</div>
 
-                                                                                                    <div class="row g-5 mb-12">
-                                                                                                        <!--end::Col-->
-                                                                                                        <div class="col-sm-9">
-                                                                                                            <div class="fw-bold fs-3 text-gray-800 mb-8 fs-color-white">Invoice Id #{{$invoice->invoice_id ?? ''}}</div>
-
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="row g-5 mb-12">
-                                                                                                        <!--end::Col-->
-                                                                                                        <div class="col-sm-9">
-                                                                                                            <div class="fw-bold fs-3 text-gray-800 mb-8 fs-color-white">Name #</div>
-                                                                                                            {{$invoice->item_name ?? ''}}
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="row g-5 mb-12">
-                                                                                                    <!--end::Col-->
-                                                                                                    <div class="col-sm-9">
-                                                                                                        <div class="fw-bold fs-3 text-gray-800 mb-8 fs-color-white">Total Amount #</div>
-                                                                                                        {{$invoice->total ?? ''}}
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <!--end::Wrapper-->
-                                                                                            </div>
-                                                                                            <!--end::Invoice 2 content-->
-                                                                                        </div>
-                                                                                        <!--end::Content-->
-
-                                                                                    </div>
-                                                                                    <!--end::Layout-->
-                                                                                </div>
-                                                                                <!--end::Body-->
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="modal-footer border-0 justify-content-between badge-custom-bg">
-                                                                            <div class="">
-                                                                                <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
 
                                                     @endforeach
                                                 </tbody>
