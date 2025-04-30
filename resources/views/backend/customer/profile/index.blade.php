@@ -341,18 +341,18 @@
                                                     @foreach ($PackageInvoices as $invoice)
                                                             <tr>
                                                                 <td>
-                                                                    @if($invoice->invoice_type == 'package_inc') 
+                                                                    @if($invoice->invoice_type == 'package_inc')
                                                                         Package
-                                                                    @elseif ($invoice->invoice_type == Null) 
+                                                                    @elseif ($invoice->invoice_type == Null)
                                                                         Package - Addon
                                                                     @elseif ($invoice->invoice_type == 'custom_inc')
                                                                         Custom Order
                                                                     @endif
                                                                 </td>
                                                                 <td>
-                                                                    @if($invoice->item_name == 'Subcription') 
+                                                                    @if($invoice->item_name == 'Subcription')
                                                                         {{ $invoice->subscription_name }}
-                                                                    @elseif ($invoice->item_name == 'Pages') 
+                                                                    @elseif ($invoice->item_name == 'Pages')
                                                                         {{ $invoice->package_id }}
                                                                     @elseif ($invoice->item_name == 'Order')
                                                                         {{ $invoice->order_id }}
@@ -479,7 +479,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        
+
                                                     @endforeach
                                                 </tbody>
                                                 <tbody class="fs-6 fw-semibold text-gray-600" id="new_package_payment_tbody"></tbody>
@@ -534,18 +534,18 @@
 
                                                 <tbody class="fs-6 fw-semibold text-gray-600" id="old_custom_payment_tbody">
                                                     @foreach ($orders as $order)
-                                                            
+
                                                             <tr>
                                                                 <td>{{ $order->created_at }}</td>
-                                                                <td>{{ ($order->order_type == 'Subscription') ? 'Package Order' : 'Custom Order' }}</td>
-                                                                <td>{{ $order->id }}</td>
+                                                                <td>{{ $order->order_type }}</td>
                                                                 <td>{{ $order->order_id }}</td>
-                                                                <td>{{ $order->order_id }}</td>
-                                                                <td>{{ $order->order_id }}</td>
-                                                                <td>{{ $order->order_id }}</td>
-                                                                <td>{{ $order->order_status }}</td>
-                                                                
-                                                                
+                                                                <td>{{ $order->pages_purchase }}</td>
+                                                                <td>{{ $order->pages_addon }}</td>
+                                                                <td>{{ $order->pages_addon_type }}</td>
+                                                                <td>{{ $order->created_at }}</td>
+                                                                <td>{{ $order->status }}</td>
+
+
                                                                 <td class="pe-0">
                                                                     <a href="#" class="btn btn-sm btn-light image.png btn-active-light-primary badge-custom-bg" id="badge-custom-bg" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
                                                                         <i class="ki-duotone ki-down fs-5 ms-1"></i>
@@ -645,7 +645,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        
+
                                                     @endforeach
                                                 </tbody>
                                                     <!--end::Table body-->

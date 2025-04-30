@@ -85,7 +85,7 @@ class CustomerPlaceOrderController extends Controller
 
             $orderlog = OrderLogs::create([
                                 'user_id' => $userId,
-
+                                'order_type'=> 'Package Order',
                                 'order_id' => $orderid,
                                 'status' => $Orders->order_status,
                                 'pages_addon_type' => 'None',
@@ -1927,6 +1927,17 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
                             $currentSubs1->remaining_pages -= $pages;
                             $currentSubs1->save();
                         }
+                        $orderss = Orders::where('order_id',$orderidpkg)->first();
+                        $orderlog = OrderLogs::create([
+                                'user_id' => $user->id,
+                                'invoice_id' => $invoiceNumber,
+                                'order_id' => $orderidpkg,
+                                'order_type'=> ($currentSubs1)?'Package Order':'Customer Order',
+                                'status' => $orderss->order_status,
+                                'pages_addon_type' => 'Purchased',
+                                'pages_addon' => $pages,
+                                'pages_purchase' => $current_page,
+                            ]);
                     }
                     $order_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
                     $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
@@ -2003,16 +2014,7 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
                     $discount = 0.0;
 
                     $total = $billAmount;
-                    $orderss = Orders::where('order_id',$orderidpkg)->first();
-                    $orderlog = OrderLogs::create([
-                                'user_id' => $user->id,
-                                'invoice_id' => $invoiceNumber,
-                                'order_id' => $orderidpkg,
-                                'status' => $orderss->order_status,
-                                'pages_addon_type' => 'Purchased',
-                                'pages_addon' => $pages,
-                                'pages_purchase' => $current_page,
-                            ]);
+
                     if ($email) {
                         $subject = 'Invoice package purchase';
                         Mail::to($user->email)->send(new PkgIdInvoiceEmailTemplate1(
