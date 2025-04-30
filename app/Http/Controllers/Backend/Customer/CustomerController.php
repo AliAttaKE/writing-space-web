@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use App\Models\OrderLogs;
 
 class CustomerController extends Controller
 {
@@ -166,12 +167,13 @@ class CustomerController extends Controller
                         //dd($PackageInvoices);
 
         // $countCurrentOrders = Orders::whereUserId(Auth()->user()->id)->where('order_status', 'Pending')->count();
+        //use App\Models\OrderLogs;
 
         $countCurrentOrders = Orders::where('user_id', Auth::user()->id)
         ->whereIn('order_status', ['Pending', 'Completed', 'Revision', 'Refund', 'Canceled', 'In-Progress'])
         ->count();
 
-        $orders = Orders::where('email', Auth::user()->email)->get();
+        $orders = OrderLogs::where('emuser_idail', Auth::user()->id)->get();
 
         $countPastOrders = Orders::whereUserId(Auth()->user()->id)->where('order_status', 'Delivered')->count();
         $countPackages = User_Subscription::whereUserId(Auth()->user()->id)->count();

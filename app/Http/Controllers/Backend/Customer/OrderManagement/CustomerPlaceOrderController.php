@@ -12,6 +12,7 @@ use App\Models\Orders;
 use App\Models\Pricing;
 use App\Models\Subject;
 use App\Models\Folder;
+use App\Models\OrderLogs;
 use App\Models\PricingPakage;
 use App\Models\PricingOrder;
 use App\Models\PakageLimit;
@@ -82,7 +83,15 @@ class CustomerPlaceOrderController extends Controller
             $remaining_pages = $remaining_pages;
 
 
+            $orderlog = OrderLogs::create([
+                                'user_id' => $userId,
 
+                                'order_id' => $orderid,
+                                'status' => $Orders->order_status,
+                                'pages_addon_type' => 'None',
+                                'pages_addon' => $request->page,
+                                'pages_purchase' => $Orders->number_of_pages,
+                            ]);
 
 
             $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first();
@@ -1476,7 +1485,7 @@ $permissions = 0775;
             return redirect()->route('front.subscriptions');
         }
     }
-
+    // Subscriptions Purchase / Uprgrade
     public function pay_sub($orderid)
     {
         try {
@@ -1628,6 +1637,7 @@ $subject = 'Welcome to Your New Writing Space Package – Thank You for Your Pur
                         Auth::login($user);
                         return redirect()->route('customer.thankyou.sub');
                     } else {
+
                         $user->customer = "Subscription";
                         $user->subscription_id = $orderidexplode;
                         $user->save();
@@ -1775,12 +1785,13 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
         }
-    } //end function here;
+    }
 
+    // Package Add Pages from Profile and Manage pages
 
    public function pay_add_pages($orderid)
     {
-
+        $real_order_id = $orderid;
 
         try {
             $pay = Pay::where('order_id', $orderid)->first();
@@ -1895,13 +1906,14 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
 
                     $orderDetails = json_decode($pay['order_details'], true);
 
-
-
+                    $orderidpkg = $orderDetails['order_id'];
+                    $current_page = '';
                     if (isset($orderDetails['order_id'])) {
                         $orderidpkg = $orderDetails['order_id'];
                         $orderdetailspk = Orders::where('order_id', $orderidpkg)->first();
 
                         if ($orderdetailspk) {
+                            $current_page = $orderdetailspk->number_of_pages;
                             $orderdetailspk->number_of_pages += $pages;
                             $orderdetailspk->no_of_extra_sources += $pages;
 
@@ -1950,6 +1962,7 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
                     $data['customer_email'] = $user->email;
 
 
+
                     $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first();
                     if ($email) {
                         Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
@@ -1990,8 +2003,16 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
                     $discount = 0.0;
 
                     $total = $billAmount;
-
-
+                    $orderss = Orders::where('order_id',$orderidpkg)->first();
+                    $orderlog = OrderLogs::create([
+                                'user_id' => $user->id,
+                                'invoice_id' => $invoiceNumber,
+                                'order_id' => $orderidpkg,
+                                'status' => $orderss->order_status,
+                                'pages_addon_type' => 'Purchased',
+                                'pages_addon' => $pages,
+                                'pages_purchase' => $current_page,
+                            ]);
                     if ($email) {
                         $subject = 'Invoice package purchase';
                         Mail::to($user->email)->send(new PkgIdInvoiceEmailTemplate1(
@@ -2066,7 +2087,7 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
     public function pay_add_manage($orderid)
     {
 
-
+        //dd('pay add manage');
         //try {
             $pay = Pay::where('order_id', $orderid)->first();
             $sessionId = $pay->session_id;
@@ -2187,7 +2208,7 @@ $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, 
                         $order->save();
                       //  print_r($order->no_of_extra_sources + $order_detail->page );
                       //  dd($order);
-                      
+
                         $user = User::find($order->user_id);
                         $invoice = Invoice::create([
                             'Name' => $user->name,
@@ -2306,6 +2327,7 @@ Mail::html($emailContent, function ($message) use ($user) {
         // }
     }
 
+    // Normal Custom Order
     public function pay($orderid)
     {
 
@@ -2622,7 +2644,7 @@ Mail::html($emailContent, function ($message) use ($user) {
             $used_subscription->subscription = $subscription;
         }
 
-       
+
         $Addons = Addons::orderBy('id', 'desc')->first();
 
 
@@ -2634,22 +2656,22 @@ Mail::html($emailContent, function ($message) use ($user) {
         $paper_format = Paper_Format::all();
         $Languages = Language::all();
 
-       // $pricing = Pricing::orderBy('id', 'desc')->get();       
+       // $pricing = Pricing::orderBy('id', 'desc')->get();
 
 
         if (auth()->check()) {
             $user_id = Auth::user()->id;
             $subsDetails = User_Subscription::where('user_id', $user_id)->first();
-        
+
             if ($subsDetails) {
                 $subscribed = $subsDetails->user_id;
                 $totalPages = $subsDetails->remaining_pages + $subsDetails->rollover_pages;
-        
+
                 if ($subscribed && $totalPages > 0) {
                     $subsDetailsamount = Subscription::where('id', $subsDetails->subscription_id)->first();
                     $cost_per_page = $subsDetailsamount->cost_per_page;
                     $pricing = PricingPakage::orderBy('id', 'desc')->get();
-                    
+
                     return view('backend.customer.orderManagement.custom_place_order', compact(
                         'Languages', 'used_subscription', 'Addons', 'pricing', 'subjects', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails', 'cost_per_page'
                     ));
@@ -2658,7 +2680,7 @@ Mail::html($emailContent, function ($message) use ($user) {
         }
      $pricing = PricingOrder::orderBy('id', 'desc')->get();
 
-    
+
         $subscribed = null;
         $subsDetails = null;
 
@@ -2669,11 +2691,12 @@ Mail::html($emailContent, function ($message) use ($user) {
 
 
 
-    
+
 
     public function addMorePages(Request $request)
     {
         // dd($request->all());
+        //dd('add more pages');
         $pages = $request->pages;
         $user = User::findOrFail(Auth::user()->id);
 
