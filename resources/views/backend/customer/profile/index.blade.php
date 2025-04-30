@@ -528,7 +528,6 @@
                                                         <th class="min-w-100px">Pages Addon Type</th>
                                                         <th class="min-w-100px">Pages Addon Date</th>
                                                         <th>Status</th>
-                                                        <th class="text-end min-w-100px pe-4">Actions</th>
                                                     </tr>
                                                 </thead>
 
@@ -546,31 +545,7 @@
                                                                 <td>{{ $order->status }}</td>
 
 
-                                                                <td class="pe-0">
-                                                                    <a href="#" class="btn btn-sm btn-light image.png btn-active-light-primary badge-custom-bg" id="badge-custom-bg" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
-                                                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
-                                                                    </a>
-                                                                    <!--begin::Menu-->
-                                                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded fs-color-white menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4 badge-custom-bg" data-kt-menu="true">
-                                                                        <!--begin::Menu item-->
-                                                                            <div class="menu-item px-3">
-                                                                                <a href="javascript:void(0)" class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white" data-bs-toggle="modal" data-bs-target="#view-invoice_2{{$invoice->order_id}}">View</a>
-                                                                            </div>
-                                                                        <!--end::Menu item-->
-                                                                        <!--begin::Menu item-->
-                                                                        <div class="menu-item px-3">
-                                                                            <!-- <a href="#" class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white" id="badge-custom-bg" download="">Download</a> -->
 
-                                                                            <a class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white"
-                                                                                    onclick="window.location.href='{{ route('customer.export.invoice',['value' => $invoice->order_id]) }}'">
-                                                                                Export
-                                                                            </a>
-
-                                                                        </div>
-                                                                        <!--end::Menu item-->
-                                                                    </div>
-                                                                    <!--end::Menu-->
-                                                                </td>
                                                             </tr>
 
 
