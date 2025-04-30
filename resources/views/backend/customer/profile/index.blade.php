@@ -382,9 +382,7 @@
                                                                     @endphp
                                                                     {{ $date }}
                                                                 </td>
-                                                                <td class="pe-0">
-
-                                                                </td>
+                                                                
                                                             </tr>
 
 
