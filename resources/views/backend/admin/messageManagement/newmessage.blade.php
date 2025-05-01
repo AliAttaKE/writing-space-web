@@ -19,6 +19,9 @@
     }
 </style>
 <!--begin::Content wrapper-->
+<!-- Add this in the <head> section if using external JS -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 <div class="d-flex flex-column flex-column-fluid">
     <!--begin::Toolbar-->
     <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
@@ -402,95 +405,99 @@
     };
 </script>
 <script>
-    $(document).ready(function () {
-        $('#kt_inbox_reply_form').submit(function(e) {
-			e.preventDefault(); // Prevent the form from submitting in the traditional way
-			console.log('hello')
-            var formData = new FormData(this);
-            formData.append('_token', '{{ csrf_token() }}');
-            // You can append additional data if needed
-            // formData.append('key', 'value');
+   $(document).ready(function () {
 
-            var send_by = $('.radioAdminWriter:checked').val();
-    console.log("Selected value:", send_by);
-    // Append the selected value to the FormData object if needed
-    formData.append('send_by', send_by);
+$('#kt_inbox_reply_form').submit(function(e) {
+    e.preventDefault(); // Stop default form submission
 
-      var sendby = $('.radioAdminWriter:checked').val();
+    // Form data collection
+    var formData = new FormData(this);
 
-      var message = $('.ql-editor').text();
+    // CSRF token
+    formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
 
+    // Get the selected value (admin or writer)
+    var sendBy = $('.radioAdminWriter:checked').val();
+    console.log("Selected value:", sendBy);
 
-      if (sendby == '' || sendby == null) {
-       Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
-        return; // Stop execution if the condition is met
+    if (!sendBy) {
+        Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
+        return;
     }
 
+    formData.append('send_by', sendBy);
 
-   if (!message) {
-    Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
-    return;
-}
+    // Get and validate message content
+    var message = $('.ql-editor').text().trim();
+    if (!message) {
+        Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
+        return;
+    }
 
+    // Append file if exists
+    var fileInput = document.getElementById('media');
+    if (fileInput && fileInput.files.length > 0) {
+        formData.append('media', fileInput.files[0]);
+    }
 
-        console.log(formData)
-            var element = document.getElementById('media');
-            console.log(element.value)
-            // Display the form data in the console (for testing purposes)
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ', ' + pair[1]);
+    // Debug log: form values
+    for (var pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+    }
+
+    // Submit using AJAX
+    $.ajax({
+        type: 'POST',
+        url: '{{ route("admin.send-message") }}',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            console.log('Server response:', response);
+
+            Swal.fire('Success', response.success, 'success');
+
+            // Reset Quill message editor
+            quill.setText('');
+
+            // Clear file input display
+            var attachElement = document.getElementById('attach_file_1');
+            if (attachElement) {
+                attachElement.innerText = '';
             }
 
-            // Now you can use the formData object to send the data to the server using AJAX or perform other actions
-            var url = '{{ route("admin.send-message")}}'
-            // Example of sending formData using AJAX:
-            $.ajax({
-
-                type: 'POST',
-                url: url,
-                data: formData,
-                processData: false,  // Don't process the data
-                contentType: false,  // Don't set contentType
-                success: function (response) {
-                    console.log('Server response:', response);
-                    Swal.fire('Success', response.success, 'success');
-                    Pusher.logToConsole = true;
-                    quill.setText('');
-
-                    var element = document.getElementById('attach_file_1');
-                    element.innerText = '';
-
-                    var pusher = new Pusher('28e13a39c3918e12f8a9', {
-                        cluster: 'ap2'
-                    });
-
-                    var channel = pusher.subscribe('pusher');
-                    channel.bind('SendMessage', function (data) {
-                        alert(JSON.stringify(data));
-                        console.log(JSON.stringify(data))
-                    });
-                },
-                error: function (error) {
-                    console.error('Error:', error);
-                }
+            // Pusher configuration (optional)
+            Pusher.logToConsole = true;
+            var pusher = new Pusher('28e13a39c3918e12f8a9', {
+                cluster: 'ap2'
             });
 
-            return false; // Prevent the form from submitting in the traditional way
-        });
+            var channel = pusher.subscribe('pusher');
+            channel.bind('SendMessage', function (data) {
+                alert(JSON.stringify(data));
+                console.log('Pusher Data:', data);
+            });
+        },
+        error: function (error) {
+            console.error('Error:', error);
+            Swal.fire('Error!', 'Something went wrong. Please try again.', 'error');
+        }
+    });
 
-        // clear message box
-        $(document).on('click', '.clear_message_box', function (e) {
-            $('#message_box').val('');
-            newMessageEditor.setText('');
-            var element = document.getElementById('attach_file_1');
-            element.innerText = '';
+    return false;
+});
 
-        });
+// Clear message box functionality
+$(document).on('click', '.clear_message_box', function () {
+    $('#message_box').val('');
+    newMessageEditor.setText('');
+    var attachElement = document.getElementById('attach_file_1');
+    if (attachElement) {
+        attachElement.innerText = '';
+    }
+});
 
+});
 
-
-
-
-    });//main-document
 </script>
 @endsection
