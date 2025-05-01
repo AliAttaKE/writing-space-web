@@ -344,68 +344,67 @@ h3 {
 
 <script>
 
+$(document).ready(function () {
+    $('#kt_inbox_reply_form').submit(function (e) {
+        e.preventDefault();
 
+        var formData = new FormData(this);
+        formData.append('_token', '{{ csrf_token() }}');
 
+        var send_by = $('.radioAdminWriter:checked').val();
+        console.log("Selected value:", send_by);
+        formData.append('send_by', send_by);
 
+        // ✅ Get message from Quill editor, not textarea
+        var message = replayMessageEditor.getText().trim(); // plain text
+        var messageHTML = replayMessageEditor.root.innerHTML; // rich text
 
-    $(document).ready(function() {
-        $('#kt_inbox_reply_form').submit(function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            formData.append('_token', '{{ csrf_token() }}');
-            console.log(formData)
+        if (!message) {
+            Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
+            return;
+        }
 
+        if (!send_by) {
+            Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
+            return;
+        }
 
-   var send_by = $('.radioAdminWriter:checked').val();
-            console.log("Selected value:", send_by);
+        // Append actual message to form
+        formData.append('message', messageHTML);
 
-            // Append the selected value to the FormData object if needed
-            formData.append('send_by', send_by);
+        var element = document.getElementById('media');
+        console.log(element.value);
 
-             var sendby = $('.radioAdminWriter:checked').val();
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
 
-             var message = $('#message_box').val();
+        var url = '{{ route("admin.send-message") }}';
 
-                if (!message) {
-    Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
-    return;
-}
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log('Server response:', response);
+                Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
 
-             if (sendby == '' || sendby == null) {
-       Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
-        return; // Stop execution if the condition is met
-    }
-
-            var element = document.getElementById('media');
-            console.log(element.value)
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ', ' + pair[1]);
+                // ✅ Clear editor and attachments
+                replayMessageEditor.setText('');
+                document.getElementById('attach_file_1').innerText = '';
+                $('#media').val('');
+            },
+            error: function (error) {
+                console.error('Error:', error);
             }
-
-            var url = '{{ route("admin.send-message")}}'
-            $.ajax({
-
-                type: 'POST',
-                url: url,
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                success: function(response) {
-                    console.log('Server response:', response);
-                    Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
-                    replayMessageEditor.setText('');
-                    var element = document.getElementById('attach_file_1');
-                    element.innerText = '';
-
-                },
-                error: function(error) {
-                    console.error('Error:', error);
-                }
-            });
-
-            return false;
         });
+
+        return false;
     });
+});
+
 </script>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -433,63 +432,63 @@ document.getElementById("media").addEventListener("change", function() {
 
 
 <script>
-    $(document).ready(function() {
-        $('#kt_inbox_compose_form').submit(function(e) {
-            e.preventDefault(); // Prevent the form from submitting in the traditional way
+    // $(document).ready(function() {
+    //     $('#kt_inbox_compose_form').submit(function(e) {
+    //         e.preventDefault(); // Prevent the form from submitting in the traditional way
 
-            // Create a FormData object to gather form data
-            var formData = new FormData(this);
-            formData.append('_token', '{{ csrf_token() }}');
-            // You can append additional data if needed
-            // formData.append('key', 'value');
-            console.log(formData)
-            var element = document.getElementById('media');
-            console.log(element.value)
-            // Display the form data in the console (for testing purposes)
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ', ' + pair[1]);
-            }
-            var url = '{{ route("admin.send-message")}}'
+    //         // Create a FormData object to gather form data
+    //         var formData = new FormData(this);
+    //         formData.append('_token', '{{ csrf_token() }}');
+    //         // You can append additional data if needed
+    //         // formData.append('key', 'value');
+    //         console.log(formData)
+    //         var element = document.getElementById('media');
+    //         console.log(element.value)
+    //         // Display the form data in the console (for testing purposes)
+    //         for (var pair of formData.entries()) {
+    //             console.log(pair[0] + ', ' + pair[1]);
+    //         }
+    //         var url = '{{ route("admin.send-message")}}'
 
-            $.ajax({
-                type: 'POST',
-                url: url,
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                success: function(response) {
-                    console.log('Server response:', response);
-                    var element = document.getElementById('media');
-                    element.value = '';
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: url,
+    //                 data: formData,
+    //                 processData: false,
+    //                 contentType: false,
+    //             success: function(response) {
+    //                 console.log('Server response:', response);
+    //                 var element = document.getElementById('media');
+    //                 element.value = '';
 
-                    Swal.fire('Success', "Message Send successfully", 'success');
-                    Pusher.logToConsole = true;
-                    var pusher = new Pusher('28e13a39c3918e12f8a9', {
-                    cluster: 'ap2'
-                    });
+    //                 Swal.fire('Success', "Message Send successfully", 'success');
+    //                 Pusher.logToConsole = true;
+    //                 var pusher = new Pusher('28e13a39c3918e12f8a9', {
+    //                 cluster: 'ap2'
+    //                 });
 
-                    var channel = pusher.subscribe('pusher');
-                    channel.bind('SendMessage', function(data) {
-                    alert(JSON.stringify(data));
-                    console.log(JSON.stringify(data))
-                    });
-                },
-                error: function(error) {
-                    console.error('Error:', error);
-                }
-            });
+    //                 var channel = pusher.subscribe('pusher');
+    //                 channel.bind('SendMessage', function(data) {
+    //                 alert(JSON.stringify(data));
+    //                 console.log(JSON.stringify(data))
+    //                 });
+    //             },
+    //             error: function(error) {
+    //                 console.error('Error:', error);
+    //             }
+    //         });
 
-            return false; // Prevent the form from submitting in the traditional way
-        });
+    //         return false; // Prevent the form from submitting in the traditional way
+    //     });
 
-    // clear message box
-
-
+    // // clear message box
 
 
 
 
-    });//main-document
+
+
+    // });//main-document
 </script>
 
 @endsection
