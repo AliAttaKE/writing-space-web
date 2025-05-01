@@ -456,7 +456,7 @@ $(document).ready(function () {
             contentType: false, // Don't set contentType
             success: function (response) {
                 console.log('Server response:', response);
-                Swal.fire('Success', response.success, 'success');
+                Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
                 newMessageEditor.setText(''); // Clear the editor after successful message send
                 $('#attach_file_1').text(''); // Clear any attached file info
 
