@@ -340,7 +340,7 @@ h3 {
                     Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
                     Pusher.logToConsole = true;
 
-                        $('#message_box').val();
+                        $('#message_box').val('');
                         replyMessageEditor.setText('');
 
                         $('#attach_file_1').text('');
@@ -442,7 +442,7 @@ document.getElementById("media").addEventListener("change", function() {
 
                     $('#message_box').val('');
                     $('#attach_file_1').text('');
-                 //   replyMessageEditor.setText('');
+                    replyMessageEditor.setText('');
 
                 }
                 , error: function(error) {
