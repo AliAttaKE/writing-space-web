@@ -402,6 +402,7 @@
     };
 </script>
 <script>
+    $(document).ready(function() {
    	$('#kt_inbox_reply_form').submit(function(e) {
 			e.preventDefault(); // Prevent the form from submitting in the traditional way
 			console.log('hello')
