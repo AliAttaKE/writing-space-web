@@ -402,41 +402,40 @@
     };
 </script>
 <script>
- $(document).ready(function () {
+
+$(document).ready(function () {
     $('#kt_inbox_compose_form').submit(function (e) {
         e.preventDefault();
 
         var formData = new FormData(this);
         formData.append('_token', '{{ csrf_token() }}');
 
+        // Get selected radio value
         var send_by = $('.radioAdminWriter:checked').val();
-        formData.append('send_by', send_by);
-
-        // ✅ Use Quill for both validation and message content
-        var message = newMessageEditor.getText().trim();         // plain text for check
-        var messageHTML = newMessageEditor.root.innerHTML.trim(); // actual HTML
-
         if (!send_by) {
             Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
             return;
         }
+        formData.append('send_by', send_by);
 
-        if (!message) {
+        // Get text and HTML content from the Quill editor
+        var messageText = newMessageEditor.getText().replace(/\s+/g, '').trim();
+        var messageHTML = newMessageEditor.root.innerHTML.trim();
+
+        if (!messageText) {
             Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
             return;
         }
 
         formData.append('message', messageHTML);
 
-        var element = document.getElementById('media');
-        console.log(element.value);
-
+        // Log for debugging
+        console.log('Sending formData...');
         for (var pair of formData.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
+            console.log(pair[0] + ': ' + pair[1]);
         }
 
         var url = '{{ route("admin.send-message") }}';
-
         $.ajax({
             type: 'POST',
             url: url,
@@ -445,35 +444,35 @@
             contentType: false,
             success: function (response) {
                 console.log('Server response:', response);
-                Swal.fire('Success', response.success, 'success');
+                Swal.fire('Success', 'Your Message Sent Successfully.', 'success');
 
-                // ✅ Clear editor and file name display
+                // Clear editor and attachment
                 newMessageEditor.setText('');
-                $('#media').val('');
-                document.getElementById('attach_file_1').innerText = '';
+                $('#attach_file_1').text('');
 
-                // Pusher integration
+                // Setup Pusher
                 Pusher.logToConsole = true;
-                var pusher = new Pusher('28e13a39c3918e12f8a9', { cluster: 'ap2' });
+                var pusher = new Pusher('28e13a39c3918e12f8a9', {
+                    cluster: 'ap2'
+                });
+
                 var channel = pusher.subscribe('pusher');
                 channel.bind('SendMessage', function (data) {
+                    console.log('Pusher message:', data);
                     alert(JSON.stringify(data));
-                    console.log(JSON.stringify(data));
                 });
             },
             error: function (error) {
                 console.error('Error:', error);
             }
         });
-
-        return false;
     });
 
-    // clear message box
+    // Clear message box manually
     $(document).on('click', '.clear_message_box', function () {
+        $('#message_box').val('');
         newMessageEditor.setText('');
-        $('#media').val('');
-        document.getElementById('attach_file_1').innerText = '';
+        $('#attach_file_1').text('');
     });
 });
 
