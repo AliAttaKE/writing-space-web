@@ -306,7 +306,7 @@ h3 {
         $('#delete_btn').on('click', function(e) {
             replyMessageEditor.setText('');
             $('#message_box').val('');
-            $('#message_box').text('');
+          //  $('#message_box').text('');
             $('#attach_file_1').text('');
         });
         $('#kt_inbox_compose_form').submit(function(e) {
