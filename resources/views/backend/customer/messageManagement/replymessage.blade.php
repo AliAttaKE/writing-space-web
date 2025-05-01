@@ -306,7 +306,7 @@ h3 {
         $('#delete_btn').on('click', function(e) {
             replyMessageEditor.setText('');
             $('#message_box').val('');
-          //  $('#message_box').text('');
+            $('#message_box').text('');
             $('#attach_file_1').text('');
         });
         $('#kt_inbox_compose_form').submit(function(e) {
@@ -341,8 +341,8 @@ h3 {
                     Pusher.logToConsole = true;
 
                         $('#message_box').val();
-                      //  replyMessageEditor.setText('');
-                      quill.setText('');
+                        replyMessageEditor.setText('');
+
                         $('#attach_file_1').text('');
                     var pusher = new Pusher('28e13a39c3918e12f8a9', {
                         cluster: 'ap2'
@@ -442,7 +442,7 @@ document.getElementById("media").addEventListener("change", function() {
 
                     $('#message_box').val('');
                     $('#attach_file_1').text('');
-                    replyMessageEditor.setText('');
+                 //   replyMessageEditor.setText('');
 
                 }
                 , error: function(error) {
