@@ -137,6 +137,8 @@ class MessageManagementController extends Controller
     public function sendMessage(Request $request)
 {
     $input = $request->all();
+
+    dd($input);
     $input['sender_id'] = auth()->user()->id;
     $user = User::find(auth()->user()->id);
 
