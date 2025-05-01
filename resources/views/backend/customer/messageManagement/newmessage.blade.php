@@ -312,99 +312,82 @@ const newMessageEditor = new Quill("#editor", {
 
 
 
-        $('#kt_inbox_compose_form').submit(function(e) {
-            e.preventDefault(); // Prevent the form from submitting in the traditional way
-
-            // Create a FormData object to gather form data
-            var formData = new FormData(this);
-            formData.append('_token', '{{ csrf_token() }}');
-            // You can append additional data if needed
-            // formData.append('key', 'value');
+    });
 
 
+    $(document).ready(function () {
+    $('#kt_inbox_compose_form').submit(function (e) {
+        e.preventDefault(); // Prevent the form from submitting normally
 
+        var formData = new FormData(this);
+        formData.append('_token', '{{ csrf_token() }}');
 
-            var sendby = $('.radioAdminWriter:checked').val(); // Make sure to include :checked to get the selected value
+        var sendby = $('.radioAdminWriter:checked').val(); // selected radio
+        var orderId = $('select[name="order_id"]').val();
 
-            var message = $('#message_box').val();
+        // ✅ Get message from Quill editor (NOT the hidden textarea)
+        var message = newMessageEditor.getText().trim(); // Plain text
+        var messageHTML = newMessageEditor.root.innerHTML; // Rich text if needed
 
+        if (!orderId) {
+            Swal.fire('Error!', 'To start chatting with us, please place an order first!', 'error');
+            return;
+        }
 
-             var orderId = $('select[name="order_id"]').val();
-    if (!orderId) {
-        Swal.fire('Error!', 'To start chatting with us, please place an order first!', 'error');
-        return; // Stop execution if the condition is met
-    }
+        if (!sendby) {
+            Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
+            return;
+        }
 
-// Check if sendby is empty or null
-if (sendby == '' || sendby == null) {
-    Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
-    return; // Stop execution if the condition is met
-}
+        if (!message) {
+            Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
+            return;
+        }
 
-if (!message) {
-    Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
-    return;
-}
+        formData.append('send_by', sendby);
+        formData.append('message', messageHTML); // Use HTML content from Quill
 
+        var url = '{{ route("customer.send-message") }}';
 
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log('Server response:', response);
+                Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
 
+                // ✅ Clear fields
+                newMessageEditor.setText('');
+                $('#attach_file_1').text('');
+                $('#media').val('');
 
+                // Optional: clear fallback textarea if you're using it
+                $('#message_box').val('');
 
-            var send_by = $('.radioAdminWriter:checked').val();
-    console.log("Selected value:", send_by);
-    // Append the selected value to the FormData object if needed
-    formData.append('send_by', send_by);
+                // Optional Pusher logic
+                Pusher.logToConsole = true;
+                var pusher = new Pusher('28e13a39c3918e12f8a9', {
+                    cluster: 'ap2'
+                });
 
-
-
-
-
-                console.log(formData)
-                var element = document.getElementById('media');
-                console.log(element.value)
-            // Display the form data in the console (for testing purposes)
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ', ' + pair[1]);
+                var channel = pusher.subscribe('pusher');
+                channel.bind('SendMessage', function (data) {
+                    alert(JSON.stringify(data));
+                    console.log(JSON.stringify(data));
+                });
+            },
+            error: function (error) {
+                console.error('Error:', error);
             }
-
-
-            var url = '{{ route("customer.send-message")}}'
-
-            $.ajax({
-
-                type: 'POST',
-                url: url,
-                    data: formData,
-                    processData: false,  // Don't process the data
-                    contentType: false,  // Don't set contentType
-                success: function(response) {
-                    console.log('Server response:', response);
-                    	Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
-                    	$('#attach_file_1').text('');
-                    	$('#message_box').val('');
-                        newMessageEditor.setText('');
-
-                    Pusher.logToConsole = true;
-
-                    var pusher = new Pusher('28e13a39c3918e12f8a9', {
-                      cluster: 'ap2'
-                    });
-
-                    var channel = pusher.subscribe('pusher');
-                    channel.bind('SendMessage', function(data) {
-                      alert(JSON.stringify(data));
-                      console.log(JSON.stringify(data))
-                    });
-                },
-                error: function(error) {
-                    console.error('Error:', error);
-                }
-            });
-
-            return false;
         });
 
+        return false;
     });
+});
+
 
 </script>
 @endsection
