@@ -2293,7 +2293,7 @@ $emailContent = "
     <p><strong>Order Details:</strong></p>
     <ul>
         <li><strong>Order ID:</strong>{$order->order_id}</li>
-        <li><strong>Additional Pages Purchased:</strong> {$order->number_of_pages}</li>
+        <li><strong>Additional Pages Purchased:</strong> {$total}</li>
         <li><strong>Date of Purchase:</strong>  $invoice->created_at</li>
     </ul>
 
@@ -2306,10 +2306,11 @@ $emailContent = "
     <p>Writing Space</p>
 ";
 
-Mail::html($emailContent, function ($message) use ($user) {
+Mail::html($emailContent, function ($message) use ($user, $order) {
     $message->to($user->email)
-            ->subject('Confirmation of Additional Pages Purchase – Order ID {$order->order_id}');
+            ->subject("Confirmation of Additional Pages Purchase – Order ID {$order->order_id}");
 });
+
 
 
 
