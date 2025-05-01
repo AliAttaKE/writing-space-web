@@ -198,7 +198,7 @@ class MessageManagementController extends Controller
     $admin_email_get = User::where('role', 'admin')->first()->email;
     $messageContent = $request->message ?? '(No message provided)';
 
-    $senderRole = ($input['statusRadio'] == 'admin') ? 'Admin' : 'Writer';
+    $senderRole = ($input['statusRadio'] == 'Admin') ? 'Admin' : 'Writer';
     $recipientName = auth()->user()->name;
     
     $emailContent = "
