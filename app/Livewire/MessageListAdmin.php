@@ -20,7 +20,9 @@ $status=Orders::where('order_id',$i->order_id)->first();
 
 
 
-$i['order_status']=$status->order_status;
+//$i['order_status']=$status->order_status;
+
+$i['order_status'] = $status ? $status->order_status : 'Unknown';
 $message=Message::where('order_id',$i->order_id)->get();
 foreach($message as $m){
     if($m->receive_id === Auth()->user()->id){
@@ -56,8 +58,10 @@ foreach($inbox as $i){
     $count=0;
     $status=Orders::where('order_id',$i->order_id)->first();
 
-    $i['order_status']=$status->order_status;
-    $message=Message::where('order_id',$i->order_id)->get();
+   // $i['order_status']=$status->order_status;
+  
+   $i['order_status'] = $status ? $status->order_status : 'Unknown';
+   $message=Message::where('order_id',$i->order_id)->get();
     foreach($message as $m){
         if($m->receive_id === Auth()->user()->id){
            if($m->status == 'UnRead'){

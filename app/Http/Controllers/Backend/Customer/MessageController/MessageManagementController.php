@@ -31,7 +31,8 @@ class MessageManagementController extends Controller
                 $count = 0;
                 $status = Orders::where('order_id', $i->order_id)->first();
 
-                if ($status->user_id === Auth()->user()->id) {
+              //  if ($status->user_id === Auth()->user()->id) {
+                if ($status && $status->user_id === Auth()->user()->id) {
 
 
                     $i['order_status'] = $status->order_status;
