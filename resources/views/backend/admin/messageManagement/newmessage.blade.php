@@ -420,6 +420,7 @@ $(document).ready(function () {
 
         // Get the message from the Quill editor as HTML
         var messageHTML = newMessageEditor.root.innerHTML.trim();
+        console.log("Message HTML content:", messageHTML); // Debugging the content
 
         // Check if the message is empty or contains only non-visible content
         var isEmpty = messageHTML === '<p><br></p>' || messageHTML === '' || messageHTML.replace(/<[^>]*>/g, '').trim() === '';
