@@ -402,9 +402,11 @@
     };
 </script>
 <script>
-
 $(document).ready(function () {
     $('#kt_inbox_compose_form').submit(function (e) {
+
+
+        
         e.preventDefault(); // Prevent the form from submitting in the traditional way
 
         // Create a FormData object to gather form data
@@ -422,8 +424,9 @@ $(document).ready(function () {
         var messageHTML = newMessageEditor.root.innerHTML.trim();
         console.log("Message HTML content:", messageHTML); // Debugging the content
 
-        // Check if the message is empty or contains only non-visible content
-        var isEmpty = messageHTML === '<p><br></p>' || messageHTML === '' || messageHTML.replace(/<[^>]*>/g, '').trim() === '';
+        // Validate the message content to ensure it's not empty
+        // We check if the message is empty or only contains whitespace or visible empty elements.
+        var isEmpty = !messageHTML || messageHTML === '<p><br></p>' || messageHTML.replace(/<[^>]*>/g, '').trim() === '';
 
         if (isEmpty) {
             Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
@@ -449,6 +452,10 @@ $(document).ready(function () {
                 Swal.fire('Success', response.success, 'success');
                 newMessageEditor.setText(''); // Clear the editor after successful message send
                 $('#attach_file_1').text(''); // Clear any attached file info
+
+                $('#message_box').val('');
+       
+        $('#attach_file_1').text('');
             },
             error: function (error) {
                 console.error('Error:', error);
@@ -459,12 +466,13 @@ $(document).ready(function () {
     });
 
     // Clear message box functionality
-    $(document).on('click', '.clear_message_box', function (e) {
-        $('#message_box').val('');
-        newMessageEditor.setText('');
-        $('#attach_file_1').text('');
-    });
+    // $(document).on('click', '.clear_message_box', function (e) {
+    //     $('#message_box').val('');
+    //     newMessageEditor.setText('');
+    //     $('#attach_file_1').text('');
+    // });
 });
+
 
 </script>
 @endsection
