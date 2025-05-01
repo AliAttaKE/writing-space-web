@@ -2293,7 +2293,7 @@ $emailContent = "
     <p><strong>Order Details:</strong></p>
     <ul>
         <li><strong>Order ID:</strong>{$order->order_id}</li>
-        <li><strong>Additional Pages Purchased:</strong> {$total}</li>
+        <li><strong>Additional Pages Purchased:</strong> {$totalPages}</li>
         <li><strong>Date of Purchase:</strong>  $invoice->created_at</li>
     </ul>
 
