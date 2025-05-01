@@ -420,6 +420,8 @@ $(document).ready(function () {
         // Append the selected value to the FormData object
         formData.append('send_by', send_by);
 
+        var send_by = $('.radioAdminWriter:checked').val();
+
         // Get the message from the Quill editor as HTML
         var messageHTML = newMessageEditor.root.innerHTML.trim();
         console.log("Message HTML content:", messageHTML); // Debugging the content
@@ -433,6 +435,11 @@ $(document).ready(function () {
             return; // Stop execution if the message is empty
         }
 
+
+        if (!send_by) {
+            Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
+            return;
+        }
         // Append the message content (HTML) to formData
         formData.append('message', messageHTML);
 
