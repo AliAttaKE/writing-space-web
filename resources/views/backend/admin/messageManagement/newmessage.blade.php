@@ -405,71 +405,60 @@
 
 $(document).ready(function () {
     $('#kt_inbox_compose_form').submit(function (e) {
-        e.preventDefault();
+        e.preventDefault(); // Prevent the form from submitting in the traditional way
 
+        // Create a FormData object to gather form data
         var formData = new FormData(this);
         formData.append('_token', '{{ csrf_token() }}');
 
-        // Get selected radio value
+        // Get the value of the selected radio button (Admin or Writer)
         var send_by = $('.radioAdminWriter:checked').val();
-        if (!send_by) {
-            Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
-            return;
-        }
+        console.log("Selected value:", send_by);
+
+        // Append the selected value to the FormData object
         formData.append('send_by', send_by);
 
-        // Get text and HTML content from the Quill editor
-        var messageText = newMessageEditor.getText().replace(/\s+/g, '').trim();
+        // Get the message from the Quill editor as HTML
         var messageHTML = newMessageEditor.root.innerHTML.trim();
 
-        if (!messageText) {
+        // Check if the message is empty or contains only non-visible content
+        var isEmpty = messageHTML === '<p><br></p>' || messageHTML === '' || messageHTML.replace(/<[^>]*>/g, '').trim() === '';
+
+        if (isEmpty) {
             Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
-            return;
+            return; // Stop execution if the message is empty
         }
 
+        // Append the message content (HTML) to formData
         formData.append('message', messageHTML);
 
-        // Log for debugging
-        console.log('Sending formData...');
-        for (var pair of formData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        }
+        // Log formData for debugging purposes
+        console.log(formData);
 
+        // Send the form data using AJAX
         var url = '{{ route("admin.send-message") }}';
         $.ajax({
             type: 'POST',
             url: url,
             data: formData,
-            processData: false,
-            contentType: false,
+            processData: false, // Don't process the data
+            contentType: false, // Don't set contentType
             success: function (response) {
                 console.log('Server response:', response);
-                Swal.fire('Success', 'Your Message Sent Successfully.', 'success');
-
-                // Clear editor and attachment
-                newMessageEditor.setText('');
-                $('#attach_file_1').text('');
-
-                // Setup Pusher
-                Pusher.logToConsole = true;
-                var pusher = new Pusher('28e13a39c3918e12f8a9', {
-                    cluster: 'ap2'
-                });
-
-                var channel = pusher.subscribe('pusher');
-                channel.bind('SendMessage', function (data) {
-                    console.log('Pusher message:', data);
-                    alert(JSON.stringify(data));
-                });
+                Swal.fire('Success', response.success, 'success');
+                newMessageEditor.setText(''); // Clear the editor after successful message send
+                $('#attach_file_1').text(''); // Clear any attached file info
             },
             error: function (error) {
                 console.error('Error:', error);
             }
         });
+
+        return false; // Prevent the form from submitting traditionally
     });
 
-    // Clear message box manually
-    $(document).on('click', '.clear_message_box', function () {
+    // Clear message box functionality
+    $(document).on('click', '.clear_message_box', function (e) {
         $('#message_box').val('');
         newMessageEditor.setText('');
         $('#attach_file_1').text('');
