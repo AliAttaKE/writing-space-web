@@ -391,68 +391,60 @@ document.getElementById("media").addEventListener("change", function() {
     });
 
 
-    $(document).ready(function() {
-        $('#kt_inbox_reply_form').submit(function(e) {
-            e.preventDefault(); // Prevent the form from submitting in the traditional way
-            console.log('hello')
-            // Create a FormData object to gather form data
-            var formData = new FormData(this);
-            formData.append('_token', '{{ csrf_token() }}');
+    $(document).ready(function () {
+    $('#kt_inbox_reply_form').submit(function (e) {
+        e.preventDefault(); // Prevent traditional submit
+        console.log('hello');
 
-            var send_by = $('.radioAdminWriter:checked').val();
-            console.log("Selected value:", send_by);
-            // Append the selected value to the FormData object if needed
-            formData.append('send_by', send_by);
+        var formData = new FormData(this);
+        formData.append('_token', '{{ csrf_token() }}');
 
-             var sendby = $('.radioAdminWriter:checked').val();
-             var message = $('#message_box').val();
+        var send_by = $('.radioAdminWriter:checked').val();
+        formData.append('send_by', send_by);
 
+        // Get Quill editor content instead of relying on #message_box
+        var message = replyMessageEditor.getText().trim(); // This gets plain text
 
-            if (sendby == '' || sendby == null) {
-       Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
-        return; // Stop execution if the condition is met
-    }
+        if (!send_by) {
+            Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
+            return;
+        }
 
-    if (!message) {
-    Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
-    return;
-}
+        if (!message) {
+            Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
+            return;
+        }
 
-            console.log(formData)
-            var element = document.getElementById('media');
-            console.log(element.value)
-            // Display the form data in the console (for testing purposes)
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ', ' + pair[1]);
+        // Add Quill's content to the form data
+        formData.append('message', replyMessageEditor.root.innerHTML); // Or use getText() for plain text
+
+        var url = '{{ route("customer.send-message") }}';
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log('Server response:', response);
+                Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
+
+                // Clear editors and file area
+                replyMessageEditor.setText('');
+                $('#message_box').val(''); // Optional since you're now using Quill
+                $('#attach_file_1').text('');
+                $('#media').val('');
+            },
+            error: function (error) {
+                console.error('Error:', error);
             }
-
-            // Now you can use the formData object to send the data to the server using AJAX or perform other actions
-            var url = '{{ route("customer.send-message")}}'
-            // Example of sending formData using AJAX:
-            $.ajax({
-
-                type: 'POST'
-                , url: url
-                , data: formData
-                , processData: false, // Don't process the data
-                contentType: false, // Don't set contentType
-                success: function(response) {
-                    console.log('Server response:', response);
-                    Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
-
-                    $('#message_box').val('');
-                    $('#attach_file_1').text('');
-                    replyMessageEditor.setText('');
-
-                }
-                , error: function(error) {
-                    console.error('Error:', error);
-                }
-            });
-
-            return false; // Prevent the form from submitting in the traditional way
         });
+
+        return false;
     });
+});
+
 
 </script>
 
