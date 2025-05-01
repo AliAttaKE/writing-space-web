@@ -1567,10 +1567,15 @@ $permissions = 0775;
                     $sub_id = $order_id;
                     $checkUserSub = User_Subscription::where('user_id', $user->id)->first();
 
+                  
+
+
                     if ($checkUserSub) {
                         $subs = Subscription::find($orderidexplode);
                         $checkUserSub->subscription_id = $orderidexplode;
                         $checkUserSub->total_pages = (float)$subs->min_page + (float)$checkUserSub->remaining_pages;
+
+                        dd($subs->mix_page, $subs->min_page, $checkUserSub->rollover_pages);
                         $checkUserSub->rollover_pages = ($subs->mix_page - $subs->min_page) + (float)$checkUserSub->rollover_pages;
 
                         $checkUserSub->remaining_pages = (float)$subs->min_page + (float)$checkUserSub->remaining_pages;
