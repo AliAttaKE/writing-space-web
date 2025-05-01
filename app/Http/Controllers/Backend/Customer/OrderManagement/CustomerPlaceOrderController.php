@@ -1575,8 +1575,8 @@ $permissions = 0775;
                         $checkUserSub->subscription_id = $orderidexplode;
                         $checkUserSub->total_pages = (float)$subs->min_page + (float)$checkUserSub->remaining_pages;
 
-                        dd($subs->mix_page, $subs->min_page, $checkUserSub->rollover_pages);
-                        $checkUserSub->rollover_pages = ($subs->mix_page - $subs->min_page) + (float)$checkUserSub->rollover_pages;
+                      
+                        $checkUserSub->rollover_pages = ($subs->max_page - $subs->min_page) + (float)$checkUserSub->rollover_pages;
 
                         $checkUserSub->remaining_pages = (float)$subs->min_page + (float)$checkUserSub->remaining_pages;
                         $checkUserSub->remaining_rollover_pages = $subs->rollover_limit + (float)$checkUserSub->rollover_pages;
