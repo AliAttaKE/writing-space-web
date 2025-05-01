@@ -79,7 +79,7 @@ public function updatepkg(Request $request, $id)
     $input['total_pages'] = $input['total_pages'];
     $input['remaining_pages'] = $input['remaining_pages'];
     $input['rollover_pages'] = $input['rollover_pages'];
-    $input['due_date'] = $input['due_date'];
+    
 
     // Update the user subscription with the new input data
     $User_Subscription->update($input);
