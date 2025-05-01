@@ -341,8 +341,8 @@ h3 {
                     Pusher.logToConsole = true;
 
                         $('#message_box').val();
-                        replyMessageEditor.setText('');
-
+                      //  replyMessageEditor.setText('');
+                      quill.setText('');
                         $('#attach_file_1').text('');
                     var pusher = new Pusher('28e13a39c3918e12f8a9', {
                         cluster: 'ap2'
