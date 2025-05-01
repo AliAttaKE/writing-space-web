@@ -137,8 +137,7 @@ class MessageManagementController extends Controller
     public function sendMessage(Request $request)
 {
     $input = $request->all();
-
-    dd($input);
+    
     $input['sender_id'] = auth()->user()->id;
     $user = User::find(auth()->user()->id);
 
@@ -199,7 +198,7 @@ class MessageManagementController extends Controller
     $admin_email_get = User::where('role', 'admin')->first()->email;
     $messageContent = $request->message ?? '(No message provided)';
 
-    $senderRole = ($user->role == 'admin') ? 'Admin' : 'Writer';
+    $senderRole = ($input['statusRadio'] == 'admin') ? 'Admin' : 'Writer';
     $recipientName = auth()->user()->name;
     
     $emailContent = "
