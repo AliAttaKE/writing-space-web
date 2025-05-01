@@ -402,37 +402,36 @@
     };
 </script>
 <script>
-    $(document).ready(function() {
-   	$('#kt_inbox_reply_form').submit(function(e) {
-			e.preventDefault(); // Prevent the form from submitting in the traditional way
-			console.log('hello')
-						// Create a FormData object to gather form data
-						var formData = new FormData(this);
-						formData.append('_token', '{{ csrf_token() }}');
-						// You can append additional data if needed
-						// formData.append('key', 'value');
+    $(document).ready(function () {
+        $('#kt_inbox_compose_form').submit(function (e) {
+            e.preventDefault(); // Prevent the form from submitting in the traditional way
 
-						var send_by = $('.radioAdminWriter:checked').val();
-						console.log("Selected value:", send_by);
+            // Create a FormData object to gather form data
+            var formData = new FormData(this);
+            formData.append('_token', '{{ csrf_token() }}');
+            // You can append additional data if needed
+            // formData.append('key', 'value');
 
-						formData.append('send_by', send_by);
+            var send_by = $('.radioAdminWriter:checked').val();
+    console.log("Selected value:", send_by);
+    // Append the selected value to the FormData object if needed
+    formData.append('send_by', send_by);
+
+      var sendby = $('.radioAdminWriter:checked').val();
 
 
-						 var sendby = $('.radioAdminWriter:checked').val();
-
-						 var message = $('.ql-editor').text();
-
-    // Check if sendby is empty or null
-    if (sendby == '' || sendby == null) {
+  if (sendby == '' || sendby == null) {
        Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
         return; // Stop execution if the condition is met
     }
 
+var message = $('.ql-editor').text();
 
-   if (!message) {
+if (!message.trim()) {
     Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
     return;
 }
+
         console.log(formData)
             var element = document.getElementById('media');
             console.log(element.value)
