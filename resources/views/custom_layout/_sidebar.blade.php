@@ -106,6 +106,7 @@
                             Order Package</span></a><!--end:Menu link--></div><!--end:Menu item-->
                 <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.custom-setting-order')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Custom
                             Order</span></a><!--end:Menu link--></div><!--end:Menu item-->
+                <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.pkg')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Package Edit</span></a><!--end:Menu link--></div><!--end:Menu item-->
             </div><!--end:Menu sub-->
         </div><!--end:Menu item-->
          <!--begin:Menu item-->
