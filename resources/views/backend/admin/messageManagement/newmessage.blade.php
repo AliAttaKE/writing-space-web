@@ -419,7 +419,7 @@
 
       var sendby = $('.radioAdminWriter:checked').val();
 
-      var message = $('.ql-editor').text();
+      var message = $('.ql-editor p').text();
 
 
   if (sendby == '' || sendby == null) {
