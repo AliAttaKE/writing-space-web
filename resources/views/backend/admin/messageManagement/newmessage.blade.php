@@ -403,10 +403,9 @@
 </script>
 <script>
     $(document).ready(function () {
-        $('#kt_inbox_compose_form').submit(function (e) {
-            e.preventDefault(); // Prevent the form from submitting in the traditional way
-
-            // Create a FormData object to gather form data
+        $('#kt_inbox_reply_form').submit(function(e) {
+			e.preventDefault(); // Prevent the form from submitting in the traditional way
+			console.log('hello')
             var formData = new FormData(this);
             formData.append('_token', '{{ csrf_token() }}');
             // You can append additional data if needed
@@ -419,18 +418,20 @@
 
       var sendby = $('.radioAdminWriter:checked').val();
 
+      var message = $('.ql-editor').text();
 
-  if (sendby == '' || sendby == null) {
+
+      if (sendby == '' || sendby == null) {
        Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
         return; // Stop execution if the condition is met
     }
 
-var message = $('.ql-editor').text();
 
-if (!message.trim()) {
+   if (!message) {
     Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
     return;
 }
+
 
         console.log(formData)
             var element = document.getElementById('media');
@@ -454,7 +455,8 @@ if (!message.trim()) {
                     console.log('Server response:', response);
                     Swal.fire('Success', response.success, 'success');
                     Pusher.logToConsole = true;
-                    newMessageEditor.setText('');
+                    quill.setText('');
+
                     var element = document.getElementById('attach_file_1');
                     element.innerText = '';
 
