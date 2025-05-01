@@ -419,7 +419,7 @@
 
       var sendby = $('.radioAdminWriter:checked').val();
 
-      var message = $('.ql-editor p').text();
+      var message = $('.ql-editor ').text();
 
 
   if (sendby == '' || sendby == null) {
@@ -429,10 +429,10 @@
 
 
 
-if (!message.trim()) {
-    Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
-    return;
-}
+// if (!message.trim()) {
+//     Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
+//     return;
+// }
 
         console.log(formData)
             var element = document.getElementById('media');
