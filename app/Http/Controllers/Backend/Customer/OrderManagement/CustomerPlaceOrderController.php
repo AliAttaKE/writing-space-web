@@ -1488,16 +1488,6 @@ $permissions = 0775;
     // Subscriptions Purchase / Uprgrade
     public function pay_sub($orderid)
     {
-        $pay = Pay::where('order_id', $orderid)->first();
-        $user_id =  $pay->user_id;
-        $user = User::find($pay->user_id);
-   
-        $checkUserSub = User_Subscription::where('user_id', $user->id)->first();
-
-        $total_chk = $checkUserSub->rollover_pages + $checkUserSub->remaining_pages; // 0
-
-        dd($total_chk);
-        exit();
         try {
             $pay = Pay::where('order_id', $orderid)->first();
             $sessionId = $pay->session_id;
@@ -1579,18 +1569,29 @@ $permissions = 0775;
 
                     $total_chk = $checkUserSub->rollover_pages + $checkUserSub->remaining_pages; // 0
 
-                
-
-                    if ($checkUserSub && $total_chk != 0) {
+                    if ($checkUserSub) {
                         $subs = Subscription::find($orderidexplode);
                         $checkUserSub->subscription_id = $orderidexplode;
-                        $checkUserSub->total_pages = (float)$subs->min_page + (float)$checkUserSub->total_pages;
+                        if($total_chk > 0){
+                             
+                            $checkUserSub->total_pages = (float)$subs->min_page + (float)$checkUserSub->total_pages;
 
-                      
-                        $checkUserSub->rollover_pages = ($subs->max_page - $subs->min_page) + (float)$checkUserSub->rollover_pages;
+                   
+                     $checkUserSub->rollover_pages = ($subs->max_page - $subs->min_page) + (float)$checkUserSub->rollover_pages;
 
-                        $checkUserSub->remaining_pages = (float)$subs->min_page + (float)$checkUserSub->remaining_pages;
-                        $checkUserSub->remaining_rollover_pages = $subs->rollover_limit + (float)$checkUserSub->rollover_pages;
+                     $checkUserSub->remaining_pages = (float)$subs->min_page + (float)$checkUserSub->remaining_pages;
+                     $checkUserSub->remaining_rollover_pages = $subs->rollover_limit + (float)$checkUserSub->rollover_pages;
+                        
+                     }
+                   else{
+                    $checkUserSub->total_pages = (float)$subs->min_page;
+
+                   
+                         $checkUserSub->rollover_pages = ($subs->max_page - $subs->min_page);
+ 
+                         $checkUserSub->remaining_pages = (float)$subs->min_page;
+                         $checkUserSub->remaining_rollover_pages = $subs->rollover_limit ;
+                   }
                         $checkUserSub->status = 'Active';
                         $checkUserSub->due_date = now()->addDays((int)$subs->set_time)->toDateTimeString();
                         $checkUserSub->save();
