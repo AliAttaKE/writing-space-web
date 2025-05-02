@@ -31,39 +31,38 @@ class FileChatGPTController extends Controller
     return view('file_chat_gpts.approved', compact('approvedFiles'));
 }
 
+public function store(Request $request)
+{
+    $request->validate([
+        'order_id' => 'required|exists:orders,order_id',
+        'title' => 'array',
+        'title.*' => 'nullable|string',
+        'file' => 'required|array',
+        'file.*' => 'required|file',
+        'status' => 'required|in:0,1',
+    ]);
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'file_name' => 'required|string|max:255',
-            'title' => 'nullable|string',
-            'file' => 'required|file',
-            'order_id' => 'required|exists:orders,order_id', // Corrected from orders_id to order_id
-        ]);
-    
-        // Store file
-        $filePath = $request->file('file')->store('complete_order', 'public');
-    
-        $Orders = Orders::where('order_id', $request->order_id)->first();
-        $user_id = $Orders->user_id;
+    $order = Orders::where('order_id', $request->order_id)->first();
+    $user_id = $order->user_id;
 
-       
-    
+    foreach ($request->file('file') as $index => $uploadedFile) {
+        $filePath = $uploadedFile->store('complete_order', 'public');
+
         FileChatGPT::create([
-            'file_name' => $request->file_name,
-            'title' => $request->title,
-            'order_id' => $request->order_id, // Corrected from orders_id to order_id
-            'user_id' => $user_id, // Corrected from orders_id to order_id
+            'file_name' => $request->title[$index] ?? null,
+            'title' => $request->title[$index] ?? null,
+            'order_id' => $request->order_id,
+            'user_id' => $user_id,
             'file_path' => $filePath,
-            'file_type' => $request->file->getMimeType(),
-            'Size' => $request->file->getSize(),
+            'file_type' => $uploadedFile->getMimeType(),
+            'Size' => $uploadedFile->getSize(),
             'status' => $request->status,
         ]);
-    
-        return redirect()->route('file_chat_gpts.index')->with('success', 'File uploaded successfully.');
     }
-    
-    
+
+    return redirect()->route('file_chat_gpts.index')->with('success', 'Files uploaded successfully.');
+}
+
 
     public function edit(FileChatGPT $fileChatGPT)
     {
