@@ -1569,7 +1569,7 @@ $permissions = 0775;
 
                     $total_chk = $checkUserSub->rollover_pages + $checkUserSub->remaining_pages; // 0
 
-                    if ($checkUserSub && $total_chk > 0) {
+                    if ($checkUserSub && $total_chk < 0) {
                         $subs = Subscription::find($orderidexplode);
                         $checkUserSub->subscription_id = $orderidexplode;
                         $checkUserSub->total_pages = (float)$subs->min_page + (float)$checkUserSub->total_pages;
