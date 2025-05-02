@@ -280,13 +280,13 @@
                                                     @if ($p->min == '15')
                                                     <option value="{{ $p->id }}">
                                                         {{ $p->min }} {{ $p->duration_type }} or
-                                                        {{ $p->max }} = ${{ $p->cost_per_page }} per
-                                                        page</option>
+                                                        {{ $p->max }} = {{ $p->page_limit }} page
+                                                        limit</option>
                                                     @else
                                                     <option value="{{ $p->id }}">
                                                         {{ $p->min }} - {{ $p->max }}
-                                                        {{ $p->duration_type }} = {{ $p->cost_per_page }}
-                                                        per page</option>
+                                                        {{ $p->duration_type }} = {{ $p->page_limit }}
+                                                         page limit</option>
                                                     @endif
                                                     @endforeach
                                                     @endif
