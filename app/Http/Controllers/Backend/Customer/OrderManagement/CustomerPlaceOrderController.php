@@ -1488,6 +1488,15 @@ $permissions = 0775;
     // Subscriptions Purchase / Uprgrade
     public function pay_sub($orderid)
     {
+        $pay = Pay::where('order_id', $orderid)->first();
+        $user_id =  $pay->user_id;
+        $user = User::find($pay->user_id);
+   
+        $checkUserSub = User_Subscription::where('user_id', $user->id)->first();
+
+        $total_chk = $checkUserSub->rollover_pages + $checkUserSub->remaining_pages; // 0
+
+        dd($total_chk);
         try {
             $pay = Pay::where('order_id', $orderid)->first();
             $sessionId = $pay->session_id;
