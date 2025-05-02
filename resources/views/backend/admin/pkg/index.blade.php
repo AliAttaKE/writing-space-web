@@ -67,6 +67,8 @@
                             <thead>
                                 <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
                                    
+                                    <th class="min-w-80px fw_800 pb-8">Customer ID</th>
+                                    <th class="min-w-80px fw_800 pb-8">Customer Name</th>
                                     <th class="min-w-80px fw_800 pb-8">Total Package pages</th>
                                     <th class="min-w-50px fw_800 pb-8">Total Used pages</th>
                                     <th class="min-w-80px fw_800 pb-8">Total Remaining pages</th>
@@ -86,6 +88,14 @@
                                 <tr>
                                 
                                    
+                                 
+                                    
+                                    <td class="text-white">
+                                        {{ $us->user->id ?? 'N/A' }}
+                                    </td>
+                                    <td class="text-white">
+                                        {{ $us->user->name ?? 'N/A' }}
+                                    </td>
                                     <td class="text-white">
                                       {{ $us->total_pages }}
                                     </td>

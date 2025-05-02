@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class User_Subscription extends Model
 {
@@ -12,4 +13,10 @@ class User_Subscription extends Model
     protected $fillable=[
        'subscription_id','user_id','total_pages','remaining_pages','rollover_pages','due_date','status','remaining_rollover_pages','isEmail'
     ];
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

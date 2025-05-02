@@ -30,9 +30,9 @@ class BlogController extends Controller
     }
      public function index_pkg()
     {          
-        $User_Subscription= User_Subscription::latest()->paginate(5);
+        $User_Subscription= User_Subscription::with('user')->latest()->paginate(5);
 
-       
+        
        
         return view('backend.admin.pkg.index',compact('User_Subscription'));    
     }
