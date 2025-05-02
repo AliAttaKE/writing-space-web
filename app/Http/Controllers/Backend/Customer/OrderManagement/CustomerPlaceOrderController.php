@@ -1497,6 +1497,7 @@ $permissions = 0775;
         $total_chk = $checkUserSub->rollover_pages + $checkUserSub->remaining_pages; // 0
 
         dd($total_chk);
+        exit();
         try {
             $pay = Pay::where('order_id', $orderid)->first();
             $sessionId = $pay->session_id;
