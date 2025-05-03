@@ -582,7 +582,7 @@ if ($remainingPercentage <= 10) {
 
         <p>Contact Support:</p>
         <ul>
-            <li>Email: <a href='mailto:support@writing-space.com'>support@writing-space.com</a></li>
+            <li>Email: <a href='support@writing-space.com'>support@writing-space.com</a></li>
         </ul>
 
         <p>Act now to replenish your page count and keep your academic resources flowing! We’re here to support your educational endeavors every step of the way.</p>
@@ -606,7 +606,7 @@ if ($remainingPercentage <= 10) {
                                         <li>Remaining Pages in Your Package: {$subs->remaining_pages}</li>
                                     </ul>
 
-                                   
+                                  
 
                                   <p><strong>Exclusive Renewal Offer:</strong> We value your commitment to Writing Space and would like to offer you a special discount on your next package purchase. This is a great opportunity to continue accessing our comprehensive academic resources at a reduced rate.</p>
 
@@ -614,7 +614,7 @@ if ($remainingPercentage <= 10) {
 
         <p>Contact Support:</p>
         <ul>
-            <li>Email: <a href='mailto:support@writing-space.com'>support@writing-space.com</a></li>
+            <li>Email: <a href='support@writing-space.com'>support@writing-space.com</a></li>
         </ul>
 
         <p>Act now to replenish your page count and keep your academic resources flowing! We’re here to support your educational endeavors every step of the way.</p>
@@ -634,10 +634,6 @@ Mail::html($emailContent4, function ($message) use ($user) {
 // Small delay
 sleep(1);
 
-Mail::html($emailContent4, function ($message) use ($user) {
-    $message->to($user->email)
-            ->subject('Your Writing Space Package is Expiring Soon – Keep Your Benefits Rolling!');
-});
 
 
 
