@@ -562,13 +562,10 @@ class CustomerPlaceOrderController extends Controller
 
 
 
-// Assume $subs is the subscription and $user is the authenticated or related user
-$remainingPercentage = ($subs->remaining_pages / $subs->total_pages) * 100;
 
+             $remainingPercentage = ($subs->remaining_pages / $subs->total_pages) * 100;
 if ($remainingPercentage <= 10) {
-    $sub_name = $subs->package_name ?? 'Your Current Package'; // adjust this based on your actual field
-
-    // Email content
+    
     $warningEmailContent = "
         <p>Hello {$user->name},</p>
         <p>We've noticed that you're nearing the end of the pages available in your current package at Writing Space. To ensure you continue enjoying our services without interruption, we wanted to give you a heads-up and an exclusive offer.</p>
@@ -594,20 +591,56 @@ if ($remainingPercentage <= 10) {
 
         <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
     ";
+    
+    
+    
+      $emailContent4 = "
+                                    <p>Hello {$user->name},</p>
+                                    <p>We've noticed that you're nearing the end of the pages available in your current package at Writing Space. To ensure you continue enjoying our services without interruption, we wanted to give you a heads-up and an exclusive offer.</p>
 
-    // Send the warning email
-    Mail::html($warningEmailContent, function ($message) use ($user) {
-        $message->to($user->email)
-                ->subject('Heads Up: You’re Running Low on Your Writing Space Pages!');
-    });
-}
+                                    <p><strong>Package Details:</strong></p>
+                                    <ul>
+                                        <li>Date Placed: {$order->created_at->format('Y-m-d')}</li>
+                                        <li>Pages Used for This Order: {$input['no_of_pages']}</li>
+                                        <li>Total Pages Used in Past Orders: {$used_pages}</li>
+                                        <li>Remaining Pages in Your Package: {$subs->remaining_pages}</li>
+                                    </ul>
+
+                                   
+
+                                  <p><strong>Exclusive Renewal Offer:</strong> We value your commitment to Writing Space and would like to offer you a special discount on your next package purchase. This is a great opportunity to continue accessing our comprehensive academic resources at a reduced rate.</p>
+
+        <p><strong>Next Steps to Take Advantage of This Offer:</strong> Please contact our support team directly to claim your discounted renewal. They are ready to assist you in setting up your new package and ensuring you don't miss a beat in your academic journey.</p>
+
+        <p>Contact Support:</p>
+        <ul>
+            <li>Email: <a href='mailto:support@writing-space.com'>support@writing-space.com</a></li>
+        </ul>
+
+        <p>Act now to replenish your page count and keep your academic resources flowing! We’re here to support your educational endeavors every step of the way.</p>
+
+        <p>Thank you for choosing Writing Space. Let’s continue making your academic experience as successful and hassle-free as possible.</p>
+
+        <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
+                                ";
+
+                             
+
+Mail::html($emailContent4, function ($message) use ($user) {
+    $message->to($user->email)
+            ->subject('Heads Up: You’re Running Low on Your Writing Space Pages!');
+});
+
+// Small delay
+sleep(1);
+
+Mail::html($emailContent4, function ($message) use ($user) {
+    $message->to($user->email)
+            ->subject('Your Writing Space Package is Expiring Soon – Keep Your Benefits Rolling!');
+});
 
 
 
-      Mail::html($warningEmailContent, function ($message) use ($user) {
-        $message->to($user->email)
-                ->subject('Your Writing Space Package is Expiring Soon – Keep Your Benefits Rolling!');
-    });
 }
 
 
@@ -1577,26 +1610,26 @@ $permissions = 0775;
                     if ($checkUserSub) {
                         $subs = Subscription::find($orderidexplode);
                         $checkUserSub->subscription_id = $orderidexplode;
-                        if($total_chk > 0){
+                       if($total_chk > 0){
                              
-                            $checkUserSub->total_pages = (float)$subs->min_page + (float)$checkUserSub->total_pages;
+                               $checkUserSub->total_pages = (float)$subs->min_page + (float)$checkUserSub->total_pages;
 
-                   
-                     $checkUserSub->rollover_pages = ($subs->max_page - $subs->min_page) + (float)$checkUserSub->rollover_pages;
+                      
+                        $checkUserSub->rollover_pages = ($subs->max_page - $subs->min_page) + (float)$checkUserSub->rollover_pages;
 
-                     $checkUserSub->remaining_pages = (float)$subs->min_page + (float)$checkUserSub->remaining_pages;
-                     $checkUserSub->remaining_rollover_pages = $subs->rollover_limit + (float)$checkUserSub->rollover_pages;
-                        
-                     }
-                   else{
-                    $checkUserSub->total_pages = (float)$subs->min_page;
+                        $checkUserSub->remaining_pages = (float)$subs->min_page + (float)$checkUserSub->remaining_pages;
+                        $checkUserSub->remaining_rollover_pages = $subs->rollover_limit + (float)$checkUserSub->rollover_pages;
+                           
+                        }
+                      else{
+                       $checkUserSub->total_pages = (float)$subs->min_page;
 
-                   
-                         $checkUserSub->rollover_pages = ($subs->max_page - $subs->min_page);
- 
-                         $checkUserSub->remaining_pages = (float)$subs->min_page;
-                         $checkUserSub->remaining_rollover_pages = $subs->rollover_limit ;
-                   }
+                      
+                            $checkUserSub->rollover_pages = ($subs->max_page - $subs->min_page);
+    
+                            $checkUserSub->remaining_pages = (float)$subs->min_page;
+                            $checkUserSub->remaining_rollover_pages = $subs->rollover_limit ;
+                      }
                         $checkUserSub->status = 'Active';
                         $checkUserSub->due_date = now()->addDays((int)$subs->set_time)->toDateTimeString();
                         $checkUserSub->save();
