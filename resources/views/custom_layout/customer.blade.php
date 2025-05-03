@@ -77,10 +77,10 @@
     $PendingCount = $orderCount['Pending'] ?? 0;
     $RefundCount = $orderCount['Refund'] ?? 0;
     $CanceledCount = $orderCount['Canceled'] ?? 0;
-    $inProgressCount = ($orderCount['In-Progress'] ?? 0) + ($orderCount['Completed'] ?? 0);
-
+    $InProgressCount = ($orderCount['In-Progress'] ?? 0) + ($orderCount['Completed'] ?? 0);
     $DeliveredCount = $orderCount['Delivered'] ?? 0;
     $CompletedCount = $orderCount['Completed'] ?? 0;
+    
     
     
    
