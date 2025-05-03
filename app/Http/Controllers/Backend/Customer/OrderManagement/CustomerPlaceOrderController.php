@@ -634,47 +634,46 @@ Mail::html($emailContent4, function ($message) use ($user) {
 // Small delay
 sleep(1);
 
+
 $finishedEmailContent = "
-<p>Hi {$user->name},</p>
-<p>It looks like you've used up all the pages in your Writing Space package. We hope you found each page helpful for your academic projects!</p>
+        <p>Hi {$user->name},</p>
+        <p>It looks like you've used up all the pages in your Writing Space package. We hope you found each page helpful for your academic projects!</p>
 
-<p><strong>Don't Miss Out on Continuous Support: :</strong></p>
-<p>To keep the support and resources flowing, we encourage you to renew your package. By renewing, you’ll continue to benefit from our comprehensive academic support tailored to your needs.</p>
+        <p><strong>Don't Miss Out on Continuous Support: :</strong></p>
+        <p>To keep the support and resources flowing, we encourage you to renew your package. By renewing, you’ll continue to benefit from our comprehensive academic support tailored to your needs.</p>
 
-<p><strong>Special Renewal Offer</strong></p>
-<p>As a thank you for being a valued member of Writing Space, we’re offering you a special discount on your next package. This offer is designed to give you the best value as you continue your educational journey with us.</p>
-<p><strong>How to Renew:</strong></p>
-<ul>
-    <li><strong>1.Visit your dashboard.</strong> </li>
-    <li><strong>2.	Go to the ‘Packages’ section.</strong></li>
-    <li><strong>3.	Choose your renewal option and continue with uninterrupted access to our resources:</strong></li>
-</ul>
+        <p><strong>Special Renewal Offer</strong></p>
+        <p>As a thank you for being a valued member of Writing Space, we’re offering you a special discount on your next package. This offer is designed to give you the best value as you continue your educational journey with us.</p>
+       <p><strong>How to Renew:</strong></p>
+        <ul>
+            <li><strong>1.Visit your dashboard.</strong> </li>
+            <li><strong>2.	Go to the ‘Packages’ section.</strong></li>
+            <li><strong>3.	Choose your renewal option and continue with uninterrupted access to our resources:</strong></li>
+        </ul>
 
-<p>If you have any questions or need assistance with the renewal process, our customer support team is just an email or phone call away. We’re here to help you succeed!</p>
-<p>Thanks for choosing Writing Space, and let’s keep achieving great things together!</p>
+        <p>If you have any questions or need assistance with the renewal process, our customer support team is just an email or phone call away. We’re here to help you succeed!</p>
+        <p>Thanks for choosing Writing Space, and let’s keep achieving great things together!</p>
 
- <p><strong>Best regards,</strong> </p>
+         <p><strong>Best regards,</strong> </p>
+       
 
+       
 
+        <p>Customer Success Team,<br>Writing Space</p>
+    ";
 
-
-<p>Customer Success Team,<br>Writing Space</p>
-";
-
-Mail::html($finishedEmailContent, function ($message) use ($user) {
-$message->to($user->email)
-        ->subject('Time to Renew? Your Writing Space Pages Are All Used Up!');
-});
-}
-
-
+    Mail::html($finishedEmailContent, function ($message) use ($user) {
+        $message->to($user->email)
+                ->subject('Time to Renew? Your Writing Space Pages Are All Used Up!');
+    });
 
 }
 
-$remaining_pages_check = ($subs->remaining_pages - $subs->total_pages);
 
-if ($remaining_pages_check == 0) {
-  
+if ($subs->remaining_pages == 0) {
+    
+}
+
 
             $invoice = Invoice::create([
                 'Name' => $user->name,
@@ -2950,6 +2949,7 @@ $permissions = 0775;
     {
         $id = Auth()->user()->id;
 
+        
         // $order = Orders::where('user_id', $id)->where('order_status', 'Inprogress')->get();
         $order = Orders::where('user_id', $id)->whereIn('order_status', ['In-Progress', 'Completed'])
             ->when($request->order_id != null, function ($q) use ($request) {
