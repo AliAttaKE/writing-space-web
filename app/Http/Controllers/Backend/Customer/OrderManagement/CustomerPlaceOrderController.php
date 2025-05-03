@@ -2950,7 +2950,7 @@ $permissions = 0775;
         $id = Auth()->user()->id;
 
         // $order = Orders::where('user_id', $id)->where('order_status', 'Inprogress')->get();
-        $order = Orders::where('user_id', $id)->where('order_status', 'In-Progress')
+        $order = Orders::where('user_id', $id)->whereIn('order_status', ['In-Progress', 'Completed'])
             ->when($request->order_id != null, function ($q) use ($request) {
                 return $q->where('order_id', $request->order_id);
             })
