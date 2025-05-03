@@ -564,7 +564,7 @@ class CustomerPlaceOrderController extends Controller
 
 
              $remainingPercentage = ($subs->remaining_pages / $subs->total_pages) * 100;
-if ($remainingPercentage <= 10) {
+             if ($remainingPercentage <= 10 && $subs->rollover_pages == 0) {
     
     $warningEmailContent = "
         <p>Hello {$user->name},</p>
