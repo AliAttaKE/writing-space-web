@@ -791,18 +791,18 @@ public function deleverd_order($id, Request $request)
                 <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
             break;
 
-               case 'Completed':
-            $emailSubject = 'Good News: Your Order ID ' . $order->order_id . ' Has Been Completed!';
-            $emailContent = "
-                <p>Hi {$user->name},</p>
-                <p>We are pleased to announce that your order ID {$order->order_id} has been delivered! You can now download and access your materials through your Writing Space dashboard.</p>
-                <p><strong>What’s Next?</strong></p>
-                <ul>
-                    <li>We hope you find everything to your satisfaction. Please review your delivered materials and let us know if there are any issues or further assistance needed.</li>
-                </ul>
-                <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
-                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
-            break;
+            //    case 'Completed':
+            // $emailSubject = 'Good News: Your Order ID ' . $order->order_id . ' Has Been Completed!';
+            // $emailContent = "
+            //     <p>Hi {$user->name},</p>
+            //     <p>We are pleased to announce that your order ID {$order->order_id} has been delivered! You can now download and access your materials through your Writing Space dashboard.</p>
+            //     <p><strong>What’s Next?</strong></p>
+            //     <ul>
+            //         <li>We hope you find everything to your satisfaction. Please review your delivered materials and let us know if there are any issues or further assistance needed.</li>
+            //     </ul>
+            //     <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
+            //     <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+            // break;
 
         case 'Canceled':
             $emailSubject = 'Notification: Your Order ID ' . $order->order_id . ' Has Been Cancelled';
