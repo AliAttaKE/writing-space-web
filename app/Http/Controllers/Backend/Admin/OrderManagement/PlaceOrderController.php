@@ -805,6 +805,8 @@ public function deleverd_order($id, Request $request)
             // break;
             
 
+
+            
         case 'Canceled':
             $emailSubject = 'Notification: Your Order ID ' . $order->order_id . ' Has Been Cancelled';
             $emailContent = "
