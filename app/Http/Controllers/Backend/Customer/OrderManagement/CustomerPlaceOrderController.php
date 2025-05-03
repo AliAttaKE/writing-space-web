@@ -562,10 +562,13 @@ class CustomerPlaceOrderController extends Controller
 
 
 
+// Assume $subs is the subscription and $user is the authenticated or related user
+$remainingPercentage = ($subs->remaining_pages / $subs->total_pages) * 100;
 
-             $remainingPercentage = ($subs->remaining_pages / $subs->total_pages) * 100;
 if ($remainingPercentage <= 10) {
-    // New warning email content
+    $sub_name = $subs->package_name ?? 'Your Current Package'; // adjust this based on your actual field
+
+    // Email content
     $warningEmailContent = "
         <p>Hello {$user->name},</p>
         <p>We've noticed that you're nearing the end of the pages available in your current package at Writing Space. To ensure you continue enjoying our services without interruption, we wanted to give you a heads-up and an exclusive offer.</p>
@@ -597,6 +600,8 @@ if ($remainingPercentage <= 10) {
         $message->to($user->email)
                 ->subject('Heads Up: You’re Running Low on Your Writing Space Pages!');
     });
+}
+
 
 
       Mail::html($warningEmailContent, function ($message) use ($user) {
