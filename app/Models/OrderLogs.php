@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class OrderLogs extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'orderlogs';
 
 
@@ -17,14 +17,15 @@ class OrderLogs extends Model
         'invoice_id',
         'order_id',
         'status',
+        'order_type',
         'pages_addon_type',
         'pages_addon',
         'pages_purchase',
     ];
 
     // Relationship with Hotel model
-   
-    
+
+
    public function user()
     {
         return $this->belongsTo(User::class);
