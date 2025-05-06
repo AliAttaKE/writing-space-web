@@ -31,6 +31,8 @@ class BlogController extends Controller
      public function index_pkg()
     {          
 
+
+        
         $User_Subscription= User_Subscription::with('user')->latest()->paginate(5);
 
     
