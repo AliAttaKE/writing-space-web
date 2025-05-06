@@ -32,7 +32,7 @@ class BlogController extends Controller
     {          
         $User_Subscription= User_Subscription::with('user')->latest()->paginate(5);
 
-        
+    
        
         return view('backend.admin.pkg.index',compact('User_Subscription'));    
     }
@@ -79,6 +79,8 @@ public function updatepkg(Request $request, $id)
     $input['total_pages'] = $input['total_pages'];
     $input['remaining_pages'] = $input['remaining_pages'];
     $input['rollover_pages'] = $input['rollover_pages'];
+    $input['due_date'] = $input['due_date'];
+    $input['status'] = $input['status'];
     
 
     // Update the user subscription with the new input data

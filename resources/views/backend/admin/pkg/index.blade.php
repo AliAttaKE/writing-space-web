@@ -69,6 +69,7 @@
                                    
                                     <th class="min-w-80px fw_800 pb-8">Customer ID</th>
                                     <th class="min-w-80px fw_800 pb-8">Customer Name</th>
+                                    <th class="min-w-80px fw_800 pb-8">Customer Email</th>
                                     <th class="min-w-80px fw_800 pb-8">Total Package pages</th>
                                     <th class="min-w-50px fw_800 pb-8">Total Used pages</th>
                                     <th class="min-w-80px fw_800 pb-8">Total Remaining pages</th>
@@ -95,6 +96,9 @@
                                     </td>
                                     <td class="text-white">
                                         {{ $us->user->name ?? 'N/A' }}
+                                    </td>
+                                    <td class="text-white">
+                                        {{ $us->user->email ?? 'N/A' }}
                                     </td>
                                     <td class="text-white">
                                       {{ $us->total_pages }}
@@ -196,23 +200,37 @@
                                                             value="{{$us->rollover_pages}}"
                                                              />
                                                     <!--begin::Label-->
-                                                    {{-- <label class="d-flex align-items-center fs-5 fw-semibold mb-2">
+                                                    <label class="d-flex align-items-center fs-5 fw-semibold mb-2">
                                                         <span class="required fs-color-white custom-fs-13">Expire Date</span>
                                                         <span class="ms-1" data-bs-toggle="tooltip" title="Specify your unique app name">
                                                             <i class="ki-duotone ki-information-5 text-gray-500 fs-6"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span>
-                                                    </label> --}}
+                                                    </label>
                                                     <!--end::Label-->
                                                     <!--begin::Input-->
-                                                    {{-- <input 
+                                                    <input 
                                                     type="date" 
                                                     class="form-control form-control-lg form-control-solid due_date btn-dark-primary" 
                                                     id="due_date"  
                                                     name="due_date" 
-                                                    value="{{ $us->due_date ?? date('Y-m-d') }}" 
+                                                   value="{{ date('Y-m-d', strtotime($us->due_date)) }}"
                                                     required
-                                                /> --}}
+                                                />
+                                                <label class="d-flex align-items-center fs-5 fw-semibold mb-2">
+                                                    <span class="required fs-color-white custom-fs-13">Status</span>
+                                                    <span class="ms-1" data-bs-toggle="tooltip" title="Specify the status">
+                                                        <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                                            <span class="path1"></span><span class="path2"></span><span class="path3"></span>
+                                                        </i>
+                                                    </span>
+                                                </label>
+                                                
+                                                <select name="status" id="status" class="form-select form-select-lg form-select-solid btn-dark-primary" required>
+                                                    <option value="Active" {{ $us->status == 'Active' ? 'selected' : '' }}>Active</option>
+                                                    <option value="InActive" {{ $us->status == 'InActive' ? 'selected' : '' }}>InActive</option>
+                                                </select>
                                                 
                                                 
+                                             
                                                 
                                                 
                                                    
