@@ -565,7 +565,7 @@ class CustomerPlaceOrderController extends Controller
 
              $remainingPercentage = ($subs->remaining_pages / $subs->total_pages) * 100;
              if ($remainingPercentage <= 10 && $subs->rollover_pages == 0) {
-    
+
     $warningEmailContent = "
         <p>Hello {$user->name},</p>
         <p>We've noticed that you're nearing the end of the pages available in your current package at Writing Space. To ensure you continue enjoying our services without interruption, we wanted to give you a heads-up and an exclusive offer.</p>
@@ -591,9 +591,9 @@ class CustomerPlaceOrderController extends Controller
 
         <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
     ";
-    
-    
-    
+
+
+
       $emailContent4 = "
                                     <p>Hello {$user->name},</p>
                                     <p>We've noticed that you're nearing the end of the pages available in your current package at Writing Space. To ensure you continue enjoying our services without interruption, we wanted to give you a heads-up and an exclusive offer.</p>
@@ -606,7 +606,7 @@ class CustomerPlaceOrderController extends Controller
                                         <li>Remaining Pages in Your Package: {$subs->remaining_pages}</li>
                                     </ul>
 
-                                  
+
 
                                   <p><strong>Exclusive Renewal Offer:</strong> We value your commitment to Writing Space and would like to offer you a special discount on your next package purchase. This is a great opportunity to continue accessing our comprehensive academic resources at a reduced rate.</p>
 
@@ -624,7 +624,7 @@ class CustomerPlaceOrderController extends Controller
         <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
                                 ";
 
-                             
+
 
 Mail::html($emailContent4, function ($message) use ($user) {
     $message->to($user->email)
@@ -655,9 +655,9 @@ $finishedEmailContent = "
         <p>Thanks for choosing Writing Space, and let’s keep achieving great things together!</p>
 
          <p><strong>Best regards,</strong> </p>
-       
 
-       
+
+
 
         <p>Customer Success Team,<br>Writing Space</p>
     ";
@@ -671,7 +671,7 @@ $finishedEmailContent = "
 
 
 if ($subs->remaining_pages == 0) {
-    
+
 }
 
 
@@ -1601,28 +1601,32 @@ $permissions = 0775;
                     $sub_id = $order_id;
                     $checkUserSub = User_Subscription::where('user_id', $user->id)->first();
 
-                    $total_chk = $checkUserSub->rollover_pages + $checkUserSub->remaining_pages; // 0
+                    if($checkUserSub){
+                          $total_chk = $checkUserSub->rollover_pages + $checkUserSub->remaining_pages; // 0
 
+                    }else{
+                        $total_chk = 0;
+                    }
                     if ($checkUserSub) {
                         $subs = Subscription::find($orderidexplode);
                         $checkUserSub->subscription_id = $orderidexplode;
                        if($total_chk > 0){
-                             
+
                                $checkUserSub->total_pages = (float)$subs->min_page + (float)$checkUserSub->total_pages;
 
-                      
+
                         $checkUserSub->rollover_pages = ($subs->max_page - $subs->min_page) + (float)$checkUserSub->rollover_pages;
 
                         $checkUserSub->remaining_pages = (float)$subs->min_page + (float)$checkUserSub->remaining_pages;
                         $checkUserSub->remaining_rollover_pages = $subs->rollover_limit + (float)$checkUserSub->rollover_pages;
-                           
+
                         }
                       else{
                        $checkUserSub->total_pages = (float)$subs->min_page;
 
-                      
+
                             $checkUserSub->rollover_pages = ($subs->max_page - $subs->min_page);
-    
+
                             $checkUserSub->remaining_pages = (float)$subs->min_page;
                             $checkUserSub->remaining_rollover_pages = $subs->rollover_limit ;
                       }
@@ -1689,7 +1693,6 @@ $permissions = 0775;
                         Auth::login($user);
                         return redirect()->route('customer.thankyou.sub');
                     } else {
-
                         $user->customer = "Subscription";
                         $user->subscription_id = $orderidexplode;
                         $user->save();
@@ -1744,8 +1747,6 @@ $permissions = 0775;
 
                         $createdAt = $invoice->created_at;
                         $orderid = $order->id;
-
-
                         $invoiceNumber = $invoice_id;
                         $receiptNumber = $receipt_id;
                         $dateOfIssue = $createdAt;
@@ -1768,7 +1769,7 @@ $permissions = 0775;
                         $total = $transaction->merchantAmount;
 
 
-                      
+
 
                     $purchaseDate = now()->format('Y-m-d');
                     $emailContent = "
@@ -1823,7 +1824,7 @@ $permissions = 0775;
     {
         $real_order_id = $orderid;
 
-        try {
+       // try {
             $pay = Pay::where('order_id', $orderid)->first();
             $sessionId = $pay->session_id;
             $order_id = $pay->order_id;
@@ -1935,8 +1936,8 @@ $permissions = 0775;
 
 
                     $orderDetails = json_decode($pay['order_details'], true);
-
-                    $orderidpkg = $orderDetails['order_id'];
+                    $orderss = "";
+                    //$orderidpkg = $orderDetails['order_id'];
                     $current_page = '';
                     if (isset($orderDetails['order_id'])) {
                         $orderidpkg = $orderDetails['order_id'];
@@ -1958,16 +1959,7 @@ $permissions = 0775;
                             $currentSubs1->save();
                         }
                         $orderss = Orders::where('order_id',$orderidpkg)->first();
-                        $orderlog = OrderLogs::create([
-                                'user_id' => $user->id,
-                                'invoice_id' => $invoiceNumber,
-                                'order_id' => $orderidpkg,
-                                'order_type'=> ($currentSubs1)?'Package Order':'Customer Order',
-                                'status' => $orderss->order_status,
-                                'pages_addon_type' => 'Purchased',
-                                'pages_addon' => $pages,
-                                'pages_purchase' => $current_page,
-                            ]);
+
                     }
                     $order_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
                     $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
@@ -2045,29 +2037,29 @@ $permissions = 0775;
 
                     $total = $billAmount;
 
-                    if ($email) {
-                        $subject = 'Invoice package purchase';
-                        Mail::to($user->email)->send(new PkgIdInvoiceEmailTemplate1(
-                            [
-                                'invoiceNumber' => $invoiceNumber,
-                                'dateOfIssue' => $dateOfIssue,
-                                'dueDate' => $dueDate,
-                                'customerName' => $customerName,
-                                'customerEmail' => $customerEmail,
-                                'customerAdress' => $customerAdress,
-                                'orderid' => $order->order_id,
-                                'itemName' => $itemName,
-                                'totalPages' => $totalPages,
-                                'remaining_pages' => $remaining_pages,
-                                'pricePerPage' => $pricePerPage,
-                                'payment_status' => $payment_status,
-                                'subTotal' => $subTotal,
-                                'discount' => $discount,
-                                'total' => $total,
-                            ],
-                            $subject
-                        ));
-                    }
+                    // if ($email) {
+                    //     $subject = 'Invoice package purchase';
+                    //     Mail::to($user->email)->send(new PkgIdInvoiceEmailTemplate1(
+                    //         [
+                    //             'invoiceNumber' => $invoiceNumber,
+                    //             'dateOfIssue' => $dateOfIssue,
+                    //             'dueDate' => $dueDate,
+                    //             'customerName' => $customerName,
+                    //             'customerEmail' => $customerEmail,
+                    //             'customerAdress' => $customerAdress,
+                    //             'orderid' => $order->order_id,
+                    //             'itemName' => $itemName,
+                    //             'totalPages' => $totalPages,
+                    //             'remaining_pages' => $remaining_pages,
+                    //             'pricePerPage' => $pricePerPage,
+                    //             'payment_status' => $payment_status,
+                    //             'subTotal' => $subTotal,
+                    //             'discount' => $discount,
+                    //             'total' => $total,
+                    //         ],
+                    //         $subject
+                    //     ));
+                    // }
 
  $emailContent = "
             <p>Hello {$user->name},</p>
@@ -2102,24 +2094,34 @@ $permissions = 0775;
         //             ->subject('Confirmation of Additional Pages Added to Order ID - ' . $order_id);
         // });
 
+        $orderlog = OrderLogs::create([
+                                'user_id' => $user->id,
+                                'invoice_id' => $invoice_id,
+                                'order_id' => $order_id,
+                                'order_type'=> ($currentSubs1) ? 'Package Order' : 'Customer Order',
+                                'status' => $order->order_status,
+                                'pages_addon_type' => 'Purchased',
+                                'pages_addon' => $pages,
+                                'pages_purchase' => $current_page,
+                            ]);
+
                     Auth::login($user);
 
 
                     return redirect(url('/customer/thankyou'));
                 }
             }
-        } catch (\Exception $e) {
-            // Handle the exception
-            return response()->json(['error' => $e->getMessage()]);
-        }
+        // } catch (\Exception $e) {
+        //     // Handle the exception
+        //     return response()->json(['error' => $e->getMessage()]);
+        // }
     }
 
 
 
     public function pay_add_manage($orderid)
     {
-
-        //dd('pay add manage');
+        //dd('dfd');
         //try {
             $pay = Pay::where('order_id', $orderid)->first();
             $sessionId = $pay->session_id;
@@ -2240,22 +2242,27 @@ $permissions = 0775;
                         $order->save();
                       //  print_r($order->no_of_extra_sources + $order_detail->page );
                       //  dd($order);
+                        $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+                        $receipt_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
 
                         $user = User::find($order->user_id);
                         $invoice = Invoice::create([
                             'Name' => $user->name,
+                            'invoice_id' => $invoice_id,
                             'email' => $order->email,
                             'page' => $order_detail->page,
                             'price_per_page' => $order->cost_per_page,
-                            'item_name' => 'Order',
+                            'item_name' => 'Custom Order - Pages Addon',
                             'total' => $order_detail->total,
                             'to_name' => 'Admin',
                             'to_email' => 'admin@gmail.com',
                             'order_id' => $order->order_id,
+                            'invoice_type' => 'custom_inc'
 
                         ]);
                     }
 
+                    //dd($invoice);
                     $user23 = User::findOrFail($pay->user_id);
                     $currentSubs23 = Orders::where('user_id', $user23->id)->first();
                     // $currentSubs23 = User_Subscription::where('user_id', $user23->id)->first();
@@ -2294,7 +2301,7 @@ $permissions = 0775;
                         $subject = 'Confirmation of Additional Pages (In Packages) for Order ID';
                         Mail::to($user->email)->send(new PkgIdmanageInvoiceEmailTemplate(
                             [
-                                'invoiceNumber' => $invoiceNumber,
+                                'invoiceNumber' => $invoice_id,
                                 'dateOfIssue' => $dateOfIssue,
                                 'dueDate' => $dueDate,
                                 'customerName' => $customerName,
@@ -2302,6 +2309,7 @@ $permissions = 0775;
                                 'customerAdress' => $customerAdress,
                                 'orderid' => $order->order_id,
                                 'itemName' => $itemName,
+                                'receipt_id' => $receipt_id,
                                 'totalPages' => $totalPages,
                                 'remaining_pages' => $remaining_pages,
                                 'pricePerPage' => $pricePerPage,
@@ -2336,17 +2344,47 @@ $emailContent = "
     <p>Writing Space</p>
 ";
 
-Mail::html($emailContent, function ($message) use ($user, $order) {
-    $message->to($user->email)
-            ->subject("Confirmation of Additional Pages Purchase – Order ID {$order->order_id}");
-});
+// Mail::html($emailContent, function ($message) use ($user, $order) {
+//     $message->to($user->email)
+//             ->subject("Confirmation of Additional Pages Purchase – Order ID {$order->order_id}");
+// });
+                    $subject = "Confirmation of Additional Pages Purchase – Order ID {$order->order_id}";
+                $data = [
+                                'invoiceNumber' => $invoice_id,
+                                'receiptNumber' => $receipt_id,
 
-
-
-
+                                'dateOfIssue' => $dateOfIssue,
+                                'dueDate' => $dueDate,
+                                'customerName' => $customerName,
+                                'customerEmail' => $customerEmail,
+                                'customerAdress' => $customerAdress,
+                                'orderid' => $order->order_id,
+                                'itemName' => $itemName,
+                                'totalPages' => $totalPages,
+                                'remaining_pages' => $remaining_pages,
+                                'pricePerPage' => $pricePerPage,
+                                'payment_status' => $payment_status,
+                                'subTotal' => $subTotal,
+                                'discount' => $discount,
+                                'total' => $total,
+                            ];
+                Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
+                        $data,$data,
+                        $subject,
+                        $emailContent
+                    ));
 
                     $user_id =  $pay->user_id;
-
+                    $orderlog = OrderLogs::create([
+                                'user_id' => $user->id,
+                                'invoice_id' => $invoice_id,
+                                'order_id' => $order->order_id,
+                                'order_type'=> 'Customer Order - Addon',
+                                'status' => $order->order_status,
+                                'pages_addon_type' => 'Purchased',
+                                'pages_addon' => $order->number_of_pages,
+                                'pages_purchase' => $totalPages,
+                            ]);
                     $user = User::find($user_id);
                     Auth::login($user);
 
@@ -2523,7 +2561,7 @@ Mail::html($emailContent, function ($message) use ($user, $order) {
                     'email' => $order->email,
                     'page' => $order->number_of_pages,
                     'price_per_page' => $order->cost_per_page,
-                    'item_name' => 'Order',
+                    'item_name' => 'Custom Order',
                     'total' => $order->total_cost,
                     'to_name' => 'Admin',
                     'to_email' => 'admin@gmail.com',
@@ -2534,6 +2572,9 @@ Mail::html($emailContent, function ($message) use ($user, $order) {
                 $createdAt = $invoice->created_at;
                 $orderid = $order->id;
                 $order_id2 = $order->order_id;
+
+
+
 
                 $path = "public/uploads_folders/" . $order_id;
               $permissions = 0777;
@@ -2617,7 +2658,64 @@ Mail::html($emailContent, function ($message) use ($user, $order) {
                     ));
                 }
 
+                    $emailContent = "
 
+                    <p>Hi {$user->name},</p>
+                    <p>Thank you for expanding your order at Writing Space! We've successfully processed the purchase of additional pages for your ongoing project.</p>
+
+                    <p><strong>Order Details:</strong></p>
+                    <ul>
+                        <li><strong>Order ID:</strong>{$order->order_id}</li>
+                        <li><strong>Additional Pages Purchased:</strong> {$totalPages}</li>
+                        <li><strong>Date of Purchase:</strong>  $invoice->created_at</li>
+                    </ul>
+
+                    <p>Your invoice and receipt for this transaction are attached as a PDF. Please review these documents for your records.</p>
+                    <p>Should you have any queries or require further assistance, feel free to reach out to our support team.</p>
+                    <p>We appreciate your continued trust in Writing Space, and we're here to assist you every step of the way!</p>
+
+                    <p>Best regards,</p>
+                    <p>Customer Success Team</p>
+                    <p>Writing Space</p>
+                ";
+
+
+
+                    $subject = "Your Writing Space Purchase Confirmation – Order ID {$order->order_id}";
+                    $data = [
+                            'invoiceNumber' => $invoiceNumber,
+                              'receiptNumber' => $receiptNumber,
+                            'dateOfIssue' => $dateOfIssue,
+                            'dueDate' => $dueDate,
+                            'customerName' => $customerName,
+                            'customerEmail' => $customerEmail,
+                            'customerAdress' => $customerAdress,
+                            'orderid' => $order_id,
+                            'order' => $order,
+                            'itemName' => $itemName,
+                            'totalPages' => $totalPages,
+                            'pricePerPage' => $pricePerPage,
+                            'payment_status' => $payment_status,
+                            'subTotal' => $subTotal,
+                            'discount' => $discount,
+                            'total' => $total,
+                        ];
+                Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
+                        $data,$data,
+                        $subject,
+                        $emailContent
+                    ));
+
+                    $orderlog = OrderLogs::create([
+                                'user_id' => $user->id,
+                                'invoice_id' => $invoiceNumber,
+                                'order_id' => $order_id,
+                                'order_type'=> 'Customer Order',
+                                'status' => $order->order_status,
+                                'pages_addon_type' => 'Purchased',
+                                'pages_addon' => 'None',
+                                'pages_purchase' => $totalPages,
+                            ]);
 
                 $user_id =  $pay->user_id;
                 $user = User::find($user_id);
@@ -2949,8 +3047,7 @@ $permissions = 0775;
     {
         $id = Auth()->user()->id;
 
-        
-        // $order = Orders::where('user_id', $id)->where('order_status', 'Inprogress')->get();
+
         $order = Orders::where('user_id', $id)->whereIn('order_status', ['In-Progress', 'Completed'])
             ->when($request->order_id != null, function ($q) use ($request) {
                 return $q->where('order_id', $request->order_id);
