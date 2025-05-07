@@ -361,7 +361,7 @@
                                                                     <a href="{{ asset('storage/invoices/invoice_' . $invoice->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $invoice->invoice_id}}</a>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="{{ asset('storage/invoices/receipt_' . $invoice->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $invoice->invoice_id}}</a>
+                                                                    <a href="{{ asset('storage/receipts/receipt_' . $invoice->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $invoice->invoice_id}}</a>
                                                                 </td>
                                                                 <td>
                                                                     @if ($invoice->total != null)
