@@ -944,7 +944,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 														$formattedSize = round($totalSize, 0) . ' ' . $units[$i];
 														if (!$folder) {
-															return abort(404);
+														//	return abort(404);
 														}
 														?>
 														<!--end::Folder path-->
@@ -7463,7 +7463,7 @@ function modal_open122() {
     }
     let page_remaining = Number($('#totalCost1').val());
     var selectedValue = getSelectedRadioButtonValue();
- 
+
     if (selectedValue === 'currentpakage') {
         //alert(page_add <= page_remaining);
                     if (page_add <= page_remaining) {
@@ -8363,13 +8363,13 @@ console.log("sahriq totalpageCount:", totalpageCount);
 
 
 			  @if ($used_subscription)
-			  
+
 			  var cost_perpage_get ={{$used_subscription->subscription['cost_per_page']??''}};
-			  
+
 
 
 			// var cost_perpage_get = $('#cost_per_page').val();
-			 
+
 			console.log("cost par page",cost_perpage_get);
 
 		 var cost = pageCount * parseInt(cost_perpage_get);
