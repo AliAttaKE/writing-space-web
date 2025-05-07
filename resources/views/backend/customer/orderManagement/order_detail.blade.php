@@ -944,7 +944,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 														$formattedSize = round($totalSize, 0) . ' ' . $units[$i];
 														if (!$folder) {
-														//	return abort(404);
+															return abort(404);
 														}
 														?>
 														<!--end::Folder path-->

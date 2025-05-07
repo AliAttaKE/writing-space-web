@@ -2572,30 +2572,41 @@ $emailContent = "
                 $createdAt = $invoice->created_at;
                 $orderid = $order->id;
                 $order_id2 = $order->order_id;
+                clearstatcache(); // Clears PHP file system cache
 
+                $path = "uploads_folders/{$order_id}";
+                Storage::disk('public')->deleteDirectory($path);
 
+              //  dd(Storage::disk('public')->directoryExists($path));
 
+                if (!Storage::disk('public')->directoryExists($path)) {
+                    Storage::disk('public')->makeDirectory($path);
 
-                $path = "public/uploads_folders/" . $order_id;
-              $permissions = 0777;
-              $recursive = true;
-                if (!Storage::exists($path)) {
-                    // Storage::makeDirectory($path);
-
-
-
-                     Storage::makeDirectory($path, $permissions, $recursive);
                     $folder = new Folder();
                     $folder->name = $order_id;
                     $folder->description = $order_id;
                     $folder->user_id = $user_id;
                     $folder->save();
-
-
                 }
 
-            chmod(storage_path("app/public/uploads_folders/{$order_id}"), 0777);
+                // Optional: Set permissions manually (if needed)
+                $absolutePath = storage_path("app/public/{$path}");
+                if (file_exists($absolutePath)) {
+                    chmod($absolutePath, 0755);
+                }
 
+                // if (!Storage::disk('public')->exists($path)) {
+                //     Storage::disk('public')->makeDirectory($path);
+
+                //     $folder = new Folder();
+                //     $folder->name = $order_id;
+                //     $folder->description = $order_id;
+                //     $folder->user_id = $user_id;
+                //     $folder->save();
+                // }
+
+                // // Optional: set permission if needed
+                // chmod(storage_path("app/public/uploads_folders/{$order_id}"), 0777);
 
 
 
