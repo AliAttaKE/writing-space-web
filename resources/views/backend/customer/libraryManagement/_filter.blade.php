@@ -14,18 +14,32 @@
                 <label class="required fw-semibold fs-6 mb-2 custom-fs-13 fs-color-white">Subject</label>
                 <!--end::Label-->
                 @php
-                    $titles = \App\Models\Paper::where('status', 'Enable')->get();
+                    $query = \App\Models\Paper::where('status', 'Enable');
+                        if (!empty($subject)) {
+                            $query->where('subject_topic', $subject);
+                        }
+                        if (!empty($termOption)) {
+                            $query->where('paper_type', $termOption);
+                        }
+                        if (!empty($wordCount)) {
+                            $query->where('word_count', $wordCount);
+                        }
+                        if (!empty($citation)) {
+                            $query->where('citation', $citation);
+                        }
+                    $titles = $query->select("subject_topic")->distinct()->orderBy('subject_topic', 'asc')->get();
                 @endphp
+
                 @if ($titles->isNotEmpty())
 
                     <select name="subject" id="subject"
-                            class="form-select form-select-solid subject btn-dark-primary select22" 
+                            class="form-select form-select-solid subject btn-dark-primary select22"
                             data-control="select2" data-hide-search="true" data-placeholder="">
 
                         <option data-select2-id="select2-data-3-38ru"></option>
 
                         @foreach ($titles as $title)
-                            <option value="{{$title->subject_topic}}" 
+                            <option value="{{$title->subject_topic}}"
                                 {{ isset($subject) && $title->subject_topic === $subject ? 'selected' : '' }}
                             >
                                 {{$title->subject_topic}}
@@ -35,7 +49,7 @@
                     </select>
                     @else
                     <select name="subject" id="subject"
-                            class="form-select form-select-solid select22" 
+                            class="form-select form-select-solid select22"
                             data-control="select2" data-hide-search="true" data-placeholder="">
                         <option data-select2-id="select2-data-3-38ru"></option>
                         <option></option>
@@ -53,12 +67,26 @@
                 <!--begin::Input-->
                 @php
                 // Paper type
-                    $terms = \App\Models\Paper::where('status', 'Enable')->get();
+                    $query = \App\Models\Paper::where('status', 'Enable');
+                    if (!empty($subject)) {
+                            $query->where('subject_topic', $subject);
+                        }
+                        if (!empty($termOption)) {
+                            $query->where('paper_type', $termOption);
+                        }
+                        if (!empty($wordCount)) {
+                            $query->where('word_count', $wordCount);
+                        }
+                        if (!empty($citation)) {
+                            $query->where('citation', $citation);
+                        }
+
+                    $terms = $query->select("paper_type")->distinct()->orderBy('paper_type', 'asc')->get();
                 @endphp
                 @if ($terms->isNotEmpty())
 
-                    <select name="term_of_paper_id" id="term_of_paper_id" 
-                            class="form-select form-select-solid paperTermOption btn-dark-primary select22" 
+                    <select name="term_of_paper_id" id="term_of_paper_id"
+                            class="form-select form-select-solid paperTermOption btn-dark-primary select22"
                             data-control="select2" data-hide-search="true" data-placeholder="">
                         <option data-select2-id="select2-data-6-1mij"></option>
                         @foreach ($terms as $term)
@@ -70,7 +98,7 @@
                     </select>
                     @else
                     <select name="term_of_paper_id" id="term_of_paper_id"
-                            class="form-select form-select-solid select22" 
+                            class="form-select form-select-solid select22"
                             data-control="select2" data-hide-search="true" data-placeholder="">
                         <option data-select2-id="select2-data-6-1mij"></option>
                         <option value="1">No term of paper found in database...</option>
@@ -86,13 +114,26 @@
                 <!--end::Label-->
                 <!--begin::Input-->
                 @php
-                    $papers = \App\Models\Paper::where('status', 'Enable')->get();
+                    $query = \App\Models\Paper::where('status', 'Enable');
+                    if (!empty($subject)) {
+                            $query->where('subject_topic', $subject);
+                        }
+                        if (!empty($termOption)) {
+                            $query->where('paper_type', $termOption);
+                        }
+                        if (!empty($wordCount)) {
+                            $query->where('word_count', $wordCount);
+                        }
+                        if (!empty($citation)) {
+                            $query->where('citation', $citation);
+                        }
+                    $papers = $query->select("word_count")->distinct()->orderBy('word_count', 'asc')->get();
                 @endphp
                 @if ($papers->isNotEmpty())
 
-                    <select name="paper_id_word_count" id="paper_id_word_count" 
-                            class="form-select form-select-solid wordCountOption btn-dark-primary select22" 
-                            data-control="select2" data-hide-search="true" 
+                    <select name="paper_id_word_count" id="paper_id_word_count"
+                            class="form-select form-select-solid wordCountOption btn-dark-primary select22"
+                            data-control="select2" data-hide-search="true"
                             data-placeholder=""
                     >
                         <option data-select2-id="select2-data-9-q7hp"></option>
@@ -105,7 +146,7 @@
                     </select>
                     @else
                     <select name="paper_id_word_count" id="paper_id_word_count"
-                            class="form-select form-select-solid select22" 
+                            class="form-select form-select-solid select22"
                             data-control="select2" data-hide-search="true" data-placeholder="">
                         <option data-select2-id="select2-data-9-q7hp"></option>
                         <option value="1">No word count found in database...</option>
@@ -114,21 +155,34 @@
                 <!--end::Input-->
             </div>
             <!--end::col-->
-           
+
             <div class="col-md-4 col-sm-6 mb-3">
                 <label for="" class="mb-3 fs-6 fw-semibold custom-fs-13 fs-color-white">Bibliography format &amp; citation
                     style:<span class="text-white">*</span>
                 </label>
                 {{-- Paper_Format --}}
                 @php
-                     $papers = \App\Models\Paper::where('status', 'Enable')->get();
-                  
+                     $query = \App\Models\Paper::where('status', 'Enable');
+                     if (!empty($subject)) {
+                            $query->where('subject_topic', $subject);
+                        }
+                        if (!empty($termOption)) {
+                            $query->where('paper_type', $termOption);
+                        }
+                        if (!empty($wordCount)) {
+                            $query->where('word_count', $wordCount);
+                        }
+                        if (!empty($citation)) {
+                            $query->where('citation', $citation);
+                        }
+                     $papers = $query->select("citation")->distinct()->orderBy('citation', 'asc')->get();
                 @endphp
+
                 @if ($papers->isNotEmpty())
 
-                    <select name="citation" id="citation" 
-                            class="form-select form-select-solid paperFormatOption btn-dark-primary select22" 
-                            data-control="select2" data-hide-search="true" 
+                    <select name="citation" id="citation"
+                            class="form-select form-select-solid paperFormatOption btn-dark-primary select22"
+                            data-control="select2" data-hide-search="true"
                             data-placeholder=""
                     >
                         <option data-select2-id="select2-data-12-cci9"></option>
@@ -141,7 +195,7 @@
                     </select>
                     @else
                     <select name="citation" id="citation"
-                            class="form-select form-select-solid select22" 
+                            class="form-select form-select-solid select22"
                             data-control="select2" data-hide-search="true" data-placeholder="">
                         <option data-select2-id="select2-data-12-cci9"></option>
                         <option value="1">No paper format found in database...</option>

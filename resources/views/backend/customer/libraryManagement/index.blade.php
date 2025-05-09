@@ -24,7 +24,7 @@
     @endif
 
 
-    
+
         <!--begin::Toolbar-->
         <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
             <!--begin::Toolbar container-->
@@ -60,11 +60,12 @@
                 <div>
                     @if($libraries->isNotEmpty())
                     @foreach ($libraries as $library)
+
                         <div class="py-6 px-6 mb-5 card card-custom-bg">
                             <h1 class="text-gray-900 fw-bold mb-4  fs-color-white">
-                               Subject : {{ $library->subject_topic }}
+                               Title : {{ $library->paper_title }}
                             </h1>
-                            {{-- <p class="text-gray-900 fw-bold fs-6 mb-4 custom-fs-13 fs-color-white">{{ $library->subject_topic }}</p> --}}
+                            <p class="text-gray-900 fw-bold fs-6 mb-4 custom-fs-13 fs-color-white">Subject : {{ $library->subject_topic }}</p>
                             <p class="text-gray-900 fw-bold fs-6 mb-4 custom-fs-13 fs-color-white">
                                Paper Type : {{ $library->paper_type }}
                             </p>
@@ -91,10 +92,10 @@
                         </div>
                     @endforeach
                 @else
-                    <h1 class="text-muted text-center text-white">No library available...</h1>
+                    <h1 class="text-muted text-center text-white">No Papers available...</h1>
                 @endif
-                
-                
+
+
 
 
 
@@ -142,31 +143,31 @@
 
                 if (subject) {
                     url += 'subject=' + subject;
-                    
+
                 }
                 if (termPaper) {
                     url += '&termOption=' + termPaper;
-                    
+
                 }
                 if (wordCount) {
                     url += '&wordCount=' + wordCount;
-                    
+
                 }
                 if (formatOption) {
                     url += '&citation=' + formatOption;
-                    
+
                 }
-                
+
                 window.location.href = url;
             }
         });
 
         $(document).ready(function() {
         $('.select22').select2({
-        
+
         allowClear: true,
         width: '100%'
-       
+
     });
     });
     </script>
