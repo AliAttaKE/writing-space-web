@@ -572,8 +572,10 @@ class FileController extends Controller
         $filesCount = $files->total();
         $totalSize = 0;
         foreach ($files as $file) {
+           //echo $file->total_size . "<br>";
             $totalSize += $file->total_size;
         }
+        //dd($totalSize);
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
         for ($i = 0; $totalSize >= 1024 && $i < count($units) - 1; $i++) {
             $totalSize /= 1024;

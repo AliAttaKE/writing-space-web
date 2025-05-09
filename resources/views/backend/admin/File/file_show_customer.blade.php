@@ -11,28 +11,58 @@
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <!--begin::Title-->
                 <h1 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 text-white">File Management</h1>
-                
+
             </div>
             <!--end::Page title-->
         </div>
         <!--end::Toolbar container-->
     </div>
       @if(!empty(session('success')))
-                <div>
+        <script>
+                setTimeout(function() {
+                    Swal.fire({
+                        text: 'Your file has been successfully uploaded',
+                        icon: 'success',
+                        confirmButtonText: "Ok",
+                        buttonsStyling: true,
+                        customClass: {
+                            confirmButton: "btn btn-light-primary"
+                        }
+                    }).then((result) => {
+                        el.closest('[data-kt-billing-element="card"]').remove();
+                    });
+                }, 1000);
+        </script>
+
+                {{-- <div>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>{{session('success')}}</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                    </div>
+                    </div> --}}
                 @endif
 
 
 
 
                 @if ($errors->has('file'))
-    <div class="alert alert-danger" role="alert">
-        {{ $errors->first('file') }}
-    </div>
+                <script>
+                    let txt = `{{ $errors->first('file') }}`;
+                    setTimeout(function() {
+                        Swal.fire({
+                            text: txt,
+                            icon: 'error',
+                            confirmButtonText: "Ok",
+                            buttonsStyling: true,
+                            customClass: {
+                                confirmButton: "btn btn-light-primary"
+                            }
+                        }).then((result) => {
+                            el.closest('[data-kt-billing-element="card"]').remove();
+                        });
+                    }, 1000);
+            </script>
+
 @endif
 
     <!--end::Toolbar-->
@@ -94,8 +124,8 @@
             <!--end::Card-->
             <!--begin::Card-->
             @if ($files->isNotEmpty())
-      
-           
+
+
             <div class="card card-flush mb-10 btn-dark-primary">
                 <!--begin::Card header-->
                 <div class="card-header pt-8">
@@ -114,19 +144,19 @@
                 </div>
                 <div class="row px-8 justify-content-center">
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
-                        
+
                         <button type="button" class="btn btn-flex btn-primary w-100 justify-content-center px-2 badge-custom-bg ms-3  deleteBtnForm" style="display: none;" >
                             Delete</button>
-                       
+
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-5 mb-2">
-                        
+
                        <button type="button" class="btn btn-flex btn-primary w-100 justify-content-center px-2 badge-custom-bg ms-3  downloadBtnForm" style="display: none;" >
                            Download</button>
-                     
+
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
-                        
+
                         <button type="button" class="btn btn-flex btn-primary w-100 justify-content-center px-2 badge-custom-bg" data-bs-toggle="modal" data-bs-target="#kt_modal_uploadCustomer_2">
                             <i class="ki-duotone ki-folder-up fs-2 text-white">
                                 <span class="path1"></span>
@@ -149,13 +179,13 @@
                                     </i>
                                     <a class="text-white" href="{{ url('/customer/folders/show') }}"> Writing Space</a>
                                     <i class="ki-duotone ki-right fs-2x  mx-1 text-white"></i>
-                               
+
                                     <a class="text-white" href="{{ url('/customer/folders/show') }}">Folder</a>
                                     <i class="ki-duotone ki-right fs-2x  mx-1 text-white"></i>
                                     <a class="text-white" href="#">Files</a>
                                     <i class="ki-duotone ki-right fs-2 mx-1 text-white"></i>
                                     {{$folder->name??''}}
-                                 
+
                                 </div>
                             </div>
                         </div>
@@ -171,7 +201,7 @@
                     <form id="delete_or_download_form" action="{{ route('customer.all.folders.view', ['id'=> $id]) }}" method="GET" enctype="multipart/form-data">
                         <input type="hidden" name="delete" id="delete_input_field">
                         <input type="hidden" name="download" id="download_input_field">
-                       	
+
 
                         <!--begin::Table-->
                         <table id="kt_file_manager_list" data-kt-filemanager-table="files" class="table align-middle table-row-dashed fs-6 gy-5">
@@ -202,7 +232,7 @@
 
 
 
-                            
+
                                 @foreach ($files as $file)
 
                                 <tr class="odd">
@@ -249,7 +279,7 @@
                                                                 <!--end::Spinner-->
                                                                 <!--begin::Label-->
                                                                 <div class="fs-6 text-white">
-                                                                    
+
                                                                     <a class="text-white" href="{{ url('/customer/files/'.$file->id.'/'.$folder->name.'/share') }}" target="_blank">
                                                                         Generating Share Link
                                                                     </a>
@@ -308,7 +338,7 @@
                                     </td>
                                 </tr>
                                 @endforeach
-                            
+
                             </tbody>
                         </table>
                         <!--end::Table-->
@@ -377,12 +407,12 @@
                                             </i>
                                             <a href="{{ url('/customer/folders/show') }}" class="fs-color-white custom-fs-13"> Writing Space</a>
                                             <i class="ki-duotone ki-right fs-2x fs-color-theme mx-1"></i>
-                                       
+
                                             <a href="{{ url('/customer/folders/show') }}" class="fs-color-white custom-fs-13">Folder</a>
                                             <i class="ki-duotone ki-right fs-2x fs-color-theme mx-1"></i>
                                             <a href="#" class="fs-color-white custom-fs-13">Files</a>
                                             <i class="ki-duotone ki-right fs-2x fs-color-theme mx-1"></i>
-                                         
+
                                         </div>
                                     </div> -->
                                 </div>
@@ -442,7 +472,7 @@
                         </div>
                         <!--end::Card body-->
                     </div>
-            @endif        
+            @endif
             <!--end::Card-->
             <!--begin::Modals-->
             <!--begin::Modal - Upload File-->
@@ -452,7 +482,7 @@
                     <!--begin::Modal content-->
                     <div class="modal-content">
                         <!--begin::Form-->
-                       
+
                             <form method="post" action="{{ route('customer.file.upload') }}" enctype="multipart/form-data" class="form"  id="kt_modal_upload_form">
                                 <!--begin::Modal header-->
                                 @csrf
@@ -556,9 +586,9 @@
                                     <span class="form-text fs-6 text-muted mb-2">Max file size is 500-MB per file.</span>
                                     <!--end::Hint-->
                                     <div class="d-flex justify-content-end">
-                                      
+
                                         <input type="submit" class="btn btn-sm btn-primary" Value="Upload Files">
-                                      
+
                                     </div>
                                 </div>
                                 <!--end::Input group-->
@@ -580,7 +610,7 @@
                         <form method="post" action="{{ route('customer.file.upload') }}" enctype="multipart/form-data" class="form"  id="kt_modal_upload_form">
                             <!--begin::Modal header-->
                             @csrf
-                      
+
                             <!--begin::Modal header-->
                             <div class="modal-header">
                                 <!--begin::Modal title-->
@@ -608,14 +638,14 @@
                                             <input type="file" id="file-3" name="file" class="d-none" accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .png, .gif"></input>
                                             <p id="attach_file_3"></p>
 
-                                       
-                                       
-                                         
-                                     
+
+
+
+
                                             <input type="hidden" value="Customer" name="Writer">
                                             <input type="hidden" value="{{ $folder->name }}" name="folder_name">
                                             <input type="hidden" value="{{ $folder->id }}" name="folder_id">
-                                       
+
                                         </div>
                                         <!--end::Controls-->
                                     </div>
@@ -626,7 +656,7 @@
                                     <span class="form-text fs-6 text-muted mb-2">Max file size is 500-MB per file.</span>
                                     <!--end::Hint-->
                                     <div class="d-flex justify-content-end">
-                                   
+
                                         <input type="submit" class="btn btn-sm btn-dark-primary" Value="Upload Files">
                                     </div>
                                 </div>
@@ -957,7 +987,7 @@
 $(document).on('click', '.downloadPDF', function (){
     setTimeout(function() {
         location.reload();
-    }, 2000); 
+    }, 2000);
 });
 
    function confirmDelete(id, name) {
@@ -976,8 +1006,8 @@ $(document).on('click', '.downloadPDF', function (){
                 // url: '/customer/files/' + id + '/' + name + '/delete',
                  url: "{{ route('customer.files.delete', ['id' => ':id', 'folder_name' => ':name']) }}".replace(':id', id).replace(':name', name),
                     data: { id: id ,name:name},
-                
-                
+
+
                 success: function (response) {
                     console.log(response);
                     location.reload(true);
@@ -1023,7 +1053,7 @@ $(document).on('click', '.downloadPDF', function (){
 
 
 
-        
+
 const selectAllCheckbox = document.getElementById('selectAll');
 const checkboxes = document.querySelectorAll('input[name="selected_ids[]"]');
 const deleteBtnForm = document.querySelector('.deleteBtnForm');
@@ -1059,7 +1089,7 @@ $(document).on('click', '.deleteBtnForm', function(e){
 		}
 
 		$('#delete_or_download_form').submit();
-		console.log('delete btn'); 
+		console.log('delete btn');
 	});
 
 $(document).on('click', '.downloadBtnForm', function(e){
@@ -1074,7 +1104,7 @@ $(document).on('click', '.downloadBtnForm', function(e){
 			deleteInput.val('');
 		}
 		$('#delete_or_download_form').submit();
-		console.log('download btn'); 
+		console.log('download btn');
 	});
 
 </script>
