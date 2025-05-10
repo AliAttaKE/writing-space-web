@@ -491,9 +491,9 @@
             <!--</div>-->
             <!--end::Menu item-->
             <!--begin::Menu item-->
-            <div class="menu-item px-3">
+            {{-- <div class="menu-item px-3">
                 <a href="/images/myw3schoolsimage.jpg" class="menu-link d-flex justify-content-center px-3 badge-custom-bg" id="badge-custom-bg" download>Download</a>
-            </div>
+            </div> --}}
             <!--end::Menu item-->
         </div>
     </td>
@@ -644,7 +644,7 @@
                                                 <div class="fw-semibold fs-7 text-gray-600 mb-1">Statistical Analysis:</div>
                                                 <!--end::Label-->
                                                 <!--end::Text-->
-                                                <div class="fw-bold fs-6 text-gray-800">{{$o->statistical_analysis}}</div>
+                                                <div class="fw-bold fs-6 text-gray-800">{{($o->statistical_analysis == 1) ? 'Yes' : 'No' }}</div>
                                                 <!--end::Text-->
 
                                             </div>
