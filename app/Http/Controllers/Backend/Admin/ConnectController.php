@@ -120,9 +120,9 @@ class ConnectController extends Controller
             ])->get('https://graph.microsoft.com/v1.0/me/');
 
             $userData = $response->json();
-                dd($userData);
+                //dd($userData);
             if (isset($userData['error'])) {
-                return view('auth.login');
+                //return view('auth.login');
             }
 
             Session::put('msatg', 1); // Authenticated and verified
