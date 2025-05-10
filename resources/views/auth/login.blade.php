@@ -146,7 +146,7 @@
      $(document).ready(function () {
          // Extract the access token from the URL fragment
          var accessToken = window.location.hash.substring(1).split("&")[0].split("=")[1];
-         alert('data');
+         alert(accessToken);
          if (accessToken) {
 
 
