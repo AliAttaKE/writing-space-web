@@ -126,6 +126,7 @@
  <script>
      $(document).ready(function () {
          $('#microsoft-login').click(function () {
+            alert('data');
              $.ajax({
  url: '{{ route('microsoft.login') }}',
  type: 'GET',
@@ -145,7 +146,7 @@
      $(document).ready(function () {
          // Extract the access token from the URL fragment
          var accessToken = window.location.hash.substring(1).split("&")[0].split("=")[1];
-
+         alert('data');
          if (accessToken) {
 
 
