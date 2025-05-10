@@ -132,7 +132,7 @@
  type: 'GET',
  dataType: 'json', // Add this line to specify the expected data type
  success: function (data) {
-     console.log(data.redirect_url);
+     console.log(data);
      window.location.href = data.redirect_url;
  },
  error: function (error) {
