@@ -150,8 +150,8 @@
                                                     <td>{{$b->email}}</td>
                                                     <td>{{$b->subject}}</td>
                                                     <td>{{$b->message}}</td>
-                                                   
-                                                
+
+
                                                 </tr>
 
                                                 @endforeach
@@ -205,16 +205,16 @@
                                         <!--begin::Notice-->
                                         {{-- <div
                                             class="notice d-flex bg-light-success rounded border-success border border-dashed mb-9 p-6">
-                                         
+
                                             <div class="d-flex flex-stack flex-grow-1">
-                                              
+
                                                 <div class="fw-semibold">
                                                     <div class="fs-6 text-gray-700">Share Your Experience with Your Peers.
                                                     </div>
                                                 </div>
-                                              
+
                                             </div>
-                                           
+
                                         </div> --}}
                                         <!--end::Notice-->
                                         <!--end::Notice-->
@@ -356,11 +356,11 @@
 
                     // if (!isValidEmailAddress(email)) {
                     //     Swal.fire('Error!', 'Oops! Please enter a valid email address', 'error');
-                    //     return; 
+                    //     return;
                     // }
 
                     $('.sendEmail').prop('disabled', true);
-                   
+
 
                     $.ajax({
                         type: "POST",
@@ -374,6 +374,7 @@
                         },
                         dataType: "json",
                         beforeSend: function () {
+
                         },
                         success: function (response) {
                             if (response.status) {
@@ -392,6 +393,7 @@
                         },
                         complete: function () {
                             enableSendEmailButton();
+                                hideModal();
                         }
                     });
 
@@ -419,7 +421,7 @@
         }
 
         function handleAjaxError(errors) {
-            $('.sendEmail').prop('disabled', true);
+            $('.sendEmail').prop('disabled', false);
             $('#email_error').text(errors.email ? errors.email[0] : '');
             $('#name_error').text(errors.name ? errors.name[0] : '');
             $('#message_error').text(errors.message ? errors.message[0] : '');
@@ -430,6 +432,10 @@
         }
     </script>
     <!--end::Javascript-->
-
+    <style>
+        #kt_modal_update_email_form .text-danger {
+            color: #fff !important;
+        }
+    </style>
 
     @endsection
