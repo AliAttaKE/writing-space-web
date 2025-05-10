@@ -333,7 +333,7 @@
                                                                 </option>
                                                             </select>
                                                         </div>
-                                                        
+
                                                     </div>
                                                 </div>
 
@@ -904,7 +904,7 @@
                                                 US $<span id="total_cost">0</span></h1>
                                         </div>
                                         <div class="d-flex justify-content-center mb-5">
-                                            <button class="btn badge-custom-bg rounded-pill" type="button"
+                                            <button class="btn badge-custom-bg rounded-pill payt_btn" type="button"
                                                 onclick="payment()">Continue to Place Order
                                             </button>
                                         </div>
@@ -1865,6 +1865,7 @@ $.ajax({
 
     function payment() {
         var formElements = document.querySelectorAll(".kt_invoice_form [name]");
+            $('.payt_btn').prop('disabled', true);
 
         // alert("saS");
 
@@ -1896,6 +1897,8 @@ $.ajax({
        if (isNull) {
         // Join empty fields into a comma-separated string
         const fieldList = emptyFields.join(', ');
+            $('.payt_btn').prop('disabled', false);
+
         Swal.fire('Error', `Please fill in the following required fields: ${fieldList}`, 'error');
         return; // Stop further execution if fields are empty
     }
@@ -1982,6 +1985,7 @@ $.ajax({
                     var message = response.message;
                     // Swal.fire('success!', message, 'success');
                     // alert(message);
+                        $('.payt_btn').prop('disabled', false);
 
                     if(message === 'Order placed successfully! customization'){
                     //     Swal.fire({

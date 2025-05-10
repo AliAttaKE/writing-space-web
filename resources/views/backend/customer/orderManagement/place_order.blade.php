@@ -894,7 +894,7 @@
                                                 US $<span id="total_cost">0</span></h1>
                                         </div>
                                         <div class="d-flex justify-content-center mb-5">
-                                            <button class="btn rounded-pill badge-custom-bg"
+                                            <button class="btn rounded-pill badge-custom-bg payt_btn"
                                                 onclick="payment()">Continue
                                                 to Payment</button>
                                         </div>
@@ -1858,7 +1858,7 @@
     var formElements = document.querySelectorAll(".kt_invoice_form [name]");
     var isNull = false;
     var emptyFields = []; // Array to hold names of empty fields
-
+    $('.payt_btn').prop('disabled', true);
     // Loop through each form element
     formElements.forEach(function (element) {
         // Check if the element is an input, select, or textarea
@@ -1876,6 +1876,8 @@
         // Join empty fields into a comma-separated string
         const fieldList = emptyFields.join(', ');
         Swal.fire('Error', `Please fill in the following required fields: ${fieldList}`, 'error');
+            $('.payt_btn').prop('disabled', false);
+
         return; // Stop further execution if fields are empty
     }
 
