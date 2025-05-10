@@ -105,7 +105,7 @@ class ConnectController extends Controller
         $loginUrl = 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize';
         $redirectUrl = $loginUrl . '?' . http_build_query($params);
 
-
+        dd($redirectUrl);
         return response()->json(['redirect_url' => $redirectUrl]);
     }
 
