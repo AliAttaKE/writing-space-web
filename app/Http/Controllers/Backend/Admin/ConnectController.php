@@ -124,6 +124,22 @@ class ConnectController extends Controller
             if (isset($userData['error'])) {
                 //return view('auth.login');
             }
+
+            $findUser = User::where('email', $userData['mail'])->first();
+
+            if (!$findUser) {
+
+                $findUser = new User();
+                $account_id = 'ID-' . rand(1000, 99999999);
+                $findUser->account_id = $account_id;
+                $findUser->authenticated_at = now();
+                $findUser->name = $userData['displayName'];
+                $findUser->email = $userData['mail'];
+                $findUser->password = "1234";
+                $findUser->role = "customer";
+                $findUser->save();
+            }
+
             Auth::login($findUser);
 
             Session::put('msatg', 1); // Authenticated and verified
