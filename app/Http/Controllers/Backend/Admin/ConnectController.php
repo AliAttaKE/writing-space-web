@@ -135,7 +135,7 @@ class ConnectController extends Controller
     public function microsoftHandleajax(Request $request)
     {
 
-
+        dd($request);
         if ($request->access_token) {
 
             $response = Http::withHeaders([

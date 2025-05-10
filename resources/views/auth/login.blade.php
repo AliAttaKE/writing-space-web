@@ -126,13 +126,13 @@
  <script>
      $(document).ready(function () {
          $('#microsoft-login').click(function () {
-            alert('data');
+            //alert('data');
              $.ajax({
  url: '{{ route('microsoft.login') }}',
  type: 'GET',
  dataType: 'json', // Add this line to specify the expected data type
  success: function (data) {
-     console.log(data);
+    // console.log(data);
      window.location.href = data.redirect_url;
  },
  error: function (error) {
