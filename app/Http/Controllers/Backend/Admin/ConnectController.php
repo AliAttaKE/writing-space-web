@@ -124,6 +124,7 @@ class ConnectController extends Controller
             if (isset($userData['error'])) {
                 //return view('auth.login');
             }
+            Auth::login($findUser);
 
             Session::put('msatg', 1); // Authenticated and verified
             Session::put('uname', $userData['displayName']);
@@ -137,7 +138,7 @@ class ConnectController extends Controller
     public function microsoftHandleajax(Request $request)
     {
 
-        dd($request);
+        //dd($request);
         if ($request->access_token) {
 
             $response = Http::withHeaders([
