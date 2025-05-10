@@ -300,7 +300,7 @@
                                                             $currentHour = \Carbon\Carbon::now()->format('H');
                                                             @endphp
 
-                                                            <select name="ampm" id="ampm"
+                                                            {{-- <select name="ampm" id="ampm"
                                                                 class="form-select form-select-solid btn-dark-primary select22"
                                                                 data-control="select2" data-hide-search="true"
                                                                 data-placeholder="AM">
@@ -313,7 +313,7 @@
                                                                     '' }}>
                                                                     PM
                                                                 </option>
-                                                            </select>
+                                                            </select> --}}
                                                         </div>
                                                         <div class="align-items-center d-flex">
                                                             <label for=""
@@ -451,13 +451,19 @@
                                                     class="form-select form-select-solid btn-dark-primary select22"
                                                     data-control="select2" data-hide-search="true"
                                                     data-placeholder="Choose">
-                                                    <option></option>
+                                                    <option value="None">None</option>
+                                                    <option value="Let the writer choose">Let the writer choose
+                                                    </option>
+                                                    <option value="Does Not Matter">Does Not Matter</option>
+
                                                     @if ($paper_format)
                                                     @foreach ($paper_format as $p)
                                                     <option value="{{ $p->title }}">{{ $p->title }}
                                                     </option>
                                                     @endforeach
                                                     @endif
+                                                    <option value="Other (Not Listed Above)">Other (Not Listed Above)
+                                                    </option>
                                                 </select>
                                                 <button
                                                 type="button"
@@ -601,7 +607,7 @@
                                                 <!--end::Label-->
                                                 <!--begin::Input-->
                                                 <div class="d-flex">
-                                                <input type="number" class="form-control form-control-lg form-control-solid btn-dark-primary" name="powerpoint_slide" placeholder="0" id="powerpoint_slide" value="0">
+                                                <input type="number" class="form-control form-control-lg form-control-solid btn-dark-primary" name="powerpoint_slide" placeholder="0" id="powerpoint_slide" value="0" min="0">
                                                 <p id="powerpoint_slide_msg" class="text-danger"></p>
                                                 <!--end::Input-->
                                                 <button

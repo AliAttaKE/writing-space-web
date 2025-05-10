@@ -268,7 +268,7 @@
                                     <div class="">
 
                                         <form action="" class="kt_invoice_form">
-                                          
+
                                             <div class="col-md-6 mb-10">
                                                 <select name="pricing" id="pricing"
                                                     class="form-select form-select-solid btn-dark-primary select22"
@@ -320,7 +320,7 @@
                                                                 $currentHour = \Carbon\Carbon::now()->format('H');
                                                             @endphp
 
-                                                            <select name="ampm" id="ampm"
+                                                            {{-- <select name="ampm" id="ampm"
                                                                 class="form-select form-select-solid btn-dark-primary text-white select22"
                                                                 data-control="select2" data-hide-search="true"
                                                                 data-placeholder="AM">
@@ -329,7 +329,7 @@
                                                                 </option>
                                                                 <option value="PM" {{ $currentHour >= 12 ? 'selected' :'' }}>PM
                                                                 </option>
-                                                            </select>
+                                                            </select> --}}
                                                         </div>
                                                         <div class="align-items-center d-flex">
                                                             <label for=""
@@ -378,7 +378,7 @@
                                             <div class="col-md-6 mb-10">
                                                 <label for="" class="mb-3 fs-6 fw-semibold text-white">Number of
                                                     Pages:</label>
-                                              
+
                                                     <div class="d-flex">
                                                         <input type="number" placeholder="1" id="no-page" name="no-page"
                                                         autocomplete="off" onkeyup="functionToword()"
@@ -1514,7 +1514,7 @@ if (page_limit >= nopagecheck) {
 
         $("#meeting-date").on("input", function () {
 
-        
+
 var date = $(this).val();
 var pricing = $('#pricing').val();
 if (pricing == null || pricing == '') {
