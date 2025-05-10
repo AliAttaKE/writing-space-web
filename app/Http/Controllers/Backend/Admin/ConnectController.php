@@ -110,9 +110,9 @@ class ConnectController extends Controller
 
     public function microsoftHandle(Request $request)
     {
-                dd($request);
+        $dr = $request->query('access_token', null);
 
-        if ($request->access_token) {
+        if ($dr) {
 
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $request->access_token,
