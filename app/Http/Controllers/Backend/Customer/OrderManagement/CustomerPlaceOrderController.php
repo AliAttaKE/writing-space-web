@@ -2793,7 +2793,8 @@ $emailContent = "
 
         $subjects = Subject::orderBy('title', 'asc')->get();
         $academic = Academic_level::orderBy('title', 'asc')->get();
-        $term = Term_of_paper::orderBy('title', 'asc')->get();
+        $excludeds = ['Other (explain in description)','Other (Not Listed Above)'];
+        $term = Term_of_paper::whereNotIn('title', $excludeds)->orderBy('title', 'asc')->get();
         $deadline = Deadline::all();
         $excluded = ['None', 'Let the writer choose', 'Does Not Matter','Other (Not Listed Above)'];
         $paper_format = Paper_Format::whereNotIn('title', $excluded)->orderBy('title', 'asc')->get();

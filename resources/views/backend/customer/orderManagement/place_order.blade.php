@@ -451,6 +451,7 @@
                                                     class="form-select form-select-solid btn-dark-primary select22"
                                                     data-control="select2" data-hide-search="true"
                                                     data-placeholder="Choose">
+                                                    <option disabled selected>Choose</option>
                                                     <option value="None">None</option>
                                                     <option value="Let the writer choose">Let the writer choose
                                                     </option>
@@ -511,6 +512,11 @@
                                                     </option>
                                                     @endforeach
                                                     @endif
+                                                    <option value="Other (explain in description)">Other (explain in description)
+                                                    </option>
+                                                    <option value="Other (Not Listed Above)">Other (Not Listed Above)
+                                                    </option>
+
                                                 </select>
                                                 <button
                                                 type="button"
