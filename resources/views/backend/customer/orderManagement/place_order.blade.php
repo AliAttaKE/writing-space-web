@@ -803,7 +803,7 @@
                                                             id="">{{ $Addons->paper_summary }}</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" class="toggleSwitch" id="toggleSwitch" data-target="1">
+                                                            <input type="checkbox" class="toggleSwitch paper_summary" id="toggleSwitch" name="paper_summary"   data-target="1">
                                                             <span class="slider"></span>
                                                         </label>
                                                     </div>
@@ -822,7 +822,7 @@
                                                             id="">{{ $Addons->paper_utline_in_bullets }}</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" class="toggleSwitch" id="toggleSwitch" data-target="2">
+                                                            <input type="checkbox" class="toggleSwitch outline" id="toggleSwitch" name="outline" data-target="2">
                                                             <span class="slider"></span>
                                                         </label>
                                                     </div>
@@ -842,7 +842,7 @@
                                                             id="">{{ $Addons->paper_abstract }}</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" class="toggleSwitch" id="toggleSwitch" data-target="3">
+                                                            <input type="checkbox" class="toggleSwitch ai_detection" id="toggleSwitch" name="ai_detection" data-target="3">
                                                             <span class="slider"></span>
                                                         </label>
                                                     </div>
@@ -863,7 +863,7 @@
 
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" class="toggleSwitch" id="toggleSwitch" data-target="4">
+                                                            <input type="checkbox" class="toggleSwitch plagiarism" id="toggleSwitch" name="plagiarism" data-target="4">
                                                             <span class="slider"></span>
                                                         </label>
                                                     </div>
@@ -1905,7 +1905,10 @@
     var coupon = document.getElementById('coupon').value;
     var local = localStorage.getItem('checkedlabels');
     var discount = document.getElementById('discount').value;
-    var discount_value = document.getElementById('discount_value').value;
+    var plagiarism = document.querySelector('.plagiarism').checked;
+    var ai_detection = document.querySelector('.ai_detection').checked;
+    var outline = document.querySelector('.outline').checked;
+    var paper_summary = document.querySelector('.paper_summary').checked;
 
     var additional_info = local ? JSON.parse(local) : null;
     var statistical_analysis = document.getElementById('statistic_percentage').innerHTML;
@@ -1936,6 +1939,11 @@
         backup_email: backup_email,
         discount: discount,
         discount_value: discount_value,
+        plagiarism:plagiarism,
+        ai_detection:ai_detection,
+        outline:outline,
+        paper_summary:paper_summary
+
     };
 
     localStorage.setItem('dataObject', JSON.stringify(dataObject));
@@ -2145,8 +2153,8 @@ document.querySelectorAll('input[type="checkbox"][id^="toggleSwitch"]').forEach(
         total_sum_final(totalAdditionalCost);
 
         // Display the current array of checked labels
-        console.log('Checked Labels: ', checkedLabels);
-        console.log('Checked Costs: ', checkedCosts);
+        //console.log('Checked Labels: ', checkedLabels);
+        //console.log('Checked Costs: ', checkedCosts);
     });
 });
 

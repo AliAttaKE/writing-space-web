@@ -789,7 +789,7 @@
                                                             id="">Free</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" id="" data-target="1" checked>
+                                                            <input type="checkbox" class="paper_summary" id="" data-target="1" checked>
                                                             <span class="slider"></span>
                                                         </label>
 
@@ -811,7 +811,7 @@
                                                             id="">Free</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" id="" data-target="2" checked>
+                                                            <input type="checkbox" class="outline" id="" data-target="2" checked>
                                                             <span class="slider"></span>
                                                         </label>
                                                     </div>
@@ -833,7 +833,7 @@
                                                             id="">Free</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" id="" data-target="3" checked>
+                                                            <input type="checkbox" name="ai_detection" id="" data-target="3" checked>
                                                             <span class="slider"></span>
                                                         </label>
                                                     </div>
@@ -856,7 +856,7 @@
 
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" id="" data-target="4" checked>
+                                                            <input type="checkbox" name="plagiarism" id="" data-target="4" checked>
                                                             <span class="slider"></span>
                                                         </label>
                                                     </div>
@@ -1930,6 +1930,11 @@ $.ajax({
             var local = localStorage.getItem('checkedlabels');
             var discount = document.getElementById('discount').value;
             var discount_value = document.getElementById('discount_value').value;
+            var plagiarism = document.querySelector('.plagiarism').checked;
+            var ai_detection = document.querySelector('.ai_detection').checked;
+            var outline = document.querySelector('.outline').checked;
+            var paper_summary = document.querySelector('.paper_summary').checked;
+
             console.log(local);
             if (local != null) {
                 check = JSON.parse(local);
@@ -1964,6 +1969,11 @@ $.ajax({
                 backup_email: backup_email,
                 discount: discount,
                 discount_value: discount_value,
+                plagiarism:plagiarism,
+                ai_detection:ai_detection,
+                outline:outline,
+                paper_summary:paper_summary
+
             };
             localStorage.setItem('dataObject', JSON.stringify(dataObject))
             console.log(dataObject);
