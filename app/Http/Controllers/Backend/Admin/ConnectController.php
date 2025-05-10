@@ -121,14 +121,14 @@ class ConnectController extends Controller
             $userData = $response->json();
 
             if (isset($userData['error'])) {
-                dd($userData['error']);
+                return view('auth.login');
             }
 
             Session::put('msatg', 1); // Authenticated and verified
             Session::put('uname', $userData['displayName']);
             Session::put('id', $userData['id']);
 
-            return redirect('/');
+            return redirect('/customer/dashboard');
         }
 
         return view('auth.login');
@@ -166,6 +166,7 @@ class ConnectController extends Controller
             Auth::login($findUser);
             session()->put('id', $findUser->id);
             Session::put('msatg', 1); // Authenticated and verified
+            return redirect('/customer/dashboard');
             return response()->json(['userData' => $userData]);
         }
 
