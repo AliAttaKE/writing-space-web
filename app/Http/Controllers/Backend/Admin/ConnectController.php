@@ -120,7 +120,7 @@ class ConnectController extends Controller
             ])->get('https://graph.microsoft.com/v1.0/me/');
 
             $userData = $response->json();
-
+                dd($userData);
             if (isset($userData['error'])) {
                 return view('auth.login');
             }
