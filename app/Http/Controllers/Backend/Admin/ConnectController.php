@@ -166,7 +166,7 @@ class ConnectController extends Controller
             Auth::login($findUser);
             session()->put('id', $findUser->id);
             Session::put('msatg', 1); // Authenticated and verified
-            return redirect('/customer/dashboard');
+           // return redirect('/customer/dashboard');
             return response()->json(['userData' => $userData]);
         }
 
