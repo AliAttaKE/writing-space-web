@@ -978,8 +978,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																			<th class="w-25" style="width: 177px;" >Size</th>
 																			<th class="w-25" style="width: 177px;" >Uploaded By</th>
 																			<th class="w-25" style="width: 177px;" >Uploaded For</th>
-																			<th class="w-25" style="width: 177px;">Last Modified</th>
-																			<th class="w-25" style="width: 177px;">Download time</th>
+
 																			<th class="w-25" style="width: 177px;">Action</th>
 																		</tr>
 																	</thead>
@@ -1006,8 +1005,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																					<td class="w-25">{{ Auth::user()->role }}</td>
 																				@endauth
 																				<td class="w-25">Writer</td>
-																				<td class="w-25">{{ $file->created_at }}</td>
-																				<td class="w-25">{{ $file->download_time }}</td>
+
 																				<td class="text-end text-white" data-kt-filemanager-table="action_dropdown">
 																					<div class="d-flex justify-content-end w-25">
 																						<div class="ms-2">
