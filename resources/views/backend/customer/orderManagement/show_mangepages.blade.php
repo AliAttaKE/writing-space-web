@@ -165,7 +165,9 @@
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-dark-primary px-4 text-white">Cancel</button>
+                        <a href="{{ url()->previous() }}" class="btn btn-dark-primary px-4 text-white">
+  Cancel
+</a>
                         <button id="payButton" onclick="pay('card');" class="btn badge-custom-bg">Pay Now</button>
                     </div>
                 </div>

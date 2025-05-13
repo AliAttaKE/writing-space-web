@@ -154,7 +154,10 @@
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-dark-primary px-4">Cancel</button>
+                        <a href="{{ url()->previous() }}" class="btn btn-dark-primary px-4">
+                            Cancel
+                        </a>
+
                         <button id="payButton" onclick="pay('card');" class="btn badge-custom-bg">Pay Now</button>
                     </div>
                 </div>
@@ -165,14 +168,17 @@
                         <h5>Order Details</h5>
                     </div>
                     <div class="card-bod total-amt py-3 px-2 rounded-3 bg-transparent">
-
                         <ul class="d-flex d-flex list-unstyled justify-content-between">
-                             <li class="">Number of Pages</li>
+                             <li class="">Cost Per Page :</li>
+                            <li class=""><span id="cost_per_page">00</span></li>
+                        </ul>
+                        <ul class="d-flex d-flex list-unstyled justify-content-between">
+                             <li class="">Number of Pages :</li>
                             <li class=""><span id="no_of_page">00</span></li>
                         </ul>
 
                         <ul class="d-flex d-flex list-unstyled justify-content-between">
-                            <li class="">Total Amount</li>
+                            <li class="">Total Amount :</li>
                             <li class="">$ <span id="order_total">00</span></li>
                         </ul>
                     </div>
@@ -445,6 +451,7 @@ function pay() {
   var totalAmountPage = no_of_page*cost_per_page;
   document.getElementById("order_total").innerText = totalAmountPage;
     document.getElementById("no_of_page").innerText = no_of_page;
+    document.getElementById("cost_per_page").innerText = cost_per_page;
 
 
 

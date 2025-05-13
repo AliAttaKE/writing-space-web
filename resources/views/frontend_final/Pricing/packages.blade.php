@@ -7,7 +7,7 @@
         <div class="hero-text text-center mt-custom-2">
             <h1 class="main-text fw-bold">
                 Get Ahead, Stay Ahead -<br><span class="text-purple">
-                    Stock Pages Now for Less Stress, Top </span> <span class="gradient-text underline">Grades!</span> 
+                    Stock Pages Now for Less Stress, Top </span> <span class="gradient-text underline">Grades!</span>
             </h1>
             <div class="d-flex align-items-center justify-content-center">
                 <h5 class="gradient-text fs-4 fw-semibold">Juggling between Work and Education? Beat this Game!
@@ -70,8 +70,8 @@
                                         {{ $s->max_page }} pages</li>
                                         <li>Total Pages in package
                                             {{ $s->total_subscription }}</li>
-                                    
-                                  
+
+
 									<li>Transparency in Pricing</li>
                                     <li>Assured Quality and Originality</li>
                                     <li>Clear Revision Policies</li>
@@ -86,33 +86,32 @@
 
                     </div>
                     <div class="card-footer border-0 pb-4 text-center">
-                     
 
 
                         @if (Auth()->user())
                         <a type="button"
-                           onclick="open_modal({{ $s->id }}, {{ $s->cost_per_page }}, {{ $s->min_page }})" 
+                           onclick="open_modal({{ $s->id }}, {{ $s->cost_per_page }}, {{ $s->min_page }}, {{$s->min_page}})"
                            class="btn gradient-button py-2 px-4">
                            Select Plan
                         </a>
                         <input type="hidden" id="user_id" value="{{ Auth()->user()->id }}">
                     @else
-                        <a type="button" 
-                           onclick="open_modal_login()" 
+                        <a type="button"
+                           onclick="open_modal_login()"
                            class="btn gradient-button py-2 px-4">
                            Select Plan
                         </a>
                         <input type="hidden" id="user_id" value="">
                     @endif
-                    
+
 
                     </div>
                 </div>
             </div>
             @endforeach
             @endif
-            
-          
+
+
 
 
 
@@ -123,7 +122,7 @@
                             <h5 class="modal-title fw-bold text-dark" id="exampleModalLabel">Add Promotion Code</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-            
+
                         <div class="modal-body">
                             <div class="step">
                                 <!-- Step Content -->
@@ -148,7 +147,7 @@
                                 </div>
                             </div>
                         </div>
-            
+
                         <div class="modal-footer border-0 justify-content-center">
                             <button type="button" class="btn btn-primary px-4 py-2" onclick="check_coupon()">Next</button>
                             <button type="button" class="btn btn-secondary px-4 py-2" data-bs-dismiss="modal">Close</button>
@@ -187,7 +186,7 @@
 }
 
 /* Style form labels and any additional text within modal */
-#modal-15 .form-label, 
+#modal-15 .form-label,
 #modal-15 #price-details p {
     color: white;
 }
@@ -212,7 +211,7 @@
 }
 
 </style>
-       
+
 <div class="modal fade mt-5" id="modal-15" tabindex="-1" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -247,16 +246,16 @@
                 <button type="button" class="btn btn-secondary" onclick="proceedWithoutCoupon()">Skip Coupon</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
-            
+
         </div>
     </div>
 </div>
 
-            
-            
-            
-            
-            
+
+
+
+
+
 
             <div class="modal fade" id="modal-156" tabindex="-1" aria-labelledby="exampleModalLabel">
                 <div class="modal-dialog">
@@ -285,7 +284,7 @@
 
 
             </div>
-         
+
         </div>
     </div>
 
@@ -511,12 +510,12 @@
                 Visit our Custom Order Pricing page, where you pay as you go, ensuring you receive top-notch
                 assistance without breaking the bank.
             </p>
-        
-      
-                               
+
+
+
         <a href="{{ route('customer.customerPlaceOrder') }}" class="gradient-btn border-0 text-decoration-none btn-custom-width">Order Now</a>
-                       
-       
+
+
 
         <a href="{{ route('front.customorder') }}" class="gradient-btn border-0 ms-4 text-decoration-none btn-custom-width">Learn More</a>
         </div>
@@ -704,11 +703,11 @@
                 </div>
             </div>
             <div class="d-flex justify-content-center align-items-center mt-5">
-             
-                               
+
+
                 <a href="{{ route('customer.customerPlaceOrder') }}" class="gradient-btn border-0 text-decoration-none btn-custom-width">Order Now</a>
-                               
-          
+
+
         <a href="{{ route('front.faq') }}" class="gradient-btn border-0 ms-4 text-decoration-none btn-custom-width">Learn More</a>
     </div>
         </div>
@@ -734,7 +733,7 @@
     //     let totalamount = $('#totalamount').val();
     //    // alert(totalamount);
 
-    
+
     //     var url4 ='{{ route('customer.check.package', ['sub_id' => ':sub_id']) }}';
     //                         url4 = url4.replace(':sub_id', id);
     //         $.ajax({
@@ -761,50 +760,50 @@
     //             // Assuming id is a parameter you want to send
     //             success: function(response) {
     //                 promotion = response.coupon;
-                    
+
     //                 if(promotion!== "The promotion has ended"){
     //                   console.log("Promotion-1:", promotion);
     //                   console.log("response.start_date:", promotion.start_date);
     //                   console.log("response.end_date:", promotion.end_date);
     //                   console.log("response.decrease_everyday", promotion.decrease_everyday);
-                      
+
     //                     if (promotion.start_date && promotion.end_date && promotion.decrease_everyday)
     //                     {
-                          
+
     //                             const decreaseEveryday = JSON.parse(promotion.decrease_everyday);
     //                             const startDate = new Date(promotion.start_date);
     //                             const endDate = new Date(promotion.end_date);
     //                             const currentDate = new Date();
-                          
-              
-                    
+
+
+
     //                         if (currentDate >= startDate && currentDate <= endDate) {
     //                             const daysDiff = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
     //                             const discountIndex = Math.min(daysDiff, decreaseEveryday.length - 1);
     //                             const discountPercentage = decreaseEveryday[discountIndex];
     //                             console.log("Discount Percentage:", discountPercentage);
-                                
-                                
+
+
     //                                 console.log(totalamount );
     //                                 totalamount =  parseInt(totalamount) - (parseInt(totalamount) * parseInt(discountPercentage) / 100);
     //                                     console.log(discountPercentage );
     //                                     console.log("totalamount",totalamount );
-                            
+
 
     //                         } else {
     //                             console.log("Promotion is not active for the current date.");
-                            
+
     //                     }
-                    
-                          
+
+
     //                   }
 
-                        
-            
-                        
+
+
+
     //                 }
-                  
-                            
+
+
     //            var url2 = '{{ route('customer.checkout') }}';
     //         $.ajax({
     //             type: 'GET',
@@ -816,17 +815,17 @@
 
 
     //                 let idgetsession = response.sessionId;
-                    
+
     //             localStorage.setItem('sub_id', JSON.stringify(id));
 
-    //             localStorage.setItem('totalamount', JSON.stringify(totalamount)); 
+    //             localStorage.setItem('totalamount', JSON.stringify(totalamount));
 
     //                  alert('Add Payment Details!');
     //                 // Swal.fire('Success', 'Add Payment Details!', 'success');
 
     //                         if (response && response.sessionId) {
 
-                  
+
     //                 window.location.href = '{{ route("customer.card.show.sub", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
 
 
@@ -857,7 +856,7 @@
     //                console.log(response.sessionId);
 
     //                 localStorage.setItem('sub_id', JSON.stringify(id));
-    //                 localStorage.setItem('totalamount', JSON.stringify(totalamount));      
+    //                 localStorage.setItem('totalamount', JSON.stringify(totalamount));
     //                 let idgetsession = response.sessionId;
 
     //                alert('Add Payment Details!');
@@ -865,7 +864,7 @@
 
     //                         if (response && response.sessionId) {
 
-                  
+
     //                 window.location.href = '{{ route("customer.card.show.sub", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
 
 
@@ -881,8 +880,8 @@
     //                 console.error(error);
     //             }
     //         });
-                    
-    
+
+
     //             }
     //         });
     //     } else {
@@ -899,13 +898,13 @@
 
     //                 let idgetsession = response.sessionId;
     //                 localStorage.setItem('sub_id', JSON.stringify(id));
-    //                 localStorage.setItem('totalamount', JSON.stringify(totalamount));          
+    //                 localStorage.setItem('totalamount', JSON.stringify(totalamount));
     //                  alert('Add Payment Details!');
     //                 // Swal.fire('Success', 'Add Payment Details!', 'success');
 
     //                         if (response && response.sessionId) {
 
-                  
+
     //                 window.location.href = '{{ route("customer.card.show.sub", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
 
 
@@ -930,8 +929,8 @@
     //                                 // Handle any errors here
     //                                 console.log(response);
     //                                 console.log(response.responseJSON.message);
-    //                             //    alert(response.responseJSON.message); 
-                                
+    //                             //    alert(response.responseJSON.message);
+
     //                             }
     //                         });
     // }
@@ -1178,49 +1177,51 @@ function proceedToCheckout(totalamount, id) {
     //             });
     //         };
 
-    function open_modal(id, costPerPage, totalSubscription) {
-        
+    function open_modal(id, costPerPage, totalSubscription,$pages) {
+
       //  alert(totalSubscription);
-  
+
  $.ajax({
 type: 'get',
 url: "{{ route('pakage_limit.get_pkg_pur') }}",
 data: { totalSubscription: totalSubscription },
 success: function (response) {
-   
-     
+
+
     if (response.success === 'Package limit exceeded') {
         console.log("Package limit exceeded");
-        
-        
+
+
          var totalamount = costPerPage * totalSubscription;
 
         $('#selectplanid').val('');
         $('#totalamount').val('');
         $('#selectplanid').val(id);
         $('#totalamount').val(totalamount);
-        
-              
-    
+
+
+
                      localStorage.removeItem('costPerPage');
                      localStorage.setItem('costperpage1', JSON.stringify(costPerPage));
-        
-        
+                     localStorage.removeItem('pages');
+                     localStorage.setItem('pages', $pages);
+
+
     var value = $('#totalamount').val();
 console.log(value);
         var modal = new bootstrap.Modal(document.getElementById("modal-15"));
         modal.show();
         document.getElementsByClasName("modal-backdrop").style.position = "static";
-        
-        
-        
-        
+
+
+
+
     } else if (response.success === 'Package limit not exceeded') {
           alert("Thank you for your interest in our services! We are currently at full capacity and unable to take new subscriptions at this moment. Please leave your email with us, and we'll notify you as soon as slots become available. We appreciate your understanding and look forward to serving you in the future.");
-       
+
     } else {
         console.log("An unexpected error occurred");
-       
+
     }
 },
 error: function (error) {
@@ -1229,11 +1230,11 @@ error: function (error) {
 }
 });
 
-        
-     
-        
-        
-       
+
+
+
+
+
     }
 
     function open_modal_login() {

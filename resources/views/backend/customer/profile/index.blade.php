@@ -1193,7 +1193,17 @@
                                             <!--end::Label-->
                                             <input type="text" class="form-control form-control-solid btn-dark-primary" placeholder="Enter page like 10, 20, 50..."
                                                 id="no_of_page" name="no_of_page" />
+                                            <span class="text-white" id="no_of_page_error"></span>
                                         </div>
+                                        <div class="w-100">
+                                            <label>Cost Per Page :</label>
+                                            <span class="text-white" id="cost_per_page12"></span>
+                                        </div>
+                                        <div class="w-100">
+                                            <label>Total Cost :</label>
+                                            <span class="text-white" id="totalcost"></span>
+                                        </div>
+                                            <!--begin::Input group-->
                                         <!--end::Input group-->
                                     </div>
                                 </div>
@@ -1219,6 +1229,18 @@
 <script>
 
     $(document).ready( function() {
+        $('#no_of_page').on('change', function() {
+  // read and parse the per-page cost
+  const cost = parseFloat(localStorage.getItem('cost_per_page')) || 0;
+  // get the selected number of pages
+  const noOfPages = parseInt($(this).val(), 10) || 0;
+  // calculate total
+  const totalCost = cost * noOfPages;
+            console.log(cost);
+  // update the DOM (formatted with two decimals)
+  $('#cost_per_page12').text(cost);
+  $('#totalcost').text(totalCost.toFixed(2));
+});
 
         $('#kt_modal_update_customer_btn').on('click', function (){
 
@@ -1299,7 +1321,8 @@
 
                 if (!isValid) {
                     //errorElem.textContent = "Please enter a valid number from 1 to 100000 without leading zero.";
-                    toastr.error('Please enter a valid number without leading zero.');
+                    //toastr.error('Please enter a valid number without leading zero.');
+                    $("#no_of_page_error").text('Please enter a valid number without leading zero.');
                     return;
                 }
 
