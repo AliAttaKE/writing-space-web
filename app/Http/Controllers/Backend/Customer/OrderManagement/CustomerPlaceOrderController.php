@@ -961,6 +961,7 @@ $permissions = 0775;
         $pay->session_id = $test;
         $pay->truncatedSessionId = $transactionId;
         $pay->total_costs = $total_costs;
+        
         $pay->user_id = Auth()->user()->id;
         $pay->order_details = json_encode($total_costs);
         $pay->save();
