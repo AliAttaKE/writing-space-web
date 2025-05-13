@@ -376,14 +376,16 @@ function pay() {
     // UPDATE THE SESSION WITH THE INPUT FROM HOSTED FIELDS
     PaymentSession.updateSessionFromForm('card');
 }
+var totalamount1 = JSON.parse(localStorage.getItem('totalamount'));
+var numberofpage1 = JSON.parse(localStorage.getItem('no_of_page'));
+var costperpage1 = JSON.parse(localStorage.getItem('costperpage1'));
 
-    var totalamount1 = JSON.parse(localStorage.getItem('totalamount'));
-    var numberofpage1 = JSON.parse(localStorage.getItem('no_of_page'));
-    var costperpage1 = JSON.parse(localStorage.getItem('costperpage1'));
+var costperpage1_final = totalamount1 / numberofpage1;
 
-    document.getElementById("order_total").innerText = totalamount1;
-    document.getElementById("costperpage1").innerText = costperpage1;
-    document.getElementById("numberofpage1").innerText = numberofpage1;
+document.getElementById("order_total").innerText = totalamount1;
+document.getElementById("costperpage1").innerText = costperpage1_final;
+document.getElementById("numberofpage1").innerText = numberofpage1;
+
 
 
 
