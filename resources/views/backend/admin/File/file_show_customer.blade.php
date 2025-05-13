@@ -223,8 +223,6 @@
                                         File Type
                                     </th>
                                     <th class="min-w-10px sorting_disabled text-white" rowspan="1" colspan="1">Size</th>
-                                    <th class="min-w-10px sorting_disabled text-white" rowspan="1" colspan="1">Download Time</th>
-                                    <th class="min-w-125px sorting_disabled text-white" rowspan="1" colspan="1" >Last Modified</th>
                                     <th class="w-125px sorting_disabled text-white" rowspan="1" colspan="1" >Action</th>
                                 </tr>
                             </thead>
@@ -251,8 +249,8 @@
                                     <td class="text-white">writer</td>
                                     <td class="text-white">{{ $file->file_type }}</td>
                                     <td class="text-white">{{$file->Size }}</td>
-                                    <td class="text-white" data-order="2023-08-19T14:40:00+05:00">{{ $file->download_time }}</td>
-                                    <td class="text-white" data-order="2023-08-19T14:40:00+05:00">{{ $file->created_at }}</td>
+                                    {{-- <td class="text-white" data-order="2023-08-19T14:40:00+05:00">{{ $file->download_time }}</td>
+                                    <td class="text-white" data-order="2023-08-19T14:40:00+05:00">{{ $file->created_at }}</td> --}}
                                     <td class="text-white" class="text-end" data-kt-filemanager-table="action_dropdown">
                                         <div class="d-flex justify-content-left">
                                             <!--begin::Share link-->
