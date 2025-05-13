@@ -34,10 +34,10 @@
                                 <!--end::Title-->
                                 <!--begin::Breadcrumb-->
                                 <!-- <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                                    
+
                                     <li class="breadcrumb-item text-muted fs-color-white text-color">File Management
                                     </li>
-                                    
+
                                 </ul> -->
                                 <!--end::Breadcrumb-->
                             </div>
@@ -242,7 +242,7 @@
 
 
 
-                                                                                                                <td class="text-white">{{ $f->updated_at }}</td>
+                                                                                                                <td class="text-white">{{ $f->updated_at->format('F j, Y g:i A') }}</td>
                                                                                                                 <td class="" data-kt-filemanager-table="action_dropdown">
                                                                                                                     <div class="d-flex text-white">
                                                                                                                         <!--begin::Share link-->

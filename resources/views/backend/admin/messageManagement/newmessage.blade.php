@@ -220,7 +220,7 @@
                                                         class="ki-duotone ki-paper-clip fs-2 m-0 text-white"></span>
                                                         <input
                                                         hidden type="file" class="upload-attachment" name="media[]"
-                                                        id="media" multiple accept="image/*"/></label>
+                                                        id="media" multiple accept=".docx,.pdf,.txt,.rtf,.xlsx,.csv,.pptx,.jpeg,.jpg,.png,.gif"/></label>
                                             </div>
                                             <p id="attach_file_1" class="text-white  w-200px"></p>
                                             <!--end::Upload attachement-->
@@ -380,16 +380,54 @@
 
 
 
-    document.getElementById("media").addEventListener("change", function () {
-        var files = this.files;
-        var fileNames = "";
-        for (var i = 0; i < files.length; i++) {
-            fileNames += files[i].name + ", ";
-        }
-        // Remove the last comma and space
-        fileNames = fileNames.slice(0, -2);
-        document.getElementById("attach_file_1").innerText = "Selected files: " + fileNames;
-    });
+    document
+  .getElementById("media")
+  .addEventListener("change", function() {
+    const files = this.files;
+    const allowed = [
+      "docx","pdf","txt","rtf",
+      "xlsx","csv","pptx",
+      "jpeg","jpg","png","gif"
+    ];
+    let fileNames = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const ext = file.name.split(".").pop().toLowerCase();
+
+      if (!allowed.includes(ext)) {
+        // show error and clear the input
+        Swal.fire({
+          icon: "error",
+          title: "Invalid file type",
+          text: `"${file.name}" is not allowed.`
+        });
+        this.value = "";             // reset the input
+        document.getElementById("attach_file_1").innerText = "";
+        return;                      // stop further processing
+      }
+
+      // optional: size check (e.g. max 5MB)
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        Swal.fire({
+          icon: "error",
+          title: "File too large",
+          text: `"${file.name}" exceeds 5 MB.`
+        });
+        this.value = "";
+        document.getElementById("attach_file_1").innerText = "";
+        return;
+      }
+
+      fileNames.push(file.name);
+    }
+
+    // if we get here, all files are valid
+    document.getElementById("attach_file_1").innerText =
+      "Selected files: " + fileNames.join(", ");
+  });
+
 
 
     // Update the hidden textarea with Quill content
@@ -406,7 +444,7 @@ $(document).ready(function () {
     $('#kt_inbox_compose_form').submit(function (e) {
 
 
-        
+
         e.preventDefault(); // Prevent the form from submitting in the traditional way
 
         // Create a FormData object to gather form data
@@ -461,7 +499,7 @@ $(document).ready(function () {
                 $('#attach_file_1').text(''); // Clear any attached file info
 
                 $('#message_box').val('');
-       
+
         $('#attach_file_1').text('');
             },
             error: function (error) {

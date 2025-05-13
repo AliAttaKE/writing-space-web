@@ -2013,7 +2013,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																				<td>{{ $file->file_type }}</td>
 																				<td>{{$file->Size }}</td>
 
-																				<td>{{ $file->created_at }}</td>
+																				<td>{{ $file->created_at->format('F j, Y g:i A') }}</td>
 																				<td>{{ $file->download_time }}</td>
 																				<td class="text-end text-white" data-kt-filemanager-table="action_dropdown">
 																					<div class="d-flex justify-content-end">
@@ -7436,10 +7436,50 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 			})
 		})
 
-	   document.getElementById("file-3").addEventListener("change", function() {
-			var fileName = this.files[0].name;
-			document.getElementById("attach_file").innerText = "Selected file: " + fileName;
-		});
+	  document
+  .getElementById("file-3")
+  .addEventListener("change", function() {
+    const fileInput = this;
+    const file = fileInput.files[0];
+    if (!file) return; // no file selected
+
+    // 1) allowed extensions
+    const allowedExt = [
+      "docx","pdf","txt","rtf",
+      "xlsx","csv","pptx",
+      "jpeg","jpg","png","gif"
+    ];
+    const ext = file.name.split(".").pop().toLowerCase();
+
+    if (!allowedExt.includes(ext)) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid file type",
+        text: `"${file.name}" is not allowed.`
+      });
+      fileInput.value = "";              // clear selection
+      document.getElementById("attach_file").innerText = "";
+      return;
+    }
+
+    // 2) optional: max size (5 MB here)
+    const maxBytes = 5 * 1024 * 1024;
+    if (file.size > maxBytes) {
+      Swal.fire({
+        icon: "error",
+        title: "File too large",
+        text: `"${file.name}" exceeds 5 MB.`
+      });
+      fileInput.value = "";
+      document.getElementById("attach_file").innerText = "";
+      return;
+    }
+
+    // 3) all good → show filename
+    document.getElementById("attach_file").innerText =
+      "Selected file: " + file.name;
+  });
+
 
 
 		$(document).ready(function () {

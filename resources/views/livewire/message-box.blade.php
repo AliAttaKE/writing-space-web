@@ -7,16 +7,16 @@
                 $senderRole = $m->sender_role;
                 $sendBy = $m->send_by;
                 $orderId = $m->order_id;
-                $createdAt = $m->created_at;
+                $createdAt = $m->created_at->format('F j, Y g:i A');
                 $currentUserRole = Auth()->user()->role;
-                
+
                 // Determine sender display name
                 $senderDisplay = match(true) {
                     $senderRole == 'admin' && $sendBy == 'Writer' => 'Writer',
                     $senderRole == 'admin' => 'Admin',
                     default => 'Customer'
                 };
-                
+
                 // Determine avatar path
                 $avatarPath = match(true) {
                     $senderRole == 'admin' => asset('images/users/admins/'.$m->sender_avatar),
@@ -52,14 +52,14 @@
                                     {{ $messageDirection }} _ Order Number: {{ $orderId }}
                                 </span>
                             </div>
-                            
+
                             <div class="d-flex text-start" data-kt-inbox-message="details">
                                 <span class="text-muted fw-semibold">From: </span>
                                 <a href="#" class="me-1 text-white" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start">
                                     {{ $senderDisplay }}
                                 </a>
                             </div>
-                            
+
                             <div class="d-flex text-start" data-kt-inbox-message="details">
                                 <span class="text-muted fw-semibold">Date: </span>
                                 <a href="#" class="me-1 text-white" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start">
@@ -76,7 +76,7 @@
                             @foreach(json_decode($m->media) as $a)
                                 @if($a->type == 'image')
                                     <a href="{{ asset('storage/'.$a->url) }}">
-                                        <img src="{{ asset('storage/'.$a->url) }}" alt="Image" width="150px" height="150px" 
+                                        <img src="{{ asset('storage/'.$a->url) }}" alt="Image" width="150px" height="150px"
                                             style="height: 40px; width: 50px; border-radius: 100%; margin-bottom: 10px; display: flex;">
                                     </a>
                                 @elseif ($a->type == 'video')
@@ -90,15 +90,15 @@
                                     </a>
                                     <br>
                                 @elseif ($a->type == 'others')
-                                    <button class="bg-transparent mb-4 border-0 d-flex text-warning" 
-                                        onclick="window.open('{{ asset('storage/'.$a->url)}}', '_blank')" 
+                                    <button class="bg-transparent mb-4 border-0 d-flex text-warning"
+                                        onclick="window.open('{{ asset('storage/'.$a->url)}}', '_blank')"
                                         style="height: 50px; width: 100px; display: block;">
                                         {{ str_replace("media/", "", $a->url) ?? 'Download File' }}
                                     </button>
                                 @endif
                             @endforeach
                         @endif
-                        
+
                         @if($m->message != null)
                             <div class="msg-bubble d-flex flex-column {{ $isSender ? 'text-start' : '' }}" style="
                                 padding: {{ $isSender ? '2rem' : '6px' }};
@@ -113,7 +113,7 @@
                 </div>
             </div>
         @endforeach
-        
+
         {{ $messages->links() }}
     @endif
 </div>

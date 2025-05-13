@@ -13,16 +13,16 @@
                     <th class="min-w-125px">Status</th>
                 </tr>
             </thead>
-          
-             
-         
+
+
+
         <tbody>
     @if($data)
     @foreach ($data as $d)
-   
+
     <tr>
-       
-        
+
+
         <td class="ps-9">
             <a href="{{route('customer.reply-message',[$d->order_id])}}">
            {{$d->order_id}}
@@ -40,10 +40,10 @@
             @endif
         </td>
         <td class="fs-7 pe-9">
-            <span class="fw-semibold">   {{$d->updated_at}}</span>
-          
+            <span class="fw-semibold">   {{$d->updated_at->format('F j, Y g:i A')}}</span>
+
         </td>
-       
+
 
         @if(auth()->user()->id == 1)
     <td>

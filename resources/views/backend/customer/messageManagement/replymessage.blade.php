@@ -106,7 +106,7 @@ h3 {
                             <!--begin::Actions-->
                             <div class="d-flex">
                                 <!--begin::Back-->
-                                <a href="message-management.php" class="btn btn-sm btn-icon btn-clear btn-active-light-primary me-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Back">
+                                <a href="{{ url()->previous() }}" class="btn btn-sm btn-icon btn-clear btn-active-light-primary me-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Back">
                                     <i class="ki-duotone ki-arrow-left fs-1 m-0 text-white">
                                         <span class="path1"></span>
                                         <span class="path2"></span>
@@ -153,7 +153,7 @@ h3 {
 
                                             <div class="btn btn-icon btn-sm btn-clean btn-active-light-primary me-2" id="media_button" data-kt-inbox-form="dropzone_upload">
 
-                                                <label><span class="ki-duotone ki-paper-clip fs-2 m-0 text-white"></span><input hidden type="file" accept="image/*" class="upload-attachment" name="media[]" id="media" multiple /></label>
+                                                <label><span class="ki-duotone ki-paper-clip fs-2 m-0 text-white"></span><input hidden type="file" accept=".docx,.pdf,.txt,.rtf,.xlsx,.csv,.pptx,.jpeg,.jpg,.png,.gif" class="upload-attachment" name="media[]" id="media" multiple /></label>
                                             </div>
                                             <p id="attach_file_1" class="text-white  w-200px"></p>
                                         </div>
@@ -379,16 +379,49 @@ addEventListener('keyup', () => {
 });
 
 
-document.getElementById("media").addEventListener("change", function() {
-        var files = this.files;
-        var fileNames = "";
-        for (var i = 0; i < files.length; i++) {
-            fileNames += files[i].name + ", ";
-        }
-        // Remove the last comma and space
-        fileNames = fileNames.slice(0, -2);
-        document.getElementById("attach_file_1").innerText = "Selected files: " + fileNames;
-    });
+document
+  .getElementById("media")
+  .addEventListener("change", function() {
+    const files = this.files;
+    const allowed = [
+      "docx","pdf","txt","rtf",
+      "xlsx","csv","pptx",
+      "jpeg","jpg","png","gif"
+    ];
+    let fileNames = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const ext = file.name.split(".").pop().toLowerCase();
+
+      if (!allowed.includes(ext)) {
+        // show error and clear the input
+        Swal.fire({
+          icon: "error",
+          title: "Invalid file type",
+          text: `"${file.name}" is not allowed.`
+        });
+        this.value = "";             // reset the input
+        document.getElementById("attach_file_1").innerText = "";
+        return;                      // stop further processing
+      }
+
+      // optional: size check (e.g. max 5MB)
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        Swal.fire({
+          icon: "error",
+          title: "File too large",
+          text: `"${file.name}" exceeds 5 MB.`
+        });
+        this.value = "";
+        document.getElementById("attach_file_1").innerText = "";
+        return;
+      }
+
+      fileNames.push(file.name);
+    }
+
 
 
     $(document).ready(function () {

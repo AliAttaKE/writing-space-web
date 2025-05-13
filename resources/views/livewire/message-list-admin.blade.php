@@ -4,7 +4,7 @@
         <table class="table table-hover table-row-dashed fs-6 gy-5 my-0" id="kt_table_inbox_message">
             <thead class="">
                 <tr>
-      
+
                     <th class="min-w-80px">Order Id</th>
                     <th class="min-w-125px">New Message</th>
                     <th class="min-w-125px">Last Modified</th>
@@ -13,12 +13,12 @@
             </thead>
           <tbody>
             @if($data)
-    
+
     @foreach ($data as $d)
-        
+
 
     <tr>
-       
+
 
         <td class="ps-9">
             <a href="{{route('admin.reply-message',[$d->order_id])}}" class="fs-color-yellow">
@@ -37,7 +37,7 @@
             @endif
         </td>
         <td class="fs-7 pe-9">
-            <span class="fw-semibold">   {{$d->updated_at}}</span>
+            <span class="fw-semibold">   {{$d->updated_at->format('F j, Y g:i A')}}</span>
         </td>
         <td>
             <span class="badge badge-custom-bg me-2">{{$d->order_status}}</span>
