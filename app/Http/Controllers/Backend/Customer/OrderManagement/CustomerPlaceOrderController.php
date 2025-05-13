@@ -1525,6 +1525,7 @@ $permissions = 0775;
         try {
             $pay = Pay::where('order_id', $orderid)->first();
             $sessionId = $pay->session_id;
+            $totalamountpro = $pay->total_cost;
             $order_id = $pay->order_id;
             $orderidexplode = explode('-', $order_id);
             $orderidexplode = $orderidexplode[0];
@@ -1631,6 +1632,7 @@ $permissions = 0775;
                             $checkUserSub->remaining_rollover_pages = $subs->rollover_limit ;
                       }
                         $checkUserSub->status = 'Active';
+                        $checkUserSub->totalamountpro = $totalamountpro;
                         $checkUserSub->due_date = now()->addDays((int)$subs->set_time)->toDateTimeString();
                         $checkUserSub->save();
 
@@ -1708,7 +1710,8 @@ $permissions = 0775;
                             'remaining_rollover_pages' => $subs->rollover_limit,
                             'user_id' => $user->id,
                             'status' => 'Active',
-                            'due_date' => $dueDate
+                            'due_date' => $dueDate,
+                            'totalamountpro' => $totalamountpro
                         ]);
 
                         $pakge = PakageLimit::first();

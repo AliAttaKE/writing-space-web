@@ -1199,12 +1199,15 @@ success: function (response) {
         $('#selectplanid').val(id);
         $('#totalamount').val(totalamount);
 
-
+        localStorage.removeItem('no_of_page');
+        localStorage.setItem('no_of_page', JSON.stringify(totalSubscription));
 
                      localStorage.removeItem('costPerPage');
                      localStorage.setItem('costperpage1', JSON.stringify(costPerPage));
                      localStorage.removeItem('pages');
                      localStorage.setItem('pages', $pages);
+
+                     
 
 
     var value = $('#totalamount').val();
