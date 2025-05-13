@@ -336,8 +336,10 @@ class FileController extends Controller
             abort(404);
         }
 
-        $filePath = storage_path('app/public/completed_by_writer/'.$folder_name.'/'.$file->file_name);
-        $updatetime  = FileChatGPT::where('order_id', $order_id)->update(['download_time' => now() ]);
+      //  $filePath = storage_path('app/public/completed_by_writer/'.$folder_name.'/'.$file->file_name);
+       
+      $filePath = storage_path('app/public/'.$file->file_path);
+      $updatetime  = FileChatGPT::where('order_id', $order_id)->update(['download_time' => now() ]);
 
         return response()->download($filePath);
 
