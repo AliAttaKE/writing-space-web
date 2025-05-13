@@ -176,6 +176,10 @@
 
                         <div class="d-flex justify-content-between">
                             <button id="payButton" onclick="pay('card');" class="btn badge-custom-bg">Pay Now</button>
+                            <a href="{{ url()->previous() }}" class="btn btn-secondary">
+  Cancel
+</a>
+
                         </div>
                     </div>
                 </div>
@@ -195,7 +199,7 @@
                                 <li class=""><span id="topic" class="text-white">00</span></li>
                             </ul>
                             <ul class="d-flex d-flex list-unstyled justify-content-between">
-                                <li class="text-white">Subject</li>
+                                <li class="text-white">Cost Per Page</li>
                                 <li class=""><span id="subject" class="text-white"></span></li>
                             </ul>
                             <ul class="d-flex d-flex list-unstyled justify-content-between">
@@ -422,7 +426,7 @@
 
             document.getElementById("numberOfPage").innerText = totalAmount.no_of_pages;
 
-            document.getElementById("subject").innerText = totalAmount.subject;
+            document.getElementById("subject").innerText = totalAmount.cost_per_page;
 
         </script>
 

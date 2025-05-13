@@ -518,7 +518,7 @@
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-senter">
-										{{ substr($used_subscription->due_date,0,11) }}
+                                        {{ \Carbon\Carbon::parse($used_subscription->due_date)->format('F j, Y') }}
 
 
                                     </div>
@@ -769,7 +769,7 @@
 															<td>{!! substr($msg->message, 0, 12) !!}</td>
 
 
-															<td>{{ $msg->created_at }}</td>
+															<td>{{ $msg->created_at->format('F j, Y g:i A') }}</td>
 														</tr>
 													@endforeach
 												@endif
@@ -851,7 +851,8 @@
 																</a>
 															</td>
 															<td>{{ $folder->description }}</td>
-															<td>{{ $folder->created_at }}</td>
+															<td>{{ \Carbon\Carbon::parse($folder->created_at)->format('F j, Y g:i A') }}
+</td>
 														</tr>
 													@endforeach
 												@endif
@@ -1141,7 +1142,7 @@
 																					<div class="fw-semibold fs-7 mb-1 fs-color-white custom-fs-13">Order Date:</div>
 																					<!--end::Label-->
 																					<!--end::Text-->
-																					<div class="fw-bold fs-6 fs-color-white custom-fs-13"> {{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</div>
+																					<div class="fw-bold fs-6 fs-color-white custom-fs-13"> {{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:i A')  }}</div>
 																					<!--end::Text-->
 
 																				</div>
@@ -1150,7 +1151,7 @@
 																					<div class="fw-semibold fs-7 mb-1 fs-color-white custom-fs-13">DeadLine:</div>
 																					<!--end::Label-->
 																					<!--end::Text-->
-																					<div class="fw-bold fs-6 fs-color-white custom-fs-13">{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</div>
+																					<div class="fw-bold fs-6 fs-color-white custom-fs-13">{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:i A') }}</div>
 																					<!--end::Text-->
 
 																				</div>

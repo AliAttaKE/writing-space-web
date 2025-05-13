@@ -833,7 +833,7 @@
                                                             id="">Free</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" name="ai_detection" id="" data-target="3" checked>
+                                                            <input type="checkbox" class="ai_detection" name="ai_detection" id="" data-target="3" checked>
                                                             <span class="slider"></span>
                                                         </label>
                                                     </div>
@@ -856,7 +856,7 @@
 
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" name="plagiarism" id="" data-target="4" checked>
+                                                            <input type="checkbox" class="plagiarism" name="plagiarism" id="" data-target="4" checked>
                                                             <span class="slider"></span>
                                                         </label>
                                                     </div>
@@ -875,8 +875,8 @@
                                                     {{(float) $used_subscription->total_pages - (float) $used_subscription->remaining_pages}}</span>
                                             </div>
                                             <div class="fs-7 fw-normal text-muted" style="color: white;"><span
-                                                    class="mt-3 fs-6 fw-semibold me-3" style="color: white">Expire Date:
-                                                    {{$used_subscription->due_date}}</span></div>
+                                                    class="mt-3 fs-6 fw-semibold me-3" style="color: white">Expire Date:                                       {{ \Carbon\Carbon::parse($used_subscription->due_date)->format('F j, Y') }}
+</span></div>
                                             <div class="fs-7 fw-normal text-muted"><span
                                                     class="mt-3 fs-6 fw-semibold me-3" style="color: white"><span
                                                         style="color: white">Status: </span>

@@ -242,7 +242,7 @@
                                         <div class="fs-7 fw-normal text-muted">Total Used pages: {{(float)$used_subscription->total_pages - (float)$used_subscription->remaining_pages}}</div>
                                         <div class="fs-7 fw-normal text-muted">Total Remaining pages: {{ $used_subscription->remaining_pages }}</div> <!-- Added line -->
                                         <div class="fs-7 fw-normal text-muted">Additional Pages Available for Purchase: {{ $used_subscription->rollover_pages }}</div> <!-- Added line -->
-                                        <div class="fs-7 fw-normal text-muted">Expire Date: {{$used_subscription->due_date}}</div>
+                                        <div class="fs-7 fw-normal text-muted">Expire Date: {{ \Carbon\Carbon::parse($used_subscription->due_date)->format('F j, Y') }}</div>
                                         <div class="fs-7 fw-normal text-muted">Status: @if($used_subscription->status == 'Active')<span style="color: green">{{$used_subscription->status}}</span>@else <span style="color: red">{{$used_subscription->status}}</span>@endif</div>
                                         <input type="hidden" value="{{$used_subscription->id}}" id="used_package_id">
                                         <input type="hidden" value="{{$used_subscription->subscription_id}}" id="package_id">

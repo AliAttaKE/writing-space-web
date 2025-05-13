@@ -1175,7 +1175,7 @@
                                         </div>
                                     </td> --}}
                                     <td><a class="fs-color-yellow"
-                                            href="{{route('admin.admin-order-detail',[$o->order_id])}}">{{$o->order_id}}</a>
+                                            href="{{route('customer.order-detail',[$o->order_id])}}">{{$o->order_id}}</a>
                                     </td>
                                     <td class="limit-text">{{$o->subject}}</td>
 
