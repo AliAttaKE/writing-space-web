@@ -443,7 +443,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">Summary :</h3>
 															</div>
 															<div class="col-6">
-																<p class="fw-bold fs-color-white custom-fs-13">{{$order->summary}}</p>
+																<p class="fw-bold fs-color-white custom-fs-13">{{($order->summary == "true") ? "Yes" : "No"}}</p>
 															</div>
 														</div>
                                                         <div class="d-flex">
@@ -451,7 +451,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">Outline in Bullets :</h3>
 															</div>
 															<div class="col-6">
-																<p class="fw-bold fs-color-white custom-fs-13">{{$order->outline}}</p>
+																<p class="fw-bold fs-color-white custom-fs-13">{{($order->outline == "true") ? "Yes" : "No"}}</p>
 															</div>
 														</div>
                                                         <div class="d-flex">
@@ -459,7 +459,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">AI Detection Report :</h3>
 															</div>
 															<div class="col-6">
-																<p class="fw-bold fs-color-white custom-fs-13">{{$order->ai_detection}}</p>
+																<p class="fw-bold fs-color-white custom-fs-13">{{($order->ai_detection == "true") ? "Yes" : "No"}}</p>
 															</div>
 														</div>
                                                         <div class="d-flex">
@@ -467,7 +467,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">Plagiarism Report :</h3>
 															</div>
 															<div class="col-6">
-																<p class="fw-bold fs-color-white custom-fs-13">{{$order->plagiarism}}</p>
+																<p class="fw-bold fs-color-white custom-fs-13">{{($order->plagiarism == "true") ? "Yes" : "No"}}</p>
 															</div>
 														</div>
 													</div>
