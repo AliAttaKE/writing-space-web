@@ -693,21 +693,28 @@ if ($subs->remaining_pages == 0) {
             ]);
 
 
-            $path = "public/uploads_folders/" . $order_id;
-$permissions = 0775;
+            clearstatcache(); // Clears PHP file system cache
 
-            if (!Storage::exists($path)) {
-                // Storage::makeDirectory($path);
-                 Storage::makeDirectory($path, $permissions, true);
-                $folder = new Folder();
-                $folder->name = $order_id;
-                $folder->description = $order_id;
-                $folder->user_id = Auth::id();
-                $folder->save();
-            }
+                $path = "uploads_folders/{$order->order_id}";
+                Storage::disk('public')->deleteDirectory($path);
 
-            chmod(storage_path("app/public/uploads_folders/{$order_id}"), 0777);
+              //  dd(Storage::disk('public')->directoryExists($path));
 
+                if (!Storage::disk('public')->directoryExists($path)) {
+                    Storage::disk('public')->makeDirectory($path);
+
+                    $folder = new Folder();
+                    $folder->name = $order->order_id;
+                    $folder->description = $order->order_id;
+                    $folder->user_id = $user_id;
+                    $folder->save();
+                }
+
+                // Optional: Set permissions manually (if needed)
+                $absolutePath = storage_path("app/public/{$path}");
+                if (file_exists($absolutePath)) {
+                    chmod($absolutePath, 0755);
+                }
             //custom order
             $data['order_id'] = $order->order_id;
             $data['created_at'] = $order->created_at->format('Y-m-d');
@@ -3028,7 +3035,7 @@ $emailContent = "
                 $path = "uploads_folders/{$order->order_id}";
                 Storage::disk('public')->deleteDirectory($path);
 
-              //  dd(Storage::disk('public')->directoryExists($path));
+                dd(Storage::disk('public')->directoryExists($path));
 
                 if (!Storage::disk('public')->directoryExists($path)) {
                     Storage::disk('public')->makeDirectory($path);
