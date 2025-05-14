@@ -1064,12 +1064,12 @@ $(document).on('click', '.downloadPDF', function (){
     }
 
     // 2) optional: max size (5 MB here)
-    const maxBytes = 5 * 1024 * 1024;
+    const maxBytes = 500 * 1024 * 1024;
     if (file.size > maxBytes) {
       Swal.fire({
         icon: "error",
         title: "File too large",
-        text: `"${file.name}" exceeds 5 MB.`
+        text: `"${file.name}" exceeds 500 MB.`
       });
       fileInput.value = "";
       document.getElementById("attach_file_1").innerText = "";
@@ -1107,12 +1107,12 @@ document
     }
 
     // 2) optional: max size (5 MB here)
-    const maxBytes = 5 * 1024 * 1024;
+    const maxBytes = 500 * 1024 * 1024;
     if (file.size > maxBytes) {
       Swal.fire({
         icon: "error",
         title: "File too large",
-        text: `"${file.name}" exceeds 5 MB.`
+        text: `"${file.name}" exceeds 500 MB.`
       });
       fileInput.value = "";
       document.getElementById("attach_file_2").innerText = "";
@@ -1152,12 +1152,12 @@ document
     }
 
     // 2) optional: max size (5 MB here)
-    const maxBytes = 5 * 1024 * 1024;
+    const maxBytes = 500 * 1024 * 1024;
     if (file.size > maxBytes) {
       Swal.fire({
         icon: "error",
         title: "File too large",
-        text: `"${file.name}" exceeds 5 MB.`
+        text: `"${file.name}" exceeds 500 MB.`
       });
       fileInput.value = "";
       document.getElementById("attach_file_3").innerText = "";

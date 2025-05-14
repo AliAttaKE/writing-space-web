@@ -38,9 +38,9 @@ class Orders extends Model
         'payment_status',
         'cost_per_page',
         'email',
-        'backup_email',
+        'backup_email','plagiarism','ai_detection','outline','summary'
     ];
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);

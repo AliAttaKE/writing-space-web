@@ -283,7 +283,7 @@
 
                                         <!--begin::Actions-->
                                         <div class="text-center pt-15">
-                                            <button type="reset" class="btn me-3 btn-dark-primary"
+                                            <button onclick="discard()" type="reset" class="btn me-3 btn-dark-primary"
                                                 data-bs-dismiss="modal">Discard</button>
                                             <button type="submit" class="btn  sendEmail badge-custom-bg-2"
                                                 data-kt-users-modal-action="submit">
@@ -348,6 +348,7 @@
 
                 $('#kt_modal_update_email_form').on('submit', function (e) {
                     e.preventDefault();
+                                        $('.sendEmail').prop('disabled', true);
 
                     var name = $('#brand_abm_name').val();
                     var email = $('#brand_abm_email').val();
@@ -359,7 +360,6 @@
                     //     return;
                     // }
 
-                    $('.sendEmail').prop('disabled', true);
 
 
                     $.ajax({
@@ -393,7 +393,6 @@
                         },
                         complete: function () {
                             enableSendEmailButton();
-                                hideModal();
                         }
                     });
 
@@ -429,6 +428,14 @@
 
         function enableSendEmailButton() {
             $('.sendEmail').prop('disabled', false);
+        }
+        function discard(){
+            $('#email_error').text('');
+            $('#name_error').text('');
+            $('#message_error').text('');
+                        $('.sendEmail').prop('disabled', false);
+
+            hideModal();
         }
     </script>
     <!--end::Javascript-->

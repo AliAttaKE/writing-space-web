@@ -485,7 +485,6 @@ class CustomerPlaceOrderController extends Controller
         $remianingPages = $subs->remaining_pages;
 
 
-
         $used_pages = $totalPages - $remianingPages;
 
         if ($remianingPages >= $input['no_of_pages']) {
@@ -544,9 +543,14 @@ class CustomerPlaceOrderController extends Controller
                 'additional_cost' => $total,
                 'statistical_analysis' => $statistical_analysis,
                 'email' => $input['email'],
-                'backup_email' => $input['backup_email']
+                'backup_email' => $input['backup_email'],
+                "plagiarism" => $input['plagiarism'],
+                "ai_detection" => $input['ai_detection'],
+                "outline" => $input['outline'],
+                "summary" => $input['paper_summary']
             ]);
             //update user_subscription record;
+            //dd($order);
             $totalPages = 0;
             $remianingPages = 0;
 
@@ -2394,7 +2398,7 @@ $emailContent = "
                     Auth::login($user);
 
 
-                    return redirect('https://elementary-solutions.com/writing-space-web/public/customer/thankyou');
+                    return redirect('https://ws.elementary-solutions.com/customer/thankyou');
                 }
             }
         // } catch (\Exception $e) {
@@ -2544,7 +2548,11 @@ $emailContent = "
                     'additional_cost' => $total,
                     'statistical_analysis' => $statistical_analysis,
                     'email' => $input->email,
-                    'backup_email' => $input->backup_email
+                    'backup_email' => $input->backup_email,
+                "plagiarism" => $input->plagiarism,
+                "ai_detection" => $input->ai_detection,
+                "outline" => $input->outline,
+                "summary" => $input->paper_summary
                     // 'email' =>auth()->user()->email,
                     // 'backup_email' => auth()->user()->email
                 ]);
@@ -3015,21 +3023,29 @@ $emailContent = "
 
         ]);
 
+        clearstatcache(); // Clears PHP file system cache
 
-        $path = "public/uploads_folders/" . $order_id;
-$permissions = 0775;
+                $path = "uploads_folders/{$order->order_id}";
+                Storage::disk('public')->deleteDirectory($path);
 
+              //  dd(Storage::disk('public')->directoryExists($path));
 
-        if (!Storage::exists($path)) {
-            // Storage::makeDirectory($path);
-             Storage::makeDirectory($path, $permissions, true);
-            $folder = new Folder();
-            $folder->name = $order_id;
-            $folder->description = $order_id;
-            $folder->user_id = Auth::id();
-            $folder->save();
-        }
-        chmod(storage_path("app/public/uploads_folders/{$order_id}"), 0777);
+                if (!Storage::disk('public')->directoryExists($path)) {
+                    Storage::disk('public')->makeDirectory($path);
+
+                    $folder = new Folder();
+                    $folder->name = $order->order_id;
+                    $folder->description = $order->order_id;
+                    $folder->user_id = $user_id;
+                    $folder->save();
+                }
+
+                // Optional: Set permissions manually (if needed)
+                $absolutePath = storage_path("app/public/{$path}");
+                if (file_exists($absolutePath)) {
+                    chmod($absolutePath, 0755);
+                }
+
 
         // $user = User::find($id);
         // $email = Email::where('type', '=', 'Order Place Confirmation')->first();

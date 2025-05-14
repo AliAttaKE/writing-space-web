@@ -728,12 +728,7 @@
 									<!--begin::Toolbar-->
 									<div class="card-toolbar">
 										<!--begin::Carousel Indicators-->
-										<ol class="p-0 m-0 carousel-indicators carousel-indicators-bullet carousel-indicators-active-primary">
-											<li data-bs-target="#kt_sliders_widget_1_slider" data-bs-slide-to="0" class="ms-1"></li>
-											<li data-bs-target="#kt_sliders_widget_1_slider" data-bs-slide-to="1" class="ms-1 active" aria-current="true"></li>
-											<li data-bs-target="#kt_sliders_widget_1_slider" data-bs-slide-to="2" class="ms-1"></li>
 
-										</ol>
 										<!--end::Carousel Indicators-->
 									</div>
 									<!--end::Toolbar-->
@@ -811,12 +806,7 @@
 									<!--begin::Toolbar-->
 									<div class="card-toolbar">
 										<!--begin::Carousel Indicators-->
-										<ol class="p-0 m-0 carousel-indicators carousel-indicators-bullet carousel-indicators-active-success">
-											<li data-bs-target="#kt_sliders_widget_2_slider" data-bs-slide-to="0" class="ms-1"></li>
-											<li data-bs-target="#kt_sliders_widget_2_slider" data-bs-slide-to="1" class="ms-1 active" aria-current="true"></li>
-											<li data-bs-target="#kt_sliders_widget_2_slider" data-bs-slide-to="2" class="ms-1"></li>
 
-										</ol>
 										<!--end::Carousel Indicators-->
 									</div>
 									<!--end::Toolbar-->
@@ -835,8 +825,7 @@
 											<thead>
 												<tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
 													<th class="min-w-100px fw_800 pb-8">#</th>
-													<th class="min-w-50px fw_800 pb-8">Name</th>
-													<th class="min-w-70px fw_800 pb-8">Description</th>
+													<th class="min-w-50px fw_800 pb-8">Folder Name / ID</th>
 													<th class="min-w-70px fw_800 pb-8">Date</th>
 												</tr>
 											</thead>
@@ -850,7 +839,6 @@
 																{{ $folder->name }}
 																</a>
 															</td>
-															<td>{{ $folder->description }}</td>
 															<td>{{ \Carbon\Carbon::parse($folder->created_at)->format('F j, Y g:i A') }}
 </td>
 														</tr>

@@ -20,10 +20,10 @@ class BrandAmbassadorController extends Controller
     {
         $users = User::whereIs_brand_amb(1)
                         ->where('brand_amb_created_by', auth()->user()->id)->paginate(5);
-        $discounts = Coupon::where('discount_value', 'Percentage')->where('Active',1)->select('code','discount','min_pages')->get();    
-      
+        $discounts = Coupon::where('discount_value', 'Percentage')->where('Active',1)->select('code','discount','min_pages')->get();
+
         $brnadambassador = BrandAmbassador::where('sender_id',Auth::user()->id)->get();
-        //dd($discounts);        
+        //dd($discounts);
         return view('backend.customer.brandAmbassador.index', compact('users','discounts','brnadambassador'));
     }
 
@@ -37,7 +37,7 @@ class BrandAmbassadorController extends Controller
         ], [
             'email.unique' => 'The email you entered is already associated with an existing account. Please invite a new user or contact support at support@writing-space.com if you need assistance.'
         ]);
-        
+
 
 
         $token = Str::random(45);
@@ -48,16 +48,16 @@ class BrandAmbassadorController extends Controller
         ]);
 
         $signupUrl = route('customer.brand.ambassadors.signup', ['token' => $token]);
-               
+               //dd($signupUrl);
         $data = [
             'signupUrl' => $signupUrl,
             'name'      => $request->name,
             'message'   => $request->message,
             'subject'   => $request->subject,
         ];
-   
+
         try {
-            
+
             Mail::send('emails.brand_ambassador_sign_up', ['data' => $data], function($message) use ($request) {
                 $message->to($request->email)->subject($request->subject);
             });
@@ -76,7 +76,7 @@ class BrandAmbassadorController extends Controller
         } catch (\Exception $e) {
             return $e->getMessage().''.$e->getLine();
         }
-       
+
     }
 
     public function signUp(Request $request)
