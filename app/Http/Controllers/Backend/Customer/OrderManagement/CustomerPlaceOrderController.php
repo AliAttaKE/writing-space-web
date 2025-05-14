@@ -706,7 +706,7 @@ if ($subs->remaining_pages == 0) {
                     $folder = new Folder();
                     $folder->name = $order->order_id;
                     $folder->description = $order->order_id;
-                    $folder->user_id = $user_id;
+                    $folder->user_id = Auth()->user()->id;
                     $folder->save();
                 }
 
