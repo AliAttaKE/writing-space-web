@@ -440,10 +440,34 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 														<div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">Files from Customer</h3>
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">Summary :</h3>
 															</div>
 															<div class="col-6">
-																<p class="fw-bold fs-color-white custom-fs-13">{{$order->submitting}}</p>
+																<p class="fw-bold fs-color-white custom-fs-13">{{$order->summary}}</p>
+															</div>
+														</div>
+                                                        <div class="d-flex">
+															<div class="col-6">
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">Outline in Bullets :</h3>
+															</div>
+															<div class="col-6">
+																<p class="fw-bold fs-color-white custom-fs-13">{{$order->outline}}</p>
+															</div>
+														</div>
+                                                        <div class="d-flex">
+															<div class="col-6">
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">AI Detection Report :</h3>
+															</div>
+															<div class="col-6">
+																<p class="fw-bold fs-color-white custom-fs-13">{{$order->ai_detection}}</p>
+															</div>
+														</div>
+                                                        <div class="d-flex">
+															<div class="col-6">
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">Plagiarism Report :</h3>
+															</div>
+															<div class="col-6">
+																<p class="fw-bold fs-color-white custom-fs-13">{{$order->plagiarism}}</p>
 															</div>
 														</div>
 													</div>
