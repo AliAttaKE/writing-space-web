@@ -824,7 +824,7 @@
                                                                                 <!--end::Text-->
                                                                                 <div
                                                                                     class="fw-bold fs-color-white custom-fs-13">
-                                                                                    {{$o->statistical_analysis}}</div>
+                                                                                    {{($o->statistical_analysis == 1) ? 'Yes' : 'No' }}</div>
                                                                                 <!--end::Text-->
 
                                                                             </div>
@@ -1433,7 +1433,7 @@
                                                                                 <!--end::Text-->
                                                                                 <div
                                                                                     class="fw-bold fs-color-white custom-fs-13">
-                                                                                    {{$o->statistical_analysis}}</div>
+                                                                                    {{($o->statistical_analysis == 1) ? 'Yes' : 'No' }}</div>
                                                                                 <!--end::Text-->
 
                                                                             </div>

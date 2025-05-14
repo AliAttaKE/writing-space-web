@@ -906,7 +906,7 @@
                                                 <div class="fw-semibold fs-7 text-white mb-1">Statistical Analysis:</div>
                                                 <!--end::Label-->
                                                 <!--end::Text-->
-                                                <div class="fw-bold fs-6 text-white">{{$o->statistical_analysis}}</div>
+                                                <div class="fw-bold fs-6 text-white">{{($o->statistical_analysis == 1) ? 'Yes' : 'No' }}</div>
                                                 <!--end::Text-->
 
                                             </div>

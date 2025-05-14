@@ -679,7 +679,7 @@
                                                                                                 <div class="fw-semibold custom-fs-13 fs-color-white mb-1">Statistical Analysis:</div>
                                                                                                 <!--end::Label-->
                                                                                                 <!--end::Text-->
-                                                                                                <div class="fw-bold custom-fs-13 fs-color-white">{{$o->statistical_analysis}}</div>
+                                                                                                <div class="fw-bold custom-fs-13 fs-color-white">{{($o->statistical_analysis == 1) ? 'Yes' : 'No' }}</div>
                                                                                                 <!--end::Text-->
 
                                                                                             </div>

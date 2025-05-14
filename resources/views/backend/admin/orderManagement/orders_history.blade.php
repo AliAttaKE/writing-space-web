@@ -756,7 +756,7 @@
                                                 <div class="fw-semibold fs-color-white custom-fs-13 mb-1">Statistical Analysis:</div>
                                                 <!--end::Label-->
                                                 <!--end::Text-->
-                                                <div class="fw-bold fs-color-white custom-fs-13">{{$o->statistical_analysis}}</div>
+                                                <div class="fw-bold fs-color-white custom-fs-13">{{($o->statistical_analysis == 1) ? 'Yes' : 'No' }}</div>
                                                 <!--end::Text-->
 
                                             </div>
@@ -971,7 +971,7 @@
                                                 <div class="fw-semibold fs-7 text-gray-600 mb-1">Statistical Analysis:</div>
                                                 <!--end::Label-->
                                                 <!--end::Text-->
-                                                <div class="fw-bold fs-6 text-gray-800">{{$o->statistical_analysis}}</div>
+                                                <div class="fw-bold fs-6 text-gray-800">{{($o->statistical_analysis == 1) ? 'Yes' : 'No' }}</div>
                                                 <!--end::Text-->
 
                                             </div>
