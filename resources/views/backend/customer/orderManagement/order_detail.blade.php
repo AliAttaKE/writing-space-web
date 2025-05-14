@@ -437,7 +437,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																<p class="fw-bold fs-color-white custom-fs-13">{{$order->powerpoint_slide}}</p>
 															</div>
 														</div>
-
+                                                        <br><br>
 														<div class="d-flex">
 															<div class="col-6">
 																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">Summary :</h3>
