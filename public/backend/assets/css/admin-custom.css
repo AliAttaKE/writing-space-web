@@ -197,9 +197,9 @@ div#kt_app_sidebar_toggle i {
     background-color: #783AFB !important;
 }
 
-/* body#kt_app_body {
-    background-image: url('./backend/assets/media/ws/customer-dashboard.jpg') !important;
-} */
+body#kt_app_body {
+    background-image: url('./backend/assets/media/ws/customer-dashboard.jpg') ;
+}
 
 .text-color{
     color:white !important;

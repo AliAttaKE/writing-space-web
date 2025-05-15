@@ -114,30 +114,28 @@
         <img src="{{ asset('fronted_final/assets/images/heart-line 2.png')}}" alt="heart-line 2"
             class="heartbeat-line end">
     </div>
-    <!-- Card -->
-    <!--<div class="container-lg card-style individual-sec-4-mb">-->
-    <!--    <div class="row d-flex justify-content-center">-->
-    <!--        <div class="col-md-6 p-2">-->
-    <!--            <div class="cardStyles-custom mt-custom-3 individual-mt-custom individual-build-card">-->
-    <!--                <div class="p-5">-->
-    <!--                    <h2 class="Individual-card text-white">Build Trust Transparently</h2>-->
-    <!--                    <p class="individual-description text-white">See the proof before you pay a cent. We earn-->
-    <!--                        your trust upfront with verifiable evidence.</p>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="col-md-6 p-2">-->
-    <!--            <div class="cardStyles-custom mt-custom-3 individual-mt-custom individual-build-card">-->
-    <!--                <div class="p-5">-->
-    <!--                    <h2 class="Individual-card text-white">Experience with Zero Risk</h2>-->
-    <!--                    <p class="individual-description text-white">Embark on our service adventure with no upfront-->
-    <!--                        payment. Explore what we offer, completely risk-free.</p>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--</div>-->
-    <!-- Cards -->
+   <div class="container-lg card-style individual-sec-4-mb">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-6 p-2">
+                    <div class="cardStyles-custom mt-custom-3 individual-mt-custom individual-build-card">
+                        <div class="p-5">
+                            <h2 class="Individual-card text-white">Build Trust Transparently</h2>
+                            <p class="individual-description text-white">See the proof before you pay a cent. We earn
+                                your trust upfront with verifiable evidence.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 p-2">
+                    <div class="cardStyles-custom mt-custom-3 individual-mt-custom individual-build-card">
+                        <div class="p-5">
+                            <h2 class="Individual-card text-white">Experience with Zero Risk</h2>
+                            <p class="individual-description text-white">Embark on our service adventure with no upfront
+                                payment. Explore what we offer, completely risk-free.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <style>
 

@@ -60,47 +60,6 @@
     </div>
 </section>
 
-<section class="bg-dark section-card-phases">
-    <div class="heartbeat-heading d-flex justify-content-between align-items-center key-journey">
-        <img src="{{ asset('fronted_final/assets/images/heart-line 1.png')}}" alt="heart-line 1"
-            class="heartbeat-line start">
-        <div class="text-container flex-grow-1 text-center position-relative">
-            <h1 class="heading heading-custom-3 individual-mt-custom-1">Why Choose Us</h1>
-
-        </div>
-        <img src="{{ asset('fronted_final/assets/images/heart-line 2.png')}}" alt="heart-line 2"
-            class="heartbeat-line end">
-    </div>
-    <!-- Card -->
-    <div class="px-2">
-        <div class="container-lg card-style cardStyles-custom my-0">
-
-            <div class="myDiv">
-                <div class="bg-individual"></div>
-                <div class="card-body">
-                    <h4 class="heading-val head-head">Ace Every Class: Custom Academic Papers </h4>
-                    <h4 class="subhead-subhead yellow-text">Tailored for You</h4>
-                    <p class="custom-description text-white">Imagine never having to dread a looming academic deadline
-                        again. With our custom academic writing service, you unlock the door to excellence without
-                        sacrificing your precious time.</p>
-                    <p class="custom-description text-white">Our tailored, top-tier papers meet your exact needs,
-                        ensuring you stand out in your academic journey. From placing your order with ease to
-                        downloading your perfect paper, our process is designed with your success in mind.</p>
-                    <p class="custom-description text-white">Plus, with our Loyalty Program, the more you achieve, the
-                        more you save. It's not just an academic paper; it's a stepping stone to your future.</p>
-                    <p class="custom-description text-white">So, order now to transform your academic journey and unlock
-                        limitless opportunities with our bespoke academic writing services. Imagine a world where your
-                        academic pressures dissolve, leaving you free to focus on what truly matters to you. Our custom
-                        written papers are not just documents; they are keys to academic excellence, handcrafted to
-                        catapult you towards your dreams. Let us be the architects of your success story, delivering
-                        unparalleled quality and value, directly into your hands. Embrace the future with confidence,
-                        knowing we are here to support your academic journey every step of the way.</p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
 
 <section class="bg-dark section-card-phases">
     <div class="heartbeat-heading d-flex justify-content-between align-items-center key-journey">
@@ -112,30 +71,28 @@
         <img src="{{ asset('fronted_final/assets/images/heart-line 2.png')}}" alt="heart-line 2"
             class="heartbeat-line end">
     </div>
-    <!-- Card -->
-    <!--<div class="container-lg card-style individual-sec-4-mb">-->
-    <!--    <div class="row d-flex justify-content-center">-->
-    <!--        <div class="col-md-6 p-2">-->
-    <!--            <div class="cardStyles-custom mt-custom-3 individual-mt-custom individual-build-card">-->
-    <!--                <div class="p-5">-->
-    <!--                    <h2 class="Individual-card text-white">Build Trust Transparently</h2>-->
-    <!--                    <p class="individual-description text-white">See the proof before you pay a cent. We earn-->
-    <!--                        your trust upfront with verifiable evidence.</p>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="col-md-6 p-2">-->
-    <!--            <div class="cardStyles-custom mt-custom-3 individual-mt-custom individual-build-card">-->
-    <!--                <div class="p-5">-->
-    <!--                    <h2 class="Individual-card text-white">Experience with Zero Risk</h2>-->
-    <!--                    <p class="individual-description text-white">Embark on our service adventure with no upfront-->
-    <!--                        payment. Explore what we offer, completely risk-free.</p>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--</div>-->
-    <!-- Cards -->
+    <div class="container-lg card-style individual-sec-4-mb">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-6 p-2">
+                    <div class="cardStyles-custom mt-custom-3 individual-mt-custom individual-build-card">
+                        <div class="p-5">
+                            <h2 class="Individual-card text-white">Build Trust Transparently</h2>
+                            <p class="individual-description text-white">See the proof before you pay a cent. We earn
+                                your trust upfront with verifiable evidence.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 p-2">
+                    <div class="cardStyles-custom mt-custom-3 individual-mt-custom individual-build-card">
+                        <div class="p-5">
+                            <h2 class="Individual-card text-white">Experience with Zero Risk</h2>
+                            <p class="individual-description text-white">Embark on our service adventure with no upfront
+                                payment. Explore what we offer, completely risk-free.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <style>
 
@@ -443,6 +400,32 @@
         <img src="{{ asset('fronted_final/assets/images/heart-line 2.png')}}" alt="heart-line 2"
             class="heartbeat-line end">
     </div>
+
+        <div class="container-lg card-style cardStyles-custom my-0">
+
+            <div class="myDiv">
+                <div class="bg-individual"></div>
+                <div class="card-body">
+                    <h4 class="heading-val head-head">Ace Every Class: Custom Academic Papers </h4>
+                    <h4 class="subhead-subhead yellow-text">Tailored for You</h4>
+                    <p class="custom-description text-white">Imagine never having to dread a looming academic deadline
+                        again. With our custom academic writing service, you unlock the door to excellence without
+                        sacrificing your precious time.</p>
+                    <p class="custom-description text-white">Our tailored, top-tier papers meet your exact needs,
+                        ensuring you stand out in your academic journey. From placing your order with ease to
+                        downloading your perfect paper, our process is designed with your success in mind.</p>
+                    <p class="custom-description text-white">Plus, with our Loyalty Program, the more you achieve, the
+                        more you save. It's not just an academic paper; it's a stepping stone to your future.</p>
+                    <p class="custom-description text-white">So, order now to transform your academic journey and unlock
+                        limitless opportunities with our bespoke academic writing services. Imagine a world where your
+                        academic pressures dissolve, leaving you free to focus on what truly matters to you. Our custom
+                        written papers are not just documents; they are keys to academic excellence, handcrafted to
+                        catapult you towards your dreams. Let us be the architects of your success story, delivering
+                        unparalleled quality and value, directly into your hands. Embrace the future with confidence,
+                        knowing we are here to support your academic journey every step of the way.</p>
+                </div>
+            </div>
+        </div>
 
 
     <div class="container-lg px-5 mt-custom-4 Individual-mt-custom plagiarism-custom-1">
