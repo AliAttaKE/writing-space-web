@@ -1787,7 +1787,7 @@ if ($subs->remaining_pages == 0) {
 
                         $itemName = $subs->subscription_name;
                         $totalPages = $subs->min_page;
-                        $pricePerPage = $subs->cost_per_page;
+                        $pricePerPage = $pay->cost_per_page_final;
                         $subTotal =$transaction->merchantAmount;
                         $payment_status ='Paid';
 
