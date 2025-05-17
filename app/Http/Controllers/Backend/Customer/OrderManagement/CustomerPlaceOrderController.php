@@ -1724,6 +1724,11 @@ if ($subs->remaining_pages == 0) {
                         $subs = Subscription::find($orderidexplode);
 
                         $dueDate = now()->addDays((int)$subs->set_time)->toDateTimeString();
+
+
+                        $pay_chk = Pay::where('order_id', $orderid)->first();
+
+                        dd($pay_chk);
                         $User_Subscription = User_Subscription::create([
                             'subscription_id' => $orderidexplode,
                             'total_pages' => $subs->min_page,
@@ -1734,9 +1739,9 @@ if ($subs->remaining_pages == 0) {
                             'status' => 'Active',
                             'due_date' => $dueDate,
                             
-                            'total_cost' => $pay->total_cost,
-                            'cost_per_page_final' => $pay->cost_per_page_final,
-                            'number_of_page' => $pay->number_of_page
+                            'total_cost' => $pay_chk->total_cost,
+                            'cost_per_page_final' => $pay_chk->cost_per_page_final,
+                            'number_of_page' => $pay_chk->number_of_page
                         ]);
 
                         $pakge = PakageLimit::first();
