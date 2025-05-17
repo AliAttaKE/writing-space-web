@@ -2850,7 +2850,7 @@ $emailContent = "
 
                 if ($subscribed && $totalPages > 0) {
                     $subsDetailsamount = Subscription::where('id', $subsDetails->subscription_id)->first();
-                    $cost_per_page = $subsDetailsamount->cost_per_page;
+                    $cost_per_page = $subsDetails->cost_per_page_final;
                     $pricing = PricingPakage::orderBy('id', 'desc')->get();
 
                     return view('backend.customer.orderManagement.custom_place_order', compact(

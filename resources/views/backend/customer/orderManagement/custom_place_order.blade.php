@@ -1601,12 +1601,12 @@ $.ajax({
         $('#page_limit').val(data.page_limit);
 
         var per_page = data.cost_per_page;
-        var elements = document.querySelectorAll('#cost_per_page');
-        console.log(elements)
-        // Loop through the elements and set the content
-        elements.forEach(function (element) {
-            element.innerHTML = per_page;
-        });
+        // var elements = document.querySelectorAll('#cost_per_page');
+        // console.log(elements)
+        // // Loop through the elements and set the content
+        // elements.forEach(function (element) {
+        //     element.innerHTML = per_page;
+        // });
 
         calculate_sub_total();
         // Get current date and time
