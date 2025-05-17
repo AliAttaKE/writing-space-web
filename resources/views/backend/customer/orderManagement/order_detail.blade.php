@@ -1213,7 +1213,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 																							<input type="hidden" value="{{$used_subscription->id??''}}" id="used_package_id">
 																							<input type="hidden" value="{{$used_subscription->subscription_id??''}}" id="package_id">
-																							<input type="hidden" value="{{$used_subscription->subscription['cost_per_page']??''}}" id="cost_per_page">
+																							<input type="hidden" value="{{$used_subscription->cost_per_page_final ??''}}" id="cost_per_page">
 
 																						</div>
 
