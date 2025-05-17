@@ -268,11 +268,16 @@ PaymentSession.configure({
 
                           var totalamount1 = JSON.parse(localStorage.getItem('totalamount'));
 
+                        var number_of_page = JSON.parse(localStorage.getItem('no_of_page'));
+                        var cost_per_page_final = totalamount1 / number_of_page;
+
+
+
 
                         $.ajax({
                             url: '{{ route("customer.payment.store.sub") }}',
                             type: 'POST',
-                            data: { 'session': response.session.id ,'sub_id1':sub_id1,'totalamount1':totalamount1},
+                            data: { 'session': response.session.id ,'sub_id1':sub_id1,'totalamount1':totalamount1,'number_of_page':number_of_page,'cost_per_page_final':cost_per_page_final},
                             dataType: 'json',
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

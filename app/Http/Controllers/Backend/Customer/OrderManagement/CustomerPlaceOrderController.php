@@ -940,8 +940,13 @@ if ($subs->remaining_pages == 0) {
 
     public function payment_store_sub(Request $request)
     {
+
+        //dd($request->all());
+
         $test = $request->session;
         $total_cost = $request->totalamount1;
+        $number_of_page = $request->number_of_page;
+        $cost_per_page_final = $request->cost_per_page_final;
         $total_costs[] = $request->totalamount1;
         $truncatedSessionId = substr($test, 0, 35);
         $randomNumber = mt_rand(100, 999);
@@ -964,7 +969,7 @@ if ($subs->remaining_pages == 0) {
         $sessionId = session()->get('sessionId');
 
 
-
+       
 
 
         $pay = new Pay;
@@ -972,12 +977,16 @@ if ($subs->remaining_pages == 0) {
         $pay->session_id = $test;
         $pay->truncatedSessionId = $transactionId;
         $pay->total_cost = $total_cost;
+        $pay->cost_per_page_final = $cost_per_page_final;
+        $pay->number_of_page = $number_of_page;
 
         $pay->user_id = Auth()->user()->id;
         $pay->order_details = json_encode($total_costs);
         $pay->save();
 
 
+
+    
 
 
         $curl = curl_init();
@@ -1724,7 +1733,10 @@ if ($subs->remaining_pages == 0) {
                             'user_id' => $user->id,
                             'status' => 'Active',
                             'due_date' => $dueDate,
-                            'totalamountpro' => $totalamountpro
+                            
+                            'total_cost' => $pay->total_cost,
+                            'cost_per_page_final' => $pay->cost_per_page_final,
+                            'number_of_page' => $pay->number_of_page
                         ]);
 
                         $pakge = PakageLimit::first();
