@@ -1728,7 +1728,7 @@ if ($subs->remaining_pages == 0) {
 
                         $pay_chk = Pay::where('order_id', $orderid)->first();
 
-                        dd($pay_chk);
+                       // dd($pay_chk);
                         $User_Subscription = User_Subscription::create([
                             'subscription_id' => $orderidexplode,
                             'total_pages' => $subs->min_page,
