@@ -246,7 +246,7 @@
                                         <div class="fs-7 fw-normal text-muted">Status: @if($used_subscription->status == 'Active')<span style="color: green">{{$used_subscription->status}}</span>@else <span style="color: red">{{$used_subscription->status}}</span>@endif</div>
                                         <input type="hidden" value="{{$used_subscription->id}}" id="used_package_id">
                                         <input type="hidden" value="{{$used_subscription->subscription_id}}" id="package_id">
-                                         <input type="hidden" value="{{$used_subscription->subscription['cost_per_page']}}" id="cost_per_page">
+                                         <input type="hidden" value="{{$used_subscription->cost_per_page_final }}" id="cost_per_page">
                                     </div>
 
                                     @if($used_subscription->due_date >= now())
