@@ -11,7 +11,7 @@ class User_Subscription extends Model
     use HasFactory;
     protected $table='user_subscription';
     protected $fillable=[
-       'subscription_id','user_id','total_pages','remaining_pages','rollover_pages','due_date','status','remaining_rollover_pages','isEmail'
+       'subscription_id','user_id','total_pages','remaining_pages','rollover_pages','total_cost','cost_per_page_final','number_of_page','due_date','status','remaining_rollover_pages','isEmail'
     ];
 
 
