@@ -8372,7 +8372,10 @@ function submit_payment() {
 
 
 
-@if ($used_subscription)
+@if ($used_subscription && $used_subscription->rollover_pages != 0 && $used_subscription->remaining_pages != 0)
+
+
+
 
 	var total_pages = {{ $used_subscription->total_pages ?? 0 }};
 	var remaining_pages = {{ $used_subscription->remaining_pages ?? 0 }};
@@ -8384,9 +8387,9 @@ function submit_payment() {
 
 @else
 
+
 	$('.RemainingPages').text('N/A');
 @endif
-
 
 $('.RequiredPages').text(pageCount);
 
@@ -8424,7 +8427,7 @@ console.log("sahriq totalpageCount:", totalpageCount);
 			$("#totalCost").text(cost.toFixed(2));
 
 			
-@if ($used_subscription)
+@if ($used_subscription && $used_subscription->rollover_pages != 0 && $used_subscription->remaining_pages != 0)
 
 
 
