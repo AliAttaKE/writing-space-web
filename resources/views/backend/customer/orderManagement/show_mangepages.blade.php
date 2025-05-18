@@ -399,7 +399,7 @@ function pay() {
 
              var page = JSON.parse(localStorage.getItem('page'));
              var costperpage = JSON.parse(localStorage.getItem('page'));
-             var costperpage1 = JSON.parse(localStorage.getItem('costperpage1'));
+             var costperpage1 = page * total;
 
 
                            document.getElementById("numberOfPage").innerText = page;
