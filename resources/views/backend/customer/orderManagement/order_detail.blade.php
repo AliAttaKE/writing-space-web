@@ -8424,7 +8424,9 @@ console.log("sahriq totalpageCount:", totalpageCount);
 			$("#totalCost").text(cost.toFixed(2));
 
 			
-			  @if ($used_subscription)
+@if ($used_subscription)
+
+
 
 			  var cost_perpage_get ={{$used_subscription->cost_per_page_final ??''}};
 
@@ -8434,8 +8436,8 @@ console.log("sahriq totalpageCount:", totalpageCount);
 
 			console.log("cost par page",cost_perpage_get);
 
-		 var cost = pageCount * parseInt(cost_perpage_get);
-			$("#totalCost").text(cost.toFixed(2));
+		 var cost = pageCount * cost_perpage_get;
+			$("#totalCost").text(cost);
 @else
 	var cost = pageCount * parseInt({{$order->cost_per_page}});
 
