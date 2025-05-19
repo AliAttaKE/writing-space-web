@@ -16,7 +16,7 @@
                             <!--begin::Actions-->
                             <div class="d-flex align-items-center gap-2 gap-lg-3">
                                 <!--begin::Primary button-->
-                                <a href="create-order.php" class="btn btn-sm fw-bold btn-primary">Back</a>
+                                <a href="{{ url()->previous() }}" class="btn btn-sm fw-bold btn-primary">Back</a>
                                 <!--end::Primary button-->
                             </div>
                             <!--end::Actions-->
@@ -444,12 +444,12 @@
 	                                                <th class="min-w-80px fw_800 pb-8">Due Date</th>
 	                                                <th class="min-w-80px fw_800 pb-8">Status</th>
 	                                                <th class="min-w-50px fw_800 pb-8">Action</th>
-	                                                
+
 	                                            </tr>
-	                                           
+
 	                                        </thead>
 	                                        <tbody class="text-gray-600 fw-semibold">
-	                                            
+
 	                                            <tr>
 	                                                <td>
 	                                                    <div class="form-check form-check-sm form-check-custom form-check-solid">
@@ -458,7 +458,7 @@
 	                                                </td>
 	                                                <td><a href="order-details.php">0319832</a></td>
 	                                                 <td class="limit-text">The Brave Kings Man Story 1994</td>
-	                                                
+
 	                                                <td>2</td>
 	                                                <td>12/24/2023 12:45Pm</td>
 	                                                <td>12/31/2023 12:45Pm</td>
@@ -493,7 +493,7 @@
 	                                                </td>
 	                                                <td><a href="order-details.php">0319832</a></td>
 	                                               <td class="limit-text">The Brave Kings Man Story 1994</td>
-	                                                
+
 	                                                <td>2</td>
 	                                                <td>12/24/2023 12:45Pm</td>
 	                                                <td>12/31/2023 12:45Pm</td>
@@ -527,7 +527,7 @@
 	                                                </td>
 	                                                <td><a href="order-details.php">0319832</a></td>
 	                                               <td class="limit-text">Tha Brave Kings Man Story 1994</td>
-	                                                
+
 	                                                <td>2</td>
 	                                                <td>12/24/2023 12:45Pm</td>
 	                                                <td>12/31/2023 12:45Pm</td>
@@ -553,7 +553,7 @@
 																		<!--end::Menu item-->
 				                                                    </div></td>
 	                                            </tr>
-	                                            
+
 	                                        </tbody>
 											</table>
                                     <!--end::Table-->
@@ -762,12 +762,12 @@
 	                                                <th class="min-w-80px fw_800 pb-8">Due Date</th>
 	                                                <th class="min-w-80px fw_800 pb-8">Status</th>
 	                                                <th class="min-w-50px fw_800 pb-8">Action</th>
-	                                                
+
 	                                            </tr>
-	                                           
+
 	                                        </thead>
 	                                        <tbody class="text-gray-600 fw-semibold">
-	                                            
+
 	                                            <tr>
 	                                                <td>
 	                                                    <div class="form-check form-check-sm form-check-custom form-check-solid">
@@ -776,7 +776,7 @@
 	                                                </td>
 	                                                <td><a href="order-details.php">0319832</a></td>
 	                                                 <td class="limit-text">The Brave Kings Man Story 1994</td>
-	                                                
+
 	                                                <td>2</td>
 	                                                <td>12/24/2023 12:45Pm</td>
 	                                                <td>12/31/2023 12:45Pm</td>
@@ -811,7 +811,7 @@
 	                                                </td>
 	                                                <td><a href="order-details.php">0319832</a></td>
 	                                               <td class="limit-text">The Brave Kings Man Story 1994</td>
-	                                                
+
 	                                                <td>2</td>
 	                                                <td>12/24/2023 12:45Pm</td>
 	                                                <td>12/31/2023 12:45Pm</td>
@@ -837,8 +837,8 @@
 																		<!--end::Menu item-->
 				                                                    </div></td>
 	                                            </tr>
-	                                            
-	                                            
+
+
 	                                        </tbody>
 											</table>
                                     <!--end::Table-->
@@ -850,7 +850,7 @@
                         <!--end::Content container-->
                     </div>
                     <!--end::Content-->
-                    
+
                 </div>
                 <!--end::Content wrapper-->
 <!--begin::Drawers-->
@@ -893,7 +893,7 @@ console.log(searchText)
     $('[data-kt-user-table-filter="search"]').on('input', function () {
         handleTableSearch();
     });
-    
+
 </script>
 <script>
     // Function to handle table search
@@ -920,7 +920,7 @@ console.log(searchText)
     $('[data-kt-user-table-filter_2="search1"]').on('input', function () {
         handleTableEnableSearch();
     });
-    
+
 </script>
 <script>
     $(document).ready(function () {

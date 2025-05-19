@@ -17,7 +17,7 @@
             <!--begin::Actions-->
             <div class="d-flex align-items-center gap-2 gap-lg-3">
                 <!--begin::Primary button-->
-                <a href="#" class="btn btn-sm fw-bold btn-primary badge-custom-bg">Back</a>
+                <a href="{{ url()->previous() }}" class="btn btn-sm fw-bold btn-primary badge-custom-bg">Back</a>
                 <!--end::Primary button-->
             </div>
             <!--end::Actions-->
@@ -472,8 +472,8 @@
     <td class="limit-text">{{$o->topic}}</td>
 
     <td>{{$o->number_of_pages}}</td>
-    <td>{{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</td>
+    <td>{{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($o->deadline)->format('d F Y h:iA') }}</td>
     <td>
         @if($o->order_show == 'Enable')
         <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">{{$o->order_show}}</span>
@@ -673,7 +673,7 @@
                                                 <div class="fw-semibold fs-7 text-white mb-1">Order Date:</div>
                                                 <!--end::Label-->
                                                 <!--end::Text-->
-                                                <div class="fw-bold fs-6 text-white"> {{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA') }}</div>
+                                                <div class="fw-bold fs-6 text-white"> {{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA') }}</div>
                                                 <!--end::Text-->
 
                                             </div>
@@ -682,7 +682,7 @@
                                                 <div class="fw-semibold fs-7 text-white mb-1">DeadLine:</div>
                                                 <!--end::Label-->
                                                 <!--end::Text-->
-                                                <div class="fw-bold fs-6 text-white">{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</div>
+                                                <div class="fw-bold fs-6 text-white">{{ \Carbon\Carbon::parse($o->deadline)->format('d F Y h:iA') }}</div>
                                                 <!--end::Text-->
 
                                             </div>

@@ -251,7 +251,7 @@
                                                 <td class="limit-text">{{$o->subject}}</td>
 
                                                 <td>{{$o->number_of_pages}}</td>
-                                                <td>{{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($o->created_at)->add($o->deadline)->format('Y/m/d h:iA') }}</td>
 
                                                 <td><span class="badge badge-light-danger fw-bold me-auto px-4 py-3">{{$o->order_show}}</span></td>
@@ -405,7 +405,7 @@
                                                                                             <div class="fw-semibold fs-7 text-gray-600 mb-1">Order Date:</div>
                                                                                             <!--end::Label-->
                                                                                             <!--end::Text-->
-                                                                                            <div class="fw-bold fs-6 text-gray-800"> {{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</div>
+                                                                                            <div class="fw-bold fs-6 text-gray-800"> {{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</div>
                                                                                             <!--end::Text-->
 
                                                                                         </div>

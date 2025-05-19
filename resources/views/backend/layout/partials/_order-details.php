@@ -47,7 +47,7 @@
 								<!--begin::Secondary button-->
 								<!--end::Secondary button-->
 								<!--begin::Primary button-->
-								<a href="create-order.php" class="btn btn-sm fw-bold btn-primary">Back</a>
+								<a href="{{ url()->previous() }}" class="btn btn-sm fw-bold btn-primary">Back</a>
 								<!--end::Primary button-->
 							</div>
 							<!--end::Actions-->

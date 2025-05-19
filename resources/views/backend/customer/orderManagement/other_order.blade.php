@@ -570,8 +570,8 @@
                                     <td class="limit-text">{{$o->topic}}</td>
 
                                     <td>{{$o->number_of_pages}}</td>
-                                    <td>{{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($o->deadline)->format('d F Y h:iA') }}</td>
                                     <td>
                                         @if($o->order_show == 'Enable')
                                         <span
@@ -1180,8 +1180,8 @@
                                     <td class="limit-text">{{$o->subject}}</td>
 
                                     <td>{{$o->number_of_pages}}</td>
-                                    <td>{{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($o->deadline)->format('d F Y h:iA') }}</td>
                                     <td>
                                         @if($o->order_show == 'Enable')
                                         <span

@@ -983,8 +983,8 @@
 										<td><a href="{{route('customer.order-detail',[$o->order_id])}}">{{$o->order_id}}</a></td>
 										<td class="limit-text">{{$o->topic}}</td>
 										<td>{{$o->number_of_pages}}</td>
-										<td>{{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</td>
-										<td>{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</td>
+										<td>{{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</td>
+										<td>{{ \Carbon\Carbon::parse($o->deadline)->format('d F Y h:iA') }}</td>
 										<td>
 											@if($o->order_status == 'Pending')
 											<span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">{{$o->order_status}}</span>
@@ -1130,7 +1130,7 @@
 																					<div class="fw-semibold fs-7 mb-1 fs-color-white custom-fs-13">Order Date:</div>
 																					<!--end::Label-->
 																					<!--end::Text-->
-																					<div class="fw-bold fs-6 fs-color-white custom-fs-13"> {{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:i A')  }}</div>
+																					<div class="fw-bold fs-6 fs-color-white custom-fs-13"> {{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:i A')  }}</div>
 																					<!--end::Text-->
 
 																				</div>
@@ -1139,7 +1139,7 @@
 																					<div class="fw-semibold fs-7 mb-1 fs-color-white custom-fs-13">DeadLine:</div>
 																					<!--end::Label-->
 																					<!--end::Text-->
-																					<div class="fw-bold fs-6 fs-color-white custom-fs-13">{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:i A') }}</div>
+																					<div class="fw-bold fs-6 fs-color-white custom-fs-13">{{ \Carbon\Carbon::parse($o->deadline)->format('d F Y h:i A') }}</div>
 																					<!--end::Text-->
 
 																				</div>

@@ -101,7 +101,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 								<!--begin::Secondary button-->
 								<!--end::Secondary button-->
 								<!--begin::Primary button-->
-								<a href="{{ route('customer.new-order') }}" class="btn btn-sm fw-bold btn-primary badge-custom-bg">Back</a>
+								<a href="{{ url()->previous() }}" class="btn btn-sm fw-bold btn-primary badge-custom-bg">Back</a>
 								<!--end::Primary button-->
 							</div>
 							<!--end::Actions-->
@@ -8426,14 +8426,14 @@ console.log("sahriq totalpageCount:", totalpageCount);
 		//	 var cost = pageCount * parseInt(cost_perpage_get);
 			$("#totalCost").text(cost.toFixed(2));
 
-			
+
 @if ($used_subscription && $used_subscription->rollover_pages != 0 && $used_subscription->remaining_pages != 0)
 
 
 
 			  var cost_perpage_get ={{$used_subscription->cost_per_page_final ??''}};
-			  
-			
+
+
 
 
 			// var cost_perpage_get = $('#cost_per_page').val();

@@ -304,8 +304,8 @@
                                             <td class="limit-text">{{ $o->subject }}</td>
 
                                             <td>{{ $o->number_of_pages }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($o->deadline)->format('d F Y h:iA') }}</td>
 
                                             <td><span
                                                     class="badge badge-light-danger fw-bold me-auto px-4 py-3 badge-custom-bg">{{ $o->order_show }}</span>
@@ -518,7 +518,7 @@
                                                                                         <!--end::Text-->
                                                                                         <div
                                                                                             class="fw-bold fs-color-white custom-fs-13">
-                                                                                            {{ \Carbon\Carbon::parse($o->created_at)->addMonth()->format('d F Y h:iA')  }}
+                                                                                            {{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}
                                                                                         </div>
                                                                                         <!--end::Text-->
 
@@ -532,7 +532,7 @@
                                                                                         <!--end::Text-->
                                                                                         <div
                                                                                             class="fw-bold fs-color-white custom-fs-13">
-                                                                                            {{ \Carbon\Carbon::parse($o->deadline)->addMonth()->format('d F Y h:iA') }}
+                                                                                            {{ \Carbon\Carbon::parse($o->deadline)->format('d F Y h:iA') }}
                                                                                         </div>
                                                                                         <!--end::Text-->
 

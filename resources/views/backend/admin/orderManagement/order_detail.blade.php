@@ -60,7 +60,7 @@
 							<!--end::Page title-->
 							<!--begin::Actions-->
 							<div class="d-flex align-items-center gap-2 gap-lg-3">
-								<a href="{{route('admin.new-order')}}" class="btn btn-sm fw-bold btn-primary">Back</a>
+								<a href="{{ url()->previous() }}" class="btn btn-sm fw-bold btn-primary">Back</a>
 								<!--end::Primary button-->
 							</div>
 							<!--end::Actions-->
