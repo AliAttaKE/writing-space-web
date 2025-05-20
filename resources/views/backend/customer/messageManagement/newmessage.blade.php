@@ -316,12 +316,12 @@ $(document).ready(function (){
       }
 
       // optional: size check (e.g. max 5MB)
-      const maxSize = 5 * 1024 * 1024;
+      const maxSize = 500 * 1024 * 1024;
       if (file.size > maxSize) {
         Swal.fire({
           icon: "error",
           title: "File too large",
-          text: `"${file.name}" exceeds 5 MB.`
+          text: `"${file.name}" exceeds 500 MB.`
         });
         this.value = "";
         document.getElementById("attach_file_1").innerText = "";

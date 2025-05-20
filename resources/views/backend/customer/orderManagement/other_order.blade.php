@@ -28,7 +28,7 @@
                 <!--begin::Actions-->
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
                     <!--begin::Primary button-->
-                    <a href="{{route('admin.dashboard')}}" class="btn btn-sm fw-bold badge-custom-bg">Back</a>
+                    <a href="{{ url()->previous() }}" class="btn btn-sm fw-bold badge-custom-bg">Back</a>
                     <!--end::Primary button-->
                 </div>
                 <!--end::Actions-->
@@ -543,7 +543,7 @@
                                                 value="1" />
                                         </div>
                                     </th> --}}
-                                    <th class="min-w-70px fw_800 pb-8">order No</th>
+                                    <th class="min-w-70px fw_800 pb-8">Order No</th>
                                     <th class="min-w-50px fw_800 pb-8">Topic</th>
                                     <th class="min-w-70px fw_800 pb-8">Pages</th>
                                     <th class="min-w-70px fw_800 pb-8">Order Date</th>
@@ -565,7 +565,7 @@
                                         </div>
                                     </td> --}}
                                     <td><a class="fs-color-yellow"
-                                            href="{{route('admin.admin-order-detail',[$o->order_id])}}">{{$o->order_id}}</a>
+                                            href="{{route('dashboard')}}">{{$o->order_id}}</a>
                                     </td>
                                     <td class="limit-text">{{$o->topic}}</td>
 
@@ -1153,7 +1153,7 @@
                                                 value="1" />
                                         </div>
                                     </th> --}}
-                                    <th class="min-w-70px fw_800 pb-8 fs-color-white">order No</th>
+                                    <th class="min-w-70px fw_800 pb-8 fs-color-white">Order No</th>
                                     <th class="min-w-50px fw_800 pb-8 fs-color-white">Topic</th>
                                     <th class="min-w-70px fw_800 pb-8 fs-color-white">Pages</th>
                                     <th class="min-w-70px fw_800 pb-8 fs-color-white">Order Date</th>
@@ -1175,7 +1175,7 @@
                                         </div>
                                     </td> --}}
                                     <td><a class="fs-color-yellow"
-                                            href="{{route('customer.order-detail',[$o->order_id])}}">{{$o->order_id}}</a>
+                                            href="{{route('dashboard')}}">{{$o->order_id}}</a>
                                     </td>
                                     <td class="limit-text">{{$o->subject}}</td>
 
