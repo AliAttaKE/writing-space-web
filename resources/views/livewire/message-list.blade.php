@@ -36,7 +36,7 @@
             background: #f52020;
             border-radius: 100px;
             padding: 5px;
-            color: white;">  Unread ({{$d->New_message}})  </span>
+            color: white;">  Unread ({{$thread->New_message}})  </span>
             @else
             <span class="fw-semibold">All Read </span>
             @endif</td>

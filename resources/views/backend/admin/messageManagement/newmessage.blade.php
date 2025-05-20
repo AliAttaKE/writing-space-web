@@ -422,7 +422,7 @@
 
       fileNames.push(file.name);
     }
-
+  });
     // if we get here, all files are valid
     document.getElementById("attach_file_1").innerText =
       "Selected files: " + fileNames.join(", ");

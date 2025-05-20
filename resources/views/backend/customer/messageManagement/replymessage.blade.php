@@ -368,9 +368,6 @@ h3 {
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
 
-const replyMessageEditor = new Quill("#replyMessageEditor", {
-    theme: "snow",
-});
 
 addEventListener('keyup', () => {
     var editorContent = replyMessageEditor.root.innerHTML;
@@ -422,7 +419,7 @@ document
       fileNames.push(file.name);
     }
 
-
+});
 
     $(document).ready(function () {
     $('#kt_inbox_reply_form').submit(function (e) {

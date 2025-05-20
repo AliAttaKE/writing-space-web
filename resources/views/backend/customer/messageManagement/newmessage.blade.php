@@ -330,7 +330,7 @@ $(document).ready(function (){
 
       fileNames.push(file.name);
     }
-
+});
 
     $(document).ready(function() {
           $( '#delete_btn').on('click', function (e){

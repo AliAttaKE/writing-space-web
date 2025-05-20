@@ -13,10 +13,10 @@
                 <!--end::Title-->
                 <!--begin::Breadcrumb-->
                 <!-- <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                    
+
                     <li class="breadcrumb-item text-muted">Message Management
                     </li>
-                    
+
                 </ul> -->
                 <!--end::Breadcrumb-->
             </div>
@@ -223,9 +223,9 @@
                         </div>
                         <div class="card-body p-0 table-custom-layout text-color">
                             <!--begin::Table-->
-                        
+
                                     <livewire:message-list-admin/>
-                              
+
                             <!--end::Table-->
                         </div>
                     </div>

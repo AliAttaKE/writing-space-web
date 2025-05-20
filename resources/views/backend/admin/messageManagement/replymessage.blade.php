@@ -312,10 +312,7 @@ h3 {
 <!--begin::Javascript-->
 <script>
     var hostUrl = "assets/";
-</script>
-<script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
 
-<script>
    const replayMessageEditor = new Quill("#replayMessageEditor", {
     theme: "snow",
   });
@@ -328,26 +325,25 @@ h3 {
 
 
     // Update the hidden textarea with Quill content
-    var form = document.querySelector('form');
-    form.onsubmit = function() {
-        // Get Quill content as HTML
-        var quillContent = quill.root.innerHTML;
-        // Update the hidden textarea with HTML content
-        form.querySelector('textarea[name=reply]').value = quillContent;
-    };
-</script>
-<script>
+    // var form = document.querySelector('form');
+    // form.onsubmit = function() {
+    //     // Get Quill content as HTML
+    //     var quillContent = quill.root.innerHTML;
+    //     // Update the hidden textarea with HTML content
+    //     form.querySelector('textarea[name=reply]').value = quillContent;
+    // };
+
     // Global variable to store order_id
     window.order_id = "{{ $order_id }}";
 </script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 
 <script>
 
 $(document).ready(function () {
     $('#kt_inbox_reply_form').submit(function (e) {
         e.preventDefault();
-
+        alert('dsfs');
         var formData = new FormData(this);
         formData.append('_token', '{{ csrf_token() }}');
 
@@ -405,11 +401,7 @@ $(document).ready(function () {
     });
 });
 
-</script>
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
-<script>
 document
   .getElementById("media")
   .addEventListener("change", function() {
@@ -421,7 +413,7 @@ document
     ];
     let fileNames = [];
 
-    for (let i = 0; i < files.length; i++) {
+    for (let i = 0; i <script files.length; i++) {
       const file = files[i];
       const ext = file.name.split(".").pop().toLowerCase();
 
@@ -452,7 +444,7 @@ document
 
       fileNames.push(file.name);
     }
-
+  });
 
 
     $(document).on('click', '.clear_message_box', function (e) {
@@ -461,67 +453,7 @@ document
         var element = document.getElementById('attach_file_1');
         element.innerText = '';
     });
-</script>
 
-
-<script>
-    // $(document).ready(function() {
-    //     $('#kt_inbox_compose_form').submit(function(e) {
-    //         e.preventDefault(); // Prevent the form from submitting in the traditional way
-
-    //         // Create a FormData object to gather form data
-    //         var formData = new FormData(this);
-    //         formData.append('_token', '{{ csrf_token() }}');
-    //         // You can append additional data if needed
-    //         // formData.append('key', 'value');
-    //         console.log(formData)
-    //         var element = document.getElementById('media');
-    //         console.log(element.value)
-    //         // Display the form data in the console (for testing purposes)
-    //         for (var pair of formData.entries()) {
-    //             console.log(pair[0] + ', ' + pair[1]);
-    //         }
-    //         var url = '{{ route("admin.send-message")}}'
-
-    //         $.ajax({
-    //             type: 'POST',
-    //             url: url,
-    //                 data: formData,
-    //                 processData: false,
-    //                 contentType: false,
-    //             success: function(response) {
-    //                 console.log('Server response:', response);
-    //                 var element = document.getElementById('media');
-    //                 element.value = '';
-
-    //                 Swal.fire('Success', "Message Send successfully", 'success');
-    //                 Pusher.logToConsole = true;
-    //                 var pusher = new Pusher('28e13a39c3918e12f8a9', {
-    //                 cluster: 'ap2'
-    //                 });
-
-    //                 var channel = pusher.subscribe('pusher');
-    //                 channel.bind('SendMessage', function(data) {
-    //                 alert(JSON.stringify(data));
-    //                 console.log(JSON.stringify(data))
-    //                 });
-    //             },
-    //             error: function(error) {
-    //                 console.error('Error:', error);
-    //             }
-    //         });
-
-    //         return false; // Prevent the form from submitting in the traditional way
-    //     });
-
-    // // clear message box
-
-
-
-
-
-
-    // });//main-document
 </script>
 
 @endsection
