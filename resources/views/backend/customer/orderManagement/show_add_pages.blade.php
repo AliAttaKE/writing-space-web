@@ -266,7 +266,7 @@ PaymentSession.configure({
 
                var used_package_id = JSON.parse(localStorage.getItem('used_package_id'));
                var package_id = JSON.parse(localStorage.getItem('package_id'));
-               var cost_per_page = JSON.parse(localStorage.getItem('cost_per_page'));
+               var cost_per_page = JSON.parse(localStorage.getItem('costperpage1'));
                var order_id = JSON.parse(localStorage.getItem('order_id'));
 
 
@@ -445,7 +445,7 @@ function pay() {
 }
 
 
- var cost_per_page = JSON.parse(localStorage.getItem('cost_per_page'));
+ var cost_per_page = JSON.parse(localStorage.getItem('costperpage1'));
   var no_of_page = JSON.parse(localStorage.getItem('no_of_page'));
 
   var totalAmountPage = no_of_page*cost_per_page;
