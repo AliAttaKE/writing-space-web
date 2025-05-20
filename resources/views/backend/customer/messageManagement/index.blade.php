@@ -16,10 +16,10 @@
                 <!--end::Title-->
                 <!--begin::Breadcrumb-->
                 <!-- <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                    
+
                     <li class="breadcrumb-item text-muted fs-color-white custom-fs-10">Message Management
                     </li>
-                    
+
                 </ul> -->
                 <!--end::Breadcrumb-->
             </div>
@@ -63,7 +63,7 @@
                                         <span class="menu-title fw-bold"><a
                                                 href="{{route('customer.message-managememnt')}}"
                                                 style="color: #fff">Inbox</a></span>
-                                        <span class="badge badge-custom-bg">{{count($data)}}</span>
+                                            <span class="badge badge-custom-bg">{{ $totalNew }}</span>
                                     </span>
                                     <!--end::Inbox-->
                                 </div>
@@ -282,6 +282,7 @@
 
 
 @endsection
+@push('scripts')
 <script>
     //   alert('ok');
     function handleTableSearch() {
@@ -298,23 +299,13 @@
         });
     }
 
-    $('[data-kt-inbox-listing-filter="search"]').on('input', function () {
-        handleTableSearch();
-    });
-</script>
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-
-<script>
     $(document).ready(function () {
         // Initialize DataTables
-        var table = $('#kt_table_inbox_message').DataTable();
+        var table = $('#kt_inbox_listing').DataTable();
 
         // Attach the search handler to the input change event
-        $('[data-kt-user-table-filter="search"]').on('input', function () {
+        $('#searchInput').on('input',"keyup" function () {
             handleTableSearch();
         });
 
@@ -366,17 +357,7 @@
                 }
             });
         }
-    });
-</script>
 
-
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-
-<script>
-    $(document).ready(function () {
         // Initialize DataTables
         var table = $('#kt_inbox_listing').DataTable();
 
@@ -404,3 +385,4 @@
         }
     });
 </script>
+@endpush

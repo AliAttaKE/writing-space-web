@@ -79,7 +79,7 @@ h3{
                                             </i>
                                         </span>
                                         <span class="menu-title fw-bold"><a href="{{route('customer.message-managememnt')}}" style="color: #fff">Inbox</a></span>
-                                        <span class="badge badge-light-success">{{count($data)}}</span>
+                                        <span class="badge badge-light-success">{{$totalUnread}}</span>
                                     </span>
                                     <!--end::Inbox-->
                                 </div>
@@ -118,7 +118,8 @@ h3{
                         <div class="card-body">
 
                             <!--begin::Form-->
-                            <form id="kt_inbox_compose_form" class="rounded border btn-dark-primary">
+                            <form id="kt_inbox_compose_form" class="rounded border btn-dark-primary"  enctype="multipart/form-data"
+>
 
 
                                 <!--begin::Body-->
@@ -200,7 +201,7 @@ h3{
 
                                     <!--end::BCC-->
                                     <!--begin::Message-->
-                                    <div class="bg-transparent border-0 h-250px px-3 text-white" id="editor"></div>
+                                    <div class="bg-transparent border-0 h-250px px-3 text-white" id="editorss"></div>
                                     <textarea class="form-control form-control-transparent border-0 h-100 text-white d-none" id="message_box" name="message"></textarea>
 
                                     <!--end::Message-->
@@ -274,19 +275,17 @@ h3{
     var hostUrl = "assets/";
 </script>
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
+
+@endsection
+
+@push('scripts')
 <script>
 
-const newMessageEditor = new Quill("#editor", {
-    theme: "snow",
-  });
+$(document).ready(function (){
+     // clear message box
 
-  addEventListener('keyup', () => {
-    var editorContent = newMessageEditor.root.innerHTML;
-    var message = document.getElementById('message_box');
-    message.innerHTML = editorContent;
-});
+
+
 
 
 	document
@@ -421,16 +420,7 @@ const newMessageEditor = new Quill("#editor", {
 });
 
 
-</script>
-@endsection
-
-@section('customJs')
-<script>
-
-$(document).ready(function (){
-     // clear message box
-
 });
 </script>
 
-@endsection
+@endpush

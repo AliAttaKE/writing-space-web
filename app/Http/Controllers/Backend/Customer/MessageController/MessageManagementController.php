@@ -20,37 +20,41 @@ use Illuminate\Support\Facades\Mail;
 class MessageManagementController extends Controller
 {
     public function index()
-    {
-        //$inbox=Inbox::all();
-        $inbox = Inbox::paginate(5);
-        $data = [];
+{
+    $inbox = Inbox::paginate(5);
+    $data = [];
 
+    foreach ($inbox as $i) {
+        $count = Message::where('order_id', $i->order_id)
+                        ->where('receive_id', Auth::id())
+                        ->where('status', 'UnRead')
+                        ->count();
 
-        if ($inbox->count() > 0) {
-            foreach ($inbox as $i) {
-                $count = 0;
-                $status = Orders::where('order_id', $i->order_id)->first();
+        // only include threads belonging to this user
+        $status = Orders::where('order_id', $i->order_id)
+                        ->where('user_id', Auth::id())
+                        ->first();
 
-              //  if ($status->user_id === Auth()->user()->id) {
-                if ($status && $status->user_id === Auth()->user()->id) {
-
-
-                    $i['order_status'] = $status->order_status;
-                    $message = Message::where('order_id', $i->order_id)->get();
-                    foreach ($message as $m) {
-                        if ($m->receive_id === Auth()->user()->id) {
-                            if ($m->status == 'UnRead') {
-                                $count++;
-                            }
-                        }
-                    }
-                    $i['New_message'] = $count;
-                    $data[] = $i;
-                }
-            }
+        if ($status) {
+            $i['order_status']  = $status->order_status;
+            $i['New_message']   = $count;
+            $data[]             = $i;
         }
-        return view('backend.customer.messageManagement.index', compact('data'));
     }
+    $totalUnread = Message::where('receive_id', Auth::id())
+    ->where('status', 'UnRead')
+    ->count();
+
+    // sum up all New_message values
+    $totalNew = collect($data)->sum('New_message');
+    //dd($data, $totalUnread, $inbox);
+    return view('backend.customer.messageManagement.index', [
+        'data'     => $data,
+        'totalNew' => $totalUnread,
+        'inbox'    => $inbox,   // if you still need pagination links
+    ]);
+}
+
 
 
     // public function sendMessage(Request $request)
@@ -59,8 +63,8 @@ class MessageManagementController extends Controller
 
     //     $input = $request->all();
 
-       
-        
+
+
     //     $input['sender_id'] = Auth()->user()->id;
     //     $user = User::find(Auth()->user()->id);
     //     $admin_email = User::where('role', 'admin')->first()->email;
@@ -110,7 +114,7 @@ class MessageManagementController extends Controller
     //     $status = 'New Message Arrive!';
     //     $order = $message->order_id;
     //     event(new SendMessage($receiver, $status, $order));
-       
+
     //     $inbox = Inbox::where('order_id', $request['order_id'])->first();
 
     //     if ($inbox) {
@@ -128,16 +132,16 @@ class MessageManagementController extends Controller
     //         $inbox->save();
     //     } else {
     //         $inbox_create = Inbox::create($input);
-           
+
     //     }
 
     //     return response()->json(['success' => true, 'message' => $message]);
     // }
-    
+
     public function sendMessage(Request $request)
 {
     $input = $request->all();
-    
+
     $input['sender_id'] = auth()->user()->id;
     $user = User::find(auth()->user()->id);
 
@@ -200,7 +204,7 @@ class MessageManagementController extends Controller
 
     $senderRole = ($input['statusRadio'] == 'Admin') ? 'Admin' : 'Writer';
     $recipientName = auth()->user()->name;
-    
+
     $emailContent = "
         <html>
             <body>
@@ -225,7 +229,7 @@ class MessageManagementController extends Controller
             </body>
         </html>
     ";
-    
+
     // Send the email
     Mail::html($emailContent, function ($message) use ($admin_email_get) {
         $message->to($admin_email_get)
@@ -248,26 +252,65 @@ class MessageManagementController extends Controller
                 $data[] = $inbox;
             }
         }
-        return view('backend.customer.messageManagement.newmessage', compact('order', 'data'));
+         $totalUnread = \App\Models\Message::where('receive_id', $id)
+        ->where('status', 'UnRead')
+        ->count();
+        return view('backend.customer.messageManagement.newmessage', compact('order', 'data','totalUnread'));
     }
 
+    // public function reply_message($order_id)
+    // {
+    //     $message = Message::where('order_id', $order_id)->get();
+    //     foreach ($message as $m) {
+    //         if ($m->receive_id === Auth()->user()->id) {
+    //             $m->status = 'Read';
+    //             $m->save();
+    //         }
+    //     }
+    //     $order = Orders::where('user_id', Auth()->user()->id)->get();
+    //     $data = [];
+    //     foreach ($order as $o) {
+    //         $inbox = Inbox::where('order_id', $o->order_id)->first();
+    //         if ($inbox) {
+    //             $data[] = $inbox;
+    //         }
+    //     }
+    //     return view('backend.customer.messageManagement.replymessage', compact('message', 'order_id', 'data'));
+    // }
+
     public function reply_message($order_id)
-    {
-        $message = Message::where('order_id', $order_id)->get();
-        foreach ($message as $m) {
-            if ($m->receive_id === Auth()->user()->id) {
-                $m->status = 'Read';
-                $m->save();
-            }
-        }
-        $order = Orders::where('user_id', Auth()->user()->id)->get();
-        $data = [];
-        foreach ($order as $o) {
-            $inbox = Inbox::where('order_id', $o->order_id)->first();
-            if ($inbox) {
-                $data[] = $inbox;
-            }
-        }
-        return view('backend.customer.messageManagement.replymessage', compact('message', 'order_id', 'data'));
-    }
+{
+    $userId = Auth::id();
+
+    // 1) Mark all incoming messages on this thread as read in one query
+    \App\Models\Message::where('order_id', $order_id)
+        ->where('receive_id', $userId)
+        ->where('status', 'UnRead')
+        ->update(['status' => 'Read']);
+
+    // 2) Fetch the entire conversation for this order
+    $messages = \App\Models\Message::where('order_id', $order_id)
+        ->orderBy('created_at', 'asc')
+        ->get();
+
+    // 3) Get all of this user’s order IDs
+    $orderIds = \App\Models\Orders::where('user_id', $userId)
+        ->pluck('order_id');
+
+    // 4) Fetch every inbox thread for those orders in one go
+    $inboxes = \App\Models\Inbox::whereIn('order_id', $orderIds)->get();
+
+    // 5) (Optional) Compute total unread count for your badge
+    $totalUnread = \App\Models\Message::where('receive_id', $userId)
+        ->where('status', 'UnRead')
+        ->count();
+
+    return view('backend.customer.messageManagement.replymessage', [
+        'messages'    => $messages,
+        'order_id'    => $order_id,
+        'inboxes'     => $inboxes,
+        'totalUnread' => $totalUnread,
+    ]);
+}
+
 }

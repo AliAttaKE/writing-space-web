@@ -82,7 +82,7 @@ h3 {
                                             </i>
                                         </span>
                                         <span class="menu-title fw-bold"><a href="{{route('customer.message-managememnt')}}" style="color: white">Inbox</a></span>
-                                        <span class="badge text-white">{{count($data)}}</span>
+                                        <span class="badge text-white">{{$totalUnread}}</span>
                                     </span>
 
                                 </div>

@@ -286,7 +286,9 @@
                                                 <div class="m-0">
                                                     <!--begin::Number-->
                                                     @php
-                                                        $countOthers = \App\Models\Orders::where('order_status', 'Others')->count();
+                                                        $totalOthers = \App\Models\Orders::where('user_id', Auth::id())
+                                                        ->whereIn('order_status', ['Canceled','Refund'])
+                                                        ->count();
                                                     @endphp
 
                                                     @if ($countOthers)
@@ -1003,13 +1005,13 @@
                     <!--@php-->
                     <!--    $orders = \App\Models\Orders::where('order_status', 'Pending')->orderBy("created_at")->get();-->
                     <!--@endphp-->
-                    
+
                         @php
                             $orders = \App\Models\Orders::where('order_status', 'Pending')->orderByDesc("created_at")->get();
                         @endphp
-                        
-                    
-                    
+
+
+
                     <!--begin::Card-->
                     <div class="card card-custom-bg message-summ">
                         <!--begin::Page title-->
@@ -1247,4 +1249,3 @@
                                                         data-kt-scroll-offset="300px">
                                                         <!--begin::Input group-->
                                                         <div class="fv-row mb-7">
-                                                            

@@ -297,9 +297,9 @@
                                                 <div class="m-0">
                                                     <!--begin::Number-->
                                                     @php
-                                                      $countOthers = \App\Models\Orders::where('order_status', 'Canceled')
-                                 ->orWhere('order_status', 'Refund')
-                                 ->count();
+                                                     $totalOthers = \App\Models\Orders::where('user_id', Auth::id())
+                                                        ->whereIn('order_status', ['Canceled','Refund'])
+                                                        ->count();
                                                     @endphp
 
                                                     @if ($countOthers)
@@ -522,7 +522,7 @@
                                         <!--end::Date-->
                                     </li>
 
-                              
+
                                     <!--end::Nav item-->
                                     <!--begin::Nav item-->
                                     <li class="nav-item p-0 ms-0 ordersummary">
@@ -851,15 +851,15 @@
                                         $currentMonth = date('n'); // Get the current month (1-12)
                                         $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, date('Y')); // Get the number of days in the current month
                                     @endphp
-                                
+
                                     @for ($i = 1; $i <= $daysInMonth; $i++)
                                         @php
                                             $date = mktime(0, 0, 0, $currentMonth, $i, date('Y'));
                                             $dayOfWeek = date('D', $date); // Get the day of the week (e.g., "Mon", "Tue")
                                             $dayOfMonth = date('j', $date); // Get the day of the month (e.g., 1, 2, 3)
                                         @endphp
-                                
-                                      
+
+
 
                                         <li class="nav-item p-0 ms-0 ordersummary">
                                             <!--begin::Date-->
@@ -872,7 +872,7 @@
                                         </li>
                                     @endfor
                                 </ul>
-                                
+
                                 <!--end::Nav-->
                                 <!--begin::Tab Content (ishlamayabdi)-->
                                 <div class="tab-content mb-2 px-9">
@@ -1047,13 +1047,13 @@
                     <!--@php-->
                     <!--    $orders = \App\Models\Orders::where('order_status', 'Pending')->orderBy("created_at")->get();-->
                     <!--@endphp-->
-                    
+
                         @php
                             $orders = \App\Models\Orders::where('order_status', 'Pending')->orderByDesc("created_at")->get();
                         @endphp
-                        
-                    
-                    
+
+
+
                     <!--begin::Card-->
                     <div class="card">
                         <!--begin::Page title-->
@@ -1682,27 +1682,27 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
-       
+
         function handleTableSearch() {
-           
+
             var searchText = $('[data-kt-user-table-filter="search"]').val().toLowerCase();
             console.log(searchText)
-        
+
             $('#kt_table_new_orders_2 tbody tr').each(function() {
-              
+
                 console.log(this)
                 var rowText = $(this).text().toLowerCase();
                 if (rowText.indexOf(searchText) === -1) {
-                  
+
                     $(this).hide();
                 } else {
-                   
+
                     $(this).show();
                 }
             });
         }
 
-       
+
         $('[data-kt-user-table-filter="search"]').on('input', function() {
             handleTableSearch();
         });
@@ -2044,7 +2044,7 @@
                     console.log('Selected Range Customer Journey: ' + selectedRangeKey);
 
 
-                   
+
 
 
                     $.ajax({
@@ -2126,7 +2126,7 @@
         createDateRangePickers1();
     </script>
     <script>
-       
+
         var createDateRangePickers2 = function() {
 
             let existingChart2;
@@ -2351,8 +2351,8 @@
 
                 // alert('Selected Range: ' + selectedRangeKey);
                 console.log('Selected Range1: ' + selectedRangeKey);
-                
-              
+
+
                 var dateRangeParts = selectedRangeKey.split(" to ");
                 var startDateString = dateRangeParts[0];
                 var endDateString = dateRangeParts[1];
@@ -2372,20 +2372,20 @@
                 var dateText = $(this).text();
                 console.log("dateText: ", dateText);
 
-    
-                
+
+
                 console.log("startDate1: ", startDate1);
                 console.log("endDate2: ", endDate2);
 
                 $(this).closest('.nav-link').removeClass('active');
                 if (dateText >= startDate1 && dateText <= endDate2) {
-                    
+
                     $(this).closest('.nav-link').addClass('active');
                 }
             });
 
-                                
-      
+
+
 
 
                 $.ajax({
@@ -2406,7 +2406,7 @@
                     $('.OrderRevisions').text(data.statusCounts.Revisions);
                     $('.OrderInProgress').text(data.statusCounts.InProgress);
                     $('.OrderNew').text(data.statusCounts.Pending);
-                      
+
                     },
                     error: function(error) {
                         console.error('Error fetching data:', error);
@@ -2433,16 +2433,16 @@
 
         var currentDate = new Date();
     var dayOfMonth = currentDate.getDate();
-    
+
 
 
     $('.ordersummarydate').each(function() {
-      
+
         var dateText = $(this).text();
-        
-   
+
+
         if (parseInt(dateText) === dayOfMonth) {
-          
+
             $(this).closest('.nav-link').addClass('active');
         }
     });
@@ -2452,11 +2452,11 @@
 </script>
     <script>
         $(".ordersummary").click(function() {
-         
-    
+
+
                 $('.nav-link').removeClass('active');
 
-    
+
 
 
 

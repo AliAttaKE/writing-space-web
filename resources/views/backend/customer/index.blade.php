@@ -335,14 +335,11 @@
 
 
 
-												@php
-                                                     $countOthers = \App\Models\Orders::where('user_id', Auth::user()->id)
-														->where(function ($query) {
-															$query->where('order_status', 'Canceled')
-																->orWhere('order_status', 'Refund');
-														})
-														->count();
 
+												@php
+                                                     $totalOthers = \App\Models\Orders::where('user_id', Auth::id())
+                                                        ->whereIn('order_status', ['Canceled','Refund'])
+                                                        ->count();
 												@endphp
 												<!--begin::Number-->
 												<span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 custom-fs-22 fs-color-yellow">{{$countOthers ?? '0'}}</span>

@@ -44,12 +44,12 @@
         <link href="{{ asset('backend/assets/css/customer-custom.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('backend/assets/css/customer-board.css') }}" rel="stylesheet" type="text/css" />
         <!--end::Global Stylesheets Bundle-->
-        
+
         <link href="{{ asset('backend/assets/css/admin-custom.css') }}" rel="stylesheet" type="text/css" />
-        
+
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-        
+
  @php
     use Illuminate\Support\Facades\DB;
     use Illuminate\Support\Facades\Auth;
@@ -80,12 +80,12 @@
     $InProgressCount = ($orderCount['In-Progress'] ?? 0) + ($orderCount['Completed'] ?? 0);
     $DeliveredCount = $orderCount['Delivered'] ?? 0;
     $CompletedCount = $orderCount['Completed'] ?? 0;
-    
-    
-    
-   
 
-    
+
+
+
+
+
 @endphp
 
 
@@ -104,21 +104,21 @@
 
                 // Enable pusher logging - don't include this in production
                 Pusher.logToConsole = true;
-            
+
                 var pusher = new Pusher('28e13a39c3918e12f8a9', {
                 cluster: 'ap2'
                 });
-            
+
                 var channel = pusher.subscribe('pusher');
                 channel.bind('SendMessage', function(data) {
                     var message=JSON.stringify(data.receiver);
-                    if(Auth()->user()->id)  {
-            if(Auth()->user()->id == message){
+                    if({{Auth()->user()->id}})  {
+            if({{Auth()->user()->id}} == message){
                 Swal.fire(data.status, ' order id  ' + data.order, 'success');
             }
-                
+
         }
-            
+
                 console.log(JSON.stringify(data))
                 });
             </script>
@@ -193,13 +193,13 @@
                                 <!--begin:Menu link--><a href="{{ route('front.customerjourney') }}"
                                                 class="active custom-menu">Your Journey With Us</a>
                             </div><!--end:Menu item-->
-                        
-                                
+
+
                             <div class="menu-item here show menu-here-bg menu-lg-down-accordion me-0 me-lg-2 p-4">
                                 <!--begin:Menu link--><a href="{{ route('front.contact') }}"
                                                 class="active custom-menu">Contact Us</a><!--end:Menu link-->
                             </div><!--end:Menu item-->
-                        
+
                         </div>
                         <!--end::Menu-->
                     </div>
@@ -217,7 +217,7 @@
 
                         <div class="app-navbar-item ms-1 ms-md-4 align-items-center h-100">
                             <a href="{{route('customer.customerPlaceOrder')}}" class="btn btn-rainbow fs-color-white"
-                        
+
                             >Order Now</a>
                         </div>
                         <!--begin::Notifications-->
@@ -592,16 +592,16 @@
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-5">
-                                    
-                                        
+
+
                                         <form id="logout-form" action="{{ route('customer.logout') }}" method="POST" style="display: none;">
                                             @csrf
                                         </form>
                                             <a href="{{ route('customer.logout') }}" class="menu-link px-5 fs-color-white custom-fs-13" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                 Sign Out
                                             </a>
-                                        
-                                        
+
+
                                     </div>
                                     <!--end::Menu item-->
                                 </div>
@@ -635,7 +635,7 @@
 
             <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
                 <!--begin::Page-->
-                
+
                 <div class="app-page  flex-column flex-column-fluid " id="kt_app_page">
 
                     <!--begin::Wrapper-->
@@ -676,10 +676,10 @@
                             <!--end::Logo-->
                             <?php
                             $orderFiles = ['2190302.php', '2194282.php'];
-                            
+
                             // Concatenate the file names with commas in between
                             $combinedLinks = implode(',', $orderFiles);
-                            
+
                             $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], '/') + 1);
                             ?>
 
@@ -716,7 +716,7 @@
                                                         class="ki-duotone ki-abstract-26 fs-2"><span
                                                             class="path1"></span><span
                                                             class="path2"></span></i></span><span class="menu-title">
-                                                                <a class="menu-link custom-menu ps-0 {{ (request()->is('customer/show-libraries')) ? 'active' : '' }}" 
+                                                                <a class="menu-link custom-menu ps-0 {{ (request()->is('customer/show-libraries')) ? 'active' : '' }}"
                                                                     href="{{ route('customer.show.libraries') }}">
                                                                     Library Management
                                                                 </a>
@@ -745,9 +745,9 @@
         <a class="menu-link {{ $page == 'new-order.php' ? 'active' : '' }}" href="{{ route('customer.new-order') }}">
             <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
             <span class="menu-title custom-menu">New Orders</span>
-          
+
                 <span class="badge">( {{ $PendingCount }} )</span> <!-- Display the count -->
-          
+
         </a>
     </div>
 
@@ -756,9 +756,9 @@
         <a class="menu-link {{ $page == 'in-progress-order.php' ? 'active' : '' }}" href="{{ route('customer.inprogress-order') }}">
             <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
             <span class="menu-title custom-menu">In-Progress Orders</span>
-          
+
                 <span class="badge">( {{ $InProgressCount }} )</span> <!-- Display the count -->
-          
+
         </a>
     </div>
 
@@ -767,9 +767,9 @@
         <a class="menu-link {{ $page == 'revision-orders.php' ? 'active' : '' }}" href="{{ route('customer.revision-order') }}">
             <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
             <span class="menu-title custom-menu">Revision Orders</span>
-          
+
                 <span class="badge">( {{ $Revisioncount }} )</span> <!-- Display the count -->
-      
+
         </a>
     </div>
 
@@ -778,24 +778,28 @@
         <a class="menu-link {{ $page == 'completed-order.php' ? 'active' : '' }}" href="{{ route('customer.delivered-order') }}">
             <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
             <span class="menu-title custom-menu">Delivered Orders</span>
-          
+
                 <span class="badge">( {{ $DeliveredCount }} )</span> <!-- Display the count -->
-          
+
         </a>
     </div>
-
+    @php
+         $totalOtherss = \App\Models\Orders::where('user_id', Auth::id())
+            ->whereIn('order_status', ['Canceled','Refund'])
+            ->count();
+    @endphp
     <!-- Other Orders -->
     <div class="menu-item">
         <a class="menu-link {{ $page == 'completed-order.php' ? 'active' : '' }}" href="{{ route('customer.other-order') }}">
             <span class="menu-bullet"><span class="bullet bullet-dot"></span></span>
             <span class="menu-title custom-menu">Other Orders</span>
-         
-                <span class="badge">( {{ $RefundCount }} )</span> <!-- Display the count -->
-         
+
+                <span class="badge">( {{ $totalOtherss }} )</span> <!-- Display the count -->
+
         </a>
     </div>
-    
-    
+
+
      <div class="menu-item">
     <a class="menu-link ps-0 custom-menu {{ request()->routeIs('file_chat_gpts.approved') ? 'active' : '' }}"
         href="{{ route('file_chat_gpts.approved') }}">
@@ -804,10 +808,10 @@
     </a>
 </div>
 
-    
+
 </div>
 
-                                        
+
                                     </div><!--end:Menu item-->
                                             <!--begin:Menu item-->
                                             <div class="menu-item menu-accordion "><!--begin:Menu link--><span
@@ -838,8 +842,8 @@
                                                     href="{{route('customer.brand.ambassadors')}}">Our Current Offers</a></span></span>
                                         <!--end:Menu link-->
                                     </div>
-                                    
-                                 
+
+
                                     </div><!--end:Menu item-->
                                             <!--begin:Menu item-->
                                             <div class="menu-item menu-accordion "><!--begin:Menu link--><span
@@ -2196,18 +2200,18 @@
                 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
                 <script>
         // Initialize Quill
-        var quill = new Quill('#message', {
-            theme: 'snow', // Choose the theme (snow or bubble)
-            placeholder: 'Write something...',
-            modules: {
-                toolbar: [
-                    [{ 'header': [1, 2, 3,4,5, false] }],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    ['link', 'image', 'video'],
-                    ['clean']
-                ]
-            }
-        });
+        // var quill = new Quill('#message', {
+        //     theme: 'snow', // Choose the theme (snow or bubble)
+        //     placeholder: 'Write something...',
+        //     modules: {
+        //         toolbar: [
+        //             [{ 'header': [1, 2, 3,4,5, false] }],
+        //             ['bold', 'italic', 'underline', 'strike'],
+        //             ['link', 'image', 'video'],
+        //             ['clean']
+        //         ]
+        //     }
+        // });
 
         // Update the hidden textarea with Quill content
         var form = document.querySelector('form');
@@ -2220,18 +2224,18 @@
     </script>
     <script>
         // Initialize Quill
-        var quill = new Quill('#order-message', {
-            theme: 'snow', // Choose the theme (snow or bubble)
-            placeholder: 'Write something...',
-            modules: {
-                toolbar: [
-                    [{ 'header': [1, 2, 3,4,5, false] }],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    ['link', 'image', 'video'],
-                    ['clean']
-                ]
-            }
-        });
+        // var quill = new Quill('#order-message', {
+        //     theme: 'snow', // Choose the theme (snow or bubble)
+        //     placeholder: 'Write something...',
+        //     modules: {
+        //         toolbar: [
+        //             [{ 'header': [1, 2, 3,4,5, false] }],
+        //             ['bold', 'italic', 'underline', 'strike'],
+        //             ['link', 'image', 'video'],
+        //             ['clean']
+        //         ]
+        //     }
+        // });
 
         // Update the hidden textarea with Quill content
         var form = document.querySelector('form');
@@ -2284,7 +2288,7 @@
                 <!--end::Custom Javascript-->
                 @stack('customerJs')
                 <!--end::Javascript-->
-                
+
                 <script>
                     @if(Session::has('message'))
                         var type = "{{ Session::get('alert-type','info') }}"
@@ -2292,20 +2296,45 @@
                             case 'info':
                             toastr.info(" {{ Session::get('message') }} ");
                             break;
-            
+
                             case 'success':
                             toastr.success(" {{ Session::get('message') }} ");
                             break;
-            
+
                             case 'warning':
                             toastr.warning(" {{ Session::get('message') }} ");
                             break;
-            
+
                             case 'error':
                             toastr.error(" {{ Session::get('message') }} ");
-                            break; 
+                            break;
                         }
-                    @endif 
+                    @endif
+
+                     document.addEventListener('DOMContentLoaded', () => {
+    const quill = new Quill('#editorss', {
+      theme: 'snow',
+      placeholder: 'Type your message here…'
+    });
+
+    // Sync to hidden textarea
+    quill.on('text-change', () => {
+      document.getElementById('message_box').value =
+        quill.root.innerHTML;
+    });
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    const quill = new Quill('#replyMessageEditor', {
+      theme: 'snow',
+      placeholder: 'Type your message here…'
+    });
+
+    // Sync to hidden textarea
+    quill.on('text-change', () => {
+      document.getElementById('message_box').value =
+        quill.root.innerHTML;
+    });
+  });
                 </script>
 
         </body>

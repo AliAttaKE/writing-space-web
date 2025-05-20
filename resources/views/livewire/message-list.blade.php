@@ -1,35 +1,37 @@
+{{-- resources/views/livewire/message-list.blade.php --}}
+<div>
+  {{-- Search box --}}
+  <div class="d-flex align-items-center position-relative mb-3">
+    <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4">
+      <span class="path1"></span>
+      <span class="path2"></span>
+    </i>
+    <input
+      type="text"
+      wire:model.debounce.300ms="search"
+      class="form-control form-control-solid w-250px ps-15 btn-dark-primary"
+      placeholder="Search threads…"
+      wire:keydown.enter="$refresh"        {{-- also trigger on Enter --}}
+    />
+  </div>
+   <div class="card-body px-10 msg-cus">
+  {{-- Table --}}
+  <table class="table table-hover table-row-dashed fs-6 gy-5 my-0" id="kt_inbox_listing">
+    <thead>
+      <tr>
+        <th class="min-w-80px">Order ID</th>
+        <th class="min-w-125px">Unread</th>
+        <th class="min-w-125px">Last Updated</th>
+        <th class="min-w-125px">Status</th>
 
-
-<div wire:poll.750ms="fetch_data">
-    <div class="card-body px-10 msg-cus">
-        <!--begin::Table-->
-        <table class="table table-hover table-row-dashed fs-6 gy-5 my-0" id="kt_inbox_listing">
-            <thead class="">
-                <tr>
-
-                    <th class="min-w-80px">Order Id</th>
-                    <th class="min-w-125px">New Message</th>
-                    <th class="min-w-125px">Last Modified</th>
-                    <th class="min-w-125px">Status</th>
-                </tr>
-            </thead>
-
-
-
-        <tbody>
-    @if($data)
-    @foreach ($data as $d)
-
-    <tr>
-
-
-        <td class="ps-9">
-            <a href="{{route('customer.reply-message',[$d->order_id])}}">
-           {{$d->order_id}}
-            </a>
-        </td>
-        <td class="fs-7 pe-9" >
-            @if($d->New_message != 0)
+        <th class="min-w-125px">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @forelse($threads as $thread)
+        <tr>
+          <td class="ps-9">{{ $thread->order_id }}</td>
+          <td class="fs-7 pe-9" >@if( $thread->unread_count != 0)
             <span class="fw-semibold" style="text-align: center;
             background: #f52020;
             border-radius: 100px;
@@ -37,38 +39,46 @@
             color: white;">  Unread ({{$d->New_message}})  </span>
             @else
             <span class="fw-semibold">All Read </span>
-            @endif
-        </td>
-        <td class="fs-7 pe-9">
-            <span class="fw-semibold">   {{$d->updated_at->format('F j, Y g:i A')}}</span>
+            @endif</td>
+          <td class="fs-7 pe-9">{{ $thread->updated_at->diffForHumans() }}</td>
+                    @php $status = $thread->order->order_status; @endphp
 
-        </td>
-
-
-        @if(auth()->user()->id == 1)
-    <td>
-        <span class="badge badge-custom-bg me-2">
-            {{$d->order_status}}
-        </span>
-    </td>
-@else
-    <td>
-        <span class="badge badge-custom-bg me-2">
-            @if($d->order_status == 'Completed')
-                In-Progress
+            @if(auth()->user()->id == 1)
+                <td>
+                    <span class="badge badge-custom-bg me-2">
+                        {{$status}}
+                    </span>
+                </td>
             @else
-                {{$d->order_status}}
+                <td>
+                    <span class="badge badge-custom-bg me-2">
+                        @if($status == 'Completed')
+                            In-Progress
+                        @else
+                            {{$status}}
+                        @endif
+                    </span>
+                </td>
             @endif
-        </span>
-    </td>
-@endif
 
+          <td>
+            <a href="{{ route('customer.reply-message', $thread->order_id) }}"
+               class="btn btn-sm btn-light btn-active-light-primary">
+              View
+            </a>
+          </td>
+        </tr>
+      @empty
+        <tr>
+          <td colspan="4" class="text-center text-white">No threads found.</td>
+        </tr>
+      @endforelse
+    </tbody>
+  </table>
 
-
-
-    </tr>
-    @endforeach
-    @endif
-        </tbody>
-</table>
+  {{-- Pagination links --}}
+  <div class="mt-4">
+    {{ $threads->links() }}
+  </div>
+</div>
 </div>
