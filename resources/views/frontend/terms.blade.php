@@ -4,7 +4,6 @@
     body {
         font-family: Arial, sans-serif;
         line-height: 1.6;
-        margin: 20px;
         color: white; /* Text color set to white */
         background-color: black; /* Background color set to black */
     }
@@ -27,6 +26,7 @@
     
 
     <section class="bg-dark section-card-phases faqs-accpomt-setup-sec-1">
+<div class="section-card-phases-bg-image">
         <h1>Terms & Conditions</h1>
 
         <h2>Our Agreement to Act as Agency</h2>
@@ -40,6 +40,7 @@
             <li>In the event that the Customer is not satisfied that the Work meets the quality standard they have ordered, the Customer will have the remedies available to them as set out in this agreement.</li>
             <li>The Customer is not permitted to make direct contact with the Principal outside of the portal given access to the customer and writer, as the Agency must remain an intermediary between both parties.</li>
         </ul>
+
     
         <h2>Term of Appointment</h2>
         <ul>
@@ -47,7 +48,9 @@
             <li>The Agreement will continue between the Parties until the time period allowed for amendments has expired, notwithstanding the subsisting clauses stated below, unless terminated sooner by either party in accordance with these provisions.</li>
             <li>The following clauses will succeed following termination of the agreement between the Parties: 6. (Personal Information and Data Protection), 8. (Amendments to Completed Orders), 13 (Copyright), 15-18 (Refunds and Promises), and 19.</li>
         </ul>
-    
+    </div>
+    <div class="section-card-phases-bg-image">
+
         <h2>Agency Services</h2>
         <ul>
             <li>In order to provide research and/or assessment services to fulfil the Customer's Order, the Agency will allocate a suitably qualified expert which it deems to hold appropriate levels of qualification and experience to undertake the Customer's Order.</li>
@@ -68,7 +71,8 @@
             <li>Where the Principal or the Agency requires confirmation of any particular detail, they will contact the Customer using the email address or telephone number provided by the Customer.</li>
             <li>The Customer acknowledges that the Agency may accept instructions received using these modes of contact and may reasonably assume that those instructions are generated from the Customer.</li>
         </ul>
-    
+    </div>
+    <div class="section-card-phases-bg-image">
         <h2>Personal Information and Data Protection</h2>
         <ul>
             <li>The Agency undertakes to collect, hold, and use all data provided by the Customer and the Principal in accordance with obligations under the General Data Protection Regulation (Reg EU 2016/679) ("GDPR") in the EU and Consumer Privacy Act (CPA) in the US.</li>
@@ -85,7 +89,8 @@
             <li>If the Customer provides additional information or instruction after an order has been allocated to the Principal, and this does conflict with the details contained in the original Order specification, the Principal may request an additional cost to cover any extra time needed to adapt to the new Order specifications. Any additional costs will be negotiated on behalf of the Principal by the Agency and the Customer can choose whether to proceed with the change to the Order specification for the final quoted cost. The Customer understands that this may result in a delay in the delivery of their Work for which the Principal/Agency will not be held responsible.</li>
             <li>In instances where a change in Order specification takes place during the progress of an Order, the delivery date may be changed at the discretion of the Agency on behalf of the Principal. Any change in the delivery date will be reasonable and based on all the circumstances. Under these circumstances, the 'Completion on Time' Promise will not be applicable.</li>
         </ul>
-    
+    </div>
+    <div class="section-card-phases-bg-image">
         <h2>Amendments to Completed Orders</h2>
         <ul>
             <li>The Agency agrees that if the Customer believes that their completed Work does not meet the Order specification and/or the promises of the Principal as set out on the Agency website, the Customer may request amendments to the Work within 7 days of the delivery date, or longer if they have specifically paid to extend the amendments period. Such amendments will be made free of charge to the Customer.</li>
@@ -113,7 +118,8 @@
             <li>Once the payment is made, the confirmation notice will be sent to the Customer via email within 24 hours of receipt of payment.</li>
             <li>These terms must be read subject to the 'Payment Up Front' terms (Section 12 of this Agreement).</li>
         </ul>
-    
+    </div>
+    <div class="section-card-phases-bg-image">
         <h2>Payment Up Front</h2>
         <ul>
             <li>The Customer will be invited to pay for their order in advance of the Agency formally securing an expert to complete the Work.</li>
@@ -138,7 +144,8 @@
         <ul>
             <li>The Customer agrees that the quality standard that is ordered is not a guarantee of the mark they will receive when submitting their own piece of work, nor any guarantee of the Customer's final degree mark.</li>
         </ul>
-    
+    </div>
+    <div class="section-card-phases-bg-image">
         <h2>Refunds</h2>
         <ul>
             <li>The Agency is authorized by the Principal to investigate, process and adjudicate refund requests under the main Promises detailed at Clauses 16-18 of this agreement.</li>
@@ -162,7 +169,8 @@
             <li>The Agency will have no obligations whatsoever in relation to the Completion on Time Promise if the delay in the delivery of the Work is as a result of the Customer's actions - including but not limited to where the Customer has failed to pay an outstanding balance due in relation to the Order, sent in extra information after the order has started or changed any elements of the order instructions. Delays on the part of the Customer may result in the relevant due date being changed according to the extent of the delay without activating the Completion On Time Promise.</li>
             <li>Where the Customer has agreed with the Principal for 'staggered delivery', the Completion on Time Promise relates to the final delivery date of the Work and not to the delivery of individual components of the Work.</li>
         </ul>
-    
+    </div>
+    <div class="section-card-phases-bg-image">
         <h2>Plagiarism - "$500 No Plagiarism Promise"</h2>
         <ul>
             <li>The $500 No Plagiarism Promise, or credits of equivalent value, applies when the Customer detects plagiarism in the Work.</li>
@@ -181,7 +189,8 @@
             <li>The promise will not apply in circumstances where the Agency detects plagiarism and contacts the Customer to inform them of this, in advance of the Customer contacting the Agency about that plagiarism. In such circumstances, a rewrite will be provided where requested by the Customer.</li>
             <li>The Agency agrees that if a Principal is responsible for a confirmed Plagiarism offence who fails to award the $500 compensation, then they will provide all reasonable assistance to the Customer including the provision of a copy of the Principal's contract with the Agency, and the Principal's name and address, for the Customer to bring a remedial action directly. The Agency is not responsible for reimbursing the Customer with the $500 compensation. However, if the plagiarism bond becomes payable and the Agency holds sums that are due to the Principal, the Agency undertakes to retain those funds until the Principal has paid the Customer the plagiarism bond or, if this is not forthcoming, to release those funds (up to the value of the plagiarism bond) to the Customer after a reasonable period of time and on reasonable notice to the Principal. If the Agency is subsequently involved in litigation as a result of holding these funds, it reserves the right to pay these into Court.</li>
         </ul>
-    
+    </div>
+    <div class="section-card-phases-bg-image">
         <h2>General</h2>
         <ul>
             <li>Pakistan is our country of domicile. All disputes arising in connection therewith shall be heard only by a court of competent jurisdiction in Pakistan.</li>
@@ -208,6 +217,7 @@
             <li>The Agency also offers student education-related products such as plagiarism software, past papers, marking, and proofreading services.</li>
             <li>In the Customer account interface, Customers have the option to consent to the Agency contacting them by telephone, email, and SMS/MMS to let them know about any goods, services, or promotions which may be of interest to them.</li>
         </ul>
+        </div>
     </section>
 
 </body>

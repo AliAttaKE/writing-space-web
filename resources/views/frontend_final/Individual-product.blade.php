@@ -65,9 +65,9 @@
         </div>
         <img src="assets/images/heart-line 2.png" alt="heart-line 2" class="heartbeat-line end">
     </div>
-    <!-- Card -->
+     <!-- Card -->
     <div class="px-2">
-        <div class="container-lg card-style cardStyles-custom my-0">
+        <div class="container-lg card-style cardStyles-custom mb-5">
 
             <div class="myDiv">
                 <div class="bg-individual"></div>
@@ -320,8 +320,38 @@
     </div>
 
 
-    <div class="container-lg px-5 mt-custom-4 Individual-mt-custom plagiarism-custom-1">
+      <div class="container-lg px-5 mt-custom-4 Individual-mt-custom plagiarism-custom-1">
         <!-- Part 1 -->
+
+ <!-- Card -->
+    <div class="px-2">
+        <div class="container-lg card-style cardStyles-custom mb-5">
+
+            <div class="myDiv">
+                <div class="bg-individual"></div>
+                <div class="card-body">
+                    <h4 class="heading-val head-head">Ace Every Class: Custom Academic Papers </h4>
+                    <h4 class="subhead-subhead yellow-text">Tailored for You</h4>
+                    <p class="custom-description text-white">Imagine never having to dread a looming academic deadline
+                        again. With our custom academic writing service, you unlock the door to excellence without
+                        sacrificing your precious time.</p>
+                    <p class="custom-description text-white">Our tailored, top-tier papers meet your exact needs,
+                        ensuring you stand out in your academic journey. From placing your order with ease to
+                        downloading your perfect paper, our process is designed with your success in mind.</p>
+                    <p class="custom-description text-white">Plus, with our Loyalty Program, the more you achieve, the
+                        more you save. It's not just an academic paper; it's a stepping stone to your future.</p>
+                    <p class="custom-description text-white">So, order now to transform your academic journey and unlock
+                        limitless opportunities with our bespoke academic writing services. Imagine a world where your
+                        academic pressures dissolve, leaving you free to focus on what truly matters to you. Our custom
+                        written papers are not just documents; they are keys to academic excellence, handcrafted to
+                        catapult you towards your dreams. Let us be the architects of your success story, delivering
+                        unparalleled quality and value, directly into your hands. Embrace the future with confidence,
+                        knowing we are here to support your academic journey every step of the way.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
         <section class="section-skepticism my-card">
             <div class="">
                 <div class="heading-container">

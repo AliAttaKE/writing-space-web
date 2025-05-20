@@ -5,7 +5,7 @@
 	body {
 		font-family: Arial, sans-serif;
 		line-height: 1.6;
-		margin: 20px;
+		
 		color: white; /* Text color set to white */
 		background-color: black; /* Background color set to black */
 	}
@@ -23,11 +23,16 @@
 		list-style-type: disc;
 		margin-left: 20px;
 	}
+    .new_padding{
+        padding-inline:50px;
+        padding-bottom: 50px;
+    }
 </style>
 <body>
     
 
 <section class="bg-dark section-card-phases faqs-accpomt-setup-sec-1">
+    <div class="new_padding">
 	<h1>Copyright Policy</h1>
 
     <h2>Writing Space Copyright Principles</h2>
@@ -62,7 +67,7 @@
 
     <h2>Cooperation with Copyright Owners</h2>
     <p>Writing Space requests that if it can be shown that these principles have been adhered to in good faith, the copyright owner will not assert a claim of copyright infringement against Writing Space with respect to infringing user-uploaded content that might remain on the Writing Space website despite such adherence to these principles. A cooperative attitude will help us to create content-rich, valuable, and infringement-free service.</p>
-
+        </div>
 </section>
 </body>
 

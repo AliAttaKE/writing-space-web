@@ -370,6 +370,13 @@ header .country-flag img {
   /* Remove padding if there's any */
 }
 
+.section-card-phases-bg-image{
+  background-image: url('../images/bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+      padding: 50px;  
+}
 .heartbeat-heading {
   display: flex;
   justify-content: space-between;

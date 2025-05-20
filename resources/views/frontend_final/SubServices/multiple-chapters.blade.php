@@ -525,7 +525,7 @@
                 <div class="">
                     <div class="heading-container">
                         <h2 class="heading-val head-head">Skyrocket <span
-                                class="gradient-purple fs-2 text underline">grades</span> with expert-
+                                class="gradient-purple fs-2 text underline">Grades</span> with expert-
                             written papers that guarantee</h2>
                         <h2 class="subhead-subhead yellow-text">Academic dominance</h2>
                     </div>

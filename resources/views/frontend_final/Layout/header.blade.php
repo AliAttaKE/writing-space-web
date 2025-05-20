@@ -157,6 +157,7 @@
 
                                     <li><a class="dropdown-item text-white" href="{{ route('front.admissionessay') }}">Admission Essay</a></li>
                                     <li><a class="dropdown-item text-white" href="{{ route('front.annotatedbibliography') }}">Annotated Bibliography</a></li>
+                                    <li> <a class="dropdown-item text-white" href="{{ route('front.introductionchapter') }}">Only the Introduction Chapter</a></li>
                                     <li><a class="dropdown-item text-white" href="{{ route('front.applicationessay') }}">Application Essay</a></li>
                                     <li><a class="dropdown-item text-white" href="{{ route('front.articlereview') }}">Article Review</a></li>
                                     <li><a class="dropdown-item text-white" href="{{ route('front.bookreport') }}">Book Report</a></li>

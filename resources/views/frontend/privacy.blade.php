@@ -5,7 +5,6 @@
     body {
         font-family: Arial, sans-serif;
         line-height: 1.6;
-        margin: 20px;
         color: white; /* Text color set to white */
         background-color: black; /* Optional: Add a dark background for better visibility */
     }
@@ -19,12 +18,16 @@
     a:hover {
         text-decoration: underline;
     }
+    .new_padding{
+        padding-inline:50px;
+        padding-bottom: 50px;
+    }
 </style>
 <body>
     
 
 <section class="bg-dark section-card-phases faqs-accpomt-setup-sec-1">
-   
+   <div class="new_padding">
     <h1>Privacy Policy</h1>
 
     <h2>What We Do With Your Data</h2>
@@ -103,7 +106,7 @@
 
     <h2>Changes to This Policy</h2>
     <p>The Website Policies and Terms & Conditions may be changed or updated occasionally to meet the requirements and standards. Therefore, Customers are encouraged to frequently visit these sections to be updated about the changes on the website. Modifications will be effective on the day they are posted.</p>
-
+</div>
 </section>
 </body>
 

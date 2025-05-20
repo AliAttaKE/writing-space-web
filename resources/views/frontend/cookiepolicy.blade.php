@@ -5,7 +5,7 @@
 	body {
 		font-family: Arial, sans-serif;
 		line-height: 1.6;
-		margin: 20px;
+
 		color: white; /* Text color set to white */
 		background-color: black; /* Background color set to black */
 	}
@@ -23,12 +23,17 @@
 		list-style-type: disc;
 		margin-left: 20px;
 	}
+    .new_padding{
+        padding-inline:50px;
+        padding-bottom: 50px;
+    }
 </style>
 <body>
     
 
-<section class="bg-dark section-card-phases faqs-accpomt-setup-sec-1">
-   
+<section class="bg-dark section-card-phases faqs-accpomt-setup-sec-1 new_padding" >
+    <div class="new_padding">
+       
 	<h1>Cookie Policy</h1>
 
     <h2>About This Cookie Policy</h2>
@@ -65,7 +70,7 @@
 
     <h3>Targeting/Advertising Cookies</h3>
     <p>These cookies are used to deliver advertisements that are more relevant to you and your interests. They are also used to limit the number of times you see an advertisement and help measure the effectiveness of advertising campaigns.</p>
-
+</div>
 </section>
 </body>
 

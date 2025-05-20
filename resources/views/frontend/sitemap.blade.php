@@ -4,7 +4,6 @@
     body {
         font-family: Arial, sans-serif;
         line-height: 1.6;
-        margin: 20px;
         color: white; /* Text color set to white */
         background-color: black; /* Background color set to black */
     }

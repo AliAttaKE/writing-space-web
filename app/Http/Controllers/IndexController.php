@@ -163,6 +163,10 @@ class IndexController extends Controller
 
         return view('frontend_final.Pricing.packages',compact('subscription'));
     }
+     public function showIntroduction()
+    {
+        return view('frontend_final.SubServices.new-only-the-introduction-chapter');
+    }
     public function customorder()
     {
         $pricing = Pricing::orderBy('id', 'desc')->get();

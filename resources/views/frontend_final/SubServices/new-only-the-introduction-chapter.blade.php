@@ -1,15 +1,18 @@
-<?php include "header.php"; ?>
+@extends('frontend_final.Layout.masters')
+@section('content')
+
+
 <div class="individual-hero d-flex justify-content-center align-items-center">
 </div>
 
 <!-- Cards Section -->
 <section class="bg-dark section-card-phases">
     <div class="heartbeat-heading d-flex justify-content-between align-items-center key-journey">
-        <img src="assets/images/heart-line 1.png" alt="heart-line 1" class="heartbeat-line start">
+        <img src="{{ asset('fronted_final/assets//images/heart-line 1.png')}}" alt="heart-line 1" class="heartbeat-line start">
         <div class="text-container flex-grow-1 text-center position-relative">
             <h1 class="heading heading-custom-3">Introduction Chapter Details</h1>
         </div>
-        <img src="assets/images/heart-line 2.png" alt="heart-line 2" class="heartbeat-line end">
+        <img src="{{ asset('fronted_final/assets//images/heart-line 2.png')}}" alt="heart-line 2" class="heartbeat-line end">
     </div>
 
 
@@ -18,12 +21,12 @@
         <section class="row my-card mt-3 bordered-card">
             <div class="col-md-8">
                 <div class="heading-container">
-                    <h2 class="heading-val head-head">Intimidated by your thesis intro? <span class="subhead-subhead yellow-text">Start strong with impactful writing support!</span></h2>
+                    <h2 class="heading-val head-head">Intimidated by your thesis intro? <br><span class="subhead-subhead yellow-text">Start strong with impactful writing support!</span></h2>
                 </div>
                 <p class="custom-description text-white">As a busy university student, are you overwhelmed by the challenge of starting your thesis or dissertation with a powerful introduction? The initial chapter is crucial, as it sets the tone for your entire research project, introducing your research questions, objectives, and the significance of your study. Crafting an introduction that effectively captures the essence of your research and engages your audience can be daunting, especially amidst a sea of other academic deadlines and responsibilities.</p>
             </div>
             <div class="col-md-4 text-center">
-                <img class="" src="assets/images/Group-individual.png" alt="Description">
+                <img class="" src="{{ asset('fronted_final/assets//images/Group-individual.png')}}" alt="Description">
             </div>
 
             <div class="col-md-8 pt-5">
@@ -34,7 +37,7 @@
                 </p>
             </div>
             <div class="col-md-4 pt-5 text-center">
-                <img class="" src="assets/images/Groupindividual-2.png" alt="Description">
+                <img class="" src="{{ asset('fronted_final/assets//images/Groupindividual-2.png')}}" alt="Description">
             </div>
 
         </section>
@@ -43,12 +46,12 @@
 
 <section class="bg-dark section-card-phases">
     <div class="heartbeat-heading d-flex justify-content-between align-items-center key-journey">
-        <img src="assets/images/heart-line 1.png" alt="heart-line 1" class="heartbeat-line start">
+        <img src="{{ asset('fronted_final/assets//images/heart-line 1.png')}}" alt="heart-line 1" class="heartbeat-line start">
         <div class="text-container flex-grow-1 text-center position-relative">
             <h1 class="heading heading-custom-3 individual-mt-custom-1">Why Choose Us</h1>
 
         </div>
-        <img src="assets/images/heart-line 2.png" alt="heart-line 2" class="heartbeat-line end">
+        <img src="{{ asset('fronted_final/assets//images/heart-line 2.png')}}" alt="heart-line 2" class="heartbeat-line end">
     </div>
      <!-- Card -->
     <div class="px-2">
@@ -83,11 +86,11 @@
 
 <section class="bg-dark section-card-phases">
     <div class="heartbeat-heading d-flex justify-content-between align-items-center key-journey">
-        <img src="assets/images/heart-line 1.png" alt="heart-line 1" class="heartbeat-line start">
+        <img src="{{ asset('fronted_final/assets//images/heart-line 1.png')}}" alt="heart-line 1" class="heartbeat-line start">
         <div class="text-container flex-grow-1 text-center position-relative">
             <h1 class="heading text-white fw-bold">Sample Papers</h1>
         </div>
-        <img src="assets/images/heart-line 2.png" alt="heart-line 2" class="heartbeat-line end">
+        <img src="{{ asset('fronted_final/assets//images/heart-line 2.png')}}" alt="heart-line 2" class="heartbeat-line end">
     </div>
     <!-- Card -->
     <div class="container-lg card-style individual-sec-4-mb">
@@ -131,8 +134,8 @@
                             <div class="col-6">
                                 <div class=" cardImageContainer">
                                     <!-- Card Images -->
-                                    <img src="assets/images/image.png" alt="Turnitin Image">
-                                    <img src="assets/images/Group.png" alt="Redblue Image">
+                                    <img src="{{ asset('fronted_final/assets//images/image.png')}}" alt="Turnitin Image">
+                                    <img src="{{ asset('fronted_final/assets//images/Group.png')}}" alt="Redblue Image">
                                 </div>
                             </div>
                         </div>
@@ -154,8 +157,8 @@
                             <div class="col-6">
                                 <div class="image-container cardImageContainer">
                                     <!-- Card Images -->
-                                    <img src="assets/images/image.png" alt="Turnitin Image">
-                                    <img src="assets/images/Group.png" alt="Redblue Image">
+                                    <img src="{{ asset('fronted_final/assets//images/image.png')}}" alt="Turnitin Image">
+                                    <img src="{{ asset('fronted_final/assets//images/Group.png')}}" alt="Redblue Image">
                                 </div>
                             </div>
                         </div>
@@ -177,8 +180,8 @@
                             <div class="col-6">
                                 <div class="image-container cardImageContainer">
                                     <!-- Card Images -->
-                                    <img src="assets/images/image.png" alt="Turnitin Image">
-                                    <img src="assets/images/Group.png" alt="Redblue Image">
+                                    <img src="{{ asset('fronted_final/assets//images/image.png')}}" alt="Turnitin Image">
+                                    <img src="{{ asset('fronted_final/assets//images/Group.png')}}" alt="Redblue Image">
                                 </div>
                             </div>
                         </div>
@@ -200,8 +203,8 @@
                             <div class="col-6">
                                 <div class="image-container cardImageContainer">
                                     <!-- Card Images -->
-                                    <img src="assets/images/image.png" alt="Turnitin Image">
-                                    <img src="assets/images/Group.png" alt="Redblue Image">
+                                    <img src="{{ asset('fronted_final/assets//images/image.png')}}" alt="Turnitin Image">
+                                    <img src="{{ asset('fronted_final/assets//images/Group.png')}}" alt="Redblue Image">
                                 </div>
                             </div>
                         </div>
@@ -226,14 +229,14 @@
 
 <section class="bg-dark section-card-phases">
     <div class="heartbeat-heading d-flex justify-content-between align-items-center key-journey">
-        <img src="assets/images/heart-line 1.png" alt="heart-line 1" class="heartbeat-line start">
+        <img src="{{ asset('fronted_final/assets//images/heart-line 1.png')}}" alt="heart-line 1" class="heartbeat-line start">
         <div class="text-container flex-grow-1 text-center position-relative">
             <h1 class="heading heading-custom-3">Order Process Details</h1>
             <div class="position-absolute sub-text1 mt-4 academic-using">
                 <h4 class="head-individual">Using Our Academic Writing Service is Simple & Rewarding!</h4>
             </div>
         </div>
-        <img src="assets/images/heart-line 2.png" alt="heart-line 2" class="heartbeat-line end">
+        <img src="{{ asset('fronted_final/assets//images/heart-line 2.png')}}" alt="heart-line 2" class="heartbeat-line end">
     </div>
     <div class="container-lg card-style">
         <div class="row ">
@@ -288,7 +291,7 @@
 
 <section class="bg-dark section-card-phases">
     <div class="heartbeat-heading d-flex justify-content-between align-items-center key-journey">
-        <img src="assets/images/heart-line 1.png" alt="heart-line 1" class="heartbeat-line start">
+        <img src="{{ asset('fronted_final/assets//images/heart-line 1.png')}}" alt="heart-line 1" class="heartbeat-line start">
         <div class="text-container flex-grow-1 text-center position-relative">
             <h1 class="heading ">Why Choose Us</h1>
             <div class="position-absolute sub-text1 mt-1 academic-using">
@@ -296,7 +299,7 @@
                 <h4 class="head-individual fw-bold text-purple mb-5">integrity remains unchallenged</h4>
             </div>
         </div>
-        <img src="assets/images/heart-line 2.png" alt="heart-line 2" class="heartbeat-line end">
+        <img src="{{ asset('fronted_final/assets//images/heart-line 2.png')}}" alt="heart-line 2" class="heartbeat-line end">
     </div>
 
 
@@ -352,7 +355,7 @@
                 </p>
             </div>
             <div class="image-container">
-                <img class="" src="assets/images/Frame.png" alt="Description">
+                <img class="" src="{{ asset('fronted_final/assets//images/Frame.png')}}" alt="Description">
 
             </div>
         </section>
@@ -363,7 +366,7 @@
         <!-- Part 1 -->
         <section class="section-skepticism my-card mt-5">
             <div class="image-container me-4">
-                <img class="" src="assets/images/Frame2.png" alt="Description">
+                <img class="" src="{{ asset('fronted_final/assets//images/Frame2.png')}}" alt="Description">
             </div>
             <div class="">
                 <div class="heading-container">
@@ -404,7 +407,7 @@
                     to your specific requirements, ensuring they align perfectly with your academic goals</p>
             </div>
             <div class="image-container">
-                <img class="" src="assets/images/rock 1.png" alt="Description">
+                <img class="" src="{{ asset('fronted_final/assets//images/rock 1.png')}}" alt="Description">
             </div>
 
         </section>
@@ -414,7 +417,7 @@
     <div class="container-lg my-4 px-5 plagiarism-custom-1">
         <section class="section-skepticism my-card mt-5">
             <div class="image-container me-4">
-                <img class="" src="assets/images/OBJECTS.png" alt="Description">
+                <img class="" src="{{ asset('fronted_final/assets//images/OBJECTS.png')}}" alt="Description">
             </div>
             <div class="">
                 <div class="heading-container">
@@ -453,7 +456,7 @@
                     confidentiality and anonymity with every order.</p>
             </div>
             <div class="image-container">
-                <img class="" src="assets/images/OBJECTS-2.png" alt="Description">
+                <img class="" src="{{ asset('fronted_final/assets//images/OBJECTS-2.png')}}" alt="Description">
             </div>
 
         </section>
@@ -466,14 +469,14 @@
 
 <section class="bg-dark section-card-phases pt-0">
     <div class="heartbeat-heading d-flex justify-content-between align-items-center key-journey">
-        <img src="assets/images/heart-line 1.png" alt="heart-line 1" class="heartbeat-line start">
+        <img src="{{ asset('fronted_final/assets//images/heart-line 1.png')}}" alt="heart-line 1" class="heartbeat-line start">
         <div class="text-container flex-grow-1 text-center position-relative">
             <h1 class="heading text-white">Frequently Asked Questions</h1>
             <div class="position-absolute sub-text3">
                 <span class="main-text text-purple">(FAQs)</span>
             </div>
         </div>
-        <img src="assets/images/heart-line 2.png" alt="heart-line 2" class="heartbeat-line end">
+        <img src="{{ asset('fronted_final/assets//images/heart-line 2.png')}}" alt="heart-line 2" class="heartbeat-line end">
     </div>
 
 
@@ -662,4 +665,4 @@
         </section>
     </div>
 
-    <?php include "footer.php"; ?>
+    @endsection

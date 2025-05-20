@@ -128,7 +128,7 @@
                                                                 </li>
                                                                 <li><a href="./only-the-hypothesis-chapter" class="text-white fw-light text-decoration-none">Only the Hypothesis Chapter</a>
                                                                 </li>
-                                                                <li><a href="./only-the-introduction-chapter" class="text-white fw-light text-decoration-none">Only the Introduction Chapter</a>
+                                                                <li><a href="{{ route('front.introductionchapter') }}" class="text-white fw-light text-decoration-none">Only the Introduction Chapter</a>
                                                                 </li>
                                                                 <li><a href="./only-the-literature-review-chapter" class="text-white fw-light text-decoration-none">Only the Literature Review Chapter</a>
                                                                 </li>
@@ -224,9 +224,9 @@
                                 <!--            <a href="./white-paper.php">White Paper</a>-->
                                 <!--        </div>-->
                                 <!--    </div>-->
-                                                                    <span class="copyright"><a href="{{ route('front.site.map') }}" class="text-white fw-light text-decoration-none">Site Map</a></span>
+                                                                    <!-- <span class="copyright"><a href="{{ route('front.site.map') }}" class="text-white fw-light text-decoration-none">Site Map</a></span> -->
 
-                                <span class="copyright px-2">|</span>
+                                <!-- <span class="copyright px-2">|</span> -->
                                 <span class="copyright"><a href="{{ route('front.terms.conditions') }}" class="text-white fw-light text-decoration-none">Terms & Conditions</a></span>
                                 <span class="copyright px-2">|</span>
                                 <span class="copyright"><a href="{{ route('front.cookie.policy') }}" class="text-white fw-light text-decoration-none">Cookie Policy</a></span>

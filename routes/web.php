@@ -554,6 +554,7 @@ Route::get('/dissertation-or-thesis-complete', [IndexController::class, 'dissert
 Route::get('/journal-professional', [IndexController::class, 'journalprofessional'])->name('front.journalprofessional');
 Route::get('/marketing-plan', [IndexController::class, 'marketingplan'])->name('front.marketingplan');
 Route::get('/multiple-chapters', [IndexController::class, 'multiplechapters'])->name('front.multiplechapters');
+Route::get('/introduction-chapter',[IndexController::class, 'showIntroduction'])->name('front.introductionchapter');
 Route::get('/only-the-conclusion-chapter', [IndexController::class, 'onlytheconclusionchapter'])->name('front.onlytheconclusionchapter');
 Route::get('/only-the-hypothesis-chapter', [IndexController::class, 'onlythehypothesischapter'])->name('front.onlythehypothesischapter');
 Route::get('/only-the-literature-review-chapter', [IndexController::class, 'onlytheliteraturereviewchapter'])->name('front.onlytheliteraturereviewchapter');

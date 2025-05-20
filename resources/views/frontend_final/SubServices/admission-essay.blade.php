@@ -400,8 +400,8 @@
         <img src="{{ asset('fronted_final/assets/images/heart-line 2.png')}}" alt="heart-line 2"
             class="heartbeat-line end">
     </div>
-
-        <div class="container-lg card-style cardStyles-custom my-0">
+ <div class="container-lg px-5 mt-custom-4 Individual-mt-custom plagiarism-custom-1">
+        <div class="container-lg card-style cardStyles-custom mb-5">
 
             <div class="myDiv">
                 <div class="bg-individual"></div>
@@ -428,7 +428,7 @@
         </div>
 
 
-    <div class="container-lg px-5 mt-custom-4 Individual-mt-custom plagiarism-custom-1">
+   
         <!-- Part 1 -->
         <section class="section-skepticism my-card">
             <div class="">

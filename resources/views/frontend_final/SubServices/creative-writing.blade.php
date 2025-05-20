@@ -9,7 +9,7 @@
         <img src="{{ asset('fronted_final/assets/images/heart-line 1.png')}}" alt="heart-line 1"
             class="heartbeat-line start">
         <div class="text-container flex-grow-1 text-center position-relative">
-            <h1 class="heading heading-custom-3">Corporate Details</h1>
+            <h1 class="heading heading-custom-3">Creative Writing</h1>
         </div>
         <img src="{{ asset('fronted_final/assets/images/heart-line 2.png')}}" alt="heart-line 2"
             class="heartbeat-line end">
@@ -24,14 +24,7 @@
                     <h2 class="heading-val head-head">Stuck in Your Writing Journey? <br> <span
                             class="subhead-subhead yellow-text">Unravel Your Story's Captivating Potential!</span></h2>
                 </div>
-                <p class="custom-description text-white">Are you facing challenges in creating corporate documents that
-                    meet the high standards of professionalism and precision required in the business world? Crafting
-                    robust business plans, conducting detailed market analyses, and preparing annual financial reports
-                    demand a level of expertise and accuracy that can be daunting for many. The process of drafting
-                    documents like corporate policy manuals requires not only a deep understanding of the industry but
-                    also the ability to communicate complex information effectively. This creates a pressing need for a
-                    solution that can revolutionize the corporate document creation process, ensuring that your
-                    business's documentation not only meets but exceeds industry standards.</p>
+                <p class="custom-description text-white">Are you an aspiring student struggling to unravel the secrets of compelling storytelling? Crafting captivating narratives requires a deep understanding of plot construction, character development, and the nuanced dynamics of conflict and resolution. Many writers find it challenging to weave these elements together in a way that enchants and retains reader interest. The journey from a budding idea to a fully-fledged story is often fraught with difficulties in creating coherent plots, memorable characters, and engaging twists. This struggle highlights the need for a comprehensive guide that demystifies the creative writing process and provides structured pathways to transform raw ideas into mesmerizing literary works.</p>
             </div>
             <div class="col-md-4 text-center">
                 <img class="" src="{{ asset('fronted_final/assets/images/Group-individual.png')}}" alt="Description">
@@ -41,15 +34,7 @@
                 <div class="heading-container">
                     <h2 class="heading-val head-head">Effortlessly Charm Audiences with Our – <br> <span class="subhead-subhead yellow-text">Creative Writing Magic!</span></h2>
                 </div>
-                <p class="custom-description text-white">Unleash the full potential of your business to achieve your
-                    goals with our cutting-edge digital products, designed to revolutionize your corporate document
-                    creation process. Our services guide you through every aspect of professional business
-                    documentation, ensuring the development of robust business plans, the execution of detailed market
-                    analysis, and the preparation of comprehensive financial reports. Each document we help create is a
-                    testament to unmatched precision and professionalism, aimed at elevating your corporate policy
-                    manual drafting techniques. With our expertise, confidently purchase our professional services and
-                    showcase documents that make your mark in the business world, surpassing industry standards and
-                    driving your business's success in the competitive marketplace.
+                <p class="custom-description text-white">Discover the art of captivating storytelling and charm your audiences with our creative writing service. This comprehensive academic service is designed to elevate your narrative skills, starting with the foundational elements of storytelling. Learn how to construct mesmerizing plots that captivate readers from the first page, flesh out unforgettable characters with their own desires and conflicts, and master the art of conflict and resolution. Our guide offers insightful techniques on crafting detailed story outlines, developing dynamic characters, and innovating plot points to keep readers engaged. Ideal for aspiring writers, this guide serves as your gateway to the realms of imagination, empowering you to craft stories that resonate with readers and leave a lasting impact. Embark on this journey and transform your ideas into literary masterpieces.
                 </p>
             </div>
             <div class="col-md-4 pt-5 text-center">
@@ -60,47 +45,7 @@
     </div>
 </section>
 
-<section class="bg-dark section-card-phases">
-    <div class="heartbeat-heading d-flex justify-content-between align-items-center key-journey">
-        <img src="{{ asset('fronted_final/assets/images/heart-line 1.png')}}" alt="heart-line 1"
-            class="heartbeat-line start">
-        <div class="text-container flex-grow-1 text-center position-relative">
-            <h1 class="heading heading-custom-3 individual-mt-custom-1">Why Choose Us</h1>
-
-        </div>
-        <img src="{{ asset('fronted_final/assets/images/heart-line 2.png')}}" alt="heart-line 2"
-            class="heartbeat-line end">
-    </div>
-    <!-- Card -->
-    <div class="px-2">
-        <div class="container-lg card-style cardStyles-custom my-0">
-
-            <div class="myDiv">
-                <div class="bg-individual"></div>
-                <div class="card-body">
-                    <h4 class="heading-val head-head">Ace Every Class: Custom Academic Papers </h4>
-                    <h4 class="subhead-subhead yellow-text">Tailored for You</h4>
-                    <p class="custom-description text-white">Imagine never having to dread a looming academic deadline
-                        again. With our custom academic writing service, you unlock the door to excellence without
-                        sacrificing your precious time.</p>
-                    <p class="custom-description text-white">Our tailored, top-tier papers meet your exact needs,
-                        ensuring you stand out in your academic journey. From placing your order with ease to
-                        downloading your perfect paper, our process is designed with your success in mind.</p>
-                    <p class="custom-description text-white">Plus, with our Loyalty Program, the more you achieve, the
-                        more you save. It's not just an academic paper; it's a stepping stone to your future.</p>
-                    <p class="custom-description text-white">So, order now to transform your academic journey and unlock
-                        limitless opportunities with our bespoke academic writing services. Imagine a world where your
-                        academic pressures dissolve, leaving you free to focus on what truly matters to you. Our custom
-                        written papers are not just documents; they are keys to academic excellence, handcrafted to
-                        catapult you towards your dreams. Let us be the architects of your success story, delivering
-                        unparalleled quality and value, directly into your hands. Embrace the future with confidence,
-                        knowing we are here to support your academic journey every step of the way.</p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
+ 
 
 <section class="bg-dark section-card-phases">
     <div class="heartbeat-heading d-flex justify-content-between align-items-center key-journey">
@@ -443,8 +388,38 @@
     </div>
 
 
-    <div class="container-lg px-5 mt-custom-4 Individual-mt-custom plagiarism-custom-1">
+      <div class="container-lg px-5 mt-custom-4 Individual-mt-custom plagiarism-custom-1">
         <!-- Part 1 -->
+
+ <!-- Card -->
+    <div class="px-2">
+        <div class="container-lg card-style cardStyles-custom mb-5">
+
+            <div class="myDiv">
+                <div class="bg-individual"></div>
+                <div class="card-body">
+                    <h4 class="heading-val head-head">Ace Every Class: Custom Academic Papers </h4>
+                    <h4 class="subhead-subhead yellow-text">Tailored for You</h4>
+                    <p class="custom-description text-white">Imagine never having to dread a looming academic deadline
+                        again. With our custom academic writing service, you unlock the door to excellence without
+                        sacrificing your precious time.</p>
+                    <p class="custom-description text-white">Our tailored, top-tier papers meet your exact needs,
+                        ensuring you stand out in your academic journey. From placing your order with ease to
+                        downloading your perfect paper, our process is designed with your success in mind.</p>
+                    <p class="custom-description text-white">Plus, with our Loyalty Program, the more you achieve, the
+                        more you save. It's not just an academic paper; it's a stepping stone to your future.</p>
+                    <p class="custom-description text-white">So, order now to transform your academic journey and unlock
+                        limitless opportunities with our bespoke academic writing services. Imagine a world where your
+                        academic pressures dissolve, leaving you free to focus on what truly matters to you. Our custom
+                        written papers are not just documents; they are keys to academic excellence, handcrafted to
+                        catapult you towards your dreams. Let us be the architects of your success story, delivering
+                        unparalleled quality and value, directly into your hands. Embrace the future with confidence,
+                        knowing we are here to support your academic journey every step of the way.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
         <section class="section-skepticism my-card">
             <div class="">
                 <div class="heading-container">
