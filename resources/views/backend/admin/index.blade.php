@@ -302,10 +302,10 @@
                                                         ->count();
                                                     @endphp
 
-                                                    @if ($countOthers)
+                                                    @if ($totalOthers)
                                                         <!--begin::Number-->
                                                         <span
-                                                            class="fs-color-yellow custom-fs-17 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">{{ $countOthers }}</span>
+                                                            class="fs-color-yellow custom-fs-17 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">{{ $totalOthers }}</span>
                                                         {{-- comma seprated --}}
                                                         <!--end::Number-->
                                                     @else
