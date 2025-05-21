@@ -435,7 +435,7 @@ class IndexController extends Controller
             'email' => 'required|email|unique:users,email',
              'name' => 'required',
             'password' => 'required',
-            'password_confirmation' => 'required_with:password|same:password|min:3'
+            'password_confirmation' => 'required_with:password|same:password'
         ], [
             'email.required' => 'Email is required.',
             'email.email' => 'Please enter a valid email address.',
@@ -443,7 +443,7 @@ class IndexController extends Controller
             'password.required' => 'Password is required.',
             'password_confirmation.required' => 'Password confirmation is required.',
             'password_confirmation.confirmed' => 'Password confirmation does not match.',
-            'password_confirmation.min' => 'Password confirmation must be at least :min characters.',
+            // 'password_confirmation.min' => 'Password confirmation must be at least :min characters.',
         ]);
 
         $account_id = 'ID-' . rand(1000, 99999999);
