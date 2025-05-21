@@ -547,52 +547,7 @@
                 
                 </style>
            @include('cms_pages.slider');      
-            <!--<div class="container px-0 position-relative">-->
-
-            <!--    <div class="owl-carousel">-->
-            <!--        @if(!empty($papers))-->
-            <!--            @foreach ($papers as $paper)-->
-            <!--                <div class="mb-4">-->
-            <!--                    <a href="{{ route('customer.show.libraries') }}" class="text-decoration-none"> <!-- Link route to the paper detail page -->-->
-            <!--                        <div class="card-style myCardStyles">-->
-            <!--                            <div class="row myCardTxt">-->
-            <!--                                <div class="col-6">-->
-            <!--                                    <p class="card-text">Format: {{ $paper->citation }}</p>-->
-            <!--                                    <p class="card-text">Pages: 5</p>-->
-            <!--                                    <p class="card-text">Sources: {{ $paper->word_count }}</p>-->
-
-            <!--                                    <img src="{{ asset('fronted_final/assets/images/image.png') }}" alt="Turnitin Image" style="-->
-            <!--                                    margin-left: 137px;-->
-            <!--                                ">-->
-                                                
-            <!--                                    <p class="card-text d-flex align-items-center justify-content-between mb-3"> <!-- Added justify-content to space out items -->-->
-            <!--                                        <span class="me-2">AI_Detection:</span>-->
-            <!--                                        <button class="btn btn-primary my-btn" style="background-color: #007bff; border: none; min-width: 120px; margin-left: 13px;">-->
-            <!--                                            {{ $paper->ai_report }}%-->
-            <!--                                        </button>-->
-            <!--                                    </p>-->
-                                                
-            <!--                                    <p class="card-text d-flex align-items-center justify-content-between mb-3"> <!-- Same adjustment here -->-->
-            <!--                                        <span class="me-2">Plagiarism:</span>-->
-            <!--                                        <button class="btn btn-secondary my-btn" style="background-color: #007bff; border: none; min-width: 120px; margin-left: 24px;">-->
-            <!--                                            {{ $paper->plagiarism }}%-->
-            <!--                                        </button>-->
-            <!--                                    </p>-->
-            <!--                                </div>-->
-            <!--                            </div>-->
-            <!--                        </div>-->
-            <!--                    </a>-->
-            <!--                </div>-->
-            <!--            @endforeach-->
-            <!--        @endif-->
-            <!--    </div>-->
-                
-            <!--    <div class="owl-nav">-->
-            <!--        <button type="button" role="presentation" class="owl-prev"><i class="fa-solid fa-arrow-left"></i></button>-->
-            <!--        <button type="button" role="presentation" class="owl-next"><i class="fa-solid fa-arrow-right"></i></button>-->
-            <!--    </div>-->
-            <!--</div>-->
-
+           
 
     </section>
 

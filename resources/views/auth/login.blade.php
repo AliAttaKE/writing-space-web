@@ -36,7 +36,7 @@
                     </span>
                 </div>
                 <div class="mb-3 text-center">
-                    <a href="{{ route('email.form.request') }}" class="yellow-text fw-bold">Forget Password</a>
+                    <a href="{{ route('email.form.request') }}" class="yellow-text fw-bold">Forgot Password?</a>
                 </div>
                 <!--<div class="g-recaptcha" data-sitekey="6LcDcdApAAAAANZyggaWjQPKT9I0H1I7wFt9TmAI"></div>-->
         <!--        <button class="g-recaptcha" -->

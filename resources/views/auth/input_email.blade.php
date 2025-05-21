@@ -7,7 +7,7 @@
             <form method="POST" action="{{ route('send.email') }}">
                 @csrf
                 <h1 class="heading gradient-text-2 text-center">
-                    Forget Password
+                    Forgot Password?
                 </h1>
                 <p class="text-center pb-5 text-white">Enter Your Email Address</p>
 

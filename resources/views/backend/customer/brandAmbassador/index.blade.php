@@ -56,7 +56,7 @@
                                                 </div>
                                                 <div class="col-9 fs-color-white custom-fs-13">
                                                 Enjoy an {{$discount->discount}}% discount on your order when you purchase {{$discount->min_pages}}
-                                                pages or more! Use code: {{$discount->code}}
+                                                pages or more! Use code: <span class="fs-color-yellow">{{$discount->code}}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -73,7 +73,7 @@
                                 <div class="btn-dark-primary p-5 rounded">
                                     <div class="text-center fs-color-white custom-fs-23" style="font-size: 16px !important;">
                                         <p>Invite Friends & Save on Page Packages</p>
-                                        Get rewarded when you refer others! Invite your peers to try our service—once they place an order, you’ll receive a discount on our pre-paid page packages. Buy pages in bulk at a flat per-page rate and use them whenever you need. It’s our way of saying thanks for spreading the word!
+                                        Refer friends and earn discounts! When they place an order, you’ll get a discount on our packages. Buy in bulk at a flat rate and use them anytime. Thanks for spreading the word!
                                     </div>
                                     <!--begin::Card header-->
                                     <div class="card-header pt-8">

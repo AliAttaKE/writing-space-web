@@ -114,7 +114,7 @@
         
         
         </style>
-    <!--<div class="container px-0 position-relative">-->
+     <!--<div class="container px-0 position-relative">-->
 
     <!--    <div class="owl-carousel">-->
     <!--        @if(!empty($papers))-->
@@ -134,14 +134,14 @@
     <!--                                    margin-left: 112px;-->
     <!--                                ">-->
                                         
-    <!--                                   <p class="card-text d-flex align-items-center justify-content-between mb-3"> <!-- Added justify-content to space out items -->-->
+    <!--                                   <p class="card-text d-flex align-items-center justify-content-between mb-3">  Added justify-content to space out items -->
     <!--                                                <span class="me-2">AI_Detection:</span>-->
     <!--                                                <button class="btn btn-primary my-btn" style="background-color: #007bff; border: none; min-width: 120px; margin-left: 13px;">-->
     <!--                                                    {{ $paper->ai_report }}%-->
     <!--                                                </button>-->
     <!--                                            </p>-->
                                                 
-    <!--                                            <p class="card-text d-flex align-items-center justify-content-between mb-3"> <!-- Same adjustment here -->-->
+    <!--                                            <p class="card-text d-flex align-items-center justify-content-between mb-3">  Same adjustment here -->
     <!--                                                <span class="me-2">Plagiarism:</span>-->
     <!--                                                <button class="btn btn-secondary my-btn" style="background-color: #dc3545; border: none; min-width: 120px; margin-left: 24px;">-->
     <!--                                                    {{ $paper->plagiarism }}%-->
@@ -161,7 +161,6 @@
     <!--        <button type="button" role="presentation" class="owl-next"><i class="fa-solid fa-arrow-right"></i></button>-->
     <!--    </div>-->
     <!--</div>-->
-
     <div class="heading-indi d-flex justify-content-center mt-5">
         <h4 class="heading text-white text-center">Base Your Trust on <span
                 class="yellow-text underline fw-bold">Verifiable</span>

@@ -619,7 +619,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															<div class="d-flex align-items-center">
 														<!--begin::Dismiss reply-->
 														<span class="btn btn-icon btn-sm btn-clean btn-active-light-primary clear_message_box" id="delete_btn" data-inbox="dismiss" data-toggle="tooltip" title="Discard reply">
-															<i class="ki-duotone ki-trash fs-2">
+															<i class="ki-duotone ki-trash fs-2 text-white	">
 																<span class="path1"></span>
 																<span class="path2"></span>
 																<span class="path3"></span>
@@ -1200,13 +1200,13 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 																						<div class="form-check mb-4">
 																							<input class="form-check-input radiobuttonpayment" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="currentpakage">
-																							<label class="form-check-label text-white" for="flexRadioDefault1">
+																							<label class="form-check-label fs-color-yellow" for="flexRadioDefault1">
 																								Use <span class="RequiredPages">0</span>  Pages from Current Package (Pages Remaining in Your Package: <span class="RemainingPages">0</span>)
 																							</label>
 																						</div>
 																						<div class="form-check mt-4">
 																							<input class="form-check-input radiobuttonpayment" value="cardpakage" type="radio" name="flexRadioDefault" id="flexRadioDefault2"  checked>
-																							<label class="form-check-label text-white" for="flexRadioDefault2">
+																							<label class="form-check-label fs-color-yellow" for="flexRadioDefault2">
 																								Purchase <span class="RequiredPages">0</span> Additional Pages (Additional Pages Available for Purchase: <span class="rollover">0</span>)Total $<span id="totalcostreq">0</span> (Per Page $<span id="pakg_cost_per_page">{{$order->cost_per_page}}</span>)
 																							</label>
 
@@ -8146,7 +8146,7 @@ function submit_payment() {
 					contentType: false,  // Don't set contentType
 				success: function(response) {
 					console.log('Server response:', response);
-					Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
+					Swal.fire('Success!', 'Your  Sent Successfully.', 'success');
 					//	Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
 					Pusher.logToConsole = true;
 					$('#message_box').val('');

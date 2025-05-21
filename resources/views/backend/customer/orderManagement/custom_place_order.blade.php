@@ -1051,23 +1051,13 @@
                 <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="mb-5">"Sources" are the different items from which we will reference information and/or
-                    obtain quotations to include in the paper that we write. Sources can include your choice of books,
-                    journals, articles, newspapers, poems, Web sites, artwork, etc.</p>
-                <p class="mb-5">LIMITATION #1: Locating and incorporating obscure sources (or a needlessly high
-                    number of sources) can be a difficult, time-consuming task for the writer. For that reason, you may
-                    request—for free—only ONE source per every ONE page of text that you order. There is a small
-                    surcharge of $1 per each extra source exceeding the number of pages that you order. (For example, if
-                    you order 10 pages and request 15 sources, there will be a total additional cost of $5 for the 5
-                    extra sources.)</p>
+                <p class="mb-5">"Sources" refer to the various items we use to reference information or obtain quotations for your paper. These sources can include books, journals, articles, websites, artwork, etc.</p>
+                <p class="mb-5">For Packaged Orders: In packaged orders, you are eligible to receive one free source per page of your order. For example, if you order 10 pages, you will receive 10 free sources.</p>
                 <p class="mb-5">
-                    LIMITATION #2: Although we have access to literally millions of sources (journals, magazines,
-                    newspaper articles, books, periodicals, etc.), we may not be able to access a particular source if
-                    it is unavailable online or at the assigned writer's local library. For example, class textbooks are
-                    not available online or in public libraries. If your order requires access to a class textbook, you
-                    must be prepared to fax or email the necessary pages from that textbook. Similarly, if your order
-                    requires our writer to access a password-protected Web site, you must include your username and
-                    password with your order specifications.
+                   Important Note: Unlike normal orders, additional sources are not charged in packaged orders. You can request extra sources as needed, and no additional cost will be applied.
+                </p>
+                <p class="mb-5">
+                   Please ensure that the sources you request are relevant and accessible, as we may not be able to retrieve certain materials (e.g., class textbooks or password-protected websites). If you require access to such materials, you may need to provide them directly to our writers.
                 </p>
             </div>
             <div class="modal-footer border-0">
@@ -1179,17 +1169,13 @@
     <div class="modal-dialog">
         <div class="modal-content badge-custom-bg">
             <div class="modal-header border-0">
-                <h5 class="modal-title " id="exampleModalLabel">Features That Qualify as "Statistical Analysis"</h5>
+                <h5 class="modal-title " id="exampleModalLabel">What Qualifies as "Statistical Analysis"?</h5>
                 <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="mb-5">Our prices are based on words per page. However, to complete a paper that requires a
-                    meaningful amount of statistical analysis and/or mathematical calculations, a writer must generally
-                    dedicate a significant amount of extra/unpaid time, labor, and effort. Therefore, if your order
-                    requires a meaningful amount of statistical analysis and/or mathematical calculations, we ask that
-                    you voluntarily add 15% to the order subtotal to adequately compensate the writer.</p>
+                <p class="mb-5">Statistical analysis involves the use of various mathematical techniques to interpret and analyze data. In packaged orders, you can request statistical analysis at no additional cost. This means you will not be charged any extra for including statistical or mathematical calculations in your paper.</p>
                 <p class="mb-5">
-                    The following features qualify as "statistical analysis":
+                    Examples of "Statistical Analysis" include:
                 </p>
                 <ul class="list-unstyled">
                     <li>Analysis of Covariance (ANCOVA or ANOCOVA)</li>
@@ -1218,6 +1204,9 @@
                     <li>Univariate Statistical Analysis</li>
                     <li>Variance Components (VARCOMP)</li>
                 </ul>
+                <p class="mb-5">For Packaged Orders: Statistical analysis is included at no extra charge for packaged orders. Unlike normal orders, no additional fee is added for any of the statistical techniques mentioned above.
+
+</p>
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>

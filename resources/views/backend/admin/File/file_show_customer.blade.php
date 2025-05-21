@@ -387,7 +387,7 @@
                                     <i class="ki-duotone ki-folder-up fs-2 text-white">
                                         <span class="path1"></span>
                                         <span class="path2"></span>
-                                    </i>Upload Files for Customer</button>
+                                    </i>Upload Files </button>
                             </div>
                         </div>
 
