@@ -78,7 +78,7 @@
 
   {{-- Pagination links --}}
   <div class="mt-4">
-    {{ $threads->links() }}
+    {{ $threads->links('pagination::bootstrap-5') }}
   </div>
 </div>
 </div>
