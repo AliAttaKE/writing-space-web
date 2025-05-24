@@ -1974,7 +1974,7 @@ if ($subs->remaining_pages == 0) {
                     $currentSubs->save();
 
 
-                    dd($noofpage);
+                   
 
                     $orderDetails = json_decode($pay['order_details'], true);
                     $orderss = "";
@@ -2036,7 +2036,7 @@ if ($subs->remaining_pages == 0) {
                     $data['customer_email'] = $user->email;
 
 
-
+                    dd($noofpage);
                   
 
 
