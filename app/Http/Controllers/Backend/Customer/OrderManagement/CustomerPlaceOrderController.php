@@ -2036,7 +2036,6 @@ if ($subs->remaining_pages == 0) {
                     $data['customer_email'] = $user->email;
 
 
-                    dd($noofpage);
                   
 
 
@@ -2128,7 +2127,7 @@ if ($subs->remaining_pages == 0) {
             <p>Writing Space</p>
         ";
         $subject = "Your Additional Pages Added to Order ID - $order_id";
-        $this->send_invoice($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject);
+        $this->send_invoice($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage);
         // Mail::html($emailContent, function ($message) use ($user, $order_id) {
         //     $message->to($user->email)
         //             ->subject('Confirmation of Additional Pages Added to Order ID - ' . $order_id);
@@ -3503,7 +3502,7 @@ $emailContent = "
         }
     }
 
-    public function send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject)
+    public function send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage)
     {
        // dd($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
         try{
@@ -3543,7 +3542,7 @@ $emailContent = "
                 'customerAdress' => $customerAdress,
                 'orderid' => $orderid,
                 'itemName' => $itemName,
-                'totalPages' => $totalPages,
+                'totalPages' => $noofpage,
                 'pricePerPage' => $pricePerPage,
                 'payment_status' => $payment_status,
                 'subTotal' => $subTotal,
