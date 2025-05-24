@@ -1683,6 +1683,13 @@ if ($subs->remaining_pages == 0) {
                         // if ($email) {
                         //     Mail::to($user->email)->send(new EmailTemplate($user, $email));
                         // }
+
+
+                        $pay_chk_addpage = Pay::where('order_id', $orderid)->first();
+
+                        dd($pay_chk_addpage);
+
+                      
                         $purchaseDate = now()->format('Y-m-d');
                         $emailContent = "
 
