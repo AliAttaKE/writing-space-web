@@ -2035,13 +2035,13 @@ if ($subs->remaining_pages == 0) {
 
 
 
-                    $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first();
-                    if ($email) {
-                        Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
-                    }
+                    // $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first();
+                    // if ($email) {
+                    //     Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
+                    // }
 
 
-                    dd( $noofpage);
+                  
 
 
 
