@@ -1920,7 +1920,7 @@ if ($subs->remaining_pages == 0) {
             curl_close($curl);
             $responseArray = json_decode($response, true);
 
-            dd($noofpage);
+         
 
             if ($responseArray) {
                 $authenticationStatus = $responseArray['order']['authenticationStatus'];
@@ -1957,7 +1957,7 @@ if ($subs->remaining_pages == 0) {
 
                     //  $user = User::find($pay->user_id);
 
-
+                   
                     $pages = $order_detail->no_of_page;
                     $user = User::findOrFail($pay->user_id);
                     $currentSubs = User_Subscription::where('user_id', $user->id)->first();
@@ -1974,7 +1974,7 @@ if ($subs->remaining_pages == 0) {
                     $currentSubs->save();
 
 
-
+                    dd($noofpage);
 
                     $orderDetails = json_decode($pay['order_details'], true);
                     $orderss = "";
