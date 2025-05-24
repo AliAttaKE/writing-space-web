@@ -1920,6 +1920,8 @@ if ($subs->remaining_pages == 0) {
             curl_close($curl);
             $responseArray = json_decode($response, true);
 
+            dd($noofpage);
+
             if ($responseArray) {
                 $authenticationStatus = $responseArray['order']['authenticationStatus'];
                 if ($authenticationStatus == 'AUTHENTICATION_SUCCESSFUL') {
@@ -2035,10 +2037,7 @@ if ($subs->remaining_pages == 0) {
 
 
 
-                    // $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first();
-                    // if ($email) {
-                    //     Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
-                    // }
+                  
 
 
                   
