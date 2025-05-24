@@ -1685,9 +1685,7 @@ if ($subs->remaining_pages == 0) {
                         // }
 
 
-                        $pay_chk_addpage = Pay::where('order_id', $orderid)->first();
-
-                        dd($pay_chk_addpage);
+                      
 
                       
                         $purchaseDate = now()->format('Y-m-d');
@@ -1879,6 +1877,7 @@ if ($subs->remaining_pages == 0) {
 
 
             $amount = $order_detail->total_cost;
+            $noofpage = $order_detail->no_of_page;
 
             $randomNumber = mt_rand(100, 999);
             $transactionIdurl = $transactionId . $randomNumber;
@@ -2041,6 +2040,8 @@ if ($subs->remaining_pages == 0) {
                         Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
                     }
 
+
+                    dd( $noofpage);
 
 
 
