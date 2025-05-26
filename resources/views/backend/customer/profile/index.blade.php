@@ -1231,11 +1231,13 @@
     $(document).ready( function() {
         $('#no_of_page').on('change', function() {
   // read and parse the per-page cost
-  const cost = parseFloat(localStorage.getItem('costperpage1')) || parseFloat(localStorage.getItem('costperpage1'));
+
+  var finalvalue = {{ $used_subscription->cost_per_page_final ?? 0 }};
+  const cost = parseFloat(localStorage.getItem('cost_per_page')) || parseFloat(localStorage.getItem('costperpage1'));
   // get the selected number of pages
   const noOfPages = parseInt($(this).val(), 10) || 0;
   // calculate total
-  const totalCost = cost * noOfPages;
+  const totalCost = finalvalue * noOfPages;
             console.log(cost);
   // update the DOM (formatted with two decimals)
   $('#cost_per_page12').text(cost);
