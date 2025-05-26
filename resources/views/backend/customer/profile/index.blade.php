@@ -1240,7 +1240,7 @@
   const totalCost = finalvalue * noOfPages;
             console.log(cost);
   // update the DOM (formatted with two decimals)
-  $('#cost_per_page12').text(cost);
+  $('#cost_per_page12').text(finalvalue);
   $('#totalcost').text(totalCost.toFixed(2));
 });
 
