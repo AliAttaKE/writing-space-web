@@ -1840,6 +1840,7 @@ if ($subs->remaining_pages == 0) {
                     // });
 
                     $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$subs->min_page);
+                    
 
                         $user_id =  $pay->user_id;
                         $user = User::find($user_id);
