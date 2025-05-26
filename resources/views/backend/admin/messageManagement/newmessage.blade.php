@@ -366,15 +366,7 @@
 <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
 <script>
 
-    const newMessageEditor = new Quill("#newMessageEditor", {
-        theme: "snow",
-    });
 
-    addEventListener('keyup', () => {
-        var editorContent = newMessageEditor.root.innerHTML;
-        var message = document.getElementById('message');
-        message.innerHTML = editorContent;
-    });
 
 
 
@@ -408,12 +400,12 @@
       }
 
       // optional: size check (e.g. max 5MB)
-      const maxSize = 5 * 1024 * 1024;
+      const maxSize = 500 * 1024 * 1024;
       if (file.size > maxSize) {
         Swal.fire({
           icon: "error",
           title: "File too large",
-          text: `"${file.name}" exceeds 5 MB.`
+          text: `"${file.name}" exceeds 500 MB.`
         });
         this.value = "";
         document.getElementById("attach_file_1").innerText = "";
@@ -431,21 +423,32 @@
 
 
     // Update the hidden textarea with Quill content
-    var form = document.querySelector('form');
-    form.onsubmit = function () {
-        // Get Quill content as HTML
-        var quillContent = quill.root.innerHTML;
-        // Update the hidden textarea with HTML content
-        form.querySelector('textarea[name=message]').value = quillContent;
-    };
+    // var form = document.querySelector('form');
+    // form.onsubmit = function () {
+    //     // Get Quill content as HTML
+    //     var quillContent = quill.root.innerHTML;
+    //     // Update the hidden textarea with HTML content
+    //     form.querySelector('textarea[name=message]').value = quillContent;
+    // };
 </script>
 <script>
 $(document).ready(function () {
+
+     const newMessageEditor = new Quill("#newMessageEditor", {
+        theme: "snow",
+    });
+
+    addEventListener('keyup', () => {
+        var editorContent = newMessageEditor.root.innerHTML;
+        var message = document.getElementById('message');
+        message.innerHTML = editorContent;
+    });
+
     $('#kt_inbox_compose_form').submit(function (e) {
 
 
-
         e.preventDefault(); // Prevent the form from submitting in the traditional way
+        $('.clear_message_box').attr('disabled', true);
 
         // Create a FormData object to gather form data
         var formData = new FormData(this);
@@ -470,12 +473,16 @@ $(document).ready(function () {
 
         if (isEmpty) {
             Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
+                            $('.badge-custom-bg').attr('disabled', false);
+
             return; // Stop execution if the message is empty
         }
 
 
         if (!send_by) {
             Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
+                            $('.badge-custom-bg').attr('disabled', false);
+
             return;
         }
         // Append the message content (HTML) to formData
@@ -499,11 +506,15 @@ $(document).ready(function () {
                 $('#attach_file_1').text(''); // Clear any attached file info
 
                 $('#message_box').val('');
+                                        $('.clear_message_box').attr('disabled', false);
+
 
         $('#attach_file_1').text('');
             },
             error: function (error) {
                 console.error('Error:', error);
+                        $('.clear_message_box').attr('disabled', false);
+
             }
         });
 

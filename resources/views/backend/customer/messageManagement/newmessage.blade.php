@@ -118,10 +118,7 @@ h3{
                         <div class="card-body">
 
                             <!--begin::Form-->
-                            <form id="kt_inbox_compose_form" class="rounded border btn-dark-primary"  enctype="multipart/form-data"
->
-
-
+                            <form id="kt_inbox_compose_form" class="rounded border btn-dark-primary"  enctype="multipart/form-data">
                                 <!--begin::Body-->
                                 <div class="d-block">
 
@@ -276,9 +273,7 @@ h3{
 </script>
 
 
-@endsection
 
-@push('scripts')
 <script>
 
 $(document).ready(function (){
@@ -330,29 +325,32 @@ $(document).ready(function (){
 
       fileNames.push(file.name);
     }
-});
+    });
 
-    $(document).ready(function() {
+
           $( '#delete_btn').on('click', function (e){
             newMessageEditor.setText('');
             $('#message_box').val('');
             $('#attach_file_1').text('');
             $('#message_box').text('');
         });
+    var newMessageEditor = new Quill('#editorss', {
+            theme: 'snow',
+            placeholder: 'Compose your message here…'
+        });
+    var form = document.querySelector('form');
+    form.onsubmit = function () {
+        // Get Quill content as HTML
+        var quillContent = quill.root.innerHTML;
+        // Update the hidden textarea with HTML content
+        form.querySelector('textarea[name=message]').value = quillContent;
+    };
 
-
-
-
-    });
-
-
-    $(document).ready(function () {
     $('#kt_inbox_compose_form').submit(function (e) {
         e.preventDefault(); // Prevent the form from submitting normally
-
         var formData = new FormData(this);
         formData.append('_token', '{{ csrf_token() }}');
-
+        $('.clear_message_box').attr('disabled', true);
         var sendby = $('.radioAdminWriter:checked').val(); // selected radio
         var orderId = $('select[name="order_id"]').val();
 
@@ -362,16 +360,22 @@ $(document).ready(function (){
 
         if (!orderId) {
             Swal.fire('Error!', 'To start chatting with us, please place an order first!', 'error');
+                            $('.badge-custom-bg').attr('disabled', false);
+
             return;
         }
 
         if (!sendby) {
             Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
+                            $('.badge-custom-bg').attr('disabled', false);
+
             return;
         }
 
         if (!message) {
             Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
+                            $('.badge-custom-bg').attr('disabled', false);
+
             return;
         }
 
@@ -409,9 +413,12 @@ $(document).ready(function (){
                     alert(JSON.stringify(data));
                     console.log(JSON.stringify(data));
                 });
+                $('.clear_message_box').attr('disabled', false);
             },
             error: function (error) {
                 console.error('Error:', error);
+                                $('.clear_message_box').attr('disabled', false);
+
             }
         });
 
@@ -419,8 +426,6 @@ $(document).ready(function (){
     });
 });
 
-
-});
 </script>
 
-@endpush
+@endsection

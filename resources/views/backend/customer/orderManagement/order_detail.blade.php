@@ -7487,12 +7487,12 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
     }
 
     // 2) optional: max size (5 MB here)
-    const maxBytes = 5 * 1024 * 1024;
+    const maxBytes = 500 * 1024 * 1024;
     if (file.size > maxBytes) {
       Swal.fire({
         icon: "error",
         title: "File too large",
-        text: `"${file.name}" exceeds 5 MB.`
+        text: `"${file.name}" exceeds 500 MB.`
       });
       fileInput.value = "";
       document.getElementById("attach_file").innerText = "";

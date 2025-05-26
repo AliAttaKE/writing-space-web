@@ -281,8 +281,6 @@
 
 
 
-@endsection
-@push('scripts')
 <script>
     //   alert('ok');
     function handleTableSearch() {
@@ -385,4 +383,4 @@
         }
     });
 </script>
-@endpush
+@endsection

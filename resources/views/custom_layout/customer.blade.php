@@ -2311,30 +2311,8 @@
                         }
                     @endif
 
-                     document.addEventListener('DOMContentLoaded', () => {
-    const quill = new Quill('#editorss', {
-      theme: 'snow',
-      placeholder: 'Type your message here…'
-    });
 
-    // Sync to hidden textarea
-    quill.on('text-change', () => {
-      document.getElementById('message_box').value =
-        quill.root.innerHTML;
-    });
-  });
-  document.addEventListener('DOMContentLoaded', () => {
-    const quill = new Quill('#replyMessageEditor', {
-      theme: 'snow',
-      placeholder: 'Type your message here…'
-    });
 
-    // Sync to hidden textarea
-    quill.on('text-change', () => {
-      document.getElementById('message_box').value =
-        quill.root.innerHTML;
-    });
-  });
                 </script>
 
         </body>
