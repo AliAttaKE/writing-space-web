@@ -310,18 +310,12 @@ h3 {
 <!--begin::Modals-->
 <!--end::Modals-->
 <!--begin::Javascript-->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
 <script>
     var hostUrl = "assets/";
 
-   const replayMessageEditor = new Quill("#replayMessageEditor", {
-    theme: "snow",
-  });
 
-  addEventListener('keyup', () => {
-    var editorContent = replayMessageEditor.root.innerHTML;
-    var message = document.getElementById('message_box');
-    message.innerHTML = editorContent;
-});
 
 
     // Update the hidden textarea with Quill content
@@ -335,17 +329,16 @@ h3 {
 
     // Global variable to store order_id
     window.order_id = "{{ $order_id }}";
-</script>
 
-
-<script>
 
 $(document).ready(function () {
+
+
     $('#kt_inbox_reply_form').submit(function (e) {
         e.preventDefault();
-        alert('dsfs');
         var formData = new FormData(this);
         formData.append('_token', '{{ csrf_token() }}');
+        $('.badge-custom-bg').attr('disabled', true);
 
         var send_by = $('.radioAdminWriter:checked').val();
         console.log("Selected value:", send_by);
@@ -357,11 +350,15 @@ $(document).ready(function () {
 
         if (!message) {
             Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
+                            $('.badge-custom-bg').attr('disabled', false);
+
             return;
         }
 
         if (!send_by) {
             Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
+                            $('.badge-custom-bg').attr('disabled', false);
+
             return;
         }
 
@@ -391,15 +388,28 @@ $(document).ready(function () {
                 replayMessageEditor.setText('');
                 document.getElementById('attach_file_1').innerText = '';
                 $('#media').val('');
+                $('.badge-custom-bg').attr('disabled', false);
+
             },
             error: function (error) {
                 console.error('Error:', error);
+                 $('.badge-custom-bg').attr('disabled', false);
             }
         });
 
         return false;
     });
-});
+
+    const replayMessageEditor = new Quill("#replayMessageEditor", {
+        theme: "snow",
+    });
+
+    addEventListener('keyup', () => {
+        var editorContent = replayMessageEditor.root.innerHTML;
+        var message = document.getElementById('message_box');
+        message.innerHTML = editorContent;
+    });
+
 
 
 document
@@ -413,7 +423,7 @@ document
     ];
     let fileNames = [];
 
-    for (let i = 0; i <script files.length; i++) {
+    for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const ext = file.name.split(".").pop().toLowerCase();
 
@@ -453,7 +463,7 @@ document
         var element = document.getElementById('attach_file_1');
         element.innerText = '';
     });
+});
 
 </script>
-
 @endsection

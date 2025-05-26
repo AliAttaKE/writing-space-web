@@ -317,9 +317,7 @@ h3 {
             formData.append('_token', '{{ csrf_token() }}');
             // You can append additional data if needed
             // formData.append('key', 'value');
-            console.log(formData)
             var element = document.getElementById('media');
-            console.log(element.value)
             // Display the form data in the console (for testing purposes)
             for (var pair of formData.entries()) {
                 console.log(pair[0] + ', ' + pair[1]);
@@ -369,13 +367,6 @@ h3 {
 <script>
 
 
-addEventListener('keyup', () => {
-    var editorContent = replyMessageEditor.root.innerHTML;
-    var message = document.getElementById('message_box');
-    message.innerHTML = editorContent;
-});
-
-
 document
   .getElementById("media")
   .addEventListener("change", function() {
@@ -422,6 +413,17 @@ document
 });
 
     $(document).ready(function () {
+        var replyMessageEditor = new Quill('#replyMessageEditor', {
+            theme: 'snow',
+            placeholder: 'Compose your message here…'
+        });
+    var form = document.querySelector('form');
+    form.onsubmit = function () {
+        // Get Quill content as HTML
+        var quillContent = quill.root.innerHTML;
+        // Update the hidden textarea with HTML content
+        form.querySelector('textarea[name=message]').value = quillContent;
+    };
     $('#kt_inbox_reply_form').submit(function (e) {
         e.preventDefault(); // Prevent traditional submit
         console.log('hello');
@@ -437,11 +439,15 @@ document
 
         if (!send_by) {
             Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
+                            $('.badge-custom-bg').attr('disabled', false);
+
             return;
         }
 
         if (!message) {
             Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
+                            $('.badge-custom-bg').attr('disabled', false);
+
             return;
         }
 
@@ -465,9 +471,13 @@ document
                 $('#message_box').val(''); // Optional since you're now using Quill
                 $('#attach_file_1').text('');
                 $('#media').val('');
+                                $('.badge-custom-bg').attr('disabled', false);
+
             },
             error: function (error) {
                 console.error('Error:', error);
+                                $('.badge-custom-bg').attr('disabled', false);
+
             }
         });
 
