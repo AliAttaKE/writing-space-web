@@ -3527,7 +3527,7 @@ $emailContent = "
             $totalPages = $subs->min_page;
            
             $subTotal = $transaction->merchantAmount;
-            $pricePerPage = $totalPages/ $subTotal;
+            $pricePerPage = $subTotal / $totalPages;
             $payment_status ='Paid';
 
 
