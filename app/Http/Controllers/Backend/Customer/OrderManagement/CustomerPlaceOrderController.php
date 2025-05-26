@@ -3528,8 +3528,7 @@ $emailContent = "
            
             $subTotal = $transaction->merchantAmount;
 
-            dd($subTotal,$totalPages);
-            $pricePerPage = ($totalPages != 0) ? ($subTotal / $totalPages) : 0;
+            $pricePerPage = ($totalPages != 0) ? ($subTotal / $noofpage) : 0;
 
             $payment_status ='Paid';
 
