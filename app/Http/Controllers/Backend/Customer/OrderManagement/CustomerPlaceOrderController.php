@@ -1839,7 +1839,7 @@ if ($subs->remaining_pages == 0) {
                     //             ->subject('Welcome to Your New Writing Space Package – Thank You for Your Purchase!');
                     // });
 
-                    $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
+                    $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$subs->min_page);
 
                         $user_id =  $pay->user_id;
                         $user = User::find($user_id);
@@ -3527,6 +3527,8 @@ $emailContent = "
             $pricePerPage = $subs->cost_per_page;
             $subTotal = $transaction->merchantAmount;
             $payment_status ='Paid';
+
+
 
 
             $discount = 0.0;
