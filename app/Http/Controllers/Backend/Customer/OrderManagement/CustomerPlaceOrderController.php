@@ -1555,6 +1555,7 @@ if ($subs->remaining_pages == 0) {
             $order_detail = json_decode($pay->order_details);
             $amount = $order_detail[0];
             $randomNumber = mt_rand(100, 999);
+            $noofpage = $order_detail->no_of_page;
             $transactionIdurl = $transactionId . $randomNumber;
 
             $curl = curl_init();
@@ -1712,7 +1713,7 @@ if ($subs->remaining_pages == 0) {
                             <p>Writing Space</p>
                         ";
                         $subject = 'Welcome to Your New Writing Space Package – Thank You for Your Purchase!';
-                        $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
+                        $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage);
 
                         // return response()->json(['message' => 'Successfully Updated Subscription1']);
 
