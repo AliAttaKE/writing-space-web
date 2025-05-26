@@ -1231,7 +1231,7 @@
     $(document).ready( function() {
         $('#no_of_page').on('change', function() {
   // read and parse the per-page cost
-  const cost = parseFloat(localStorage.getItem('cost_per_page')) || parseFloat(localStorage.getItem('costperpage1'));
+  const cost = parseFloat(localStorage.getItem('costperpage1')) || parseFloat(localStorage.getItem('costperpage1'));
   // get the selected number of pages
   const noOfPages = parseInt($(this).val(), 10) || 0;
   // calculate total
