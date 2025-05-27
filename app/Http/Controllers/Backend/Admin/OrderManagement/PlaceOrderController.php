@@ -803,10 +803,10 @@ public function deleverd_order($id, Request $request)
             //     <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
             //     <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
             // break;
-            
 
 
-            
+
+
         case 'Canceled':
             $emailSubject = 'Notification: Your Order ID ' . $order->order_id . ' Has Been Cancelled';
             $emailContent = "
@@ -836,11 +836,13 @@ public function deleverd_order($id, Request $request)
         default:
             return response()->json(['success' => false, 'message' => 'Invalid status provided'], 400);
     }
-
-    Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
+    if($request->status != 'Completed'){
+        Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
         $message->to($user->email)
                 ->subject($emailSubject);
-    });
+        });
+    }
+
 
     return response()->json(['success' => true, 'message' => 'Order status updated and email sent']);
 }

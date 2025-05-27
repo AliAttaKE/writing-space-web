@@ -178,10 +178,11 @@ class CustomerPlaceOrderController extends Controller
             'receiver_id' => $receiver_id, //admin id here;
         ]);
 
-        $email = Email::where('type', '=', 'Support Message')->first();
-        if ($email) {
-            Mail::to($admin->email)->send(new EmailTemplate($admin, $email));
-        }
+        // $email = Email::where('type', '=', 'Support Message')->first();
+        // if ($email) {
+        //     Mail::to($admin->email)->send(new EmailTemplate($admin, $email));
+        // }
+         Mail::to($admin->email)->send(new EmailTemplate($admin, $email));
 
         return response()->json(['success' => true, 'message' => 'Message sent successfully'], 200);
     }

@@ -243,8 +243,9 @@
 											<!--begin::Stats-->
 											<div class="m-0">
 												@php
-												$countProgress = \App\Models\Orders::where('order_status', 'In-Progress')
-												->where('user_id', Auth::user()->id)->count();
+												$countProgress = \App\Models\Orders::whereIn('order_status', ['In-Progress', 'Completed'])
+                                                ->where('user_id', Auth::user()->id)
+                                                ->count();
 												@endphp
 												<!--begin::Number-->
 												<span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1 custom-fs-22 fs-color-yellow">{{$countProgress ?? '0'}}</span>

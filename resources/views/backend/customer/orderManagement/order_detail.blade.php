@@ -884,7 +884,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 													<!--begin::Modal content-->
 													<div class="modal-content badge-custom-bg">
 														<!--begin::Form-->
-														<form method="post" action="{{ route('customer.file.upload') }}" enctype="multipart/form-data" class="form"  id="kt_modal_upload_form">
+														<form method="post" action="{{ route('customer.file.upload') }}" enctype="multipart/form-data" class="form"  id="kt_modal_upload_form1">
 															<!--begin::Modal header-->
 															@csrf
 
@@ -1099,9 +1099,10 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																					class="form-control mb-5 btn-dark-primary"
 																					id="pageCount"
 																					placeholder="Enter page count" min="0">
-																					 <p class="fs-3 fs-color-white custom-fs-13">Total Cost: $<span
+																					<p class="fs-3 fs-color-white custom-fs-13">Cost Per Page : $<span
+																						id="totalCostPerPage" class="fs-color-yellow">0.00</span></p>
+                                                                                    <p class="fs-3 fs-color-white custom-fs-13">Total Cost: $<span
 																						id="totalCost" class="fs-color-yellow">0.00</span></p>
-
 
 																			</div>
 																		</div>
@@ -1162,7 +1163,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																	<div class="modal-dialog">
 																		<div class="modal-content badge-custom-bg">
 
-																			<form   enctype="multipart/form-data" class="form" id="kt_modal_upload_form">
+																			<form enctype="multipart/form-data" class="form" id="kt_modal_upload_form">
 																				<!--begin::Modal header-->
 																				<input type="hidden" name="_token" value="jgx5GfFAnNH462cMW6Yt1oQX3DqCkbqgmk8HcDJ0" autocomplete="off">
 																				<!--begin::Modal header-->
@@ -1658,9 +1659,9 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																	<!--begin::Send-->
 																	<div class="btn-group  me-4">
 																		<!--begin::Submit-->
-																		<span class="btn btn-primary badge-custom-bg fs-bold px-6"
+																		<span class="btn btn-primary badge-custom-bg fs-bold px-6 sendSupportMessage"
 																			data-kt-inbox-form="send">
-																			<span class="indicator-label sendSupportMessage" >Send</span>
+																			<span class="indicator-label" >Send</span>
 																			<span class="indicator-progress">Please
 																				wait...
 																				<span
@@ -8090,6 +8091,38 @@ function submit_payment() {
 
 <script>
 	$(document).ready(function() {
+
+        document.getElementById("kt_modal_upload_form1").addEventListener("submit", function(e) {
+
+    const input = document.getElementById("file-3");
+    const allowedTypes = ["DOCX","docx", "pdf", "txt", "rft","xlsx", "csv","pptx","jpeg", "png", "gif"];
+    const maxSizeMB = 500; // maximum size per file in MB
+    let hasInvalid = false;
+
+    if (input.files.length === 0) {
+        e.preventDefault();
+      Swal.fire('Error!', `Please select at least one file to upload.`, 'error');
+      return;
+    }
+
+    for (let file of input.files) {
+      const ext = file.name.split(".").pop().toLowerCase();
+      const sizeMB = file.size / (1024 * 1024);
+
+      if (!allowedTypes.includes(ext)) {
+        Swal.fire('Error!', `Invalid file type: ${file.name}`, 'error');
+
+        hasInvalid = true;
+        break;
+      }
+
+    }
+
+    if (hasInvalid) {
+      e.preventDefault(); // Stop form submission
+    }
+  });
+
 		$( '#delete_btn').on('click', function (e){
 			$('#message_box').val('');
 			$('#message_box').text('');
@@ -8349,10 +8382,39 @@ function submit_payment() {
 
 
 <script>
+
+
 	// Function to handle table search
 	$(document).ready(function () {
 
+        $('#pageCount').on('change', function() {
+  // read and parse the per-page cost
+  const cost = parseFloat(localStorage.getItem('cost_per_page')) || parseFloat(localStorage.getItem('costperpage1'));
+  // get the selected number of pages
+  const noOfPages = parseInt($(this).val(), 10) || 0;
+  // calculate total
+  const totalCost = cost * noOfPages;
+            console.log(cost);
+  // update the DOM (formatted with two decimals)
+  //$('#cost_per_page12').text(cost);
+  $('#totalCostPerPage').text(totalCost.toFixed(2));
+});
 
+    const input = document.getElementById("pageCount");
+
+    // Prevent typing minus sign or 'e' (used in scientific notation)
+    input.addEventListener("keydown", function (e) {
+      if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+        e.preventDefault();
+      }
+    });
+
+    // Prevent pasting negative numbers
+    input.addEventListener("input", function () {
+      if (this.value < 0) {
+        this.value = Math.abs(this.value);
+      }
+    });
 
 
 
@@ -8431,7 +8493,7 @@ console.log("sahriq totalpageCount:", totalpageCount);
 
 
 
-			  var cost_perpage_get ={{$used_subscription->cost_per_page_final ??''}};
+			  var cost_perpage_get = "{{$used_subscription->cost_per_page_final ?? ''}}";
 
 
 
@@ -8482,11 +8544,17 @@ console.log("sahriq totalpageCount:", totalpageCount);
 		// //send support message
 		$(document).on('click', '.sendSupportMessage', function (e){
 			e.preventDefault();
+            $(this).attr('disabled', true);
+
 			var formData = new FormData($('#support_message_form')[0]);
 			var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-
-
+            //console.log(supportMessageQuill.getText());
+            if(supportMessageQuill.getText() == '\n'){
+                Swal.fire('Error',"Please Compose Message First!", 'error');
+                $(this).attr('disabled', false);
+                return;
+            }
+            
 			$.ajax({
 				type: "POST",
 				url: "{{ route('customer.support.message') }}",
@@ -8497,17 +8565,23 @@ console.log("sahriq totalpageCount:", totalpageCount);
 					'X-CSRF-TOKEN': csrfToken
 				},
 				success: function(response){
-					console.log(response);
-					toastr.success(response.message);
+					//console.log(response);
+                    Swal.fire('Success', response.message, 'success');
+					//toastr.success(response.message);
 					$('#support_message_form')[0].reset();
 					supportMessageQuill.setText('');
+                    $(this).attr('disabled', false);
 				},
 				error: function(response) {
 					console.log(response);
+                    $(this).attr('disabled', false);
 					if (response && response.message) {
-						toastr.error(response.message);
+                        Swal.fire('Error', response.message, 'error');
+
 					} else {
-						toastr.error("An error occurred.");
+                        Swal.fire('Error', "An error occurred.", 'error');
+
+						//toastr.error("An error occurred.");
 					}
 				}
 			});
@@ -8516,9 +8590,9 @@ console.log("sahriq totalpageCount:", totalpageCount);
 
 
 
-	});//main-doc;
-</script>
-<script>
+	});
+    //main-doc;
+
 
 
 	   $(document).on('click', '.send_rewrite', function() {

@@ -253,6 +253,7 @@ class FileController extends Controller
         if ($request->has('download') && $request->input('download') === 'yes') {
 
             foreach ($fileIds as $fileId) {
+                $file = File::findOrFail($fileId);
                 $file->update(['download_time' => now()]);
                 $filePath = storage_path('app/public/uploads_folders/'.$folder_name.'/'.$file->file_name);
                 $filePaths[] = $filePath;
@@ -337,7 +338,7 @@ class FileController extends Controller
         }
 
       //  $filePath = storage_path('app/public/completed_by_writer/'.$folder_name.'/'.$file->file_name);
-       
+
       $filePath = storage_path('app/public/'.$file->file_path);
       $updatetime  = FileChatGPT::where('order_id', $order_id)->update(['download_time' => now() ]);
 
