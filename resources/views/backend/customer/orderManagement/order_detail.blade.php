@@ -8399,7 +8399,22 @@ function submit_payment() {
   //$('#cost_per_page12').text(cost);
   $('#totalCostPerPage').text(cost123.toFixed(2));
 
-    
+    const input = document.getElementById("pageCount");
+
+    // Prevent typing minus sign or 'e' (used in scientific notation)
+    input.addEventListener("keydown", function (e) {
+      if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+        e.preventDefault();
+      }
+    });
+
+    // Prevent pasting negative numbers
+    input.addEventListener("input", function () {
+      if (this.value < 0) {
+        this.value = Math.abs(this.value);
+      }
+    });
+
 
 
 		// Add an input event listener to the search input
