@@ -8387,35 +8387,19 @@ function submit_payment() {
 	// Function to handle table search
 	$(document).ready(function () {
 
-        $('#pageCount').on('change', function() {
+        
   // read and parse the per-page cost
-  const cost = parseFloat(localStorage.getItem('cost_per_page')) || parseFloat(localStorage.getItem('costperpage1'));
+  const cost123 = parseFloat(localStorage.getItem('cost_per_page')) || parseFloat(localStorage.getItem('costperpage1'));
   // get the selected number of pages
-  const noOfPages = parseInt($(this).val(), 10) || 0;
+  //const noOfPages = parseInt($(this).val(), 10) || 0;
   // calculate total
-  const totalCost = cost * noOfPages;
-            console.log(cost);
+  //const totalCost = cost * noOfPages;
+            //console.log(cost);
   // update the DOM (formatted with two decimals)
   //$('#cost_per_page12').text(cost);
-  $('#totalCostPerPage').text(totalCost.toFixed(2));
-});
+  $('#totalCostPerPage').text(cost123.toFixed(2));
 
-    const input = document.getElementById("pageCount");
-
-    // Prevent typing minus sign or 'e' (used in scientific notation)
-    input.addEventListener("keydown", function (e) {
-      if (e.key === '-' || e.key === 'e' || e.key === 'E') {
-        e.preventDefault();
-      }
-    });
-
-    // Prevent pasting negative numbers
-    input.addEventListener("input", function () {
-      if (this.value < 0) {
-        this.value = Math.abs(this.value);
-      }
-    });
-
+    
 
 
 		// Add an input event listener to the search input
