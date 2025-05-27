@@ -1632,10 +1632,12 @@ if ($subs->remaining_pages == 0) {
                     }else{
                         $total_chk = 0;
                     }
+                    $pay_chk_update = Pay::where('order_id', $orderid)->first();
                     if ($checkUserSub) {
                         $subs = Subscription::find($orderidexplode);
                         $checkUserSub->subscription_id = $orderidexplode;
                        if($total_chk > 0){
+
 
                                $checkUserSub->total_pages = (float)$subs->min_page + (float)$checkUserSub->total_pages;
 
@@ -1644,7 +1646,10 @@ if ($subs->remaining_pages == 0) {
 
                         $checkUserSub->remaining_pages = (float)$subs->min_page + (float)$checkUserSub->remaining_pages;
                         $checkUserSub->remaining_rollover_pages = $subs->rollover_limit + (float)$checkUserSub->rollover_pages;
-
+                        $checkUserSub->total_cost =$pay_chk_update->total_cost;
+                        $checkUserSub->cost_per_page_final =$pay_chk_update->cost_per_page_final;
+                        $checkUserSub->number_of_page =$pay_chk_update->number_of_page;
+                        
                         }
                       else{
                        $checkUserSub->total_pages = (float)$subs->min_page;
@@ -1654,6 +1659,10 @@ if ($subs->remaining_pages == 0) {
 
                             $checkUserSub->remaining_pages = (float)$subs->min_page;
                             $checkUserSub->remaining_rollover_pages = $subs->rollover_limit ;
+
+                            $checkUserSub->total_cost =$pay_chk_update->total_cost;
+                            $checkUserSub->cost_per_page_final =$pay_chk_update->cost_per_page_final;
+                            $checkUserSub->number_of_page =$pay_chk_update->number_of_page;
                       }
                         $checkUserSub->status = 'Active';
                         $checkUserSub->totalamountpro = $totalamountpro;
