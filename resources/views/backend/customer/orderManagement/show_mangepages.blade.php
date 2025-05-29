@@ -14,7 +14,7 @@
  <style>
         body {
             font-family: Inter, Helvetica, "sans-serif";
-            background-image: url('https://ws.elementary-solutions.com/backend/assets/media/ws/customer-dashboard.jpg');
+            background-image: url('./backend/assets/media/ws/customer-dashboard.jpg');
         }
 
         .lock {
@@ -101,7 +101,7 @@
             <div class="col-lg-7 mb-3">
                 <div class="card p-4 btn-dark-primary">
                     <div class="card-head border-bottom mb-2 d-flex align-items-center">
-                        <h5 class="text-white">Payment </h5> <img src="{{asset("backend/assets/media/ws/locked.png")}}"
+                        <h5 class="text-white">Payment Details</h5> <img src="{{asset("backend/assets/media/ws/locked.png")}}"
                             class="lock" alt="">
                     </div>
                     <div class="d-flex justify-content-end fs-12 text-white">
