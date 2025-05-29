@@ -182,7 +182,15 @@ class CustomerPlaceOrderController extends Controller
         // if ($email) {
         //     Mail::to($admin->email)->send(new EmailTemplate($admin, $email));
         // }
-         Mail::to($admin->email)->send(new EmailTemplate($admin, $email));
+        $emailSubject = 'Message to Support Staff : Your Order ID ' . $request->order_id;
+            $emailContent = "
+                <p>Hi {$admin->name},</p>
+                <p> {$request->message_support}</p>";
+                Mail::html($emailContent, function ($message) use ($admin, $emailSubject) {
+                    $message->to($admin->email)
+                    ->subject($emailSubject);
+                });
+         //Mail::to($admin->email)->send(new EmailTemplate($admin, $email));
 
         return response()->json(['success' => true, 'message' => 'Message sent successfully'], 200);
     }
@@ -199,6 +207,7 @@ class CustomerPlaceOrderController extends Controller
     public function revision_submit_ajax(Request $request)
     {
         $revision = new RevisionSubmit;
+        $admin = User::where('role', 'admin')->first();
 
         $order = Orders::where('order_id', $request->order_id)->first();
 
@@ -211,7 +220,20 @@ class CustomerPlaceOrderController extends Controller
             $revision->save();
 
             Orders::where('order_id', $request->order_id)->update(['order_status' => 'Revision']);
-
+            $emailSubject = 'Status Update: Your Order ID ' . $request->order_id . ' is In-Revision';
+            $emailContent = "
+                <p>Hi {$admin->name},</p>
+                <p>Your revision request is received and your Order ID {$request->order_id} is currently in the revision stage. We are making the necessary adjustments to ensure that the final product aligns perfectly with your specifications.</p>
+                <p><strong>What’s Next?</strong></p>
+                <ul>
+                    <li>Once revisions are complete, we will move forward to finalizing your order. You will receive a notification when your order is ready for delivery.</li>
+                </ul>
+                <p>Thank you for your collaboration and patience.</p>
+                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+                Mail::html($emailContent, function ($message) use ($admin, $emailSubject) {
+                    $message->to($admin->email)
+                    ->subject($emailSubject);
+                });
             return response()->json(['Success' => true, 'message' => 'Revision request submitted successfully.']);
         } else {
             return response()->json(['Success' => true, 'message' => 'Revision request not submitted order not deliver status.']);
@@ -970,7 +992,7 @@ if ($subs->remaining_pages == 0) {
         $sessionId = session()->get('sessionId');
 
 
-       
+
 
 
         $pay = new Pay;
@@ -987,7 +1009,7 @@ if ($subs->remaining_pages == 0) {
 
 
 
-    
+
 
 
         $curl = curl_init();
@@ -1649,7 +1671,7 @@ if ($subs->remaining_pages == 0) {
                         $checkUserSub->total_cost =$pay_chk_update->total_cost;
                         $checkUserSub->cost_per_page_final =$pay_chk_update->cost_per_page_final;
                         $checkUserSub->number_of_page =$pay_chk_update->number_of_page;
-                        
+
                         }
                       else{
                        $checkUserSub->total_pages = (float)$subs->min_page;
@@ -1696,9 +1718,9 @@ if ($subs->remaining_pages == 0) {
                         // }
 
 
-                      
 
-                      
+
+
                         $purchaseDate = now()->format('Y-m-d');
                         $emailContent = "
 
@@ -1754,7 +1776,7 @@ if ($subs->remaining_pages == 0) {
                             'user_id' => $user->id,
                             'status' => 'Active',
                             'due_date' => $dueDate,
-                            
+
                             'total_cost' => $pay_chk->total_cost,
                             'cost_per_page_final' => $pay_chk->cost_per_page_final,
                             'number_of_page' => $pay_chk->number_of_page
@@ -1850,7 +1872,7 @@ if ($subs->remaining_pages == 0) {
                     // });
 
                     $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$subs->min_page);
-                    
+
 
                         $user_id =  $pay->user_id;
                         $user = User::find($user_id);
@@ -1932,7 +1954,7 @@ if ($subs->remaining_pages == 0) {
             curl_close($curl);
             $responseArray = json_decode($response, true);
 
-         
+
 
             if ($responseArray) {
                 $authenticationStatus = $responseArray['order']['authenticationStatus'];
@@ -1969,7 +1991,7 @@ if ($subs->remaining_pages == 0) {
 
                     //  $user = User::find($pay->user_id);
 
-                   
+
                     $pages = $order_detail->no_of_page;
                     $user = User::findOrFail($pay->user_id);
                     $currentSubs = User_Subscription::where('user_id', $user->id)->first();
@@ -1986,7 +2008,7 @@ if ($subs->remaining_pages == 0) {
                     $currentSubs->save();
 
 
-                   
+
 
                     $orderDetails = json_decode($pay['order_details'], true);
                     $orderss = "";
@@ -2048,10 +2070,10 @@ if ($subs->remaining_pages == 0) {
                     $data['customer_email'] = $user->email;
 
 
-                  
 
 
-                  
+
+
 
 
 
@@ -3540,7 +3562,7 @@ $emailContent = "
 
 
             $totalPages = $subs->min_page;
-           
+
             $subTotal = $transaction->merchantAmount;
 
            $discounttotalamount = $toalamountsub - $subTotal;

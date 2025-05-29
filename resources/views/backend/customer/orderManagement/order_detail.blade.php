@@ -1445,7 +1445,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 														excellent service, both now and in the future.
 													</p>
 
-													<div class="card card-custom-bg p-5 mb-3">
+													{{-- <div class="card card-custom-bg p-5 mb-3">
 														<h3
 															class="page-headingc fs-color-white custom-fs-17 d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center mb-5">
 															General Setting</h3>
@@ -1515,7 +1515,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																			alt=""></button>
 																</div>
 															</div>
-													</div>
+													</div> --}}
 
 												</div>
 												<div class="col-md-5">
@@ -8636,7 +8636,10 @@ console.log("sahriq totalpageCount:", totalpageCount);
 	   $(document).on('click', '.send_rewrite', function() {
 	var order_id = document.getElementById('order_id_revision').value;
 	var revision_request = document.getElementById('request_revision').value;
-
+        if(!revision_request){
+            Swal.fire('Error', 'Please provide valid message.', 'error');
+            return;
+        }
 if (order_id && revision_request) {
 	 var url2 = '{{ route('customer.revision.submit.ajax') }}';
 
@@ -8789,6 +8792,10 @@ if (order_id && revision_request) {
 		 var order_id_get = $('#order_id_get').val();
 			var feedback = $('#feedback').val();
 			var url2 = '{{ route('customer.order-detail-feedback') }}';
+            if (!feedback || feedback === '<p><br></p>') {
+            Swal.fire('Error', 'Please provide valid message.', 'error');
+            return;
+            }
 
 		 $.ajax({
 		type: 'post',
