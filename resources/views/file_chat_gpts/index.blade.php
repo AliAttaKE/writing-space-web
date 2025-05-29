@@ -13,9 +13,14 @@
                     File order Management</h1>
             
             </div>
-
+<style>
+    .butt-bg {
+        background-color: #783afb !important;
+        color: #fff !important;
+    }
+</style>
             <div class="mb-3">
-                <a href="{{ route('file_chat_gpts.create') }}" class="btn btn-sm btn-primary">Add New order File</a>
+                <a href="{{ route('file_chat_gpts.create') }}" class="btn btn-sm btn-primary butt-bg">Add New order File</a>
             </div>
             <!--end::Page title-->
         </div>

@@ -22,7 +22,7 @@
         
             <div class="form-group mb-3">
                 <label for="orders_id" class="text-white">Order Number</label>
-                <select name="order_id" id="orders_id" class="form-control select2 @error('order_id') is-invalid @enderror" required>
+                <select name="order_id" id="orders_id" class="form-control select2 btn-dark-primary  @error('order_id') is-invalid @enderror" required>
                     <option value="" selected disabled>Select Order Number</option>
                     @foreach ($Orders as $o)
                         <option value="{{ $o->order_id }}" {{ old('order_id') == $o->order_id ? 'selected' : '' }}>{{ $o->order_id }}</option>
@@ -34,30 +34,35 @@
             </div>
         
             @for ($i = 0; $i < 5; $i++)
-                <div class="border p-3 mb-3 rounded bg-dark">
+                <div class="border p-3 mb-3 rounded bg-dark btn-dark-primary">
                     <h6 class="text-white">File {{ $i + 1 }}</h6>
         
                     <div class="form-group mb-2">
                         <label class="text-white">Title</label>
-                        <input type="text" name="title[]" class="form-control" placeholder="Enter Title">
+                        <input type="text" name="title[]" class="form-control btn-dark-primary" placeholder="Enter Title">
                     </div>
         
                     <div class="form-group mb-2">
                         <label class="text-white">File</label>
-                        <input type="file" name="file[]" class="form-control">
+                        <input type="file" name="file[]" class="form-control btn-dark-primary">
                     </div>
                 </div>
             @endfor
         
             <div class="form-group mb-3">
                 <label for="status" class="text-white">Status</label>
-                <select name="status" id="status" class="form-control">
+                <select name="status" id="status" class="form-control btn-dark-primary">
                     <option value="1">Active</option>
                     <option value="0">Inactive</option>
                 </select>
             </div>
-        
-            <button type="submit" class="btn btn-sm btn-primary">Save Files</button>
+        <style>
+    .butt-bg {
+        background-color: #783afb !important;
+        color: #fff !important;
+    }
+</style>
+            <button type="submit" class="btn btn-sm btn-primary mb-4 butt-bg">Save Files</button>
         </form>
         
     </div>

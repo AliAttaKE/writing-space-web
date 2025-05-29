@@ -38,12 +38,14 @@
             align-items:center;
             flex-direction:column;
         }
-
+#kt_app_body{
+    background-image: url('/backend/assets/media/ws/customer-dashboard.jpg');
+}
     </style>
 </head>
 
 <body id="kt_app_body">
-    <div class="thank-you text-center">
+    <div class="thank-you text-center ">
         <img src="{{asset("backend/assets/media/ws/thankyou.png")}}" alt="" style="width: 432px; height: 198px;">
         <p class="text-gray-500 fw-bold fs-7 mt-3 text-white">Placed order successfully.</p>
         <a href="#" class="btn thankyouBtn badge-custom-bg" >Dashboard</a>
