@@ -59,6 +59,7 @@ use Carbon\Carbon;
                         <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Add Discount</th>
                     </tr>
                 </thead>
+                
                 <tbody>
                     <tr>
                         <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">{{ $invoiceData['itemName'] }} {{  $formattedDate }}</td>
