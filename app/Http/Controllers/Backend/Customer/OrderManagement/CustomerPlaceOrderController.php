@@ -208,6 +208,7 @@ class CustomerPlaceOrderController extends Controller
     {
         $revision = new RevisionSubmit;
         $admin = User::where('role', 'admin')->first();
+        $receiver_id = $admin->id;
 
         $order = Orders::where('order_id', $request->order_id)->first();
 
@@ -216,20 +217,20 @@ class CustomerPlaceOrderController extends Controller
             $revision->order_id = $request->order_id;
             $revision->revision_request = $request->revision_request;
 
+            Message::create([
+            'message' => $request->revision_request,
+            'order_id' => $request->order_id,
+            'sender_id' => Auth::user()->id,
+            'receiver_id' => $receiver_id, //admin id here;
+        ]);
 
             $revision->save();
 
             Orders::where('order_id', $request->order_id)->update(['order_status' => 'Revision']);
-            $emailSubject = 'Status Update: Your Order ID ' . $request->order_id . ' is In-Revision';
+            $emailSubject = 'Status Update: Your Order ID ' . $request->order_id . ' is Revision Request';
             $emailContent = "
                 <p>Hi {$admin->name},</p>
-                <p>Your revision request is received and your Order ID {$request->order_id} is currently in the revision stage. We are making the necessary adjustments to ensure that the final product aligns perfectly with your specifications.</p>
-                <p><strong>What’s Next?</strong></p>
-                <ul>
-                    <li>Once revisions are complete, we will move forward to finalizing your order. You will receive a notification when your order is ready for delivery.</li>
-                </ul>
-                <p>Thank you for your collaboration and patience.</p>
-                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+                <p>{$admin->revision_request}</p>";
                 Mail::html($emailContent, function ($message) use ($admin, $emailSubject) {
                     $message->to($admin->email)
                     ->subject($emailSubject);
@@ -238,16 +239,6 @@ class CustomerPlaceOrderController extends Controller
         } else {
             return response()->json(['Success' => true, 'message' => 'Revision request not submitted order not deliver status.']);
         }
-
-
-
-
-
-
-        // return redirect()->back()->with('success', 'Revision request submitted successfully.');
-
-
-
 
     }
 
@@ -3558,7 +3549,7 @@ $emailContent = "
             $itemName = $subs->subscription_name;
 
            $toalamountsub =  $subs->cost_per_page * $subs->min_page;
-            
+
 
 
             $totalPages = $subs->min_page;
