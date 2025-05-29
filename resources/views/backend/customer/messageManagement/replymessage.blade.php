@@ -471,7 +471,7 @@ document
                 $('#message_box').val(''); // Optional since you're now using Quill
                 $('#attach_file_1').text('');
                 $('#media').val('');
-                                $('.badge-custom-bg').attr('disabled', false);
+                $('.badge-custom-bg').attr('disabled', false);
 
             },
             error: function (error) {

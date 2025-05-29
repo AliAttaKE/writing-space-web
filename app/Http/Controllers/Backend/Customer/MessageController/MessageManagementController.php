@@ -304,6 +304,7 @@ class MessageManagementController extends Controller
     $totalUnread = \App\Models\Message::where('receive_id', $userId)
         ->where('status', 'UnRead')
         ->count();
+            //dd($messages,$order_id,$inboxes,);
 
     return view('backend.customer.messageManagement.replymessage', [
         'messages'    => $messages,

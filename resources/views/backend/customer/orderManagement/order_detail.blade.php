@@ -1149,7 +1149,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																			<!--    Checkout</button>-->
 
 
-																				 <button type="button" class="px-2 btn badge-custom-bg mt-4"  data-bs-toggle="modal" data-bs-target="#custom-modal">
+																				 <button type="button" id="checkoutBtn" class="px-2 btn badge-custom-bg mt-4">
 																				Proceed to Checkout
 																			</button>
 
@@ -1159,7 +1159,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 																</section>
 
-																 <div class="modal fade" id="custom-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+																 <div class="modal fade" id="custom-modal" tabindex="-1" aria-labelledby="custom-modal-label" aria-hidden="true">
 																	<div class="modal-dialog">
 																		<div class="modal-content badge-custom-bg">
 
@@ -1286,6 +1286,8 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																					id="pageCount"
 																					placeholder="Enter page count">
 																				<h5 class="mb-2 fs-color-white custom-fs-13">Cost Calculator</h5>
+                                                                                <p class="fs-3 fs-color-white custom-fs-13">Cost Per Page : $<span
+																						id="totalCostPerPage" class="fs-color-yellow">0.00</span></p>
 																				<p class="fs-3 fs-color-white custom-fs-13">Total Cost: $<span
 																						id="totalCost" class="fs-color-yellow">0.00</span></p>
 																			</div>
@@ -1362,7 +1364,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																		</ul>
 																	</div>
 																	<h4 class="text-gray-900  mb-5 fs-color-white custom-fs-23">
-																		Upgrade now to maximize savings!
+																		<a href="{{route('front.subscriptions')}}">Upgrade now </a>to maximize savings!
 																	</h4>
 																</section>
 															</div>
@@ -7456,10 +7458,47 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 <script>
 
 		$(document).ready(function (){
+
+            // grab elements
+  const btn = document.getElementById('checkoutBtn');
+  const input = document.getElementById('pageCount');
+  const modalEl = document.getElementById('custom-modal');
+  const bsModal = new bootstrap.Modal(modalEl);
+
+  btn.addEventListener('click', e => {
+    // clear any previous invalid state
+    input.classList.remove('is-invalid');
+
+    if (!input.value || Number(input.value) <= 0) {
+      // show bootstrap invalid styling
+      input.classList.add('is-invalid');
+      // optionally show a message
+      if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('invalid-feedback')) {
+        const msg = document.createElement('div');
+        msg.className = 'invalid-feedback';
+        msg.textContent = 'Page count cannot be empty or zero.';
+        input.after(msg);
+      }
+      return;
+    }
+
+    // all good → open the modal
+    bsModal.show();
+  });
+
+
+
+
+
+            $('.supportBtn').click(function (e) {
+				e.preventDefault();
+				$('#customerSupport').tab('show');
+			});
+
 			$('.clear_message_box').on('click', function(){
 				$('#attach_file').text('');
 			})
-		})
+
 
 	  document
   .getElementById("file-3")
@@ -7507,7 +7546,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 
 
-		$(document).ready(function () {
+
 			$('.supportBtn').click(function (e) {
 				e.preventDefault();
 				$('#customerSupport').tab('show');
@@ -8387,7 +8426,7 @@ function submit_payment() {
 	// Function to handle table search
 	$(document).ready(function () {
 
-        
+
   // read and parse the per-page cost
   const cost123 = parseFloat(localStorage.getItem('cost_per_page')) || parseFloat(localStorage.getItem('costperpage1'));
   // get the selected number of pages
@@ -8553,7 +8592,7 @@ console.log("sahriq totalpageCount:", totalpageCount);
                 $(this).attr('disabled', false);
                 return;
             }
-            
+
 			$.ajax({
 				type: "POST",
 				url: "{{ route('customer.support.message') }}",

@@ -89,6 +89,11 @@
                                         {{ str_replace("media/", "", $a->url) ?? 'Download File' }}
                                     </a>
                                     <br>
+                                @elseif ($a->type == 'document')
+                                    <a href="{{ asset('storage/'.$a->url) }}" download="{{ $a->url }}" class="d-flex text-warning">
+                                        {{ str_replace("media/", "", $a->url) ?? 'Download File' }}
+                                    </a>
+                                    <br>
                                 @elseif ($a->type == 'others')
                                     <button class="bg-transparent mb-4 border-0 d-flex text-warning"
                                         onclick="window.open('{{ asset('storage/'.$a->url)}}', '_blank')"
