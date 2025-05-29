@@ -670,7 +670,7 @@
                         </h2>
                         <div id="collapseNine" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                We do not offer refunds for either used or unused pages. Please refer to our terms and conditions on the Legal pages for more details.
+                                We do not offer refunds for either used or unused pages. Please refer to our terms and conditions on the Legal pages for more details. Refunds unavailable per our Terms. Unused pages can be rolled over after package expires.
 
                             </div>
                         </div>

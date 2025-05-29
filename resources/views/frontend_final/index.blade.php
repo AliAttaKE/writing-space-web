@@ -73,9 +73,7 @@
                     <div class="col-12 col-lg-4 pe-lg-4">
                         <h5 class="cardHeading">Risk-Free</h5>
                         <h5 class="cardSubHeading text-start">Trial</h5>
-                        <p class=" cardTxt text-start">Dive in without worry; our no upfront payment policy means
-                            you
-                            explore our services freely.</p>
+                        <p class=" cardTxt text-start">Free access to sample papers—no payment required upfront; Dive in without worry.</p>
                     </div>
                 </div>
             </div>
@@ -334,7 +332,7 @@
                     <h3 class="lighter-gradient">Success:</h3>
                 </div>
                 <ul class="list-view-description  p-3">
-                    <li> Always available support.</li>
+                    <li>	Always available support. (24/7 email support | Live chat: 9 AM– 5 PM EST)</li>
                     <li> Cost-effective academic investments.</li>
                     <li> Guaranteed confidentiality and anonymity. </li>
                 </ul>
@@ -716,7 +714,7 @@
                         </h2>
                         <div id="collapseTwelve" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                            Our customer support team is available 24/7, ensuring that any queries or concerns are addressed promptly. Whether it’s day or night, we’re here to provide the assistance you need.
+                           Our customer support team is available 24/7 (24/7 email support | Live chat: 9 AM– 5 PM EST), ensuring that any queries or concerns are addressed promptly. Whether it’s day or night, we’re here to provide the assistance you need.
                             </div>
                         </div>
                     </div>

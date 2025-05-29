@@ -19,12 +19,7 @@
                     <h1 class="text-container-custom fs-clr-yellow mb-3">Transforming Education, Transforming Lives!
                     </h1>
                 </div>
-                <p>We welcome you to the future of education! At our core, we are pioneering a transformative
-                    approach that ignites potential in every student. Imagine a world where your academic and
-                    professional dreams are not just possibilities, but certainties. With our innovative tools and
-                    unwavering ethical commitment, we're not just supporting learners; we're guaranteeing success.
-                    Step into a realm where barriers are broken, and every learner is empowered to reach their
-                    fullest potential. Don't just dream about success. Make it your reality with us.</p>
+                <p>We welcome you to the future of education! At our core, we are pioneering a transformative approach that ignites potential in every student. Imagine a world where your academic and professional dreams are not just possibilities, but certainties. With our innovative tools and unwavering ethical commitment, we're not just supporting learners; we're empowering success. Step into a realm where barriers are broken, and every learner is empowered to reach their fullest potential. Don't just dream about success. Make it your reality with us.</p>
             </div>
             <div class="image-container d-flex justify-content-center">
                 <img src="{{ asset('fronted_final/assets/images/why-choose-us-img-1.png')}}" alt="Description">

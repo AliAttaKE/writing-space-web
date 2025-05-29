@@ -255,7 +255,7 @@
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    Each paper is meticulously crafted from scratch by our expert writers. To guarantee originality, we provide a Turnitin report with every paper, which certifies that the content is free from plagiarism and upholds the highest standards of academic integrity. In situations where Turnitin is unavailable, we provide equivalent reports from reputable competitors.
+                                   Each paper is meticulously crafted from scratch by our expert writers. To guarantee originality, we provide a Turnitin report with every paper, which certifies that the content is free from plagiarism and upholds the highest standards of academic integrity. In situations where Turnitin is unavailable, we provide equivalent reports from certified alternatives.
                                 </div>
                             </div>
                         </div>
@@ -267,7 +267,7 @@
                             </h2>
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    We use the latest content identification technologies, including Turnitin, to review and ensure that all papers are free from plagiarism. This advanced technology helps us maintain the originality of each submission, giving you peace of mind about the integrity of your work. In situations where Turnitin is unavailable, we provide equivalent reports from reputable competitors.
+                                  We use the latest content identification technologies, including Turnitin, to review and ensure that all papers are free from plagiarism. This advanced technology helps us maintain the originality of each submission, giving you peace of mind about the integrity of your work. In situations where Turnitin is unavailable, we provide equivalent reports from certified alternatives.
                                 </div>
                             </div>
                         </div>
@@ -291,7 +291,7 @@
                             </h2>
                             <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    Yes, we provide a Turnitin report with every paper. This report is a comprehensive check that confirms the paper is free of plagiarism, ensuring that you receive original work every time. In situations where Turnitin is unavailable, we provide equivalent reports from reputable competitors.
+                                    Yes, we provide a Turnitin report with every paper. This report is a comprehensive check that confirms the paper is free of plagiarism, ensuring that you receive original work every time. In situations where Turnitin is unavailable, we provide equivalent reports from certified alternatives.
                                 </div>
                             </div>
                         </div>
@@ -351,7 +351,7 @@
                             </h2>
                             <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    We offer a $500 guarantee against plagiarism. If any paper is found to have plagiarized content, we commit to addressing the issue immediately, underscoring our dedication to providing only original work.
+                                    We commit to addressing any plagiarism concerns immediately. All work undergoes rigorous checks using industry-leading tools like Turnitin to ensure 100% originality.
                                 </div>
                             </div>
                         </div>
@@ -363,7 +363,7 @@
                             </h2>
                             <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                   Yes, each paper comes with a Turnitin report, which includes a uniqueness score. This score quantifies the originality of the paper, ensuring it meets academic standards. In situations where Turnitin is unavailable, we provide equivalent reports from reputable competitors.
+                                  Yes, each paper comes with a Turnitin report, which includes a uniqueness score. This score quantifies the originality of the paper, ensuring it meets academic standards. In situations where Turnitin is unavailable, we provide equivalent reports from certified alternatives.
                                 </div>
                             </div>
                         </div>
@@ -387,7 +387,7 @@
                             </h2>
                             <div id="collapseTwelve" class="accordion-collapse collapse" aria-labelledby="headingTwelve" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    Our use of premier tools like Turnitin, combined with our transparent practice of providing these reports to our customers, sets us apart. We maintain the highest standards of honesty and transparency in our plagiarism detection processes, ensuring superior quality and originality in every paper we deliver. In situations where Turnitin is unavailable, we provide equivalent reports from reputable competitors.
+                                  Our use of premier tools like Turnitin, combined with our transparent practice of providing these reports to our customers, sets us apart. We maintain the highest standards of honesty and transparency in our plagiarism detection processes, ensuring superior quality and originality in every paper we deliver. In situations where Turnitin is unavailable, we provide equivalent reports from certified alternatives.
                                 </div>
                             </div>
                         </div>
@@ -478,7 +478,7 @@
                             </h2>
                             <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                Yes, we have a refund policy in place those rare cases where our work does not meet the agreed-upon standards or if there are significant discrepancies. For details on our refund policy and conditions, please refer to our <a href="./term-paper.php" class="text-decoration-none text-white">Terms and Conditions</a>.
+                                No. We do not offer refunds. We provide unlimited revisions to achieve your desired outcome. Refunds are only available in exceptional cases where we fundamentally fail to deliver the ordered service (For details, check <a href="./term-paper.php" class="text-decoration-none text-white">terms and conditions</a>).
                                 </div>
                             </div>
                         </div>
@@ -696,6 +696,152 @@
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     We ensure the ethical use of our services by providing clear guidelines on how to use our papers as learning tools. We emphasize that our products should be used for research, reference, and to enhance understanding, rather as final submissions for academic credit.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <img src="{{ asset('fronted_final/assets/images/question-mark.png')}}" alt="" class="me-3">What measures do you take to support academic integrity?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    We support academic integrity by ensuring all our papers are plagiarism-free and crafted from scratch. We provide Turnitin reports to verify originality, and we adhere to strict guidelines that align with academic standards.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <img src="{{ asset('fronted_final/assets/images/question-mark.png')}}" alt="" class="me-3">Is it considered cheating to use your service?
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    Using our service is not considered cheating as long as the papers are used ethically as study aids or for reference purposes. We advocate for responsible use and provide guidance on how to use our services to support your education ethically.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    <img src="{{ asset('fronted_final/assets/images/question-mark.png')}}" alt="" class="me-3">How can using your service enhance my own understanding and skills?
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    Our services are designed to enhance understanding and academic skills by providing high-quality, well-researched content that can serve as a strong foundation for your studies. By studying our papers, you can gain deeper insights into your subject and learn how to structure and articulate academic content effectively.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFive">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    <img src="{{ asset('fronted_final/assets/images/question-mark.png')}}" alt="" class="me-3"> What is your policy on academic honesty?
+                                </button>
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    Our policy on academic honesty is stringent. We produce only original content and encourage our clients to use our services responsibly. We are committed to upholding high standards of academic integrity and helping students learn in an ethical manner.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingSix">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                    <img src="{{ asset('fronted_final/assets/images/question-mark.png')}}" alt="" class="me-3"> How do you educate users about ethical use?
+                                </button>
+                            </h2>
+                            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    We educate our users about ethical use through our website, customer service, and through the materials we provide. Our terms of use clearly state the intended use of our products, and we continuously remind users to adhere to these guidelines to ensure ethical usage.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingSeven">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                    <img src="{{ asset('fronted_final/assets/images/question-mark.png')}}" alt="" class="me-3"> Can your papers be used directly for submission?
+                                </button>
+                            </h2>
+                            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                   No. Submitting our papers as your own work violates academic integrity policies and our Terms of Service. They are strictly for research, reference, and learning purposes.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingEight">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                                    <img src="{{ asset('fronted_final/assets/images/question-mark.png')}}" alt="" class="me-3"> What advice do you offer to ensure ethical use of purchased papers?
+                                </button>
+                            </h2>
+                            <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                  We advise clients to use the purchased papers as models or additional resources for writing their own papers. Always cite our work appropriately if referenced in your submissions.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingNine">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                                    <img src="{{ asset('fronted_final/assets/images/question-mark.png')}}" alt="" class="me-3"> How do you handle confidential user information?
+                                </button>
+                            </h2>
+                            <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    We handle confidential user information with the utmost care. We employ advanced security measures to protect personal data. Our privacy policy outlines these practices in detail.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTen">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                                    <img src="{{ asset('fronted_final/assets/images/question-mark.png')}}" alt="" class="me-3"> What ethical guidelines govern your service operations?
+                                </button>
+                            </h2>
+                            <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    Our operations are governed by ethical guidelines that prioritize integrity, honesty, and fairness. We comply with all applicable laws and regulations and engage in best practices that ensure ethical conduct across all aspects of our business.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingEleven">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+                                    <img src="{{ asset('fronted_final/assets/images/question-mark.png')}}" alt="" class="me-3"> How do you align with institutional academic codes?
+                                </button>
+                            </h2>
+                            <div id="collapseEleven" class="accordion-collapse collapse" aria-labelledby="headingEleven" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    We align with institutional academic codes by ensuring our services are used as educational tools. We adhere to ethical standards that respect the academic guidelines of educational institutions, promoting integrity and the proper use of academic materials.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwelve">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwelve" aria-expanded="false" aria-controls="collapseTwelve">
+                                    <img src="{{ asset('fronted_final/assets/images/question-mark.png')}}" alt="" class="me-3"> What responsibilities do users have when using your service?
+                                </button>
+                            </h2>
+                            <div id="collapseTwelve" class="accordion-collapse collapse" aria-labelledby="headingTwelve" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    Users are responsible for using our services ethically. This includes not submitting our work as their own, using our materials to aid their understanding, and citing our work appropriately where necessary. We provide guidance to ensure users understand and fulfill these responsibilities.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNew" aria-expanded="true" aria-controls="collapseNew">
+                                    <img src="{{ asset('fronted_final/assets/images/question-mark.png')}}" alt="" class="me-3">Are there age restrictions for using Writing Space?
+                                </button>
+                            </h2>
+                            <div id="collapseNew" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    Our services are strictly available to users aged 13 years or older. We reserve the right to verify user age through documentation if needed, and might immediately terminate accounts found to violate this policy. Users under 13 are prohibited from accessing our platform in any capacity.
                                 </div>
                             </div>
                         </div>
@@ -1009,7 +1155,7 @@
                             </h2>
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    Missing a deadline is rare, but should it happen, our policy includes options for refunds or discounts on future orders, as detailed in our terms and conditions.
+                                    While we prioritize meeting all deadlines, in rare cases of delays caused by us, you may qualify for discounts on future orders. Refunds are not available for missed deadlines. 
                                 </div>
                             </div>
                         </div>
@@ -1045,7 +1191,7 @@
                             </h2>
                             <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    We guarantee timely delivery for all orders. If any delivery is late, our 'Completion on Time Promise' applies, providing you with compensation as outlined in our terms of service.
+                                    We prioritize meeting all deadlines and have robust systems in place to ensure timely delivery. Delivery extensions may apply during Non-Working Days as outlined in our Terms.
                                 </div>
                             </div>
                         </div>
@@ -1232,7 +1378,7 @@
                             </h2>
                             <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    You can manage your data visibility through your account settings, where you can control what information is visible and can update or remove information as you see fit.
+                                   Manage cookie preferences through your browser settings. Note: Disabling essential cookies may impair platform functionality.
                                 </div>
                             </div>
                         </div>
@@ -1244,7 +1390,7 @@
                             </h2>
                             <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    All online transactions are secured with advanced encryption technologies. We comply with industry standard protocols and implement additional measures like secure payment gateways to protect your financial data.
+                                  All payments are processed through Mastercard’s secure gateway with mandatory OTP verification. We never store full payment card details, ensuring compliance with PCI-DSS standards.
                                 </div>
                             </div>
                         </div>
@@ -1287,7 +1433,7 @@
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    We offer multiple support options including email support, and a dedicated customer service phone line. You can choose the method that best suits your needs.
+                                  We offer 24/7 email support and live chat assistance daily from 9 AM to 5 PM EST.
                                 </div>
                             </div>
                         </div>
@@ -1299,7 +1445,7 @@
                             </h2>
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    You can contact our customer service team via email, or call our support hotline. All contact details are available on our Contact Us page.
+                                  Reach our team via email at support@writing-space.com or through the live chat feature on our website.
                                 </div>
                             </div>
                         </div>
@@ -1323,7 +1469,7 @@
                             </h2>
                             <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    Yes, our platform allows you to communicate directly with your writer to discuss your project details and make any necessary adjustments.
+                                    You may communicate with writers via our secure platform, which anonymizes your personal details. Writers only receive order-specific information necessary to complete your project.
                                 </div>
                             </div>
                         </div>
@@ -1371,7 +1517,7 @@
                             </h2>
                             <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    We offer a satisfaction guarantee that includes revisions and adjustments to meet your original project guidelines, as well as, on rare occasions, a refund policy if we fail to meet the agreed-upon requirements.
+                                 We offer free revisions to align your paper with original requirements.  
                                 </div>
                             </div>
                         </div>

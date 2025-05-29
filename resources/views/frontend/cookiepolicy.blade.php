@@ -9,7 +9,7 @@
 		color: white; /* Text color set to white */
 		background-color: black; /* Background color set to black */
 	}
-	h1, h2, h3 {
+	h1, h2, h4 {
 		color: white; /* Ensure headings are also white */
 	}
 	a {
@@ -33,16 +33,22 @@
 
 <section class="bg-dark section-card-phases faqs-accpomt-setup-sec-1 new_padding" >
     <div class="new_padding">
-       
-	<h1>Cookie Policy</h1>
 
-    <h2>About This Cookie Policy</h2>
-    <p>This Cookie Policy applies to Writing Space ("the Website"). This Cookie Policy forms part of and is incorporated into our Website Terms and Conditions and Privacy Policy. By accessing the Website and/or the web app, you agree that this Cookie Policy will apply whenever you access the Website on any device.</p>
+	<h1 class="text-center my-4">Cookie Policy</h1>
 
-    <h2>What Is a Cookie?</h2>
-    <p>Cookies are text files that identify your computer (through what is known as an IP address) to our server.</p>
-    <p>We use cookies to help identify your computer so we can tailor your user experience, and to remember that you are logged in and that your session is secure. You can disable any cookies already stored on your computer, but these may stop our website from functioning properly.</p>
-    <p>Most internet browsers will accept cookies automatically, but you can change the settings of your browser to control what cookies (if any) are stored. The following links explain how to change cookie settings in your browser:</p>
+    <h2>1. Introduction</h2>
+    <p>This Cookie Policy explains how Writing Space ("we," "our," or "us") uses cookies and similar technologies on our website and web app. By continuing to use our services, you consent to our use of cookies as described below.</p>
+
+    <h2>2. What Are Cookies?</h2>
+    <p>Cookies are small text files that:</p>
+ <ul>
+    <li>Identify your device (using anonymized identifiers)</li>
+    <li>Maintain secure and continuous user sessions</li>
+    <li>Remember your preferences and settings</li>
+ </ul>
+    <p>Disabling cookies may impair core website functions.</p>
+    <h2>3. Managing Cookies</h2>
+    <p>Control cookies via these browser guides:</p>
     <ul>
         <li><a href="#" >Firefox</a></li>
         <li><a href="#" >Internet Explorer</a></li>
@@ -53,28 +59,88 @@
         <li><a href="#" >Android</a></li>
     </ul>
 
-    <h2>What Cookies We Use</h2>
-    <p>We use different types of cookies on the website to perform various functions to enhance and improve your experience with us. We use four types of cookies: strictly necessary cookies, performance cookies, functionality cookies, and targeting/advertising cookies.</p>
-    <p>A cookie may also be first party or third party. A first party cookie is one that our website will set on your computer. Third party cookies are those that have been set by another provider on another website but continue to function and track information within our website.</p>
+    <h2>4. Cookie Types We Use</h2>
+    <h4>A. Strictly Necessary Cookies</h4>
+    <p>Essential for basic functionality:</p>
+   <ul>
+    <li>User authentication</li>
+    <li>Shopping cart operations</li>
+    <li>Fraud prevention</li>
+   </ul>
+    <h4>B. Performance Cookies</h4>
+    <p>Collect anonymous usage data:</p>
+   <ul>
+    <li>Page visit statistics</li>
+    <li>Feature engagement metrics</li>
+    <li>Error monitoring</li>
+   </ul>
+    <h4>C. Functionality Cookies</h4>
+    <p>Personalize your experience:</p>
+   <ul>
+    <li>Language/region preferences</li>
+    <li>UI customization choices</li>
+    <li>First-time user guidance</li>
+   </ul>
+    <h4>D. Marketing Cookies</h4>
+    <p>Used for:</p>
+   <ul>
+    <li>Relevant promotional offers</li>
+    <li>Personalized content recommendations</li>
+   </ul>
+   <style>
+    td,th{
+            padding-block: 20px;
+    }
+   </style>
+<h2>5. Cookie Origins</h2>
+<table class="w-100">
+    <tbody class="">
+        <tr class="border-bottom">
+            <th>Type</th>
+            <th>Description</th>
+            <th>Examples</th>
+        </tr>
+        <tr class="border-bottom">
+            <td>First-party</td>
+            <td>Set by Writing Space</td>
+            <td>Session management</td>
+        </tr>
+        <tr class="border-bottom py-3">
+            <td>Third-Party</td>
+            <td>Placed by trusted partners</td>
+            <td>Google Analytics</td>
+        </tr>
+    </tbody>
+</table>
+    <h2 class="mt-5">6. Key Third-Party Services</h2>
+    <p>Google Analytics:</p>
+    <ul>
+        <li>Anonymized visitor tracking</li>
+    </ul>
 
-    <h3>Strictly Necessary Cookies</h3>
-    <p>Strictly necessary cookies are those that are required for the website or web app to function. Without these, the website could not perform essential functions.</p>
-
-    <h3>Performance Cookies</h3>
-    <p>These cookies collect information about how you use our website. For example, they track which pages users visit, how long they spend on page, and more.</p>
-    <p>We use Google Analytics to track visitors to the website and collect general (total) numbers about visits and page usage. You can opt out of Google Analytics anytime you like via Google</p>
-
-    <h3>Functionality Cookies</h3>
-    <p>These cookies allow the website to remember certain choices you have made, or are used to provide additional services such as live chat.</p>
-    <p>We use Google Analytics to identify repeat visitors to the website, along with your location, to serve you content depending on these factors. For example, if you are accessing the web app for the first time, we will show you introductory messages to help you get familiar with how to use the app. We may also show different content (or offer alternative languages) on the website depending on your location.</p>
-
-    <h3>Targeting/Advertising Cookies</h3>
-    <p>These cookies are used to deliver advertisements that are more relevant to you and your interests. They are also used to limit the number of times you see an advertisement and help measure the effectiveness of advertising campaigns.</p>
+   <h2>7. Data Retention</h2>
+   <p>We align with privacy best practices:</p>
+   <ul>
+    <li>Session cookies: Expire when browser closes (non-login features)</li>
+    <li>Authentication cookies: Persist for 48 hours after last activity</li>
+    <li>Persistent cookies: Automatically delete after 6 years maximum or upon account deletion (whichever occurs first), aligning with our Privacy Policy’s inactivity-based retention rules.</li>
+   </ul>
+   <h2>8. Automatic Login Feature</h2>
+   <p>For user convenience:</p>
+   <ul>
+    <li>Returning users remain logged in for 48 hours</li>
+    <li>Expired sessions require re-authentication</li>
+    <li>Clear cookies anytime via browser settings</li>
+   </ul>
+   <h2>9. Your Choices</h2>
+   <p>You may:</p>
+   <ul>
+    <li>Use private browsing modes</li>
+    <li>Manually delete cookies through browser settings</li>
+   </ul>
+    <h2>10. Policy Updates</h2>
+    <p>We may update this Cookie Policy periodically to reflect changes in our practices or legal requirements. It is your responsibility to review this page regularly for updates. Continued use of our Service constitutes acceptance of any revisions.</p>
 </div>
 </section>
 </body>
-
-
-    
-
     @endsection

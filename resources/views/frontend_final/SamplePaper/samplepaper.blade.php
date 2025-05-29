@@ -30,6 +30,7 @@
                         do not resell or publish any papers online, emphasizing our commitment to privacy and academic
                         integrity. Each paper
                         is tailored uniquely to meet the individual needs of our clients.
+                        All samples are original works created by our experts for demonstration purposes only. They may not be submitted, redistributed, or used in violation of academic integrity policies. By accessing these materials, you agree to use them solely as reference tools for your own original work.
                     </p>
                 </div>
             </div>
@@ -603,6 +604,7 @@
                                     You are welcome to review our sample papers before making any decisions. Each sample is
                                     a testament to our high standards, prepared by experts and vetted through rigorous
                                     quality checks.
+                                    Samples include originality reports for reference. Actual orders undergo similar checks, but we cannot guarantee detection outcomes.
                                 </div>
                             </div>
                         </div>
@@ -618,7 +620,7 @@
                                 data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     Once registered, you have unlimited access to our library. Explore various topics and
-                                    examples as much as you need to enhance your learning.
+                                    examples as much as you need to enhance your learning . Access requires active compliance with our Terms of Service. Accounts violating policies may be suspended.
                                 </div>
                             </div>
                         </div>
@@ -635,7 +637,7 @@
                                 <div class="accordion-body">
                                     We continuously update our library with new papers to ensure relevance and adherence to
                                     current academic standards. This ensures you always have access to the most recent
-                                    research and writing styles.
+                                    research and writing styles. Older samples are regularly archived and permanently deleted after 6 years to comply with data protection standards.
                                 </div>
                             </div>
                         </div>
@@ -652,6 +654,7 @@
                                 <div class="accordion-body">
                                     Yes, registered users can download papers for personal study. We encourage using these
                                     documents as learning tools to aid in your academic development.
+                                    Downloaded samples are for personal, non-commercial use only. Redistribution or public posting is strictly prohibited. Samples remain copyrighted material. You may not share, resell, or publish them.
                                 </div>
                             </div>
                         </div>
@@ -701,10 +704,11 @@
                                 <div class="accordion-body">
                                     Access to our library is secured with state-of-the-art technology. Only registered users
                                     can view and download content, ensuring your use remains private and protected.
+                                    We protect downloads with industry standard encryption and secure authentication, as detailed in our Privacy Policy.
                                 </div>
                             </div>
                         </div>
-
+<!-- 
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -719,8 +723,21 @@
                                     that best serve our users' academic needs.
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapsenine" aria-expanded="false" aria-controls="collapsenine">
+                                    9. Can I submit these sample papers as my own work?
+                                </button>
+                            </h2>
+                            <div id="collapsenine" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                   No. All samples are strictly for reference and educational purposes. Submitting them as your own violates academic integrity policies and our Terms of Service. We provide these materials to help you understand formatting and research standards, not to replace your original work.
+                                </div>
+                            </div>
+                        </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -730,8 +747,7 @@
                             </h2>
                             <div id="collapseTen" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    Each paper in our library is crafted from scratch by academic experts and checked using
-                                    plagiarism detection software to ensure originality and integrity.
+                                  Each paper in our library is crafted from scratch by academic experts and checked using plagiarism detection software to ensure originality and integrity. Samples include originality reports for reference. Actual orders undergo similar checks, but we cannot guarantee detection outcomes.
                                 </div>
                             </div>
                         </div>

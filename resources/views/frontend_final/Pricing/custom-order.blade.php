@@ -431,7 +431,7 @@
                         </h2>
                         <div id="collapseSeven" class="accordion-collapse collapse " data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                            We stand behind the quality of our service. If you're not satisfied, we offer a refund policy outlined in our Terms and Conditions. Visit our Legal pages for more information.
+                           Refunds are available only for undelivered orders per our Terms. Revisions are free within 7 days of delivery.
                             </div>
                         </div>
                     </div>

@@ -373,7 +373,7 @@
                         Cost-Effective <span class="subhead-subhead yellow-text">Academic Solutions!</span></h2>
                 </div>
                 <p class="custom-description">24/7 Support - Whatever your time-zone or schedule, our support team
-                    is here to help you around the clock.</p>
+                    is here to help you around the clock. 24/7 email support | Live chat: 9 AM– 5 PM EST.</p>
 
                 <p class="custom-description">Cost Efficiency - Invest in your future success at highly competitive
                     rates, offering unparalleled value for your academic journey.</p>
@@ -428,9 +428,7 @@
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse " data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                Your journey begins the moment you register. You'll start with risk-free access to our
-                                extensive resources, allowing you to experience the quality and integrity of our
-                                services firsthand without any commitment.
+                                Your journey begins the moment you register. You'll start with risk-free access to our extensive resources of sample papers, allowing you to experience the quality and integrity of our services firsthand without any commitment.
                             </div>
                         </div>
                     </div>
@@ -447,6 +445,7 @@
                                 After signing up, you'll transition from initial skepticism to belief as you explore our
                                 unique, Plagiarism-Free, AI-proof Sample Papers and witness the value they bring to your
                                 education.
+                                Samples are tools for learning proper formatting and research methods, not substitutes for original work.
                             </div>
                         </div>
                     </div>
@@ -478,6 +477,7 @@
                             <div class="accordion-body">
                                 There's no pressure to commit. Our service is designed to earn your trust first. You can
                                 sign-up to evaluate our offerings and only proceed when you’re completely satisfied.
+                                Explore samples risk-free. Orders require pre-payment per our Terms, with deposits due immediately after placing an order.
                             </div>
                         </div>
                     </div>
@@ -574,6 +574,7 @@
                                 We actively promote ethical academic practices by providing resources that enhance
                                 learning without compromising integrity. Our tools and services are designed to support,
                                 not substitute, your academic efforts.
+                                Our resources are designed to inspire ethical, original work. Misuse violates our Terms and academic policies.
                             </div>
                         </div>
                     </div>

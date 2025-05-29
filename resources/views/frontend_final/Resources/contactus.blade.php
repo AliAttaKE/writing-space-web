@@ -33,9 +33,9 @@
             <div class="align-items-center justify-content-center">
                 <h5 class="gradient-text fs-3 fw-bold">Multiple channels to connect with us, making communication seamless!</h5>
                 <p class="fs-4">Reach us anytime, ensuring you're never alone in your academic journey!</p>
-                <div class="yellow-text fw-bolder fs-5">Email: xxxx@xxxx.com</div>
+                <div class="yellow-text fw-bolder fs-5">Email 24/7: xxxx@xxxx.com</div>
                 <p class="fs-4">Get immediate answers to your queries, keeping your studies on track!</p>
-                <div class="yellow-text fw-bolder fs-5">Call Us: 133444556666</div>
+                <div class="yellow-text fw-bolder fs-5">Live chat: 9 AM– 5 PM EST: 133444556666</div>
             </div>
         </div>
     </div>
@@ -66,6 +66,7 @@
                     <div class="col-lg-12 col-md-12 mt-4">
                         <textarea class="form-control" name="" id="" cols="30" rows="10" placeholder="Message"></textarea>
                     </div>
+                    <p class="text-danger my-4"> Disclaimer: By submitting, you agree to our Privacy Policy and Terms. <br> Data is used solely to respond to inquiries.</p>
                     <div class="col-md-2 col-sm-3 mt-4">
                         <button type="submit" class="btn gradient-button w-100">Submit</button>
                     </div>
@@ -138,7 +139,7 @@
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                Our customer service team is available by phone from 9 AM to 5 PM EST, Monday through Friday. Outside these hours, we provide 24/7 email support, ensuring help is always at your fingertips. Additionally, our writers work around the clock to handle your requests, so you’ll receive service whenever you need it.
+                              Our customer service team is available via live chat from 9 AM to 5 PM EST, Monday through Friday. Outside these hours, we provide 24/7 email support, ensuring help is always at your fingertips. Additionally, our writers work around the clock to handle your requests, so you’ll receive service whenever you need it.
                             </div>
                         </div>
                     </div>
@@ -151,7 +152,7 @@
                         </h2>
                         <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                We strive to respond to all inquiries within 24 hours on weekdays. Additionally, with our writers available 24/7, you can expect timely support and service at any time.
+                              We strive to respond to all inquiries within 6-8 hours on weekdays. Additionally, with our writers available 24/7, you can expect timely support and service at any time.
                             </div>
                         </div>
                     </div>
@@ -164,7 +165,7 @@
                         </h2>
                         <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                Yes, for urgent matters, you can call us at <a href="tel" class="text-decoration-none">1-800-123-4567</a>. Our team is ready to assist you with any urgent concerns.
+                               You can live chat with us at  <a href="tel" class="text-decoration-none">1-800-123-4567</a>. Our team is ready to assist you with any urgent concerns.
                             </div>
                         </div>
                     </div>
@@ -191,7 +192,7 @@
                         </h2>
                         <div id="collapseSeven" class="accordion-collapse collapse " data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                               Please contact our technical support team by email at support@writing-space.com. We do not currently offer live chat, but we will respond to your emailed inquiries promptly.
+                             Please contact our technical support team by email at support@writing-space.com. You can also live chat with us.
                             </div>
                         </div>
                     </div>

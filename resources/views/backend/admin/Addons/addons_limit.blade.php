@@ -245,9 +245,9 @@
     <form  class="form-horizontal"> 
        
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content badge-custom-bg" >
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Addons Page</h5>
+                <h5 class="modal-title text-white" id="exampleModalLabel">Addons Page</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -259,8 +259,8 @@
                 </label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input type="text" class="form-control form-control-lg form-control-solid titleset" id="paper_summary2" name="title" placeholder="Paper Summary" value="" />
-                <input type="hidden" class="form-control form-control-lg form-control-solid titlesetid"  id="titlesetid" name="titleid" placeholder="Paper Summary" value="" />
+                <input type="text" class="form-control form-control-lg btn-dark-primary  form-control-solid titleset" id="paper_summary2" name="title" placeholder="Paper Summary" value="" />
+                <input type="hidden" class="form-control form-control-lg btn-dark-primary  form-control-solid titlesetid"  id="titlesetid" name="titleid" placeholder="Paper Summary" value="" />
                 <!--end::Input-->
 
             </div>
@@ -273,7 +273,7 @@
                 </label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input type="text" class="form-control form-control-lg form-control-solid titleset" id="paper_utline_in_bullets2" name="title" placeholder="paper_utline_in_bullets" value="" />
+                <input type="text" class="form-control form-control-lg btn-dark-primary form-control-solid titleset" id="paper_utline_in_bullets2" name="title" placeholder="paper_utline_in_bullets" value="" />
 
                 <!--end::Input-->
 
@@ -287,7 +287,7 @@
                 </label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input type="text" class="form-control form-control-lg form-control-solid titleset" id="tipaper_abstracttle2" name="title" placeholder="tipaper_abstracttle" value="" />
+                <input type="text" class="form-control form-control-lg btn-dark-primary form-control-solid titleset" id="tipaper_abstracttle2" name="title" placeholder="tipaper_abstracttle" value="" />
                 
                 <!--end::Input-->
 
@@ -301,13 +301,13 @@
                 </label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input type="text" class="form-control form-control-lg form-control-solid titleset"  id="turnitin_report2"  name="title" placeholder="turnitin_report" value="" />
+                <input type="text" class="form-control form-control-lg btn-dark-primary form-control-solid titleset"  id="turnitin_report2"  name="title" placeholder="turnitin_report" value="" />
                
 
             </div>
             <div class="modal-footer">
                 
-                <button type="button" class="btn btn-primary format_changes">Save changes</button>
+                <button type="button" class="btn btn-primary format_changes  badge-custom-bg-2">Save changes</button>
             </div>
         </div>
     </div>

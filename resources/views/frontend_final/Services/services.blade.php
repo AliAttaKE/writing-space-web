@@ -1162,6 +1162,7 @@
                             <div class="accordion-body">
                                 We offer free revisions until you are satisfied with the final product. Our goal is to
                                 ensure that every client receives work that meets their order requirements.
+                                Free revisions are available for 7 days post-delivery. 
                             </div>
                         </div>
                     </div>
@@ -1175,8 +1176,7 @@
                         </h2>
                         <div id="collapseEight" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                Absolutely. We maintain strict confidentiality and privacy policies to ensure that all
-                                client interactions and transactions are secure and private.
+                                Absolutely. We maintain strict confidentiality and privacy policies to ensure that all client interactions and transactions are secure and private, sharing data only with essential providers. 
                             </div>
                         </div>
                     </div>
@@ -1192,6 +1192,7 @@
                             <div class="accordion-body">
                                 Yes, we also offer professional writing services including business plans, white papers,
                                 and website content creation.
+                                You receive a license to use non-academic content (e.g., resumes) but cannot claim copyright ownership.
 
                             </div>
                         </div>
@@ -1225,6 +1226,7 @@
                             <div class="accordion-body">
                                 Yes, we are equipped to handle urgent orders without compromising on quality. Please
                                 specify your deadline when placing an order.
+                                Urgent orders are prioritized but subject to expert availability. See Terms for delivery guarantees.
                             </div>
                         </div>
                     </div>
