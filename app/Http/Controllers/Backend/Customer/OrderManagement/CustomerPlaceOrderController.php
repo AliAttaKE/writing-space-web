@@ -3534,9 +3534,16 @@ $emailContent = "
             $customerAdress = $user->address_1.''.$user->address_2;
 
             $itemName = $subs->subscription_name;
+
+           $toalamountsub =  $subs->cost_per_page * $subs->min_page;
+            
+
+
             $totalPages = $subs->min_page;
            
             $subTotal = $transaction->merchantAmount;
+
+           $discounttotalamount = $toalamountsub - $subTotal;
 
             $pricePerPage = ($totalPages != 0) ? ($subTotal / $noofpage) : 0;
 
@@ -3565,7 +3572,10 @@ $emailContent = "
                 'subTotal' => $subTotal,
                 'discount' => $discount,
                 'total' => $total,
+                'discounttotalamount' => $discounttotalamount,
             ];
+
+
 
             $subject = "Welcome to Your New Writing Space Package – Thank You for Your Purchase!";
             Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
