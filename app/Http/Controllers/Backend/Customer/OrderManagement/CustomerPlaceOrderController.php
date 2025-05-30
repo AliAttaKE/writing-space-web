@@ -2711,6 +2711,11 @@ $emailContent = "
 
                 $total = $order->total_cost;
 
+              $order = Orders::where('order_id', $order_id)->first();
+
+                $order_discount = $order && $order->discount !== null ? $order->discount : 0;
+
+                
 
                 if ($email) {
                     $subject = 'Your Writing Space Purchase Confirmation – Order ID '.$order_id;
@@ -2732,6 +2737,10 @@ $emailContent = "
                             'subTotal' => $subTotal,
                             'discount' => $discount,
                             'total' => $total,
+                            'discounttotalamount' => $discounttotalamount = ($order && $order->discount !== null)
+                            ? number_format($order->discount, 2) . '%'
+                            : '0.00%',
+                        
                         ],
                         $subject
                     ));
@@ -2778,6 +2787,10 @@ $emailContent = "
                             'subTotal' => $subTotal,
                             'discount' => $discount,
                             'total' => $total,
+                            'discounttotalamount' => $discounttotalamount = ($order && $order->discount !== null)
+                            ? number_format($order->discount, 2) . '%'
+                            : '0.00%'
+                        ,
                         ];
                 Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
                         $data,$data,
