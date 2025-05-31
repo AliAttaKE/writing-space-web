@@ -103,7 +103,7 @@ class CouponController extends Controller
                 } else {
                     $coupon_user = Coupon_Used::where('coupon', '=', $request->coupon)->where('user_id', '=', Auth()->user()->id)->get();
 
-                    if ($request->nopage <= $coupon->min_pages) {
+                    if ($request->nopage < $coupon->min_pages) {
                         
                         return response()->json([
                             'error' => "Minimum Required Pages for this Coupon is: {$coupon->min_pages}."
