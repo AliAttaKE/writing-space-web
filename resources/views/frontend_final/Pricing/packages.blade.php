@@ -250,6 +250,7 @@
                         <p>Original Price: $<span id="original-price"></span></p>
                         <p>Coupon Discount: $<span id="discount-amount"></span></p>
                         <p>Total Price after Discount: $<span id="discounted-price"></span></p>
+                        <p>Cost Per Page: $<span id="cost_per_page_pro"></span></p>
                     </div>
                 </div>
             </div>
@@ -1111,6 +1112,11 @@ function checkCouponAvailability() {
                     $('#discount-amount').text(discountAmount.toFixed(2));
                     $('#discounted-price').text(discountedTotal.toFixed(2));
 
+
+                    var numberofpage1 = JSON.parse(localStorage.getItem('no_of_page'));
+                    var costperpage1_final = discountedTotal / numberofpage1;
+                    $('#cost_per_page_pro').text(costperpage1_final.toFixed(2));
+
                     $('#error-message').text("Coupon is valid!").show();
                 } else {
                     $('#error-message').text("The promotion is not active for the current date.").show();
@@ -1163,6 +1169,11 @@ function check_coupon() {
                     $('#original-price').text(originalAmount.toFixed(2));
                     $('#discount-amount').text(discountAmount.toFixed(2));
                     $('#discounted-price').text(discountedTotal.toFixed(2));
+
+                    var numberofpage1 = JSON.parse(localStorage.getItem('no_of_page'));
+                    var costperpage1_final = discountedTotal / numberofpage1;
+                    $('#cost_per_page_pro').text(costperpage1_final.toFixed(2));
+
 
                     totalamount = discountedTotal;
                     $('#error-message').hide();
