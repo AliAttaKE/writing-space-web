@@ -2152,7 +2152,8 @@ if ($subs->remaining_pages == 0) {
             <p>Writing Space</p>
         ";
         $subject = "Your Additional Pages Added to Order ID - $order_id";
-        $this->send_invoice($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage);
+        
+        $this->send_invoice_just_Add_page($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage);
         // Mail::html($emailContent, function ($message) use ($user, $order_id) {
         //     $message->to($user->email)
         //             ->subject('Confirmation of Additional Pages Added to Order ID - ' . $order_id);
@@ -3599,6 +3600,81 @@ $emailContent = "
                 'discount' => $discount,
                 'total' => $total,
                 'discounttotalamount' => $discounttotalamount,
+            ];
+
+
+
+            $subject = "Welcome to Your New Writing Space Package – Thank You for Your Purchase!";
+            Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
+                $data,$data,
+                $subject,
+                $emailContent
+            ));
+        }
+        catch(\Exception $e){
+            dd($e);
+        }
+
+    }
+    public function send_invoice_just_Add_page($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage)
+    {
+       // dd($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
+        try{
+            $createdAt = $invoice->created_at;
+            $orderid = $orderidexplode;
+            $dueDate = now()->addDays((int)$subs->set_time)->toDateTimeString();
+
+
+            $invoiceNumber = $invoice_id;
+            $receiptNumber = $receipt_id;
+            $dateOfIssue = $createdAt;
+            $dueDate = $dueDate;
+            $orderid = $orderid;
+
+            $customerName =$user->name;
+            $customerEmail = $user->email;
+            $customerAdress = $user->address_1.''.$user->address_2;
+
+            $itemName = $subs->subscription_name;
+
+           $toalamountsub =  $subs->cost_per_page * $subs->min_page;
+
+
+
+            $totalPages = $subs->min_page;
+
+            $subTotal = $transaction->merchantAmount;
+
+           $discounttotalamount = $toalamountsub - $subTotal;
+
+            $pricePerPage = ($totalPages != 0) ? ($subTotal / $noofpage) : 0;
+
+            $payment_status ='Paid';
+
+
+
+
+            $discount = 0.0;
+            $purchaseDate = now()->format('Y-m-d');
+            $total = $transaction->merchantAmount;
+
+            $data = [
+                'invoiceNumber' => $invoiceNumber,
+                'receiptNumber' => $receiptNumber,
+                'dateOfIssue' => $dateOfIssue,
+                'dueDate' => $dueDate,
+                'customerName' => $customerName,
+                'customerEmail' => $customerEmail,
+                'customerAdress' => $customerAdress,
+                'orderid' => $orderid,
+                'itemName' => $itemName,
+                'totalPages' => $noofpage,
+                'pricePerPage' => $pricePerPage,
+                'payment_status' => $payment_status,
+                'subTotal' => $subTotal,
+                'discount' => $discount,
+                'total' => $total,
+                'discounttotalamount' => '0.0',
             ];
 
 
