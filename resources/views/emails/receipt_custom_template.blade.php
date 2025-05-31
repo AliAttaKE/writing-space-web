@@ -96,6 +96,7 @@ use Carbon\Carbon;
                         <th>Unit price (excl. tax)</th>
                         <th>Amount (excl. tax)</th>
                         <th>Add Discount</th>
+                        <th>Add-Ons</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -104,6 +105,7 @@ use Carbon\Carbon;
                         <td>{{ $invoiceData['totalPages'] }}</td>
                         <td>${{ $invoiceData['pricePerPage'] }}</td>
                         <td>${{ $invoiceData['subTotal'] }}</td>
+                        <td>${{ $invoiceData['finaltotaladdon'] ?? '0.0' }}
                         <td>${{ $invoiceData['discounttotalamount'] ?? '0.0'}}</td>
                     </tr>
                 </tbody>

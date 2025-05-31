@@ -338,7 +338,7 @@ class CustomerPlaceOrderController extends Controller
         }
     }
 
-    public function checkoutshow($sessionid, Request $request)
+    public function checkoutshow($sessionid, Request $request)()
     {
 
         $sessionid = $sessionid;
@@ -2715,7 +2715,12 @@ $emailContent = "
               $order = Orders::where('order_id', $order_id)->first();
 
                 $order_discount = $order && $order->discount !== null ? $order->discount : 0;
+            
+                $totaladdon = optional($order)->total_cost - optional($order)->cost;
 
+                    $finaltotaladdon = $totaladdon 
+                 + optional($order)->no_of_extra_sources 
+                 + optional($order)->statistical_analysis;
                 
 
                 if ($email) {
@@ -2738,6 +2743,7 @@ $emailContent = "
                             'subTotal' => $subTotal,
                             'discount' => $discount,
                             'total' => $total,
+                            'finaltotaladdon' => $finaltotaladdon ?: '0.0',
                             'discounttotalamount' => $discounttotalamount = ($order && $order->discount !== null)
                             ? number_format($order->discount, 2) . '%'
                             : '0.00%',
@@ -2788,6 +2794,7 @@ $emailContent = "
                             'subTotal' => $subTotal,
                             'discount' => $discount,
                             'total' => $total,
+                            'finaltotaladdon' => $finaltotaladdon ?: '0.0',
                             'discounttotalamount' => $discounttotalamount = ($order && $order->discount !== null)
                             ? number_format($order->discount, 2) . '%'
                             : '0.00%'
