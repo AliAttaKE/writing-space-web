@@ -1100,7 +1100,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																					id="pageCount"
 																					placeholder="Enter page count" min="0">
 																					<p class="fs-3 fs-color-white custom-fs-13">Cost Per Page : $<span
-																						id="totalCostPerPage" class="fs-color-yellow">0.00</span></p>
+																						id="totalCostPerPage1" class="fs-color-yellow">0.00</span></p>
                                                                                     <p class="fs-3 fs-color-white custom-fs-13">Total Cost: $<span
 																						id="totalCost" class="fs-color-yellow">0.00</span></p>
 
@@ -1287,7 +1287,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																					placeholder="Enter page count">
 																				<h5 class="mb-2 fs-color-white custom-fs-13">Cost Calculator</h5>
                                                                                 <p class="fs-3 fs-color-white custom-fs-13">Cost Per Page : $<span
-																						id="totalCostPerPage" class="fs-color-yellow">0.00</span></p>
+																						id="totalCostPerPage1" class="fs-color-yellow">0.00</span></p>
 																				<p class="fs-3 fs-color-white custom-fs-13">Total Cost: $<span
 																						id="totalCost" class="fs-color-yellow">0.00</span></p>
 																			</div>
@@ -8525,6 +8525,7 @@ console.log("sahriq totalpageCount:", totalpageCount);
 
 		//	 var cost = pageCount * parseInt(cost_perpage_get);
 			$("#totalCost").text(cost.toFixed(2));
+			$("#totalCostPerPage1").text({{$order->cost_per_page}});
 
 
 @if ($used_subscription && $used_subscription->rollover_pages != 0 && $used_subscription->remaining_pages != 0)
@@ -8542,6 +8543,7 @@ console.log("sahriq totalpageCount:", totalpageCount);
 
 		 var cost = pageCount * cost_perpage_get;
 			$("#totalCost").text(cost);
+			$("#totalCostPerPage1").text(cost_perpage_get);
 @else
 	var cost = pageCount * {{$order->cost_per_page}};
 
@@ -8550,6 +8552,7 @@ console.log("sahriq totalpageCount:", totalpageCount);
 
 		//	 var cost = pageCount * parseInt(cost_perpage_get);
 			$("#totalCost").text(cost);
+			$("#totalCostPerPage1").text({{$order->cost_per_page}});
 @endif
 
 
