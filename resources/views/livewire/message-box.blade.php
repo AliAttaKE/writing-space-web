@@ -6,6 +6,7 @@
                 $isSender = $m->sender_id == Auth()->user()->id;
                 $senderRole = $m->sender_role;
                 $sendBy = $m->send_by;
+                $type = $m->type;
                 $orderId = $m->order_id;
                 $createdAt = $m->created_at->format('F j, Y g:i A');
                 $currentUserRole = Auth()->user()->role;
@@ -23,9 +24,8 @@
                     $m->sender_avatar => asset('images/users/customers/'.$m->sender_avatar),
                     default => asset('backend/assets/media/ws/profile.png')
                 };
-
-                // Determine message direction text
-                $messageDirection = match(true) {
+                if(!isset($type)){
+                    $messageDirection = match(true) {
                     // Admin sending to customer
                     $isSender && $senderRole == 'admin' => 'Message for Customer',
                     // Customer sending to admin/writer
@@ -37,6 +37,11 @@
                     // Default case
                     default => 'Message from ' . $senderDisplay
                 };
+                }else{
+                    $messageDirection = "Rewrite Request";
+                }
+                // Determine message direction text
+
             @endphp
 
             <div data-kt-inbox-message="message_wrapper">
@@ -48,7 +53,7 @@
 
                         <div class="pe-5">
                             <div class="d-flex align-items-center flex-wrap gap-1">
-                                <span class="fw-bold text-warning">
+                                <span class="fw-bold {{ ($messageDirection == 'Rewrite Request') ? 'text-danger' : 'text-warning' }}">
                                     {{ $messageDirection }} _ Order Number: {{ $orderId }}
                                 </span>
                             </div>
