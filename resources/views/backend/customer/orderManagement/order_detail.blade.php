@@ -954,7 +954,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															->select('files.*')
 															->latest('files.created_at')
 															->where('folders.id', $folder->id)
-															->paginate(10);
+															->paginate();
 
 														$filesCount = $files->total();
 														$totalSize = 0;
@@ -1523,7 +1523,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 														<form action="{{route('customer.order-detail-feedback')}}" method="POST" id="feedback_form">
 															@csrf
-															<label for="feedback" class="mb-3 fs-color-white custom-fs-13">Feedback Comments (100 characters remaining)</label>
+															<label for="feedback" class="mb-3 fs-color-white custom-fs-13">Feedback Comments (200 characters remaining)</label>
 															<div id="feedbackEditor" class="bg-transparent btn-dark-primary h-100 mb-4"></div>
 															<textarea name="feedback" id="feedback" cols="30" rows="10" class="d-none"></textarea>
 															<input type="hidden" id="order_id_get" name="order_id" value="{{$order->order_id}}">
@@ -7560,7 +7560,7 @@ function modal_open122() {
 
     var pages = $('#pageCount').val();
     if (!page_add) {
-        alert("Please fill the Add More Pages field");
+        Swal.fire('Error', 'Please fill the Add More Pages field', 'error');
         return; // Prevent further execution if validation fails
     }
     let page_remaining = Number($('#totalCost1').val());
@@ -8797,6 +8797,11 @@ if (order_id && revision_request) {
 			var url2 = '{{ route('customer.order-detail-feedback') }}';
             if (!feedback || feedback === '<p><br></p>') {
             Swal.fire('Error', 'Please provide valid message.', 'error');
+            return;
+            }
+
+            if (feedback.length > 200) {
+            Swal.fire('Error', 'Feedback must be 200 characters or fewer.', 'error');
             return;
             }
 

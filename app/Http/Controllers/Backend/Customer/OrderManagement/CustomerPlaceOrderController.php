@@ -221,6 +221,7 @@ class CustomerPlaceOrderController extends Controller
             'message' => $request->revision_request,
             'order_id' => $request->order_id,
             'sender_id' => Auth::user()->id,
+            'type' => 'revision',
             'receiver_id' => $receiver_id, //admin id here;
         ]);
 
@@ -230,7 +231,7 @@ class CustomerPlaceOrderController extends Controller
             $emailSubject = 'Status Update: Your Order ID ' . $request->order_id . ' is Revision Request';
             $emailContent = "
                 <p>Hi {$admin->name},</p>
-                <p>{$admin->revision_request}</p>";
+                <p>{$request->revision_request}</p>";
                 Mail::html($emailContent, function ($message) use ($admin, $emailSubject) {
                     $message->to($admin->email)
                     ->subject($emailSubject);
@@ -2152,7 +2153,7 @@ if ($subs->remaining_pages == 0) {
             <p>Writing Space</p>
         ";
         $subject = "Your Additional Pages Added to Order ID - $order_id";
-        
+
         $this->send_invoice_just_Add_page($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage);
         // Mail::html($emailContent, function ($message) use ($user, $order_id) {
         //     $message->to($user->email)
@@ -2716,7 +2717,7 @@ $emailContent = "
 
                 $order_discount = $order && $order->discount !== null ? $order->discount : 0;
 
-                
+
 
                 if ($email) {
                     $subject = 'Your Writing Space Purchase Confirmation – Order ID '.$order_id;
@@ -2741,7 +2742,7 @@ $emailContent = "
                             'discounttotalamount' => $discounttotalamount = ($order && $order->discount !== null)
                             ? number_format($order->discount, 2) . '%'
                             : '0.00%',
-                        
+
                         ],
                         $subject
                     ));
