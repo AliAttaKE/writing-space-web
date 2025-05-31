@@ -339,7 +339,7 @@ class CustomerPlaceOrderController extends Controller
         }
     }
 
-    public function checkoutshow($sessionid, Request $request)()
+    public function checkoutshow($sessionid, Request $request)
     {
 
         $sessionid = $sessionid;
