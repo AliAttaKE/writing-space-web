@@ -2719,6 +2719,9 @@ $emailContent = "
             
                 $totaladdon = optional($order)->total_cost - optional($order)->cost;
 
+                $finaltotaladdon = $totaladdon 
+                + optional($order)->no_of_extra_sources 
+                + optional($order)->statistical_analysis;
 
 
                 if ($email) {
