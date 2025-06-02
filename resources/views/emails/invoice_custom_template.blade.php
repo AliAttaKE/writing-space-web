@@ -55,8 +55,9 @@ use Carbon\Carbon;
                         <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Description</th>
                         <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Qty</th>
                         <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Unit price (excl. tax)</th>
-                        <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Amount (excl. tax)</th>
                         <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Add-Ons</th>
+                        <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Amount (excl. tax)</th>
+                       
                         <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Add Discount</th>
                     </tr>
                 </thead>
@@ -66,8 +67,9 @@ use Carbon\Carbon;
                         <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">{{ $invoiceData['itemName'] }} {{  $formattedDate }}</td>
                         <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">{{ $invoiceData['totalPages'] }}</td>
                         <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${{ $invoiceData['pricePerPage'] }}</td>
-                        <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${{ $invoiceData['subTotal'] }}</td>
                         <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${{ $invoiceData['finaltotaladdon'] ?? '0.0' }}
+                      
+                        <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${{ $invoiceData['subTotal'] }}</td>
                         <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${{ $invoiceData['discounttotalamount'] ?? '0.0' }}
                         </td>
                         
