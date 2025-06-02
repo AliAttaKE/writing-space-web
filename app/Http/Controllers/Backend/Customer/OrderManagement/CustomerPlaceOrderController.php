@@ -2723,8 +2723,8 @@ $emailContent = "
                 // + optional($order)->no_of_extra_sources 
                 // + optional($order)->statistical_analysis;
 
-
-                $finaltotaladdon = $order && $order->discount !== null ? $order->discount : 0;
+                $totafinal = $totalPages* $pricePerPage;
+                $finaltotaladdon =  $totafinal - $subTotal;
 
 
                 if ($email) {

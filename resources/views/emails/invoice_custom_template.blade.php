@@ -54,7 +54,7 @@ use Carbon\Carbon;
                     <tr>
                         <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Description</th>
                         <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Qty</th>
-                        <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Unit price (excl. tax)</th>
+                        <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Price Per Page</th>
                         <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Add-Ons</th>
                         <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Amount (excl. tax)</th>
                        

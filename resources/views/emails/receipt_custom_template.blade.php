@@ -93,7 +93,7 @@ use Carbon\Carbon;
                     <tr>
                         <th>Description</th>
                         <th>Qty</th>
-                        <th>Unit price (excl. tax)</th>
+                        <th>Price Per Page</th>
                           <th>Add-Ons</th>
                         <th>Amount (excl. tax)</th>
                         <th>Add Discount</th>
