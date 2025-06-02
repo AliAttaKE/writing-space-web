@@ -2717,11 +2717,14 @@ $emailContent = "
 
                 $order_discount = $order && $order->discount !== null ? $order->discount : 0;
             
-                $totaladdon = optional($order)->total_cost - optional($order)->cost;
+                // $totaladdon = optional($order)->total_cost - optional($order)->cost;
 
-                $finaltotaladdon = $totaladdon 
-                + optional($order)->no_of_extra_sources 
-                + optional($order)->statistical_analysis;
+                // $finaltotaladdon = $totaladdon 
+                // + optional($order)->no_of_extra_sources 
+                // + optional($order)->statistical_analysis;
+
+
+                $finaltotaladdon = $order && $order->discount !== null ? $order->discount : 0;
 
 
                 if ($email) {
