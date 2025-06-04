@@ -2724,7 +2724,7 @@ $emailContent = "
                 // + optional($order)->statistical_analysis;
 
                 $totafinal = $pricePerPage * $totalPages;
-                $finaltotaladdon =  $totafinal - $subTotal;
+              $finaltotaladdon = abs($totafinal - $subTotal);
 
 
                 if ($email) {
