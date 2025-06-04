@@ -2723,7 +2723,7 @@ $emailContent = "
                 // + optional($order)->no_of_extra_sources 
                 // + optional($order)->statistical_analysis;
 
-                $totafinal = $totalPages* $pricePerPage;
+                $totafinal = $pricePerPage * $totalPages;
                 $finaltotaladdon =  $totafinal - $subTotal;
 
 
