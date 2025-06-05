@@ -86,7 +86,7 @@ use Carbon\Carbon;
                 <p>{{ $invoiceData['customerEmail'] }}</p>
             </div>
         </div>
-        <h4>${{ $invoiceData['subTotal'] }} paid on {{$formattedDate }}</h4>
+        {{-- <h4>${{ $invoiceData['subTotal'] }} paid on {{$formattedDate }}</h4> --}}
         <div class="table-container">
             <table>
                 <thead>
@@ -95,15 +95,15 @@ use Carbon\Carbon;
                         <th>Qty</th>
                         <th>Price Per Page</th>
                           <th>Add-Ons</th>
-                           <th>Add Discount</th>
-                        <th>Amount (excl. tax)</th>
+                           <th>Discount</th>
+                        <th>Amount</th>
                        
                       
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ $invoiceData['itemName'] }} {{ $formattedDate }}</td>
+                        <td>{{ $invoiceData['itemName'] }} </td>
                         <td>{{ $invoiceData['totalPages'] }}</td>
                         <td>${{ $invoiceData['pricePerPage'] }}</td>
                          <td>${{ $invoiceData['finaltotaladdon'] ?? '0.0' }}
@@ -118,7 +118,7 @@ use Carbon\Carbon;
         <div class="details">
             <p class="total"><strong>Subtotal:</strong> ${{ $invoiceData['subTotal'] }}</p>
             <p class="total"><strong>Total:</strong> ${{ $invoiceData['subTotal'] }}</p>
-            <p class="total"><strong>Amount paid:</strong> ${{ $invoiceData['subTotal'] }}</p>
+            <p class="total"><strong>Amount Paid (Excl. Tax):</strong> ${{ $invoiceData['subTotal'] }}</p>
         </div>
     </div>
 </body>

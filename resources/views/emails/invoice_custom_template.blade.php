@@ -48,7 +48,7 @@ use Carbon\Carbon;
             </div>
         </div>
         <div style="margin-bottom: 20px;">
-            <h4 style="margin-bottom: 20px;">${{ $invoiceData['subTotal'] }} paid on {{  $formattedDate }}</h4>
+            {{-- <h4 style="margin-bottom: 20px;">${{ $invoiceData['subTotal'] }} paid on {{  $formattedDate }}</h4> --}}
             <table style="width: 100%; border-collapse: collapse;">
                 <thead>
                     <tr>
@@ -56,8 +56,8 @@ use Carbon\Carbon;
                         <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Qty</th>
                         <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Price Per Page</th>
                         <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Add-Ons</th>
-                                               <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Add Discount</th>
-                        <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Amount (excl. tax)</th>
+                                               <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Discount</th>
+                        <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Amount</th>
                        
 
                     </tr>
@@ -65,7 +65,7 @@ use Carbon\Carbon;
                 
                 <tbody>
                     <tr>
-                        <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">{{ $invoiceData['itemName'] }} {{  $formattedDate }}</td>
+                        <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">{{ $invoiceData['itemName'] }}</td>
                         <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">{{ $invoiceData['totalPages'] }}</td>
                         <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${{ $invoiceData['pricePerPage'] }}</td>
                         <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${{ $invoiceData['finaltotaladdon'] ?? '0.0' }}
@@ -76,7 +76,7 @@ use Carbon\Carbon;
                         
                     </tr>
                     <tr>
-                        <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">{{ $formattedDate }}</td>
+                        {{-- <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">{{ $formattedDate }}</td> --}}
                         <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;"></td>
                         <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;"></td>
                         <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;"></td>
@@ -89,7 +89,7 @@ use Carbon\Carbon;
             <div style="margin-bottom: 10px; font-weight: bold;">
                 <p><strong>Subtotal:</strong> ${{ $invoiceData['subTotal'] }}</p>
                 <p><strong>Total:</strong> ${{ $invoiceData['subTotal'] }}</p>
-                <p><strong>Amount due:</strong> ${{ $invoiceData['subTotal'] }}</p>
+                <p><strong>Amount Due (Excl. Tax):</strong> ${{ $invoiceData['subTotal'] }}</p>
             </div>
             <hr style="margin: 10px 0; border: none; border-top: 1px solid #ddd;">
             <!--<p>${{ $invoiceData['subTotal'] }} paid on {{ $invoiceData['dateOfIssue'] }}</p>-->

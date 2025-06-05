@@ -2741,17 +2741,17 @@ $emailContent = "
 
                $totafinal = $pricePerPage * $totalPages;
 
-// Cast discount to float
-$discount = (float) $order->discount;
+                    // Cast discount to float
+                    $discount = (float) $order->discount;
 
-if (!$discount) {
-    // No discount (null, 0, or empty string)
-    $finaltotaladdon = abs($totafinal - $subTotal);
-} else {
-    // Discount is given in percentage
-    $originalPrice = $subTotal / (1 - ($discount / 100));
-    $finaltotaladdon = abs($totafinal - $originalPrice);
-}
+                    if (!$discount) {
+                        // No discount (null, 0, or empty string)
+                        $finaltotaladdon = abs($totafinal - $subTotal);
+                    } else {
+                        // Discount is given in percentage
+                        $originalPrice = $subTotal / (1 - ($discount / 100));
+                        $finaltotaladdon = abs($totafinal - $originalPrice);
+                    }
 
 
 
@@ -2768,7 +2768,7 @@ if (!$discount) {
                             'customerAdress' => $customerAdress,
                             'orderid' => $order_id,
                             'order' => $order,
-                            'itemName' => $itemName,
+                           'itemName' => 'Custom Order ID-' . $order_id,
                             'totalPages' => $totalPages,
                             'pricePerPage' => $pricePerPage,
                             'payment_status' => $payment_status,
@@ -2819,7 +2819,7 @@ if (!$discount) {
                             'customerAdress' => $customerAdress,
                             'orderid' => $order_id,
                             'order' => $order,
-                            'itemName' => $itemName,
+                           'itemName' => 'Custom Order ID-' . $order_id,
                             'totalPages' => $totalPages,
                             'pricePerPage' => $pricePerPage,
                             'payment_status' => $payment_status,
