@@ -2723,12 +2723,16 @@ $emailContent = "
                 // + optional($order)->no_of_extra_sources 
                 // + optional($order)->statistical_analysis;
 
+
+
+                dd($order->discount);
                 if($order->discount == null){
                     $totafinal = $pricePerPage * $totalPages;
                      $finaltotaladdon = abs($totafinal - $subTotal);
                 }
                 else{
 
+                    
                         $totafinal = $pricePerPage * $totalPages;
 
                        $originalPrice = $subTotal / (1 - ($discount / 100));
