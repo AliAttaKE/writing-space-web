@@ -2725,21 +2725,34 @@ $emailContent = "
 
 
 
-                dd($order->discount);
-                if($order->discount == null){
-                    $totafinal = $pricePerPage * $totalPages;
-                     $finaltotaladdon = abs($totafinal - $subTotal);
-                }
-                else{
+                // dd($order->discount);
+                // if($order->discount == null){
+                //     $totafinal = $pricePerPage * $totalPages;
+                //      $finaltotaladdon = abs($totafinal - $subTotal);
+                // }
+                // else{
 
                     
-                        $totafinal = $pricePerPage * $totalPages;
+                //         $totafinal = $pricePerPage * $totalPages;
 
-                       $originalPrice = $subTotal / (1 - ($discount / 100));
-                          $finaltotaladdon = abs($totafinal - $originalPrice);
-                }
+                //        $originalPrice = $subTotal / (1 - ($discount / 100));
+                //           $finaltotaladdon = abs($totafinal - $originalPrice);
+                // }
 
-               
+               $totafinal = $pricePerPage * $totalPages;
+
+// Cast discount to float
+$discount = (float) $order->discount;
+
+if (!$discount) {
+    // No discount (null, 0, or empty string)
+    $finaltotaladdon = abs($totafinal - $subTotal);
+} else {
+    // Discount is given in percentage
+    $originalPrice = $subTotal / (1 - ($discount / 100));
+    $finaltotaladdon = abs($totafinal - $originalPrice);
+}
+
 
 
                 if ($email) {
