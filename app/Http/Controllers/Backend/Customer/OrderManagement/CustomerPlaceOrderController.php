@@ -3749,7 +3749,8 @@ $emailContent = "
             $customerEmail = $user->email;
             $customerAdress = $user->address_1.''.$user->address_2;
 
-            $itemName = 'Pages Added to Package';
+           $itemName = 'Order ID - ' . $orderid . ' - Add pages';
+
             // $itemName = $subs->subscription_name;
 
            $toalamountsub =  $subs->cost_per_page * $subs->min_page;
