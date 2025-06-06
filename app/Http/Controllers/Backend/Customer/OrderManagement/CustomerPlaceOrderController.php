@@ -2154,7 +2154,7 @@ if ($subs->remaining_pages == 0) {
         ";
         $subject = "Your Additional Pages Added to Order ID - $order_id";
 
-        $this->send_invoice_just_Add_page($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage);
+        $this->send_invoice_just_Add_page($invoice_id, $receipt_id, $order_id, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage);
         // Mail::html($emailContent, function ($message) use ($user, $order_id) {
         //     $message->to($user->email)
         //             ->subject('Confirmation of Additional Pages Added to Order ID - ' . $order_id);
