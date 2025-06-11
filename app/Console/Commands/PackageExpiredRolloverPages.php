@@ -93,10 +93,10 @@ class PackageExpiredRolloverPages extends Command
                         ";
 
                         // Send the email using Laravel's Mail facade
-                        Mail::html($emailContent, function ($message) use ($customerEmail, $subject) {
-                            $message->to($customerEmail)
-                                    ->subject($subject);
-                        });
+                        // Mail::html($emailContent, function ($message) use ($customerEmail, $subject) {
+                        //     $message->to($customerEmail)
+                        //             ->subject($subject);
+                        // });
 
                         Log::info('Subscription expired and email sent for user ID: ' . $user->id);
                     }

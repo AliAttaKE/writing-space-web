@@ -233,28 +233,48 @@ public function sendMessage(Request $request)
     $senderRole = ($input['statusRadio'] == 'Admin') ? 'Admin' : 'Writer';
     $recipientName = auth()->user()->name;
 
+ 
+
     $emailContent = "
     <html>
         <body>
-            <p>Hi,</p>
-            <p>We're keeping the lines of communication open at Writing Space! You've just received a new message in your account. Here’s what you need to know:</p>
-            <p><strong>From:</strong> {$senderRole}<br>
-              <strong>To:</strong> Customer<br>
-               <strong>Order ID:</strong> {$data['order_id']}<br>
-               <strong>Message:</strong> <br>{$data['message_content']}</p>
+            <p>Hi ,</p>
+
+            <p>We’re keeping the lines of communication open at Writing Space! You’ve just received a new message in your account. Here’s what you need to know:</p>
+
+            <p>
+                <strong>From:</strong> {$senderRole}<br>
+                <strong>To:</strong> Customer<br>
+                <strong>Order ID:</strong> {$data['order_id']}
+            </p>
+
+            <p><strong>Message:</strong></p>
+            <p>{$data['message_content']}</p>
+
             <p><strong>What’s Next?</strong></p>
-            <p><strong>Next Steps:</strong></p>
-                <p>
-                    We encourage you to review the message and respond if necessary. Staying engaged and communicating effectively is key to making the most of our services and ensuring your academic journey is smooth.
-                </p>
-                <p>You can reply directly through your dashboard under the “Messages” section. It’s easy, fast, and secure.</p>
-                <p>If you have any questions or need further assistance, our support team is just an email away. We're here to help you succeed!</p>
-                <p>Thanks for choosing Writing Space as your trusted academic partner.</p>
-                <p>Warm regards,<br>
+            <p>
+                We encourage you to review the message and respond if needed. Staying engaged and communicating effectively is key to getting the most out of our services and ensuring a smooth academic experience.
+            </p>
+
+            <p>
+                You can reply directly through your dashboard under the <strong>“Messages”</strong> section. It’s simple, fast, and secure.
+            </p>
+
+            <p>
+                If you have any questions or need assistance, our support team is just an email away. We're here to help you succeed!
+            </p>
+
+            <p>Thanks for choosing Writing Space as your trusted academic partner.</p>
+
+            <p>
+                Warm regards,<br>
                 Customer Success Team<br>
-                Writing Space</p>
+                Writing Space
+            </p>
         </body>
-    </html>";
+    </html>
+";
+
 
     // Send email
     Mail::html($emailContent, function ($mail) use ($userCheck) {

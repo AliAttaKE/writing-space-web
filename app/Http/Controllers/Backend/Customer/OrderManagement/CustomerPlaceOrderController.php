@@ -744,45 +744,48 @@ if ($subs->remaining_pages == 0) {
             //     Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
             // }
 
-                              $emailContent = "
-                                    <p>Hello {$user->name},</p>
-                                    <p>Thank you for placing your order with Writing Space! We're here to support you as you progress through your academic journey.</p>
+                             $datePlaced = Carbon::parse($order->created_at)->format('F j, Y');
+$deadline = Carbon::parse($input['due_date'])->format('F j, Y');
 
-                                    <p><strong>Package Details:</strong></p>
-                                    <ul>
-                                        <li>Date Placed: {$order->created_at->format('Y-m-d')}</li>
-                                        <li>Pages Used for This Order: {$input['no_of_pages']}</li>
-                                        <li>Total Pages Used in Past Orders: {$used_pages}</li>
-                                        <li>Remaining Pages in Your Package: {$subs->remaining_pages}</li>
-                                    </ul>
+$emailContent = "
+    <p>Hello {$user->name},</p>
+    <p>Thank you for placing your order with Writing Space! We're here to support you as you progress through your academic journey.</p>
 
-                                    <p><strong>Order Details:</strong></p>
-                                    <ul>
-                                        <li>Order ID: {$order->order_id}</li>
-                                        <li>Pages: {$input['no_of_pages']}</li>
-                                        <li>Topic: {$input['topic']}</li>
-                                        <li>Deadline: {$input['due_date']}</li>
-                                    </ul>
+    <p><strong>Order Details:</strong></p>
+    <ul>
+        <li><strong>Order ID:</strong> {$order->order_id}</li>
+        <li><strong>Date Placed:</strong> {$datePlaced}</li>
+        <li><strong>Pages Used for This Order:</strong> {$input['no_of_pages']}</li>
+        <li><strong>Total Pages Used in Past Orders:</strong> {$used_pages}</li>
+        <li><strong>Remaining Pages in Your Package:</strong> {$subs->remaining_pages}</li>
+    </ul>
 
-                                    <p>Your order has been successfully recorded and is now being processed. We're committed to ensuring that you receive high-quality support tailored to your needs.</p>
+    <p><strong>Place New Order - Form Details:</strong></p>
+    <ul>
+        <li><strong>Order ID:</strong> {$order->order_id}</li>
+        <li><strong>Topic:</strong> {$input['topic']}</li>
+        <li><strong>Pages:</strong> {$input['no_of_pages']}</li>
+        <li><strong>Deadline:</strong> {$deadline}</li>
+    </ul>
 
-                                    <p><strong>Next Steps:</strong></p>
-                                    <ol>
-                                        <li>Monitor the progress of your order from your dashboard under the \"My Orders\" section.</li>
-                                        <li>You will receive updates as we process your order, including notifications when it is ready for review or download.</li>
-                                    </ol>
+    <p>Your order has been successfully recorded and is now being processed. We're committed to ensuring that you receive high-quality support tailored to your needs.</p>
 
-                                    <p>If you have any questions or need further assistance while your order is being processed, please don't hesitate to reach out. Our team is here to help every step of the way.</p>
+    <p><strong>Next Steps:</strong></p>
+    <ol>
+        <li>Monitor the progress of your order from your dashboard under the \"My Orders\" section.</li>
+        <li>You will receive updates as we process your order, including notifications when it is ready for review or download.</li>
+    </ol>
 
-                                    <p>Thank you for choosing Writing Space. We are excited to help you make the most of every page!</p>
+    <p>If you have any questions or need further assistance while your order is being processed, please don't hesitate to reach out. Our team is here to help every step of the way.</p>
 
-                                    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
-                                ";
+    <p>Thank you for choosing Writing Space. We are excited to help you make the most of every page!</p>
 
+    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
+";
                                 // Send the "Thank You" email for order placement
                                 Mail::html($emailContent, function ($message) use ($user, $order) {
                                     $message->to($user->email)
-                                            ->subject("Confirmation of Your New Order – ID {$order->order_id}");
+                                            ->subject("Confirmation of Your New Order – Package Order ID {$order->order_id}");
                                 });
 
 
@@ -1736,7 +1739,7 @@ if ($subs->remaining_pages == 0) {
                             <p>Customer Success Team</p>
                             <p>Writing Space</p>
                         ";
-                        $subject = 'Welcome to Your New Writing Space Package – Thank You for Your Purchase!';
+                        $subject = 'Welcome to Your New Writing-Space Package – Thank You for Your Purchase!';
                         $this->send_invoice($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$subs->min_page);
 
                         // return response()->json(['message' => 'Successfully Updated Subscription1']);
@@ -1835,32 +1838,31 @@ if ($subs->remaining_pages == 0) {
 
 
                     $purchaseDate = now()->format('Y-m-d');
-                    $emailContent = "
+                  $emailContent = "
+    <p>Hello {$user->name},</p>
+    <p>Congratulations on securing your new package at Writing Space! We're excited to support you with enhanced services and resources tailored to your academic needs.</p>
 
-                        <p>Hello {$user->name},</p>
-                        <p>Congratulations on securing your new package at Writing Space! We're excited to support you with enhanced services and resources tailored to your academic needs.</p>
+    <p><strong>Package Details:</strong></p>
+    <ul>
+        <li><strong>Package Type:</strong> {$subs->subscription_name}</li>
+        <li><strong>Purchase Date:</strong> {$purchaseDate}</li>
+        <li><strong>Total:</strong> {$total} $</li>
+        <li><strong>Total Pages:</strong> {$totalPages}</li>
+    </ul>
 
-                        <p><strong>Package Details:</strong></p>
-                        <ul>
-                            <li><strong>Package Type:</strong> $subs->subscription_name</li>
-                            <li><strong>Purchase Date:</strong> $purchaseDate</li>
-                            <li><strong>Total Amount:</strong> $total $</li>
-                            <li><strong>Total Pages:</strong> $totalPages</li>
-                        </ul>
+    <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
+    <p>You can now access all the features and benefits of your package through your dashboard. Explore the additional resources and services available to you and make the most of your Writing Space experience!</p>
+    <p>If you have any questions about your package or need further assistance, our customer support team is ready to help.</p>
+    <p>Thank you for choosing Writing Space! We look forward to helping you achieve your academic goals.</p>
 
-                        <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
-                        <p>You can now access all the features and benefits of your package through your dashboard. Explore the additional resources and services available to you and make the most of your Writing Space experience!</p>
-                        <p>If you have any questions about your package or need further assistance, our customer support team is ready to help.</p>
-                        <p>Thank you for choosing Writing Space! We look forward to helping you achieve your academic goals.</p>
-
-                        <p>Best regards,</p>
-                        <p>Customer Success Team</p>
-                        <p>Writing Space</p>
-                    ";
-                    $subject = 'Welcome to Your New Writing Space Package – Thank You for Your Purchase!';
+    <p>Best regards,<br>
+    Customer Success Team<br>
+    Writing Space</p>
+";
+                    $subject = 'Welcome to Your New Writing-Space Package – Thank You for Your Purchase!';
                     // Mail::html($emailContent, function ($message) use ($user) {
                     //     $message->to($user->email)
-                    //             ->subject('Welcome to Your New Writing Space Package – Thank You for Your Purchase!');
+                    //             ->subject('Welcome to Your New Writing-Space Package – Thank You for Your Purchase!');
                     // });
 
                     $this->send_invoice_pay_sub($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$subs->min_page);
@@ -2126,33 +2128,32 @@ if ($subs->remaining_pages == 0) {
                     //     ));
                     // }
 
- $emailContent = "
-            <p>Hello {$user->name},</p>
-            <p>We’ve successfully added additional pages to your existing order at Writing Space. Here are the details:</p>
+$emailContent = "
+    <p>Hello {$user->name},</p>
+    <p>We’ve successfully added additional pages to your existing order at Writing Space. Here are the details:</p>
 
-            <p><strong>Order Details:</strong></p>
-            <ul>
-                <li><strong>Order ID:</strong> $order_id</li>
-                <li><strong>Additional Pages Added:</strong> $pages</li>
-                <li><strong>Total Pages Used So Far:</strong> {$currentSubs->total_pages}</li>
-                <li><strong>Remaining Pages in Your Package:</strong> {$currentSubs->remaining_pages}</li>
-            </ul>
+    <p><strong>Order Details:</strong></p>
+    <ul>
+        <li><strong>Order ID:</strong> {$order_id}</li>
+        <li><strong>Additional Pages Added:</strong> {$pages}</li>
+        <li><strong>Total Pages Used So Far:</strong> {$currentSubs->total_pages}</li>
+        <li><strong>Remaining Pages in Your Package:</strong> {$currentSubs->remaining_pages}</li>
+    </ul>
 
-            <p><strong>What’s Next:</strong></p>
-            <ol>
-                <li>You can continue to track the progress of your order through your dashboard under the \"My Orders\" section.</li>
-                <li>We’ll keep you updated as your order develops, and we’ll notify you when it’s ready for review or download.</li>
-            </ol>
+    <p><strong>What’s Next:</strong></p>
+    <ol>
+        <li>You can continue to track the progress of your order through your dashboard under the \"My Orders\" section.</li>
+        <li>We’ll keep you updated as your order develops, and we’ll notify you when it’s ready for review or download.</li>
+    </ol>
 
-            <p>Adding these pages will help tailor your order more closely to your needs, ensuring that the final product meets all your academic requirements.</p>
-            <p>If you need further modifications or have any questions, please don't hesitate to contact us. Our team is here to support you every step of the way.</p>
-            <p>Thank you for utilizing your Writing Space package effectively. We look forward to delivering a product that exceeds your expectations.</p>
+    <p>Adding these pages will help tailor your order more closely to your needs, ensuring that the final product meets all your academic requirements.</p>
+    <p>If you need further modifications or have any questions, please don't hesitate to contact us. Our team is here to support you every step of the way.</p>
+    <p>Thank you for utilizing your Writing Space package effectively. We look forward to delivering a product that exceeds your expectations.</p>
 
-            <p>Best regards,</p>
-            <p>Customer Success Team</p>
-            <p>Writing Space</p>
-        ";
-        $subject = "Your Additional Pages Added to Order ID - $order_id";
+    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
+";
+
+        $subject = "Confirmation of Additional Package Pages Added to Order ID  - $order_id";
 
         $this->send_invoice_just_Add_page($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage);
         // Mail::html($emailContent, function ($message) use ($user, $order_id) {
@@ -2389,32 +2390,58 @@ if ($subs->remaining_pages == 0) {
                     }
 
 
+// $emailContent = "
+
+//     <p>Hi {$user->name},</p>
+//     <p>Thank you for expanding your order at Writing Space! We've successfully processed the purchase of additional pages for your ongoing project.</p>
+
+//     <p><strong>Order Details:</strong></p>
+//     <ul>
+//         <li><strong>Order ID:</strong>{$order->order_id}</li>
+//         <li><strong>Additional Pages Purchased:</strong> {$totalPages}</li>
+//         <li><strong>Date of Purchase:</strong>  $invoice->created_at</li>
+//     </ul>
+
+//     <p>Your invoice and receipt for this transaction are attached as a PDF. Please review these documents for your records.</p>
+//     <p>Should you have any queries or require further assistance, feel free to reach out to our support team.</p>
+//     <p>We appreciate your continued trust in Writing Space, and we're here to assist you every step of the way!</p>
+
+//     <p>Best regards,</p>
+//     <p>Customer Success Team</p>
+//     <p>Writing Space</p>
+// ";
+
+
 $emailContent = "
+<p>Hi {$user->name},</p>
 
-    <p>Hi {$user->name},</p>
-    <p>Thank you for expanding your order at Writing Space! We've successfully processed the purchase of additional pages for your ongoing project.</p>
+<p>Thank you for expanding your order at Writing Space! We've successfully processed the purchase of additional pages for your ongoing project.</p>
 
-    <p><strong>Order Details:</strong></p>
-    <ul>
-        <li><strong>Order ID:</strong>{$order->order_id}</li>
-        <li><strong>Additional Pages Purchased:</strong> {$totalPages}</li>
-        <li><strong>Date of Purchase:</strong>  $invoice->created_at</li>
-    </ul>
+<p><strong>Order Details:</strong></p>
+<ul>
+    <li><strong>Order ID:</strong> {$order->order_id}</li>
+    <li><strong>Additional Pages Purchased:</strong> {$totalPages}</li>
+    <li><strong>Cost:</strong> {$subTotal}</li>
+    <li><strong>Date of Purchase:</strong> " . $invoice->created_at->format('F j, Y') . "</li>
+</ul>
 
-    <p>Your invoice and receipt for this transaction are attached as a PDF. Please review these documents for your records.</p>
-    <p>Should you have any queries or require further assistance, feel free to reach out to our support team.</p>
-    <p>We appreciate your continued trust in Writing Space, and we're here to assist you every step of the way!</p>
+<p>Your invoice and receipt for this transaction are attached as a PDF. Please review these documents for your records.</p>
 
-    <p>Best regards,</p>
-    <p>Customer Success Team</p>
-    <p>Writing Space</p>
+<p>Should you have any queries or require further assistance, feel free to reach out to our support team.</p>
+
+<p>We appreciate your continued trust in Writing Space, and we're here to assist you every step of the way!</p>
+
+<p>Best regards,<br>
+Customer Success Team<br>
+Writing Space</p>
 ";
+
 
 // Mail::html($emailContent, function ($message) use ($user, $order) {
 //     $message->to($user->email)
 //             ->subject("Confirmation of Additional Pages Purchase – Order ID {$order->order_id}");
 // });
-                    $subject = "Confirmation of Additional Pages Purchase – Order ID {$order->order_id}";
+                    $subject = "Confirmation of Purchase of Additional Pages – Custom Order ID  {$order->order_id}";
                 $data = [
                                 'invoiceNumber' => $invoice_id,
                                 'receiptNumber' => $receipt_id,
@@ -2756,7 +2783,7 @@ $emailContent = "
 
 
                 if ($email) {
-                    $subject = 'Your Writing Space Purchase Confirmation – Order ID '.$order_id;
+                    $subject = 'Your Writing-Space Custom Order Purchase Confirmation – Order ID '.$order_id;
                     Mail::to($user->email)->send(new InvoiceEmailTemplate(
                         [
                             'invoiceNumber' => $invoiceNumber,
@@ -2788,18 +2815,18 @@ $emailContent = "
                     $emailContent = "
 
                     <p>Hi {$user->name},</p>
-                    <p>Thank you for expanding your order at Writing Space! We've successfully processed the purchase of additional pages for your ongoing project.</p>
+                    <p>Thank you for your purchase at Writing Space! Your order has been successfully processed.</p>
 
                     <p><strong>Order Details:</strong></p>
                     <ul>
                         <li><strong>Order ID:</strong>{$order->order_id}</li>
-                        <li><strong>Additional Pages Purchased:</strong> {$totalPages}</li>
-                        <li><strong>Date of Purchase:</strong>  $invoice->created_at</li>
+                        <li><strong>Pages:</strong> {$totalPages}</li>
+                        <li><strong>Deadline:</strong>  $invoice->created_at</li>
                     </ul>
 
-                    <p>Your invoice and receipt for this transaction are attached as a PDF. Please review these documents for your records.</p>
-                    <p>Should you have any queries or require further assistance, feel free to reach out to our support team.</p>
-                    <p>We appreciate your continued trust in Writing Space, and we're here to assist you every step of the way!</p>
+                    <p>Please find your invoice and receipt attached to this email as a PDF. Ensure you review these documents for your records</p>
+                    <p>If you have any questions or need further assistance, please don't hesitate to contact our support team.</p>
+                    <p>Thank you for choosing Writing Space. We look forward to supporting your academic success!</p>
 
                     <p>Best regards,</p>
                     <p>Customer Success Team</p>
@@ -2808,7 +2835,7 @@ $emailContent = "
 
 
 
-                    $subject = "Your Writing Space Purchase Confirmation – Order ID {$order->order_id}";
+                    $subject = "Your Writing-Space Custom Order Purchase Confirmation – Order ID  {$order->order_id}";
                     $data = [
                             'invoiceNumber' => $invoiceNumber,
                               'receiptNumber' => $receiptNumber,
@@ -3643,7 +3670,7 @@ $emailContent = "
 
 
 
-            $subject = "Welcome to Your New Writing Space Package – Thank You for Your Purchase!";
+            $subject = "Welcome to Your New Writing-Space Package – Thank You for Your Purchase!";
             Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
                 $data,$data,
                 $subject,
@@ -3718,7 +3745,7 @@ $emailContent = "
 
 
 
-            $subject = "Welcome to Your New Writing Space Package – Thank You for Your Purchase!";
+            $subject = "Welcome to Your New Writing-Space Package – Thank You for Your Purchase!";
             Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
                 $data,$data,
                 $subject,
@@ -3794,7 +3821,7 @@ $emailContent = "
 
 
 
-            $subject = "Welcome to Your New Writing Space Package – Thank You for Your Purchase!";
+            $subject = "Welcome to Your New Writing-Space Package – Thank You for Your Purchase!";
             Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
                 $data,$data,
                 $subject,

@@ -88,31 +88,30 @@ class LibrarayController extends Controller
     
       // Updated email content
 $emailContent = "
-    <p>Subject: Thanks for Downloading Your Paper from Writing Space!</p>
-    
     <p>Hi {$user->name},</p>
-    
+
     <p>Thanks for diving into our extensive library at Writing Space! We’re excited to be part of your academic journey and are here to provide you with the tools you need to excel. It’s great to see you making the most of the resources we offer.</p>
-    
+
     <p>As you explore the insights and knowledge contained in your downloaded paper, we want to ensure you’re fully informed about how to use these materials responsibly. Please remember, the paper you’ve downloaded is for personal use and study guidance only. It cannot be submitted to any Turnitin repository.</p>
-    
+
     <p>If you want to verify the authenticity of the paper or check it for originality, you are welcome to use Turnitin’s non-repository service. This way, you can verify that our work maintains the highest standards of academic integrity without the paper being stored in Turnitin’s database.</p>
-    
-    <p>A friendly reminder: Submitting library content as your own is not allowed and violates our terms of service. We take academic honesty very seriously, and breaking this rule could result in severe consequences, including suspension from our services.</p>
-    
+
+    <p><strong>A friendly reminder:</strong> Submitting library content as your own is not allowed and violates our terms of service. We take academic honesty very seriously, and breaking this rule could result in severe consequences, including suspension from our services.</p>
+
     <p>Thank you for choosing Writing Space to support your academic efforts. If you have any questions or need further assistance, feel free to reach out to our support team. We’re here to help you every step of the way!</p>
-    
+
     <p>Enjoy your academic journey, and let’s make it a successful one!</p>
-    
+
     <p>Best Regards,<br>
     Customer Success Team<br>
     Writing Space</p>
 ";
 
+
 // Send the email
 Mail::html($emailContent, function ($message) use ($user) {
     $message->to($user->email)
-            ->subject('Thanks for Downloading Your Paper from Writing Space!');
+            ->subject('Thanks for Downloading Your Paper from Writing-Space!');
 });
 
            

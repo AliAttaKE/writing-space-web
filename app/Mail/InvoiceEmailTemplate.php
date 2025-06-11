@@ -30,7 +30,7 @@ class InvoiceEmailTemplate extends Mailable
     
         // Ensure Order ID is included in subject
         $orderID = $invoiceData['orderid'] ?? 'N/A';
-        $this->subject = $subject ?? "Your Writing Space Purchase Confirmation – Order ID {$orderID}";
+        $this->subject = $subject ?? "Your Writing-Space Custom Order Purchase Confirmation – Order ID {$orderID}";
     }
 
     /**
