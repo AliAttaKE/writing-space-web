@@ -1046,9 +1046,9 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																									<a class="menu-link text-danger px-3" href="{{ route('customer.files.download', ['id' => $file->id,'folder_name'=>$folder->name]) }}">Download File</a>
 																								</div>
 
-																								<div class="menu-item px-3">
+																								{{-- <div class="menu-item px-3">
 																									<a class="menu-link text-danger px-3" onclick="confirmDelete({{ $file->id }}, '{{ $folder->name }}')">Delete</a>
-																								</div>
+																								</div> --}}
 																								<!--end::Menu-->
 																							</div>
 																						<!--end::More-->
@@ -2058,9 +2058,9 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																									<a class="menu-link text-danger px-3" href="{{ route('customer.completed.order.file.download', ['order_id' => $file->order_id, 'file_id' => $file->id]) }}">Download File</a>
 																								</div>
 
-																								<div class="menu-item px-3">
+																								{{-- <div class="menu-item px-3">
 																									<a class="menu-link text-danger px-3" onclick="confirmDelete({{ $file->id }}, '{{ $folder->name }}')">Delete</a>
-																								</div>
+																								</div> --}}
 																								<!--end::Menu-->
 																							</div>
 																						<!--end::More-->
