@@ -12,6 +12,9 @@ use ZipArchive;
 use App\Models\FileChatGPT;
 use App\Models\Orders;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Models\Email;
+use App\Models\User;
 
 class FileController extends Controller
 {
@@ -42,29 +45,54 @@ class FileController extends Controller
 
 
 
-  public function order_file_change_status(Request $request)
+ public function order_file_change_status(Request $request)
 {
     $fileId = $request->input('fileId');
     $currentStatus = $request->input('currentStatus');
 
     $file = FileChatGPT::find($fileId);
 
-    if ($file) {
-        // Toggle status
-        $file->status = $currentStatus == 0 ? 1 : 0;
-        $file->save();
-
-        // Get order_id from the file and update the order status
-        $orderId = $file->order_id;
-
-        if ($file->status == 1) {
-            Orders::where('order_id', $orderId)->update(['order_status' => 'Delivered']);
-        }
-
-        return response()->json(['message' => 'Status changed successfully'], 200);
-    } else {
+    if (!$file) {
         return response()->json(['error' => 'File not found'], 404);
     }
+
+    // Toggle status
+    $file->status = $currentStatus == 0 ? 1 : 0;
+    $file->save();
+
+    $orderId = $file->order_id;
+    $order = Orders::find($orderId);
+
+    if (!$order) {
+        return response()->json(['error' => 'Order not found'], 404);
+    }
+
+    $user = User::find($order->user_id);
+
+    if (!$user) {
+        return response()->json(['error' => 'User not found'], 404);
+    }
+
+    if ($file->status == 1) {
+        Orders::where('order_id', $orderId)->update(['order_status' => 'Delivered']);
+
+        $emailSubject = 'Good News: Your Order ID ' . $orderId . ' Has Been Delivered!';
+        $emailContent = "
+            <p>Hi {$user->name},</p>
+            <p>We are pleased to announce that your order ID {$orderId} has been delivered! You can now download and access your materials through your Writing Space dashboard.</p>
+            <p><strong>What’s Next?</strong></p>
+            <ul>
+                <li>We hope you find everything to your satisfaction. Please review your delivered materials and let us know if there are any issues or further assistance needed.</li>
+            </ul>
+            <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
+            <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+
+        Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
+            $message->to($user->email)->subject($emailSubject);
+        });
+    }
+
+    return response()->json(['message' => 'Status changed successfully'], 200);
 }
 
 

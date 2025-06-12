@@ -7,6 +7,9 @@ use App\Models\FileChatGPT;
 use App\Models\Orders;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Models\Email;
 
 class FileChatGPTController extends Controller
 {
@@ -60,13 +63,34 @@ public function store(Request $request)
         ]);
     }
 
-   if($request->status == 1){
-    Orders::where('order_id', $order->order_id)->update(['order_status' => 'Delivered']);
-}
+    // Check if status == 1 and update order status and send email
+    if ($request->status == 1) {
+        Orders::where('order_id', $order->order_id)->update(['order_status' => 'Delivered']);
 
+        $user = User::find($user_id); // Load user details
+        $orderId = $order->order_id;
+
+        if ($user) {
+            $emailSubject = 'Good News: Your Order ID ' . $orderId . ' Has Been Delivered!';
+            $emailContent = "
+                <p>Hi {$user->name},</p>
+                <p>We are pleased to announce that your order ID {$orderId} has been delivered! You can now download and access your materials through your Writing Space dashboard.</p>
+                <p><strong>What’s Next?</strong></p>
+                <ul>
+                    <li>We hope you find everything to your satisfaction. Please review your delivered materials and let us know if there are any issues or further assistance needed.</li>
+                </ul>
+                <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
+                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+
+            Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
+                $message->to($user->email)->subject($emailSubject);
+            });
+        }
+    }
 
     return redirect()->route('file_chat_gpts.index')->with('success', 'Files uploaded successfully.');
 }
+
 
 
     public function edit(FileChatGPT $fileChatGPT)
