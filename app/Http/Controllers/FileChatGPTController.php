@@ -60,6 +60,11 @@ public function store(Request $request)
         ]);
     }
 
+   if($request->status == 1){
+    Orders::where('order_id', $order->order_id)->update(['order_status' => 'Delivered']);
+}
+
+
     return redirect()->route('file_chat_gpts.index')->with('success', 'Files uploaded successfully.');
 }
 

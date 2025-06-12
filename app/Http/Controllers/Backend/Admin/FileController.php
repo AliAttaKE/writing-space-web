@@ -42,20 +42,31 @@ class FileController extends Controller
 
 
 
-    public function order_file_change_status(Request $request)
-    {
+  public function order_file_change_status(Request $request)
+{
+    $fileId = $request->input('fileId');
+    $currentStatus = $request->input('currentStatus');
 
-        $fileId = $request->input('fileId');
-        $currentStatus = $request->input('currentStatus');
-        $file = FileChatGPT::find($fileId);
-        if ($file) {
-            $file->status = $currentStatus == 0 ? 1 : 0; // Toggle status between 0 and 1
-            $file->save();
-            return response()->json(['message' => 'Status changed successfully'], 200);
-        } else {
-            return response()->json(['error' => 'File not found'], 404);
+    $file = FileChatGPT::find($fileId);
+
+    if ($file) {
+        // Toggle status
+        $file->status = $currentStatus == 0 ? 1 : 0;
+        $file->save();
+
+        // Get order_id from the file and update the order status
+        $orderId = $file->order_id;
+
+        if ($file->status == 1) {
+            Orders::where('order_id', $orderId)->update(['order_status' => 'Delivered']);
         }
+
+        return response()->json(['message' => 'Status changed successfully'], 200);
+    } else {
+        return response()->json(['error' => 'File not found'], 404);
     }
+}
+
 
 
 
