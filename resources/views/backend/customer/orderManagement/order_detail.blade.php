@@ -1041,16 +1041,16 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																									<span class="path4"></span>
 																								</i>
 																							</button>
-																							<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-150px py-4 badge-custom-bg" data-kt-menu="true">
-																								<div class="menu-item px-3">
+																							{{-- <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-150px py-4 badge-custom-bg" data-kt-menu="true">
+																								<div class="menu-item px-3"> --}}
 																									<a class="menu-link text-danger px-3" href="{{ route('customer.files.download', ['id' => $file->id,'folder_name'=>$folder->name]) }}">Download File</a>
-																								</div>
+																								{{-- </div> --}}
 
 																								{{-- <div class="menu-item px-3">
 																									<a class="menu-link text-danger px-3" onclick="confirmDelete({{ $file->id }}, '{{ $folder->name }}')">Delete</a>
 																								</div> --}}
 																								<!--end::Menu-->
-																							</div>
+																							{{-- </div> --}}
 																						<!--end::More-->
 																						</div>
 																					</div>
@@ -2053,16 +2053,16 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																									<span class="path4"></span>
 																								</i>
 																							</button>
-																							<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-150px py-4 badge-custom-bg" data-kt-menu="true">
-																								<div class="menu-item px-3">
+																							{{-- <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-150px py-4 badge-custom-bg" data-kt-menu="true">
+																								<div class="menu-item px-3"> --}}
 																									<a class="menu-link text-danger px-3" href="{{ route('customer.completed.order.file.download', ['order_id' => $file->order_id, 'file_id' => $file->id]) }}">Download File</a>
-																								</div>
+																								{{-- </div> --}}
 
 																								{{-- <div class="menu-item px-3">
 																									<a class="menu-link text-danger px-3" onclick="confirmDelete({{ $file->id }}, '{{ $folder->name }}')">Delete</a>
 																								</div> --}}
 																								<!--end::Menu-->
-																							</div>
+																							{{-- </div> --}}
 																						<!--end::More-->
 																						</div>
 																					</div>
