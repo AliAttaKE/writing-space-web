@@ -2041,8 +2041,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																				<td>{{$file->Size }}</td>
 
 																				<td>{{ $file->created_at->format('F j, Y g:i A') }}</td>
-																				<td>{{ optional($file->download_time)->format('F j, Y g:i A') }}</td>
-
+																				<td>{{ $file->download_time }}</td>
 																				<td class="text-end text-white" data-kt-filemanager-table="action_dropdown">
 																					<div class="d-flex justify-content-end">
 																						<div class="ms-2">
