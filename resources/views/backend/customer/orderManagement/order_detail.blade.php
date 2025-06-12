@@ -1033,14 +1033,14 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																				<td class="text-end text-white" data-kt-filemanager-table="action_dropdown">
 																					<div class="d-flex justify-content-end w-25">
 																						<div class="ms-2">
-																							<button type="button" class="btn btn-sm btn-icon btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+																							{{-- <button type="button" class="btn btn-sm btn-icon btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
 																								<i class="ki-duotone ki-dots-square fs-5 m-0">
 																									<span class="path1"></span>
 																									<span class="path2"></span>
 																									<span class="path3"></span>
 																									<span class="path4"></span>
 																								</i>
-																							</button>
+																							</button> --}}
 																							{{-- <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-150px py-4 badge-custom-bg" data-kt-menu="true">
 																								<div class="menu-item px-3"> --}}
 																									<a class="menu-link text-danger px-3" href="{{ route('customer.files.download', ['id' => $file->id,'folder_name'=>$folder->name]) }}">Download File</a>
@@ -2045,14 +2045,14 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																				<td class="text-end text-white" data-kt-filemanager-table="action_dropdown">
 																					<div class="d-flex justify-content-end">
 																						<div class="ms-2">
-																							<button type="button" class="btn btn-sm btn-icon btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+																							{{-- <button type="button" class="btn btn-sm btn-icon btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
 																								<i class="ki-duotone ki-dots-square fs-5 m-0">
 																									<span class="path1"></span>
 																									<span class="path2"></span>
 																									<span class="path3"></span>
 																									<span class="path4"></span>
 																								</i>
-																							</button>
+																							</button> --}}
 																							{{-- <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-150px py-4 badge-custom-bg" data-kt-menu="true">
 																								<div class="menu-item px-3"> --}}
 																									<a class="menu-link text-danger px-3" href="{{ route('customer.completed.order.file.download', ['order_id' => $file->order_id, 'file_id' => $file->id]) }}">Download File</a>
