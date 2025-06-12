@@ -57,8 +57,8 @@ public function store(Request $request)
             'order_id' => $request->order_id,
             'user_id' => $user_id,
             'file_path' => $filePath,
-            'file_type' => $uploadedFile->getMimeType(),
-            'Size' => $uploadedFile->getSize(),
+           'file_type' => $uploadedFile->getClientOriginalExtension(), 
+           'Size' => $this->formatFileSize($uploadedFile->getSize()),
             'status' => $request->status,
         ]);
     }
@@ -91,6 +91,18 @@ public function store(Request $request)
     return redirect()->route('file_chat_gpts.index')->with('success', 'Files uploaded successfully.');
 }
 
+private function formatFileSize($bytes)
+{
+    if ($bytes >= 1073741824) {
+        return number_format($bytes / 1073741824, 2) . ' GB';
+    } elseif ($bytes >= 1048576) {
+        return number_format($bytes / 1048576, 2) . ' MB';
+    } elseif ($bytes >= 1024) {
+        return number_format($bytes / 1024, 2) . ' KB';
+    } else {
+        return $bytes . ' bytes';
+    }
+}
 
 
     public function edit(FileChatGPT $fileChatGPT)
