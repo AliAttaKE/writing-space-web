@@ -78,7 +78,7 @@ public function store(Request $request)
                 <p><strong>What’s Next?</strong></p>
                 <ul>
                     <li>We hope you find everything to your satisfaction. Please review your delivered materials and let us know if there are any issues or further assistance needed.</li>
-                </ul>
+                </ul>   
                 <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
                 <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
 

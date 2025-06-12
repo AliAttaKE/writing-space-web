@@ -2015,7 +2015,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																			<th rowspan="1" colspan="1" >File Title</th>
 																			<th>File Type</th>
 																			<th rowspan="1" colspan="1" >Size</th>
-																			<th rowspan="1" colspan="1" >Last Modified</th>
+																			<th rowspan="1" colspan="1" >Upload Time</th>
 																			<th rowspan="1" colspan="1" >Download time</th>
 																			<th rowspan="1" colspan="1" ></th>
 																		</tr>
@@ -2041,7 +2041,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																				<td>{{$file->Size }}</td>
 
 																				<td>{{ $file->created_at->format('F j, Y g:i A') }}</td>
-																				<td>{{ $file->download_time }}</td>
+																				<td>{{ $file->download_time->format('F j, Y g:i A') }}</td>
 																				<td class="text-end text-white" data-kt-filemanager-table="action_dropdown">
 																					<div class="d-flex justify-content-end">
 																						<div class="ms-2">
