@@ -519,6 +519,8 @@ Route::get('/about-us', [IndexController::class, 'about'])->name('front.about');
 Route::get('/contact-us', [IndexController::class, 'contact'])->name('front.contact');
 Route::get('/faq-us', [IndexController::class, 'faqs'])->name('front.faq');
 
+Route::post('/contact-submit', [IndexController::class, 'submit'])->name('contact.submit');
+
 
 Route::get('/contact-us', [IndexController::class, 'contact'])->name('front.contact');
 

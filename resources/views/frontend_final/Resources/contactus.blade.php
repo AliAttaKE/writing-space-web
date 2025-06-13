@@ -46,33 +46,33 @@
     <img src="{{ asset('fronted_final/assets/images/FullHeartLine.png')}}" alt="heart-line 1" class="heartbeat-line start" />
     <div class="container-lg card-style cardStyles d-flex justify-content-center">
         <div class="col-md-10">
-            <form>
-                <div class="row sample-text-field text-white text-center">
-                    <p class="fs-5">Depend on our consistent support to help you through academic challenges -
-                    <br>
-                    Fill out the form below. Help is just one click away!</p>
-                    <div class="col-lg-6 col-md-6">
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" aria-label="Choose" placeholder="First Name">
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Last Name">
-                    </div>
-                </div>
+        <form method="POST" action="{{ route('contact.submit') }}">
+    @csrf
+    <div class="row sample-text-field text-white text-center">
+        <p class="fs-5">Depend on our consistent support to help you through academic challenges -<br>
+            Fill out the form below. Help is just one click away!</p>
+        <div class="col-lg-6 col-md-6">
+            <input type="text" name="first_name" class="form-control" placeholder="First Name" required>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <input type="text" name="last_name" class="form-control" placeholder="Last Name" required>
+        </div>
+    </div>
 
-                <div class="row sample-text-field justify-content-center align-items-center">
-                    <div class="col-lg-12 col-md-12 mt-4">
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
-                    </div>
-                    <div class="col-lg-12 col-md-12 mt-4">
-                        <textarea class="form-control" name="" id="" cols="30" rows="10" placeholder="Message"></textarea>
-                    </div>
-                    <p class="text-danger my-4"> Disclaimer: By submitting, you agree to our Privacy Policy and Terms. <br> Data is used solely to respond to inquiries.</p>
-                    <div class="col-md-2 col-sm-3 mt-4">
-                        <button type="submit" class="btn gradient-button w-100">Submit</button>
-                    </div>
-                </div>
+    <div class="row sample-text-field justify-content-center align-items-center">
+        <div class="col-lg-12 col-md-12 mt-4">
+            <input type="email" name="email" class="form-control" placeholder="Email" required>
+        </div>
+        <div class="col-lg-12 col-md-12 mt-4">
+            <textarea name="message" class="form-control" cols="30" rows="10" placeholder="Message" required></textarea>
+        </div>
+        <p class="text-danger my-4"> Disclaimer: By submitting, you agree to our Privacy Policy and Terms. <br> Data is used solely to respond to inquiries.</p>
+        <div class="col-md-2 col-sm-3 mt-4">
+            <button type="submit" class="btn gradient-button w-100">Submit</button>
+        </div>
+    </div>
+</form>
 
-            </form>
         </div>
     </div>
 </section>
