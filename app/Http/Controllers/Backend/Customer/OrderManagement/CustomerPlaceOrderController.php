@@ -156,44 +156,98 @@ class CustomerPlaceOrderController extends Controller
 
 
     //support message
+    // public function supportMessage(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'message_support' => 'required',
+    //         'order_id' => 'required',
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json(['errors' => $validator->errors()], 422);
+    //     }
+
+    //     $admin = User::where('role', 'admin')->first();
+
+    //     $receiver_id = $admin->id;
+
+    //     Message::create([
+    //         'message' => $request->message_support,
+    //         'order_id' => $request->order_id,
+    //         'sender_id' => Auth::user()->id,
+    //         'receiver_id' => $receiver_id, //admin id here;
+    //     ]);
+
+    //     // $email = Email::where('type', '=', 'Support Message')->first();
+    //     // if ($email) {
+    //     //     Mail::to($admin->email)->send(new EmailTemplate($admin, $email));
+    //     // }
+    //     $emailSubject = 'Message to Support Staff : Your Order ID ' . $request->order_id;
+    //         $emailContent = "
+    //             <p>Hi {$admin->name},</p>
+    //             <p> {$request->message_support}</p>";
+    //             Mail::html($emailContent, function ($message) use ($admin, $emailSubject) {
+    //                 $message->to($admin->email)
+    //                 ->subject($emailSubject);
+    //             });
+    //      //Mail::to($admin->email)->send(new EmailTemplate($admin, $email));
+
+    //     return response()->json(['success' => true, 'message' => 'Message sent successfully'], 200);
+    // }
+
+
     public function supportMessage(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'message_support' => 'required',
-            'order_id' => 'required',
-        ]);
+{
+    $validator = Validator::make($request->all(), [
+        'message_support' => 'required',
+        'order_id' => 'required',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $admin = User::where('role', 'admin')->first();
-
-        $receiver_id = $admin->id;
-
-        Message::create([
-            'message' => $request->message_support,
-            'order_id' => $request->order_id,
-            'sender_id' => Auth::user()->id,
-            'receiver_id' => $receiver_id, //admin id here;
-        ]);
-
-        // $email = Email::where('type', '=', 'Support Message')->first();
-        // if ($email) {
-        //     Mail::to($admin->email)->send(new EmailTemplate($admin, $email));
-        // }
-        $emailSubject = 'Message to Support Staff : Your Order ID ' . $request->order_id;
-            $emailContent = "
-                <p>Hi {$admin->name},</p>
-                <p> {$request->message_support}</p>";
-                Mail::html($emailContent, function ($message) use ($admin, $emailSubject) {
-                    $message->to($admin->email)
-                    ->subject($emailSubject);
-                });
-         //Mail::to($admin->email)->send(new EmailTemplate($admin, $email));
-
-        return response()->json(['success' => true, 'message' => 'Message sent successfully'], 200);
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
     }
+
+    $admin = User::where('role', 'admin')->first();
+    $sender = Auth::user(); // Authenticated user (sender)
+
+    // Save the message
+    Message::create([
+        'message' => $request->message_support,
+        'order_id' => $request->order_id,
+        'sender_id' => $sender->id,
+        'receiver_id' => $admin->id,
+    ]);
+
+    // Prepare email
+    $emailSubject = 'Support Message for Order ID: ' . $request->order_id;
+
+    $emailContent = "
+        <p><strong>Dear {$admin->name},</strong></p>
+
+        <p>You have received a new support message from a customer regarding <strong>Order ID: {$request->order_id}</strong>.</p>
+
+        <p><strong>Message:</strong><br>
+        {$request->message_support}</p>
+
+        <hr>
+
+        <p><strong>Sender Details:</strong></p>
+        <p>
+            Name: {$sender->name}<br>
+            Email: {$sender->email}<br>
+            Sent At: " . now()->format('F j, Y g:i A') . "
+        </p>
+
+        <p>Regards,<br>Writing Space System</p>
+    ";
+
+    Mail::html($emailContent, function ($message) use ($admin, $emailSubject) {
+        $message->to($admin->email)
+                ->subject($emailSubject);
+    });
+
+    return response()->json(['success' => true, 'message' => 'Message sent successfully'], 200);
+}
 
     //support message
 
