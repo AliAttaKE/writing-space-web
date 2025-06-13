@@ -106,6 +106,7 @@ class IndexController extends Controller
 
         return view('frontend_final.SamplePaper.samplepaper', compact('titles','terms','papers','libraries', 'subject', 'termOption', 'wordCount', 'citation'));
     }
+
     public function ajaxsamplepaper(Request $request)
     {
         $query = Paper::where('status', 'Enable');
@@ -236,6 +237,9 @@ class IndexController extends Controller
 
         return back()->with('success', 'Your message has been sent. Our team will contact you soon.');
     }
+
+
+    
    
    public function admissionessay()
    {
