@@ -2,7 +2,8 @@
 @section('main_content')
 
 <div class="container">
-    <h2>All Revisions</h2>
+    <h2 style="
+    color: white;" >Revisions</h2>
 
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
