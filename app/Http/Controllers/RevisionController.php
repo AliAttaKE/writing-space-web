@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Revision;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
 
 class RevisionController extends Controller
 {
@@ -12,6 +12,47 @@ class RevisionController extends Controller
      * Display a listing of the resource.
      */
 
+
+     
+public function submitRevisionAjax(Request $request)
+{
+    $request->validate([
+        'order_id' => 'required',
+        'revision_request' => 'required',
+    ]);
+
+    $order_id = $request->order_id;
+    $revision_request = $request->revision_request;
+    $deadline = $request->order_id_revision_deadline;
+
+    if (!$deadline) {
+        return response()->json(['message' => 'Deadline missing.'], 400);
+    }
+
+    $deadline_time = Carbon::parse($deadline);
+    $now = Carbon::now();
+
+    $revisionLimit = Revision::first(); // you can add where condition if needed
+
+    if (!$revisionLimit) {
+        return response()->json(['message' => 'Revision limit not set.'], 400);
+    }
+
+    // Add allowed days and hours to the deadline
+    $allowed_until = $deadline_time->copy()
+                        ->addDays($revisionLimit->days)
+                        ->addHours($revisionLimit->hours);
+
+    if ($now->greaterThan($allowed_until)) {
+        return response()->json(['message' => 'Revision time limit has passed.'], 403);
+    }
+
+    // --- Logic to store the revision ---
+    // Example:
+    // RevisionRequest::create([...])
+
+    return response()->json(['message' => 'Revision submitted successfully.']);
+}
 
      public function index()
     {

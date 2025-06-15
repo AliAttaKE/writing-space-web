@@ -1,5 +1,9 @@
 @extends('custom_layout.customer')
 @section('main_content')
+@php
+    use App\Models\Revision;
+    $revision = Revision::first();
+@endphp
 
 <style>
 	.custom-height {
@@ -1393,6 +1397,9 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 													<div class="col-md-10 mb-5 re-req">
 
 															<input type="hidden" id="order_id_revision" name="order_id" value="{{$order->order_id}}">
+															<input type="hidden" id="order_id_revision_deadline" name="order_id" value="{{$order->deadline}}">
+															<input type="hidden" id="order_id_revision_days" name="order_id" value="{{$revision->days}}">
+															<input type="hidden" id="order_id_revision_hours" name="order_id" value="{{$revision->hours}}">
 															<input type="hidden" name="_token" id="csrf-token" value="{{ csrf_token() }}">
 
 															<!-- Create the editor container -->
@@ -8639,11 +8646,40 @@ console.log("sahriq totalpageCount:", totalpageCount);
 
 	   $(document).on('click', '.send_rewrite', function() {
 	var order_id = document.getElementById('order_id_revision').value;
+	var order_id_revision_deadline = document.getElementById('order_id_revision_deadline').value;
+  var order_id_revision_hours = parseInt(document.getElementById('order_id_revision_hours').value);
+    var order_id_revision_days = parseInt(document.getElementById('order_id_revision_days').value);
 	var revision_request = document.getElementById('request_revision').value;
         if(!revision_request){
             Swal.fire('Error', 'Please provide valid message.', 'error');
             return;
         }
+  var deadline = new Date(order_id_revision_deadline);
+        var allowedUntil = new Date(deadline);
+        allowedUntil.setDate(allowedUntil.getDate() + order_id_revision_days);
+        allowedUntil.setHours(allowedUntil.getHours() + order_id_revision_hours);
+
+        var now = new Date();
+
+        if (now > allowedUntil) {
+            Swal.fire({
+                icon: 'error',
+                title: '<span style="color: darkred;">Revision Period Expired</span>',
+                html: `
+                    <p style="color: #990000;">
+                        You can only request a revision within <b>${order_id_revision_days} days</b> after your paper has been delivered.
+                        Since this period has passed, the revision feature is no longer available here.
+                    </p>
+                    <p style="color: #990000;">
+                        If you believe your case requires special consideration, please
+                        <b>contact our support team</b> and explain your situation. We're here to help!
+                    </p>
+                `
+            });
+            return;
+        }
+
+
 if (order_id && revision_request) {
 	 var url2 = '{{ route('customer.revision.submit.ajax') }}';
 
