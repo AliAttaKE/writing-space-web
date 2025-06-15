@@ -57,7 +57,7 @@ use App\Http\Controllers\Backend\Customer\BrandAmbassadorController;
 
 use App\Http\Controllers\FileChatGPTController;
 use App\Http\Controllers\CampaignController;
-
+use App\Http\Controllers\RevisionController;
 use App\Http\Controllers\ContactController;
 
 
@@ -319,6 +319,9 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
     Route::post('/add_ons/store', [AddOnController::class, 'store'])->name('add_ons.store');
     Route::post('/add_ons/update', [AddOnController::class, 'update'])->name('add_ons.update');
     Route::get('/add_ons/delete/{id}', [AddOnController::class, 'destroy'])->name('add_ons.destroy');
+
+
+ Route::resource('revisions', RevisionController::class);
     //Done
     Route::get('/academics', [AcademicController::class, 'index'])->name('academics.index');
     Route::post('/academics/store', [AcademicController::class, 'store'])->name('academics.store');

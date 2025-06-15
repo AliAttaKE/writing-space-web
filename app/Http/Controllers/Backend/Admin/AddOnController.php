@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Addons;
+use App\Models\Revision;
 
 class AddOnController extends Controller
 {
@@ -13,6 +14,12 @@ class AddOnController extends Controller
         $addons= Addons::latest()->paginate(5);
      
         return view('backend.admin.Addons.addons_limit',compact('addons'));
+    }
+    public function revision_index()
+    {       
+        $revision= Revision::latest()->paginate(5);
+     
+        return view('backend.admin.Addons.revision_time',compact('revision'));
     }
     
     
