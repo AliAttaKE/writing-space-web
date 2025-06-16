@@ -8654,20 +8654,28 @@ console.log("sahriq totalpageCount:", totalpageCount);
             Swal.fire('Error', 'Please provide valid message.', 'error');
             return;
         }
-  var deadline = new Date(order_id_revision_deadline);
+   var deadline = new Date(order_id_revision_deadline.replace(' ', 'T'));
+
+        // ✅ Clone deadline and add days/hours
         var allowedUntil = new Date(deadline);
         allowedUntil.setDate(allowedUntil.getDate() + order_id_revision_days);
         allowedUntil.setHours(allowedUntil.getHours() + order_id_revision_hours);
 
         var now = new Date();
 
+        // ✅ Debug logs
+        console.log("Revision Deadline      : ", deadline);
+        console.log("Allowed Until (limit)  : ", allowedUntil);
+        console.log("Current Time (now)     : ", now);
+
+        // ✅ Compare
         if (now > allowedUntil) {
             Swal.fire({
                 icon: 'error',
                 title: '<span style="color: darkred;">Revision Period Expired</span>',
                 html: `
                     <p style="color: #990000;">
-                        You can only request a revision within <b>${order_id_revision_days} days</b> after your paper has been delivered.
+                        You can only request a revision within <b>${order_id_revision_days} days</b> and <b>${order_id_revision_hours} hours</b> after your paper has been delivered.
                         Since this period has passed, the revision feature is no longer available here.
                     </p>
                     <p style="color: #990000;">
