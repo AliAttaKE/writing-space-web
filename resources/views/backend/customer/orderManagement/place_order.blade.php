@@ -803,7 +803,7 @@
                                                             id="">{{ $Addons->paper_summary }}</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" class="toggleSwitch paper_summary" id="toggleSwitch" name="paper_summary"   data-target="1">
+                                                            <input type="checkbox" class="toggleSwitch paper_summary" id="toggleSwitch" name="paper_summary" data-amount="{{ $Addons->paper_summary }}"  data-target="1">
                                                             <span class="slider"></span>
                                                         </label>
                                                     </div>
@@ -822,7 +822,7 @@
                                                             id="">{{ $Addons->paper_utline_in_bullets }}</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" class="toggleSwitch outline" id="toggleSwitch" name="outline" data-target="2">
+                                                            <input type="checkbox" class="toggleSwitch outline" id="toggleSwitch" data-amount="{{ $Addons->paper_utline_in_bullets }}" name="outline" data-target="2">
                                                             <span class="slider"></span>
                                                         </label>
                                                     </div>
@@ -842,7 +842,7 @@
                                                             id="">{{ $Addons->paper_abstract }}</span></label>
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" class="toggleSwitch ai_detection" id="toggleSwitch" name="ai_detection" data-target="3">
+                                                            <input type="checkbox" class="toggleSwitch ai_detection" id="toggleSwitch" data-amount="{{ $Addons->paper_abstract }}" name="ai_detection" data-target="3">
                                                             <span class="slider"></span>
                                                         </label>
                                                     </div>
@@ -863,7 +863,7 @@
 
                                                     <div class="switch-container">
                                                         <label class="switch">
-                                                            <input type="checkbox" class="toggleSwitch plagiarism" id="toggleSwitch" name="plagiarism" data-target="4">
+                                                            <input type="checkbox" class="toggleSwitch plagiarism" id="toggleSwitch" data-amount="{{ $Addons->turnitin_report }}" name="plagiarism" data-target="4">
                                                             <span class="slider"></span>
                                                         </label>
                                                     </div>
@@ -1790,9 +1790,19 @@
             if (extra === '') {
                 extra = 0;
             }
+            let plagiarismEl = document.querySelector('.plagiarism');
+            let aiDetectionEl = document.querySelector('.ai_detection');
+            let outlineEl = document.querySelector('.outline');
+            let paperSummaryEl = document.querySelector('.paper_summary');
+
+            let plagiarism = plagiarismEl.checked ? parseInt(plagiarismEl.getAttribute('data-amount')) : 0;
+            let ai_detection = aiDetectionEl.checked ? parseInt(aiDetectionEl.getAttribute('data-amount')) : 0;
+            let outline = outlineEl.checked ? parseInt(outlineEl.getAttribute('data-amount')) : 0;
+            let paper_summary = paperSummaryEl.checked ? parseInt(paperSummaryEl.getAttribute('data-amount')) : 0;
+
 
             let cost_page = document.getElementById('cost_per_page').innerHTML;
-            let total = parseInt(no_of_page) * parseInt(cost_page) + parseInt(extra);
+            let total = (parseInt(no_of_page) * cost_page) + parseInt(extra) + paper_summary + outline + ai_detection + plagiarism;
             let percentage = document.getElementById('statistic_percentage').innerHTML;
             let calculate = total + (total * parseInt(percentage) / 100);
             document.getElementById('sub_total').innerHTML = calculate;
@@ -1828,8 +1838,22 @@
             extra = 0;
         }
         percentage = document.getElementById('statistic_percentage').innerHTML;
-        let cost_page = document.getElementById('cost_per_page').innerHTML;
-        let total = parseInt(no_of_page) * parseInt(cost_page) + parseInt(extra);
+        //let cost_page = document.getElementById('cost_per_page').innerHTML;
+        let plagiarismEl = document.querySelector('.plagiarism');
+            let aiDetectionEl = document.querySelector('.ai_detection');
+            let outlineEl = document.querySelector('.outline');
+            let paperSummaryEl = document.querySelector('.paper_summary');
+
+            let plagiarism = plagiarismEl.checked ? parseInt(plagiarismEl.getAttribute('data-amount')) : 0;
+            let ai_detection = aiDetectionEl.checked ? parseInt(aiDetectionEl.getAttribute('data-amount')) : 0;
+            let outline = outlineEl.checked ? parseInt(outlineEl.getAttribute('data-amount')) : 0;
+            let paper_summary = paperSummaryEl.checked ? parseInt(paperSummaryEl.getAttribute('data-amount')) : 0;
+
+
+            let cost_page = document.getElementById('cost_per_page').innerHTML;
+            let total = (parseInt(no_of_page) * cost_page) + parseInt(extra) + paper_summary + outline + ai_detection + plagiarism;
+
+        //let total = parseInt(no_of_page) * parseInt(cost_page) + parseInt(extra);
         console.log(percentage);
         if (percentage != '0') {
             let calculate = total + (total * parseInt(percentage) / 100);
@@ -2124,39 +2148,48 @@ var checkedLabels = [];
 var checkedCosts = [];
 
 // Add event listener to the toggle switches
-document.querySelectorAll('input[type="checkbox"][id^="toggleSwitch"]').forEach(function (toggleSwitch) {
+document.querySelectorAll('input[type="checkbox"][class^="toggleSwitch"]').forEach(function (toggleSwitch) {
     toggleSwitch.addEventListener('change', function () {
-        var target = this.dataset.target; // Get the data-target attribute
-        var costLabelElement = document.getElementById('cost_label' + target);
 
-        // Get the cost from the corresponding label
-        var value = parseInt($(this).closest(".col-6").find("span").text()) || 0;
+        let no_of_page = document.getElementById('no_of_pages').innerHTML || 0;
+        let extra = document.getElementById('extra_sources').innerHTML || 0;
+        let cost_page = parseInt(document.getElementById('cost_per_page').innerHTML || 0);
 
-        // Update the variable or perform any action based on the checked state
-        if (this.checked) {
-            // When checked
-            var costLabelValue = costLabelElement.textContent.trim();
-            checkedLabels.push(costLabelValue);
-            checkedCosts.push(value); // Add the cost associated with this label
-        } else {
-            // When unchecked
-            var costLabelValue = costLabelElement.textContent.trim();
-            var index = checkedLabels.indexOf(costLabelValue);
-            if (index !== -1) {
-                checkedLabels.splice(index, 1);
-                checkedCosts.splice(index, 1); // Remove the associated cost as well
-            }
+        let plagiarismEl = document.querySelector('.plagiarism');
+        let aiDetectionEl = document.querySelector('.ai_detection');
+        let outlineEl = document.querySelector('.outline');
+        let paperSummaryEl = document.querySelector('.paper_summary');
+        let statistic_percentageEl = document.querySelector('#statistical_analysis_yes');
+
+        let plagiarism = plagiarismEl?.checked ? parseInt(plagiarismEl.getAttribute('data-amount')) : 0;
+        let ai_detection = aiDetectionEl?.checked ? parseInt(aiDetectionEl.getAttribute('data-amount')) : 0;
+        let outline = outlineEl?.checked ? parseInt(outlineEl.getAttribute('data-amount')) : 0;
+        let paper_summary = paperSummaryEl?.checked ? parseInt(paperSummaryEl.getAttribute('data-amount')) : 0;
+
+        let base_total = (parseInt(no_of_page) * cost_page) + parseInt(extra) + paper_summary + outline + ai_detection + plagiarism;
+
+        let final_total = base_total;
+
+        if (statistic_percentageEl?.checked) {
+            document.getElementById('statistic_percentage').innerHTML = 15;
+            let percentage = parseInt(document.getElementById('statistic_percentage').innerHTML || 0);
+            final_total += (base_total * percentage / 100);
         }
 
-        // Calculate the total sum of checked costs
-        var totalAdditionalCost = checkedCosts.reduce((acc, cost) => acc + cost, 0);
-        total_sum_final(totalAdditionalCost);
+        document.getElementById('sub_total').innerHTML = final_total;
 
-        // Display the current array of checked labels
-        //console.log('Checked Labels: ', checkedLabels);
-        //console.log('Checked Costs: ', checkedCosts);
+        // Handle checkedlength from localStorage
+        let local = localStorage.getItem('checkedlength');
+        if (local != null) {
+            let checkedCount = JSON.parse(local);
+            let additional = parseInt(cost_page) * parseInt(checkedCount);
+            total_sum_final(additional);
+        } else {
+            total_sum_final(0);
+        }
     });
 });
+
 
 
     // function total_sum_final(additional) {
@@ -2284,7 +2317,7 @@ document.querySelectorAll('input[type="checkbox"][id^="toggleSwitch"]').forEach(
                 message = response.message;
                 card = message.card;
                 var url2 = '{{ route('customer.create_order', ['id' => ': id']) }}';
-            url2 = url2.replace(':id', user_id);
+            url2 = url2.replace(':id', user_id);4
             $.ajax({
                 type: 'post',
                 url: url2,

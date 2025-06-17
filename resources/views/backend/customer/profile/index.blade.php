@@ -337,34 +337,38 @@
                                                 </thead>
 
                                                 <tbody class="fs-6 fw-semibold text-gray-600" id="old_package_payment_tbody">
-                                                    @foreach ($PackageInvoices as $invoice)
+                                                    @foreach ($orders as $order)
                                                             <tr>
                                                                 <td>
-                                                                    @if($invoice->invoice_type == 'package_inc')
+                                                                    @if($order->invoice_type == 'package_inc')
                                                                         Package
-                                                                    @elseif ($invoice->invoice_type == Null)
+                                                                    @elseif ($order->invoice_type == Null)
                                                                         Package - Addon
-                                                                    @elseif ($invoice->invoice_type == 'custom_inc')
+                                                                    @elseif ($order->invoice_type == 'custom_inc')
                                                                         Custom Order
                                                                     @endif
                                                                 </td>
                                                                 <td>
-                                                                    @if($invoice->item_name == 'Subcription')
-                                                                        {{ $invoice->subscription_name }}
-                                                                    @elseif ($invoice->item_name == 'Pages')
-                                                                        {{ $invoice->package_id }}
-                                                                    @elseif ($invoice->item_name == 'Order')
-                                                                        {{ $invoice->order_id }}
+                                                                    @if($order->item_name == 'Subcription')
+                                                                        {{ $order->subscription_name }}
+                                                                    @elseif ($order->item_name == 'Pages')
+                                                                        {{ $order->package_id }}
+                                                                    @elseif ($order->item_name == 'Order')
+                                                                        {{ $order->order_id }}
+                                                                    @elseif ($order->item_name == 'Custom Order')
+                                                                        {{$order->item_name}}
+                                                                    @elseif ($order->item_name == 'Custom Order - Pages Addon')
+                                                                        {{$order->item_name}}
                                                                     @endif
                                                                     </td>
                                                                 <td>
-                                                                    <a href="{{ asset('storage/invoices/invoice_' . $invoice->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $invoice->invoice_id}}</a>
+                                                                    <a href="{{ asset('storage/invoices/invoice_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $order->invoice_id}}</a>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="{{ asset('storage/receipts/receipt_' . $invoice->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $invoice->invoice_id}}</a>
+                                                                    <a href="{{ asset('storage/receipts/receipt_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $order->invoice_id}}</a>
                                                                 </td>
                                                                 <td>
-                                                                    @if ($invoice->total != null)
+                                                                    @if ($order->total != null)
                                                                         <span class="badge badge-light-success badge-custom-bg">Successful</span>
                                                                     @else
                                                                         <span class="badge badge-light-danger">No paid</span>
@@ -372,13 +376,13 @@
                                                                 </td>
                                                                 <td>
                                                                     @php
-                                                                        $formattedAmount = number_format($invoice->total, 2);
+                                                                        $formattedAmount = number_format($order->total, 2);
                                                                     @endphp
                                                                     $ {{ $formattedAmount }}
                                                                 </td>
                                                                 <td>
                                                                     @php
-                                                                        $date = \Carbon\Carbon::parse($invoice->created_at)->format('j M Y, g:i a');
+                                                                        $date = \Carbon\Carbon::parse($order->created_at)->format('j M Y, g:i a');
                                                                     @endphp
                                                                     {{ $date }}
                                                                 </td>
@@ -427,13 +431,12 @@
                                                 <thead class="border-bottom border-gray-200 fs-7 fw-bold">
                                                     <tr class="text-start text-muted text-uppercase gs-0">
                                                         <th class="min-w-150px">Order Date</th>
-                                                        <th class="min-w-150px">Order Type</th>
-                                                        <th class="min-w-150px">Order Id</th>
-                                                        <th class="min-w-100px">Pages Purchased</th>
-                                                        <th class="min-w-100px">Pages Addon</th>
-                                                        <th class="min-w-100px">Pages Addon Type</th>
-                                                        <th class="min-w-100px">Pages Addon Date</th>
-                                                        <th>Status</th>
+                                                        <th class="min-w-150px">Order Due Date</th>
+                                                        <th class="min-w-100px">Order Type</th>
+                                                        <th class="min-w-100px">Order Id</th>
+                                                        <th class="min-w-50px">Pages </th>
+                                                        <th class="min-w-150px">Topic </th>
+                                                        <th class="min-w-150px">Status</th>
                                                     </tr>
                                                 </thead>
 
@@ -442,13 +445,12 @@
 
                                                             <tr>
                                                                 <td>{{ $order->created_at }}</td>
-                                                                <td>{{ $order->order_type }}</td>
+                                                                <td>{{ $order->order?->deadline }}</td>
+                                                                <td>{{ $order->order?->order_type }}</td>
                                                                 <td>{{ $order->order_id }}</td>
-                                                                <td>{{ $order->pages_purchase }}</td>
-                                                                <td>{{ $order->pages_addon }}</td>
-                                                                <td>{{ $order->pages_addon_type }}</td>
-                                                                <td>{{ $order->created_at }}</td>
-                                                                <td>{{ $order->status }}</td>
+                                                                <td>{{ $order->order?->number_of_pages }}</td>
+                                                                <td>{{ $order->order?->topic }}</td>
+                                                                <td>{{ $order->order?->order_status }}</td>
 
 
 

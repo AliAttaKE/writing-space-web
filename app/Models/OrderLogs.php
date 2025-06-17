@@ -4,6 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Orders;
+use App\Models\Invoice;
+use App\Models\User;
+use App\Models\User_Subscription;
+
 
 class OrderLogs extends Model
 {
@@ -16,7 +21,7 @@ class OrderLogs extends Model
         'user_id',
         'invoice_id',
         'order_id',
-        'status',
+        'status','deadline',
         'order_type',
         'pages_addon_type',
         'pages_addon',
@@ -36,8 +41,8 @@ class OrderLogs extends Model
         return $this->belongsTo(Invoice::class);
     }
 
-    public function order()
-    {
-        return $this->belongsTo(Order::class);
-    }
+   public function order()
+{
+    return $this->belongsTo(Orders::class, 'order_id');
+}
 }
