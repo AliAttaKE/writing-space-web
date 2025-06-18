@@ -2856,35 +2856,35 @@ Writing Space</p>
 
 
 
-                if ($email) {
-                    $subject = 'Your Writing-Space Custom Order Purchase Confirmation – Order ID '.$order_id;
-                    Mail::to($user->email)->send(new InvoiceEmailTemplate(
-                        [
-                            'invoiceNumber' => $invoiceNumber,
-                              'receiptNumber' => $receiptNumber,
-                            'dateOfIssue' => $dateOfIssue,
-                            'dueDate' => $dueDate,
-                            'customerName' => $customerName,
-                            'customerEmail' => $customerEmail,
-                            'customerAdress' => $customerAdress,
-                            'orderid' => $order_id,
-                            'order' => $order,
-                           'itemName' => 'Custom Order ID-' . $order_id,
-                            'totalPages' => $totalPages,
-                            'pricePerPage' => $pricePerPage,
-                            'payment_status' => $payment_status,
-                            'subTotal' => $subTotal,
-                            'discount' => $discount,
-                            'total' => $total,
-                            'finaltotaladdon' => $finaltotaladdon ?: '0.0',
-                            'discounttotalamount' => $discounttotalamount = ($order && $order->discount !== null)
-                            ? number_format($order->discount, 2) . '%'
-                            : '0.00%',
+                // if ($email) {
+                //     $subject = 'Your Writing-Space Custom Order Purchase Confirmation – Order ID '.$order_id;
+                //     Mail::to($user->email)->send(new InvoiceEmailTemplate(
+                //         [
+                //             'invoiceNumber' => $invoiceNumber,
+                //               'receiptNumber' => $receiptNumber,
+                //             'dateOfIssue' => $dateOfIssue,
+                //             'dueDate' => $dueDate,
+                //             'customerName' => $customerName,
+                //             'customerEmail' => $customerEmail,
+                //             'customerAdress' => $customerAdress,
+                //             'orderid' => $order_id,
+                //             'order' => $order,
+                //            'itemName' => 'Custom Order ID-' . $order_id,
+                //             'totalPages' => $totalPages,
+                //             'pricePerPage' => $pricePerPage,
+                //             'payment_status' => $payment_status,
+                //             'subTotal' => $subTotal,
+                //             'discount' => $discount,
+                //             'total' => $total,
+                //             'finaltotaladdon' => $finaltotaladdon ?: '0.0',
+                //             'discounttotalamount' => $discounttotalamount = ($order && $order->discount !== null)
+                //             ? number_format($order->discount, 2) . '%'
+                //             : '0.00%',
 
-                        ],
-                        $subject
-                    ));
-                }
+                //         ],
+                //         $subject
+                //     ));
+                // }
 
                     $emailContent = "
 
