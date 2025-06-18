@@ -71,16 +71,18 @@ public function store(Request $request)
         $orderId = $order->order_id;
 
         if ($user) {
-            $emailSubject = 'Good News: Your Order ID ' . $orderId . ' Has Been Delivered!';
-            $emailContent = "
-                <p>Hi {$user->name},</p>
-                <p>We are pleased to announce that your order ID {$orderId} has been delivered! You can now download and access your materials through your Writing Space dashboard.</p>
-                <p><strong>What’s Next?</strong></p>
-                <ul>
-                    <li>We hope you find everything to your satisfaction. Please review your delivered materials and let us know if there are any issues or further assistance needed.</li>
-                </ul>   
-                <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
-                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+       $emailSubject = 'Good News: Your Order ID ' . $orderId . ' Has Been Delivered!';
+$emailContent = "
+    <p>Hi {$user->name},</p>
+    <p>We are pleased to announce that your order ID {$orderId} has been delivered! You can now download and access your materials through your Writing Space dashboard.</p>
+    <p><strong>What’s Next?</strong></p>
+    <ul>
+        <li>We hope you find everything to your satisfaction. Please review your delivered materials in this order’s details page and let us know if there are any issues or further assistance needed.</li>
+        <li>If you’d like any small adjustments, you can post a free revision within 7 days and we’ll be happy to help.</li>
+    </ul>   
+    <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
+    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+
 
             Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
                 $message->to($user->email)->subject($emailSubject);
