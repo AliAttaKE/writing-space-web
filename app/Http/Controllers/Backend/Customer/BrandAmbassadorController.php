@@ -56,11 +56,11 @@ class BrandAmbassadorController extends Controller
             'subject'   => $request->subject,
         ];
 
-        try {
-
-            Mail::send('emails.brand_ambassador_sign_up', ['data' => $data], function($message) use ($request) {
-                $message->to($request->email)->subject($request->subject);
-            });
+       try {
+    Mail::send('emails.brand_ambassador_sign_up', ['data' => $data], function($message) use ($request) {
+        $message->to($request->email)->subject("brand_ambassador_sign_up");
+    });
+}
 
 
             $ambassador = new BrandAmbassador();
