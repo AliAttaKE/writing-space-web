@@ -40,7 +40,27 @@ class PlaceOrderController extends Controller
 {
 
 
-   public function updateStatus(Request $request)
+ 
+
+    public function order_complete($id)
+    {
+        Orders::where('order_id', $id)->update(['order_status' => 'Completed']);
+        return redirect()->back()->with('success', 'Order marked as complete.');
+    }
+
+   public function revision_exp($id)
+    {
+        $order = Orders::where('id',$id)->first();
+        if ($order) {
+            Orders::where('id', $id)->update(['revision_status' => 'revision status']);
+            return redirect()->route('admin.delivered-order')->with('success', 'Revision order date update Successfully.');
+        } else {
+            return redirect()->back()->with('success', 'Order not found.');
+        }
+    }
+
+
+      public function updateStatus(Request $request)
 {
     $request->validate([
         'selectedProducts' => 'required|array',
@@ -126,6 +146,7 @@ class PlaceOrderController extends Controller
                 <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
                 <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
         }
+        
 
         // Send email
         Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
@@ -138,24 +159,6 @@ class PlaceOrderController extends Controller
 
     return back()->with('success', 'Status updated successfully.');
 }
-
-
-    public function order_complete($id)
-    {
-        Orders::where('order_id', $id)->update(['order_status' => 'Completed']);
-        return redirect()->back()->with('success', 'Order marked as complete.');
-    }
-
-   public function revision_exp($id)
-    {
-        $order = Orders::where('id',$id)->first();
-        if ($order) {
-            Orders::where('id', $id)->update(['revision_status' => 'revision status']);
-            return redirect()->route('admin.delivered-order')->with('success', 'Revision order date update Successfully.');
-        } else {
-            return redirect()->back()->with('success', 'Order not found.');
-        }
-    }
 
 
 

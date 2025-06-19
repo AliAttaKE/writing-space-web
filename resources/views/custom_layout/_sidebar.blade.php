@@ -1,3 +1,34 @@
+@php
+    use Illuminate\Support\Facades\DB;
+
+    $orders = DB::table('orders')->get();
+
+    $orderCount = [];
+
+    foreach ($orders as $key) {
+        $status = $key->order_status; // Replace with your actual column name
+
+        if (isset($orderCount[$status])) {
+            $orderCount[$status]++;
+        } else {
+            $orderCount[$status] = 1;
+        }
+    }
+
+    // Use null coalescing operator to handle undefined statuses
+    $Revisioncount = $orderCount['Revision'] ?? 0;
+    $PendingCount = $orderCount['Pending'] ?? 0;
+    $RefundCount = $orderCount['Refund'] ?? 0;
+    $CanceledCount = $orderCount['Canceled'] ?? 0;
+    $InProgressCount = ($orderCount['In-Progress'] ?? 0) + ($orderCount['Completed'] ?? 0);
+    $DeliveredCount = $orderCount['Delivered'] ?? 0;
+    $CompletedCount = $orderCount['Completed'] ?? 0;
+
+
+@endphp
+
+
+
 <div id="kt_app_sidebar_menu_scroll" class="scroll-y my-5 mx-3" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer" data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
     <!--begin::Menu-->
     <div class="menu menu-column menu-rounded menu-sub-indention fw-semibold fs-6" id="#kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false">
@@ -13,22 +44,32 @@
                 <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.placeOrder')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Place New
                     Order</span></a><!--end:Menu link--></div><!--end:Menu item-->
                 <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.new-order')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">New
-                            Order</span></a><!--end:Menu link--></div><!--end:Menu item-->
+                            Order</span>
+                            <span class="badge">( {{ $PendingCount }} )</span> <!-- Display the count -->
+                        
+                        </a><!--end:Menu link--></div><!--end:Menu item-->
                 <!--begin:Menu item-->
                 <div class="menu-item "><!--begin:Menu link--><a class="menu-link " href="{{route('admin.inprogress-order')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">In-Progress
-                            Order</span></a><!--end:Menu link--></div><!--end:Menu item-->
+                            Order</span>
+                <span class="badge">( {{ $InProgressCount }} )</span> <!-- Display the count -->
+                        
+                        </a><!--end:Menu link--></div><!--end:Menu item-->
                 <!--begin:Menu item-->
 
-                <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.revision-order')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Revisions</span></a><!--end:Menu link-->
+                <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.revision-order')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Revisions</span> <span class="badge">( {{ $Revisioncount }} )</span></a><!--end:Menu link-->
                 </div><!--end:Menu item-->
                 <!--begin:Menu item-->
-                <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.completed-order')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Completed</span></a><!--end:Menu link-->
+                <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.completed-order')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Completed</span> <span class="badge">( {{ $CompletedCount }} )</span></a><!--end:Menu link-->
                 </div><!--end:Menu item-->
                 <!--begin:Menu item-->
-                <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.delivered-order')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Delivered</span></a><!--end:Menu link-->
+                <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.delivered-order')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Delivered</span><span class="badge">( {{ $DeliveredCount }} )</span></a><!--end:Menu link-->
                 </div><!--end:Menu item-->
+ @php
+         $totalOtherss = \App\Models\Orders::whereIn('order_status', ['Canceled','Refund'])
+            ->count();
+    @endphp
                 <!--begin:Menu item-->
-                <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.other-order')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Others</span></a><!--end:Menu link-->
+                <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.other-order')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Others</span> <span class="badge">( {{ $totalOtherss }} )</span></a><!--end:Menu link-->
                 </div><!--end:Menu item-->
             </div><!--end:Menu sub-->
         </div><!--end:Menu item-->
