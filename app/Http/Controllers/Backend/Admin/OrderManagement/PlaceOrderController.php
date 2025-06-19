@@ -40,72 +40,104 @@ class PlaceOrderController extends Controller
 {
 
 
-     public function updateStatus(Request $request)
-    {
-        $request->validate([
-            'selectedProducts' => 'required|array',
-            'selectedProducts.*' => 'exists:orders,order_id',
-            'order_status' => 'required',
-        ]);
-        $data = [];
+   public function updateStatus(Request $request)
+{
+    $request->validate([
+        'selectedProducts' => 'required|array',
+        'selectedProducts.*' => 'exists:orders,order_id',
+        'order_status' => 'required',
+    ]);
+
+    foreach ($request->selectedProducts as $orderId) {
+        $order = Orders::where('order_id', $orderId)->first();
+        $user = $order->user;  // Yeh variable define kia
+
         if ($request->order_status == 'Canceled') {
-            foreach ($request->selectedProducts as $order)
-            {
-                $order = Orders::where('order_id', $order)->first();
-                $data['order_id'] = $order->order_id;
-                $data['customer_name'] = $order->user->name;
-                $data['customer_email'] = $order->user->email;
-                $email = Email::where('type','order_cancelled')->first();
-                if ($email) {
-                    Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
-                }
-            }
+            $emailSubject = 'Notification: Your Order ID ' . $order->order_id . ' Has Been Cancelled';
+            $emailContent = "
+                <p>Hi {$user->name},</p>
+                <p>We regret to inform you that your order ID {$order->order_id} has been cancelled. We apologize for any inconvenience this may have caused.</p>
+                <p><strong>What’s Next?</strong></p>
+                <ul>
+                    <li>If you have any questions or would like to discuss alternatives or reordering, please don't hesitate to contact us.</li>
+                </ul>
+                <p>We thank you for your understanding and apologize for any inconvenience. We hope to assist you again in the future.</p>
+                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
 
-        }elseif ($request->order_status == 'Delivered') {
-            foreach ($request->selectedProducts as $order)
-            {
-                $order = Orders::where('order_id', $order)->first();
-                $data['order_id'] = $order->order_id;
-                $data['customer_name'] = $order->user->name;
-                $data['customer_email'] = $order->user->email;
-                $email = Email::where('type','order_delivered')->first();
-                if ($email) {
-                    Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
-                }
-            }
+        } elseif ($request->order_status == 'Delivered') {
+            $emailSubject = 'Good News: Your Order ID ' . $order->order_id . ' Has Been Delivered!';
+            $emailContent = "
+                <p>Hi {$user->name},</p>
+                <p>We are pleased to announce that your order ID {$order->order_id} has been delivered! You can now download and access your materials through your Writing Space dashboard.</p>
+                <p><strong>What’s Next?</strong></p>
+                <ul>
+                    <li>We hope you find everything to your satisfaction. Please review your delivered materials in this order’s details page and let us know if there are any issues or further assistance needed.</li>
+                    <li>If you’d like any small adjustments, you can post a free revision within 7 days and we’ll be happy to help.</li>
+                </ul>   
+                <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
+                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
 
-        }elseif ($request->order_status == 'In-Progress') {
-            foreach ($request->selectedProducts as $order)
-            {
-                $order = Orders::where('order_id', $order)->first();
-                $data['order_id'] = $order->order_id;
-                $data['customer_name'] = $order->user->name;
-                $data['customer_email'] = $order->user->email;
-                $email = Email::where('type','order_in-progress')->first();
-                if ($email) {
-                    Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
-                }
-            }
+        } elseif ($request->order_status == 'In-Progress') {
+            $emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is Now In-Progress';
+            $emailContent = "
+                <p>Hi {$user->name},</p>
+                <p>We're excited to let you know that your order ID {$order->order_id} is now in-progress! Our team is actively working on your request to provide you with quality results.</p>
+                <p><strong>What’s Next?</strong></p>
+                <ul>
+                    <li>We'll keep you updated on the progress and notify you as soon as your order is ready for the next phase.</li>
+                </ul>
+                <p>Feel free to check your order status anytime from your dashboard.</p>
+                <p>Thank you for choosing Writing Space!</p>
+                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
 
-        }elseif ($request->order_status == 'Revision') {
-            foreach ($request->selectedProducts as $order)
-            {
-                $order = Orders::where('order_id', $order)->first();
-                $data['order_id'] = $order->order_id;
-                $data['customer_name'] = $order->user->name;
-                $data['customer_email'] = $order->user->email;
-                $email = Email::where('type','order_in-revision')->first();
-                if ($email) {
-                    Mail::to($data['customer_email'])->send(new EmailTemplate($email, $data));
-                }
-            }
+        } elseif ($request->order_status == 'Revision') {
+            $emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is In-Revision';
+            $emailContent = "
+                <p>Hi {$user->name},</p>
+                <p>Your revision request is received and your Order ID {$order->order_id} is currently in the revision stage. We are making the necessary adjustments to ensure that the final product aligns perfectly with your specifications.</p>
+                <p><strong>What’s Next?</strong></p>
+                <ul>
+                    <li>Once revisions are complete, we will move forward to finalizing your order. You will receive a notification when your order is ready for delivery.</li>
+                </ul>
+                <p>Thank you for your collaboration and patience.</p>
+                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
 
+        } elseif ($request->order_status == 'Refund') {
+            $emailSubject = 'Notification: Your Refund for Order ID ' . $order->order_id . ' Has Been Processed';
+            $emailContent = "
+                <p>Hi {$user->name},</p>
+                <p>We wanted to inform you that a refund for your order ID {$order->order_id} has been successfully processed. You should see the refunded amount of [Refund Amount] reflected in your original payment method within 30 business days.</p>
+                <p><strong>What’s Next?</strong></p>
+                <ul>
+                    <li>If you have any questions about your refund or need further assistance, please don't hesitate to contact us. We're here to help!</li>
+                </ul>
+                <p>We apologize for any inconvenience this may have caused and appreciate your understanding. We hope to have the opportunity to assist you again in the future.</p>
+                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+
+        } elseif ($request->order_status == 'Completed') {
+            $emailSubject = 'Order ID ' . $order->order_id . ' Completed!';
+            $emailContent = "
+                <p>Hi {$user->name},</p>
+                <p>We are pleased to announce that your order ID {$order->order_id} has been Completed! You can now download and access your materials through your Writing Space dashboard.</p>
+                <p><strong>What’s Next?</strong></p>
+                <ul>
+                    <li>We hope you find everything to your satisfaction. Please review your Completed materials and let us know if there are any issues or further assistance needed.</li>
+                </ul>
+                <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
+                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
         }
 
-        Orders::whereIn('order_id', $request->selectedProducts)
-               ->update(['order_status' => $request->order_status]);
-        return back()->with('success', 'Status updated successfully.');
+        // Send email
+        Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
+            $message->to($user->email)->subject($emailSubject);
+        });
     }
+
+    Orders::whereIn('order_id', $request->selectedProducts)
+           ->update(['order_status' => $request->order_status]);
+
+    return back()->with('success', 'Status updated successfully.');
+}
 
 
     public function order_complete($id)
