@@ -50,13 +50,12 @@
     <h2>3. Managing Cookies</h2>
     <p>Control cookies via these browser guides:</p>
     <ul>
-        <li><a href="#" >Firefox</a></li>
-        <li><a href="#" >Internet Explorer</a></li>
-        <li><a href="#" >Chrome</a></li>
-        <li><a href="#" >Safari OS X</a></li>
-        <li><a href="#" >Opera</a></li>
-        <li><a href="#">Safari iOS</a></li>
-        <li><a href="#" >Android</a></li>
+        <li><a href="https://www.mozilla.org/en-US/privacy/websites/#user-choices" >Firefox</a></li>
+        <li><a href="https://learn.microsoft.com/en-us/deployedge/microsoft-edge-policies" >Internet Explorer</a></li>
+        <li><a href="https://privacysandbox.google.com/cookies/temporary-exceptions/chrome-enterprise" >Chrome</a></li>
+        <li><a href="https://www.apple.com/legal/privacy/en-ww/cookies/" >Safari OS X</a></li>
+        <li><a href="https://jobs.opera.com/cookie-policy" >Opera</a></li>
+        <li><a href="https://www.apple.com/legal/privacy/en-ww/cookies/">Safari iOS</a></li>
     </ul>
 
     <h2>4. Cookie Types We Use</h2>
