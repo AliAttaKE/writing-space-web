@@ -15,7 +15,7 @@ class MessageList extends Component
     use WithPagination;
 
     public $search = '';
-
+protected $queryString = ['page'];
     public function updatingSearch()
     {
         $this->resetPage();
@@ -79,7 +79,7 @@ class MessageList extends Component
     //     return view('livewire.message-list', compact('data'));
     // }
 
-    public function render()
+  public function render()
 {
     $userId = auth()->id();
 
@@ -97,7 +97,9 @@ class MessageList extends Component
                       ->where('status', 'UnRead')
                 ])
                 ->orderBy('updated_at', 'desc')
-                ->paginate(5);
+                ->paginate(5)
+                // ← yahan add karo:
+                ->withPath(request()->url());
 
     return view('livewire.message-list', [
         'threads' => $threads,

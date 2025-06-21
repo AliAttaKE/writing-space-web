@@ -267,7 +267,7 @@
                                     </div>
                                     <div class="">
 
-                                        <form action="" class="kt_invoice_form">
+                                        <form id="orderForm" action="" class="kt_invoice_form">
 
                                             <div class="col-md-6 mb-10">
                                                 <select name="pricing" id="pricing"
@@ -600,7 +600,7 @@
                                                                 class="path3"></span></i></span> -->
                                                 </label>
                                                 <!--end::Label-->
-                                            <div class="d-flex"></div>
+                                            <div class="d-flex">
                                                 <!--begin::Input-->
                                               <input type="number" class="form-control form-control-lg form-control-solid btn-dark-primary" name="powerpoint_slide" placeholder="10" id="powerpoint_slide" value="0" min="0">
 
@@ -611,7 +611,7 @@
                                                 style="background:transparent;"
                                                 class="border-0 bg-cus fs-6 fw-semibold "
                                                 data-bs-toggle="modal" data-bs-target="#modal-18"><i
-                                                    class="bi bi-info-circle-fill mx-3"></i></button>
+                                                    class="bi bi-info-circle-fill mx-3"></i></button></div>
                                             </div>
                                             </div>
                                             <div class="col-md-6 mb-10">
@@ -642,11 +642,7 @@
                                                 <label for="" class="mb-3 fs-6 fw-semibold text-white">Your
                                                     instructions,
                                                     requirements, specifications, etc.*:</label>
-                                                <!-- <div class="d-flex">
-                                                    <textarea name="description" id="description"
-                                                        class="form-control form-control-solid btn-dark-primary" rows="3"
-                                                        placeholder="Your Instructions !"></textarea>
-                                                </div> -->
+                                                
                                                 <div id="description" class="btn-dark-primary text-white custom-height">
 
                                                 </div>
@@ -654,7 +650,11 @@
                                             </div>
 
 
-
+<!-- <div class="d-flex">
+                                                    <textarea name="description" id="description"
+                                                        class="form-control form-control-solid btn-dark-primary" rows="3"
+                                                        placeholder="Your Instructions !"></textarea>
+                                                </div> -->
 
 
                                         </form>

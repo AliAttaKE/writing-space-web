@@ -298,196 +298,59 @@ h3 {
 
 </script>
 
+<!-- jQuery aur Quill CDN (ek dafa hi include karein) -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
 
 <script>
-    $(document).ready(function() {
-        $('#delete_btn').on('click', function(e) {
-            replyMessageEditor.setText('');
-            $('#message_box').val('');
-            $('#message_box').text('');
-            $('#attach_file_1').text('');
-        });
-        $('#kt_inbox_compose_form').submit(function(e) {
-            e.preventDefault(); // Prevent the form from submitting in the traditional way
-
-            // Create a FormData object to gather form data
-            var formData = new FormData(this);
-            formData.append('_token', '{{ csrf_token() }}');
-            // You can append additional data if needed
-            // formData.append('key', 'value');
-            var element = document.getElementById('media');
-            // Display the form data in the console (for testing purposes)
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ', ' + pair[1]);
-            }
-
-            // Now you can use the formData object to send the data to the server using AJAX or perform other actions
-            var url = '{{ route("customer.send-message")}}'
-            // Example of sending formData using AJAX:
-            $.ajax({
-
-                type: 'POST'
-                , url: url
-                , data: formData
-                , processData: false, // Don't process the data
-                contentType: false, // Don't set contentType
-                success: function(response) {
-                    console.log('Server response:', response);
-                    Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
-                    Pusher.logToConsole = true;
-
-                        $('#message_box').val('');
-                        replyMessageEditor.setText('');
-
-                        $('#attach_file_1').text('');
-                    var pusher = new Pusher('28e13a39c3918e12f8a9', {
-                        cluster: 'ap2'
-                    });
-
-                    var channel = pusher.subscribe('pusher');
-                    channel.bind('SendMessage', function(data) {
-                        alert(JSON.stringify(data));
-                        console.log(JSON.stringify(data))
-                    });
-                }
-                , error: function(error) {
-                    console.error('Error:', error);
-                }
-            });
-
-            return false; // Prevent the form from submitting in the traditional way
-        });
-
+  $(function() {
+    // 1) Quill editor initialize karo
+    var replyMessageEditor = new Quill('#replyMessageEditor', {
+      theme: 'snow',
+      placeholder: 'Compose your message here…'
     });
 
-</script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-
-
-document
-  .getElementById("media")
-  .addEventListener("change", function() {
-    const files = this.files;
-    const allowed = [
-      "docx","pdf","txt","rtf",
-      "xlsx","csv","pptx",
-      "jpeg","jpg","png","gif"
-    ];
-    let fileNames = [];
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const ext = file.name.split(".").pop().toLowerCase();
-
-      if (!allowed.includes(ext)) {
-        // show error and clear the input
-        Swal.fire({
-          icon: "error",
-          title: "Invalid file type",
-          text: `"${file.name}" is not allowed.`
-        });
-        this.value = "";             // reset the input
-        document.getElementById("attach_file_1").innerText = "";
-        return;                      // stop further processing
-      }
-
-      // optional: size check (e.g. max 5MB)
-      const maxSize = 500 * 1024 * 1024;
-      if (file.size > maxSize) {
-        Swal.fire({
-          icon: "error",
-          title: "File too large",
-          text: `"${file.name}" exceeds 500 MB.`
-        });
-        this.value = "";
-        document.getElementById("attach_file_1").innerText = "";
-        return;
-      }
-
-      fileNames.push(file.name);
-    }
-
-});
-
-    $(document).ready(function () {
-        var replyMessageEditor = new Quill('#replyMessageEditor', {
-            theme: 'snow',
-            placeholder: 'Compose your message here…'
-        });
-    var form = document.querySelector('form');
-    form.onsubmit = function () {
-        // Get Quill content as HTML
-        var quillContent = quill.root.innerHTML;
-        // Update the hidden textarea with HTML content
-        form.querySelector('textarea[name=message]').value = quillContent;
-    };
-    $('#kt_inbox_reply_form').submit(function (e) {
-        e.preventDefault(); // Prevent traditional submit
-        console.log('hello');
-
-        var formData = new FormData(this);
-        formData.append('_token', '{{ csrf_token() }}');
-
-        var send_by = $('.radioAdminWriter:checked').val();
-        formData.append('send_by', send_by);
-
-        // Get Quill editor content instead of relying on #message_box
-        var message = replyMessageEditor.getText().trim(); // This gets plain text
-
-        if (!send_by) {
-            Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
-                            $('.badge-custom-bg').attr('disabled', false);
-
-            return;
-        }
-
-        if (!message) {
-            Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
-                            $('.badge-custom-bg').attr('disabled', false);
-
-            return;
-        }
-
-        // Add Quill's content to the form data
-        formData.append('message', replyMessageEditor.root.innerHTML); // Or use getText() for plain text
-
-        var url = '{{ route("customer.send-message") }}';
-
-        $.ajax({
-            type: 'POST',
-            url: url,
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                console.log('Server response:', response);
-                Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
-
-                // Clear editors and file area
-                replyMessageEditor.setText('');
-                $('#message_box').val(''); // Optional since you're now using Quill
-                $('#attach_file_1').text('');
-                $('#media').val('');
-                $('.badge-custom-bg').attr('disabled', false);
-
-            },
-            error: function (error) {
-                console.error('Error:', error);
-                                $('.badge-custom-bg').attr('disabled', false);
-
-            }
-        });
-
-        return false;
+    // 2) Trash icon pe click → editor aur textarea dono clear karo
+    $('#delete_btn').on('click', function() {
+      replyMessageEditor.setText('');           // Quill ke andar ka text
+      $('#message_box').val('');                // Hidden textarea
+      $('#attach_file_1').text('');             // Attached file names display
     });
-});
 
+    // 3) Form submit pe Quill content textarea mein daal kar AJAX bhejo
+    $('#kt_inbox_reply_form').on('submit', function(e) {
+      e.preventDefault();
 
+      // Quill ka HTML content lo (plain text ke liye getText())
+      var htmlContent = replyMessageEditor.root.innerHTML;
+      $('#message_box').val(htmlContent);
+
+      var formData = new FormData(this);
+      formData.append('_token', '{{ csrf_token() }}');
+      formData.append('send_by', $('.radioAdminWriter:checked').val());
+
+      // AJAX request
+      $.ajax({
+        url: '{{ route("customer.send-message") }}',
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+          Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
+          // Clear editor after send
+          replyMessageEditor.setText('');
+          $('#message_box').val('');
+          $('#attach_file_1').text('');
+          $('#media').val('');
+        },
+        error: function(err) {
+          console.error(err);
+        }
+      });
+    });
+  });
 </script>
-
 
 
 

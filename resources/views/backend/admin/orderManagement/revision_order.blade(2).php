@@ -614,7 +614,7 @@
                                             <!--end::Col-->
                                             <div class="col-md-3">
                                                 <!--end::Label-->
-                                                <div class="fw-semibold fs-7 text-gray-600 mb-1">Power Point Slides:</div>
+                                                <div class="fw-semibold fs-7 text-gray-600 mb-1">Power Point :</div>
                                                 <!--end::Label-->
                                                 <!--end::Text-->
                                                 <div class="fw-bold fs-6 text-gray-800">{{$o->powerpoint_slide}}</div>

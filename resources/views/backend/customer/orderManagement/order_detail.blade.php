@@ -47,6 +47,9 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
     padding-right: 30px !important;
     padding-left: 30px !important;
 }
+.yellow_color{
+	    color: #FFC056 !important;
+}
 </style>
 
 
@@ -77,7 +80,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 							<!--begin::Page title-->
 							<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
 								<!--begin::Title-->
-								<h1 class="page-heading d-flex text-gray-900 fw-bold fs-1 flex-column justify-content-center my-0 fs-color-white custom-fs-23">Order Details</h1>
+								<h1 class="page-heading d-flex text-gray-900 fw-bold fs-1 flex-column justify-content-center my-0  custom-fs-23">Order Details</h1>
 								<!--end::Title-->
 								<!--begin::Breadcrumb-->
 								<ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -343,13 +346,13 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																						<thead>
 																							<tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
 
-																								<th class="min-w-70px fw_800 pb-8">order No</th>
-																								<th class="min-w-70px fw_800 pb-8">Pages</th>
-																								<th class="min-w-70px fw_800 pb-8">Arrival Date</th>
-																								<th class="min-w-80px fw_800 pb-8">Due Date</th>
-																								<th class="min-w-80px fw_800 pb-8">Citation</th>
-																								<th class="min-w-50px fw_800 pb-8">Subject</th>
-																								<th class="min-w-50px fw_800 pb-8">Doc Type</th>
+																								<th class="min-w-70px fw_800 pb-8 yellow_color" style="color: #FFC056 !important;">order No</th>
+																								<th class="min-w-70px fw_800 pb-8 yellow_color" style="color: #FFC056 !important;">Pages</th>
+																								<th class="min-w-70px fw_800 pb-8 yellow_color" style="color: #FFC056 !important;">Arrival Date</th>
+																								<th class="min-w-80px fw_800 pb-8 yellow_color" style="color: #FFC056 !important;">Due Date</th>
+																								<th class="min-w-80px fw_800 pb-8 yellow_color" style="color: #FFC056 !important;">Citation</th>
+																								<th class="min-w-50px fw_800 pb-8 yellow_color" style="color: #FFC056 !important;">Subject</th>
+																								<th class="min-w-50px fw_800 pb-8 yellow_color" style="color: #FFC056 !important;">Doc Type</th>
 																								{{-- <th class="min-w-80px fw_800 pb-8">Sources</th> --}}
 
 																							</tr>
@@ -360,8 +363,11 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																							<tr>
 																								<td>{{$order->order_id}}</td>
 																								<td>{{$order->number_of_pages}}</td>
-																								<td>{{ \Carbon\Carbon::parse($order->created_at)->format('Y/m/d h:iA') }}</td>
-																								<td>{{ \Carbon\Carbon::parse($order->deadline)->format('Y/m/d h:iA') }}</td>
+																								<td>{{ \Carbon\Carbon::parse($order->created_at)
+         ->format('Y/M/d h:iA') }}</td>
+<td>{{ \Carbon\Carbon::parse($order->deadline)
+         ->format('Y/M/d h:iA') }}</td>
+
 																								<td>{{$order->paper_format}}</td>
 																								<td>{{$order->subject}}</td>
 																								<td>{{$order->type_of_paper}}</td>
@@ -391,7 +397,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 													<div class="col-sm-6 mb-10">
 														<div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">Academic Level</h3>
+																<h3 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">Academic Level :</h3>
 															</div>
 															<div class="col-6">
 																<p class="fw-bold text-dark fs-color-white custom-fs-13">{{$order->academic_level}}</p>
@@ -399,7 +405,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 														</div>
 														<div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">No of Sources</h3>
+																<h3 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">No of Sources :</h3>
 															</div>
 															<div class="col-6">
 																<p class="fw-bold text-dark fs-color-white custom-fs-13">{{$order->no_of_extra_sources}}</p>
@@ -407,7 +413,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 														</div>
 														<div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex text-gray-900 fw-bold fs-3 fs-color-white custom-fs-13 flex-column justify-content-center my-0">Statistical Analysis</h3>
+																<h3 class="page-heading d-flex text-gray-900 fw-bold fs-3 yellow_color custom-fs-13 flex-column justify-content-center my-0">Statistical Analysis :</h3>
 															</div>
 															<div class="col-6">
 																<p class="fw-bold fs-color-white custom-fs-13 ">@if($order->statistical_analysis == 0) No @else Yes @endif</p>
@@ -415,7 +421,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 														</div>
 														<div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex fs-color-white custom-fs-13 fw-bold fs-3 flex-column justify-content-center my-0">Language Style</h3>
+																<h3 class="page-heading d-flex yellow_color custom-fs-13 fw-bold fs-3 flex-column justify-content-center my-0">Language Style :</h3>
 															</div>
 															<div class="col-6">
 																@if($language)
@@ -427,7 +433,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 														</div>
 														<div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">Topic</h3>
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">Topic :</h3>
 															</div>
 															<div class="col-6">
 																<p class="fw-bold fs-color-white custom-fs-13">{{$order->topic}}</p>
@@ -435,16 +441,24 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 														</div>
 														<div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">PowerPoint Slides</h3>
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">PowerPoint Slides :</h3>
 															</div>
 															<div class="col-6">
 																<p class="fw-bold fs-color-white custom-fs-13">{{$order->powerpoint_slide}}</p>
 															</div>
 														</div>
+														<div class="d-flex">
+															<div class="col-6">
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">Customer Submitting Sources  :</h3>
+															</div>
+															<div class="col-6">
+																<p class="fw-bold fs-color-white custom-fs-13">{{$order->submitting}}</p>
+															</div>
+														</div>
                                                         <br>
 														<div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">Summary :</h3>
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">Summary :</h3>
 															</div>
 															<div class="col-6">
 																<p class="fw-bold fs-color-white custom-fs-13">{{($order->summary == "true") ? "Yes" : "No"}}</p>
@@ -452,7 +466,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 														</div>
                                                         <div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">Outline in Bullets :</h3>
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">Outline in Bullets :</h3>
 															</div>
 															<div class="col-6">
 																<p class="fw-bold fs-color-white custom-fs-13">{{($order->outline == "true") ? "Yes" : "No"}}</p>
@@ -460,7 +474,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 														</div>
                                                         <div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">AI Detection Report :</h3>
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">AI Detection Report :</h3>
 															</div>
 															<div class="col-6">
 																<p class="fw-bold fs-color-white custom-fs-13">{{($order->ai_detection == "true") ? "Yes" : "No"}}</p>
@@ -468,17 +482,18 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 														</div>
                                                         <div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">Plagiarism Report :</h3>
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">Plagiarism Report :</h3>
 															</div>
 															<div class="col-6">
 																<p class="fw-bold fs-color-white custom-fs-13">{{($order->plagiarism == "true") ? "Yes" : "No"}}</p>
 															</div>
 														</div>
 													</div>
-													<div class="col-12 fs-color-white">
-														<h2 class="page-heading px-3 mb-5 d-flex fw-bold fs-2 flex-column justify-content-center my-0">Instructions</h2>
-														{!! $order->description !!}
-													</div>
+<div class="col-12 fs-color-white" style="white-space: pre-wrap; word-break: break-word;">
+    <h2 class="page-heading px-3 mb-5 fw-bold fs-2 my-0">Instructions</h2>
+    {!! nl2br(e($order->description)) !!}
+</div>
+
 
 												</div>
 											</div>
@@ -645,9 +660,9 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 																		   </div>
 
-																		   <div class="btn btn-icon btn-sm btn-clean btn-active-light-primary me-2 w-250px justify-content-between" id="media_button" data-kt-inbox-form="dropzone_upload">
+																		   <div class="btn btn-icon btn-sm btn-clean  ms-auto w-250px justify-content-between" id="media_button" data-kt-inbox-form="dropzone_upload">
 
-																			   <label><span class="ki-duotone ki-paper-clip fs-2 m-0"></span><input hidden type="file" accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .png, .gif" class="upload-attachment" name="media[]" id="media" multiple/></label>
+																			   <label class="ms-auto" style="cursor:pointer;"><span class="ki-duotone ki-paper-clip fs-2 m-0"></span><input hidden type="file" accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .png, .gif" class="upload-attachment" name="media[]" id="media" multiple/></label>
 																			   <p id="file_name" class="text-white"></p>
 																		   </div>
 
@@ -1037,21 +1052,22 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																				<td class="text-end text-white" data-kt-filemanager-table="action_dropdown">
 																					<div class="d-flex justify-content-end w-25">
 																						<div class="ms-2">
-																							{{-- <button type="button" class="btn btn-sm btn-icon btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+																							 <button type="button" class="btn btn-sm btn-icon btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
 																								<i class="ki-duotone ki-dots-square fs-5 m-0">
 																									<span class="path1"></span>
 																									<span class="path2"></span>
 																									<span class="path3"></span>
 																									<span class="path4"></span>
 																								</i>
-																							</button> --}}
-																							{{-- <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-150px py-4 badge-custom-bg" data-kt-menu="true">
-																								<div class="menu-item px-3"> --}}
+																							</button> 
+																						 <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-150px py-4 badge-custom-bg" data-kt-menu="true">
+																								<div class="menu-item px-3">
 																									<a class="menu-link text-danger px-3" href="{{ route('customer.files.download', ['id' => $file->id,'folder_name'=>$folder->name]) }}">Download File</a>
-																								{{-- </div> --}}
+																								<a class="menu-link text-danger px-3" onclick="confirmDelete({{ $file->id }}, '{{ $folder->name }}')">Delete</a>
+																									 </div> 
 
 																								{{-- <div class="menu-item px-3">
-																									<a class="menu-link text-danger px-3" onclick="confirmDelete({{ $file->id }}, '{{ $folder->name }}')">Delete</a>
+																									
 																								</div> --}}
 																								<!--end::Menu-->
 																							{{-- </div> --}}
@@ -1530,9 +1546,17 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 														<form action="{{route('customer.order-detail-feedback')}}" method="POST" id="feedback_form">
 															@csrf
-															<label for="feedback" class="mb-3 fs-color-white custom-fs-13">Feedback Comments (200 characters remaining)</label>
-															<div id="feedbackEditor" class="bg-transparent btn-dark-primary h-100 mb-4"></div>
-															<textarea name="feedback" id="feedback" cols="30" rows="10" class="d-none"></textarea>
+															<label for="feedback" class="mb-3 fs-color-white custom-fs-13">
+  Feedback Comments (
+    <span id="charCount">200</span> characters remaining
+  )
+</label>
+<div
+  id="feedbackEditor"
+  class="bg-transparent btn-dark-primary h-100 mb-4"
+  contenteditable="true"
+></div>
+<textarea name="feedback" id="feedback" cols="30" rows="10" class="d-none"></textarea>
 															<input type="hidden" id="order_id_get" name="order_id" value="{{$order->order_id}}">
 															@error('feedback')
 																<span class="text-danger">{{$message}}</span>
@@ -9037,6 +9061,35 @@ $(document).on('click', '.downloadBtnForm', function(e){
 	});
 
 
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  const maxChars   = 200;
+  const editor     = document.getElementById('feedbackEditor');
+  const textarea   = document.getElementById('feedback');
+  const charCount  = document.getElementById('charCount');
+
+  // Jaise user type kare, update hota rahe
+  editor.addEventListener('input', function() {
+    let text = editor.innerText || '';
+    // Agar limit cross ho jaye to cut kardo
+    if (text.length > maxChars) {
+      text = text.substring(0, maxChars);
+      editor.innerText = text;
+      // caret ko end pe le aao
+      const range = document.createRange();
+      range.selectNodeContents(editor);
+      range.collapse(false);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+    // Hidden textarea mein bhi copy karo
+    textarea.value = text;
+    // Aur countdown update karo
+    charCount.textContent = maxChars - text.length;
+  });
+});
 
 
 

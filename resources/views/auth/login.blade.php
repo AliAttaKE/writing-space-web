@@ -72,7 +72,7 @@
                     <div class="col-md-6">
                         <div class="d-flex justify-content-center bordered-card py-3 px-3">
                             <img src="{{ asset('fronted_final/assets/images/microsoft.png')}}" alt="" style="height: 32px; width: 32px;">
-                            <a id="microsoft-login" class="fw-bold text-white mb-0 d-flex align-items-center ms-3"><i class="fa-brands me-2 fa-microsoft"></i><span class="icon-size text-capitalize">Login with Microsoft</span></a>
+                            <a id="microsoft-login" class="fw-bold text-white mb-0 d-flex align-items-center ms-3"><i class="fa-brands me-2 fa-microsoft"></i><span class="icon-size text-capitalize "  style="cursor:pointer;">Login with Microsoft</span></a>
                             {{-- <h5 class="fw-bold text-white mb-0 d-flex align-items-center ms-3">Login with Microsoft
                             </h5> --}}
                         </div>

@@ -611,7 +611,7 @@ Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
                 'submitting' => $input['submitting'],
                 'deadline' => $input['due_date'],
                 'no_of_extra_sources' => $input['no_of_extra_sources'],
-                'powerpoint_slide' => null,
+                'powerpoint_slide' => $input['powerpoint_slide'],
                 'spacing' => null,
                 'number_of_pages' => $input['no_of_pages'],
                 'type_of_paper' => $input['term_of_paper'],
@@ -639,7 +639,7 @@ Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
                 "summary" => $input['paper_summary']
             ]);
             //update user_subscription record;
-            //dd($order);
+           // dd($order);
             $totalPages = 0;
             $remianingPages = 0;
 

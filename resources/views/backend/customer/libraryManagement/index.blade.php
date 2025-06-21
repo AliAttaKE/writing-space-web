@@ -63,18 +63,18 @@
 
                         <div class="py-6 px-6 mb-5 card card-custom-bg">
                             <h1 class="text-gray-900 fw-bold mb-4  fs-color-white">
-                               Title : {{ $library->paper_title }}
+                              <span style="color:#FFC056 !important;">Title</span>  : {{ $library->paper_title }}
                             </h1>
-                            <p class="text-gray-900 fw-bold fs-6 mb-4 custom-fs-13 fs-color-white">Subject : {{ $library->subject_topic }}</p>
+                            <p class="text-gray-900 fw-bold fs-6 mb-4 custom-fs-13 fs-color-white"><span style="color:#FFC056 !important;">Subject</span> : {{ $library->subject_topic }}</p>
                             <p class="text-gray-900 fw-bold fs-6 mb-4 custom-fs-13 fs-color-white">
-                               Paper Type : {{ $library->paper_type }}
+                               <span style="color:#FFC056 !important;">Paper Type</span>  : {{ $library->paper_type }}
                             </p>
-                            <p class="mb-4 custom-fs-13 fs-color-white">Words Count : {{ $library->word_count }} </p>
-                            <p class="mb-4 custom-fs-13 fs-color-white">Citation Style : {{ $library->citation }} </p>
+                            <p class="mb-4 custom-fs-13 fs-color-white"><span style="color:#FFC056 !important;">Words Count</span> : {{ $library->word_count }} </p>
+                            <p class="mb-4 custom-fs-13 fs-color-white"><span style="color:#FFC056 !important;">Citation Style</span> : {{ $library->citation }} </p>
                             <div class="row library-buttons">
                                 @php
                                    $fileDetails = [
-                                        ['id' => removeDotHtml($library->paper_summary), 'name' => 'Summary', 'filename' => $library->paper_summary],
+                                        ['id' => removeDotHtml($library->paper_summary), 'name' => 'Executive Summary', 'filename' => $library->paper_summary],
                                         ['id' => removeDotHtml($library->paper_outline), 'name' => 'Outline in Bullets', 'filename' => $library->paper_outline],
                                         ['id' => removeDotHtml($library->turnitin_ai_report), 'name' => 'Turnitin AI Report', 'filename' => $library->turnitin_ai_report, 'per' => "({$library->ai_report}%)"],
                                         ['id' => removeDotHtml($library->turnitin_plg_report), 'name' => 'Turnitin Plagiarism Report', 'filename' => $library->turnitin_plg_report, 'per' => "({$library->plagiarism}%)"],
@@ -82,11 +82,19 @@
                                     ];
 
                                 @endphp
-                                @foreach ($fileDetails as $file)
-                                    <a href="{{ asset('uploads/html_files/' . $file['filename']) }}" class="btn btn-sm fw-bold badge-custom-bg col mb-2 me-3" target="_blank">
-                                        {{ ucfirst(str_replace('_', ' ', $file['name'])) }} {{ $file['per'] ?? '' }}
-                                    </a>
-                                @endforeach
+                             @foreach ($fileDetails as $file)
+    @php
+        $percentage = $file['per'] ?? '';
+    @endphp
+    <a href="{{ asset('uploads/html_files/' . $file['filename']) }}"
+       class="btn btn-sm fw-bold badge-custom-bg col mb-2 me-3"
+       target="_blank">
+        {{ ucfirst(str_replace('_', ' ', $file['name'])) }}
+        @if($percentage)
+            <span style="color: #FFC056;"> {{ $percentage }}</span>
+        @endif
+    </a>
+@endforeach
                                 <a href="{{ route('customer.download.library.files', ['id' => $library->id]) }}" class="btn btn-sm fw-bold btn-success col mb-2 me-3">Download</a>
                             </div>
                         </div>
