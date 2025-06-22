@@ -213,7 +213,7 @@
             <div class="image-container-2 d-flex justify-content-center">
                 <div class="">
                     <div class="team-img">
-                        <img src="{{ asset('fronted_final/assets/images/team-member-1.png')}}" alt="">
+                        <img src="{{ asset('fronted_final/assets/images/team-member-1.jpg')}}" alt="">
 
                     </div>
                 </div>
@@ -234,7 +234,7 @@
             <div class="image-container-2 d-flex justify-content-center">
                 <div class="">
                     <div class="team-img">
-                        <img src="{{ asset('fronted_final/assets/images/team-member-2.png')}}" alt="">
+                        <img src="{{ asset('fronted_final/assets/images/team-member-2.jpg')}}" alt="">
 
                     </div>
                 </div>
@@ -255,7 +255,7 @@
             <div class="image-container-2 d-flex justify-content-center">
                 <div class="">
                     <div class="team-img">
-                        <img src="{{ asset('fronted_final/assets/images/team-member-3.png')}}" alt="">
+                        <img src="{{ asset('fronted_final/assets/images/team-member-3.jpg')}}" alt="">
 
                     </div>
                 </div>
@@ -276,7 +276,7 @@
             <div class="image-container-2 d-flex justify-content-center">
                 <div class="">
                     <div class="team-img">
-                        <img src="{{ asset('fronted_final/assets/images/team-member-4.png')}}" alt="">
+                        <img src="{{ asset('fronted_final/assets/images/team-member-4.jpg')}}" alt="">
 
                     </div>
                 </div>
@@ -296,7 +296,7 @@
             <div class="image-container-2 d-flex justify-content-center">
                 <div class="">
                     <div class="team-img">
-                        <img src="{{ asset('fronted_final/assets/images/team-member-5.png')}}" alt="">
+                        <img src="{{ asset('fronted_final/assets/images/team-member-5.jpg')}}" alt="">
 
                     </div>
                 </div>
@@ -316,7 +316,7 @@
             <div class="image-container-2 d-flex justify-content-center">
                 <div class="">
                     <div class="team-img">
-                        <img src="{{ asset('fronted_final/assets/images/team-member-6.png')}}" alt="">
+                        <img src="{{ asset('fronted_final/assets/images/team-member-6.jpg')}}" alt="">
 
                     </div>
                 </div>
@@ -328,15 +328,15 @@
                 <div class="heading-container">
                     <h1 class="text-container-custom text-white mb-3 align-items-start">Securing Tomorrow -
                     </h1>
-                    <h1 class="text-container-custom text-white d-content mb-3 align-items-start">Anita Singh's Visionary <span class="yellow-text">IT Leadership!</span>
+                    <h1 class="text-container-custom text-white d-content mb-3 align-items-start">Ayesha Khan Visionary <span class="yellow-text">IT Leadership!</span>
                     </h1>
                 </div>
-                <p>We have embarked on a journey to the forefront of IT innovation and cybersecurity with Anita Singh, our esteemed Head of IT and Security. With a rich background spanning over a decade, Anita's strategic foresight ensures our systems are not merely up-to-date but also future-proof, offering unparalleled protection against emerging cyber threats. Our proactive approach to technology places us at the vanguard, offering dependable and advanced solutions that endure over time and challenge. With Anita at the helm, we merge cutting-edge innovation with robust security, providing a foundation of technological excellence and peace of mind.</p>
+                <p>We have embarked on a journey to the forefront of IT innovation and cybersecurity with Ayesha Khan, our esteemed Head of IT and Security. With a rich background spanning over a decade, Ayesha's strategic foresight ensures our systems are not merely up-to-date but also future-proof, offering unparalleled protection against emerging cyber threats. Our proactive approach to technology places us at the vanguard, offering dependable and advanced solutions that endure over time and challenge. With Ayesha at the helm, we merge cutting-edge innovation with robust security, providing a foundation of technological excellence and peace of mind.</p>
             </div>
             <div class="image-container-2 d-flex justify-content-center">
                 <div class="">
                     <div class="team-img">
-                        <img src="{{ asset('fronted_final/assets/images/team-member-7.png')}}" alt="">
+                        <img src="{{ asset('fronted_final/assets/images/team-member-7.jpg')}}" alt="">
 
                     </div>
                 </div>
@@ -356,7 +356,7 @@
             <div class="image-container-2 d-flex justify-content-center">
                 <div class="">
                     <div class="team-img">
-                        <img src="{{ asset('fronted_final/assets/images/team-member-8.png')}}" alt="">
+                        <img src="{{ asset('fronted_final/assets/images/team-member-8.jpg')}}" alt="">
 
                     </div>
                 </div>

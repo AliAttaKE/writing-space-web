@@ -176,6 +176,7 @@
 .team-img img {
   border-radius: 100%;
   border: 2px solid #783AFB !important;
+  width:100%;
 }
 
 .faqs-accpomt-setup-sec-1 {
