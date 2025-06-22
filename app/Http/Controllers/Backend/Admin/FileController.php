@@ -84,7 +84,7 @@ $emailContent = "
     <ul>
         <li>We hope you find everything to your satisfaction. Please review your delivered materials in this order’s details page and let us know if there are any issues or further assistance needed.</li>
         <li>If you’d like any small adjustments, you can post a free revision within 7 days and we’ll be happy to help.</li>
-    </ul>   
+    </ul>
     <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
     <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
 
@@ -612,8 +612,8 @@ $emailContent = "
             ->select('files.*')
             ->latest('files.created_at')
             ->where('folders.id', $folder->id)
-            ->paginate(10);
-        $filesCount = $files->total();
+            ->get();
+        $filesCount = count($files);
         $totalSize = 0;
         foreach ($files as $file) {
            //echo $file->total_size . "<br>";

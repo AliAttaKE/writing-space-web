@@ -2166,16 +2166,16 @@ document.querySelectorAll('input[type="checkbox"][class^="toggleSwitch"]').forEa
         let outline = outlineEl?.checked ? parseInt(outlineEl.getAttribute('data-amount')) : 0;
         let paper_summary = paperSummaryEl?.checked ? parseInt(paperSummaryEl.getAttribute('data-amount')) : 0;
 
-        let base_total = (parseInt(no_of_page) * cost_page) + parseInt(extra) + paper_summary + outline + ai_detection + plagiarism;
+        let base_total = (parseInt(no_of_page) * cost_page) + parseInt(extra);
 
-        let final_total = base_total;
+        let final_totalEl = base_total;
 
         if (statistic_percentageEl?.checked) {
             document.getElementById('statistic_percentage').innerHTML = 15;
             let percentage = parseInt(document.getElementById('statistic_percentage').innerHTML || 0);
-            final_total += (base_total * percentage / 100);
+            final_totalEl += (base_total * percentage / 100);
         }
-
+        final_total = final_totalEl + paper_summary + outline + ai_detection + plagiarism;
         document.getElementById('sub_total').innerHTML = final_total;
 
         // Handle checkedlength from localStorage

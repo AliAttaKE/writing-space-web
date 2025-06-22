@@ -13,9 +13,15 @@ use Livewire\WithPagination;
 class MessageList extends Component
 {
     use WithPagination;
-
+    public $perPage = 5;
+    protected $paginationTheme = 'bootstrap';
     public $search = '';
-protected $queryString = ['page'];
+    protected $queryString = [
+    'search'   => ['except' => ''],
+    'page'     => ['except' => 1],
+    'perPage'  => ['except' => 5], // agar URL me perPage=5 to hide karega
+    ];
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -97,7 +103,7 @@ protected $queryString = ['page'];
                       ->where('status', 'UnRead')
                 ])
                 ->orderBy('updated_at', 'desc')
-                ->paginate(5)
+                ->paginate($this->perPage)
                 // ← yahan add karo:
                 ->withPath(request()->url());
 
@@ -105,5 +111,12 @@ protected $queryString = ['page'];
         'threads' => $threads,
     ]);
 }
+
+
+    public function updatingPerPage()
+    {
+        $this->resetPage();
+    }
+
 
 }

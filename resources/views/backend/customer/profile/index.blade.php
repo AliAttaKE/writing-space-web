@@ -344,6 +344,8 @@
                                                                         Package
                                                                     @elseif ($order->invoice_type == Null)
                                                                         Package - Addon
+                                                                    @elseif ($order->invoice_type == 'custom_inc' && $order->item_name == 'Custom Order - Pages Addon')
+                                                                        Custom Order - Pages Addon
                                                                     @elseif ($order->invoice_type == 'custom_inc')
                                                                         Custom Order
                                                                     @endif
@@ -358,7 +360,7 @@
                                                                     @elseif ($order->item_name == 'Custom Order')
                                                                         {{$order->item_name}}
                                                                     @elseif ($order->item_name == 'Custom Order - Pages Addon')
-                                                                        {{$order->item_name}}
+                                                                        Custom Order
                                                                     @endif
                                                                     </td>
                                                                 <td>
@@ -444,8 +446,8 @@
                                                     @foreach ($orders as $order)
 
                                                             <tr>
-                                                                <td>{{ $order->created_at }}</td>
-                                                                <td>{{ $order->order?->deadline }}</td>
+                                                                <td>{{ \Carbon\Carbon::parse($order->created_at)->format('j M Y, g:i a') }}</td>
+                                                                <td>{{ \Carbon\Carbon::parse($order->order?->deadline)->format('j M Y, g:i a') }}</td>
                                                                 <td>{{ $order->order?->order_type }}</td>
                                                                 <td>{{ $order->order_id }}</td>
                                                                 <td>{{ $order->order?->number_of_pages }}</td>
@@ -1353,7 +1355,7 @@
 
 
 
-                            console.log(pages);
+                            //console.log(pages);
 
                             if(pages && pages != null)
                             {

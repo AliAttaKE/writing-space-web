@@ -144,109 +144,7 @@
                 <div class="flex-lg-row-fluid ms-lg-7 ms-xl-10 mb-10">
                     <!--begin::Card-->
                     <div class="card card-custom-bg message-summ">
-                        <div class="card-header align-items-center py-5 gap-2 gap-md-5">
-                            <!--begin::Actions-->
-                            <div class="d-flex flex-wrap gap-2">
-                                <!--begin::Checkbox-->
 
-                                <!--end::Checkbox-->
-                                <!--begin::Reload-->
-                                <a href="#"
-                                    class="btn btn-sm btn-icon btn-light btn-active-light-primary badge-custom-bg"
-                                    data-bs-toggle="tooltip" data-bs-dismiss="click" data-bs-placement="top"
-                                    title="Reload"
-                                    onclick="window.location.href='{{route('customer.message-managememnt')}}' ">
-                                    <i class="ki-duotone ki-arrows-circle fs-2">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                </a>
-                                <!--end::Reload-->
-                                <!--begin::Delete-->
-                                <!--<a href="#" class="btn btn-sm btn-icon btn-light btn-active-light-primary" data-bs-toggle="tooltip" data-bs-dismiss="click" data-bs-placement="top" aria-label="Archive" data-bs-original-title="Archive" data-kt-initialized="1" title="Archive">-->
-                                <!--    <i class="ki-duotone ki-sms fs-2"><span class="path1"></span><span class="path2"></span></i> </a>-->
-                                <!--end::Delete-->
-                                <!--begin::Filter-->
-                                <div>
-                                    <!--<a href="#" class="btn btn-sm btn-icon btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start">-->
-                                    <!--    <i class="ki-duotone ki-down fs-2"></i>-->
-                                    <!--</a>-->
-                                    <!--begin::Menu-->
-                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
-                                        data-kt-menu="true">
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3"
-                                                data-kt-inbox-listing-filter="show_all">All</a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3"
-                                                data-kt-inbox-listing-filter="show_read">Read</a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3"
-                                                data-kt-inbox-listing-filter="show_unread">Unread</a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3"
-                                                data-kt-inbox-listing-filter="show_starred">Starred</a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3"
-                                                data-kt-inbox-listing-filter="show_unstarred">Unstarred</a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                    </div>
-                                    <!--end::Menu-->
-                                </div>
-                                <!--end::Filter-->
-                            </div>
-                            <!--end::Actions-->
-                            <!--begin::Actions-->
-                            <div class="d-flex align-items-center flex-wrap gap-2">
-                                <!--begin::Search-->
-                                <div class="d-flex align-items-center position-relative">
-                                    <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                    </i>
-                                    <!--<input type="text" data-kt-inbox-listing-filter="search" class="form-control form-control-sm form-control-solid mw-100 min-w-125px min-w-lg-150px min-w-xxl-200px ps-11" placeholder="Search" />-->
-                                    <!-- <input type="text" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search" />-->
-                                    <input type="text" id="searchInput" data-kt-filemanager-table-filter="search"
-                                        class="form-control form-control-solid w-250px ps-15 btn-dark-primary"
-                                        placeholder="Search" />
-                                </div>
-                                <!--end::Search-->
-                                <!--begin::Toggle-->
-                                <a href="#"
-                                    class="btn btn-sm btn-icon btn-color-primary btn-light btn-active-light-primary d-lg-none"
-                                    data-bs-toggle="tooltip" data-bs-dismiss="click" data-bs-placement="top"
-                                    title="Toggle inbox menu" id="kt_inbox_aside_toggle">
-                                    <i class="ki-duotone ki-burger-menu-2 fs-3 m-0">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                        <span class="path3"></span>
-                                        <span class="path4"></span>
-                                        <span class="path5"></span>
-                                        <span class="path6"></span>
-                                        <span class="path7"></span>
-                                        <span class="path8"></span>
-                                        <span class="path9"></span>
-                                        <span class="path10"></span>
-                                    </i>
-                                </a>
-                                <!--end::Toggle-->
-                            </div>
-                            <!--end::Actions-->
-                        </div>
                         <livewire:message-list />
                         <!--end::Table-->
                     </div>
@@ -300,29 +198,26 @@
 
     $(document).ready(function () {
         // Initialize DataTables
-        var table = $('#kt_inbox_listing').DataTable();
+        // var table = $('#kt_inbox_listing').DataTable();
 
-        // Attach the search handler to the input change event
-        $('#searchInput').on('input',"keyup" function () {
-            handleTableSearch();
-        });
+        // // Attach the search handler to the input change event
 
-        // Filter form submission
-        $('[data-kt-user-table-filter="filter"]').on('click', function (e) {
-            e.preventDefault();
+        // // Filter form submission
+        // $('[data-kt-user-table-filter="filter"]').on('click', function (e) {
+        //     e.preventDefault();
 
-            // Get filter values
-            var orderId = $('input[name="order-id"]').val();
-            var message = $('input[name="message"]').val();
-            var lastModified = $('input[name="last-modified"]').val();
-            var status = $('input[name="status"]').val();
+        //     // Get filter values
+        //     var orderId = $('input[name="order-id"]').val();
+        //     var message = $('input[name="message"]').val();
+        //     var lastModified = $('input[name="last-modified"]').val();
+        //     var status = $('input[name="status"]').val();
 
-            // Apply filters
-            table.columns(1).search(orderId).draw();
-            table.columns(2).search(message).draw();
-            table.columns(3).search(lastModified).draw();
-            table.columns(4).search(status).draw();
-        });
+        //     // Apply filters
+        //     table.columns(1).search(orderId).draw();
+        //     table.columns(2).search(message).draw();
+        //     table.columns(3).search(lastModified).draw();
+        //     table.columns(4).search(status).draw();
+        // });
 
         // Reset filter form
         $('[data-kt-user-table-filter="reset"]').on('click', function (e) {
@@ -357,7 +252,7 @@
         }
 
         // Initialize DataTables
-        var table = $('#kt_inbox_listing').DataTable();
+        //var table = $('#kt_inbox_listing').DataTable();
 
         // Attach the search handler to the input change event
         $('#searchInput').on('input', function () {

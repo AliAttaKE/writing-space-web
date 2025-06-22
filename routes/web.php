@@ -359,7 +359,7 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
     Route::post('updatepkg/{id}',[BlogController::class,'updatepkg'])->name('updatepkg');
     Route::get('deletepkg/{id}',[BlogController::class,'deletepkg'])->name('deletepkg');
 
-    
+
 
     Route::get('/restrictions', [RestrictionController::class, 'index'])->name('restrictions.index');
     Route::post('/restrictions/store', [RestrictionController::class, 'store'])->name('restrictions.store');
@@ -606,7 +606,7 @@ Route::get('/white-paper', [IndexController::class, 'whitepaper'])->name('front.
 
       Route::post('/redirectResponsemanagepages', [CustomerPlaceOrderController::class, 'redirectResponsemanagepages'])->name('redirectResponseUrladdpages');
     Route::get('/pay/{orderid}', [CustomerPlaceOrderController::class, 'pay'])->name('pay');
-     Route::get('/pay/sub/{orderid}', [CustomerPlaceOrderController::class, 'pay_sub'])->name('pay.sub');
+Route::get('/pay/sub/{orderid}', [CustomerPlaceOrderController::class, 'pay_sub'])->name('pay.sub');
 Route::get('/pay/add/pages/{orderid}', [CustomerPlaceOrderController::class, 'pay_add_pages'])->name('pay.add.pages');
 Route::get('/pay/add/manage/{orderid}', [CustomerPlaceOrderController::class, 'pay_add_manage'])->name('pay.add.manage');
 Route::get('dashboard', [CustomerController::class, 'index'])->name('dashboard');

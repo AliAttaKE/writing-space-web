@@ -491,7 +491,8 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 													</div>
 <div class="col-12 fs-color-white" style="white-space: pre-wrap; word-break: break-word;">
     <h2 class="page-heading px-3 mb-5 fw-bold fs-2 my-0">Instructions</h2>
-    {!! nl2br(e($order->description)) !!}
+    {{-- {!! nl2br(e($order->description)) !!} --}}
+    {!! $order->description !!}
 </div>
 
 
@@ -973,9 +974,9 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															->select('files.*')
 															->latest('files.created_at')
 															->where('folders.id', $folder->id)
-															->paginate();
+															->get();
 
-														$filesCount = $files->total();
+														//$filesCount = $files->total();
 														$totalSize = 0;
 														foreach ($files as $file) {
 															$totalSize += $file->total_size;
@@ -993,7 +994,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 														<!--end::Folder path-->
 														<!--begin::Folder Stats-->
 														<div class="badge badge-lg badge-custom-bg">
-															<span id="kt_file_manager_items_counter">{{ $filesCount }} items</span>
+															<span id="kt_file_manager_items_counter">{{ count($files) }} items</span>
 														</div>
 														<!--end::Folder Stats-->
 													</div>
@@ -1028,6 +1029,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																	<tbody class="fw-semibold text-gray-600">
 																		@if($files)
 																			@foreach ($files as $file)
+
 																			<tr class="odd">
 																				<td>
 																					<div class="form-check form-check-sm form-check-custom form-check-solid ">
@@ -1059,15 +1061,15 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																									<span class="path3"></span>
 																									<span class="path4"></span>
 																								</i>
-																							</button> 
+																							</button>
 																						 <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-150px py-4 badge-custom-bg" data-kt-menu="true">
 																								<div class="menu-item px-3">
 																									<a class="menu-link text-danger px-3" href="{{ route('customer.files.download', ['id' => $file->id,'folder_name'=>$folder->name]) }}">Download File</a>
 																								<a class="menu-link text-danger px-3" onclick="confirmDelete({{ $file->id }}, '{{ $folder->name }}')">Delete</a>
-																									 </div> 
+																									 </div>
 
 																								{{-- <div class="menu-item px-3">
-																									
+
 																								</div> --}}
 																								<!--end::Menu-->
 																							{{-- </div> --}}
@@ -8333,6 +8335,9 @@ function submit_payment() {
 								Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
 								quill.setText('');
 								document.getElementById('file_name').innerHTML = '';
+                                $('#message_box').val('');
+                	 $('#file_name').text('');
+					 messageEditor.setText('');
 
 							},
 							error: function(error) {
@@ -8544,7 +8549,7 @@ var totalpageCount = numpageParsed + pageCountParsed;
 if (isNaN(totalpageCount)) {
     $('.totalpageg').text(0);
 } else {
-    $('.totalpageg').text(totalpageCount);
+    $('.totalpageg').text(totalpageCount.toFixed(2));
 }
 
 console.log("numpageParsed:", numpageParsed, "pageCountParsed:", pageCountParsed);
@@ -8574,8 +8579,8 @@ console.log("sahriq totalpageCount:", totalpageCount);
 			console.log("cost par page",cost_perpage_get);
 
 		 var cost = pageCount * cost_perpage_get;
-			$("#totalCost").text(cost);
-			$("#totalCostPerPage1").text(cost_perpage_get);
+			$("#totalCost").text(cost.toFixed(2));
+			$("#totalCostPerPage1").text(cost_perpage_get.toFixed(2));
 @else
 	var cost = pageCount * {{$order->cost_per_page}};
 
@@ -8583,15 +8588,15 @@ console.log("sahriq totalpageCount:", totalpageCount);
 
 
 		//	 var cost = pageCount * parseInt(cost_perpage_get);
-			$("#totalCost").text(cost);
+			$("#totalCost").text(cost.toFixed(2));
 			$("#totalCostPerPage1").text({{$order->cost_per_page}});
 @endif
 
 
 
 
-				$('#totalcostreq').text(cost);
-				$('#pakg_cost_per_page').text(cost_perpage_get);
+				$('#totalcostreq').text(cost.toFixed(2));
+				$('#pakg_cost_per_page').text(cost_perpage_get.toFixed(2));
 
 			var remainingPages = $("#remainingPages").text();
 
