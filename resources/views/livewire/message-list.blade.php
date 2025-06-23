@@ -125,11 +125,11 @@
     <table class="table table-row-dashed fs-6 gy-5 my-0" id="kt_inbox_listing">
       <thead>
         <tr>
-          <th class="min-w-80px">Order ID</th>
-          <th class="min-w-125px">Unread</th>
-          <th class="min-w-125px">Last Updated</th>
-          <th class="min-w-125px">Status</th>
-          <th class="min-w-125px">Action</th>
+          <th class="min-w-80px" style="color:#FFC056 !important;">Order ID</th>
+          <th class="min-w-125px" style="color:#FFC056 !important;">Unread</th>
+          <th class="min-w-125px" style="color:#FFC056 !important;">Last Updated</th>
+          <th class="min-w-125px" style="color:#FFC056 !important;">Status</th>
+          <th class="min-w-125px" style="color:#FFC056 !important;">Action</th>
         </tr>
       </thead>
       <tbody>

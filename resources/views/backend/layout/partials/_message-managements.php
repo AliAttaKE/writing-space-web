@@ -227,7 +227,7 @@
                                     <tr>
                                         <th></th>
 
-                                        <th class="min-w-80px">Order Id</th>
+                                        <th class="min-w-80px" style="">Order Id</th>
                                         <th class="min-w-200px">New Messages From Customer</th>
                                         <th class="min-w-150px">New Messages From Writer</th>
                                         <th class="min-w-125px">Last Modified</th>

@@ -655,15 +655,15 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															<form id="kt_inbox_reply_form" class="rounded border mb-10">
 																<div class="d-block">
 																  <div class="d-flex align-items-center border-bottom min-h-50px justify-content-between py-5">
-																	   <div class="border d-flex p-3 align-items-center rounded me-3 ">
+																	   <div class="border d-flex p-3 align-items-center rounded me-3  w-250px">
 																		   <div class="btn-group me-4">
 																			  <button class="btn badge-custom-bg fs-bold px-6" type="submit" >Send</button>
 
 																		   </div>
 
-																		   <div class="btn btn-icon btn-sm btn-clean  ms-auto w-250px justify-content-between" id="media_button" data-kt-inbox-form="dropzone_upload">
+																		   <div class="btn btn-icon btn-sm btn-clean  ms-auto justify-content-between" id="media_button" data-kt-inbox-form="dropzone_upload">
 
-																			   <label class="ms-auto" style="cursor:pointer;"><span class="ki-duotone ki-paper-clip fs-2 m-0"></span><input hidden type="file" accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .png, .gif" class="upload-attachment" name="media[]" id="media" multiple/></label>
+																			   <label class="ms-auto"><span class="ki-duotone ki-paper-clip fs-2 m-0"  style="cursor:pointer;"></span><input hidden type="file" accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .png, .gif" class="upload-attachment" name="media[]" id="media" multiple/></label>
 																			   <p id="file_name" class="text-white"></p>
 																		   </div>
 
@@ -1549,22 +1549,22 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 														<form action="{{route('customer.order-detail-feedback')}}" method="POST" id="feedback_form">
 															@csrf
 															<label for="feedback" class="mb-3 fs-color-white custom-fs-13">
-  Feedback Comments (
-    <span id="charCount">200</span> characters remaining
-  )
-</label>
-<div
-  id="feedbackEditor"
-  class="bg-transparent btn-dark-primary h-100 mb-4"
-  contenteditable="true"
-></div>
-<textarea name="feedback" id="feedback" cols="30" rows="10" class="d-none"></textarea>
-															<input type="hidden" id="order_id_get" name="order_id" value="{{$order->order_id}}">
-															@error('feedback')
-																<span class="text-danger">{{$message}}</span>
-															@enderror
-															<div class="d-flex justify-content-center">
-														@if($order->order_status != 'Delivered')
+																Feedback Comments (
+																<span id="charCount">200</span> characters remaining
+																)
+																</label>
+																<div
+																id="feedbackEditor"
+																class="bg-transparent btn-dark-primary h-100 mb-4"
+																contenteditable="true"
+																></div>
+																<textarea name="feedback" id="feedback" cols="30" rows="10" class="d-none"></textarea>
+																															<input type="hidden" id="order_id_get" name="order_id" value="{{$order->order_id}}">
+																				@error('feedback')
+																					<span class="text-danger">{{$message}}</span>
+																				@enderror
+																				<div class="d-flex justify-content-center">
+																			@if($order->order_status != 'Delivered')
 
 																<button type="button" disabled class="btn btn-sm fw-bold badge-custom-bg me-3">Submit</button>
 														@else
@@ -9067,21 +9067,19 @@ $(document).on('click', '.downloadBtnForm', function(e){
 
 
 
+document.addEventListener('DOMContentLoaded', function () {
+  const maxChars = 200;
+  const editor = document.getElementById('feedbackEditor');
+  const textarea = document.getElementById('feedback');
+  const charCount = document.getElementById('charCount');
 
-document.addEventListener('DOMContentLoaded', function() {
-  const maxChars   = 200;
-  const editor     = document.getElementById('feedbackEditor');
-  const textarea   = document.getElementById('feedback');
-  const charCount  = document.getElementById('charCount');
-
-  // Jaise user type kare, update hota rahe
-  editor.addEventListener('input', function() {
+  function updateEditorContent() {
     let text = editor.innerText || '';
-    // Agar limit cross ho jaye to cut kardo
     if (text.length > maxChars) {
       text = text.substring(0, maxChars);
       editor.innerText = text;
-      // caret ko end pe le aao
+
+      // Cursor ko end pe rakhna
       const range = document.createRange();
       range.selectNodeContents(editor);
       range.collapse(false);
@@ -9089,10 +9087,17 @@ document.addEventListener('DOMContentLoaded', function() {
       sel.removeAllRanges();
       sel.addRange(range);
     }
-    // Hidden textarea mein bhi copy karo
+
     textarea.value = text;
-    // Aur countdown update karo
     charCount.textContent = maxChars - text.length;
+  }
+
+  // Typing event
+  editor.addEventListener('input', updateEditorContent);
+
+  // Paste event — paste hone ke thodi der baad run karna
+  editor.addEventListener('paste', function () {
+    setTimeout(updateEditorContent, 0);
   });
 });
 
