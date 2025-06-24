@@ -1501,7 +1501,7 @@ public function new_order_api_completed_string(Request $request)
             'id', 'order_id', 'subject', 'description', 'academic_level',
             'type_of_paper', 'paper_format', 'order_status',
             'language_spelling', 'number_of_pages', 'powerpoint_slide',
-            'no_of_extra_sources as sources', 'deadline', 'topic'
+            'no_of_extra_sources as sources', 'deadline', 'topic','summary','outline','ai_detection','plagiarism'
         )
         ->get();
 
