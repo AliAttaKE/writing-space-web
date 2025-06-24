@@ -50,6 +50,25 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 .yellow_color{
 	    color: #FFC056 !important;
 }
+  /* Default: auto height */
+  #media_button {
+    overflow-y: visible;
+    max-height: none;
+  }
+
+  /* Jab files select ho jayein to scrollable box */
+  #media_button.has-files {
+    overflow-y: auto;
+    max-height: 150px;
+  }
+    #file_name {
+    display: none;
+  }
+
+  /* Jab container pe .has-files ho, tab dikhao */
+  #media_button.has-files #file_name {
+    display: block;
+  }
 </style>
 
 
@@ -661,26 +680,25 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
   </div>
 
    <div id="media_button"
-        data-kt-inbox-form="dropzone_upload"
-        class="d-flex flex-column align-items-start w-100"
-      style="overflow-y:auto; max-height:150px;">
-    <label class="ms-auto mt-4" style="cursor:pointer;">
-      <span class="ki-duotone ki-paper-clip fs-2 m-0"></span>
-      <input
-        hidden
-        type="file"
-        accept=".pdf, .docx, .doc, .txt, .xls, .xlsx, .rtf, .csv, .pptx, .jpeg, .png, .gif"
-        class="upload-attachment"
-        name="media[]"
-        id="media"
-        multiple
-      />
-    </label>
+     data-kt-inbox-form="dropzone_upload"
+     class="d-flex flex-column align-items-start w-100">
+  <label class="ms-auto mt-4" style="cursor:pointer;">
+    <span class="ki-duotone ki-paper-clip fs-2 m-0"></span>
+    <input
+      hidden
+      type="file"
+      accept=".pdf, .docx, .doc, .txt, .xls, .xlsx, .rtf, .csv, .pptx, .jpeg, .png, .gif"
+      class="upload-attachment"
+      name="media[]"
+      id="media"
+      multiple
+    />
+  </label>
   <p id="file_name"
-          class="text-white mb-0"
-          style="word-break:break-all; white-space:pre-wrap;">
-     </p>
-  </div>
+     class="text-white mb-0"
+     style="word-break:break-all; white-space:pre-wrap;">
+  </p>
+</div>
 </div>
 
 
@@ -9119,7 +9137,22 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+  const input = document.getElementById('media');
+const container = document.getElementById('media_button');
+const namePara  = document.getElementById('file_name');
 
+input.addEventListener('change', function() {
+  if (this.files.length) {
+    // File names set karo
+    namePara.textContent = Array.from(this.files).map(f => f.name).join('\n');
+    // Scrollable aur p-show dono ke liye
+    container.classList.add('has-files');
+  } else {
+    // Reset kar do
+    namePara.textContent = '';
+    container.classList.remove('has-files');
+  }
+});
 
 	</script>
 

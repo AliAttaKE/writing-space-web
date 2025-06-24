@@ -1380,100 +1380,171 @@ public function new_order_api_completed(Request $request)
         return response()->json(['message' => $message], 200);
     }
 
-    public function new_order_api_completed_string(Request $request)
-    {
-        // Validate request data
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+    // public function new_order_api_completed_string(Request $request)
+    // {
+    //     // Validate request data
+    //     $validator = Validator::make($request->all(), [
+    //         'email' => 'required|email',
+    //         'password' => 'required',
+    //     ]);
 
-        // Check if validation fails
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()->first()], 400);
-        }
+    //     // Check if validation fails
+    //     if ($validator->fails()) {
+    //         return response()->json(['error' => $validator->errors()->first()], 400);
+    //     }
 
-        // Extract email and password from request
-        $credentials = $request->only('email', 'password');
+    //     // Extract email and password from request
+    //     $credentials = $request->only('email', 'password');
 
-        // Query the database for a user with the provided email
-        $user = User::where('api_role', 'api')->where('email', $credentials['email'])->first();
+    //     // Query the database for a user with the provided email
+    //     $user = User::where('api_role', 'api')->where('email', $credentials['email'])->first();
 
-        // Check if a user with the provided email exists and if the password is correct
-        if ($user && Hash::check($credentials['password'], $user->password)) {
-            // Authentication successful, proceed with retrieving orders
-            $orders = Orders::where('order_status', '=', 'In-Progress')
-                ->select('id', 'order_id', 'subject', 'description', 'academic_level',
-                          'type_of_paper', 'paper_format', 'order_status',
-                          'language_spelling', 'number_of_pages', 'powerpoint_slide',
-                          'no_of_extra_sources as sources', 'deadline', 'topic')
-                ->get();
+    //     // Check if a user with the provided email exists and if the password is correct
+    //     if ($user && Hash::check($credentials['password'], $user->password)) {
+    //         // Authentication successful, proceed with retrieving orders
+    //         $orders = Orders::where('order_status', '=', 'In-Progress')
+    //             ->select('id', 'order_id', 'subject', 'description', 'academic_level',
+    //                       'type_of_paper', 'paper_format', 'order_status',
+    //                       'language_spelling', 'number_of_pages', 'powerpoint_slide',
+    //                       'no_of_extra_sources as sources', 'deadline', 'topic')
+    //             ->get();
 
-            $data = [];
-            if ($orders->count() > 0) {
-                foreach ($orders as $o) {
-                    $folder = Folder::where('name', '=', $o->order_id)->first();
-                    $attachment_file = 'no';
-                    $filesData = [];
+    //         $data = [];
+    //         if ($orders->count() > 0) {
+    //             foreach ($orders as $o) {
+    //                 $folder = Folder::where('name', '=', $o->order_id)->first();
+    //                 $attachment_file = 'no';
+    //                 $filesData = [];
 
-                    if ($folder) {
-                        $files = File::where('folder_id', '=', $folder->id)->get();
-                        if ($files->isNotEmpty()) {
-                            $attachment_file = 'yes';
+    //                 if ($folder) {
+    //                     $files = File::where('folder_id', '=', $folder->id)->get();
+    //                     if ($files->isNotEmpty()) {
+    //                         $attachment_file = 'yes';
 
-                            // Construct files data including file_path
-                            $filesData = $files->map(function ($file) {
-                                $file_path = str_replace('public/', '', $file->file_path);
-                                $url = config('app.url').'/storage/' . $file_path;
+    //                         // Construct files data including file_path
+    //                         $filesData = $files->map(function ($file) {
+    //                             $file_path = str_replace('public/', '', $file->file_path);
+    //                             $url = config('app.url').'/storage/' . $file_path;
 
-                                return [
-                                    'file_name' => (string) $file->title,
-                                    'file_path' => (string) $file->file_path,
-                                    'file_url' => (string) $url,
-                                ];
-                            })->toArray();
-                        }
-                    }
-
-
-                    $orderDetails =
-                        "Order Number: " . (string) $o->order_id . " " .
-                        "Pages: " . (string) $o->number_of_pages . " " .
-                        "Arrival Date: " . date('d-m-Y') . " " .
-                        "Due Date: " . (string) $o->deadline . " " .
-                        "Citation: APA " .
-                        "Subject: " . (string) $o->subject . " " .
-                        "Level: " . (string) $o->academic_level . " " .
-                        "Document Type: " . (string) $o->type_of_paper . " " .
-                        "No Of Sources: " . (string) $o->sources . " " .
-                        "Topic: " . (string) $o->topic . " " .
-                       "Instructions: " . strip_tags(html_entity_decode($o->description));
+    //                             return [
+    //                                 'file_name' => (string) $file->title,
+    //                                 'file_path' => (string) $file->file_path,
+    //                                 'file_url' => (string) $url,
+    //                             ];
+    //                         })->toArray();
+    //                     }
+    //                 }
 
 
-                    $orderData = [
-                        'Details' => $orderDetails,
-                        'Attachment' => (string) $attachment_file,
-                        'Files' => $filesData,
-                    ];
+    //                 $orderDetails =
+    //                     "Order Number: " . (string) $o->order_id . " " .
+    //                     "Pages: " . (string) $o->number_of_pages . " " .
+    //                     "Arrival Date: " . date('d-m-Y') . " " .
+    //                     "Due Date: " . (string) $o->deadline . " " .
+    //                     "Citation: APA " .
+    //                     "Subject: " . (string) $o->subject . " " .
+    //                     "Level: " . (string) $o->academic_level . " " .
+    //                     "Document Type: " . (string) $o->type_of_paper . " " .
+    //                     "No Of Sources: " . (string) $o->sources . " " .
+    //                     "Topic: " . (string) $o->topic . " " .
+    //                    "Instructions: " . strip_tags(html_entity_decode($o->description));
 
-                    $data[] = $orderData;
-                }
 
-                // Reverse the order array if needed
-                $data = array_reverse($data);
+    //                 $orderData = [
+    //                     'Details' => $orderDetails,
+    //                     'Attachment' => (string) $attachment_file,
+    //                     'Files' => $filesData,
+    //                 ];
 
-                // Return JSON response with orders data
-                return response()->json(['order' => $data], 200);
-            } else {
-                return response()->json(['order' => 'not found'], 404);
-            }
-        } else {
-            // Authentication failed, return 401 Unauthorized
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+    //                 $data[] = $orderData;
+    //             }
+
+    //             // Reverse the order array if needed
+    //             $data = array_reverse($data);
+
+    //             // Return JSON response with orders data
+    //             return response()->json(['order' => $data], 200);
+    //         } else {
+    //             return response()->json(['order' => 'not found'], 404);
+    //         }
+    //     } else {
+    //         // Authentication failed, return 401 Unauthorized
+    //         return response()->json(['error' => 'Unauthorized'], 401);
+    //     }
+    // }
+
+
+public function new_order_api_completed_string(Request $request)
+{
+    // 1) Validate
+    $validator = Validator::make($request->all(), [
+        'email'    => 'required|email',
+        'password' => 'required',
+    ]);
+    if ($validator->fails()) {
+        return response()->json(['error' => $validator->errors()->first()], 400);
     }
 
+    // 2) Authenticate
+    $credentials = $request->only('email', 'password');
+    $user = User::where('api_role', 'api')
+                ->where('email', $credentials['email'])
+                ->first();
 
+    if (! $user || ! Hash::check($credentials['password'], $user->password)) {
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+    // 3) Fetch orders
+    $orders = Orders::where('order_status', 'In-Progress')
+        ->select(
+            'id', 'order_id', 'subject', 'description', 'academic_level',
+            'type_of_paper', 'paper_format', 'order_status',
+            'language_spelling', 'number_of_pages', 'powerpoint_slide',
+            'no_of_extra_sources as sources', 'deadline', 'topic'
+        )
+        ->get();
+
+    // 4) Build response array
+    $data = [];   // ← initialize here!
+
+    foreach ($orders as $o) {
+        $orderArr = $o->toArray();
+        $orderArr['arrival_date']  = date('d-m-Y');
+        $orderArr['citation']      = 'APA';
+        $orderArr['instructions']  = strip_tags(html_entity_decode($o->description));
+
+        $folder = Folder::where('name', $o->order_id)->first();
+        $orderArr['attachment'] = 'no';
+        $orderArr['files']      = [];
+
+        if ($folder) {
+            $files = File::where('folder_id', $folder->id)->get();
+            if ($files->isNotEmpty()) {
+                $orderArr['attachment'] = 'yes';
+                $orderArr['files'] = $files->map(function($file) {
+                    $path = str_replace('public/', '', $file->file_path);
+                    return [
+                        'file_name' => $file->title,
+                        'file_path' => $file->file_path,
+                        'file_url'  => config('app.url') . '/storage/' . $path,
+                    ];
+                })->toArray();
+            }
+        }
+
+        $data[] = $orderArr;
+    }
+
+    // 5) Return response
+    if (count($data) > 0) {
+        $data = array_reverse($data);
+        return response()->json(['order' => $data], 200);
+    }
+
+    // no orders found
+    return response()->json(['order' => []], 200);
+}
 
 
 }
