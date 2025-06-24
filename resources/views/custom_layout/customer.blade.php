@@ -562,8 +562,19 @@
                                                     {{ Auth::user()->name }} <span
                                                         class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span>
                                                 </div>
-                                                <a href="#" class="fw-semibold fs-color-white custom-fs-13 fs-7">
-                                                    {{ Auth::user()->email }} </a>
+                                               <a href="#"
+   title="{{ Auth::user()->email }}"
+   class="fw-semibold fs-color-white custom-fs-13 fs-7"
+   style="
+     display: inline-block;
+     width: 185px;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+   ">
+  {{ Auth::user()->email }}
+</a>
+
                                             </div>
                                             <!--end::Username-->
                                         </div>

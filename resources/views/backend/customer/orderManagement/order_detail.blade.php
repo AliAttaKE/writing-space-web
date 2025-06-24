@@ -655,19 +655,34 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															<form id="kt_inbox_reply_form" class="rounded border mb-10">
 																<div class="d-block">
 																  <div class="d-flex align-items-center border-bottom min-h-50px justify-content-between py-5">
-																	   <div class="border d-flex p-3 align-items-center rounded me-3  w-250px">
-																		   <div class="btn-group me-4">
-																			  <button class="btn badge-custom-bg fs-bold px-6" type="submit" >Send</button>
+																	  <div class="border d-flex  align-items-start p-3 rounded me-3 w-250px">
+  <div class="btn-group me-4">
+    <button class="btn badge-custom-bg fs-bold px-6" type="submit">Send</button>
+  </div>
 
-																		   </div>
+   <div id="media_button"
+        data-kt-inbox-form="dropzone_upload"
+        class="d-flex flex-column align-items-start w-100"
+      style="overflow-y:auto; max-height:150px;">
+    <label class="ms-auto mt-4" style="cursor:pointer;">
+      <span class="ki-duotone ki-paper-clip fs-2 m-0"></span>
+      <input
+        hidden
+        type="file"
+        accept=".pdf, .docx, .doc, .txt, .xls, .xlsx, .rtf, .csv, .pptx, .jpeg, .png, .gif"
+        class="upload-attachment"
+        name="media[]"
+        id="media"
+        multiple
+      />
+    </label>
+  <p id="file_name"
+          class="text-white mb-0"
+          style="word-break:break-all; white-space:pre-wrap;">
+     </p>
+  </div>
+</div>
 
-																		   <div class="btn btn-icon btn-sm btn-clean  ms-auto justify-content-between" id="media_button" data-kt-inbox-form="dropzone_upload">
-
-																			   <label class="ms-auto"><span class="ki-duotone ki-paper-clip fs-2 m-0"  style="cursor:pointer;"></span><input hidden type="file" accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .png, .gif" class="upload-attachment" name="media[]" id="media" multiple/></label>
-																			   <p id="file_name" class="text-white"></p>
-																		   </div>
-
-																	   </div>
 
 
 																	   <div>
