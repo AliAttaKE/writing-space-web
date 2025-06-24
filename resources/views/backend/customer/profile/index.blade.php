@@ -326,7 +326,7 @@
                                             <table class="table align-middle table-row-dashed gy-5" id="kt_table_packages_payment">
                                                 <thead class="border-bottom border-gray-200 fs-7 fw-bold">
                                                     <tr class="text-start text-muted text-uppercase gs-0">
-                                                        <th class="min-w-150px">Package Type</th>
+                                                        <th class="min-w-150px">Payment Type</th>
                                                         <th class="min-w-150px">Order / Name ID</th>
                                                         <th class="min-w-100px">Invoice No.</th>
                                                         <th class="min-w-100px">Receipt No.</th>

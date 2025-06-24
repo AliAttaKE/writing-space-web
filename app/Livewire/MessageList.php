@@ -22,9 +22,13 @@ class MessageList extends Component
     'perPage'  => ['except' => 5], // agar URL me perPage=5 to hide karega
     ];
 
-    public function updatingSearch()
+    public function updatedSearch($value)
     {
-        $this->resetPage();
+        if ($value === '') {
+            // reset pagination (so you show page 1)
+            $this->resetPage();
+            // (optional) you could also clear any other filters
+        }
     }
 
 
@@ -92,7 +96,7 @@ class MessageList extends Component
     $threads = Inbox::whereHas('order', fn($q) =>
                     $q->where('user_id', $userId)
                 )
-                ->where(function($q) {
+                ->when(function($q) {
                     $q->where('order_id', 'like', '%'.$this->search.'%')
                       ->orWhereHas('messages', fn($m) =>
                           $m->where('message', 'like', '%'.$this->search.'%')

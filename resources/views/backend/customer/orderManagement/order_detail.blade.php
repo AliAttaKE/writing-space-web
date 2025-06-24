@@ -8272,7 +8272,10 @@ function submit_payment() {
 					Pusher.logToConsole = true;
 					$('#message_box').val('');
 					document.getElementById('file_name').innerHTML = '';
+                    const fileInput = document.getElementById('media');
 
+                        // after sending:
+                        fileInput.value = '';
 					var pusher = new Pusher('28e13a39c3918e12f8a9', {
 					  cluster: 'ap2'
 					});

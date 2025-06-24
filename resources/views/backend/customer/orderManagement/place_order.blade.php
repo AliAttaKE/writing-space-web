@@ -1916,7 +1916,8 @@
     var cost_per_page = document.getElementById('cost_per_page').innerHTML;
     var academic_level = document.getElementById('academic_level').value;
     var subject = document.getElementById('subject').value;
-    var description = document.getElementById('description').textContent;
+    var desc = document.getElementById('description');
+    var description = desc.firstElementChild.innerHTML;
     var paper_format = document.getElementById('paper_format').value;
     var term_of_paper = document.getElementById('term_of_paper').value;
     var no_of_extra_sources = document.getElementById('no_of_extra_sources').value;

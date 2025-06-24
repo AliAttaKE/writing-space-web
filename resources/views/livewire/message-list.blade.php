@@ -77,20 +77,14 @@
 
     <input
       type="text"
-      wire:model.debounce.300ms="search"
+      wire:model="search"
       class="form-control form-control-solid w-250px ps-15 btn-dark-primary"
       placeholder="Search threads…"
-      wire:keydown.enter="$refresh"
+wire:keyup.debounce.300ms="$refresh"
     />
 
     <!-- Yahan Search button add kiya -->
-    <button
-      type="button"
-      wire:click="$refresh"
-      class="btn btn-light ms-2"
-    >
-      Search
-    </button>
+
                                 </div>
                                 <!--end::Search-->
                                 <!--begin::Toggle-->
