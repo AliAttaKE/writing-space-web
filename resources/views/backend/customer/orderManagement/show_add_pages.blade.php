@@ -17,7 +17,9 @@
             font-family: Inter, Helvetica, "sans-serif";
             background-image: url(`{{asset("/backend/assets/media/ws/customer-dashboard.jpg")}}`);
         }
-
+        .pata{
+            
+        }
         .lock {
             height: 18px;
             width: 20px;
