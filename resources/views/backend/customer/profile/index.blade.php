@@ -351,23 +351,28 @@
                                                                     @endif
                                                                 </td>
                                                                 <td>
-                                                                    @if($order->item_name == 'Subcription')
-                                                                        {{ $order->subscription_name }}
-                                                                    @elseif ($order->item_name == 'Pages')
-                                                                        {{ $order->package_id }}
-                                                                    @elseif ($order->item_name == 'Order')
+
+                                                                    @if($order->item_name === 'Subcription')
+                                                                        {{ optional($order->invoice)->subscriptionName() ?? $order->order->user->userSubscription->subscription->subscription_name }}
+
+                                                                    @elseif($order->item_name === 'Pages')
+                                                                        {{-- for pages you might do something else… --}}
+
+                                                                    @elseif($order->item_name === 'Order')
                                                                         {{ $order->order_id }}
-                                                                    @elseif ($order->item_name == 'Custom Order')
-                                                                        {{$order->item_name}}
-                                                                    @elseif ($order->item_name == 'Custom Order - Pages Addon')
+
+                                                                    @elseif($order->item_name === 'Custom Order')
+                                                                        {{ $order->item_name }}
+
+                                                                    @elseif($order->item_name === 'Custom Order - Pages Addon')
                                                                         Custom Order
                                                                     @endif
                                                                     </td>
                                                                 <td>
-                                                                    <a href="{{ asset('storage/invoices/invoice_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $order->invoice_id}}</a>
+                                                                    <a href="{{ asset('invoices/invoice_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $order->invoice_id}}</a>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="{{ asset('storage/receipts/receipt_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $order->invoice_id}}</a>
+                                                                    <a href="{{ asset('receipts/receipt_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $order->invoice_id}}</a>
                                                                 </td>
                                                                 <td>
                                                                     @if ($order->total != null)

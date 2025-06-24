@@ -10,8 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Carbon\Carbon;
-
-
+use App\Models\User_Subscription;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
@@ -54,7 +53,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'authenticated_at' => 'datetime', 
+        'authenticated_at' => 'datetime',
     ];
 
     public static function getpermissionGroups(){
@@ -62,7 +61,7 @@ class User extends Authenticatable
         return $permission_group;
     }//end method;
 
-    
+
 
 
     public static function getpermissionByGroup($group_name){
@@ -83,16 +82,19 @@ class User extends Authenticatable
         }//end loop;
     }//end method;
 
-    
+
     public function loginSessions()
     {
         return $this->hasMany(LoginSession::class);
     }
-    
+
     public function order()
     {
         return $this->hasMany(Orders::class);
     }
-    
-    
+
+     public function userSubscription()
+    {
+        return $this->hasOne(User_Subscription::class);
+    }
 }

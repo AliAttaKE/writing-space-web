@@ -172,7 +172,7 @@ class CustomerController extends Controller
         ->whereIn('order_status', ['Pending', 'Completed', 'Revision', 'Refund', 'Canceled', 'In-Progress'])
         ->count();
 
-        $orders = Invoice::with('order')->where('email', Auth::user()->email)->get();
+        $orders = Invoice::with('order.user.userSubscription.subscription')->where('email', Auth::user()->email)->get();
 //dd(OrderLogs::first()->order_id);
         //dd($orders);
         $countPastOrders = Orders::whereUserId(Auth()->user()->id)->where('order_status', 'Delivered')->count();

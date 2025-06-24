@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Orders;
+use App\Models\Subscription;
+
 
 class Invoice extends Model
 {
@@ -16,5 +18,18 @@ class Invoice extends Model
     {
     return $this->belongsTo(Orders::class, 'order_id','order_id');
 
+    }
+
+
+
+     public function subscriptionName(): ?string
+    {
+
+        return optional(
+            $this->order
+                ->user
+                ->userSubscription
+                ->subscription
+        )->subscription_name;
     }
 }
