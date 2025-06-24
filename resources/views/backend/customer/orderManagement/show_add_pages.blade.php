@@ -15,7 +15,7 @@
  <style>
         body {
             font-family: Inter, Helvetica, "sans-serif";
-            background-image: url("./backend/assets/ws/customer-dashboard.jpg");
+            background-image: url(`{{asset("/backend/assets/media/ws/customer-dashboard.jpg")}}`);
         }
 
         .lock {
