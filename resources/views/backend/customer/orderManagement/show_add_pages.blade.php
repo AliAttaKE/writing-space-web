@@ -15,10 +15,10 @@
  <style>
         body {
             font-family: Inter, Helvetica, "sans-serif";
-            background-image: url(`{{asset("/backend/assets/media/ws/customer-dashboard.jpg")}}`);
+            background-image: url("backend/assets/media/ws/customer-dashboard.jpg");
         }
         .pata{
-            
+
         }
         .lock {
             height: 18px;
