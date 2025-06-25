@@ -2230,7 +2230,7 @@ $emailContent = "
 
         $subject = "Confirmation of Additional Package Pages Added to Order ID  - $order_id";
 
-        $this->send_invoice_just_Add_page($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages);
+        $this->send_invoice_just_Add_page($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages,$order_id);
         // Mail::html($emailContent, function ($message) use ($user, $order_id) {
         //     $message->to($user->email)
         //             ->subject('Confirmation of Additional Pages Added to Order ID - ' . $order_id);
@@ -3853,7 +3853,7 @@ Writing Space</p>
         }
 
     }
-    public function send_invoice_just_Add_page($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages)
+    public function send_invoice_just_Add_page($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages,$order_id)
     {
        // dd($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
         try{
@@ -3904,7 +3904,7 @@ Writing Space</p>
                 'customerName' => $customerName,
                 'customerEmail' => $customerEmail,
                 'customerAdress' => $customerAdress,
-                'orderid' => $orderid,
+                'orderid' => $order_id,
                 'itemName' => $itemName,
                 'totalPages' => $noofpage,
                 'pricePerPage' => $pricePerPage,
