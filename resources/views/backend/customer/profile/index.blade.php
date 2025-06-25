@@ -337,7 +337,8 @@
 
                                                 <tbody class="fs-6 fw-semibold text-gray-600" id="old_package_payment_tbody">
                                                     @foreach ($orders as $order)
-                                                            <tr>
+                                                    @if($order->invoice_id)
+                                                        <tr>
                                                                 <td>
                                                                     @if($order->invoice_type == 'package_inc')
                                                                         Package
@@ -351,10 +352,10 @@
                                                                 </td>
 
                                                                 <td>
-                                                                    <a href="{{ asset('invoices/invoice_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $order->invoice_id}}</a>
+                                                                    <a href="{{ Storage::url('invoices/invoice_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $order->invoice_id}}</a>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="{{ asset('receipts/receipt_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $order->invoice_id}}</a>
+                                                                    <a href="{{ Storage::url('receipts/receipt_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $order->invoice_id}}</a>
                                                                 </td>
                                                                 <td>
                                                                     @if ($order->total != null)
@@ -377,6 +378,8 @@
                                                                 </td>
 
                                                             </tr>
+                                                    @endif
+
 
 
                                                     @endforeach
