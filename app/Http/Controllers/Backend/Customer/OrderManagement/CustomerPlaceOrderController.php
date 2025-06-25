@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailTemplate;
 use App\Mail\InvoiceEmailTemplate;
 use App\Mail\PkgInvoiceEmailTemplate;
+use App\Mail\AddPkgInvoiceEmailTemplate;
 use App\Mail\PkgIdInvoiceEmailTemplate1;
 use App\Mail\PkgIdmanageInvoiceEmailTemplate;
 use App\Mail\Pkg_Id_manage_optin1_Email_Template;
@@ -2229,7 +2230,7 @@ $emailContent = "
 
         $subject = "Confirmation of Additional Package Pages Added to Order ID  - $order_id";
 
-        $this->send_invoice_just_Add_page($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage);
+        $this->send_invoice_just_Add_page($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages);
         // Mail::html($emailContent, function ($message) use ($user, $order_id) {
         //     $message->to($user->email)
         //             ->subject('Confirmation of Additional Pages Added to Order ID - ' . $order_id);
@@ -2929,7 +2930,7 @@ Writing Space</p>
 
 
 
-        
+
                 
                     $data = [
                             'invoiceNumber' => $invoiceNumber,
@@ -3852,7 +3853,7 @@ Writing Space</p>
         }
 
     }
-    public function send_invoice_just_Add_page($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage)
+    public function send_invoice_just_Add_page($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages)
     {
        // dd($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
         try{
@@ -3912,18 +3913,20 @@ Writing Space</p>
                 'discount' => $discount,
                 'total' => $total,
                 'discounttotalamount' => '0.0',
+                'remaining_pages' => $remaining_pages,
             ];
 
 
 
-            $subject = "Welcome to Your New Writing-Space Package – Thank You for Your Purchase!";
-            Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
+            $subject = "Confirmation of Purchase of Additional Pages from Package – Order ID .$orderid. ";
+            Mail::to($user->email)->send(new AddPkgInvoiceEmailTemplate(
                 $data,$data,
                 $subject,
                 $emailContent
             ));
         }
         catch(\Exception $e){
+
             dd($e);
         }
 
