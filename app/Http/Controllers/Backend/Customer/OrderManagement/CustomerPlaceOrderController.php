@@ -112,7 +112,39 @@ class CustomerPlaceOrderController extends Controller
                 ));
             }
 
+ $emailSubject = 'Confirmation of Additional Package Pages Added to Order ID ' . $orderid;
 
+$emailContent = "
+    <p>Hi {$customerName},</p>
+    <p>We’ve successfully added additional pages to your existing order at Writing Space. Here are the details:</p>
+
+    <h2>Order Details:</h2>
+    <ul>
+        <li>Order ID: {$orderid}</li>
+        <li>Additional Pages Added: {$AdditionalPagesAdded}</li>
+        <li>Total Pages Used So Far: {$TotalPagesUsed}</li>
+        <li>Remaining Pages in Your Package: {$remaining_pages}</li>
+    </ul>
+
+    <h2>What’s Next:</h2>
+    <ol>
+        <li>You can continue to track the progress of your order through your dashboard under the \"My Orders\" section.</li>
+        <li>We’ll keep you updated as your order develops, and we’ll notify you when it’s ready for review or download.</li>
+    </ol>
+
+    <p>Adding these pages will help tailor your order more closely to your needs, ensuring that the final product meets all your academic requirements.</p>
+    
+    <p>If you need further modifications or have any questions, please don't hesitate to contact us. Our team is here to support you every step of the way.</p>
+
+    <p>Thank you for utilizing your Writing Space package effectively. We look forward to delivering a product that exceeds your expectations.</p>
+
+    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+
+
+
+                  Mail::html($emailContent, function ($message) use ($userdata, $emailSubject) {
+            $message->to($userdata->email)->subject($emailSubject);
+        });
 
             return response()->json(['message' => 'Pages added successfully!']);
         } else {
