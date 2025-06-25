@@ -2910,6 +2910,27 @@ Writing Space</p>
 
 
                     $subject = "Your Writing-Space Custom Order Purchase Confirmation – Order ID  {$order->order_id}";
+                
+                     $emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is Pending Approval';
+            $emailContent = "
+                <p>Hi {$user->name},</p>
+                <p>Just a quick update on your order with Writing Space: Your order ID {$order->order_id} is currently pending approval. We are reviewing the details to ensure everything is set to meet your expectations.</p>
+                <p><strong>What’s Next?</strong></p>
+                <ul>
+                    <li>You will receive a notification once your order has been approved and moved to the next stage of our process.</li>
+                </ul>
+                <p>Thank you for your patience. If you have any questions or need to adjust any details, please reach out to us.</p>
+                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+
+                  Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
+        $message->to($user->email)
+                ->subject($emailSubject);
+        });
+
+
+
+        
+                
                     $data = [
                             'invoiceNumber' => $invoiceNumber,
                               'receiptNumber' => $receiptNumber,
