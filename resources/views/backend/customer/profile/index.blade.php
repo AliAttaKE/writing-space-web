@@ -337,7 +337,8 @@
 
                                                 <tbody class="fs-6 fw-semibold text-gray-600" id="old_package_payment_tbody">
                                                     @foreach ($orders as $order)
-                                                            <tr>
+                                                    @if($order->invoice_id)
+                                                        <tr>
                                                                 <td>
                                                                     @if($order->invoice_type == 'package_inc')
                                                                         Package
@@ -377,6 +378,8 @@
                                                                 </td>
 
                                                             </tr>
+                                                    @endif
+
 
 
                                                     @endforeach
