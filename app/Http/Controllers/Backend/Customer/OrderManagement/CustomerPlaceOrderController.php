@@ -3897,8 +3897,8 @@ Writing Space</p>
             $total = $transaction->merchantAmount;
 
             $input = $orderid;
-            preg_match('/\.(\d+)-/', $input, $matches);
-            $orderid_new = $matches[1] ?? null;
+          preg_match('/^(\d+)-/', $input, $matches);
+$orderid_new = $matches[1] ?? null;
 
             $data = [
                 'invoiceNumber' => $invoiceNumber,
@@ -3908,7 +3908,7 @@ Writing Space</p>
                 'customerName' => $customerName,
                 'customerEmail' => $customerEmail,
                 'customerAdress' => $customerAdress,
-                'orderid' => 33,
+                'orderid' => $orderid_new,
                 'itemName' => $itemName,
                 'totalPages' => $noofpage,
                 'pricePerPage' => $pricePerPage,
@@ -3922,7 +3922,7 @@ Writing Space</p>
 
 
 
-            $subject = "Confirmation of Purchase of Additional Pages from Package – Order ID .$orderid. ";
+            $subject = "Confirmation of Purchase of Additional Pages from Package – Order ID $orderid_new";
             Mail::to($user->email)->send(new AddPkgInvoiceEmailTemplate(
                 $data,$data,
                 $subject,
