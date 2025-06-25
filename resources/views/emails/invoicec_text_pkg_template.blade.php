@@ -33,18 +33,19 @@
     <div class="container">
         
         <p>Hi {{ $invoiceData['customerName'] }},</p>
-        <p>Congratulations on securing your new package at Writing Space! We're excited to support you with enhanced services and resources tailored to your academic needs.</p>
-        <h2>Package Details:</h2>
+        <p>Thank you for expanding your order at Writing Space! We've successfully processed the purchase of additional pages for your ongoing project</p>
+        <h2>Order Details:</h2>
         <ul>
-            <li>Package Type: {{ $invoiceData['itemName'] }}</li>
-            <li>Purchase Date: {{ $invoiceData['dateOfIssue'] }}</li>
-            <li>Total: ${{ $invoiceData['subTotal'] }}</li>
-            <li>Total Pages: {{ $invoiceData['totalPages'] }}</li>
+            <li>Order ID: {{ $invoiceData['orderid'] }}</li>
+            {{-- <li>Package Type: {{ $invoiceData['itemName'] }}</li> --}}
+            <li>Additional Pages Purchased: {{ $invoiceData['totalPages'] }}</li>
+            <li>Cost: ${{ $invoiceData['subTotal'] }}</li>
+              <li>Date of Purchase: {{ $invoiceData['dateOfIssue'] }}</li>
         </ul>
-        <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
-        <p>You can now access all the features and benefits of your package through your dashboard. Explore the additional resources and services available to you and make the most of your Writing Space experience!</p>
-        <p>If you have any questions about your package or need further assistance, our customer support team is ready to help.</p>
-        <p>Thank you for choosing Writing Space! We look forward to helping you achieve your academic goals.</p>
+        <p>Your invoice and receipt for this transaction are attached as a PDF. Please review these documents for your records.</p>
+        <p>Should you have any queries or require further assistance, feel free to reach out to our support team.</p>
+        <p>We appreciate your continued trust in Writing Space, and we're here to assist you every step of the way!</p>
+        {{-- <p>Thank you for choosing Writing Space! We look forward to helping you achieve your academic goals.</p> --}}
         <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
     </div>
 </body>
