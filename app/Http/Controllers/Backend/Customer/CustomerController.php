@@ -175,6 +175,7 @@ class CustomerController extends Controller
         $orders = Invoice::with('order.user.userSubscription.subscription')->where('email', Auth::user()->email)->get();
 //dd(OrderLogs::first()->order_id);
         //dd($orders);
+        $userOrders = Orders::where('user_id', Auth::user()->id)->get();
         $countPastOrders = Orders::whereUserId(Auth()->user()->id)->where('order_status', 'Delivered')->count();
         $countPackages = User_Subscription::whereUserId(Auth()->user()->id)->count();
         // dd(compact(
@@ -185,7 +186,7 @@ class CustomerController extends Controller
         return view('backend.customer.profile.index',compact(
             'CustomInvoices','PackageInvoices','used_subscription', 'years',
              'userPaymentRecords', 'yearsData', 'countries','userPaymentRecordssub',
-             'yearsDatasub','yearssub','countCurrentOrders','countPastOrders','countPackages','orders'
+             'yearsDatasub','userOrders','yearssub','countCurrentOrders','countPastOrders','countPackages','orders'
             ));
     }
 

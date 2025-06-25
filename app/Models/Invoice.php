@@ -22,14 +22,9 @@ class Invoice extends Model
 
 
 
-     public function subscriptionName(): ?string
+     public function subscriptionName()
     {
-
-        return optional(
-            $this->order
-                ->user
-                ->userSubscription
-                ->subscription
-        )->subscription_name;
+        $sub = User_Subscription::with('subscription')->whereUserId(Auth()->user()->id)->first();
+        return $sub;
     }
 }

@@ -327,7 +327,6 @@
                                                 <thead class="border-bottom border-gray-200 fs-7 fw-bold">
                                                     <tr class="text-start text-muted text-uppercase gs-0">
                                                         <th class="min-w-150px">Payment Type</th>
-                                                        <th class="min-w-150px">Order / Name ID</th>
                                                         <th class="min-w-100px">Invoice No.</th>
                                                         <th class="min-w-100px">Receipt No.</th>
                                                         <th>Status</th>
@@ -350,24 +349,7 @@
                                                                         Custom Order
                                                                     @endif
                                                                 </td>
-                                                                <td>
 
-                                                                    @if($order->item_name === 'Subcription')
-                                                                        {{ optional($order->invoice)->subscriptionName() ?? $order->order->user->userSubscription->subscription->subscription_name }}
-
-                                                                    @elseif($order->item_name === 'Pages')
-                                                                        {{-- for pages you might do something else… --}}
-
-                                                                    @elseif($order->item_name === 'Order')
-                                                                        {{ $order->order_id }}
-
-                                                                    @elseif($order->item_name === 'Custom Order')
-                                                                        {{ $order->item_name }}
-
-                                                                    @elseif($order->item_name === 'Custom Order - Pages Addon')
-                                                                        Custom Order
-                                                                    @endif
-                                                                    </td>
                                                                 <td>
                                                                     <a href="{{ asset('invoices/invoice_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $order->invoice_id}}</a>
                                                                 </td>
@@ -448,16 +430,16 @@
                                                 </thead>
 
                                                 <tbody class="fs-6 fw-semibold text-gray-600" id="old_custom_payment_tbody">
-                                                    @foreach ($orders as $order)
+                                                    @foreach ($userOrders as $order)
 
                                                             <tr>
                                                                 <td>{{ \Carbon\Carbon::parse($order->created_at)->format('j M Y, g:i a') }}</td>
-                                                                <td>{{ \Carbon\Carbon::parse($order->order?->deadline)->format('j M Y, g:i a') }}</td>
-                                                                <td>{{ $order->order?->order_type }}</td>
+                                                                <td>{{ \Carbon\Carbon::parse($order->deadline)->format('j M Y, g:i a') }}</td>
+                                                                <td>{{ ($order->order_type == 'Subscription') ? 'Package' : 'Custom Order' }}</td>
                                                                 <td>{{ $order->order_id }}</td>
-                                                                <td>{{ $order->order?->number_of_pages }}</td>
-                                                                <td>{{ $order->order?->topic }}</td>
-                                                                <td>{{ $order->order?->order_status }}</td>
+                                                                <td>{{ $order->number_of_pages }}</td>
+                                                                <td>{{ $order->topic }}</td>
+                                                                <td>{{ $order->order_status }}</td>
 
 
 
