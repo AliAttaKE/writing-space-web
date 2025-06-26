@@ -222,7 +222,7 @@
                                         <!--    <a class="learn-more d-flex justify-content-end fs-color-yellow custom-fs-13" href="#">Learn More</a>-->
                                         <!--</div>-->
                                         <!--begin::Card title-->
-                                          @if($used_subscription!= null)
+                                          @if($used_subscription!= null && $used_subscription->status === 'Active')
 
 
                                         <!--begin::Card title-->
