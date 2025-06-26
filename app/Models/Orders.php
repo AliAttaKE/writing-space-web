@@ -45,4 +45,17 @@ class Orders extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function subscription()
+    {
+        // if your FK is named something else, pass it here:
+        // return $this->belongsTo(Subscription::class, 'your_subscription_fk');
+        return $this->belongsTo(Subscription::class);
+    }
+
+    public function invoice()
+    {
+        // invoices.order_id → orders.id
+        return $this->hasOne(Invoice::class, 'order_id', 'id');
+    }
 }

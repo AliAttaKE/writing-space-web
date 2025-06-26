@@ -84,7 +84,15 @@ Route::get('/clear', function (){
     return redirect()->back();
 
 });
+Route::get('invoices/{filename}', function ($filename) {
+    $path = storage_path("app/public/invoices/{$filename}");
 
+    if (! file_exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
+});
 Route::get('order-id', function(){
     for($i = 0; $i <= 100; $i++)
       echo $input['order_id'] = generateOrderID() . '<br/>';

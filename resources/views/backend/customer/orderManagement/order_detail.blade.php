@@ -8370,6 +8370,9 @@ function submit_payment() {
 								console.log('Server response:', response);
 								Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
 								quill.setText('');
+                                const fileInput = document.getElementById('media');
+                                // after sending:
+                                fileInput.value = '';
 								document.getElementById('file_name').innerHTML = '';
                                 $('#message_box').val('');
                 	 $('#file_name').text('');

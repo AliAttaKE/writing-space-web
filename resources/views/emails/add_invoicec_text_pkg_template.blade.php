@@ -42,7 +42,8 @@
             </li>
             {{-- <li>Package Type: {{ $invoiceData['itemName'] }}</li> --}}
             <li>Additional Pages Purchased: {{ $invoiceData['totalPages'] }}</li>
-            <li>Cost: ${{ $invoiceData['subTotal'] }}</li>
+            <li>Remaining Pages in Your Package: {{ $invoiceData['remaining_pages'] }}</li>
+            {{-- <li>Cost: ${{ $invoiceData['subTotal'] }}</li> --}}
               <li>Date of Purchase: {{ $invoiceData['dateOfIssue'] }}</li>
         </ul>
         <p>Your invoice and receipt for this transaction are attached as a PDF. Please review these documents for your records.</p>

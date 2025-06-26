@@ -26,4 +26,9 @@ class Subscription extends Model
         'daily',
         'best_offer',
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
