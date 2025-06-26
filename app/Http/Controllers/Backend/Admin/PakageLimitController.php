@@ -9,6 +9,7 @@ use App\Models\Subscription;
 use App\Models\User_Subscription;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class PakageLimitController extends Controller
 {
@@ -37,30 +38,61 @@ class PakageLimitController extends Controller
     }
 
 
-    public function package_cancelation_change_status(Request $request)
-    {
+public function package_cancelation_change_status(Request $request)
+{
+    $fileId = $request->input('fileId');
+    $currentStatus = $request->input('currentStatus');
 
-        $fileId = $request->input('fileId');
-        $currentStatus = $request->input('currentStatus');
+    $file = User_Subscription::find($fileId);
 
+    if ($file) {
+        $newStatus = $currentStatus == 'InActive' ? 'Active' : 'InActive';
+        $file->status = $newStatus;
+        $file->save();
 
-        $file = User_Subscription::find($fileId);
+        // Only send email if status is being set to InActive
+        if ($newStatus == 'InActive') {
+            $user = User::find($file->user_id);
+            $subscription = Subscription::find($file->subscription_id);
 
+            $emailSubject = 'Confirmation of Your Package Cancellation at Writing Space';
+            $cancellationDate = now()->format('F j, Y');
+            $packageName = $subscription->subscription_name ?? 'Your Package';
 
-        if ($file) {
+            $emailContent = "
+            <html><body>
+                <p>Hi {$user->name},</p>
+                <p>We have received and processed your request to cancel your package at Writing Space. While we're sad to see you go, we understand that circumstances change and we hope we've been able to contribute positively to your academic journey thus far.</p>
 
-            $file->status = $currentStatus == 'InActive' ? 'Active' : 'InActive'; // Toggle status between 'Active' and 'Inactive'
+                <p><strong>Cancellation Details:</strong></p>
+                <ul>
+                    <li>Package Type: {$packageName}</li>
+                    <li>Cancellation Date: {$cancellationDate}</li>
+                </ul>
 
+                <p><strong>Final Details:</strong> Please note, any remaining pages or unused services as of the cancellation date will no longer be accessible. We encourage you to check if there are any final resources or downloads you may want to retrieve before your account transitions.</p>
 
-            $file->save();
+                <p><strong>We'd Love to Hear from You:</strong> If you have a moment, we would appreciate your feedback on how we can improve our services. Understanding your experience helps us better serve our community in the future.</p>
 
+                <p><strong>Thinking of Returning?</strong> Remember, our door is always open. If you decide to return or if there’s anything we can assist you with in the future, don’t hesitate to reach out to our support team.</p>
 
-            return response()->json(['message' => 'Status changed successfully'], 200);
-        } else {
+                <p>Thank you for being a part of Writing Space. We wish you all the best in your academic and professional endeavors.</p>
 
-            return response()->json(['error' => 'Not found'], 404);
+                <p>Warm regards,<br>Customer Success Team<br>Writing Space</p>
+            </body></html>";
+
+            Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
+                $message->to($user->email)
+                        ->subject($emailSubject);
+            });
         }
+
+        return response()->json(['message' => 'Status changed successfully'], 200);
+    } else {
+        return response()->json(['error' => 'Not found'], 404);
     }
+}
+
 
 
   public function get(Request $request)
