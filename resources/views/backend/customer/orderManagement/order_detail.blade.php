@@ -687,7 +687,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
     <input
       hidden
       type="file"
-      accept=".pdf, .docx, .doc, .txt, .xls, .xlsx, .rtf, .csv, .pptx, .jpeg, .png, .gif"
+      accept=".pdf, .docx, .doc, .txt, .xls, .xlsx, .rtf, .csv, .pptx, .jpeg"
       class="upload-attachment"
       name="media[]"
       id="media"
@@ -975,7 +975,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																		<!--end::Controls-->
 																	</div>
 																	<!--end::Dropzone-->
-																	<span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF,XLSX, CSV,PPTX,JPEG, PNG, GIF</span>
+																	<span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF,XLSX, CSV,PPTX,JPEG</span>
 																	<br>
 																	<!--begin::Hint-->
 																	<span class="form-text fs-6 text-muted mb-2 fs-color-white custom-fs-13">Max file size is 500-MB per file.</span>
@@ -8898,7 +8898,39 @@ if (order_id && revision_request) {
 
 
 	});
+document.addEventListener('DOMContentLoaded', function () {
+  const maxChars = 200;
+  const editor = document.getElementById('feedbackEditor');
+  const textarea = document.getElementById('feedback');
+  const charCount = document.getElementById('charCount');
 
+  function updateEditorContent() {
+    let text = editor.innerText || '';
+    if (text.length > maxChars) {
+      text = text.substring(0, maxChars);
+      editor.innerText = text;
+
+      // Cursor ko end pe rakhna
+      const range = document.createRange();
+      range.selectNodeContents(editor);
+      range.collapse(false);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+
+    textarea.value = text;
+    charCount.textContent = maxChars - text.length;
+  }
+
+  // Typing event
+  editor.addEventListener('input', updateEditorContent);
+
+  // Paste event — paste hone ke thodi der baad run karna
+  editor.addEventListener('paste', function () {
+    setTimeout(updateEditorContent, 0);
+  });
+});
 
 	$(document).on('click', '.feedSubmit', function() {
 
@@ -8923,12 +8955,19 @@ if (order_id && revision_request) {
 			feedback: feedback,
 			_token: '{{ csrf_token() }}',
 		},
-		success: function(response) {
-			console.log(response);
-			Swal.fire('Success!', 'Order feedback Sent Successfully.', 'success');
-			$('#feedback').val('');
-			feedbackEditor.setText('');
-		},
+		    success: function(response) {
+      console.log(response);
+      Swal.fire('Success!', 'Order feedback Sent Successfully.', 'success');
+      
+      // clear the hidden textarea
+      $('#feedback').val('');
+      
+      // clear your editor (Quill or similar)
+      feedbackEditor.setText('');
+      
+      // RESET THE CHAR COUNTER:
+      $('#charCount').text(200);
+    },
 		error: function(error) {
 			console.error(error);
 		}
@@ -9103,39 +9142,7 @@ $(document).on('click', '.downloadBtnForm', function(e){
 
 
 
-document.addEventListener('DOMContentLoaded', function () {
-  const maxChars = 200;
-  const editor = document.getElementById('feedbackEditor');
-  const textarea = document.getElementById('feedback');
-  const charCount = document.getElementById('charCount');
 
-  function updateEditorContent() {
-    let text = editor.innerText || '';
-    if (text.length > maxChars) {
-      text = text.substring(0, maxChars);
-      editor.innerText = text;
-
-      // Cursor ko end pe rakhna
-      const range = document.createRange();
-      range.selectNodeContents(editor);
-      range.collapse(false);
-      const sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
-    }
-
-    textarea.value = text;
-    charCount.textContent = maxChars - text.length;
-  }
-
-  // Typing event
-  editor.addEventListener('input', updateEditorContent);
-
-  // Paste event — paste hone ke thodi der baad run karna
-  editor.addEventListener('paste', function () {
-    setTimeout(updateEditorContent, 0);
-  });
-});
 
   const input = document.getElementById('media');
 const container = document.getElementById('media_button');
