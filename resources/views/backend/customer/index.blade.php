@@ -449,7 +449,7 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Total Package pages</div>
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Total Purchased pages</div>
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-senter">
@@ -550,7 +550,7 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Total Package pages</div>
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Total Purchased pages</div>
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-senter">
@@ -663,12 +663,14 @@
             </div>
             <div class="text-white">
                 <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Package Name:</spnan> <spnan class="fw-bold">{{ $best->subscription_name }}</spnan></span>
-                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Cost Per Page:</spnan> <spnan class="fw-bold">{{ $best->cost_per_page }}</spnan> </span>
-                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Minimum Pages:</spnan><spnan class="fw-bold">{{ $best->min_page }}</spnan> </span>
-                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Maximum Pages:</spnan><spnan class="fw-bold">{{ $best->max_page }}</spnan>  </span>
-                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Duration:</spnan><spnan class="fw-bold">{{ $best->set_time }} days</spnan> </span>
+                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Cost:</spnan><spnan class="fw-bold">${{ $best->cost_per_page }} Per Page</spnan> </span>
+                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Duration:</spnan><spnan class="fw-bold">{{ $best->set_time }} Days (Flexible)</spnan> </span>
+                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Initial Purchase:</spnan><spnan class="fw-bold">{{ $best->min_page }} pages</spnan> </span>
+                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Purchase on the Go:</spnan><spnan class="fw-bold">{{ $best->min_page }} pages</spnan> </span>
+                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Total Pages in package:</spnan><spnan class="fw-bold">{{ $best->max_page }}</spnan>  </span>
             </div>
         </div>
+	
         <!--end::Item-->
         @endforeach
     @endif

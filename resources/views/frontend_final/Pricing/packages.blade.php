@@ -74,7 +74,7 @@
 									<li><span style="color: #FFC056 !important;">Initial Purchase</span>:  {{ $s->min_page }} Pages<button type="button"
                                                         class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
                                                         data-bs-toggle="modal" data-bs-target="#modal-3"><i class="ms-4 fa-solid fa-circle-info" style="color: #783AFB;"></i></button></li>
-									<li><span style="color: #FFC056 !important;">Purchase on the Go</span>:  {{ $s->max_page }} pages<button type="button"
+									<li><span style="color: #FFC056 !important;">Purchase on the Go</span>:  {{ $s->min_page }} pages<button type="button"
                                                         class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
                                                         data-bs-toggle="modal" data-bs-target="#modal-4"><i class="ms-4 fa-solid fa-circle-info" style="color: #783AFB;"></i></button></li>
 									<!-- <li>Purchase between {{ $s->min_page }} to
@@ -772,7 +772,7 @@
                 <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="mb-5">This is the total number of pages you’ll be allowed to purchase under this package—starting now or later, as needed.</p>
+                <p class="mb-5">You’ll start with an initial set of pages. These are immediately available to use and count toward your package total.</p>
               
             </div>
             <div class="modal-footer border-0">
@@ -790,7 +790,11 @@
                 <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="mb-5">You’ll start with an initial set of pages. These are immediately available to use and count toward your package total.</p>
+               <p class="mb-5">As your needs grow, you'll be able to buy additional pages at the same flat rate. No extra fees, no surprises.</p>
+              
+                <p class="mb-5">To add pages to a specific order, go to the Order Details page and click on the 'Manage Pages' tab.</p>
+              
+                <p class="mb-5">To add pages to your overall package, which can be used for all current and future orders, simply visit your Profile Page and add them to your package from there.</p>
               
             </div>
             <div class="modal-footer border-0">
@@ -808,12 +812,8 @@
                 <button type="button" class="ms-0 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="mb-5">As your needs grow, you'll be able to buy additional pages at the same flat rate. No extra fees, no surprises.</p>
-              
-                <p class="mb-5">To add pages to a specific order, go to the Order Details page and click on the 'Manage Pages' tab.</p>
-              
-                <p class="mb-5">To add pages to your overall package, which can be used for all current and future orders, simply visit your Profile Page and add them to your package from there.</p>
-              
+                               <p class="mb-5">This is the total number of pages you’ll be allowed to purchase under this package—starting now or later, as needed.</p>
+
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>

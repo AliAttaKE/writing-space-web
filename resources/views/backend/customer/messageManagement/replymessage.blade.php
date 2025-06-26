@@ -153,7 +153,7 @@ h3 {
 
                                             <div class="btn btn-icon btn-sm btn-clean btn-active-light-primary me-2" id="media_button" data-kt-inbox-form="dropzone_upload">
 
-                                                <label><span class="ki-duotone ki-paper-clip fs-2 m-0 text-white"></span><input hidden type="file" accept=".docx,.pdf,.txt,.rtf,.xlsx,.csv,.pptx,.jpeg,.jpg,.png,.gif" class="upload-attachment" name="media[]" id="media" multiple /></label>
+                                                <label><span class="ki-duotone ki-paper-clip fs-2 m-0 text-white"></span><input hidden type="file" accept=".docx,.pdf,.txt,.rtf,.xlsx,.csv,.pptx,.jpeg,.jpg" class="upload-attachment" name="media[]" id="media" multiple /></label>
                                             </div>
                                             <p id="attach_file_1" class="text-white  w-200px"></p>
                                         </div>
