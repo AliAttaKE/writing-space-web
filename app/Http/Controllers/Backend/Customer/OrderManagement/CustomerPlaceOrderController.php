@@ -3064,63 +3064,118 @@ Writing Space</p>
         return  Excel::download(new OrdersExportInvoice($value), 'ORDER-LIST-' . $nu . '.xlsx');
     }
 
-    public function index()
-    {
+    // public function index()
+    // {
 
-        $used_subscription = User_Subscription::where('user_id', '=', Auth()->user()->id)->first();
-        if ($used_subscription) {
-            $subscription = Subscription::find($used_subscription->subscription_id);
-            $used_subscription->subscription = $subscription;
+    //     $used_subscription = User_Subscription::where('user_id', '=', Auth()->user()->id)->first();
+    //     if ($used_subscription) {
+    //         $subscription = Subscription::find($used_subscription->subscription_id);
+    //         $used_subscription->subscription = $subscription;
+    //     }
+
+
+    //     $Addons = Addons::orderBy('id', 'desc')->first();
+
+
+
+    //     $subjects = Subject::orderBy('title', 'asc')->get();
+    //     $academic = Academic_level::orderBy('title', 'asc')->get();
+    //     $excludeds = ['Other (explain in description)','Other (Not Listed Above)'];
+    //     $term = Term_of_paper::whereNotIn('title', $excludeds)->orderBy('title', 'asc')->get();
+    //     $deadline = Deadline::all();
+    //     $excluded = ['None', 'Let the writer choose', 'Does Not Matter','Other (Not Listed Above)'];
+    //     $paper_format = Paper_Format::whereNotIn('title', $excluded)->orderBy('title', 'asc')->get();
+    //     $Languages = Language::orderBy('title', 'asc')->get();
+
+    //    // $pricing = Pricing::orderBy('id', 'desc')->get();
+
+
+    //     if (auth()->check()) {
+    //         $user_id = Auth::user()->id;
+    //         $subsDetails = User_Subscription::where('user_id', $user_id)->first();
+
+    //         if ($subsDetails) {
+    //             $subscribed = $subsDetails->user_id;
+    //             $totalPages = $subsDetails->remaining_pages + $subsDetails->rollover_pages;
+
+    //             if ($subscribed && $totalPages > 0) {
+    //                 $subsDetailsamount = Subscription::where('id', $subsDetails->subscription_id)->first();
+    //                 $cost_per_page = $subsDetails->cost_per_page_final;
+    //                 $pricing = PricingPakage::orderBy('id', 'desc')->get();
+
+    //                 return view('backend.customer.orderManagement.custom_place_order', compact(
+    //                     'Languages', 'used_subscription', 'Addons', 'pricing', 'subjects', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails', 'cost_per_page'
+    //                 ));
+    //             }
+    //         }
+    //     }
+    //  $pricing = PricingOrder::orderBy('id', 'desc')->get();
+
+
+    //     $subscribed = null;
+    //     $subsDetails = null;
+
+    //     return view('backend.customer.orderManagement.place_order', compact('Languages','pricing', 'subjects', 'Addons', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails'));
+    // }
+
+
+
+
+public function index()
+{
+    $user = Auth::user();
+    $user_id = $user->id;
+
+    // Common Data
+    $Addons = Addons::latest()->first();
+    $subjects = Subject::orderBy('title', 'asc')->get();
+    $academic = Academic_level::orderBy('title', 'asc')->get();
+    $term = Term_of_paper::whereNotIn('title', ['Other (explain in description)', 'Other (Not Listed Above)'])->orderBy('title', 'asc')->get();
+    $deadline = Deadline::all();
+    $paper_format = Paper_Format::whereNotIn('title', ['None', 'Let the writer choose', 'Does Not Matter', 'Other (Not Listed Above)'])->orderBy('title', 'asc')->get();
+    $Languages = Language::orderBy('title', 'asc')->get();
+
+    // Get user subscription once
+    $used_subscription = User_Subscription::where('user_id', $user_id)->first();
+    $subscribed = null;
+    $subsDetails = null;
+
+    // If subscription exists
+    if ($used_subscription) {
+        // Attach subscription
+        $subscription = Subscription::find($used_subscription->subscription_id);
+        $used_subscription->subscription = $subscription;
+
+        // If subscription is InActive, show default place order page
+        if ($used_subscription->status === 'InActive') {
+            $pricing = PricingOrder::latest()->get();
+
+            return view('backend.customer.orderManagement.place_order', compact(
+                'Languages', 'pricing', 'subjects', 'Addons', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails'
+            ));
         }
 
+        // If user has remaining pages
+        $totalPages = $used_subscription->remaining_pages + $used_subscription->rollover_pages;
 
-        $Addons = Addons::orderBy('id', 'desc')->first();
+        if ($totalPages > 0) {
+            $subscribed = $user_id;
+            $subsDetails = $used_subscription;
+            $cost_per_page = $used_subscription->cost_per_page_final;
+            $pricing = PricingPakage::latest()->get();
 
-
-
-        $subjects = Subject::orderBy('title', 'asc')->get();
-        $academic = Academic_level::orderBy('title', 'asc')->get();
-        $excludeds = ['Other (explain in description)','Other (Not Listed Above)'];
-        $term = Term_of_paper::whereNotIn('title', $excludeds)->orderBy('title', 'asc')->get();
-        $deadline = Deadline::all();
-        $excluded = ['None', 'Let the writer choose', 'Does Not Matter','Other (Not Listed Above)'];
-        $paper_format = Paper_Format::whereNotIn('title', $excluded)->orderBy('title', 'asc')->get();
-        $Languages = Language::orderBy('title', 'asc')->get();
-
-       // $pricing = Pricing::orderBy('id', 'desc')->get();
-
-
-        if (auth()->check()) {
-            $user_id = Auth::user()->id;
-            $subsDetails = User_Subscription::where('user_id', $user_id)->first();
-
-            if ($subsDetails) {
-                $subscribed = $subsDetails->user_id;
-                $totalPages = $subsDetails->remaining_pages + $subsDetails->rollover_pages;
-
-                if ($subscribed && $totalPages > 0) {
-                    $subsDetailsamount = Subscription::where('id', $subsDetails->subscription_id)->first();
-                    $cost_per_page = $subsDetails->cost_per_page_final;
-                    $pricing = PricingPakage::orderBy('id', 'desc')->get();
-
-                    return view('backend.customer.orderManagement.custom_place_order', compact(
-                        'Languages', 'used_subscription', 'Addons', 'pricing', 'subjects', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails', 'cost_per_page'
-                    ));
-                }
-            }
+            return view('backend.customer.orderManagement.custom_place_order', compact(
+                'Languages', 'used_subscription', 'Addons', 'pricing', 'subjects', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails', 'cost_per_page'
+            ));
         }
-     $pricing = PricingOrder::orderBy('id', 'desc')->get();
-
-
-        $subscribed = null;
-        $subsDetails = null;
-
-        return view('backend.customer.orderManagement.place_order', compact('Languages','pricing', 'subjects', 'Addons', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails'));
     }
 
-
-
-
+    // Default view if no active package or pages
+    $pricing = PricingOrder::latest()->get();
+    return view('backend.customer.orderManagement.place_order', compact(
+        'Languages', 'pricing', 'subjects', 'Addons', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails'
+    ));
+}
 
 
 
