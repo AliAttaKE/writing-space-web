@@ -43,11 +43,24 @@ class AddPkgInvoiceEmailTemplate extends Mailable
           $orderID = $this->invoiceData['orderid'] ?? 'unknown';
             $timestamp = Carbon::now()->format('Ymd_His');
 
+
+
+
+
+
+            
+
         $invoiceHtml = View::make('emails.invoice_custom_template')
             ->with([
                 'subject'     => $this->subject,
                 'invoiceData' => $this->invoiceData
             ])->render();
+
+
+
+
+
+
 
         $receiptHtml = View::make('emails.receipt_custom_template')
             ->with([
@@ -67,7 +80,7 @@ class AddPkgInvoiceEmailTemplate extends Mailable
 
         // Generate PDF for receipt
         $receiptOptions = new Options();
-        
+
         $receiptOptions->set('isHtml5ParserEnabled', true);
         $receiptDompdf = new Dompdf($receiptOptions);
         $receiptDompdf->loadHtml($receiptHtml);
