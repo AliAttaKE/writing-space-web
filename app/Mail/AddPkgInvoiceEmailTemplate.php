@@ -9,6 +9,8 @@ use Illuminate\Queue\SerializesModels;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Illuminate\Support\Facades\View;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class AddPkgInvoiceEmailTemplate extends Mailable
 {
@@ -38,7 +40,8 @@ class AddPkgInvoiceEmailTemplate extends Mailable
      */
     public function build()
     {
-        // Render the HTML template for invoice
+          $orderID = $this->invoiceData['orderid'] ?? 'unknown';
+            $timestamp = Carbon::now()->format('Ymd_His');
 
         $invoiceHtml = View::make('emails.invoice_custom_template')
             ->with([
@@ -70,19 +73,34 @@ class AddPkgInvoiceEmailTemplate extends Mailable
         $receiptDompdf->render();
         $receiptPdfContent = $receiptDompdf->output();
 
-        // Define file names and paths
-        $invoiceFilename = 'invoice_' . $this->invoiceData['invoiceNumber'] . '.pdf';
-        $receiptFilename = 'receipt_' . $this->invoiceData['invoiceNumber'] . '.pdf';
+      
+     // Set file names
+        $invoiceFilename = 'invoice_' . $orderID . '_' . $timestamp . '.pdf';
+        $receiptFilename = 'receipt_' . $orderID . '_' . $timestamp . '.pdf';
+
+        // Define storage paths
         $invoiceDir = storage_path('app/public/invoices');
         $receiptDir = storage_path('app/public/receipts');
-        $receiptPath = storage_path('app/public/receipts/' . $receiptFilename);
-        $invoicePath = $invoiceDir . '/' . $invoiceFilename;
-        $receiptPath = $receiptDir . '/' . $receiptFilename;
+
+        // Create directories if needed
+        if (!file_exists($invoiceDir)) {
+            mkdir($invoiceDir, 0755, true);
+        }
+        if (!file_exists($receiptDir)) {
+            mkdir($receiptDir, 0755, true);
+        }
+
+        // Save PDFs to disk
+        file_put_contents($invoiceDir . '/' . $invoiceFilename, $invoicePdfContent);
+        file_put_contents($receiptDir . '/' . $receiptFilename, $receiptPdfContent);
 
 
-        // Save PDFs to the server
-        file_put_contents($invoicePath, $invoicePdfContent);
-        file_put_contents($receiptPath, $receiptPdfContent);
+        if (file_put_contents($invoiceDir . '/' . $invoiceFilename, $invoicePdfContent) === false) {
+    Log::error("Failed to save invoice PDF for order: " . $orderID);
+}
+if (file_put_contents($receiptDir . '/' . $receiptFilename, $receiptPdfContent) === false) {
+    Log::error("Failed to save receipt PDF for order: " . $orderID);
+}
 
         return $this->subject($this->subject)
                     ->view('emails.add_invoicec_text_pkg_template')
