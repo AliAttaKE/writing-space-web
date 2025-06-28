@@ -64,8 +64,10 @@ class AddPkgInvoiceEmailTemplate extends Mailable
         $invoiceDompdf->render();
         $invoicePdfContent = $invoiceDompdf->output();
 
+
         // Generate PDF for receipt
         $receiptOptions = new Options();
+        
         $receiptOptions->set('isHtml5ParserEnabled', true);
         $receiptDompdf = new Dompdf($receiptOptions);
         $receiptDompdf->loadHtml($receiptHtml);
@@ -74,6 +76,7 @@ class AddPkgInvoiceEmailTemplate extends Mailable
         $receiptPdfContent = $receiptDompdf->output();
 
       
+
      // Set file names
         $invoiceFilename = 'invoice_' . $orderID . '_' . $timestamp . '.pdf';
         $receiptFilename = 'receipt_' . $orderID . '_' . $timestamp . '.pdf';
@@ -86,6 +89,7 @@ class AddPkgInvoiceEmailTemplate extends Mailable
         if (!file_exists($invoiceDir)) {
             mkdir($invoiceDir, 0755, true);
         }
+
         if (!file_exists($receiptDir)) {
             mkdir($receiptDir, 0755, true);
         }
