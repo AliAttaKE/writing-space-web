@@ -141,6 +141,7 @@ h3{
                                             </div>
                                             <!--end::Upload attachement-->
                                             <p id="attach_file_1" class="text-white w-200px"></p>
+                                            
                                         </div>
 
 
@@ -272,6 +273,19 @@ h3{
     var hostUrl = "assets/";
 </script>
 
+<script>
+    document.getElementById('media').addEventListener('change', function () {
+        const fileList = this.files;
+        let fileNames = [];
+
+        for (let i = 0; i < fileList.length; i++) {
+            fileNames.push(fileList[i].name);
+        }
+
+        // Show names in the paragraph
+        document.getElementById('attach_file_1').textContent = fileNames.join(', ');
+    });
+</script>
 
 
 <script>
