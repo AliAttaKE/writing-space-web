@@ -651,11 +651,11 @@
 														</span>
 
 														<!--begin::Items-->
-														<div class="d-flex align-items-center d-grid gap-2 mb-10 mb-xl-20">
+														<div class="d-flex align-items-center d-grid  mb-10 mb-xl-20">
     @if(!empty($best_offers))
         @foreach($best_offers as $best)
         <!--begin::Item-->
-        <div class="d-flex">
+        <div class="d-flex col-4">
             <div class="symbol symbol-30px symbol-circle me-3">
                 <span class="symbol-label" style="background: #35C7FF">
                     <i class="ki-duotone ki-abstract-41 fs-5 text-white"><span class="path1"></span><span class="path2"></span></i>
@@ -664,10 +664,10 @@
             <div class="text-white">
                 <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Package Name:</spnan> <spnan class="fw-bold">{{ $best->subscription_name }}</spnan></span>
                 <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Cost:</spnan><spnan class="fw-bold">${{ $best->cost_per_page }} Per Page</spnan> </span>
-                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Duration:</spnan><spnan class="fw-bold">{{ $best->set_time }} Days (Flexible)</spnan> </span>
-                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Initial Purchase:</spnan><spnan class="fw-bold">{{ $best->min_page }} pages</spnan> </span>
-                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Purchase on the Go:</spnan><spnan class="fw-bold">{{ $best->min_page }} pages</spnan> </span>
-                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Total Pages in package:</spnan><spnan class="fw-bold">{{ $best->max_page }}</spnan>  </span>
+                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Duration:</spnan><spnan class="fw-bold">{{ $best->set_time }} Days </spnan> </span>
+                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Starter Pack:</spnan><spnan class="fw-bold">{{ $best->min_page }} pages</spnan> </span>
+                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Top-up: Up to </spnan><spnan class="fw-bold">{{ $best->min_page }} pages</spnan> </span>
+                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Complete Pack:</spnan><spnan class="fw-bold">{{ $best->max_page }}</spnan>  </span>
             </div>
         </div>
 	

@@ -691,7 +691,6 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
       class="upload-attachment"
       name="media[]"
       id="media"
-      multiple
     />
   </label>
   <p id="file_name"
@@ -8317,83 +8316,87 @@ function submit_payment() {
 
 </script>
 <script>
-	$(document).ready(function() {
-		$('#kt_inbox_reply_form').submit(function(e) {
-			e.preventDefault(); // Prevent the form from submitting in the traditional way
-			console.log('hello')
-						// Create a FormData object to gather form data
-						var formData = new FormData(this);
-						formData.append('_token', '{{ csrf_token() }}');
-						// You can append additional data if needed
-						// formData.append('key', 'value');
+$(document).ready(function() {
+  $('#kt_inbox_reply_form').submit(function(e) {
+    e.preventDefault();
 
-						var send_by = $('.radioAdminWriter:checked').val();
-						console.log("Selected value:", send_by);
+    // 1) File extension check before AJAX
+    const fileInput = document.getElementById('media');
+    const files     = fileInput.files;
+    const allowed   = ['pdf','docx','doc','txt','rtf','xls','xlsx','csv','pptx','jpeg','jpg'];
 
-						formData.append('send_by', send_by);
-
-
-						 var sendby = $('.radioAdminWriter:checked').val();
-
-						 var message = $('.ql-editor').text();
-
-    // Check if sendby is empty or null
-    if (sendby == '' || sendby == null) {
-       Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
-        return; // Stop execution if the condition is met
+    for (let i = 0; i < files.length; i++) {
+      const ext = files[i].name.split('.').pop().toLowerCase();
+      if (!allowed.includes(ext)) {
+        Swal.fire(
+          'Invalid File Type',
+          `"${files[i].name}" is not an allowed file.`,
+          'error'
+        );
+        return;  // abort submission
+      }
     }
 
+    // 2) Receiver selection check
+    const sendby = $('.radioAdminWriter:checked').val();
+    if (!sendby) {
+      Swal.fire(
+        'Missing Receiver',
+        'Please select a receiver (Admin or Writer) before sending.',
+        'error'
+      );
+      return;
+    }
 
-   if (!message) {
-    Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
-    return;
-}
+    // 3) Message content check
+    const message = $('.ql-editor').text().trim();
+    if (!message) {
+      Swal.fire(
+        'Empty Message',
+        'Message cannot be empty. Please type something before sending.',
+        'error'
+      );
+      return;
+    }
 
-						console.log(formData)
-						var element = document.getElementById('media');
-						console.log(element.value)
-						// Display the form data in the console (for testing purposes)
-						for (var pair of formData.entries()) {
-							console.log(pair[0] + ', ' + pair[1]);
-						}
+    // 4) Prepare FormData
+    const formData = new FormData(this);
+    formData.append('_token', '{{ csrf_token() }}');
+    formData.append('send_by', sendby);
 
-						// Now you can use the formData object to send the data to the server using AJAX or perform other actions
-						var url = '{{ route("customer.send-message")}}'
-						// Example of sending formData using AJAX:
-						$.ajax({
-
-							type: 'POST',
-							url: url,
-								data: formData,
-								processData: false,  // Don't process the data
-								contentType: false,  // Don't set contentType
-								success: function(response) {
-								console.log('Server response:', response);
-								Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
-								quill.setText('');
-                                const fileInput = document.getElementById('media');
-                                // after sending:
-                                fileInput.value = '';
-								document.getElementById('file_name').innerHTML = '';
-                                $('#message_box').val('');
-                	 $('#file_name').text('');
-					 messageEditor.setText('');
-
-							},
-							error: function(error) {
-								console.error('Error:', error);
-							}
-						});
-
-						return false; // Prevent the form from submitting in the traditional way
-					});
+    // 5) Send via AJAX
+    $.ajax({
+      type: 'POST',
+      url: '{{ route("customer.send-message") }}',
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(response) {
+        Swal.fire(
+          'Message Sent',
+          'Your message has been sent successfully!',
+          'success'
+        );
+        // clear editor and inputs
+        quill.setText('');
+        fileInput.value = '';
+        $('#file_name').text('');
+        $('#message_box').val('');
+        messageEditor.setText('');
+      },
+      error: function(err) {
+        Swal.fire(
+          'Send Failed',
+          'Sorry, there was an error sending your message. Please try again.',
+          'error'
+        );
+        console.error(err);
+      }
+    });
+  });
+});
 
 
-					// clear message box
-
-
-
-	});
 </script>
 
 
@@ -9164,7 +9167,23 @@ input.addEventListener('change', function() {
     container.classList.remove('has-files');
   }
 });
+  // DOM loaded hone ke baad listener attach karen
+  document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('file-3');
+    const display   = document.getElementById('attach_file');
 
+    fileInput.addEventListener('change', function() {
+      if (!this.files || this.files.length === 0) {
+        display.textContent = '';
+        return;
+      }
+      // Agar ek file hai:
+      const name = this.files[0].name;
+      // Agar multiple allow karenge to:
+      // const name = Array.from(this.files).map(f => f.name).join(', ');
+      display.textContent = name;
+    });
+  });
 	</script>
 
 @endsection

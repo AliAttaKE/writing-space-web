@@ -170,6 +170,24 @@ class MessageController extends Controller
 
 public function sendMessage(Request $request)
 {
+
+
+     // 1) Validation rules
+    $rules = [
+
+        'media'        => 'required|file|mimes:pdf,docx,doc,txt,rtf,xls,xlsx,csv,pptx,jpeg,jpg',
+
+       
+    ];
+
+    $validator = Validator::make($request->all(), $rules);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'success' => false,
+            'errors'  => $validator->errors()
+        ], 422);
+    }
     $input = $request->all();
     $input['sender_id'] = Auth::user()->id; // Use Auth facade for consistency
     $user = User::find($input['sender_id']);

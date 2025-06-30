@@ -738,3 +738,9 @@ Route::post('check-coupon',[CouponController::class,'check_coupon'])->name('chec
     Route::get('/edit/role/permission/{id}', [RoleSetupController::class, 'EditRolePermission'])->name('edit.role.permission');
     Route::post('/update/role/permission/{id}', [RoleSetupController::class, 'UpdateRolePermission'])->name('update.role.permission');
     Route::get('/delete/role/permission/{id}', [RoleSetupController::class, 'DeleteRolePermission'])->name('delete.role.permission');
+Route::get('/debug-file', function(){
+    $file = storage_path('app/public/media/232494273.jpg');
+    return file_exists($file)
+        ? 'Exists: '. $file
+        : 'Not found at '.$file;
+});

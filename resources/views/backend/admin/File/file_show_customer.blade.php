@@ -634,7 +634,7 @@
                                         <!--begin::Controls-->
                                         <div class="dropzone-panel mb-4">
                                             <label for="file-3" class="dropzone-select btn btn-sm btn-dark-primary me-2">Attach Files</label>
-                                            <input type="file" id="file-3" name="file" class="d-none" accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg,"></input>
+                                            <input type="file" id="file-3" name="file" class="d-none" accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .jpg"></input>
                                             <p id="attach_file_3"></p>
 
 
@@ -650,7 +650,7 @@
                                     </div>
                                     <!--end::Dropzone-->
                                     <!--begin::Hint-->
-                                    <span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF,XLSX, CSV,PPTX,JPEG</span>
+                                    <span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF,XLSX, CSV,PPTX,jpg,JPEG</span>
                                     <br>
                                     <span class="form-text fs-6 text-muted mb-2">Max file size is 500-MB per file.</span>
                                     <!--end::Hint-->
