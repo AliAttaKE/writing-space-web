@@ -352,7 +352,7 @@
                                                                 </td>
 
                                                                 <td>
-                                                                    <a href="{{ url('storage/invoices/invoice_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $order->invoice_id}}</a>
+                                                                    <a href="{{ url('invoices/invoice_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $order->invoice_id}}</a>
                                                                 </td>
                                                                 <td>
                                                                     <a href="{{ url('storage/receipts/receipt_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $order->invoice_id}}</a>
