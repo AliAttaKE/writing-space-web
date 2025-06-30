@@ -70,9 +70,9 @@ class InvoiceEmailTemplate extends Mailable
         // Set file names
         $invoiceNumber = $this->invoiceData['invoiceNumber'] ?? 'no_invoice';
         $receiptNumber = $this->invoiceData['receiptNumber'] ?? 'no_receipt';
-
+//file name check
        $invoiceFilename = "invoice_{$invoiceNumber}.pdf";
-$receiptFilename = "receipt_{$receiptNumber}.pdf";
+    $receiptFilename = "receipt_{$receiptNumber}.pdf";
 
 
         // Define storage paths
@@ -91,7 +91,9 @@ $receiptFilename = "receipt_{$receiptNumber}.pdf";
         file_put_contents($invoiceDir . '/' . $invoiceFilename, $invoicePdfContent);
         file_put_contents($receiptDir . '/' . $receiptFilename, $receiptPdfContent);
 
-        // Return email with attached PDFs
+        // Return email with attached PDFscmd
+
+
         return $this->subject($this->subject)
             ->view('emails.invoicec_text_custom_template', [
                 'invoiceData' => $this->invoiceData,
