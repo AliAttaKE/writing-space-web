@@ -72,7 +72,7 @@ class InvoiceEmailTemplate extends Mailable
         $receiptNumber = $this->invoiceData['receiptNumber'] ?? 'no_receipt';
 //file name check
        $invoiceFilename = "invoice_{$invoiceNumber}.pdf";
-    $receiptFilename = "receipt_{$receiptNumber}.pdf";
+    $receiptFilename = "receipt_{$invoiceNumber}.pdf";
 
 
         // Define storage paths

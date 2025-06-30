@@ -96,7 +96,7 @@ class AddPkgInvoiceEmailTemplate extends Mailable
         $receiptNumber = $this->invoiceData['receiptNumber'] ?? 'no_receipt';
 
        $invoiceFilename = "invoice_{$invoiceNumber}.pdf";
-$receiptFilename = "receipt_{$receiptNumber}.pdf";
+$receiptFilename = "receipt_{$invoiceNumber}.pdf";
 
 
         // Define storage paths
