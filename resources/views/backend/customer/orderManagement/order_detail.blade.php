@@ -1449,8 +1449,8 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 															<input type="hidden" id="order_id_revision" name="order_id" value="{{$order->order_id}}">
 															<input type="hidden" id="order_id_revision_deadline" name="order_id" value="{{$order->deadline}}">
-															<input type="hidden" id="order_id_revision_days" name="order_id" value="{{$revision->days}}">
-															<input type="hidden" id="order_id_revision_hours" name="order_id" value="{{$revision->hours}}">
+															<input type="hidden" id="order_id_revision_days" name="order_id" value="{{($revision->days) ?? ''}}">
+															<input type="hidden" id="order_id_revision_hours" name="order_id" value="{{($revision->hours) ?? ''}}">
 															<input type="hidden" name="_token" id="csrf-token" value="{{ csrf_token() }}">
 
 															<!-- Create the editor container -->
@@ -8965,13 +8965,13 @@ document.addEventListener('DOMContentLoaded', function () {
 		    success: function(response) {
       console.log(response);
       Swal.fire('Success!', 'Order feedback Sent Successfully.', 'success');
-      
+
       // clear the hidden textarea
       $('#feedback').val('');
-      
+
       // clear your editor (Quill or similar)
       feedbackEditor.setText('');
-      
+
       // RESET THE CHAR COUNTER:
       $('#charCount').text(200);
     },
