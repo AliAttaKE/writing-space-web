@@ -449,7 +449,7 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Total Purchased pages</div>
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Total Purchased Pages</div>
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-senter">
@@ -464,7 +464,7 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Total Used pages</div>
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Total Used Pages</div>
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-senter" style="color:#F8285A">
@@ -480,7 +480,7 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Total Remaining pages</div>
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Total Remaining Pages</div>
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-senter" style="color:#17C653">
@@ -512,7 +512,7 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Expire Date</div>
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Expiry Date</div>
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-senter">
@@ -550,7 +550,7 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Total Purchased pages</div>
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Total Purchased Pages</div>
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-senter">
@@ -565,23 +565,7 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Total Used pages</div>
-                                    <!--end::Section-->
-                                    <!--begin::Statistics-->
-                                    <div class="d-flex align-items-senter">
-									N/A
-                                    </div>
-                                    <!--end::Statistics-->
-                                </div>
-                                <!--end::Item-->
-
-                                <!--begin::Separator-->
-                                <div class="separator separator-dashed my-3"></div>
-                                <!--end::Separator-->
-                                <!--begin::Item-->
-                                <div class="d-flex flex-stack">
-                                    <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Total Remaining pages</div>
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Total Used Pages</div>
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-senter">
@@ -597,7 +581,23 @@
                                 <!--begin::Item-->
                                 <div class="d-flex flex-stack">
                                     <!--begin::Section-->
-                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Expire Date</div>
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Total Remaining Pages</div>
+                                    <!--end::Section-->
+                                    <!--begin::Statistics-->
+                                    <div class="d-flex align-items-senter">
+									N/A
+                                    </div>
+                                    <!--end::Statistics-->
+                                </div>
+                                <!--end::Item-->
+
+                                <!--begin::Separator-->
+                                <div class="separator separator-dashed my-3"></div>
+                                <!--end::Separator-->
+                                <!--begin::Item-->
+                                <div class="d-flex flex-stack">
+                                    <!--begin::Section-->
+                                    <div class="text-gray-700 fw-semibold fs-6 me-2 fs-color-white custom-fs-13">Expiry Date</div>
                                     <!--end::Section-->
                                     <!--begin::Statistics-->
                                     <div class="d-flex align-items-senter">
@@ -662,12 +662,12 @@
                 </span>
             </div>
             <div class="text-white">
-                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Package Name:</spnan> <spnan class="fw-bold">{{ $best->subscription_name }}</spnan></span>
-                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Cost:</spnan><spnan class="fw-bold">${{ $best->cost_per_page }} Per Page</spnan> </span>
-                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Duration:</spnan><spnan class="fw-bold">{{ $best->set_time }} Days </spnan> </span>
-                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Starter Pack:</spnan><spnan class="fw-bold">{{ $best->min_page }} pages</spnan> </span>
-                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Top-up: Up to </spnan><spnan class="fw-bold">{{ $best->min_page }} pages</spnan> </span>
-                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Complete Pack:</spnan><spnan class="fw-bold">{{ $best->max_page }}</spnan>  </span>
+                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Package Name: </spnan> <spnan class="fw-bold">{{ $best->subscription_name }}</spnan></span>
+                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Cost: </spnan><spnan class="fw-bold">${{ $best->cost_per_page }} Per Page</spnan> </span>
+                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Duration: </spnan><spnan class="fw-bold">{{ $best->set_time }} Days </spnan> </span>
+                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Starter Pack: </spnan><spnan class="fw-bold">{{ $best->min_page }} pages</spnan> </span>
+                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Top-up: </spnan><spnan class="fw-bold"> Up to  {{ $best->min_page }} pages</spnan> </span>
+                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Complete Pack: </spnan><spnan class="fw-bold">{{ $best->max_page }}</spnan>  </span>
             </div>
         </div>
 	

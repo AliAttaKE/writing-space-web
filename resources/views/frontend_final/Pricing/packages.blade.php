@@ -71,15 +71,15 @@
 									<li><span style="color: #FFC056 !important;">Duration</span>: {{ $s->set_time }} Days <button type="button"
                                                         class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
                                                         data-bs-toggle="modal" data-bs-target="#modal-2"><i class="ms-4 fa-solid fa-circle-info" style="color: #783AFB;"></i></button></li>
-									<li><span style="color: #FFC056 !important;">Top-up</span>:Up to  {{ $s->min_page }} Pages<button type="button"
+									<li><span style="color: #FFC056 !important;">Starter Pack</span>: {{ $s->min_page }} Pages<button type="button"
                                                         class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
                                                         data-bs-toggle="modal" data-bs-target="#modal-3"><i class="ms-4 fa-solid fa-circle-info" style="color: #783AFB;"></i></button></li>
-									<li><span style="color: #FFC056 !important;">Complete Pack</span>:  {{ $s->min_page }} pages<button type="button"
+									<li><span style="color: #FFC056 !important;">Top-up</span>: Up to {{ $s->min_page }} pages<button type="button"
                                                         class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
                                                         data-bs-toggle="modal" data-bs-target="#modal-4"><i class="ms-4 fa-solid fa-circle-info" style="color: #783AFB;"></i></button></li>
 									<!-- <li>Purchase between {{ $s->min_page }} to
                                         {{ $s->max_page }} pages</li> -->
-                                        <li><span style="color: #FFC056 !important;">Total Pages in package</span>:
+                                        <li><span style="color: #FFC056 !important;">Complete Pack</span>:
                                             {{ $s->total_subscription }}<button type="button"
                                                         class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
                                                         data-bs-toggle="modal" data-bs-target="#modal-5"><i class="ms-4 fa-solid fa-circle-info" style="color: #783AFB;"></i></button></li>

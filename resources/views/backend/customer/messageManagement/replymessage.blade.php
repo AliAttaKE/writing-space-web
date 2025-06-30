@@ -301,44 +301,85 @@ h3 {
 <!-- jQuery aur Quill CDN (ek dafa hi include karein) -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
-
 <script>
   $(function() {
-    // 1) Quill editor initialize karo
+    // Quill init
     var replyMessageEditor = new Quill('#replyMessageEditor', {
       theme: 'snow',
       placeholder: 'Compose your message here…'
     });
 
-    // 2) Trash icon pe click → editor aur textarea dono clear karo
-    $('#delete_btn').on('click', function() {
-      replyMessageEditor.setText('');           // Quill ke andar ka text
-      $('#message_box').val('');                // Hidden textarea
-      $('#attach_file_1').text('');             // Attached file names display
+    const allowedExts = ['docx','pdf','txt','rtf','xlsx','csv','pptx','jpeg','jpg'];
+
+    // File-select filter + replace FileList
+    $('#media').on('change', function() {
+      const allFiles   = Array.from(this.files);
+      const validFiles = allFiles.filter(f => {
+        const ext = f.name.split('.').pop().toLowerCase();
+        return allowedExts.includes(ext);
+      });
+
+      if (validFiles.length !== allFiles.length) {
+        Swal.fire(
+          'Error',
+          'Only .docx, .pdf, .txt, .rtf, .xlsx, .csv, .pptx, .jpeg, and .jpg files are allowed.',
+          'error'
+        );
+      }
+
+      // Replace input.files so FormData(this) only sees validFiles
+      const dt = new DataTransfer();
+      validFiles.forEach(f => dt.items.add(f));
+      this.files = dt.files;
+
+      // Update UI
+      $('#attach_file_1').text(validFiles.map(f => f.name).join(', '));
     });
 
-    // 3) Form submit pe Quill content textarea mein daal kar AJAX bhejo
+    // Discard reply
+    $('#delete_btn').on('click', function() {
+      replyMessageEditor.setText('');
+      $('#message_box').val('');
+      $('#attach_file_1').text('');
+      $('#media').val('');
+    });
+
+    // Single submit handler with validation + AJAX
     $('#kt_inbox_reply_form').on('submit', function(e) {
       e.preventDefault();
 
-      // Quill ka HTML content lo (plain text ke liye getText())
-      var htmlContent = replyMessageEditor.root.innerHTML;
-      $('#message_box').val(htmlContent);
+      // 1) Message required
+      const plainText = replyMessageEditor.getText().trim();
+      if (!plainText) {
+        Swal.fire('Error', 'Please enter a message before sending.', 'error');
+        return;
+      }
 
-      var formData = new FormData(this);
-      formData.append('_token', '{{ csrf_token() }}');
-      formData.append('send_by', $('.radioAdminWriter:checked').val());
+      // 2) Recipient required
+      const recipient = $('.radioAdminWriter:checked').val();
+      if (!recipient) {
+        Swal.fire('Error', 'Please select a recipient (Admin or Writer).', 'error');
+        return;
+      }
 
-      // AJAX request
+      // 3) Populate hidden textarea
+      $('#message_box').val(replyMessageEditor.root.innerHTML);
+
+      // 4) Build FormData with everything
+      const fd = new FormData(this);
+      fd.append('_token', '{{ csrf_token() }}');
+      fd.append('send_by', recipient);
+
+      // 5) AJAX send
       $.ajax({
         url: '{{ route("customer.send-message") }}',
         method: 'POST',
-        data: formData,
+        data: fd,
         processData: false,
         contentType: false,
-        success: function(response) {
-          Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
-          // Clear editor after send
+        success: function() {
+          Swal.fire('Success!', 'Your message was sent successfully.', 'success');
+          // clear everything
           replyMessageEditor.setText('');
           $('#message_box').val('');
           $('#attach_file_1').text('');
@@ -350,19 +391,6 @@ h3 {
       });
     });
   });
-</script>
-<script>
-    document.getElementById('media').addEventListener('change', function () {
-        const fileList = this.files;
-        let fileNames = [];
-
-        for (let i = 0; i < fileList.length; i++) {
-            fileNames.push(fileList[i].name);
-        }
-
-        // Show names in the paragraph
-        document.getElementById('attach_file_1').textContent = fileNames.join(', ');
-    });
 </script>
 
 
