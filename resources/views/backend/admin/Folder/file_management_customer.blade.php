@@ -351,7 +351,7 @@
                                         <!--begin::Table header-->
                                         <div class="d-flex flex-stack">
                                             <!--begin::Folder path-->
-                                            <div class="badge badge-lg badge-light-primary">
+                                            <div class="badge badge-lg badge-light-primary d-none">
                                                 <div class="d-flex align-items-center flex-wrap">
                                                     <i class="ki-duotone ki-abstract-32 fs-2x text-white me-3">
                                                         <span class="path1"></span>

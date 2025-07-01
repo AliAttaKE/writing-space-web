@@ -469,7 +469,10 @@ class IndexController extends Controller
         // dd($request->all());
         $validated = $request->validate([
             'email' => 'required|email|unique:users,email',
-             'name' => 'required',
+             'name' => [
+    'required',
+    'regex:/^(?:\S+(?:\s+|$)){1,20}$/'
+],
             'password' => 'required',
             'password_confirmation' => 'required_with:password|same:password'
         ], [

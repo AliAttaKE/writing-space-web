@@ -975,7 +975,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																		<!--end::Controls-->
 																	</div>
 																	<!--end::Dropzone-->
-																	<span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF,XLSX, CSV,PPTX,JPEG,JPG</span>
+																	<span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPG, JPEG</span>
 																	<br>
 																	<!--begin::Hint-->
 																	<span class="form-text fs-6 text-muted mb-2 fs-color-white custom-fs-13">Max file size is 500-MB per file.</span>
@@ -8201,7 +8201,7 @@ function submit_payment() {
         document.getElementById("kt_modal_upload_form1").addEventListener("submit", function(e) {
 
     const input = document.getElementById("file-3");
-    const allowedTypes = ["DOCX","docx", "pdf", "txt", "rft","xlsx", "csv","pptx","jpeg", "png", "gif","jpg"];
+    const allowedTypes = ["DOCX","docx", "pdf", "txt", "rtf","xlsx", "csv","pptx","jpeg", "png", "gif","jpg"];
     const maxSizeMB = 500; // maximum size per file in MB
     let hasInvalid = false;
 
