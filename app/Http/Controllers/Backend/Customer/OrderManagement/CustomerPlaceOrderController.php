@@ -2922,8 +2922,8 @@ Writing Space</p>
                             'total' => $total,
                             'finaltotaladdon' => $finaltotaladdon ?: '0.0',
                             'discounttotalamount' => ($discount && $discount !== null)
-    ? number_format($discount, 0) . '%'
-    : '0%'
+    ? number_format($discount, 0) . ''
+    : '0'
 ,
 
                         ],
