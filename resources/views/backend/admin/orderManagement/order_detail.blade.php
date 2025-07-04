@@ -282,7 +282,15 @@
                                                                             <!--end::Send-->
                                                                             <!--begin::Upload attachement-->
                                                                             <div class="btn btn-icon btn-sm btn-clean btn-active-light-primary me-2 badge-custom-bg" id="media_button" data-kt-inbox-form="dropzone_upload">
-                                                                                <label><span class="ki-duotone ki-paper-clip fs-2 m-0 text-color"></span><input hidden type="file" accept="image/*" class="upload-attachment" name="media[]" id="media" multiple/></label>
+                                                                                <label><span class="ki-duotone ki-paper-clip fs-2 m-0 text-color"></span>
+																				<input hidden type="file"
+       name="media[]" 
+       id="media" 
+       multiple 
+       accept=".pdf,.doc,.docx,.txt,.rtf,.xls,.xlsx,.csv,.pptx,.jpeg,.jpg,.png,.gif"/>
+
+
+																				</label>
                                                                             </div>
 																			<p id="file_name" class="text-white"></p>
                                                                             <!--end::Upload attachement-->
@@ -446,64 +454,56 @@
 														<!--begin::Modal content-->
 														<div class="modal-content badge-custom-bg">
 															<!--begin::Form-->
-															<form method="post" action="{{ route('admin.file.upload') }}" enctype="multipart/form-data" class="form"  id="kt_modal_upload_form">
-																<!--begin::Modal header-->
-																@csrf
+															
+											<form method="post" action="{{ route('admin.file.upload') }}" enctype="multipart/form-data" class="form" id="kt_modal_upload_form">
+    @csrf
 
-																<!--begin::Modal header-->
-																<div class="modal-header">
-																	<!--begin::Modal title-->
-																	<h2 class="fw-bold fs-color-white custom-fs-23">Upload files for customer</h2>
-																	<!--end::Modal title-->
-																	<!--begin::Close-->
-																	<div class="btn btn-icon btn-sm btn-dark-primary" data-bs-dismiss="modal">
-																		<i class="ki-duotone ki-cross fs-1 text-white">
-																			<span class="path1"></span>
-																			<span class="path2"></span>
-																		</i>
-																	</div>
-																	<!--end::Close-->
-																</div>
-																<!--end::Modal header-->
-																<!--begin::Modal body-->
-																<div class="modal-body pt-10 pb-15 px-lg-17">
-																	<!--begin::Input group-->
-																	<div class="form-group">
-																		<!--begin::Dropzone-->
-																		<div class="dropzone dropzone-queue mb-2" id="kt_modal_upload_dropzone">
-																			<!--begin::Controls-->
-																			<div class="dropzone-panel mb-4">
-																				<label for="file-3" class="dropzone-select btn btn-sm btn-dark-primary me-2">Attach Files</label>
-																				<input type="file" id="file-3" name="file" class="d-none"
-																				 accept=".pdf, .docx, .doc, .txt, .xls, .xlsx, .rtf, .xlsx, .csv, .pptx, .jpeg, .png, .gif"></input>
-																				<p id="attach_file_3"></p>
+    <div class="modal-header">
+        <h2 class="fw-bold fs-color-white custom-fs-23">Upload files for customer</h2>
+        <div class="btn btn-icon btn-sm btn-dark-primary" data-bs-dismiss="modal">
+            <i class="ki-duotone ki-cross fs-1 text-white">
+                <span class="path1"></span>
+                <span class="path2"></span>
+            </i>
+        </div>
+    </div>
+
+    <div class="modal-body pt-10 pb-15 px-lg-17">
+        <div class="form-group">
+            <div class="dropzone dropzone-queue mb-2" id="kt_modal_upload_dropzone">
+                <div class="dropzone-panel mb-4">
+                    <label for="file-3" class="dropzone-select btn btn-sm btn-dark-primary me-2">Attach Files</label>
+                    <input type="file" id="file-3" name="file" class="d-none"
+                        accept=".pdf, .docx, .doc, .txt, .xls, .xlsx, .rtf, .csv, .pptx, .jpeg, .png, .gif">
+                    <p id="attach_file_3"></p>
+
+                    <input type="hidden" value="Customer" name="Writer">
+                    <input type="hidden" value="{{ $folder->name }}" name="folder_name">
+                    <input type="hidden" value="{{ $folder->id }}" name="folder_id">
+                </div>
+            </div>
+
+            <span class="form-text fs-color-white custom-fs-13 mb-2">
+                Accepted file formats: DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPEG, PNG, GIF.<br>
+                Maximum file size: 500 MB per file.
+            </span>
+<!-- Loader -->
+<div id="uploadLoader" style="display: none; text-align: center; margin-top: 10px;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Uploading...</span>
+    </div>
+    <div class="text-white mt-2">Uploading file, please wait...</div>
+</div>
+            <div class="d-flex justify-content-end">
+                <input type="submit" class="btn btn-sm btn-dark-primary" value="Upload Files">
+            </div>
+        </div>
+    </div>
+</form>
 
 
 
-																				<input type="hidden" value="Customer" name="Writer">
-																				<input type="hidden" value="{{ $folder->name }}" name="folder_name">
-																				<input type="hidden" value="{{ $folder->id }}" name="folder_id">
 
-																			</div>
-																			<!--end::Controls-->
-																		</div>
-																		<!--end::Dropzone-->
-																		<!--begin::Hint-->
-																		<span class="form-text fs-color-white custom-fs-13 mb-2">
-																			Accepted file formats: DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPEG, PNG, GIF.
-																			Maximum file size: 500 MB per file.
-																		</span>
-
-																		<!--end::Hint-->
-																		<div class="d-flex justify-content-end">
-
-																			<input type="submit" class="btn btn-sm btn-dark-primary" Value="Upload Files">
-																		</div>
-																	</div>
-																	<!--end::Input group-->
-																</div>
-																<!--end::Modal body-->
-															</form>
 															<!--end::Form-->
 														</div>
 													</div>
@@ -6016,6 +6016,37 @@ document.getElementById("media").addEventListener("change", function() {
     $(document).ready(function() {
 
 
+		document.getElementById('media').addEventListener('change', function () {
+    const allowedExtensions = ['pdf', 'docx', 'doc', 'txt', 'rtf', 'xls', 'xlsx', 'csv', 'pptx', 'jpeg', 'jpg', 'png', 'gif'];
+    const files = this.files;
+    let invalid = false;
+
+    for (let i = 0; i < files.length; i++) {
+        const fileName = files[i].name;
+        const ext = fileName.split('.').pop().toLowerCase();
+
+        if (!allowedExtensions.includes(ext)) {
+            invalid = true;
+            break;
+        }
+    }
+
+    if (invalid) {
+        Swal.fire('Error!', 'Only files with the following types are allowed: PDF, DOCX, DOC, TXT, RTF, XLS, XLSX, CSV, PPTX, JPEG, JPG, PNG, GIF', 'error');
+        this.value = ''; // ❌ remove all selected files
+        document.getElementById('file_name').innerText = ''; // clear filename preview if needed
+    } else {
+        // ✅ Show selected file names
+        let names = [];
+        for (let i = 0; i < files.length; i++) {
+            names.push(files[i].name);
+        }
+        document.getElementById('file_name').innerText = names.join(', ');
+    }
+});
+
+
+
          $('.clear_message_box').on('click', function (e){
 			messageEditor.setText('');
             $('#message_box').val('');
@@ -6027,7 +6058,7 @@ document.getElementById("media").addEventListener("change", function() {
 
         $('#kt_inbox_reply_form').submit(function(e) {
             e.preventDefault(); // Prevent the form from submitting in the traditional way
-console.log('hello')
+			console.log('hello')
             // Create a FormData object to gather form data
             var formData = new FormData(this);
             formData.append('_token', '{{ csrf_token() }}');
@@ -6054,6 +6085,8 @@ console.log('hello')
         return; // Stop execution if the condition is met
     }
 
+
+	
 
 console.log(formData)
 var element = document.getElementById('media');
@@ -6280,4 +6313,48 @@ console.log(element.value)
 
     });//main-document
 </script>
+
+<script>
+$(document).ready(function () {
+    $('#file-3').on('change', function () {
+        const fileName = $(this).val().split('\\').pop();
+        $('#attach_file_3').text(fileName);
+    });
+
+   $('#kt_modal_upload_form').on('submit', function(e) {
+    e.preventDefault();
+
+    var formData = new FormData(this);
+
+    // Show loader
+    $('#uploadLoader').show();
+
+    $.ajax({
+        url: $(this).attr('action'),
+        method: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response) {
+            $('#uploadLoader').hide();
+            toastr.success('File uploaded successfully!');
+            $('#kt_modal_upload_form')[0].reset();
+        },
+        error: function(xhr) {
+            $('#uploadLoader').hide();
+
+            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                $.each(xhr.responseJSON.errors, function(key, error) {
+                    toastr.error(error);
+                });
+            } else {
+                toastr.error('An unexpected error occurred.');
+            }
+        }
+    });
+});
+
+});
+</script>
+
 @endsection
