@@ -752,10 +752,10 @@ Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
 
 
 
-                                        Mail::html($emailContent4, function ($message) use ($user) {
-                                            $message->to($user->email)
-                                                    ->subject('Heads Up: You’re Running Low on Your Writing Space Pages!');
-                                        });
+                                        // Mail::html($emailContent4, function ($message) use ($user) {
+                                        //     $message->to($user->email)
+                                        //             ->subject('Heads Up: You’re Running Low on Your Writing Space Pages!');
+                                        // });
 
                                     // Small delay
                                     sleep(1);
