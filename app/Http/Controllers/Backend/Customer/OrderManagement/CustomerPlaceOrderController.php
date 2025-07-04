@@ -2902,13 +2902,15 @@ Writing Space</p>
 
                 if ($email) {
 
-                     $totalValue = $pricePerPage * $totalPages;
+                   $totalValue = $pricePerPage * $totalPages;
+$totalBeforeDiscount = $totalValue + $finaltotaladdon;
+$finalDiscount = $totalBeforeDiscount - $subTotal;
 
-    // Step 2: Add addons
-    $totalBeforeDiscount = $totalValue + $finaltotaladdon;
+// Show full decimal value
+$formattedDiscount = number_format($finalDiscount, 2);  // Ensures values like 119.20
 
-    // Step 3: Calculate discount amount
-    $finalDiscount = $totalBeforeDiscount - $subTotal;
+
+
                     $subject = 'Your Writing-Space Custom Order Purchase Confirmation – Order ID '.$order_id;
                     Mail::to($user->email)->send(new InvoiceEmailTemplate(
                         [
@@ -2980,13 +2982,7 @@ Writing Space</p>
                 ->subject($emailSubject);
         });
 
-  $totalValue = $pricePerPage * $totalPages;
-
-    // Step 2: Add addons
-    $totalBeforeDiscount = $totalValue + $finaltotaladdon;
-
-    // Step 3: Calculate discount amount
-    $finalDiscount = $totalBeforeDiscount - $subTotal;
+ 
 
 
                     $data = [
@@ -3007,8 +3003,8 @@ Writing Space</p>
                             'discount' => $discount,
                             'total' => $total,
                             'finaltotaladdon' => $finaltotaladdon ?: '0.0',
-                          'discounttotalamount' => ($finalDiscount && $finalDiscount !== null)
-    ? number_format($finalDiscount, 0) . ''
+                          'discounttotalamount' => ($discount && $discount !== null)
+    ? number_format($discount, 0) . ''
     : '0'
 
                         ,
