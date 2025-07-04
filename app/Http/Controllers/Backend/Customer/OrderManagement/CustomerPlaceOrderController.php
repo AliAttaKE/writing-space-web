@@ -2922,9 +2922,9 @@ Writing Space</p>
                             'total' => $total,
                             'finaltotaladdon' => $finaltotaladdon ?: '0.0',
                             'discounttotalamount' => ($discount && $discount !== null)
-    ? number_format($discount, 0) . ''
-    : '0'
-,
+                                    ? number_format($discount, 0) . ''
+                                    : '0'
+                                ,
 
                         ],
                         $subject
@@ -2972,8 +2972,13 @@ Writing Space</p>
                 ->subject($emailSubject);
         });
 
+  $totalValue = $pricePerPage * $totalPages;
 
+    // Step 2: Add addons
+    $totalBeforeDiscount = $totalValue + $finaltotaladdon;
 
+    // Step 3: Calculate discount amount
+    $finalDiscount = $totalBeforeDiscount - $subTotal;
 
 
                     $data = [
@@ -2994,11 +2999,13 @@ Writing Space</p>
                             'discount' => $discount,
                             'total' => $total,
                             'finaltotaladdon' => $finaltotaladdon ?: '0.0',
-                          'discounttotalamount' => ($discount && $discount !== null)
-    ? number_format($discount, 0) . ''
+                          'discounttotalamount' => ($finalDiscount && $finalDiscount !== null)
+    ? number_format($finalDiscount, 0) . ''
     : '0'
 
                         ,
+
+
                         ];
                 // Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
                 //         $data,$data,
