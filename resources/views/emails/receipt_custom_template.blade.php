@@ -107,7 +107,7 @@ use Carbon\Carbon;
                         <td>{{ $invoiceData['totalPages'] }}</td>
                         <td>${{ $invoiceData['pricePerPage'] }}</td>
                          <td>${{ $invoiceData['finaltotaladdon'] ?? '0.0' }}
-                        <td>{{ $invoiceData['discounttotalamount'] ?? '0.0'}}</td>
+                        <td>{{ $invoiceData['discounttotalamount'] ?? '0.0'}}%</td>
 
                         <td>${{ $invoiceData['subTotal'] }}</td>
                        
