@@ -220,51 +220,111 @@ $emailContent = "
 
     }
 
+    // public function downloadfile_all(Request $request, $folder_name)
+    // {
+    //     $fileIds = $request->input('selected_ids');
+
+    //     // dd($request->all(), $fileIds);
+    //         $filePaths = [];
+    //         if ($request->has('delete') && $request->input('delete') === 'yes') {
+    //             foreach ($fileIds as $fileId) {
+    //                 $file = File::findOrFail($fileId);
+
+    //                 if (!$file) {
+    //                     abort(404);
+    //                 }
+    //                 $filePath = 'public/uploads_folders/'.$folder_name.'/'.$file->file_name;
+    //                 Storage::delete($filePath);
+    //                 $file->delete();
+    //             }
+
+
+    //             return back()->with('success', 'Successfully deleted');
+    //         }
+
+
+
+
+    //     if ($request->has('download') && $request->input('download') === 'yes') {
+
+    //         foreach ($fileIds as $fileId) {
+    //             $file->update(['download_time' => now()]);
+    //             $filePath = storage_path('app/public/uploads_folders/'.$folder_name.'/'.$file->file_name);
+    //             $filePaths[] = $filePath;
+
+    //         }
+
+    //         $zipFile = storage_path('app/public/'.$folder_name.'.zip');
+    //         $zip = new \ZipArchive();
+    //         $zip->open($zipFile, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+
+    //         foreach ($filePaths as $filePath) {
+    //             $zip->addFile($filePath, basename($filePath));
+    //         }
+    //         $zip->close();
+    //         return response()->download($zipFile)->deleteFileAfterSend(true);
+    //     }
+    // }
+
     public function downloadfile_all(Request $request, $folder_name)
-    {
-        $fileIds = $request->input('selected_ids');
+{
+    $fileIds = $request->input('selected_ids');
 
-        // dd($request->all(), $fileIds);
-            $filePaths = [];
-            if ($request->has('delete') && $request->input('delete') === 'yes') {
-                foreach ($fileIds as $fileId) {
-                    $file = File::findOrFail($fileId);
+    if (!$fileIds || !is_array($fileIds)) {
+        return back()->with('error', 'No files selected.');
+    }
 
-                    if (!$file) {
-                        abort(404);
-                    }
-                    $filePath = 'public/uploads_folders/'.$folder_name.'/'.$file->file_name;
-                    Storage::delete($filePath);
-                    $file->delete();
-                }
+    // Delete logic
+    if ($request->has('delete') && $request->input('delete') === 'yes') {
+        foreach ($fileIds as $fileId) {
+            $file = File::findOrFail($fileId);
 
+            $filePath = 'public/uploads_folders/' . $folder_name . '/' . $file->file_name;
+            Storage::delete($filePath);
 
-                return back()->with('success', 'Successfully deleted');
-            }
+            $file->delete();
+        }
 
+        return back()->with('success', 'Selected files deleted successfully.');
+    }
 
+    // Download logic
+    if ($request->has('download') && $request->input('download') === 'yes') {
+        $filePaths = [];
 
+        foreach ($fileIds as $fileId) {
+            $file = File::findOrFail($fileId);
+            $file->update(['download_time' => now()]);
 
-        if ($request->has('download') && $request->input('download') === 'yes') {
-
-            foreach ($fileIds as $fileId) {
-                $file->update(['download_time' => now()]);
-                $filePath = storage_path('app/public/uploads_folders/'.$folder_name.'/'.$file->file_name);
+            $filePath = storage_path('app/public/uploads_folders/' . $folder_name . '/' . $file->file_name);
+            if (file_exists($filePath)) {
                 $filePaths[] = $filePath;
-
             }
+        }
 
-            $zipFile = storage_path('app/public/'.$folder_name.'.zip');
-            $zip = new \ZipArchive();
-            $zip->open($zipFile, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+        if (empty($filePaths)) {
+            return back()->with('error', 'No valid files found to download.');
+        }
 
+        $zipFileName = $folder_name . '_' . time() . '.zip';
+        $zipFilePath = storage_path('app/public/' . $zipFileName);
+
+        $zip = new \ZipArchive();
+        if ($zip->open($zipFilePath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
             foreach ($filePaths as $filePath) {
                 $zip->addFile($filePath, basename($filePath));
             }
             $zip->close();
-            return response()->download($zipFile)->deleteFileAfterSend(true);
+        } else {
+            return back()->with('error', 'Could not create zip file.');
         }
+
+        return response()->download($zipFilePath)->deleteFileAfterSend(true);
     }
+
+    return back()->with('error', 'Invalid action requested.');
+}
+
 
     public function downloadfile_customer_all(Request $request,$folder_name)
     {
@@ -630,59 +690,108 @@ $emailContent = "
     }
 
 
-    public function upload(Request $request)
-    {
-        $request->validate([
-            'file' => 'required|mimes:pdf,doc,docx,txt,rtf,xlsx,csv,pptx,jpg,jpeg,png,gif|max:512000',
-        ], [
-            'file.max' => 'The file size must not exceed 500 MB.',
-        ]);
-        $file = $request->file('file');
+    // public function upload(Request $request)
+    // {
+    //     $request->validate([
+    //         'file' => 'required|mimes:pdf,doc,docx,txt,rtf,xlsx,csv,pptx,jpg,jpeg,png,gif|max:512000',
+    //     ], [
+    //         'file.max' => 'The file size must not exceed 500 MB.',
+    //     ]);
+    //     $file = $request->file('file');
 
 
 
-        $size = $file->getSize();
-        $sizetotal = $file->getSize();
+    //     $size = $file->getSize();
+    //     $sizetotal = $file->getSize();
 
-        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+    //     $units = ['B', 'KB', 'MB', 'GB', 'TB'];
 
-        for ($i = 0; $size >= 1024 && $i < count($units) - 1; $i++) {
-            $size /= 1024;
-        }
+    //     for ($i = 0; $size >= 1024 && $i < count($units) - 1; $i++) {
+    //         $size /= 1024;
+    //     }
 
-        $formattedSize = round($size, 0) . ' ' . $units[$i];
-
-
-
-
+    //     $formattedSize = round($size, 0) . ' ' . $units[$i];
 
 
 
 
-        $originalName = $file->getClientOriginalName();
-        $extension = $file->getClientOriginalExtension();
-
-        // Generate a unique filename to store the file
-        $fileName = time() . '_' . Str::random(10) . '.' . $extension;
-
-        // Store the file in the desired folder
-        $filePath = $file->storeAs('public/uploads_folders/' . $request->folder_name, $fileName);
 
 
-        $fileModel = new File();
-        $fileModel->file_name = $fileName;
-        $fileModel->title = $originalName;
-        $fileModel->Writer = $request->Writer;
-        $fileModel->file_path = $filePath;
-        $fileModel->folder_id = $request->folder_id;
-        $fileModel->Size = $formattedSize;
-        $fileModel->total_size = $sizetotal;
-        $fileModel->file_type = $file->getClientOriginalExtension();
-        $fileModel->save();
 
-        return redirect()->back()->with('success', 'File uploaded successfully.');
+
+    //     $originalName = $file->getClientOriginalName();
+    //     $extension = $file->getClientOriginalExtension();
+
+    //     // Generate a unique filename to store the file
+    //     $fileName = time() . '_' . Str::random(10) . '.' . $extension;
+
+    //     // Store the file in the desired folder
+    //     $filePath = $file->storeAs('public/uploads_folders/' . $request->folder_name, $fileName);
+
+
+    //     $fileModel = new File();
+    //     $fileModel->file_name = $fileName;
+    //     $fileModel->title = $originalName;
+    //     $fileModel->Writer = $request->Writer;
+    //     $fileModel->file_path = $filePath;
+    //     $fileModel->folder_id = $request->folder_id;
+    //     $fileModel->Size = $formattedSize;
+    //     $fileModel->total_size = $sizetotal;
+    //     $fileModel->file_type = $file->getClientOriginalExtension();
+    //     $fileModel->save();
+
+    //     return redirect()->back()->with('success', 'File uploaded successfully.');
+    // }
+public function upload(Request $request)
+{
+    $request->validate([
+        'file' => 'required|mimes:pdf,doc,docx,txt,rtf,xlsx,csv,pptx,jpg,jpeg,png,gif|max:512000',
+    ], [
+        'file.max' => 'The file size must not exceed 500 MB.',
+    ]);
+
+    $file = $request->file('file');
+
+    $originalName = $file->getClientOriginalName();
+    $extension = $file->getClientOriginalExtension();
+    $sizeInBytes = $file->getSize();
+
+    // Format size
+    $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+    $size = $sizeInBytes;
+    for ($i = 0; $size >= 1024 && $i < count($units) - 1; $i++) {
+        $size /= 1024;
     }
+    $formattedSize = round($size, 0) . ' ' . $units[$i];
 
+    // Unique file name
+    $fileName = time() . '_' . Str::random(10) . '.' . $extension;
+
+    // Store the file
+    $filePath = $file->storeAs('public/uploads_folders/' . $request->folder_name, $fileName);
+
+    // Save to DB
+    $fileModel = new File();
+    $fileModel->file_name = $fileName;
+    $fileModel->title = $originalName;
+    $fileModel->Writer = $request->Writer;
+    $fileModel->file_path = $filePath;
+    $fileModel->folder_id = $request->folder_id;
+    $fileModel->Size = $formattedSize;
+    $fileModel->total_size = $sizeInBytes;
+    $fileModel->file_type = $extension;
+    $fileModel->save();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'File uploaded successfully.',
+        'file' => [
+            'name' => $originalName,
+            'size' => $formattedSize,
+            'type' => $extension
+        ]
+    ]);
+}
 
 
     public function upload_customer(Request $request)

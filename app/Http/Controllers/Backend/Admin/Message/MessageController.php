@@ -15,6 +15,8 @@ use Chatify\Facades\ChatifyMessenger as Chatify;
 use App\Models\Email;
 use App\Mail\EmailTemplate;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+
 
 class MessageController extends Controller
 {
@@ -170,16 +172,10 @@ class MessageController extends Controller
 
 public function sendMessage(Request $request)
 {
-
-
-     // 1) Validation rules
-    $rules = [
-
-        'media'        => 'required|file|mimes:pdf,docx,doc,txt,rtf,xls,xlsx,csv,pptx,jpeg,jpg',
-
-       
-    ];
-
+$rules = [
+    'media.*' => 'nullable|file|mimes:pdf,docx,doc,txt,rtf,xls,xlsx,csv,pptx,jpeg,jpg',
+];
+    
     $validator = Validator::make($request->all(), $rules);
 
     if ($validator->fails()) {
