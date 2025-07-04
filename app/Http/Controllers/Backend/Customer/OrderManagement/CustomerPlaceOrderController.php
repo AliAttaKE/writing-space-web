@@ -2922,8 +2922,8 @@ Writing Space</p>
                             'total' => $total,
                             'finaltotaladdon' => $finaltotaladdon ?: '0.0',
                             'discounttotalamount' => $discounttotalamount = ($order && $order->discount !== null)
-                            ? number_format($order->discount, 2) . ''
-                            : '0.00%',
+                            ? number_format($order->discount, 0) . '%'
+                            : '0%',
 
                         ],
                         $subject
@@ -2994,8 +2994,8 @@ Writing Space</p>
                             'total' => $total,
                             'finaltotaladdon' => $finaltotaladdon ?: '0.0',
                             'discounttotalamount' => $discounttotalamount = ($order && $order->discount !== null)
-                            ? number_format($order->discount, 2) . ''
-                            : '0.00%'
+                            ? number_format($order->discount, 0) . '%'
+                            : '0%'
                         ,
                         ];
                 // Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(

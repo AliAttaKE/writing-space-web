@@ -69,7 +69,7 @@ use Carbon\Carbon;
                         <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">{{ $invoiceData['totalPages'] }}</td>
                         <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${{ $invoiceData['pricePerPage'] }}</td>
                         <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${{ $invoiceData['finaltotaladdon'] ?? '0.0' }}
-                        <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${{ $invoiceData['discounttotalamount'] ?? '0.0' }}
+                        <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">{{ $invoiceData['discounttotalamount'] ?? '0.0' }}
                       
                         <td style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">${{ $invoiceData['subTotal'] }}</td>
                         </td>
