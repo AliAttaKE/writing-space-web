@@ -13,7 +13,9 @@
                     
                       <div class="mb-3 ">
 
-                        <input type="text" name="name" placeholder="Name" class="w-100" value="{{ old('name') }}">
+                        <input type="text" name="name" placeholder="Name" class="w-100" value="{{ old('name') }}" required
+        pattern="^(?:\S+(?:\s+|$)){1,20}$"
+       >
                         @error('name')
                               <span class="text-danger">{{ $message }}</span>
                         @enderror

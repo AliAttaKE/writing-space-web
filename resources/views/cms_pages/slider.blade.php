@@ -7,6 +7,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        position: relative;
     }
 
     .myCardBody_new {
@@ -53,12 +54,12 @@
                                 <!-- Paper Details in One Line -->
                             <!-- Paper Details in One Line with Overflow Handling -->
                             <div class="paper-details">
-                                <p><strong>Subject:</strong> {{ Str::limit($paper->subject_topic, 24, '...') }}</p>
-                                <p><strong>Paper Type:</strong>  {{ Str::limit($paper->paper_type, 24, '...') }}</p>
+                                <p><strong><span class="yellow-text">Subject:</span></strong> {{ Str::limit($paper->subject_topic, 24, '...') }}</p>
+                                <p><strong><span class="yellow-text">Paper Type:</span></strong>  {{ Str::limit($paper->paper_type, 24, '...') }}</p>
                                 
-                                <p><strong>Words Count:</strong> {{ $paper->word_count }}</p>
+                                <p><strong><span class="yellow-text">Words Count:</span></strong> {{ $paper->word_count }}</p>
                                 
-                                <p><strong>Citation Style:</strong> {{ $paper->citation }}</p>
+                                <p><strong><span class="yellow-text">Citation Style:</span></strong> {{ $paper->citation }}</p>
                             </div>
                             
 
@@ -68,14 +69,14 @@
 
                                 <!-- AI Detection and Plagiarism -->
                                 <p class="card-text d-flex justify-content-between align-items-center mb-3">
-                                    <span style="color: white">AI Detection:</span>
+                                    <span style="" class="yellow-text font-we-900 underline">AI Detection:</span>
                                     <button class="btn btn-primary my-btn" style="background-color: #007bff; border: none; min-width: 120px;">
                                         {{ $paper->ai_report }}%
                                     </button>
                                 </p>
 
                                 <p class="card-text d-flex justify-content-between align-items-center mb-3">
-                                    <span style="color: white">Plagiarism:</span>
+                                    <span style="" class="yellow-text font-we-900 underline">Plagiarism:</span>
                                     <button class="btn btn-secondary my-btn" style="background-color: #dc3545; border: none; min-width: 120px;">
                                         {{ $paper->plagiarism }}%
                                     </button>

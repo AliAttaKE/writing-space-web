@@ -650,7 +650,7 @@
                                     </div>
                                     <!--end::Dropzone-->
                                     <!--begin::Hint-->
-                                    <span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF,XLSX, CSV,PPTX,jpg,JPEG</span>
+                                    <span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPG, JPEG</span>
                                     <br>
                                     <span class="form-text fs-6 text-muted mb-2">Max file size is 500-MB per file.</span>
                                     <!--end::Hint-->

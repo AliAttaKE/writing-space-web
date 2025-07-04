@@ -133,7 +133,7 @@ $emailContent = "
     </ol>
 
     <p>Adding these pages will help tailor your order more closely to your needs, ensuring that the final product meets all your academic requirements.</p>
-    
+
     <p>If you need further modifications or have any questions, please don't hesitate to contact us. Our team is here to support you every step of the way.</p>
 
     <p>Thank you for utilizing your Writing Space package effectively. We look forward to delivering a product that exceeds your expectations.</p>
@@ -244,12 +244,12 @@ $emailContent = "
     $sender = Auth::user(); // Authenticated user (sender)
 
     // Save the message
-    Message::create([
-        'message' => $request->message_support,
-        'order_id' => $request->order_id,
-        'sender_id' => $sender->id,
-        'receiver_id' => $admin->id,
-    ]);
+    // Message::create([
+    //     'message' => $request->message_support,
+    //     'order_id' => $request->order_id,
+    //     'sender_id' => $sender->id,
+    //     'receiver_id' => $admin->id,
+    // ]);
 
     // Prepare email
     $emailSubject = 'Support Message for Order ID: ' . $request->order_id;
@@ -761,8 +761,8 @@ Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
                                     sleep(1);
 
 
-                                      
-                                         
+
+
 
                                         }
 
@@ -780,7 +780,7 @@ if (($subs2->remaining_pages + $subs2->rollover_pages) == 0) {
                                     <p>Hello {$user->name},</p>
                                     <p>It looks like you've used up all the pages in your Writing Space package. We hope you found each page helpful for your academic projects</p>
 
-                                   
+
 
                                   <p><strong>Dont Miss Out on Continuous Support:</strong>To keep the support and resources flowing, we encourage you to renew your package. By renewing, youll continue to benefit from our comprehensive academic support tailored to your needs</p>
 
@@ -807,7 +807,7 @@ if (($subs2->remaining_pages + $subs2->rollover_pages) == 0) {
                                                     ->subject('Time to Renew? Your Writing Space Pages Are All Used Up!');
                                         });
 
-      
+
 
 }
 
@@ -2861,11 +2861,11 @@ Writing Space</p>
               $order = Orders::where('order_id', $order_id)->first();
 
                 $order_discount = $order && $order->discount !== null ? $order->discount : 0;
-            
+
                 // $totaladdon = optional($order)->total_cost - optional($order)->cost;
 
-                // $finaltotaladdon = $totaladdon 
-                // + optional($order)->no_of_extra_sources 
+                // $finaltotaladdon = $totaladdon
+                // + optional($order)->no_of_extra_sources
                 // + optional($order)->statistical_analysis;
 
 
@@ -2877,7 +2877,7 @@ Writing Space</p>
                 // }
                 // else{
 
-                    
+
                 //         $totafinal = $pricePerPage * $totalPages;
 
                 //        $originalPrice = $subTotal / (1 - ($discount / 100));
@@ -2954,7 +2954,7 @@ Writing Space</p>
 
 
                     $subject = "Your Writing-Space Custom Order Purchase Confirmation – Order ID  {$order->order_id}";
-                
+
                      $emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is Pending Approval';
             $emailContent = "
                 <p>Hi {$user->name},</p>
@@ -2974,7 +2974,7 @@ Writing Space</p>
 
 
 
-                
+
                     $data = [
                             'invoiceNumber' => $invoiceNumber,
                               'receiptNumber' => $receiptNumber,

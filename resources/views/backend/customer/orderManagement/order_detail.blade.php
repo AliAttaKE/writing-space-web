@@ -975,7 +975,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																		<!--end::Controls-->
 																	</div>
 																	<!--end::Dropzone-->
-																	<span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF,XLSX, CSV,PPTX,JPEG,JPG</span>
+																	<span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPG, JPEG</span>
 																	<br>
 																	<!--begin::Hint-->
 																	<span class="form-text fs-6 text-muted mb-2 fs-color-white custom-fs-13">Max file size is 500-MB per file.</span>
@@ -1449,8 +1449,8 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 															<input type="hidden" id="order_id_revision" name="order_id" value="{{$order->order_id}}">
 															<input type="hidden" id="order_id_revision_deadline" name="order_id" value="{{$order->deadline}}">
-															<input type="hidden" id="order_id_revision_days" name="order_id" value="{{$revision->days}}">
-															<input type="hidden" id="order_id_revision_hours" name="order_id" value="{{$revision->hours}}">
+															<input type="hidden" id="order_id_revision_days" name="order_id" value="{{($revision->days) ?? ''}}">
+															<input type="hidden" id="order_id_revision_hours" name="order_id" value="{{($revision->hours) ?? ''}}">
 															<input type="hidden" name="_token" id="csrf-token" value="{{ csrf_token() }}">
 
 															<!-- Create the editor container -->
@@ -8201,7 +8201,7 @@ function submit_payment() {
         document.getElementById("kt_modal_upload_form1").addEventListener("submit", function(e) {
 
     const input = document.getElementById("file-3");
-    const allowedTypes = ["DOCX","docx", "pdf", "txt", "rft","xlsx", "csv","pptx","jpeg", "png", "gif","jpg"];
+    const allowedTypes = ["DOCX","docx", "pdf", "txt", "rtf","xlsx", "csv","pptx","jpeg", "png", "gif","jpg"];
     const maxSizeMB = 500; // maximum size per file in MB
     let hasInvalid = false;
 
@@ -8965,13 +8965,13 @@ document.addEventListener('DOMContentLoaded', function () {
 		    success: function(response) {
       console.log(response);
       Swal.fire('Success!', 'Order feedback Sent Successfully.', 'success');
-      
+
       // clear the hidden textarea
       $('#feedback').val('');
-      
+
       // clear your editor (Quill or similar)
       feedbackEditor.setText('');
-      
+
       // RESET THE CHAR COUNTER:
       $('#charCount').text(200);
     },
