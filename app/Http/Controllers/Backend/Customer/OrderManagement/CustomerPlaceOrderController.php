@@ -2921,9 +2921,10 @@ Writing Space</p>
                             'discount' => $discount,
                             'total' => $total,
                             'finaltotaladdon' => $finaltotaladdon ?: '0.0',
-                            'discounttotalamount' => $discounttotalamount = ($order && $order->discount !== null)
-                            ? number_format($order->discount, 0) . '%'
-                            : '0%',
+                            'discounttotalamount' => ($discount && $discount !== null)
+    ? number_format($discount, 0) . '%'
+    : '0%'
+,
 
                         ],
                         $subject
@@ -2993,9 +2994,10 @@ Writing Space</p>
                             'discount' => $discount,
                             'total' => $total,
                             'finaltotaladdon' => $finaltotaladdon ?: '0.0',
-                            'discounttotalamount' => $discounttotalamount = ($order && $order->discount !== null)
-                            ? number_format($order->discount, 0) . '%'
-                            : '0%'
+                          'discounttotalamount' => ($discount && $discount !== null)
+    ? number_format($discount, 0) . ''
+    : '0'
+
                         ,
                         ];
                 // Mail::to($user->email)->send(new PkgInvoiceEmailTemplate(
