@@ -1128,7 +1128,7 @@ function checkCouponAvailability() {
             }
         },
         error: function () {
-            $('#error-message').text("Error checking coupon. Please try again.").show();
+            $('#error-message').text("Coupon not available! Please contact support.").show();
             $('#price-details').hide();
         }
     });
