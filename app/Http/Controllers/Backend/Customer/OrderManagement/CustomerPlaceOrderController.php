@@ -2922,7 +2922,7 @@ Writing Space</p>
                             'total' => $total,
                             'finaltotaladdon' => $finaltotaladdon ?: '0.0',
                             'discounttotalamount' => $discounttotalamount = ($order && $order->discount !== null)
-                            ? number_format($order->discount, 2) . '%'
+                            ? number_format($order->discount, 2) . ''
                             : '0.00%',
 
                         ],
@@ -2994,7 +2994,7 @@ Writing Space</p>
                             'total' => $total,
                             'finaltotaladdon' => $finaltotaladdon ?: '0.0',
                             'discounttotalamount' => $discounttotalamount = ($order && $order->discount !== null)
-                            ? number_format($order->discount, 2) . '%'
+                            ? number_format($order->discount, 2) . ''
                             : '0.00%'
                         ,
                         ];
