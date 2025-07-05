@@ -231,6 +231,39 @@
 																<p class="fw-bold fs-color-white custom-fs-13">{{$order->submitting}}</p>
 															</div>
 														</div>
+														<br>
+														<div class="d-flex">
+															<div class="col-6">
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">Summary :</h3>
+															</div>
+															<div class="col-6">
+																<p class="fw-bold fs-color-white custom-fs-13">{{($order->summary == "true") ? "Yes" : "No"}}</p>
+															</div>
+														</div>
+                                                        <div class="d-flex">
+															<div class="col-6">
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">Outline in Bullets :</h3>
+															</div>
+															<div class="col-6">
+																<p class="fw-bold fs-color-white custom-fs-13">{{($order->outline == "true") ? "Yes" : "No"}}</p>
+															</div>
+														</div>
+                                                        <div class="d-flex">
+															<div class="col-6">
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">AI Detection Report :</h3>
+															</div>
+															<div class="col-6">
+																<p class="fw-bold fs-color-white custom-fs-13">{{($order->ai_detection == "true") ? "Yes" : "No"}}</p>
+															</div>
+														</div>
+                                                        <div class="d-flex">
+															<div class="col-6">
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">Plagiarism Report :</h3>
+															</div>
+															<div class="col-6">
+																<p class="fw-bold fs-color-white custom-fs-13">{{($order->plagiarism == "true") ? "Yes" : "No"}}</p>
+															</div>
+														</div>
 													</div>
 													<div class="col-12 fs-color-white">
 														<h2 class="page-heading px-3 mb-5 d-flex fw-bold fs-2 flex-column justify-content-center my-0">Instructions</h2>
@@ -6033,10 +6066,10 @@ document.getElementById("media").addEventListener("change", function() {
 
     if (invalid) {
         Swal.fire('Error!', 'Only files with the following types are allowed: PDF, DOCX, DOC, TXT, RTF, XLS, XLSX, CSV, PPTX, JPEG, JPG, PNG, GIF', 'error');
-        this.value = ''; // ❌ remove all selected files
-        document.getElementById('file_name').innerText = ''; // clear filename preview if needed
+        this.value = ''; 
+        document.getElementById('file_name').innerText = ''; 
     } else {
-        // ✅ Show selected file names
+       
         let names = [];
         for (let i = 0; i < files.length; i++) {
             names.push(files[i].name);
