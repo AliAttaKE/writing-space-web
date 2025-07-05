@@ -2902,12 +2902,16 @@ Writing Space</p>
 
                 if ($email) {
 
-                   $totalValue = $pricePerPage * $totalPages;
+       
+$totalValue = $pricePerPage * $totalPages;
 $totalBeforeDiscount = $totalValue + $finaltotaladdon;
-$finalDiscount = $totalBeforeDiscount - $subTotal;
 
-// Show full decimal value
-$formattedDiscount = number_format($finalDiscount, 2);  // Ensures values like 119.20
+$discountAmount = ($totalBeforeDiscount * $discount) / 100;
+$finalTotal = $totalBeforeDiscount - $discountAmount;
+
+// Format values if needed
+$formattedDiscountAmount = number_format($discountAmount, 2);
+$formattedFinalTotal = number_format($finalTotal, 2);
 
 
 
@@ -2931,10 +2935,9 @@ $formattedDiscount = number_format($finalDiscount, 2);  // Ensures values like 1
                             'discount' => $discount,
                             'total' => $total,
                             'finaltotaladdon' => $finaltotaladdon ?: '0.0',
-                            'discounttotalamount' => ($finalDiscount && $finalDiscount !== null)
-                                    ? number_format($finalDiscount, 0) . ''
-                                    : '0'
-                                ,
+                             'discounttotalamount' => ($discountAmount !== null)
+                                        ? number_format($discountAmount, 2)
+                                        : '0.00',
 
                         ],
                         $subject
