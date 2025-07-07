@@ -1904,7 +1904,12 @@
 
         return; // Stop further execution if fields are empty
     }
-
+    var words = description.trim().split(/\s+/);
+        if (words.length > 3000) {
+        //document.getElementById('request_revision').value = words.slice(0,3000).join(' ');
+        Swal.fire('Error', 'Only allowed 3000 Characters.', 'error');
+            return;
+        }
     // Proceed with form processing if all fields are filled
     var powerpoint_slide = document.getElementById('powerpoint_slide').value;
     var email = document.getElementById('email').value;
