@@ -774,7 +774,7 @@ public function upload(Request $request)
     $fileModel = new File();
     $fileModel->file_name = $fileName;
     $fileModel->title = $originalName;
-    $fileModel->Writer = $request->Writer;
+    $fileModel->Writer = 'Admin';
     $fileModel->file_path = $filePath;
     $fileModel->folder_id = $request->folder_id;
     $fileModel->Size = $formattedSize;

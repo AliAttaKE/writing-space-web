@@ -246,7 +246,9 @@
                                             <a class="text-white" href="#" class="text-gray-800 text-hover-primary">{{ $file->title }}</a>
                                         </div>
                                     </td>
-                                    <td class="text-white">{{Auth::user()->role}}</td>
+                                    <td class="text-white">{{ $file->Writer ?? Auth::user()->role }}</td>
+
+                                   
                                     <td class="text-white">writer</td>
                                     <td class="text-white">{{ $file->file_type }}</td>
                                     <td class="text-white">{{$file->Size }}</td>

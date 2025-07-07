@@ -910,10 +910,10 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 												<div class="card-header pt-8 justify-content-end">
 
 													<div class="card-toolbar">
-														<div class="d-flex justify-content-end" data-kt-filemanager-table-toolbar="base">
+														{{-- <div class="d-flex justify-content-end" data-kt-filemanager-table-toolbar="base">
 															<button type="button" class="btn btn-flex badge-custom-bg w-100 justify-content-center px-2 ms-3  deleteBtnForm" style="display: none;" >
 																Delete</button>
-														</div>
+														</div> --}}
 														<div class="d-flex justify-content-end" data-kt-filemanager-table-toolbar="base">
 															<button type="button" class="btn btn-flex badge-custom-bg w-100 justify-content-center px-2 ms-3  downloadBtnForm" style="display: none;" >
 																Download</button>
@@ -1080,7 +1080,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																				<td class="w-25">{{ $file->file_type }}</td>
 																				<td class="w-25">{{$file->Size }}</td>
 																				@auth
-																					<td class="w-25">{{ Auth::user()->role }}</td>
+																					<td class="w-25">{{ $file->Writer ?? Auth::user()->role }}</td>
 																				@endauth
 																				<td class="w-25">Writer</td>
 
@@ -1098,7 +1098,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																						 <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-150px py-4 badge-custom-bg" data-kt-menu="true">
 																								<div class="menu-item px-3">
 																									<a class="menu-link text-danger px-3" href="{{ route('customer.files.download', ['id' => $file->id,'folder_name'=>$folder->name]) }}">Download File</a>
-																								<a class="menu-link text-danger px-3" onclick="confirmDelete({{ $file->id }}, '{{ $folder->name }}')">Delete</a>
+																								{{-- <a class="menu-link text-danger px-3" onclick="confirmDelete({{ $file->id }}, '{{ $folder->name }}')">Delete</a> --}}
 																									 </div>
 
 																								{{-- <div class="menu-item px-3">
@@ -8570,7 +8570,13 @@ $(document).ready(function() {
 @else
 
 
-	$('.RemainingPages').text('N/A');
+var total_pages = {{ $used_subscription->total_pages ?? 0 }};
+	var remaining_pages = {{ $used_subscription->remaining_pages ?? 0 }};
+    var rollover_pages = {{ $used_subscription->rollover_pages ?? 0 }};
+
+	  $('.rollover').text(rollover_pages);
+
+	$('.RemainingPages').text('0');
 @endif
 
 $('.RequiredPages').text(pageCount);
@@ -8594,7 +8600,7 @@ var totalpageCount = numpageParsed + pageCountParsed;
 if (isNaN(totalpageCount)) {
     $('.totalpageg').text(0);
 } else {
-    $('.totalpageg').text(totalpageCount.toFixed(2));
+    $('.totalpageg').text(totalpageCount);
 }
 
 console.log("numpageParsed:", numpageParsed, "pageCountParsed:", pageCountParsed);
