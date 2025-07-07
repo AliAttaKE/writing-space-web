@@ -8724,8 +8724,15 @@ console.log("sahriq totalpageCount:", totalpageCount);
   var order_id_revision_hours = parseInt(document.getElementById('order_id_revision_hours').value);
     var order_id_revision_days = parseInt(document.getElementById('order_id_revision_days').value);
 	var revision_request = document.getElementById('request_revision').value;
+
         if(!revision_request){
             Swal.fire('Error', 'Please provide valid message.', 'error');
+            return;
+        }
+         var words = revision_request.trim().split(/\s+/);
+        if (words.length > 3000) {
+        //document.getElementById('request_revision').value = words.slice(0,3000).join(' ');
+        Swal.fire('Error', 'Only allowed 3000 Characters.', 'error');
             return;
         }
    var deadline = new Date(order_id_revision_deadline.replace(' ', 'T'));
