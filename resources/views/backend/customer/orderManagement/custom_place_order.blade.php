@@ -1900,6 +1900,8 @@ $.ajax({
         //document.getElementById('request_revision').value = words.slice(0,3000).join(' ');
         Swal.fire('Error', 'Only allowed 3000 Characters.', 'error');
             //alert('Only allowed 3000 Characters.');
+                        $('.payt_btn').prop('disabled', false);
+
             return;
         }
 
