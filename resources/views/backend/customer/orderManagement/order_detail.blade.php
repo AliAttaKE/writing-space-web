@@ -1340,6 +1340,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																					class="form-control mb-5 btn-dark-primary"
 																					id="pageCount"
 																					placeholder="Enter page count">
+                                                                                    <span class="fs-color-red hide" id="valid1">Page Count Cannot Be Empty or Zero</span>
 																				<h5 class="mb-2 fs-color-white custom-fs-13">Cost Calculator</h5>
                                                                                 <p class="fs-3 fs-color-white custom-fs-13">Cost Per Page : $<span
 																						id="totalCostPerPage1" class="fs-color-yellow">0.00</span></p>
@@ -7982,7 +7983,8 @@ function modal_open1() {
 	let pageValidation = document.getElementById("pageCount").value;
 
 	if (!pageValidation) {
-		alert("Please fill the Add More Pages field");
+        $("#valid1").show();
+		//alert("Please fill the Add More Pages field");
 	} else {
 
 
