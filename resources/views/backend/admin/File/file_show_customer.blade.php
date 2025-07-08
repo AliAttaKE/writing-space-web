@@ -151,12 +151,12 @@
 
                 </div>
                 <div class="row px-8 justify-content-center">
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
+                    {{-- <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
 
                         <button type="button" class="btn btn-flex btn-primary w-100 justify-content-center px-2 badge-custom-bg ms-3  deleteBtnForm" style="display: none;" >
                             Delete</button>
 
-                    </div>
+                    </div> --}}
                     <div class="col-lg-3 col-md-4 col-sm-5 mb-2">
 
                        <button type="button" class="btn btn-flex btn-primary w-100 justify-content-center px-2 badge-custom-bg ms-3  downloadBtnForm" style="display: none;" >
@@ -334,9 +334,9 @@
 
 
                                                     <!--begin::Menu item-->
-                                                    <div class="menu-item px-3">
+                                                    {{-- <div class="menu-item px-3">
                                                         <a class="menu-link px-3 text-white" onclick="confirmDelete({{ $file->id }}, '{{ $folder->name }}')">Delete</a>
-                                                    </div>
+                                                    </div> --}}
                                                     <!--end::Menu item-->
                                                 </div>
                                                 <!--end::Menu-->
