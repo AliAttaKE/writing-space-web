@@ -47,7 +47,7 @@
         <p>Thank you for expanding your order at Writing Space! We've successfully processed the purchase of additional pages for your ongoing project.</p>
         <h2>Order Details:</h2>
         <ul>
-            <li>Order ID: {{ $invoiceData['orderid'] }}</li>
+            {{-- <li>Order ID: {{ $invoiceData['orderid'] }}</li> --}}
             <li>Additional Pages Purchased: {{ $invoiceData['totalPages'] }}</li>
             <li>Remaining Pages in Your Package: {{ $invoiceData['remaining_pages'] }}</li>
             <li>Date of Purchase: {{ $invoiceData['dateOfIssue'] }}</li>

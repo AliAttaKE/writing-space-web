@@ -11,7 +11,7 @@
     <p>We’ve successfully added additional pages to your existing order at Writing Space. Here are the details.</p>
     <h3>Order Details:</h3>
     <ul>
-        <li>Order ID: {{ $invoiceData['orderid'] }}</li>
+        {{-- <li>Order ID: {{ $invoiceData['orderid'] }}</li> --}}
         <li>Additional Pages Purchased: {{ $invoiceData['AdditionalPagesAdded'] }}</li>
         <li>Total Pages Used So Far: {{ $invoiceData['TotalPagesUsed'] }}</li>
         <li>Remaining Pages in Your Package: {{ $invoiceData['remaining_pages'] }}</li>
