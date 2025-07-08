@@ -1141,7 +1141,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 										<!--end:::Tab pane-->
 										<div class="tab-pane fade" id="kt_ecommerce_customer_managePages" role="tabpanel">
-										     @if($hasSubscription && $totalPages > 0 && $subscription->status === 'Active')
+										     @if($hasSubscription && $totalPages > 0)
 											<div class="card my-10 card-custom-bg">
 												<div class="row p-5 mb-5">
 													<div class="col-md-12">
