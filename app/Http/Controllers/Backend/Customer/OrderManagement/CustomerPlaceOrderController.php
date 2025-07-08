@@ -2252,7 +2252,7 @@ $emailContent = "
 
     <p><strong>Order Details:</strong></p>
     <ul>
-        <li><strong>Order ID:</strong> {$order_id}</li>
+       
         <li><strong>Additional Pages Added:</strong> {$pages}</li>
         <li><strong>Total Pages Used So Far:</strong> {$currentSubs->total_pages}</li>
         <li><strong>Remaining Pages in Your Package:</strong> {$currentSubs->remaining_pages}</li>
