@@ -255,8 +255,14 @@
                                     </td>
                                     <td class="text-white">{{ $file->Writer ?? Auth::user()->role }}</td>
 
+                                      @if($file->Writer != 'Admin')
+   <td class="text-white">writer</td>
+                                      @else
+
+   <td class="text-white">Customer</td>
+                                      @endif
                                    
-                                    <td class="text-white">writer</td>
+                                   
                                     <td class="text-white">{{ $file->file_type }}</td>
                                     <td class="text-white">{{$file->Size }}</td>
                                     {{-- <td class="text-white" data-order="2023-08-19T14:40:00+05:00">{{ $file->download_time }}</td>
