@@ -334,9 +334,11 @@
 
 
                                                     <!--begin::Menu item-->
-                                                    {{-- <div class="menu-item px-3">
+                                                    @if($file->Writer != 'Admin')
+                                                    <div class="menu-item px-3">
                                                         <a class="menu-link px-3 text-white" onclick="confirmDelete({{ $file->id }}, '{{ $folder->name }}')">Delete</a>
-                                                    </div> --}}
+                                                    </div>
+                                                    @endif
                                                     <!--end::Menu item-->
                                                 </div>
                                                 <!--end::Menu-->
