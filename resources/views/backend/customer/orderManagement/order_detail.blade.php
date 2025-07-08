@@ -8578,11 +8578,11 @@ $(document).ready(function() {
 
 // $('.RemainingPages').text('N/A');
 
-// var total_pages = {{ $used_subscription->total_pages ?? 0 }};
-// 	var remaining_pages = {{ $used_subscription->remaining_pages ?? 0 }};
-//     var rollover_pages = {{ $used_subscription->rollover_pages ?? 0 }};
+var total_pages = {{ $used_subscription->total_pages ?? 0 }};
+	var remaining_pages = {{ $used_subscription->remaining_pages ?? 0 }};
+    var rollover_pages = {{ $used_subscription->rollover_pages ?? 0 }};
 
-	//   $('.rollover').text(rollover_pages);
+	  $('.rollover').text(rollover_pages);
 
 	$('.RemainingPages').text('0');
 @endif
