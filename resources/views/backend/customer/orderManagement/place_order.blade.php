@@ -1907,9 +1907,9 @@
     var desc = document.getElementById('description');
     var description = desc.firstElementChild.innerHTML;
     var words = description.trim().split(/\s+/);
-        if (words.length > 3000) {
+        if (words.length > 18000) {
         //document.getElementById('request_revision').value = words.slice(0,3000).join(' ');
-        Swal.fire('Error', 'Only allowed 3000 Characters.', 'error');
+        Swal.fire('Error', 'Only allowed 3000 Words.', 'error');
             //alert('Only allowed 3000 Characters.');
                         $('.payt_btn').prop('disabled', false);
 

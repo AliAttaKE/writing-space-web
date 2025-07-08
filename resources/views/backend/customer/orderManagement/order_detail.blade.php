@@ -8749,9 +8749,9 @@ console.log("sahriq totalpageCount:", totalpageCount);
             return;
         }
          var words = revision_request.trim().split(/\s+/);
-        if (words.length > 3000) {
+        if (words.length > 18000) {
         //document.getElementById('request_revision').value = words.slice(0,3000).join(' ');
-        Swal.fire('Error', 'Only allowed 3000 Characters.', 'error');
+        Swal.fire('Error', 'Only allowed 3000 Words.', 'error');
             return;
         }
    var deadline = new Date(order_id_revision_deadline.replace(' ', 'T'));
@@ -8998,7 +8998,7 @@ document.addEventListener('DOMContentLoaded', function () {
       $('#feedback').val('');
 
       // clear your editor (Quill or similar)
-    $('#feedbackEditor').text(''); 
+    $('#feedbackEditor').text('');
 
       // RESET THE CHAR COUNTER:
       $('#charCount').text(200);
