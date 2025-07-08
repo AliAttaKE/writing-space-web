@@ -1342,7 +1342,7 @@ $('#totalcost').text('$' + totalCost.toFixed(2));
                             localStorage.setItem('package_id', packageid);
 
                                     var cost_perpage = $('#cost_per_page').val();
-                           localStorage.setItem('cost_per_page', '$' + cost_perpage);
+                           localStorage.setItem('cost_per_page',  cost_perpage);
 
 
 
