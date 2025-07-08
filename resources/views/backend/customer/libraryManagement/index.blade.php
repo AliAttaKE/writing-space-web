@@ -69,7 +69,7 @@
                             <p class="text-gray-900 fw-bold fs-6 mb-4 custom-fs-13 fs-color-white">
                                <span style="color:#FFC056 !important;">Paper Type</span>  : {{ $library->paper_type }}
                             </p>
-                            <p class="mb-4 custom-fs-13 fs-color-white"><span style="color:#FFC056 !important;">Words Count</span> : {{ $library->word_count }} </p>
+                            <p class="mb-4 custom-fs-13 fs-color-white"><span style="color:#FFC056 !important;">Word Count</span> : {{ $library->word_count }} </p>
                             <p class="mb-4 custom-fs-13 fs-color-white"><span style="color:#FFC056 !important;">Citation Style</span> : {{ $library->citation }} </p>
                             <div class="row library-buttons">
                                 @php

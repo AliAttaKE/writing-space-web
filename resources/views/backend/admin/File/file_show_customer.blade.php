@@ -21,13 +21,13 @@
         <script>
                 setTimeout(function() {
                     Swal.fire({
-                        text: 'Your file has been successfully uploaded',
+                        text: 'Your file has been  successfully deleted. ',
                         icon: 'success',
                         confirmButtonText: "Ok",
                         
                         buttonsStyling: true,
                         customClass: {
-                            confirmButton: "btn btn-light-primary"
+                            confirmButton: "btn"
                         }
                     }).then((result) => {
                         el.closest('[data-kt-billing-element="card"]').remove();

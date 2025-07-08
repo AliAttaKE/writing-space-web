@@ -172,7 +172,7 @@
                     <div class="card-bod total-amt py-3 px-2 rounded-3 bg-transparent">
                         <ul class="d-flex d-flex list-unstyled justify-content-between">
                              <li class="">Cost Per Page :</li>
-                            <li class=""><span id="cost_per_page">00</span></li>
+                            <li class="">$ <span id="cost_per_page">00</span></li>
                         </ul>
                         <ul class="d-flex d-flex list-unstyled justify-content-between">
                              <li class="">Number of Pages :</li>

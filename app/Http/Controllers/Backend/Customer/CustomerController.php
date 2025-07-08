@@ -49,7 +49,7 @@ class CustomerController extends Controller
         // $countCurrentOrders = Orders::whereUserId(Auth()->user()->id)->where('order_status', 'Pending')->count();
 
         $countCurrentOrders = Orders::where('user_id', Auth::user()->id)
-    ->whereIn('order_status', ['Pending', 'Completed', 'Revision', 'Refund', 'Canceled', 'In-Progress'])
+    ->whereIn('order_status', ['Pending', 'Completed', 'Revision',  'In-Progress'])
     ->count();
 
 

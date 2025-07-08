@@ -200,7 +200,7 @@
                             </ul>
                             <ul class="d-flex d-flex list-unstyled justify-content-between">
                                 <li class="text-white">Cost Per Page</li>
-                                <li class=""><span id="subject" class="text-white"></span></li>
+                                <li class="">$ <span id="subject" class="text-white"></span></li>
                             </ul>
                             <ul class="d-flex d-flex list-unstyled justify-content-between">
                                 <li class="text-white">Total Amount</li>

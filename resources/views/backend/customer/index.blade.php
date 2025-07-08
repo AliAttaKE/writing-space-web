@@ -338,7 +338,7 @@
 
 
 												@php
-                                                     $totalOthers = \App\Models\Orders::where('user_id', Auth::id())
+                                                     $countOthers = \App\Models\Orders::where('user_id', Auth::id())
                                                         ->whereIn('order_status', ['Canceled','Refund'])
                                                         ->count();
 												@endphp

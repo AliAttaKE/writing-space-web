@@ -185,7 +185,7 @@
                         </ul>
                         <ul class="d-flex d-flex list-unstyled justify-content-between">
                             <li class="text-white">Cost Per Page</li>
-                           <li class="text-white"><span id="costperpage"></span></li>
+                           <li class="text-white">$ <span id="costperpage"></span></li>
                        </ul>
                         <!--<ul class="d-flex d-flex list-unstyled justify-content-between">-->
                         <!--    <li class="fs-12">Deadline Adjustment</li>-->

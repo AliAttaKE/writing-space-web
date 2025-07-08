@@ -8985,7 +8985,7 @@ document.addEventListener('DOMContentLoaded', function () {
       $('#feedback').val('');
 
       // clear your editor (Quill or similar)
-      feedbackEditor.setText('');
+    $('#feedbackEditor').text(''); 
 
       // RESET THE CHAR COUNTER:
       $('#charCount').text(200);

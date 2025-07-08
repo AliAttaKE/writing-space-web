@@ -111,7 +111,7 @@ h3 {
                                         <span class="path1"></span>
                                         <span class="path2"></span>
                                     </i>
-                                </a>data-kt-inbox-message="message"
+                                </a>
 
                             </div>
 
