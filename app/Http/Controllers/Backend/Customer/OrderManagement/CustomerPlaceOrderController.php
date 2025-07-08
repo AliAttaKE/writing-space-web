@@ -4038,7 +4038,7 @@ $orderid_new = $matches[1] ?? null;
 
 
 
-            $subject = "Confirmation of Purchase of Additional Pages from Package – Order ID $orderid_new";
+            $subject = "Confirmation of Purchase of Additional Pages from Package – Order ID";
             Mail::to($user->email)->send(new AddPkgInvoiceEmailTemplate(
                 $data,$data,
                 $subject,
