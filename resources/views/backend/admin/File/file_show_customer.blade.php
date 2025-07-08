@@ -17,31 +17,38 @@
         </div>
         <!--end::Toolbar container-->
     </div>
-      @if(!empty(session('success')))
-        <script>
-                setTimeout(function() {
-                    Swal.fire({
-                        text: 'Your file has been  successfully deleted. ',
-                        icon: 'success',
-                        confirmButtonText: "Ok",
-                        
-                        buttonsStyling: true,
-                        customClass: {
-                            confirmButton: "btn"
-                        }
-                    }).then((result) => {
-                        el.closest('[data-kt-billing-element="card"]').remove();
-                    });
-                }, 1000);
-        </script>
+     @if(!empty(session('success')))
+    <script>
+        setTimeout(function() {
+            let msg = '';
+            @if(session('success') == 'deleted')
+                msg = 'Your file has been successfully deleted.';
+            @elseif(session('success') == 'uploaded')
+                msg = 'Your file has been successfully uploaded.';
+            @else
+                msg = 'Success!';
+            @endif
 
-                {{-- <div>
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{session('success')}}</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    </div> --}}
+            Swal.fire({
+                text: msg,
+                icon: 'success',
+                confirmButtonText: "Ok",
+                buttonsStyling: true,
+                customClass: {
+                    confirmButton: "btn"
+                }
+            }).then((result) => {
+                // Yahan par agar delete ka confirmation hai to card remove karo
+                @if(session('success') == 'deleted')
+                if(typeof el !== "undefined"){
+                    el.closest('[data-kt-billing-element="card"]').remove();
+                }
                 @endif
+            });
+        }, 1000);
+    </script>
+@endif
+
 
 
 

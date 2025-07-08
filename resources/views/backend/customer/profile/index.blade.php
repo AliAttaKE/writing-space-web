@@ -1234,8 +1234,9 @@
   const totalCost = finalvalue * noOfPages;
             console.log(cost);
   // update the DOM (formatted with two decimals)
-  $('#cost_per_page12').text(finalvalue);
-  $('#totalcost').text(totalCost.toFixed(2));
+ $('#cost_per_page12').text('$' + finalvalue);
+$('#totalcost').text('$' + totalCost.toFixed(2));
+
 });
 
         $('#kt_modal_update_customer_btn').on('click', function (){
@@ -1341,7 +1342,7 @@
                             localStorage.setItem('package_id', packageid);
 
                                     var cost_perpage = $('#cost_per_page').val();
-                            localStorage.setItem('cost_per_page', cost_perpage);
+                           localStorage.setItem('cost_per_page', '$' + cost_perpage);
 
 
 

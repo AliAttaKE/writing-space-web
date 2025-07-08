@@ -285,7 +285,7 @@ $emailContent = "
             $file->delete();
         }
 
-        return back()->with('success', 'Selected files deleted successfully.');
+        return back()->with('success', 'deleted');
     }
 
     // Download logic
@@ -345,7 +345,7 @@ $emailContent = "
                 }
 
 
-                return back()->with('success', 'Successfully deleted');
+                return back()->with('success', 'deleted');
             }
 
 
@@ -567,7 +567,7 @@ $emailContent = "
                 $fileModel->delete();
             }
 
-            return back()->with('success', 'Successfully deleted');
+            return back()->with('success', 'deleted');
         }
 
         if ($request->has('download') && $request->input('download') === 'yes'){
@@ -624,7 +624,7 @@ $emailContent = "
                 $fileModel->delete();
             }
 
-            return back()->with('success', 'Successfully deleted');
+            return back()->with('success', 'deleted');
         }
 
         if ($request->has('download') && $request->input('download') === 'yes'){
@@ -834,7 +834,7 @@ public function upload(Request $request)
         $fileModel->save();
 
         // Redirect back with success message
-        return back()->with('success', 'File uploaded successfully.');
+      return back()->with('success', 'uploaded');
     }
 
     // Helper function to format file size
