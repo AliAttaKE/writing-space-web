@@ -1141,7 +1141,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 										<!--end:::Tab pane-->
 										<div class="tab-pane fade" id="kt_ecommerce_customer_managePages" role="tabpanel">
-										     @if($hasSubscription && $totalPages > 0)
+										     @if($hasSubscription && $totalPages > 0 && $subscription->status === 'Active')
 											<div class="card my-10 card-custom-bg">
 												<div class="row p-5 mb-5">
 													<div class="col-md-12">
@@ -8578,11 +8578,11 @@ $(document).ready(function() {
 
 // $('.RemainingPages').text('N/A');
 
-var total_pages = {{ $used_subscription->total_pages ?? 0 }};
-	var remaining_pages = {{ $used_subscription->remaining_pages ?? 0 }};
-    var rollover_pages = {{ $used_subscription->rollover_pages ?? 0 }};
+// var total_pages = {{ $used_subscription->total_pages ?? 0 }};
+// 	var remaining_pages = {{ $used_subscription->remaining_pages ?? 0 }};
+//     var rollover_pages = {{ $used_subscription->rollover_pages ?? 0 }};
 
-	  $('.rollover').text(rollover_pages);
+	//   $('.rollover').text(rollover_pages);
 
 	$('.RemainingPages').text('0');
 @endif
