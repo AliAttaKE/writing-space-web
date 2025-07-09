@@ -178,8 +178,12 @@ class ConnectController extends Controller
                 } catch (\Exception $e) {
                     Log::error("Email sending failed: " . $e->getMessage());
                 }
+           // Update 'social_login_already' to 1 after sending the email
+            $findUser->social_login_already = 1;
+            $findUser->save();
         }
 
+        
         Auth::login($findUser);
 
         Session::put('msatg', 1); // Authenticated and verified
@@ -221,6 +225,12 @@ class ConnectController extends Controller
                 $findUser->role = "customer";
                 $findUser->save();
 
+                
+             }
+
+        // Check if the 'social_login_already' column is 0
+        if ($findUser->social_login_already == 0) {
+
                   $emailContent = "
 <p>Hello {$findUser->name},</p>
 
@@ -256,7 +266,11 @@ Writing Space</p>
     Log::error("Email sending failed: " . $e->getMessage());
 }
 
-            }
+              // Update 'social_login_already' to 1 after sending the email
+            $findUser->social_login_already = 1;
+            $findUser->save();
+        }
+
             Auth::login($findUser);
             session()->put('id', $findUser->id);
             Session::put('msatg', 1); // Authenticated and verified
