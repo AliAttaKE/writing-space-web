@@ -226,6 +226,7 @@ class ConnectController extends Controller
                 $findUser->save();
 
                 
+                
              }
 
         // Check if the 'social_login_already' column is 0
@@ -255,7 +256,6 @@ Writing Space</p>
 ";
 
 
-
            try {
     Mail::html($emailContent, function ($message) use ($findUser) {
         $message->to($findUser->email)
@@ -265,6 +265,8 @@ Writing Space</p>
 } catch (\Exception $e) {
     Log::error("Email sending failed: " . $e->getMessage());
 }
+
+
 
               // Update 'social_login_already' to 1 after sending the email
             $findUser->social_login_already = 1;
