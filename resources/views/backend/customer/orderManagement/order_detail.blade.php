@@ -8740,7 +8740,7 @@ console.log("sahriq totalpageCount:", totalpageCount);
 	   $(document).on('click', '.send_rewrite', function() {
 	var order_id = document.getElementById('order_id_revision').value;
 	var order_id_revision_deadline = document.getElementById('order_id_revision_deadline').value;
-  var order_id_revision_hours = parseInt(document.getElementById('order_id_revision_hours').value);
+    var order_id_revision_hours = parseInt(document.getElementById('order_id_revision_hours').value);
     var order_id_revision_days = parseInt(document.getElementById('order_id_revision_days').value);
 	var revision_request = document.getElementById('request_revision').value;
 
@@ -8749,9 +8749,9 @@ console.log("sahriq totalpageCount:", totalpageCount);
             return;
         }
          var words = revision_request.trim().split(/\s+/);
-        if (words.length > 19000) {
+        if (words.length > 9000) {
         //document.getElementById('request_revision').value = words.slice(0,3000).join(' ');
-        Swal.fire('Error', 'Only allowed 19000 Words.', 'error');
+        Swal.fire('Error', 'Only allowed 9000 Words.', 'error');
             return;
         }
    var deadline = new Date(order_id_revision_deadline.replace(' ', 'T'));
