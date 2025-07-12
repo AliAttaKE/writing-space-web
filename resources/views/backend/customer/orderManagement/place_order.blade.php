@@ -1802,7 +1802,7 @@
 
 
             let cost_page = document.getElementById('cost_per_page').innerHTML;
-            let total = (parseInt(no_of_page) * cost_page) + parseInt(extra) + paper_summary + outline + ai_detection + plagiarism;
+            let total = (parseInt(no_of_page) * cost_page) + parseInt(extra);
             let percentage = document.getElementById('statistic_percentage').innerHTML;
             let calculate = total + (total * parseInt(percentage) / 100);
             document.getElementById('sub_total').innerHTML = calculate;
@@ -1851,7 +1851,7 @@
 
 
             let cost_page = document.getElementById('cost_per_page').innerHTML;
-            let total = (parseInt(no_of_page) * cost_page) + parseInt(extra) + paper_summary + outline + ai_detection + plagiarism;
+            let total = (parseInt(no_of_page) * cost_page) + parseInt(extra);
 
         //let total = parseInt(no_of_page) * parseInt(cost_page) + parseInt(extra);
         console.log(percentage);
@@ -2148,20 +2148,78 @@
     //     }
     // }
 
-    function total_sum_final(additional) {
-    var sub_total = parseInt(document.getElementById('sub_total').innerHTML) || 0; // Default to 0 if empty
-    var total = sub_total + additional;
+//     function total_sum_final(additional) {
+//     var sub_total = parseInt(document.getElementById('sub_total').innerHTML) || 0; // Default to 0 if empty
+//     var total = sub_total + additional;
+//     document.getElementById('total_cost').innerHTML = total;
+// }
+
+
+function total_sum_final(additional) {
+    var sub_total = parseInt(document.getElementById('sub_total').innerHTML) || 0;
+    // Get the four additional values
+    let plagiarismEl = document.querySelector('.plagiarism');
+    let aiDetectionEl = document.querySelector('.ai_detection');
+    let outlineEl = document.querySelector('.outline');
+    let paperSummaryEl = document.querySelector('.paper_summary');
+    
+    let plagiarism = plagiarismEl?.checked ? parseInt(plagiarismEl.getAttribute('data-amount')) : 0;
+    let ai_detection = aiDetectionEl?.checked ? parseInt(aiDetectionEl.getAttribute('data-amount')) : 0;
+    let outline = outlineEl?.checked ? parseInt(outlineEl.getAttribute('data-amount')) : 0;
+    let paper_summary = paperSummaryEl?.checked ? parseInt(paperSummaryEl.getAttribute('data-amount')) : 0;
+    
+    var total = sub_total + additional + paper_summary + outline + ai_detection + plagiarism;
     document.getElementById('total_cost').innerHTML = total;
 }
-
 // Store the selected costs and their labels
 var checkedLabels = [];
 var checkedCosts = [];
 
 // Add event listener to the toggle switches
+// document.querySelectorAll('input[type="checkbox"][class^="toggleSwitch"]').forEach(function (toggleSwitch) {
+//     toggleSwitch.addEventListener('change', function () {
+
+//         let no_of_page = document.getElementById('no_of_pages').innerHTML || 0;
+//         let extra = document.getElementById('extra_sources').innerHTML || 0;
+//         let cost_page = parseInt(document.getElementById('cost_per_page').innerHTML || 0);
+
+//         let plagiarismEl = document.querySelector('.plagiarism');
+//         let aiDetectionEl = document.querySelector('.ai_detection');
+//         let outlineEl = document.querySelector('.outline');
+//         let paperSummaryEl = document.querySelector('.paper_summary');
+//         let statistic_percentageEl = document.querySelector('#statistical_analysis_yes');
+
+//         let plagiarism = plagiarismEl?.checked ? parseInt(plagiarismEl.getAttribute('data-amount')) : 0;
+//         let ai_detection = aiDetectionEl?.checked ? parseInt(aiDetectionEl.getAttribute('data-amount')) : 0;
+//         let outline = outlineEl?.checked ? parseInt(outlineEl.getAttribute('data-amount')) : 0;
+//         let paper_summary = paperSummaryEl?.checked ? parseInt(paperSummaryEl.getAttribute('data-amount')) : 0;
+
+//         let base_total = (parseInt(no_of_page) * cost_page) + parseInt(extra);
+
+//         let final_totalEl = base_total;
+
+//         if (statistic_percentageEl?.checked) {
+//             document.getElementById('statistic_percentage').innerHTML = 15;
+//             let percentage = parseInt(document.getElementById('statistic_percentage').innerHTML || 0);
+//             final_totalEl += (base_total * percentage / 100);
+//         }
+//         final_total = final_totalEl + paper_summary + outline + ai_detection + plagiarism;
+//         document.getElementById('sub_total').innerHTML = final_total;
+
+//         // Handle checkedlength from localStorage
+//         let local = localStorage.getItem('checkedlength');
+//         if (local != null) {
+//             let checkedCount = JSON.parse(local);
+//             let additional = parseInt(cost_page) * parseInt(checkedCount);
+//             total_sum_final(additional);
+//         } else {
+//             total_sum_final(0);
+//         }
+//     });
+// });
+
 document.querySelectorAll('input[type="checkbox"][class^="toggleSwitch"]').forEach(function (toggleSwitch) {
     toggleSwitch.addEventListener('change', function () {
-
         let no_of_page = document.getElementById('no_of_pages').innerHTML || 0;
         let extra = document.getElementById('extra_sources').innerHTML || 0;
         let cost_page = parseInt(document.getElementById('cost_per_page').innerHTML || 0);
@@ -2186,18 +2244,22 @@ document.querySelectorAll('input[type="checkbox"][class^="toggleSwitch"]').forEa
             let percentage = parseInt(document.getElementById('statistic_percentage').innerHTML || 0);
             final_totalEl += (base_total * percentage / 100);
         }
-        final_total = final_totalEl + paper_summary + outline + ai_detection + plagiarism;
-        document.getElementById('sub_total').innerHTML = final_total;
-
+        
+        // Set sub_total without the four additional values
+        document.getElementById('sub_total').innerHTML = final_totalEl;
+        
+        // Calculate total_cost with the four additional values
+        let final_total = final_totalEl + paper_summary + outline + ai_detection + plagiarism;
+        
         // Handle checkedlength from localStorage
         let local = localStorage.getItem('checkedlength');
         if (local != null) {
             let checkedCount = JSON.parse(local);
             let additional = parseInt(cost_page) * parseInt(checkedCount);
-            total_sum_final(additional);
-        } else {
-            total_sum_final(0);
+            final_total += additional;
         }
+        
+        document.getElementById('total_cost').innerHTML = final_total;
     });
 });
 
