@@ -54,7 +54,6 @@ class MessageList extends Component
                     $data[] = $i;
                 }
             }
-
             return view('livewire.message-list', compact('data'));
         }
     }
@@ -96,25 +95,26 @@ class MessageList extends Component
     $threads = Inbox::whereHas('order', fn($q) =>
                     $q->where('user_id', $userId)
                 )
-                ->when(function($q) {
+                ->when($this->search, function($q) {
                     $q->where('order_id', 'like', '%'.$this->search.'%')
                       ->orWhereHas('messages', fn($m) =>
                           $m->where('message', 'like', '%'.$this->search.'%')
                       );
                 })
-                ->withCount(['messages as unread_count' => fn($m) =>
-                    $m->where('receive_id', $userId)
-                      ->where('status', 'UnRead')
+                ->withCount([
+                    'messages as unread_count' => fn($q) =>
+                        $q->where('receive_id', $userId)
+                          ->where('status', 'UnRead')
                 ])
                 ->orderBy('updated_at', 'desc')
                 ->paginate($this->perPage)
-                // ← yahan add karo:
                 ->withPath(request()->url());
 
     return view('livewire.message-list', [
         'threads' => $threads,
     ]);
 }
+
 
 
     public function updatingPerPage()

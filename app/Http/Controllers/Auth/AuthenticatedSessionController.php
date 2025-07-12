@@ -13,7 +13,7 @@ use App\Providers\RouteServiceProvider;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\LoginSession;
 use Illuminate\Validation\ValidationException;
-
+use Illuminate\Support\Facades\Http;
 use Jenssegers\Agent\Facades\Agent;
 use Stevebauman\Location\Facades\Location;//location
 
@@ -32,9 +32,21 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): RedirectResponse
-    {       
+    {
 
-      
+         $recaptcha_token = $request->input('recaptcha_token');
+
+    // Verify with Google
+    $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        'secret' => env('RECAPTCHA_SECRET_KEY'),
+        'response' => $recaptcha_token,
+    ]);
+
+    $result = $response->json();
+
+    if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
+        return back()->with('error', 'reCAPTCHA validation failed. Please try again.');
+    }
         $request->authenticate();
         // $request->session()->regenerate();
         // getMoreDeatils();
@@ -54,9 +66,9 @@ class AuthenticatedSessionController extends Controller
         return redirect()->intended($url);
     }
 
-    
-    
-    
+
+
+
 
     /**
      * Destroy an authenticated session.

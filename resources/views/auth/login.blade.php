@@ -5,6 +5,10 @@
     <div class="container d-flex justify-content-center mb-5">
         <div class="bordered-card p-5 col-md-10 forms-custom login-signup-form">
             <form action="{{ route('login') }}" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="recaptcha_token" id="recaptcha_token">
+
+
+
                 @csrf
                 <h1 class="heading gradient-text-2 text-center pb-5">
                     Login
@@ -78,6 +82,14 @@
                         </div>
                     </div>
                 </div>
+                <script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}"></script>
+<script>
+    grecaptcha.ready(function () {
+        grecaptcha.execute('{{ env('RECAPTCHA_SITE_KEY') }}', {action: 'login'}).then(function (token) {
+            document.getElementById('recaptcha_token').value = token;
+        });
+    });
+</script>
             </form>
         </div>
     </div>

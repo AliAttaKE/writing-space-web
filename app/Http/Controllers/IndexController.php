@@ -24,7 +24,7 @@ use App\Models\WordCount;
 use App\Models\Pricing;
 use App\Models\PricingWeb;
 use App\Models\Addons;
-
+use Illuminate\Support\Facades\Http;
 use App\Models\Paper;
 
 
@@ -240,7 +240,7 @@ class IndexController extends Controller
 
 
 
-   
+
    public function admissionessay()
    {
     $papers = Paper::latest()->get();
@@ -472,7 +472,7 @@ class IndexController extends Controller
              'name' => [
     'required',
     'regex:/^(?:\S+(?:\s+|$)){1,20}$/'
-],
+],          'recaptcha_token' => 'required',
             'password' => 'required',
             'password_confirmation' => 'required_with:password|same:password'
         ], [
@@ -484,7 +484,17 @@ class IndexController extends Controller
             'password_confirmation.confirmed' => 'Password confirmation does not match.',
             // 'password_confirmation.min' => 'Password confirmation must be at least :min characters.',
         ]);
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        'secret'   => env('RECAPTCHA_SECRET_KEY'),
+        'response' => $request->recaptcha_token,
+    ]);
 
+    $data = $response->json();
+
+    // Step 2: Check score (Google recommends >= 0.5)
+    if (!($data['success'] ?? false) || ($data['score'] ?? 0) < 0.5) {
+        return back()->with('error', 'reCAPTCHA validation failed. Try again.');
+    }
         $account_id = 'ID-' . rand(1000, 99999999);
 
         $input = [
@@ -512,7 +522,7 @@ class IndexController extends Controller
              $user->status = 0;
              $user->save();
 
-        
+
 
 
    $emailContent = "
