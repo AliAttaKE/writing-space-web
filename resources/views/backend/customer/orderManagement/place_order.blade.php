@@ -2314,6 +2314,8 @@ document.querySelectorAll('input[type="checkbox"][class^="toggleSwitch"]').forEa
                             var net_total = document.getElementById('total_cost').innerHTML;
                             // var total = parseInt(net_total) - (parseInt(net_total) * 0.1); // Apply a 10% discount
                             var total = parseInt(net_total) - parseInt(coupon.discount);
+                                total = parseFloat(total.toFixed(2));
+                            
                             document.getElementById('total_cost').innerHTML = total;
                             document.getElementById('discount').value = coupon.discount
                             document.getElementById('discount_value').value = coupon.discount_value
@@ -2322,6 +2324,7 @@ document.querySelectorAll('input[type="checkbox"][class^="toggleSwitch"]').forEa
                             var net_total = document.getElementById('total_cost').innerHTML;
                             var total = parseInt(net_total) - (parseInt(net_total) * parseInt(coupon
                                 .discount) / 100); // Apply a 10% discount
+                                  total = parseFloat(total.toFixed(2));
 
                             document.getElementById('total_cost').innerHTML = total;
                             document.getElementById('discount').value = coupon.discount
