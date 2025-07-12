@@ -94,7 +94,7 @@ class CouponController extends Controller
     {
 
         
-        $coupon = Coupon::where('code', $request->coupon)->first();
+        $coupon = Coupon::where('code', $request->coupon)->where('Active',1)->first();
         if ($coupon) {
             if ($coupon->start_date <= Carbon::now() &&  $coupon->end_date >= Carbon::now()) {
                 $coupon_total = Coupon_Used::where('coupon', '=', $request->coupon)->distinct()->get();
