@@ -215,17 +215,17 @@
                                                                                                                 </td>
 
                                                                                                                 <?php
-                                                                        $folderId = $f->id;
-                                                                        $totalSize = App\Models\File::where('folder_id', $folderId)->sum('total_size');
+                                                                                                                    $folderId = $f->id;
+                                                                                                                    $totalSize = App\Models\File::where('folder_id', $folderId)->sum('total_size');
 
-                                                                        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+                                                                                                                    $units = ['B', 'KB', 'MB', 'GB', 'TB'];
 
-                                                                        for ($i = 0; $totalSize >= 1024 && $i < count($units) - 1; $i++) {
-                                                                            $totalSize /= 1024;
-                                                                        }
+                                                                                                                    for ($i = 0; $totalSize >= 1024 && $i < count($units) - 1; $i++) {
+                                                                                                                        $totalSize /= 1024;
+                                                                                                                    }
 
-                                                                        $formattedSize = round($totalSize, 0) . ' ' . $units[$i];
-                                                                                                                                                                                ?>
+                                                                                                                    $formattedSize = round($totalSize, 0) . ' ' . $units[$i];
+                                                                                                                                                                                                                            ?>
 
                                                                                                                 <td class="text-white">
                                                                                                                     @if($totalSize > 0)
@@ -238,11 +238,13 @@
 
                                                                                                                 </td>
 
+<td class="text-white">
+    {{ $f->last_file_upload_time->format('F j, Y g:i A') }}
+</td>
 
 
 
-
-                                                                                                                <td class="text-white">{{ $f->updated_at->format('F j, Y g:i A') }}</td>
+                                                                                                                {{-- <td class="text-white">{{ $f->updated_at->format('F j, Y g:i A') }}</td> --}}
                                                                                                                 <td class="" data-kt-filemanager-table="action_dropdown">
                                                                                                                     <div class="d-flex text-white">
                                                                                                                         <!--begin::Share link-->

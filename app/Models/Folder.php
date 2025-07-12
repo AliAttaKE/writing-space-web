@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Folder extends Model
 {
     use HasFactory;
+
+    // In app/Models/Folder.php
+public function latestFile()
+{
+    return $this->hasOne(File::class)->latestOfMany();
+}
 }

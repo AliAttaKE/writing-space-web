@@ -213,7 +213,8 @@
                                                 
                                                 
                                                 </td>
-                                                <td>{{ $f->updated_at }}</td>
+                                                {{-- <td>{{ $f->updated_at }}</td> --}}
+                                                <td>{{ $f->last_file_upload_time->format('F j, Y g:i A') }}</td>
                                                 <td class="" data-kt-filemanager-table="action_dropdown">
                                                     <div class="d-flex">
                                                         <!--begin::Share link-->

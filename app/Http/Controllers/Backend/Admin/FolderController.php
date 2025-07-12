@@ -13,78 +13,139 @@ use Illuminate\Support\Facades\Auth;
 
 class FolderController extends Controller
 {
-    public function create()
-    {
+    // public function create()
+    // {
 
 
-       // $folder = Folder::orderBy('created_at', 'desc')->get();
-        $folder = Folder::orderBy('created_at', 'desc')->get();
+    //    // $folder = Folder::orderBy('created_at', 'desc')->get();
+    //     $folder = Folder::orderBy('created_at', 'desc')->get();
 
-        $folderCount = Folder::count();
+    //     $folderCount = Folder::count();
 
-        $files = File::get();
-        $filestotal = 0; // Initialize the total size
+    //     $files = File::get();
+    //     $filestotal = 0; // Initialize the total size
 
-        if ($files) {
-            // Add up the total_size values from all files
-            foreach ($files as $file) {
-                $filestotal += $file->total_size;
-            }
-        }
-
-
-        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-
-        for ($i = 0; $filestotal >= 1024 && $i < count($units) - 1; $i++) {
-            $filestotal /= 1024;
-        }
-
-        $totalfiles = round($filestotal, 0) . ' ' . $units[$i];
+    //     if ($files) {
+    //         // Add up the total_size values from all files
+    //         foreach ($files as $file) {
+    //             $filestotal += $file->total_size;
+    //         }
+    //     }
 
 
+    //     $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+
+    //     for ($i = 0; $filestotal >= 1024 && $i < count($units) - 1; $i++) {
+    //         $filestotal /= 1024;
+    //     }
+
+    //     $totalfiles = round($filestotal, 0) . ' ' . $units[$i];
 
 
 
-        return view('backend.admin.Folder.file_management',compact('folder','folderCount','totalfiles'));
+
+
+    //     return view('backend.admin.Folder.file_management',compact('folder','folderCount','totalfiles'));
+    // }
+public function create()
+{
+    // Get all folders with their latest file
+    $folder = Folder::with(['latestFile' => function($query) {
+        $query->orderBy('created_at', 'desc');
+    }])->orderBy('created_at', 'desc')->get();
+    
+    // Add last_file_upload_time to each folder
+    $folder->each(function ($f) {
+        $f->last_file_upload_time = $f->latestFile ? $f->latestFile->created_at : $f->updated_at;
+    });
+
+    $folderCount = Folder::count();
+    $files = File::get();
+    $filestotal = 0;
+
+    foreach ($files as $file) {
+        $filestotal += $file->total_size;
     }
 
-
-     public function create_customer()
-    {
-
-
-        $folder = Folder::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
-        $folder_id = Folder::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->pluck("id")->toArray();
-
-
-        $folderCount = Folder::where('user_id', Auth::user()->id)->count();
-
-        $files = File::whereIn('folder_id', $folder_id)->get();
-        //dd($files);
-        $filestotal = 0; // Initialize the total size
-
-        if ($files) {
-            // Add up the total_size values from all files
-            foreach ($files as $file) {
-                $filestotal += $file->total_size;
-            }
-        }
-
-
-        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-
-        for ($i = 0; $filestotal >= 1024 && $i < count($units) - 1; $i++) {
-            $filestotal /= 1024;
-        }
-
-        $totalfiles = round($filestotal, 0) . ' ' . $units[$i];
-
-
-
-// dd($totalfiles);
-
-        return view('backend.admin.Folder.file_management_customer',compact('folder','folderCount','totalfiles'));
+    $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+    for ($i = 0; $filestotal >= 1024 && $i < count($units) - 1; $i++) {
+        $filestotal /= 1024;
     }
+    $totalfiles = round($filestotal, 0) . ' ' . $units[$i];
+
+    return view('backend.admin.Folder.file_management', compact('folder', 'folderCount', 'totalfiles'));
+}
+
+//      public function create_customer()
+//     {
+
+
+//         $folder = Folder::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
+//         $folder_id = Folder::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->pluck("id")->toArray();
+
+
+//         $folderCount = Folder::where('user_id', Auth::user()->id)->count();
+
+//         $files = File::whereIn('folder_id', $folder_id)->get();
+//         //dd($files);
+//         $filestotal = 0; // Initialize the total size
+
+//         if ($files) {
+//             // Add up the total_size values from all files
+//             foreach ($files as $file) {
+//                 $filestotal += $file->total_size;
+//             }
+//         }
+
+
+//         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+
+//         for ($i = 0; $filestotal >= 1024 && $i < count($units) - 1; $i++) {
+//             $filestotal /= 1024;
+//         }
+
+//         $totalfiles = round($filestotal, 0) . ' ' . $units[$i];
+
+
+
+// // dd($totalfiles);
+
+//         return view('backend.admin.Folder.file_management_customer',compact('folder','folderCount','totalfiles'));
+//     }
+
+public function create_customer()
+{
+    $folder = Folder::where('user_id', Auth::user()->id)
+                  ->orderBy('created_at', 'desc')
+                  ->get();
+    
+    // Get the last upload time for each folder
+    $folder->each(function ($f) {
+        $latestFile = File::where('folder_id', $f->id)
+                         ->orderBy('created_at', 'desc')
+                         ->first();
+        
+        $f->last_file_upload_time = $latestFile ? $latestFile->created_at : $f->updated_at;
+    });
+
+    $folder_id = $folder->pluck("id")->toArray();
+    $folderCount = $folder->count();
+
+    $files = File::whereIn('folder_id', $folder_id)->get();
+    $filestotal = 0;
+
+    foreach ($files as $file) {
+        $filestotal += $file->total_size;
+    }
+
+    $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+    for ($i = 0; $filestotal >= 1024 && $i < count($units) - 1; $i++) {
+        $filestotal /= 1024;
+    }
+    $totalfiles = round($filestotal, 0) . ' ' . $units[$i];
+
+    return view('backend.admin.Folder.file_management_customer', compact('folder', 'folderCount', 'totalfiles'));
+}
 
     public function store(Request $request)
     {
