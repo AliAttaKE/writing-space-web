@@ -17,6 +17,7 @@ class FileChatGPT extends Model
         'file_type',
         'Size',
         'status',
+        'download_time',
     ];
     
     use HasFactory;

@@ -427,25 +427,47 @@ $emailContent = "
         return response()->download($filePath);
 
     }
+    // public function completedOrderFileDownload($order_id = null, $file_id = null)
+    // {
+    //     $order = Orders::where('order_id', $order_id)->first();
+    //     $file = FileChatGPT::findOrFail($file_id);
+    //     $folder_name = $order->order_id;
+    //     // dd($file, $order);
+
+    //     if (!$file) {
+    //         abort(404);
+    //     }
+
+    //   //  $filePath = storage_path('app/public/completed_by_writer/'.$folder_name.'/'.$file->file_name);
+
+    //   $filePath = storage_path('app/public/'.$file->file_path);
+    //   $updatetime  = FileChatGPT::where('order_id', $order_id)->update(['download_time' => now() ]);
+
+    //     return response()->download($filePath);
+
+    // }
+
     public function completedOrderFileDownload($order_id = null, $file_id = null)
-    {
-        $order = Orders::where('order_id', $order_id)->first();
-        $file = FileChatGPT::findOrFail($file_id);
-        $folder_name = $order->order_id;
-        // dd($file, $order);
-
-        if (!$file) {
-            abort(404);
-        }
-
-      //  $filePath = storage_path('app/public/completed_by_writer/'.$folder_name.'/'.$file->file_name);
-
-      $filePath = storage_path('app/public/'.$file->file_path);
-      $updatetime  = FileChatGPT::where('order_id', $order_id)->update(['download_time' => now() ]);
-
-        return response()->download($filePath);
-
+{
+    $order = Orders::where('order_id', $order_id)->firstOrFail();
+    $file = FileChatGPT::findOrFail($file_id);
+    
+   
+    
+    // Only update if download_time is null
+    if (is_null($file->download_time)) {
+        $file->update(['download_time' => now()]);
     }
+
+    $filePath = storage_path('app/public/'.$file->file_path);
+    
+    if (!file_exists($filePath)) {
+        abort(404);
+    }
+
+    return response()->download($filePath);
+}
+
 
 
 
