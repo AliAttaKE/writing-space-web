@@ -113,7 +113,6 @@ wire:keyup.debounce.300ms="$refresh"
   {{-- Search box --}}
 
   </div>
-
   <div class="card-body px-10 msg-cus">
     {{-- Table --}}
     <table class="table table-row-dashed fs-6 gy-5 my-0" id="kt_inbox_listing">
@@ -127,20 +126,22 @@ wire:keyup.debounce.300ms="$refresh"
         </tr>
       </thead>
       <tbody>
+
+        {{-- Loop through threads --}}
         @forelse($threads as $thread)
           <tr>
             <td class="ps-9">{{ $thread->order_id }}</td>
             <td class="fs-7 pe-9">
-              @if($thread->unread_count)
-                <span class="fw-semibold text-center bg-danger rounded-circle px-2 text-white">
-                  Unread ({{ $thread->New_message }})
+              @if($thread->unread_count > 0)
+                <span class="fw-semibold text-center bg-danger badge me-2 text-white">
+                  Unread ({{ $thread->unread_count  }})
                 </span>
               @else
                 <span class="fw-semibold">All Read</span>
               @endif
             </td>
             <td class="fs-7 pe-9">{{ $thread->updated_at->diffForHumans() }}</td>
-            @php $status = $thread->order->order_status; @endphp
+            @php $status = $thread->order->order_status ?? ''; @endphp
             <td>
               <span class="badge badge-custom-bg me-2">
                 @if(auth()->user()->id != 1 && $status == 'Completed')

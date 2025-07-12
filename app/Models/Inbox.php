@@ -18,10 +18,9 @@ class Inbox extends Model
     return $this->belongsTo(\App\Models\Orders::class, 'order_id', 'order_id');
 }
 
-    public function messages()
-    {
-        // Message::class, FK on messages.order_id, PK on inbox.order_id
-        return $this->hasMany(\App\Models\Message::class, 'order_id', 'order_id');
-    }
+   public function messages()
+{
+    return $this->hasMany(\App\Models\Message::class, 'order_id', 'order_id');
+}
 }
 
