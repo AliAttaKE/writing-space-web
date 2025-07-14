@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Brand Ambassador Sign Up</title>
+    <title>{{$data['subject']}}</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -17,7 +17,6 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-md-6 offset-md-3 text-center">
-                    <h1>{{$data['subject']}}</h1>
                     <p>Mr.{{$data['name']}}.</p>
                     <p>{{$data['message']}}.</p>
                     <a href="{{ $data['signupUrl'] }}" class="btn btn-primary">Sign Up</a>

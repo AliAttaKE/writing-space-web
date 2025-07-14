@@ -60,7 +60,7 @@
                     <table class="table listview" style="overflow-x: auto;">
                         <thead>
                             <tr class="listview">
-                                <th scope="col" class="th-1">Deals an Offer</th>
+                                <th scope="col" class="th-1">Deals on Offer</th>
                                 <th scope="col" class="th-2">Deadline</th>
                                 <th scope="col" class="th-3">Cost Per Page</th>
                                 <th scope="col" class="th-4">Page Limit</th>

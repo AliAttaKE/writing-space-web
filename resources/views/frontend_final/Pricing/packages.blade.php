@@ -23,7 +23,7 @@
                 <h5 class="text-white fs-6 fw-light fw-normal lh-base">Unlock the door to academic brilliance and
                     unparalleled savings with our unique flat-rate bulk page purchases! Imagine a world where
                     deadlines don't dictate your budget, where you can amass pages and deploy them at your
-                    convenience over an entire year. With our flexible plans starting at just $16/page for 200
+                    convenience over an entire year. With our flexible plans starting at just $18/page for 200
                     pages, stepping ahead in your academic journey has never been easier. Enjoy the luxury of
                     premium services without any additional cost, ensuring top grades without the added stress. Get
                     ahead, stay ahead - your ultimate academic partner is here.

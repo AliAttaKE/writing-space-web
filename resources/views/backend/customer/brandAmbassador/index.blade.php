@@ -55,8 +55,7 @@
                                                     {{$discount->discount}}%
                                                 </div>
                                                 <div class="col-9 fs-color-white custom-fs-13">
-                                                Enjoy an {{$discount->discount}}% discount on your order when you purchase {{$discount->min_pages}}
-                                                pages or more! Use code: <span class="fs-color-yellow">{{$discount->code}}</span>
+                                                Enjoy an <span class="fs-color-yellow">{{$discount->discount}}%</span>  discounton your order when you purchase <span class="fs-color-yellow">{{$discount->min_pages}} pages</span> or more! Use code: <span class="fs-color-yellow">{{$discount->code}}</span>
                                                 </div>
                                             </div>
                                         </div>

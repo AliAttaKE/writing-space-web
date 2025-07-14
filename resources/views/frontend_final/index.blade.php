@@ -458,7 +458,7 @@
                                 <div class="col-4 service-title">Smart Saver Strategy: </div>
                                 <div class="col-8 service-description">
                                     <span class="underline"> 100 pages</span> at
-                                    <span class="underline"> $18/page</span>, balancing quantity and budget
+                                    <span class="underline"> $19/page</span>, balancing quantity and budget
                                     efficiently.
                                 </div>
                             </div>
@@ -469,7 +469,7 @@
                                 <div class="col-4 service-title">Ultimate Value Vault: </div>
                                 <div class="col-8 service-description">
                                     <span class="underline"> 200 pages</span> at just
-                                    <span class="underline">$16/page</span>, for extensive, long-term projects.
+                                    <span class="underline">$18/page</span>, for extensive, long-term projects.
                                 </div>
                             </div>
                         </div>

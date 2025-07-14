@@ -167,7 +167,7 @@ wire:keyup.debounce.300ms="$refresh"
     </table>
 <div class="mb-3">
     <label for="perPageSelect" class="form-label text-white">Items per page:</label>
-    <select id="perPageSelect" wire:model="perPage" class="form-select w-auto" wire:change="$refresh" >
+    <select id="perPageSelect" wire:model="perPage" class="form-select w-auto" wire:change="$refresh" style="background-color: #783AFB !important; border-color: #783AFB !important; color: white !important; color:#fff;">
         <option value="5">5</option>
         <option value="10">10</option>
         <option value="15">15</option>

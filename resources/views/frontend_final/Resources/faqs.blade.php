@@ -406,7 +406,7 @@
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                               Our pricing for custom orders starts at $18 per page for assignments with a 15-day deadline, with rates varying based on the urgency and complexity of the order. For detailed pricing information, please visit our <a href="./custom-order.php" class="text-decoration-none text-white">Pricing Page</a>.
+                               Our pricing for custom orders starts at $20 per page for assignments with a 15-day deadline, with rates varying based on the urgency and complexity of the order. For detailed pricing information, please visit our <a href="./custom-order.php" class="text-decoration-none text-white">Pricing Page</a>.
                                 </div>
                             </div>
                         </div>

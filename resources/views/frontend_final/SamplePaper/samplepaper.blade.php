@@ -3,7 +3,7 @@
     <!-- Hero Section -->
     <div class="samplePaper-hero-section d-flex justify-content-center align-items-center">
         <div class="hero-text text-center  mt-custom-5">
-            <h1 class="header-text">
+            <h1 class="header-text mt-5">
                 Discover the Path to Scholarly Success - <br>
                 <span class="text-purple">Bypass Turnitin with Precision!</span> <br>
             </h1>
