@@ -530,42 +530,79 @@ $emailContent = "
     }
 
 
+    // public function view($id)
+    // {
+
+    //     // Fetch the folder with the given ID
+    //     $folder = Folder::find($id);
+
+    //          $files = DB::table('folders')
+    //     ->join('files', 'folders.id', '=', 'files.folder_id')
+    //     ->select('files.*')
+    //     ->latest('files.created_at')
+    //     ->where('folders.id', $folder->id)
+    //     ->paginate(5);
+
+
+    //     $filesCount = $files->total();
+
+
+    //     $totalSize = 0;
+    //     foreach ($files as $file) {
+    //         $totalSize += $file->total_size;
+    //     }
+
+
+    //     $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+
+    //     for ($i = 0; $totalSize >= 1024 && $i < count($units) - 1; $i++) {
+    //         $totalSize /= 1024;
+    //     }
+
+    //     $formattedSize = round($totalSize, 0) . ' ' . $units[$i];
+    //     if (!$folder) {
+    //         return abort(404);
+    //     }
+    //     return view('backend.admin.File.file_show', compact('folder','files','filesCount','formattedSize','id'));
+    // }
+
+
     public function view($id)
-    {
+{
+    $folder = Folder::findOrFail($id);
 
-        // Fetch the folder with the given ID
-        $folder = Folder::find($id);
-
-             $files = DB::table('folders')
+    // Get files with pagination
+    $files = DB::table('folders')
         ->join('files', 'folders.id', '=', 'files.folder_id')
         ->select('files.*')
         ->latest('files.created_at')
         ->where('folders.id', $folder->id)
         ->paginate(5);
 
+    // Get the latest file upload time for the folder
+    $latestFileTime = DB::table('files')
+        ->where('folder_id', $folder->id)
+        ->latest('created_at')
+        ->value('created_at');
 
-        $filesCount = $files->total();
+    $filesCount = $files->total();
+    $totalSize = $files->sum('total_size');
 
-
-        $totalSize = 0;
-        foreach ($files as $file) {
-            $totalSize += $file->total_size;
-        }
-
-
-        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
-
-        for ($i = 0; $totalSize >= 1024 && $i < count($units) - 1; $i++) {
-            $totalSize /= 1024;
-        }
-
-        $formattedSize = round($totalSize, 0) . ' ' . $units[$i];
-        if (!$folder) {
-            return abort(404);
-        }
-        return view('backend.admin.File.file_show', compact('folder','files','filesCount','formattedSize','id'));
+    $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+    for ($i = 0; $totalSize >= 1024 && $i < count($units) - 1; $i++) {
+        $totalSize /= 1024;
     }
+    $formattedSize = round($totalSize, 0) . ' ' . $units[$i];
 
+    return view('backend.admin.File.file_show', compact(
+        'folder',
+        'files',
+        'filesCount',
+        'formattedSize',
+        'id',
+        'latestFileTime'
+    ));
+}
     public function view_all(Request $request, $id)
     {
         $fileIds = $request->input('selected_ids');
@@ -804,15 +841,18 @@ public function upload(Request $request)
     $fileModel->file_type = $extension;
     $fileModel->save();
 
-    return response()->json([
-        'success' => true,
-        'message' => 'File uploaded successfully.',
-        'file' => [
-            'name' => $originalName,
-            'size' => $formattedSize,
-            'type' => $extension
-        ]
-    ]);
+    // return response()->json([
+    //     'success' => true,
+    //     'message' => 'File uploaded successfully.',
+    //     'file' => [
+    //         'name' => $originalName,
+    //         'size' => $formattedSize,
+    //         'type' => $extension
+    //     ]
+    // ]);
+
+
+     return back()->with('success', 'File uploaded successfully');
 }
 
 

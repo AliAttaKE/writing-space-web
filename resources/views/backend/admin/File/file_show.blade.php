@@ -276,7 +276,15 @@
                                         <td class="text-white">{{ $file->Writer }}</td>
                                         <td class="text-white">{{ $file->file_type }}</td>
                                         <td class="text-white">{{$file->Size }}</td>
-                                        <td class="text-white" data-order="2023-08-19T14:40:00+05:00">{{$file->download_time}}
+
+                                        <td class="text-white" data-order="{{ $latestFileTime }}">
+                                            @if($latestFileTime)
+                                                {{ \Carbon\Carbon::parse($latestFileTime)->format('F j, Y g:i A') }}
+                                            @else
+                                                No files yet
+                                            @endif
+                                        </td>
+                                        {{-- <td class="text-white" data-order="2023-08-19T14:40:00+05:00">{{$file->download_time}} --}}
                                         </td>
                                         <td class="text-white" data-order="2023-08-19T14:40:00+05:00">{{ $file->created_at }}
                                         </td>
