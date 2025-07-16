@@ -8404,6 +8404,42 @@ $(document).ready(function() {
   });
 });
 
+$('#media').on('change', function () {
+  const allFiles = Array.from(this.files);
+  const allowedExts = ['docx', 'pdf', 'txt', 'rtf', 'xlsx', 'csv', 'pptx', 'jpeg', 'jpg'];
+  const maxSize = 500 * 1024 * 1024; // 500MB
+  let validFiles = [];
+
+  for (let file of allFiles) {
+    const ext = file.name.split('.').pop().toLowerCase();
+
+    // ✅ Check extension
+    if (!allowedExts.includes(ext)) {
+      Swal.fire('Error', `"${file.name}" has an invalid file type.`, 'error');
+      this.value = '';
+      $('#attach_file_1').text('');
+      return;
+    }
+
+    // ✅ Check size
+    if (file.size > maxSize) {
+      Swal.fire('Error', `"${file.name}" exceeds 500MB limit.`, 'error');
+      this.value = '';
+      $('#attach_file_1').text('');
+      return;
+    }
+
+    validFiles.push(file);
+  }
+
+  // ✅ Replace input.files so FormData uses validFiles only
+  const dt = new DataTransfer();
+  validFiles.forEach(f => dt.items.add(f));
+  this.files = dt.files;
+
+  // ✅ Update selected file name text
+  $('#attach_file_1').text(validFiles.map(f => f.name).join(', '));
+});
 
 </script>
 

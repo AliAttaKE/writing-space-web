@@ -311,30 +311,42 @@ h3 {
 
     const allowedExts = ['docx','pdf','txt','rtf','xlsx','csv','pptx','jpeg','jpg'];
 
-    // File-select filter + replace FileList
-    $('#media').on('change', function() {
-      const allFiles   = Array.from(this.files);
-      const validFiles = allFiles.filter(f => {
-        const ext = f.name.split('.').pop().toLowerCase();
-        return allowedExts.includes(ext);
-      });
+   $('#media').on('change', function () {
+  const allFiles = Array.from(this.files);
+  const allowedExts = ['docx', 'pdf', 'txt', 'rtf', 'xlsx', 'csv', 'pptx', 'jpeg', 'jpg'];
+  const maxSize = 500 * 1024 * 1024; // 500MB
+  let validFiles = [];
 
-      if (validFiles.length !== allFiles.length) {
-        Swal.fire(
-          'Error',
-          'Only .docx, .pdf, .txt, .rtf, .xlsx, .csv, .pptx, .jpeg, and .jpg files are allowed.',
-          'error'
-        );
-      }
+  for (let file of allFiles) {
+    const ext = file.name.split('.').pop().toLowerCase();
 
-      // Replace input.files so FormData(this) only sees validFiles
-      const dt = new DataTransfer();
-      validFiles.forEach(f => dt.items.add(f));
-      this.files = dt.files;
+    // ✅ Check extension
+    if (!allowedExts.includes(ext)) {
+      Swal.fire('Error', `"${file.name}" has an invalid file type.`, 'error');
+      this.value = '';
+      $('#attach_file_1').text('');
+      return;
+    }
 
-      // Update UI
-      $('#attach_file_1').text(validFiles.map(f => f.name).join(', '));
-    });
+    // ✅ Check size
+    if (file.size > maxSize) {
+      Swal.fire('Error', `"${file.name}" exceeds 500MB limit.`, 'error');
+      this.value = '';
+      $('#attach_file_1').text('');
+      return;
+    }
+
+    validFiles.push(file);
+  }
+
+  // ✅ Replace input.files so FormData uses validFiles only
+  const dt = new DataTransfer();
+  validFiles.forEach(f => dt.items.add(f));
+  this.files = dt.files;
+
+  // ✅ Update selected file name text
+  $('#attach_file_1').text(validFiles.map(f => f.name).join(', '));
+});
 
     // Discard reply
     $('#delete_btn').on('click', function() {

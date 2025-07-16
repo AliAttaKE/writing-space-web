@@ -1120,7 +1120,7 @@
 
                 $.ajax({
 
-                    type: 'get', // Change to DELETE method
+                    type: 'get',
                     // url: '/admin/files/' + id + '/' + name + '/delete',
                     url: "{{ route('admin.files.delete', ['id' => ':id', 'folder_name' => ':name']) }}".replace(':id', id).replace(':name', name),
                     data: { id: id, name: name }, // Assuming id is a parameter you want to send
