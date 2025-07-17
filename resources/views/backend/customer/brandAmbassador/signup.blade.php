@@ -1,6 +1,6 @@
-@extends('frontend.master_layout.master')
-@section('main-theme')
-   <section class="register_section section_space_lg">
+@extends('frontend_final.Layout.masters')
+@section('content')
+     <section class="bg-dark section-card-phases pt-160px">
       <div class="container mt-5 pt-5">
          <div class="row justify-content-center">
             <div class="col col-lg-5">
