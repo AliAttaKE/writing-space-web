@@ -74,7 +74,7 @@
 									<li><span style="color: #FFC056 !important;">Starter Pack</span>: {{ $s->min_page }} Pages<button type="button"
                                                         class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
                                                         data-bs-toggle="modal" data-bs-target="#modal-3"><i class="ms-4 fa-solid fa-circle-info" style="color: #783AFB;"></i></button></li>
-									<li><span style="color: #FFC056 !important;">Top-up</span>: Up to {{ $s->min_page }} pages<button type="button"
+									<li><span style="color: #FFC056 !important;">Top-up</span>: Up to {{$s->max_page - $s->min_page }} pages<button type="button"
                                                         class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
                                                         data-bs-toggle="modal" data-bs-target="#modal-4"><i class="ms-4 fa-solid fa-circle-info" style="color: #783AFB;"></i></button></li>
 									<!-- <li>Purchase between {{ $s->min_page }} to
@@ -84,6 +84,7 @@
                                                         class="border-0 bg-cus fs-6 fw-semibold bg-transparent"
                                                         data-bs-toggle="modal" data-bs-target="#modal-5"><i class="ms-4 fa-solid fa-circle-info" style="color: #783AFB;"></i></button></li>
 
+                                                        
                                 <h3 class="text-center my-4">Benefits</h3>
 									<li><span style="color: #FFC056 !important;">Transparency in Pricing</span></li>
                                     <li><span style="color: #FFC056 !important;">Assured Quality and Originality</span></li>
