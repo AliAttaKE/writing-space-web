@@ -207,24 +207,21 @@
         <div class="row justify-content-center">
             <div class="col-12 col-md-10">
                 <div class="">
-                    <div class="row g-3 px-5-custom">
-
+                     <!-- <div class="row g-3 px-5-custom">
                         @if ($pricing)
                             @foreach ($pricing as $p)
                                 <div class="col-12 listview py-2 px-3">
                                     <div class="row d-flex justify-content-start align-items-center max-width-text">
-                                        <div class="col-4 service-title">{{ $p->text }}: </div>
+                                        <div class="col-4 service-title">{{ $p->text }}</div>
                                         <div class="col-8 service-description">
-                                            <span class="underline">
-                                                @if ($p->min == '15')
-                                                    {{ $p->min }} {{ $p->duration_type }} or {{ $p->max }}
+                                            <span class="underline"> @if ($p->min == '15')
+                                                {{ $p->min }} {{ $p->duration_type }} or {{ $p->max }}
 
                                                 @else
-                                                    {{ $p->min }}  {{ $p->max }} {{ $p->duration_type }}
+                                                {{ $p->min }}  {{ $p->max }} {{ $p->duration_type }}
 
-                                                @endif                                      </span> {{$p->title}}
-                                            <span class="underline">{{ $p->cost }} ${{ $p->cost_per_page }}/page</span>,
-                                            {{ $p->page_limit }} {{$p->page_text}}
+                                                @endif</span>{{$p->title}}
+                                            <span class="underline">{{ $p->cost }} ${{ $p->cost_per_page }}/page</span>, {{ $p->page_limit }} {{$p->page_text}}
                                         </div>
                                     </div>
                                 </div>
@@ -232,8 +229,113 @@
                         @endif
 
 
-                        <!-- Repeat for each service -->
+
+
+
+                       
                     </div>
+
+                    <br><br><br> -->
+                    <!-- //new work -->
+                    <div class="row g-3 px-5-custom">
+                                <div class="col-12 listview py-2 px-3">
+                                    <div class="row d-flex justify-content-start align-items-center max-width-text">
+                                        <div class="col-4 service-title">Instant Insight Investment</div>
+                                        <div class="col-8 service-description">                                          
+                                                 <span class="underline">
+                                                    Need it in 2–7 hours 
+                                                </span>                                               
+                                           ? It's  <span class="underline">$50/page</span>, perfect for your most urgent needs. Limit: 10 pages.
+                                        </div>
+                                        </div>
+                                        </div>
+                                         <div class="col-12 listview py-2 px-3">
+                                    <div class="row d-flex justify-content-start align-items-center max-width-text">
+                                        <div class="col-4 service-title">Hourly Hero Rate</div>
+                                        <div class="col-8 service-description">                                          
+                                                 <span class="underline">
+                                                   Have 8–23 hours 
+                                                </span>                                               
+                                           left?  The rate is <span class="underline">$45/page</span>, accommodating up to 15 pages with swift delivery.
+                                        </div>
+                                        </div>
+                                        </div>
+                                         <div class="col-12 listview py-2 px-3">
+                                    <div class="row d-flex justify-content-start align-items-center max-width-text">
+                                        <div class="col-4 service-title">Next-Day Necessity</div>
+                                        <div class="col-8 service-description">                                          
+                                                 <span class="underline">
+                                                   Only 1-2 days
+                                                </span>                                               
+                                          to go?    Get it done at   <span class="underline">$40/page </span>, with a maximum of 30 pages.
+                                        </div>
+                                        </div>
+                                        </div>
+                                         <div class="col-12 listview py-2 px-3">
+                                    <div class="row d-flex justify-content-start align-items-center max-width-text">
+                                        <div class="col-4 service-title">Rapid Response Rate</div>
+                                        <div class="col-8 service-description">                                          
+                                                 <span class="underline">
+                                                    Just 2-3 days  
+                                                </span>                                               
+                                           left?  We'll complete your work for  <span class="underline">$30/page</span>, up to 40 pages.
+                                        </div>
+                                        </div>
+                                        </div>
+                                         <div class="col-12 listview py-2 px-3">
+                                    <div class="row d-flex justify-content-start align-items-center max-width-text">
+                                        <div class="col-4 service-title">Speedy Service Save</div>
+                                        <div class="col-8 service-description">                                          
+                                                 <span class="underline">
+                                                    Deadline in 3–4 days   
+                                                </span>                                               
+                                          ?  Take advantage of <span class="underline">$26/page</span>, with a 55-page limit.
+                                        </div>
+                                        </div>
+                                        </div>
+                                         <div class="col-12 listview py-2 px-3">
+                                    <div class="row d-flex justify-content-start align-items-center max-width-text">
+                                        <div class="col-4 service-title">Quick Turnaround Deal</div>
+                                        <div class="col-8 service-description"> 
+                                             Need it                                          
+                                                 <span class="underline">
+                                                    in 5–6 days
+                                                </span>                                               
+                                           ?    Enjoy a rate of <span class="underline">$24/page</span>,with a cap of 70 pages.
+                                        </div>
+                                        </div>
+                                        </div>
+                                         <div class="col-12 listview py-2 px-3">
+                                    <div class="row d-flex justify-content-start align-items-center max-width-text">
+                                        <div class="col-4 service-title">Advance Advantage</div>
+                                        <div class="col-8 service-description">                                          
+                                                 <span class="underline">
+                                                    Working 7–14 days  
+                                                </span>                                               
+                                           ahead? Secure a rate of <span class="underline">$22/page</span>,for up to 140 pages.
+                                        </div>
+                                        </div>
+                                        </div>
+                                         <div class="col-12 listview py-2 px-3">
+                                    <div class="row d-flex justify-content-start align-items-center max-width-text">
+                                        <div class="col-4 service-title">Early Planner Perk</div>
+                                        <div class="col-8 service-description">                                          
+                                                 <span class="underline">
+                                                    Planning 15+ days 
+                                                </span>                                               
+                                          in advance?  Benefit from our lowest rate of <span class="underline">$20/page</span>,with no page limit.
+                                        </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                                 
+                           
+
+
+
+
+                       
+    <!-- //new work -->
 
                 </div>
             </div>
