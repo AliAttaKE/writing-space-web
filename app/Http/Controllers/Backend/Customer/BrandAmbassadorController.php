@@ -30,6 +30,7 @@ class BrandAmbassadorController extends Controller
     public function store(Request $request)
     {
 
+      //  dd($request->all());
         $request->validate([
             'name' => 'required|string|min:3|max:50',
             'message' => 'required|string',
@@ -59,7 +60,7 @@ class BrandAmbassadorController extends Controller
         try {
 
             Mail::send('emails.brand_ambassador_sign_up', ['data' => $data], function($message) use ($request) {
-                $message->to($request->email)->subject("brand_ambassador_sign_up");
+                $message->to($request->email)->subject($request->subject);
             });
 
 

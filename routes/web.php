@@ -715,10 +715,10 @@ Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->nam
     Route::post('/coupon/check',[CouponController::class,'coupon_check'])->name('coupon-check');
     Route::get('show-libraries', [LibraryManagmentController::class, 'showLibrary'])->name('show.libraries');
 
-    Route::get('/brand-ambassadors', [BrandAmbassadorController::class, 'index'])->name('brand.ambassadors');
-    Route::post('/brand-ambassadors', [BrandAmbassadorController::class, 'store'])->name('brand.ambassadors');
-    Route::get('/brand-ambassadors-sign-up', [BrandAmbassadorController::class, 'signUp'])->name('brand.ambassadors.signup');
-    Route::post('/brand-ambassadors-sign-up', [BrandAmbassadorController::class, 'signUpProcess'])->name('create.brand.ambassadors.signup');
+    Route::get('/our-current-offers', [BrandAmbassadorController::class, 'index'])->name('brand.ambassadors');
+    Route::post('/our-current-offers', [BrandAmbassadorController::class, 'store'])->name('brand.ambassadors');
+    Route::get('/our-current-offers-sign-up', [BrandAmbassadorController::class, 'signUp'])->name('brand.ambassadors.signup');
+    Route::post('/our-current-offers-sign-up', [BrandAmbassadorController::class, 'signUpProcess'])->name('create.brand.ambassadors.signup');
     Route::get('/brand-ambassador/delete/{id}', [BrandAmbassadorController::class, 'destroy'])->name('brand.ambassadors.destroy');
 
 
@@ -738,9 +738,3 @@ Route::post('check-coupon',[CouponController::class,'check_coupon'])->name('chec
     Route::get('/edit/role/permission/{id}', [RoleSetupController::class, 'EditRolePermission'])->name('edit.role.permission');
     Route::post('/update/role/permission/{id}', [RoleSetupController::class, 'UpdateRolePermission'])->name('update.role.permission');
     Route::get('/delete/role/permission/{id}', [RoleSetupController::class, 'DeleteRolePermission'])->name('delete.role.permission');
-Route::get('/debug-file', function(){
-    $file = storage_path('app/public/media/232494273.jpg');
-    return file_exists($file)
-        ? 'Exists: '. $file
-        : 'Not found at '.$file;
-});

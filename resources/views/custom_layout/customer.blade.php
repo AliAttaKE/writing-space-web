@@ -849,7 +849,7 @@
                                         <span class="menu-link py-0"><span class="menu-icon"><i class="ki-duotone ki-message-text-2 fs-2"><span
                                                         class="path1"></span><span class="path2"></span><span class="path3"></span></i></span><span
                                                 class="menu-title">
-                                                <a class="menu-link ps-0 custom-menu {{ (request()->is('customer/brand-ambassadors')) ? 'active' : '' }}"
+                                                <a class="menu-link ps-0 custom-menu {{ (request()->is('customer/our-current-offers')) ? 'active' : '' }}"
                                                     href="{{route('customer.brand.ambassadors')}}">Our Current Offers</a></span></span>
                                         <!--end:Menu link-->
                                     </div>
