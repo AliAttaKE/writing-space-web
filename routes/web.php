@@ -4,6 +4,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 
+use Illuminate\Support\Facades\File;
+
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProfileController;
 
@@ -72,6 +74,21 @@ use App\Http\Controllers\ContactController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+Route::get('/fix-storage-link', function () {
+    $storageLink = public_path('storage');
+
+    // Delete if it exists (either symlink or directory)
+    if (file_exists($storageLink)) {
+        File::deleteDirectory($storageLink);
+    }
+
+    // Recreate symbolic link
+    Artisan::call('storage:link');
+
+    return 'Storage symlink recreated successfully.';
+});
 
 Route::get('/clear', function (){
 
