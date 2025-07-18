@@ -17,7 +17,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Card 2 -->
                 <div class="col-sm-6 col-12 mb-4">
                     <div class="blog-card-style">
