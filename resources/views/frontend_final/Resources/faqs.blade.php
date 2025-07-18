@@ -1076,7 +1076,7 @@
                             </h2>
                             <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    If you encounter any technical issues, our technical support team is available to help resolve them promptly. You can reach them via email, or phone as detailed on our website.
+                                    If you encounter any technical issues, our technical support team is available to help resolve them promptly. You can reach them via email, or live chat as detailed on our website.    
                                 </div>
                             </div>
                         </div>
@@ -1100,7 +1100,7 @@
                             </h2>
                             <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    Comprehensive support is available through email, and phone. Our customer service team is equipped to help you navigate the service, answer any questions, and provide assistance whenever needed.
+                                   Comprehensive support is available through email, and live chat. Our customer service team is equipped to help you navigate the service, answer any questions, and provide assistance whenever needed.
                                 </div>
                             </div>
                         </div>

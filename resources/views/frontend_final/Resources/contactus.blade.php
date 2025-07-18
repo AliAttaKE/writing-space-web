@@ -33,9 +33,9 @@
             <div class="align-items-center justify-content-center">
                 <h5 class="gradient-text fs-3 fw-bold">Multiple channels to connect with us, making communication seamless!</h5>
                 <p class="fs-4">Reach us anytime, ensuring you're never alone in your academic journey!</p>
-                <div class="yellow-text fw-bolder fs-5">Email 24/7: xxxx@xxxx.com</div>
+                <div class="yellow-text fw-bolder fs-5">Email 24/7: support@writing-space.com</div>
                 <p class="fs-4">Get immediate answers to your queries, keeping your studies on track!</p>
-                <div class="yellow-text fw-bolder fs-5">Live chat: 9 AM– 5 PM EST: 133444556666</div>
+                <div class="yellow-text fw-bolder fs-5">Live chat: Weekdays 9 AM – 5 PM EST.</div>
             </div>
         </div>
     </div>
@@ -126,8 +126,7 @@
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse " data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                You can reach us via email at <a href="mail">support@writing-space.com</a>, or for immediate assistance.
-                            </div>
+                                You can reach us via email at <a href="mail">support@writing-space.com</a>, or for immediate assistance our customer service team is available via live chat from 9 AM to 5 PM EST, Monday through Friday. </div>
                         </div>
                     </div>
 
@@ -165,7 +164,7 @@
                         </h2>
                         <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                               You can live chat with us at  <a href="tel" class="text-decoration-none">1-800-123-4567</a>. Our team is ready to assist you with any urgent concerns.
+                             You can live chat with us from 9 AM to 5 PM EST, Monday through Friday. Our team is ready to assist you with any urgent concerns. Unfortunately, we no longer offer telephone support services.
                             </div>
                         </div>
                     </div>
@@ -205,7 +204,7 @@
                         </h2>
                         <div id="collapseTen" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                You can update your contact information through your account on our website or by contacting customer support via email or phone.
+                                You can update your contact information through your account on our website or by contacting customer support via email.
                             </div>
                         </div>
                     </div>
@@ -217,7 +216,7 @@
                         </h2>
                         <div id="collapseEleven" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                For changes to your services, please contact us via email or phone. This ensures that we handle your request accurately and promptly.
+                                For changes to your services, please contact us via email or live chat. This ensures that we handle your request accurately and promptly.
                             </div>
                         </div>
                     </div>

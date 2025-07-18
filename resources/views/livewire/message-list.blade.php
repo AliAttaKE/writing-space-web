@@ -165,13 +165,19 @@ wire:keyup.debounce.300ms="$refresh"
         @endforelse
       </tbody>
     </table>
+    <style>
+  .bg{
+    background-color: #783AFB  !important;
+    
+  }
+</style>
 <div class="mb-3">
     <label for="perPageSelect" class="form-label text-white">Items per page:</label>
-    <select id="perPageSelect" wire:model="perPage" class="form-select w-auto" wire:change="$refresh" style="background-color: #783AFB !important; border-color: #783AFB !important; color: white !important; color:#fff;">
-        <option value="5">5</option>
-        <option value="10">10</option>
-        <option value="15">15</option>
-        <option value="25">25</option>
+    <select id="perPageSelect" wire:model="perPage" class="form-select w-auto" wire:change="$refresh" style="background-color: transparent !important; border-color: #783AFB !important; color: white !important; color:#fff;">
+        <option value="5" class="bg">5</option>
+        <option value="10" class="bg">10</option>
+        <option value="15" class="bg">15</option>
+        <option value="25" class="bg">25</option>
     </select>
 </div>
 
@@ -182,3 +188,4 @@ wire:keyup.debounce.300ms="$refresh"
 </div>
   </div>
 </div>
+

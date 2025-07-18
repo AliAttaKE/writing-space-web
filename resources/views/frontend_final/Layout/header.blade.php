@@ -51,8 +51,8 @@
                         <ul class="list-unstyled d-flex justify-content-end align-items-center login-menu-primary login-options">
                             <li class="country-flag"><img src="{{ asset('fronted_final/assets/images/country-flag.webp')}}" alt=""></li>
                             <li class="text-white mx-2">|</li>
-                            <li class="text-white me-2"><i class="fa-solid fa-phone-volume text-purple" id="header_fs"></i> +12 345
-                                67890</li>
+                            <li class="text-white me-2"><i class="fa-solid fa-phone-volume text-purple" id="header_fs"></i> +1 307 301 2145
+                                </li>
                                 @auth
                                
                                 @if (Auth::user()->role === 'customer')
@@ -95,8 +95,7 @@
                         <ul class="list-unstyled d-flex justify-content-end align-items-center login-menu-secondary">
                             <li class="country-flag"><img src="{{ asset('fronted_final/assets/images/country-flag.webp')}}" alt=""></li>
                             <li class="text-white mx-2">|</li>
-                            <li class="text-white me-2"><i class="fa-solid fa-phone-volume text-purple"></i> +12 345
-                                67890</li>
+                            <li class="text-white me-2"><i class="fa-solid fa-phone-volume text-purple"></i> +1 307 301 2145</li>
 
                                 @auth
                                
