@@ -126,7 +126,6 @@ wire:keyup.debounce.300ms="$refresh"
         </tr>
       </thead>
       <tbody>
-
         {{-- Loop through threads --}}
         @forelse($threads as $thread)
           <tr>
@@ -168,7 +167,7 @@ wire:keyup.debounce.300ms="$refresh"
     <style>
   .bg{
     background-color: #783AFB  !important;
-    
+
   }
 </style>
 <div class="mb-3">
