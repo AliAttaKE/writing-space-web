@@ -666,7 +666,7 @@
                 <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Cost: </spnan><spnan class="fw-bold">${{ $best->cost_per_page }} Per Page</spnan> </span>
                 <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Duration: </spnan><spnan class="fw-bold">{{ $best->set_time }} Days </spnan> </span>
                 <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Starter Pack: </spnan><spnan class="fw-bold">{{ $best->min_page }} pages</spnan> </span>
-                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Top-up: </spnan><spnan class="fw-bold"> Up to  {{ $best->min_page }} pages</spnan> </span>
+                <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Top-up: </spnan><spnan class="fw-bold"> Up to  {{$best->max_page - $best->min_page }} pages</spnan> </span>
                 <span class="fw-semibold d-block fs-8 custom-fs-13"><spnan class="fs-color-yellow">Complete Pack: </spnan><spnan class="fw-bold">{{ $best->max_page }} pages</spnan>  </span>
             </div>
         </div>

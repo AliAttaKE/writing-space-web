@@ -61,6 +61,18 @@
                     <div class="card-header main-text text-purple text-center fw-bold py-4">
                         {{ $s->subscription_name }}:
                     </div>
+                    <div class="d-flex justify-content-center my-4">
+                        <div class="rounded-circle d-flex flex-column align-items-center justify-content-center text-white"
+                            style="width: 160px; height: 160px; 
+                                    background: linear-gradient(135deg, #6a11cb, #2575fc); 
+                                    font-size: 1.1rem; 
+                                    font-weight: bold;
+                                    box-shadow: 0 6px 12px rgba(0,0,0,0.3);">
+                            <div style="font-size: 1rem; opacity: 0.9;">Total Cost</div>
+                            <div style="font-size: 1.6rem;">${{ $s->cost_per_page * $s->min_page }}</div>
+                        </div>
+                    </div>
+
                     <div class="card-body text-white fw-normal lh-lg">
                         <ul class="mb-0 p-0">
                             <ul class="info_list unordered_list_block text-start" style="list-style: outside; padding-inline: 20px;">

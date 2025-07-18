@@ -35,7 +35,7 @@ class CustomerController extends Controller
                             ->limit(5)
                             ->get();
         $coupons = Coupon::limit(2)->latest()->get();
-        $best_offers = Subscription::where('best_offer', 1)->limit(3)->latest()->get();
+        $best_offers = Subscription::where('best_offer', 1)->limit(3)->get();
         $countMessages = Message::where('sender_id', $auth_id)->count('sender_id');
         $countFolders = Folder::where('user_id', $auth_id)->count();
         $showLatestMsgs = Message::where('sender_id', $auth_id)->latest()->limit(5)->get();
