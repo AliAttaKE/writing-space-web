@@ -144,8 +144,7 @@ public function store_api(Request $request)
         $validated = $request->validate([
             'file_name' => 'required|array',
             'file_name.*' => 'required|string|max:255',
-            'title' => 'nullable|array',
-            'title.*' => 'nullable|string',
+          
             'file' => 'required|array',
             'file.*' => 'required|file',
             'order_id' => 'required|exists:orders,order_id',
