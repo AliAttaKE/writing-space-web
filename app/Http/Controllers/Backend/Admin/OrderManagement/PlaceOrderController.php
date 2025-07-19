@@ -1478,21 +1478,21 @@ public function new_order_api_completed_string(Request $request)
 {
     // 1) Validate
     $validator = Validator::make($request->all(), [
-        'email'    => 'required|email',
+         'email' => 'required|email',
         'password' => 'required',
     ]);
     if ($validator->fails()) {
         return response()->json(['error' => $validator->errors()->first()], 400);
     }
+ $user = User::where('email', $request->email)->first();
 
-    // 2) Authenticate
-    $credentials = $request->only('email', 'password');
-    $user = User::where('api_role', 'api')
-                ->where('email', $credentials['email'])
-                ->first();
-
-    if (! $user || ! Hash::check($credentials['password'], $user->password)) {
+    if (!$user || !Hash::check($request->password, $user->password)) {
         return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+    // ✅ Check if the user is admin
+    if ($user->role !== 'admin') {
+        return response()->json(['error' => 'Only admin can upload files.'], 403);
     }
 
     // 3) Fetch orders
