@@ -1474,60 +1474,138 @@ public function new_order_api_completed(Request $request)
     // }
 
 
+// public function new_order_api_completed_string(Request $request)
+// {
+//     // 1) Validate
+//     $validator = Validator::make($request->all(), [
+//         'email'    => 'required|email',
+//         'password' => 'required',
+//     ]);
+//     if ($validator->fails()) {
+//         return response()->json(['error' => $validator->errors()->first()], 400);
+//     }
+
+//     // 2) Authenticate
+//     $credentials = $request->only('email', 'password');
+//     $user = User::where('api_role', 'api')
+//                 ->where('email', $credentials['email'])
+//                 ->first();
+
+//     if (! $user || ! Hash::check($credentials['password'], $user->password)) {
+//         return response()->json(['error' => 'Unauthorized'], 401);
+//     }
+
+//     // 3) Fetch orders
+//     $orders = Orders::where('order_status', 'In-Progress')
+//         ->select(
+//             'id', 'order_id', 'subject', 'description', 'academic_level',
+//             'type_of_paper', 'paper_format', 'order_status',
+//             'language_spelling', 'number_of_pages', 'powerpoint_slide',
+//             'no_of_extra_sources as sources', 'deadline', 'topic','summary','outline','ai_detection','plagiarism'
+//         )
+//         ->get();
+
+//     // 4) Build response array
+//     $data = [];   // ← initialize here!
+
+//     foreach ($orders as $o) {
+//         $orderArr = $o->toArray();
+//         $orderArr['arrival_date']  = date('d-m-Y');
+//         $orderArr['citation']      = 'APA';
+//         $orderArr['instructions']  = strip_tags(html_entity_decode($o->description));
+
+//         $folder = Folder::where('name', $o->order_id)->first();
+//         $orderArr['attachment'] = 'no';
+//         $orderArr['files']      = [];
+
+//         if ($folder) {
+//             $files = File::where('folder_id', $folder->id)->get();
+//             if ($files->isNotEmpty()) {
+//                 $orderArr['attachment'] = 'yes';
+//                 $orderArr['files'] = $files->map(function($file) {
+//                     $path = str_replace('public/', '', $file->file_path);
+//                     return [
+//                         'file_name' => $file->title,
+//                         'file_path' => $file->file_path,
+//                         'file_url'  => config('app.url') . '/storage/' . $path,
+//                     ];
+//                 })->toArray();
+//             }
+//         }
+
+//         $data[] = $orderArr;
+//     }
+
+//     // 5) Return response
+//     if (count($data) > 0) {
+//         $data = array_reverse($data);
+//         return response()->json(['order' => $data], 200);
+//     }
+
+//     // no orders found
+//     return response()->json(['order' => []], 200);
+// }
+
+
 public function new_order_api_completed_string(Request $request)
 {
     // 1) Validate
     $validator = Validator::make($request->all(), [
-         'email' => 'required|email',
+        'email' => 'required|email',
         'password' => 'required',
     ]);
+
     if ($validator->fails()) {
         return response()->json(['error' => $validator->errors()->first()], 400);
     }
- $user = User::where('email', $request->email)->first();
+
+    // 2) Authenticate user
+    $user = User::where('email', $request->email)->first();
 
     if (!$user || !Hash::check($request->password, $user->password)) {
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
-    // ✅ Check if the user is admin
+    // 3) Check if the user is admin
     if ($user->role !== 'admin') {
         return response()->json(['error' => 'Only admin can upload files.'], 403);
     }
 
-    // 3) Fetch orders
+    // 4) Fetch orders
     $orders = Orders::where('order_status', 'In-Progress')
         ->select(
             'id', 'order_id', 'subject', 'description', 'academic_level',
             'type_of_paper', 'paper_format', 'order_status',
             'language_spelling', 'number_of_pages', 'powerpoint_slide',
-            'no_of_extra_sources as sources', 'deadline', 'topic','summary','outline','ai_detection','plagiarism'
+            'no_of_extra_sources as sources', 'deadline', 'topic',
+            'summary', 'outline', 'ai_detection', 'plagiarism'
         )
         ->get();
 
-    // 4) Build response array
-    $data = [];   // ← initialize here!
+    // 5) Build response
+    $data = [];
 
     foreach ($orders as $o) {
         $orderArr = $o->toArray();
-        $orderArr['arrival_date']  = date('d-m-Y');
-        $orderArr['citation']      = 'APA';
-        $orderArr['instructions']  = strip_tags(html_entity_decode($o->description));
+        $orderArr['arrival_date'] = date('d-m-Y');
+        $orderArr['citation'] = 'APA';
+        $orderArr['instructions'] = strip_tags(html_entity_decode($o->description));
 
         $folder = Folder::where('name', $o->order_id)->first();
         $orderArr['attachment'] = 'no';
-        $orderArr['files']      = [];
+        $orderArr['files'] = [];
 
         if ($folder) {
             $files = File::where('folder_id', $folder->id)->get();
+
             if ($files->isNotEmpty()) {
                 $orderArr['attachment'] = 'yes';
-                $orderArr['files'] = $files->map(function($file) {
+                $orderArr['files'] = $files->map(function ($file) {
                     $path = str_replace('public/', '', $file->file_path);
                     return [
                         'file_name' => $file->title,
                         'file_path' => $file->file_path,
-                        'file_url'  => config('app.url') . '/storage/' . $path,
+                        'file_url' => config('app.url') . '/storage/' . $path,
                     ];
                 })->toArray();
             }
@@ -1536,15 +1614,8 @@ public function new_order_api_completed_string(Request $request)
         $data[] = $orderArr;
     }
 
-    // 5) Return response
-    if (count($data) > 0) {
-        $data = array_reverse($data);
-        return response()->json(['order' => $data], 200);
-    }
-
-    // no orders found
-    return response()->json(['order' => []], 200);
+    // 6) Return response
+    return response()->json(['order' => array_reverse($data)], 200);
 }
-
 
 }
