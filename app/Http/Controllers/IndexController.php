@@ -469,6 +469,8 @@ class IndexController extends Controller
         // dd($request->all());
         $validated = $request->validate([
             'email' => 'required|email|unique:users,email',
+                'g-recaptcha-response' => 'required',
+
              'name' => [
     'required',
     'regex:/^(?:\S+(?:\s+|$)){1,20}$/'
@@ -482,19 +484,21 @@ class IndexController extends Controller
             'password.required' => 'Password is required.',
             'password_confirmation.required' => 'Password confirmation is required.',
             'password_confirmation.confirmed' => 'Password confirmation does not match.',
+
             // 'password_confirmation.min' => 'Password confirmation must be at least :min characters.',
         ]);
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-        'secret'   => env('RECAPTCHA_SECRET_KEY'),
-        'response' => $request->recaptcha_token,
-    ]);
+       $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+    'secret'   => env('RECAPTCHA_SECRET_KEY'),
+    'response' => $request->input('g-recaptcha-response'),
+    'remoteip' => $request->ip(),
+]);
 
-    $data = $response->json();
+$data = $response->json();
 
-    // Step 2: Check score (Google recommends >= 0.5)
-    if (!($data['success'] ?? false) || ($data['score'] ?? 0) < 0.5) {
-        return back()->with('error', 'reCAPTCHA validation failed. Try again.');
-    }
+if (!($data['success'] ?? false)) {
+    return back()->with('error', 'reCAPTCHA failed. Try again.');
+}
+
         $account_id = 'ID-' . rand(1000, 99999999);
 
         $input = [

@@ -88,7 +88,8 @@
                                 <a href="{{ route('google.login') }}" class="fw-bold text-white mb-0 d-flex align-items-center ms-3"><i class="fa-brands fa-light me-2 fa-google"></i><span class="icon-size text-capitalize" style="cursor:pointer;">Login with Google</span></a>
                             </div>
                         </div>
-                                    <input type="hidden" name="recaptcha_token" id="recaptcha_token">
+<div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+    @error('g-recaptcha-response') <small class="text-danger">{{ $message }}</small> @enderror
 
                         <div class="col-md-6">
                             <div class="d-flex justify-content-center bordered-card py-3 px-3">
@@ -103,14 +104,8 @@
             </div>
         </div>
 
-        <script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}"></script>
-<script>
-    grecaptcha.ready(function () {
-        grecaptcha.execute('{{ env('RECAPTCHA_SITE_KEY') }}', {action: 'register'}).then(function (token) {
-            document.getElementById('recaptcha_token').value = token;
-        });
-    });
-</script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
    <script>
        $(document).ready(function () {

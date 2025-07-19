@@ -5,7 +5,6 @@
     <div class="container d-flex justify-content-center mb-5">
         <div class="bordered-card p-5 col-md-10 forms-custom login-signup-form">
             <form action="{{ route('login') }}" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
 
 
@@ -47,6 +46,9 @@
         <!--data-sitekey="6LcDcdApAAAAANZyggaWjQPKT9I0H1I7wFt9TmAI" -->
         <!--data-callback='onSubmit' -->
         <!--data-action='submit'>Submit</button>-->
+        <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+    @error('g-recaptcha-response') <small class="text-danger">{{ $message }}</small> @enderror
+
                 <div class="mb-3 text-center">
                     {{-- <a href="#" class="gradient-button fw-bold login-button" data-bs-toggle="modal" data-bs-target="#login-modal">Login</a> --}}
                     <button type="submit" class="gradient-button fw-bold login-button w-100" >Login</button>
@@ -134,6 +136,7 @@
 
 
  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
  <script>
      $(document).ready(function () {
