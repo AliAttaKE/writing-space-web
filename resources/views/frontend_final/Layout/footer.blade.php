@@ -55,8 +55,6 @@
         <div class="row justify-content-center">
                 <div class="col-md-2">
                         <img src="{{ asset('fronted_final/assets/images/logo.png')}}" alt="logo" class="w-100" />
-
-
                 </div>
                 <div class="col-md-10 footer-anch footer-font">
                         <div class="row">
