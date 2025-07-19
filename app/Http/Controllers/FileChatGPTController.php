@@ -11,6 +11,10 @@ use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Email;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 class FileChatGPTController extends Controller
 {
     public function index()
@@ -139,42 +143,93 @@ private function formatFileSize($bytes)
     }
 
 
-public function store_api(Request $request)
-    {
-        $validated = $request->validate([
-            'file_name' => 'required|array',
-            'file_name.*' => 'required|string|max:255',
+// public function store_api(Request $request)
+//     {
+//         $validated = $request->validate([
+//             'file_name' => 'required|array',
+//             'file_name.*' => 'required|string|max:255',
           
-            'file' => 'required|array',
-            'file.*' => 'required|file',
-            'order_id' => 'required|exists:orders,order_id',
-        ]);
+//             'file' => 'required|array',
+//             'file.*' => 'required|file',
+//             'order_id' => 'required|exists:orders,order_id',
+//         ]);
     
-        $order = Orders::where('order_id', $validated['order_id'])->firstOrFail();
-        $uploadedFiles = [];
+//         $order = Orders::where('order_id', $validated['order_id'])->firstOrFail();
+//         $uploadedFiles = [];
     
-        foreach ($request->file('file') as $index => $file) {
-            $filePath = $file->store('complete_order', 'public');
+//         foreach ($request->file('file') as $index => $file) {
+//             $filePath = $file->store('complete_order', 'public');
     
-            $fileChat = FileChatGPT::create([
-                'file_name' => $validated['file_name'][$index] ?? 'Untitled',  // Ensure string
-                'title' => $validated['file_name'][$index] ?? null,  // Ensure string
-                'order_id' => $validated['order_id'],
-                'user_id' => $order->user_id,
-                'file_path' => $filePath,
-                'file_type' => $file->getMimeType(),
-                'size' => $file->getSize(),
+//             $fileChat = FileChatGPT::create([
+//                 'file_name' => $validated['file_name'][$index] ?? 'Untitled',  // Ensure string
+//                 'title' => $validated['file_name'][$index] ?? null,  // Ensure string
+//                 'order_id' => $validated['order_id'],
+//                 'user_id' => $order->user_id,
+//                 'file_path' => $filePath,
+//                 'file_type' => $file->getMimeType(),
+//                 'size' => $file->getSize(),
               
-            ]);
+//             ]);
     
-            $uploadedFiles[] = $fileChat;
-        }
+//             $uploadedFiles[] = $fileChat;
+//         }
     
-        return response()->json([
-            'message' => 'Files uploaded successfully.',
-            'data' => $uploadedFiles,
-        ], 201);
+//         return response()->json([
+//             'message' => 'Files uploaded successfully.',
+//             'data' => $uploadedFiles,
+//         ], 201);
+//     }
+
+
+public function store_api(Request $request)
+{
+    // Authenticate user with email and password
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+        'file_name' => 'required|array',
+        'file_name.*' => 'required|string|max:255',
+        'file' => 'required|array',
+        'file.*' => 'required|file',
+        'order_id' => 'required|exists:orders,order_id',
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        return response()->json(['error' => 'Unauthorized'], 401);
     }
+
+    // ✅ Check if the user is admin
+    if ($user->role !== 'admin') {
+        return response()->json(['error' => 'Only admin can upload files.'], 403);
+    }
+
+    // Continue file upload
+    $order = Orders::where('order_id', $request->order_id)->firstOrFail();
+    $uploadedFiles = [];
+
+    foreach ($request->file('file') as $index => $file) {
+        $filePath = $file->store('complete_order', 'public');
+
+        $fileChat = FileChatGPT::create([
+            'file_name' => $request->file_name[$index] ?? 'Untitled',
+            'title' => $request->file_name[$index] ?? null,
+            'order_id' => $request->order_id,
+            'user_id' => $order->user_id,
+            'file_path' => $filePath,
+            'file_type' => $file->getMimeType(),
+            'size' => $file->getSize(),
+        ]);
+
+        $uploadedFiles[] = $fileChat;
+    }
+
+    return response()->json([
+        'message' => 'Files uploaded successfully.',
+        'data' => $uploadedFiles,
+    ], 201);
+}
     
     public function destroy(FileChatGPT $fileChatGPT)
     {
