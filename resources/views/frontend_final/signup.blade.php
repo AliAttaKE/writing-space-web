@@ -88,9 +88,7 @@
                                 <a href="{{ route('google.login') }}" class="fw-bold text-white mb-0 d-flex align-items-center ms-3"><i class="fa-brands fa-light me-2 fa-google"></i><span class="icon-size text-capitalize" style="cursor:pointer;">Login with Google</span></a>
                             </div>
                         </div>
-<div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
-    @error('g-recaptcha-response') <small class="text-danger">{{ $message }}</small> @enderror
-
+                        
                         <div class="col-md-6">
                             <div class="d-flex justify-content-center bordered-card py-3 px-3">
                                 <img src="{{ asset('fronted_final/assets/images/microsoft.png')}}" alt="" style="height: 32px; width: 32px;">
@@ -99,6 +97,8 @@
                             </div>
                         </div>
                     </div>
+                    <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                        @error('g-recaptcha-response') <small class="text-danger">{{ $message }}</small> @enderror
                 </form>
 
             </div>
