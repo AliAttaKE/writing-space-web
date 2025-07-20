@@ -47,14 +47,7 @@
                         <!--data-callback='onSubmit' -->
                         <!--data-action='submit'>Submit</button>-->
                     
-<script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}"></script>
-<script>
-    grecaptcha.ready(function () {
-        grecaptcha.execute('{{ env('RECAPTCHA_SITE_KEY') }}', {action: 'login'}).then(function (token) {
-            document.getElementById('recaptcha_token').value = token;
-        });
-    });
-</script>
+
                 <div class="mb-3 text-center">
                     {{-- <a href="#" class="gradient-button fw-bold login-button" data-bs-toggle="modal" data-bs-target="#login-modal">Login</a> --}}
                     <button type="submit" class="gradient-button fw-bold login-button w-100" >Login</button>
@@ -64,9 +57,10 @@
 
               <div class="mb-3 d-flex flex-column flex-md-row justify-content-between align-items-center text-center gap-3">
     <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
-    {{-- @error('g-recaptcha-response') 
+    <input type="hidden" name="g-recaptcha-response" id="recaptcha_token">
+    @error('g-recaptcha-response') 
         <small class="text-danger d-block">{{ $message }}</small> 
-    @enderror --}}
+    @enderror
 
     <div class="fw-bold text-white mb-0">
         Don’t have an account? 
