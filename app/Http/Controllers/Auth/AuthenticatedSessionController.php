@@ -34,7 +34,7 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
 
-        
+        dd($request->all());
 
          $recaptcha_token = $request->input('g-recaptcha-response');
 
