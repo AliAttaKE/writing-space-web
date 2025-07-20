@@ -6,11 +6,10 @@
         <div class="bordered-card p-5 col-md-10 forms-custom login-signup-form">
             <form action="{{ route('login') }}" method="POST" id="login-form">
                 @csrf
-
                 <h1 class="heading gradient-text-2 text-center pb-5">Login</h1>
 
-                @if (session('error'))
-                    <div class="alert alert-danger">{{ session('error') }}</div>
+                @if (Session::has('error'))
+                    <div class="alert alert-danger">{{ Session::get('error') }}</div>
                 @endif
 
                 <div class="mb-3">
@@ -30,17 +29,19 @@
                     <a href="{{ route('email.form.request') }}" class="yellow-text fw-bold">Forgot Password?</a>
                 </div>
 
-                <div class="mb-3 d-flex flex-column flex-md-row justify-content-between align-items-center text-center gap-3">
-                    <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                <!-- ✅ reCAPTCHA v2 checkbox -->
+                <div class="mb-3 text-center">
+                    <div class="g-recaptcha d-inline-block" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
                     @error('g-recaptcha-response') <small class="text-danger d-block">{{ $message }}</small> @enderror
-
-                    <div class="fw-bold text-white mb-0">
-                        Don’t have an account? <a href="{{ route('front.signup') }}" class="yellow-text fw-bold">Signup</a>
-                    </div>
                 </div>
 
                 <div class="mb-3 text-center">
                     <button type="submit" class="gradient-button fw-bold login-button w-100">Login</button>
+                </div>
+
+                <div class="mb-3 text-center fw-bold text-white">
+                    Don't have an account?
+                    <a href="{{ route('front.signup') }}" class="yellow-text fw-bold">Signup</a>
                 </div>
 
                 <div class="mb-3 text-center fw-bold text-white d-flex justify-content-between login-form-divider">
@@ -52,20 +53,17 @@
                 <div class="row login-social-options">
                     <div class="col-md-6">
                         <div class="d-flex justify-content-center bordered-card py-3 px-3">
-                            <img src="{{ asset('fronted_final/assets/images/google.png')}}" alt="" style="height: 32px; width: 32px;">
+                            <img src="{{ asset('fronted_final/assets/images/google.png')}}" alt="" style="height: 32px;">
                             <a href="{{ route('google.login') }}" class="fw-bold text-white mb-0 d-flex align-items-center ms-3">
-                                <i class="fa-brands me-2 fa-google"></i>
-                                <span class="icon-size text-capitalize">Login with Google</span>
+                                <i class="fa-brands me-2 fa-google"></i> <span class="icon-size text-capitalize">Login with Google</span>
                             </a>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="d-flex justify-content-center bordered-card py-3 px-3">
-                            <img src="{{ asset('fronted_final/assets/images/microsoft.png')}}" alt="" style="height: 32px; width: 32px;">
+                            <img src="{{ asset('fronted_final/assets/images/microsoft.png')}}" alt="" style="height: 32px;">
                             <a id="microsoft-login" class="fw-bold text-white mb-0 d-flex align-items-center ms-3" style="cursor:pointer;">
-                                <i class="fa-brands me-2 fa-microsoft"></i>
-                                <span class="icon-size text-capitalize">Login with Microsoft</span>
+                                <i class="fa-brands me-2 fa-microsoft"></i> <span class="icon-size text-capitalize">Login with Microsoft</span>
                             </a>
                         </div>
                     </div>
@@ -73,99 +71,32 @@
             </form>
         </div>
     </div>
-
-    {{-- Success Modal --}}
-    <div class="modal fade" id="login-modal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content p-3 bordered-card">
-                <div class="modal-body text-center pb-0">
-                    <img src="{{ asset('fronted_final/assets/images/success-login.png')}}" alt="">
-                    <h1 class="heading gradient-text">Login Successful</h1>
-                    <p class="mb-0 text-white">You have successfully signed into your account.</p>
-                </div>
-                <div class="modal-footer border-0 justify-content-center">
-                    <button type="button" class="btn btn-purple w-75 py-2" data-bs-dismiss="modal">Close Window</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- Incorrect Password Modal --}}
-    <div class="modal fade" id="incorrect-password-modal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content p-3 bordered-card">
-                <div class="modal-body text-center pb-0">
-                    <img src="{{ asset('fronted_final/assets/images/incorrect-password.png')}}" alt="">
-                    <h1 class="heading gradient-text">Incorrect Password</h1>
-                    <p class="mb-0 text-white">The password you entered is incorrect. Please try again.</p>
-                </div>
-                <div class="modal-footer border-0 justify-content-center">
-                    <button type="button" class="btn btn-purple w-75 py-2" data-bs-dismiss="modal">Close Window</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </section>
 
-{{-- reCAPTCHA script --}}
+<!-- ✅ reCAPTCHA v2 Script -->
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-{{-- jQuery --}}
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-{{-- Microsoft login --}}
-<script>
-    $('#microsoft-login').click(function () {
-        $.ajax({
-            url: '{{ route('microsoft.login') }}',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                window.location.href = data.redirect_url;
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    });
-</script>
-
-{{-- Toggle Password Visibility --}}
 <script>
     function togglePasswordVisibility(fieldId) {
-        const input = document.getElementById(fieldId);
+        const field = document.getElementById(fieldId);
         const icon = document.getElementById(`toggle-${fieldId}`);
-
-        if (input.type === "password") {
-            input.type = "text";
-            icon.classList.replace("fa-eye", "fa-eye-slash");
+        if (field.type === "password") {
+            field.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
         } else {
-            input.type = "password";
-            icon.classList.replace("fa-eye-slash", "fa-eye");
+            field.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
         }
     }
-</script>
 
-{{-- Handle Microsoft redirect with access token --}}
-<script>
-    $(document).ready(function () {
-        const hash = window.location.hash.substring(1);
-        const tokenParam = hash.split("&").find(p => p.startsWith("access_token="));
-        const accessToken = tokenParam ? tokenParam.split("=")[1] : null;
-
-        if (accessToken) {
-            $.ajax({
-                url: '{{ route('microsoft.handle.ajax') }}',
-                type: 'GET',
-                data: { access_token: accessToken },
-                success: function () {
-                    window.location.href = '{{ route('customer.dashboard') }}';
-                },
-                error: function (err) {
-                    console.error(err);
-                }
-            });
-        }
+    // Microsoft login
+    document.getElementById('microsoft-login')?.addEventListener('click', function () {
+        fetch('{{ route('microsoft.login') }}')
+            .then(response => response.json())
+            .then(data => window.location.href = data.redirect_url)
+            .catch(console.error);
     });
 </script>
 
