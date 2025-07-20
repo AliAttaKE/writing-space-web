@@ -106,12 +106,21 @@
                     </div>
                     {{-- <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
                         @error('g-recaptcha-response') <small class="text-danger">{{ $message }}</small> @enderror --}}
-                </form>
+              
+               <script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}"></script>
+<script>
+    grecaptcha.ready(function () {
+        grecaptcha.execute('{{ env('RECAPTCHA_SITE_KEY') }}', {action: 'login'}).then(function (token) {
+            document.getElementById('recaptcha_token').value = token;
+        });
+    });
+</script>
+                    </form>
 
             </div>
         </div>
 
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 
    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
    <script>
