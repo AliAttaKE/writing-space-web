@@ -33,7 +33,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
- 
+
+        dd($request->all());
+        
+  $request->validate([
+        'g-recaptcha-response' => 'required'
+    ]);
 
     $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
         'secret' => env('RECAPTCHA_SECRET_KEY'),
@@ -43,9 +48,9 @@ class AuthenticatedSessionController extends Controller
 
     $result = $response->json();
 
-    // if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
-    //     return back()->with('error', 'reCAPTCHA validation failed. Please try again.');
-    // }
+    if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
+        return back()->with('error', 'reCAPTCHA validation failed. Please try again.');
+    }
         $request->authenticate();
         // $request->session()->regenerate();
         // getMoreDeatils();
