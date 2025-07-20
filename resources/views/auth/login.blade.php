@@ -41,13 +41,12 @@
                 <div class="mb-3 text-center">
                     <a href="{{ route('email.form.request') }}" class="yellow-text fw-bold">Forgot Password?</a>
                 </div>
-                <!--<div class="g-recaptcha" data-sitekey="6LcDcdApAAAAANZyggaWjQPKT9I0H1I7wFt9TmAI"></div>-->
-        <!--        <button class="g-recaptcha" -->
-        <!--data-sitekey="6LcDcdApAAAAANZyggaWjQPKT9I0H1I7wFt9TmAI" -->
-        <!--data-callback='onSubmit' -->
-        <!--data-action='submit'>Submit</button>-->
-        <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
-    @error('g-recaptcha-response') <small class="text-danger">{{ $message }}</small> @enderror
+                                <!--<div class="g-recaptcha" data-sitekey="6LcDcdApAAAAANZyggaWjQPKT9I0H1I7wFt9TmAI"></div>-->
+                        <!--        <button class="g-recaptcha" -->
+                        <!--data-sitekey="6LcDcdApAAAAANZyggaWjQPKT9I0H1I7wFt9TmAI" -->
+                        <!--data-callback='onSubmit' -->
+                        <!--data-action='submit'>Submit</button>-->
+                    
 
                 <div class="mb-3 text-center">
                     {{-- <a href="#" class="gradient-button fw-bold login-button" data-bs-toggle="modal" data-bs-target="#login-modal">Login</a> --}}
@@ -56,9 +55,18 @@
 
                 </div>
 
-                <div class="mb-3 text-center fw-bold text-white">
-                    Don’t have an accoumt? <a href="{{ route('front.signup') }}" class="yellow-text fw-bold">Signup</a>
-                </div>
+              <div class="mb-3 d-flex flex-column flex-md-row justify-content-between align-items-center text-center gap-3">
+    <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+    @error('g-recaptcha-response') 
+        <small class="text-danger d-block">{{ $message }}</small> 
+    @enderror
+
+    <div class="fw-bold text-white mb-0">
+        Don’t have an account? 
+        <a href="{{ route('front.signup') }}" class="yellow-text fw-bold">Signup</a>
+    </div>
+</div>
+
 
                 <div class="mb-3 text-center fw-bold text-white d-flex justify-content-between login-form-divider">
                     <span class="divider"></span>
