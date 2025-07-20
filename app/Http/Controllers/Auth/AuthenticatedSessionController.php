@@ -49,10 +49,10 @@ class AuthenticatedSessionController extends Controller
     $result = $response->json();
 
 
-    dd($result);
-    if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
-        return back()->with('error', 'reCAPTCHA validation failed. Please try again.');
-    }
+   
+   if (!($result['success'] ?? false)) {
+    return back()->with('error', 'reCAPTCHA validation failed. Please try again.');
+}
         $request->authenticate();
         // $request->session()->regenerate();
         // getMoreDeatils();
