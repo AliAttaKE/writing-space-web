@@ -70,17 +70,16 @@
 
                     </div>
 
-                    
-              <div class="mb-3 d-flex flex-column flex-md-row justify-content-between align-items-center text-center gap-3">
-                    <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
-                    @error('g-recaptcha-response') 
-                        <small class="text-danger d-block">{{ $message }}</small> 
-                    @enderror
+                      <!-- ✅ reCAPTCHA v2 checkbox -->
+                <div class="mb-3 text-center">
+                    <div class="g-recaptcha d-inline-block" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                    @error('g-recaptcha-response') <small class="text-danger d-block">{{ $message }}</small> @enderror
+                </div>
 
                     <div class="mb-3 text-center fw-bold text-white">
                         Already have an account? <a href="{{ route('login') }}" class="yellow-text fw-bold">Login</a>
                     </div>
-                </div>
+
                     <div class="mb-3 text-center fw-bold text-white d-flex justify-content-between login-form-divider">
                         <span class="divider"></span>
                         <p class="text-white fw-bold">or</p><span class="divider-2"></span>
@@ -104,23 +103,14 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
-                        @error('g-recaptcha-response') <small class="text-danger">{{ $message }}</small> @enderror --}}
-              
-               <script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}"></script>
-<script>
-    grecaptcha.ready(function () {
-        grecaptcha.execute('{{ env('RECAPTCHA_SITE_KEY') }}', {action: 'login'}).then(function (token) {
-            document.getElementById('recaptcha_token').value = token;
-        });
-    });
-</script>
-                    </form>
+                   
+                </form>
 
             </div>
         </div>
 
-
+<!-- ✅ reCAPTCHA v2 Script -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
    <script>
