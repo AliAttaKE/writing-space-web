@@ -466,41 +466,37 @@ class IndexController extends Controller
    public function customCustomerRegistrationProcess(Request $request)
     {
 
-         dd($request->all());
-        $validated = $request->validate([
-            'email' => 'required|email|unique:users,email',
-                'g-recaptcha-response' => 'required',
 
-             'name' => [
-    'required',
-    'regex:/^(?:\S+(?:\s+|$)){1,20}$/'
-],          'recaptcha_token' => 'required',
-            'password' => 'required',
-            'password_confirmation' => 'required_with:password|same:password'
-        ], [
-            'email.required' => 'Email is required.',
-            'email.email' => 'Please enter a valid email address.',
-            'email.unique' => 'This email is already registered.',
-            'password.required' => 'Password is required.',
-            'password_confirmation.required' => 'Password confirmation is required.',
-            'password_confirmation.confirmed' => 'Password confirmation does not match.',
+       $validated = $request->validate([
+        'email' => 'required|email|unique:users,email',
+        'g-recaptcha-response' => 'required',
+        'name' => [
+            'required',
+            'regex:/^(?:\S+(?:\s+|$)){1,20}$/'
+        ],
+        'password' => 'required',
+        'password_confirmation' => 'required_with:password|same:password',
+    ], [
+        'email.required' => 'Email is required.',
+        'email.email' => 'Please enter a valid email address.',
+        'email.unique' => 'This email is already registered.',
+        'password.required' => 'Password is required.',
+        'password_confirmation.required' => 'Password confirmation is required.',
+        'password_confirmation.same' => 'Password confirmation does not match.',
+    ]);
 
-            // 'password_confirmation.min' => 'Password confirmation must be at least :min characters.',
-        ]);
-       $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-    'secret'   => env('RECAPTCHA_SECRET_KEY'),
-    'response' => $request->input('g-recaptcha-response'),
-    'remoteip' => $request->ip(),
-]);
+    // Verify reCAPTCHA
+    $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        'secret'   => env('RECAPTCHA_SECRET_KEY'),
+        'response' => $request->input('g-recaptcha-response'),
+        'remoteip' => $request->ip(),
+    ]);
 
+    $data = $response->json();
 
-
-$data = $response->json();
-
-if (!($data['success'] ?? false)) {
-    return back()->with('error', 'reCAPTCHA failed. Try again.');
-}
-
+    if (!($data['success'] ?? false)) {
+        return back()->with('error', 'reCAPTCHA validation failed. Please try again.');
+    }
         $account_id = 'ID-' . rand(1000, 99999999);
 
         $input = [
@@ -510,6 +506,7 @@ if (!($data['success'] ?? false)) {
             'password' => Hash::make($request->password),
             'account_id' => $account_id,
         ];
+
 
         $user = User::create($input);
 
