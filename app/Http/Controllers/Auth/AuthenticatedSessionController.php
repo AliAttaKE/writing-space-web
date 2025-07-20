@@ -34,7 +34,7 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
 
-        dd($request->all());
+     //   dd($request->all());
 
          $recaptcha_token = $request->input('g-recaptcha-response');
 
@@ -48,6 +48,8 @@ class AuthenticatedSessionController extends Controller
 
     $result = $response->json();
 
+
+    dd($result);
     if (!($result['success'] ?? false) || ($result['score'] ?? 0) < 0.5) {
         return back()->with('error', 'reCAPTCHA validation failed. Please try again.');
     }
