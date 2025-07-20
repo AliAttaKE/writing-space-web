@@ -466,7 +466,7 @@ class IndexController extends Controller
    public function customCustomerRegistrationProcess(Request $request)
     {
 
-        // dd($request->all());
+         dd($request->all());
         $validated = $request->validate([
             'email' => 'required|email|unique:users,email',
                 'g-recaptcha-response' => 'required',
@@ -494,7 +494,7 @@ class IndexController extends Controller
 ]);
 
 
-dd($request->all());
+
 $data = $response->json();
 
 if (!($data['success'] ?? false)) {
