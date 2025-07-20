@@ -63,6 +63,11 @@
         {{ session('error') }}
     </div>
 @endif
+       <!-- ✅ reCAPTCHA v2 checkbox -->
+                <div class="mb-3 text-center">
+                    <div class="g-recaptcha d-inline-block" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                    @error('g-recaptcha-response') <small class="text-danger d-block">{{ $message }}</small> @enderror
+                </div>
                     <div class="mb-3 text-center">
                         <button type="submit" class="gradient-button fw-bold login-button w-100">Signup</button>
 
@@ -70,11 +75,7 @@
 
                     </div>
 
-                      <!-- ✅ reCAPTCHA v2 checkbox -->
-                <div class="mb-3 text-center">
-                    <div class="g-recaptcha d-inline-block" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
-                    @error('g-recaptcha-response') <small class="text-danger d-block">{{ $message }}</small> @enderror
-                </div>
+               
 
                     <div class="mb-3 text-center fw-bold text-white">
                         Already have an account? <a href="{{ route('login') }}" class="yellow-text fw-bold">Login</a>
