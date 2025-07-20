@@ -493,6 +493,8 @@ class IndexController extends Controller
     'remoteip' => $request->ip(),
 ]);
 
+
+dd($request->all());
 $data = $response->json();
 
 if (!($data['success'] ?? false)) {
