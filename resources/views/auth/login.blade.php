@@ -93,14 +93,20 @@
                         </div>
                     </div>
                 </div>
-                <script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}"></script>
-<script>
-    grecaptcha.ready(function () {
-        grecaptcha.execute('{{ env('RECAPTCHA_SITE_KEY') }}', {action: 'login'}).then(function (token) {
-            document.getElementById('recaptcha_token').value = token;
+                 <script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            grecaptcha.ready(function() {
+                grecaptcha.execute('{{ env('RECAPTCHA_SITE_KEY') }}', {
+                    action: 'login'
+                }).then(function(token) {
+                    document.getElementById('recaptcha_token').value = token;
+                    document.getElementById('login-form').submit();
+                });
+            });
         });
-    });
-</script>
+    </script>
             </form>
         </div>
     </div>
