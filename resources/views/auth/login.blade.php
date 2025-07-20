@@ -93,20 +93,7 @@
                         </div>
                     </div>
                 </div>
-                 <script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}"></script>
-    <script>
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            grecaptcha.ready(function() {
-                grecaptcha.execute('{{ env('RECAPTCHA_SITE_KEY') }}', {
-                    action: 'login'
-                }).then(function(token) {
-                    document.getElementById('recaptcha_token').value = token;
-                    document.getElementById('login-form').submit();
-                });
-            });
-        });
-    </script>
+               
             </form>
         </div>
     </div>
@@ -151,7 +138,53 @@
 
 
  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
+ipt>
+
+<!-- Then other scripts -->
+<script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}"></script>
+<script>
+    // reCAPTCHA handling
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        grecaptcha.ready(function() {
+            grecaptcha.execute('{{ env('RECAPTCHA_SITE_KEY') }}', {
+                action: 'login'
+            }).then(function(token) {
+                document.getElementById('recaptcha_token').value = token;
+                document.getElementById('login-form').submit();
+            });
+        });
+    });
+
+    // Microsoft login handler
+    $(document).ready(function() {
+        $('#microsoft-login').click(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: '{{ route('microsoft.login') }}',
+                type: 'GET',
+                success: function(data) {
+                    window.location.href = data.redirect_url;
+                }
+            });
+        });
+    });
+</script>
+
+<!-- Load Tawk.to LAST -->
+<script>
+var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+(function(){
+var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+s1.async = true;
+s1.src = 'https://embed.tawk.to/YOUR_WIDGET_ID/default';
+s1.charset = 'UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1, s0);
+})();
+</script>
 
  <script>
      $(document).ready(function () {
