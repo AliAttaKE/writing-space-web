@@ -36,7 +36,7 @@ class AuthenticatedSessionController extends Controller
 
          $recaptcha_token = $request->input('recaptcha_token');
 
-         dd($recaptcha_token);
+        dd($request->all());
 
     // Verify with Google
     $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
