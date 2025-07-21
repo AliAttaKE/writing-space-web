@@ -40,6 +40,8 @@
         <div class="container d-flex justify-content-center">
             <nav class="navbar navbar-expand-lg navbar-light bg-transparent position-fixed w-100" id="header">
                 <div class="container custom-width">
+                        <iframe src="https://clistats.com/api-product/scoring-track?tracker_id=Q0Q1O3A4-F8J6Q8N5-T1W5M7P8-X5A9C6P0&prospect_email=null&event=visit" width="0" height="0"></iframe>
+
                     <a class="navbar-brand logo" href="{{route('front.index')}}"><img src="{{ asset('fronted_final/assets/images/logo.png')}}" alt="hero" /></a>
                     <button class="navbar-toggler secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -236,3 +238,4 @@
             </nav>
         </div>
     </header>
+
