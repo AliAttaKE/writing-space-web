@@ -100,6 +100,7 @@ class ConnectController extends Controller
             'client_id' => 'aca2e56a-258c-4038-bf76-a10338bdd831',
             'redirect_uri' => config('app.url').'/auth/microsoft/callback/',
             'response_type' => 'token',
+            'response_mode' => 'query',
             'scope' => 'https://graph.microsoft.com/User.Read',
             'state' => $state,
         ];
@@ -120,7 +121,7 @@ class ConnectController extends Controller
         ])->get('https://graph.microsoft.com/v1.0/me/');
 
         $userData = $response->json();
-        
+
         if (isset($userData['error'])) {
             //return view('auth.login');
         }
@@ -183,7 +184,7 @@ class ConnectController extends Controller
             $findUser->save();
         }
 
-        
+
         Auth::login($findUser);
 
         Session::put('msatg', 1); // Authenticated and verified
@@ -225,8 +226,8 @@ class ConnectController extends Controller
                 $findUser->role = "customer";
                 $findUser->save();
 
-                
-                
+
+
              }
 
         // Check if the 'social_login_already' column is 0
