@@ -90,8 +90,27 @@ class ConnectController extends Controller
     }
 }
 
-
     public function microsoftLogin()
+    {
+        $state = Session::getId(); // Optional: store it to validate later
+
+        $params = [
+            'client_id' => env('MICROSOFT_CLIENT_ID'),
+            'redirect_uri' => env('MICROSOFT_REDIRECT_URI'),
+            'response_type' => 'code',
+            'response_mode' => 'query',
+            'scope' => 'https://graph.microsoft.com/User.Read',
+            'state' => $state,
+        ];
+
+        $loginUrl = 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize';
+        $redirectUrl = $loginUrl . '?' . http_build_query($params);
+
+        return response()->json(['redirect_url' => $redirectUrl]);
+    }
+
+
+    /*public function microsoftLogin()
     {
 
         $state = Session::getId();
@@ -108,94 +127,90 @@ class ConnectController extends Controller
         $redirectUrl = $loginUrl . '?' . http_build_query($params);
 
         return response()->json(['redirect_url' => $redirectUrl]);
-    }
+    }*/
 
    public function microsoftHandle(Request $request)
-{
-    $dr = $request->query('access_token', null);
-
-    if ($dr) {
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $request->access_token,
-            'Content-type' => 'application/json',
-        ])->get('https://graph.microsoft.com/v1.0/me/');
-
-        $userData = $response->json();
-
-        if (isset($userData['error'])) {
-            //return view('auth.login');
+    {
+        $code = $request->query('code');
+        //dd($code);
+        if (!$code) {
+            return redirect('/login')->with('error', 'Authorization code not found.');
         }
 
-        $findUser = User::where('email', $userData['mail'])->first();
+        // Step 1: Exchange code for access token
+        $tokenResponse = Http::asForm()->post('https://login.microsoftonline.com/common/oauth2/v2.0/token', [
+            'client_id' => env('MICROSOFT_CLIENT_ID'),
+            'client_secret' => env('MICROSOFT_CLIENT_SECRET'),
+            'code' => $code,
+            'redirect_uri' => env('MICROSOFT_REDIRECT_URI'),
+            'grant_type' => 'authorization_code',
+        ]);
 
-        if (!$findUser) {
-            $findUser = new User();
-            $account_id = 'ID-' . rand(1000, 99999999);
-            $findUser->account_id = $account_id;
+        $tokenData = $tokenResponse->json();
+
+        if (!isset($tokenData['access_token'])) {
+            Log::error('Microsoft token error', $tokenData);
+            return redirect('/login')->with('error', 'Failed to authenticate with Microsoft.');
+        }
+
+        $accessToken = $tokenData['access_token'];
+
+        // Step 2: Fetch user profile from Microsoft Graph
+        $userResponse = Http::withToken($accessToken)->get('https://graph.microsoft.com/v1.0/me');
+        $userData = $userResponse->json();
+
+        if (!isset($userData['mail']) && !isset($userData['userPrincipalName'])) {
+            return redirect('/login')->with('error', 'Failed to retrieve Microsoft email.');
+        }
+
+        $email = $userData['mail'] ?? $userData['userPrincipalName'];
+        $name = $userData['displayName'] ?? 'MS User';
+
+        // Step 3: Find or create user
+        $findUser = User::firstOrNew(['email' => $email]);
+
+        if (!$findUser->exists) {
+            $findUser->account_id = 'ID-' . rand(1000, 99999999);
             $findUser->authenticated_at = now();
-            $findUser->name = $userData['displayName'];
-            $findUser->email = $userData['mail'];
-            $findUser->password = "1234";
-            $findUser->role = "customer";
+            $findUser->name = $name;
+            $findUser->password = bcrypt('1234'); // placeholder, never logged with password
+            $findUser->role = 'customer';
+            $findUser->social_login_already = 0;
             $findUser->save();
+        }
 
-
-             }
-
-        // Check if the 'social_login_already' column is 0
+        // Step 4: Send welcome email (if first time)
         if ($findUser->social_login_already == 0) {
+            $emailContent = "
+                <p>Hello {$findUser->name},</p>
+                <p>Welcome aboard! We're thrilled to have you join us at Writing Space...</p>
+                <p>Best Regards,<br>Customer Success Team<br>Writing Space</p>";
 
+            try {
+                Mail::html($emailContent, function ($message) use ($findUser) {
+                    $message->to($findUser->email)
+                            ->subject('Welcome to Writing-Space – Start Your Journey to Academic Mastery!');
+                });
+                Log::info("Email sent to: " . $findUser->email);
+            } catch (\Exception $e) {
+                Log::error("Email sending failed: " . $e->getMessage());
+            }
 
-                                        $emailContent = "
-                            <p>Hello {$findUser->name},</p>
-
-                            <p>Welcome aboard! We're thrilled to have you join us at Writing Space, where we empower your academic journey with cutting-edge tools and ethical AI solutions. It's great to have you with us, and we can't wait to see what you achieve with the right resources at your fingertips.</p>
-
-                            <p>Here's a quick guide to get you started on your path to success:</p>
-
-                            <ol>
-                                <li><strong>Explore Your Dashboard:</strong> Your personal dashboard is your new best friend. Here, you can manage orders, track progress, and access a wealth of resources. Take a moment to familiarize yourself with its features—it's designed to make your life easier!</li>
-                                <li><strong>Dive into the Library:</strong> Our extensive library is stocked with sample papers and resources across a wide range of subjects. It's perfect for sparking ideas or understanding how to structure your papers.</li>
-                                <li><strong>Post a Custom Order:</strong> Got a specific project in mind? Post a custom order and let our tailored solutions meet your exact needs. Whether it's a tight deadline or a complex topic, we're here to help.</li>
-                                <li><strong>Check Out Packages:</strong> If you're looking for the best value, our packages are the way to go. With options like page rollovers and access to premium services at no additional cost, they're designed to save you money while providing top-notch support.</li>
-                            </ol>
-
-                            <p>We're excited to see how Writing Space will enhance your academic work. If you have any questions or need guidance, don't hesitate to reach out. Our support team is available 24/7 and ready to assist you.</p>
-
-                            <p>Again, welcome to Writing Space! Let's make this academic journey a remarkable one.</p>
-
-                            <p>Best Regards,<br>
-                            Customer Success Team<br>
-                            Writing Space</p>
-";
-
-
-                        try {
-                    Mail::html($emailContent, function ($message) use ($findUser) {
-                        $message->to($findUser->email)
-                                ->subject('Welcome to Writing-Space – Start Your Journey to Academic Mastery!');
-                    });
-                    Log::info("Email sent to: " . $findUser->email);
-                } catch (\Exception $e) {
-                    Log::error("Email sending failed: " . $e->getMessage());
-                }
-           // Update 'social_login_already' to 1 after sending the email
             $findUser->social_login_already = 1;
             $findUser->save();
         }
 
-
+        // Step 5: Login and redirect
         Auth::login($findUser);
-
-        Session::put('msatg', 1); // Authenticated and verified
-        Session::put('uname', $userData['displayName']);
-        Session::put('id', $userData['id']);
+        Session::put('msatg', 1);
+        Session::put('uname', $findUser->name);
+        Session::put('id', $userData['id'] ?? null);
 
         return redirect('/customer/dashboard');
     }
 
-    return view('auth.login');
-}
+
+
     public function microsoftHandleajax(Request $request)
     {
 
