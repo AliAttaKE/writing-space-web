@@ -88,13 +88,22 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-center m-2 mt-4 mb-4 Location-icon align-item-flex-start">
                 <img src="{{ asset('fronted_final/assets/images/Vector.png')}}" style="margin-right: 10px; height: 25px;">
-                <h5 class="pink-text fs-4">301 N Lake Ave., Suite 600, Pasadena, CA 91101</h5>
+                <h5 class="pink-text fs-4">1603 Capitol Ave, Ste 413 E125, Cheyenne, WY 82001</h5>
             </div>
         </div>
     </div>
     <!-- Map -->
     <div class="">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3222.023346890844!2d-115.19224687508118!3d36.14164480454668!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1714515192435!5m2!1sen!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <iframe 
+  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3005.0704910675913!2d-104.8177857248629!3d41.13298711173803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876f3ac3c5d306b9%3A0xea9742eb3426bd4f!2s1603%20Capitol%20Ave%20413%20e125%2C%20Cheyenne%2C%20WY%2082001%2C%20USA!5e0!3m2!1sen!2s!4v1753171935043!5m2!1sen!2s" 
+  width="100%" 
+  height="450" 
+  style="border:0;" 
+  allowfullscreen="" 
+  loading="lazy" 
+  referrerpolicy="no-referrer-when-downgrade">
+</iframe>
+
     </div>
 </section>
 

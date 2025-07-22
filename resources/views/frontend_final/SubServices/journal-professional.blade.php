@@ -286,7 +286,7 @@
                                                  <span class="underline">
                                                     in 5–6 days
                                                 </span>                                               
-                                           ?    Enjoy a rate of <span class="underline">$24/page</span>,with a cap of 70 pages.
+                                           ?    Enjoy a rate of <span class="underline">$24/page</span>, with a cap of 70 pages.
                                         </div>
                                         </div>
                                         </div>
@@ -297,7 +297,7 @@
                                                  <span class="underline">
                                                     Working 7–14 days  
                                                 </span>                                               
-                                           ahead? Secure a rate of <span class="underline">$22/page</span>,for up to 140 pages.
+                                           ahead? Secure a rate of <span class="underline">$22/page</span>, for up to 140 pages.
                                         </div>
                                         </div>
                                         </div>
@@ -308,7 +308,7 @@
                                                  <span class="underline">
                                                     Planning 15+ days 
                                                 </span>                                               
-                                          in advance?  Benefit from our lowest rate of <span class="underline">$20/page</span>,with no page limit.
+                                          in advance?  Benefit from our lowest rate of <span class="underline">$20/page</span>, with no page limit.
                                         </div>
                                         </div>
                                         </div>
