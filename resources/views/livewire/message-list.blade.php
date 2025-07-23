@@ -78,9 +78,9 @@
     <input
       type="text"
       wire:model="search"
-      class="form-control form-control-solid w-250px ps-15 btn-dark-primary d-none" 
+      class="form-control form-control-solid w-250px ps-15 btn-dark-primary " 
       placeholder="Search threads…"
-wire:keyup.debounce.300ms="$refresh"
+wire:keyup.debounce.300ms="$refresh" style="visibility:hidden"
     />
 
     <!-- Yahan Search button add kiya -->
