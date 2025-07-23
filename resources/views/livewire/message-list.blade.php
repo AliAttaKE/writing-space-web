@@ -1,12 +1,5 @@
 {{-- resources/views/livewire/message-list.blade.php --}}
-<div class="card-header align-items-center py-5 gap-2 gap-md-5">
-                            <!--begin::Actions-->
-                            <div class="d-flex flex-wrap gap-2">
-                                <!--begin::Checkbox-->
-
-                                <!--end::Checkbox-->
-                                <!--begin::Reload-->
-                                <a href="#"
+<div class="card-header align-items-center py-5 gap-2 gap-md-5">   <a href="#"
                                     class="btn btn-sm btn-icon btn-light btn-active-light-primary badge-custom-bg"
                                     data-bs-toggle="tooltip" data-bs-dismiss="click" data-bs-placement="top"
                                     title="Reload"
@@ -16,6 +9,13 @@
                                         <span class="path2"></span>
                                     </i>
                                 </a>
+                            <!--begin::Actions-->
+                            <div class="d-flex flex-wrap gap-2">
+                                <!--begin::Checkbox-->
+
+                                <!--end::Checkbox-->
+                                <!--begin::Reload-->
+                             
                                 <!--end::Reload-->
                                 <!--begin::Delete-->
                                 <!--<a href="#" class="btn btn-sm btn-icon btn-light btn-active-light-primary" data-bs-toggle="tooltip" data-bs-dismiss="click" data-bs-placement="top" aria-label="Archive" data-bs-original-title="Archive" data-kt-initialized="1" title="Archive">-->
@@ -66,19 +66,19 @@
                             </div>
                             <!--end::Actions-->
                             <!--begin::Actions-->
-                            <div class="d-flex align-items-center flex-wrap gap-2">
+                            <div class="d-flex align-items-center flex-wrap gap-2 ">
                                 <!--begin::Search-->
                                 <div class="d-flex align-items-center position-relative">
-                                    <div class="d-flex align-items-center position-relative mb-3">
-    <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4">
+                                    <div class="d-flex align-items-center position-relative mb-3 ">
+    <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-4 d-none">
       <span class="path1"></span>
       <span class="path2"></span>
     </i>
-
+<div></div>
     <input
       type="text"
       wire:model="search"
-      class="form-control form-control-solid w-250px ps-15 btn-dark-primary"
+      class="form-control form-control-solid w-250px ps-15 btn-dark-primary d-none" 
       placeholder="Search threads…"
 wire:keyup.debounce.300ms="$refresh"
     />
