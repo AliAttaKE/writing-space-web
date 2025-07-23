@@ -2252,7 +2252,7 @@ $emailContent = "
 
     <p><strong>Order Details:</strong></p>
     <ul>
-       
+
         <li><strong>Additional Pages Added:</strong> {$pages}</li>
         <li><strong>Total Pages Used So Far:</strong> {$currentSubs->total_pages}</li>
         <li><strong>Remaining Pages in Your Package:</strong> {$currentSubs->remaining_pages}</li>
@@ -2541,7 +2541,7 @@ $emailContent = "
     <li><strong>Purchase Date:</strong> " . $invoice->created_at->format('F j, Y') . "</li>
   <li><strong>Total:</strong> {$subTotal}</li>
     <li><strong>Total Pages:</strong> {$totalPages}</li>
-  
+
 </ul>
 
 <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
@@ -2602,7 +2602,7 @@ Writing Space</p>
                     Auth::login($user);
 
 
-                    return redirect('https://ws.elementary-solutions.com/customer/thankyou');
+                    return redirect('/customer/thankyou');
                 }
             }
         // } catch (\Exception $e) {
@@ -2904,7 +2904,7 @@ Writing Space</p>
 
                 if ($email) {
 
-       
+
 $totalValue = $pricePerPage * $totalPages;
 $totalBeforeDiscount = $totalValue + $finaltotaladdon;
 
@@ -2987,7 +2987,7 @@ $formattedFinalTotal = number_format($finalTotal, 2);
                 ->subject($emailSubject);
         });
 
- 
+
 
 
                     $data = [
