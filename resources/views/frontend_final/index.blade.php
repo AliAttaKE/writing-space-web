@@ -411,9 +411,7 @@
                                         <div class="col-4 service-title">Instant Insight Investment</div>
                                         <div class="col-8 service-description">                                          
                                                  <span class="underline">
-                                                    Need it in 2–7 hours 
-                                                </span>                                               
-                                           ? It's  <span class="underline">$50/page</span>, perfect for your most urgent needs. Limit: 10 pages.
+                                                    Need it in 2–7 hours</span>? It's  <span class="underline">$50/page</span>, perfect for your most urgent needs. Limit: 10 pages.
                                         </div>
                                         </div>
                                         </div>
@@ -435,7 +433,7 @@
                                                  <span class="underline">
                                                    Only 1-2 days
                                                 </span>                                               
-                                          to go?    Get it done at   <span class="underline">$40/page </span>, with a maximum of 30 pages.
+                                          to go?    Get it done at   <span class="underline">$40/page</span>, with a maximum of 30 pages.
                                         </div>
                                         </div>
                                         </div>
@@ -455,9 +453,7 @@
                                         <div class="col-4 service-title">Speedy Service Save</div>
                                         <div class="col-8 service-description">                                          
                                                  <span class="underline">
-                                                    Deadline in 3–4 days   
-                                                </span>                                               
-                                          ?  Take advantage of <span class="underline">$26/page</span>, with a 55-page limit.
+                                                    Deadline in 3–4 days</span>?  Take advantage of <span class="underline">$26/page</span>, with a 55-page limit.
                                         </div>
                                         </div>
                                         </div>
@@ -467,9 +463,7 @@
                                         <div class="col-8 service-description"> 
                                              Need it                                          
                                                  <span class="underline">
-                                                    in 5–6 days
-                                                </span>                                               
-                                           ?    Enjoy a rate of <span class="underline">$24/page</span>, with a cap of 70 pages.
+                                                    in 5–6 days</span>?    Enjoy a rate of <span class="underline">$24/page</span>, with a cap of 70 pages.
                                         </div>
                                         </div>
                                         </div>

@@ -13,8 +13,7 @@
 		color: white; /* Ensure headings are also white */
 	}
 	a {
-		color: #007BFF;
-		text-decoration: none;
+		color: #fff;
 	}
 	a:hover {
 		text-decoration: underline;
