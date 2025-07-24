@@ -5,8 +5,11 @@
 <!-- INCLUDE SESSION.JS JAVASCRIPT LIBRARY -->
  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://test-bankalfalah.gateway.mastercard.com/form/version/74/merchant/TESTWRITINGSPACE/session.js"></script>
+{{-- <script src="https://test-bankalfalah.gateway.mastercard.com/form/version/74/merchant/TESTWRITINGSPACE/session.js"></script> --}}
 
+<script 
+    src="{{ env('PAYMENT_GATEWAY_URL') }}/form/version/{{ env('API_VERSION', 74) }}/merchant/{{ env('MERCHANT_ID') }}/session.js">
+</script>
 
 <!-- APPLY CLICK-JACKING STYLING AND HIDE CONTENTS OF THE PAGE -->
 <style id="antiClickjack">body{display:none !important;}</style>

@@ -113,8 +113,14 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- INCLUDE SESSION.JS JAVASCRIPT LIBRARY -->
-<script
+{{-- <script
     src="https://test-bankalfalah.gateway.mastercard.com/form/version/74/merchant/TESTWRITINGSPACE/session.js"></script>
+     --}}
+
+     <script 
+    src="{{ env('PAYMENT_GATEWAY_URL') }}/form/version/{{ env('API_VERSION', 74) }}/merchant/{{ env('MERCHANT_ID') }}/session.js">
+</script>
+
 <link href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" rel="stylesheet" />
 
 
