@@ -49,6 +49,7 @@ use App\Models\Message;
 use App\Models\Addons;
 use App\Models\Language;
 use App\Models\FileChatGPT;
+use Illuminate\Support\Str;
 
 
 use Carbon\Carbon;
@@ -352,99 +353,169 @@ Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
 
 
 
+    // public function checkout()
+
+    // {
+
+
+
+    //     $curl = curl_init();
+
+    //     curl_setopt_array($curl, array(
+    //         CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/session',
+    //         CURLOPT_RETURNTRANSFER => true,
+    //         CURLOPT_ENCODING => '',
+    //         CURLOPT_MAXREDIRS => 10,
+    //         CURLOPT_TIMEOUT => 0,
+    //         CURLOPT_FOLLOWLOCATION => true,
+    //         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    //         CURLOPT_CUSTOMREQUEST => 'POST',
+    //         CURLOPT_HTTPHEADER => array(
+    //             'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+    //         ),
+
+    //     ));
+
+    //     $response = curl_exec($curl);
+
+    //     curl_close($curl);
+
+    //     $responseArray = json_decode($response, true);
+
+    //     // dd($responseArray);
+
+    //     // Check if the 'session' key exists
+    //     if (isset($responseArray['session'])) {
+    //         // Check if the 'id' key exists within the 'session' array
+    //         if (isset($responseArray['session']['id'])) {
+    //             // Access the 'id' value
+    //             $sessionId = $responseArray['session']['id'];
+
+    //             $curl = curl_init();
+
+    //             curl_setopt_array($curl, array(
+    //                 CURLOPT_URL => "https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/session/{$sessionId}",
+    //                 CURLOPT_RETURNTRANSFER => true,
+    //                 CURLOPT_ENCODING => '',
+    //                 CURLOPT_MAXREDIRS => 10,
+    //                 CURLOPT_TIMEOUT => 0,
+    //                 CURLOPT_FOLLOWLOCATION => true,
+    //                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    //                 CURLOPT_CUSTOMREQUEST => 'PUT',
+    //                 CURLOPT_POSTFIELDS => '{
+    //                     "order": {
+    //                 "amount": "10.00",
+    //                 "currency": "PKR"
+    //                 }
+    //             }',
+    //                 CURLOPT_HTTPHEADER => array(
+    //                     'Content-Type: application/json',
+    //                     'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+    //                 ),
+    //             ));
+
+    //             $response = curl_exec($curl);
+
+    //             curl_close($curl);
+
+    //             // Assuming $response is the JSON string
+    //             $responseObject = json_decode($response);
+
+    //             // Check if decoding was successful
+    //             if ($responseObject) {
+    //                 // Access the id property of the session object
+    //                 $sessionId = $responseObject->session->id;
+
+    //                 // Output the session id
+    //                 // echo $sessionId;
+
+    //                 session()->put('sessionId', $sessionId);
+
+
+
+
+    //                 return response()->json(['sessionId' => $sessionId]);
+
+    //                 //     return view('backend.customer.orderManagement.show', compact('sessionId'));
+
+
+    //             } else {
+    //                 // Handle JSON decoding error
+    //                 echo "Error decoding JSON";
+    //             }
+    //         }
+    //     }
+    // }
+
     public function checkout()
+{
+    $baseUrl = env('PAYMENT_GATEWAY_URL');
+    $apiVersion = env('API_VERSION');
+    $merchantId = env('MERCHANT_ID');
+    $username = env('MERCHANT_USERNAME');
+    $password = env('MERCHANT_PASSWORD');
+    
+    // Create Basic Auth header
+    $authHeader = 'Authorization: Basic ' . base64_encode("$username:$password");
 
-    {
+    // Step 1: Create session
+    $curl = curl_init();
+    curl_setopt_array($curl, [
+        CURLOPT_URL => "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/session",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_HTTPHEADER => [$authHeader],
+    ]);
 
+    $response = curl_exec($curl);
+    curl_close($curl);
+    $responseArray = json_decode($response, true);
 
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/session',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_HTTPHEADER => array(
-                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
-            ),
-
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        $responseArray = json_decode($response, true);
-
-        // dd($responseArray);
-
-        // Check if the 'session' key exists
-        if (isset($responseArray['session'])) {
-            // Check if the 'id' key exists within the 'session' array
-            if (isset($responseArray['session']['id'])) {
-                // Access the 'id' value
-                $sessionId = $responseArray['session']['id'];
-
-                $curl = curl_init();
-
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => "https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/session/{$sessionId}",
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => 'PUT',
-                    CURLOPT_POSTFIELDS => '{
-                        "order": {
-                    "amount": "10.00",
-                    "currency": "PKR"
-                    }
-                }',
-                    CURLOPT_HTTPHEADER => array(
-                        'Content-Type: application/json',
-                        'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
-                    ),
-                ));
-
-                $response = curl_exec($curl);
-
-                curl_close($curl);
-
-                // Assuming $response is the JSON string
-                $responseObject = json_decode($response);
-
-                // Check if decoding was successful
-                if ($responseObject) {
-                    // Access the id property of the session object
-                    $sessionId = $responseObject->session->id;
-
-                    // Output the session id
-                    // echo $sessionId;
-
-                    session()->put('sessionId', $sessionId);
-
-
-
-
-                    return response()->json(['sessionId' => $sessionId]);
-
-                    //     return view('backend.customer.orderManagement.show', compact('sessionId'));
-
-
-                } else {
-                    // Handle JSON decoding error
-                    echo "Error decoding JSON";
-                }
-            }
-        }
+    if (!isset($responseArray['session']['id'])) {
+        return response()->json(['error' => 'Failed to create session'], 500);
     }
+
+    $sessionId = $responseArray['session']['id'];
+
+    // Step 2: Update session with order details
+    $curl = curl_init();
+    curl_setopt_array($curl, [
+        CURLOPT_URL => "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/session/$sessionId",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'PUT',
+        CURLOPT_POSTFIELDS => json_encode([
+            'order' => [
+                'amount' => '10.00',
+                'currency' => 'PKR'
+            ]
+        ]),
+        CURLOPT_HTTPHEADER => [
+            'Content-Type: application/json',
+            $authHeader
+        ],
+    ]);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+    $responseObject = json_decode($response);
+
+    if (!$responseObject || !isset($responseObject->session->id)) {
+        return response()->json(['error' => 'Failed to update session'], 500);
+    }
+
+    session()->put('sessionId', $responseObject->session->id);
+    return response()->json(['sessionId' => $responseObject->session->id]);
+}
 
     public function checkoutshow($sessionid, Request $request)
     {
@@ -915,10 +986,10 @@ $emailContent = "
                     'message' => "<div style='text-align:left !important;'>Oops! You've exceeded your page limit.\n\n" .
                                  "You're trying to order {$input['no_of_pages']} pages, but you currently have only  {$remianingPages} page(s) left in your package.\n\n" .
                                  "<br><br>No worries — here’s how you can proceed:\n" .
-                                 "<br><br><strong><span style='color:#FFC056 !important;'>1. Add More Pages:</span></strong><br><br><ul><li>Navigate to your Profile Page.</li><li>Locate the option to Add Pages to Your Existing Package and follow the prompts to purchase additional pages at your original rates.</li><li>Once you've added the pages, return here to create your new order.</li></ul> \n" .
-                                 "<strong><span style='color:#FFC056 !important;'>2. Use Your Remaining Pages:</span></strong><br><br> If you prefer, you can place an order for the  {$remianingPages} pages you have remaining in your package right now. Later, you can navigate to the Order Details page for this order, go to the Manage Pages tab, and add the additional pages you need to complete the order at your original rates.\n" .
+                                 "<br><br><strong>1. Add More Pages:</strong><br><br><ul><li>Navigate to your Profile Page.</li><li>Locate the option to Add Pages to Your Existing Package and follow the prompts to purchase additional pages at your original rates.</li><li>Once you've added the pages, return here to create your new order.</li></ul> \n" .
+                                 "<strong>2. Use Your Remaining Pages:</strong><br><br> If you prefer, you can place an order for the  {$remianingPages} pages you have remaining in your package right now. Later, you can navigate to the Order Details page for this order, go to the Manage Pages tab, and add the additional pages you need to complete the order at your original rates.\n" .
 
-                                 "<br><br> <strong><span style='color:#FFC056 !important;'>3. Contact Support:</span></strong><br><br> For more options or assistance, please reach out to our support team. We're here to help!</div>"
+                                 "3. Contact Support: For more options or assistance, please reach out to our support team. We're here to help!</div>"
                 ]);
 
             // return response()->json(['success' => true, 'message' => "Oops! Looks like you've exceeded your page limit.
@@ -966,99 +1037,208 @@ $emailContent = "
         $pay->order_details = json_encode($dataObject);
         $pay->save();
 
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'PUT',
-            CURLOPT_POSTFIELDS => '{
-                "session":{
-                    "id": "' . $truncatedSessionId . '"
-                },
-                "apiOperation":"INITIATE_AUTHENTICATION",
-                "correlationId":"INIT_AUTH11187-991090777766",
-                "transaction":
-                {
-                    "reference": "' . $transactionId . '",
-                },
-                "order":{
+        // $curl = curl_init();
+        // curl_setopt_array($curl, array(
+        //     CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
+        //     CURLOPT_RETURNTRANSFER => true,
+        //     CURLOPT_ENCODING => '',
+        //     CURLOPT_MAXREDIRS => 10,
+        //     CURLOPT_TIMEOUT => 0,
+        //     CURLOPT_FOLLOWLOCATION => true,
+        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //     CURLOPT_CUSTOMREQUEST => 'PUT',
+        //     CURLOPT_POSTFIELDS => '{
+        //         "session":{
+        //             "id": "' . $truncatedSessionId . '"
+        //         },
+        //         "apiOperation":"INITIATE_AUTHENTICATION",
+        //         "correlationId":"INIT_AUTH11187-991090777766",
+        //         "transaction":
+        //         {
+        //             "reference": "' . $transactionId . '",
+        //         },
+        //         "order":{
 
-                "reference": "' . $order_id . '",
-                "currency":"PKR"
-                },
-                "authentication":{
-                    "purpose":"PAYMENT_TRANSACTION",
-                    "channel":"PAYER_BROWSER",
-                "acceptVersions":"3DS2"
-                }
-                }',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
-            ),
-        ));
+        //         "reference": "' . $order_id . '",
+        //         "currency":"PKR"
+        //         },
+        //         "authentication":{
+        //             "purpose":"PAYMENT_TRANSACTION",
+        //             "channel":"PAYER_BROWSER",
+        //         "acceptVersions":"3DS2"
+        //         }
+        //         }',
+        //     CURLOPT_HTTPHEADER => array(
+        //         'Content-Type: application/json',
+        //         'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+        //     ),
+        // ));
 
-        $response = curl_exec($curl);
+        // $response = curl_exec($curl);
 
-        curl_close($curl);
+        // curl_close($curl);
+
+        // Load from .env
+$baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g., https://test-bankalfalah.gateway.mastercard.com
+$apiVersion = env('API_VERSION');      // e.g., 74
+$merchantId = env('MERCHANT_ID');      // e.g., TESTWRITINGSPACE
+$authUsername = env('MERCHANT_USERNAME');
+$authPassword = env('MERCHANT_PASSWORD');
+$authToken = base64_encode("$authUsername:$authPassword");
+
+$initiateUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId";
+
+$payload = [
+    "session" => [
+        "id" => $truncatedSessionId
+    ],
+    "apiOperation" => "INITIATE_AUTHENTICATION",
+    "correlationId" => "INIT_AUTH11187-991090777766",
+    "transaction" => [
+        "reference" => $transactionId
+    ],
+    "order" => [
+        "reference" => $order_id,
+        "currency" => "PKR"
+    ],
+    "authentication" => [
+        "purpose" => "PAYMENT_TRANSACTION",
+        "channel" => "PAYER_BROWSER",
+        "acceptVersions" => "3DS2"
+    ]
+];
+
+$curl = curl_init();
+curl_setopt_array($curl, array(
+    CURLOPT_URL => $initiateUrl,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'PUT',
+    CURLOPT_POSTFIELDS => json_encode($payload),
+    CURLOPT_HTTPHEADER => array(
+        'Content-Type: application/json',
+        "Authorization: Basic $authToken"
+    ),
+));
+
+$response = curl_exec($curl);
+curl_close($curl);
 
 
         // return response()->json(['response' => $response]);
 
 
-        $localurl = url("/redirectResponseUrl");
+        // $localurl = url("/redirectResponseUrl");
 
-        $curl = curl_init();
+        // $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'PUT',
-            CURLOPT_POSTFIELDS => '{
-                "apiOperation": "AUTHENTICATE_PAYER",
-                "correlationId":"START_AUTH11187-991090777766",
-            "device":{
-            "browserDetails":{
-            "screenWidth":1920,
-            "javaEnabled":false,
-            "screenHeight":1080,
-            "3DSecureChallengeWindowSize":"FULL_SCREEN",
-            "timeZone":-120,
-            "language":"EN",
-            "colorDepth":24
-            },
-            "browser":"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/95.0.4638.54 Safari\\/537.36",
-            "ipAddress":"182.185.178.141"
-            },
-                    "authentication": {
-                        "redirectResponseUrl": "'.$localurl.'"
-                    },
-                "order": {
-                    "amount": "' . $total_cost . '",
-                    "currency": "PKR"
-                },
-                "session": {
-                    "id": "' . $truncatedSessionId . '"
-                }
-            }
-            ',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
-            ),
-        ));
+        // curl_setopt_array($curl, array(
+        //     CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
+        //     CURLOPT_RETURNTRANSFER => true,
+        //     CURLOPT_ENCODING => '',
+        //     CURLOPT_MAXREDIRS => 10,
+        //     CURLOPT_TIMEOUT => 0,
+        //     CURLOPT_FOLLOWLOCATION => true,
+        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //     CURLOPT_CUSTOMREQUEST => 'PUT',
+        //     CURLOPT_POSTFIELDS => '{
+        //         "apiOperation": "AUTHENTICATE_PAYER",
+        //         "correlationId":"START_AUTH11187-991090777766",
+        //     "device":{
+        //     "browserDetails":{
+        //     "screenWidth":1920,
+        //     "javaEnabled":false,
+        //     "screenHeight":1080,
+        //     "3DSecureChallengeWindowSize":"FULL_SCREEN",
+        //     "timeZone":-120,
+        //     "language":"EN",
+        //     "colorDepth":24
+        //     },
+        //     "browser":"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/95.0.4638.54 Safari\\/537.36",
+        //     "ipAddress":"182.185.178.141"
+        //     },
+        //             "authentication": {
+        //                 "redirectResponseUrl": "'.$localurl.'"
+        //             },
+        //         "order": {
+        //             "amount": "' . $total_cost . '",
+        //             "currency": "PKR"
+        //         },
+        //         "session": {
+        //             "id": "' . $truncatedSessionId . '"
+        //         }
+        //     }
+        //     ',
+        //     CURLOPT_HTTPHEADER => array(
+        //         'Content-Type: application/json',
+        //         'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+        //     ),
+        // ));
 
-        $response = curl_exec($curl);
+        // $response = curl_exec($curl);
+
+        $baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g., https://test-bankalfalah.gateway.mastercard.com
+$apiVersion = env('API_VERSION');      // e.g., 74
+$merchantId = env('MERCHANT_ID');      // e.g., TESTWRITINGSPACE
+$authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+
+$redirectUrl = url("/redirectResponseUrl");
+$authUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId";
+
+// Prepare payload
+$payload = [
+    "apiOperation" => "AUTHENTICATE_PAYER",
+    "correlationId" => "START_AUTH11187-991090777766",
+    "device" => [
+        "browserDetails" => [
+            "screenWidth" => 1920,
+            "javaEnabled" => false,
+            "screenHeight" => 1080,
+            "3DSecureChallengeWindowSize" => "FULL_SCREEN",
+            "timeZone" => -120,
+            "language" => "EN",
+            "colorDepth" => 24
+        ],
+        "browser" => request()->header('User-Agent'),
+        "ipAddress" => request()->ip()
+    ],
+    "authentication" => [
+        "redirectResponseUrl" => $redirectUrl
+    ],
+    "order" => [
+        "amount" => $total_cost,
+        "currency" => "PKR"
+    ],
+    "session" => [
+        "id" => $truncatedSessionId
+    ]
+];
+
+// Execute cURL
+$curl = curl_init();
+curl_setopt_array($curl, [
+    CURLOPT_URL => $authUrl,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'PUT',
+    CURLOPT_POSTFIELDS => json_encode($payload),
+    CURLOPT_HTTPHEADER => [
+        'Content-Type: application/json',
+        "Authorization: Basic $authToken"
+    ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
 
 
         $response = json_decode($response, true);
@@ -1072,166 +1252,392 @@ $emailContent = "
 
         curl_close($curl);
     }
+
+
+//     public function payment_store(Request $request)
+// {
+//     // Step 1: Get session and data
+//     $sessionId = session()->get('sessionId');
+//     $dataObject = $request->dataObject;
+//     $total_cost = $dataObject['total_cost'];
+//     $truncatedSessionId = substr($sessionId, 0, 35);
+
+//     $order_id = mt_rand(100000, 999999);
+//     $transactionId = "TRANS" . mt_rand(100, 999);
+
+//     session()->put('transactionId', $transactionId);
+//     session()->put('order_id', $order_id);
+
+//     // Step 2: Save payment record
+//     $pay = new Pay;
+//     $pay->order_id = $order_id;
+//     $pay->session_id = $sessionId;
+//     $pay->truncatedSessionId = $transactionId;
+//     $pay->user_id = auth()->user()->id;
+//     $pay->order_details = json_encode($dataObject);
+//     $pay->save();
+
+//     // Step 3: Load env configs
+//     $gatewayUrl = env('PAYMENT_GATEWAY_URL');
+//     $apiVersion = env('API_VERSION');
+//     $merchantId = env('MERCHANT_ID');
+//     $authHeader = 'Basic ' . base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+
+//     // Step 4: Initiate Authentication
+//     $initiatePayload = [
+//         "session" => [
+//             "id" => $truncatedSessionId
+//         ],
+//         "apiOperation" => "INITIATE_AUTHENTICATION",
+//         "correlationId" => "INIT_AUTH" . mt_rand(10000, 99999),
+//         "transaction" => [
+//             "reference" => $transactionId
+//         ],
+//         "order" => [
+//             "reference" => $order_id,
+//             "currency" => "PKR"
+//         ],
+//         "authentication" => [
+//             "purpose" => "PAYMENT_TRANSACTION",
+//             "channel" => "PAYER_BROWSER",
+//             "acceptVersions" => "3DS2"
+//         ]
+//     ];
+
+//     $initiateUrl = "{$gatewayUrl}/api/rest/version/{$apiVersion}/merchant/{$merchantId}/order/{$order_id}/transaction/{$transactionId}";
+
+//     $initiateResponse = $this->sendCurlRequest($initiateUrl, $initiatePayload, $authHeader);
+
+//     // Step 5: Authenticate Payer
+//     $redirectUrl = url("/redirectResponseUrl");
+
+//     $authenticatePayload = [
+//         "apiOperation" => "AUTHENTICATE_PAYER",
+//         "correlationId" => "START_AUTH" . mt_rand(10000, 99999),
+//         "device" => [
+//             "browserDetails" => [
+//                 "screenWidth" => 1920,
+//                 "javaEnabled" => false,
+//                 "screenHeight" => 1080,
+//                 "3DSecureChallengeWindowSize" => "FULL_SCREEN",
+//                 "timeZone" => -120,
+//                 "language" => "EN",
+//                 "colorDepth" => 24
+//             ],
+//             "browser" => $request->header('User-Agent'),
+//             "ipAddress" => $request->ip()
+//         ],
+//         "authentication" => [
+//             "redirectResponseUrl" => $redirectUrl
+//         ],
+//         "order" => [
+//             "amount" => $total_cost,
+//             "currency" => "PKR"
+//         ],
+//         "session" => [
+//             "id" => $truncatedSessionId
+//         ]
+//     ];
+
+//     $authenticateResponse = $this->sendCurlRequest($initiateUrl, $authenticatePayload, $authHeader);
+
+//     // Step 6: Return HTML Redirect if available
+//     if (isset($authenticateResponse['authentication']['redirect']['html'])) {
+//         return response()->json(['response' => $authenticateResponse['authentication']['redirect']['html']]);
+//     }
+
+//     return response()->json(['response' => 'Invalid response format.']);
+// }
+
+/**
+ * Helper to send CURL requests
+ */
+private function sendCurlRequest($url, $payload, $authHeader)
+{
+    $curl = curl_init();
+    curl_setopt_array($curl, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'PUT',
+        CURLOPT_POSTFIELDS => json_encode($payload),
+        CURLOPT_HTTPHEADER => [
+            'Content-Type: application/json',
+            "Authorization: {$authHeader}"
+        ],
+    ]);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+
+    return json_decode($response, true);
+}
+
+
+    // public function payment_store_sub(Request $request)
+    // {
+
+    //     //dd($request->all());
+
+    //     $test = $request->session;
+    //     $total_cost = $request->totalamount1;
+    //     $number_of_page = $request->number_of_page;
+    //     $cost_per_page_final = $request->cost_per_page_final;
+    //     $total_costs[] = $request->totalamount1;
+    //     $truncatedSessionId = substr($test, 0, 35);
+    //     $randomNumber = mt_rand(100, 999);
+    //     $transactionId = "TRANS" . $randomNumber;
+
+    //     $order34 =  mt_rand(100000, 9999999);
+    //     $order_id = $request->sub_id1;
+    //     $order_id = $order_id . '-' . $order34;
+
+    //     //not working
+    //     // $lastOrderId = Orders::latest()->limit(1)->value('order_id');
+    //     // if(!$lastOrderId)
+    //     // {
+    //     //     $order_id = '200000';
+    //     // }
+    //     // $order_id = ++$lastOrderId;
+
+    //     session()->put('transactionId', $transactionId);
+    //     session()->put('order_id', $order_id);
+    //     $sessionId = session()->get('sessionId');
+
+
+
+
+
+    //     $pay = new Pay;
+    //     $pay->order_id = $order_id;
+    //     $pay->session_id = $test;
+    //     $pay->truncatedSessionId = $transactionId;
+    //     $pay->total_cost = $total_cost;
+    //     $pay->cost_per_page_final = $cost_per_page_final;
+    //     $pay->number_of_page = $number_of_page;
+
+    //     $pay->user_id = Auth()->user()->id;
+    //     $pay->order_details = json_encode($total_costs);
+    //     $pay->save();
+
+
+
+
+
+
+    //     $curl = curl_init();
+
+    //     curl_setopt_array($curl, array(
+    //         CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
+    //         CURLOPT_RETURNTRANSFER => true,
+    //         CURLOPT_ENCODING => '',
+    //         CURLOPT_MAXREDIRS => 10,
+    //         CURLOPT_TIMEOUT => 0,
+    //         CURLOPT_FOLLOWLOCATION => true,
+    //         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    //         CURLOPT_CUSTOMREQUEST => 'PUT',
+    //         CURLOPT_POSTFIELDS => '{
+    //             "session":{
+    //                 "id": "' . $truncatedSessionId . '"
+    //             },
+    //             "apiOperation":"INITIATE_AUTHENTICATION",
+    //             "correlationId":"INIT_AUTH11187-991090777766",
+    //             "transaction":
+    //             {
+    //                 "reference": "' . $transactionId . '",
+    //             },
+    //             "order":{
+
+    //             "reference": "' . $order_id . '",
+    //             "currency":"PKR"
+    //             },
+    //             "authentication":{
+    //                 "purpose":"PAYMENT_TRANSACTION",
+    //                 "channel":"PAYER_BROWSER",
+    //             "acceptVersions":"3DS2"
+    //             }
+    //             }',
+    //         CURLOPT_HTTPHEADER => array(
+    //             'Content-Type: application/json',
+    //             'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+    //         ),
+    //     ));
+
+    //     $response = curl_exec($curl);
+
+    //     curl_close($curl);
+
+
+    //     //return response()->json(['response' => $response]);
+
+
+
+    //     $curl = curl_init();
+
+    //     curl_setopt_array($curl, array(
+    //         CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
+    //         CURLOPT_RETURNTRANSFER => true,
+    //         CURLOPT_ENCODING => '',
+    //         CURLOPT_MAXREDIRS => 10,
+    //         CURLOPT_TIMEOUT => 0,
+    //         CURLOPT_FOLLOWLOCATION => true,
+    //         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    //         CURLOPT_CUSTOMREQUEST => 'PUT',
+    //         CURLOPT_POSTFIELDS => '{
+    //             "apiOperation": "AUTHENTICATE_PAYER",
+    //             "correlationId":"START_AUTH11187-991090777766",
+    //         "device":{
+    //         "browserDetails":{
+    //         "screenWidth":1920,
+    //         "javaEnabled":false,
+    //         "screenHeight":1080,
+    //         "3DSecureChallengeWindowSize":"FULL_SCREEN",
+    //         "timeZone":-120,
+    //         "language":"EN",
+    //         "colorDepth":24
+    //         },
+    //         "browser":"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/95.0.4638.54 Safari\\/537.36",
+    //         "ipAddress":"182.185.178.141"
+    //         },
+    //                 "authentication": {
+    //                     "redirectResponseUrl": "'.url("/redirectResponseUrlSub").'"
+    //                 },
+    //             "order": {
+    //                 "amount": "' . $total_cost . '",
+    //                 "currency": "PKR"
+    //             },
+    //             "session": {
+    //                 "id": "' . $truncatedSessionId . '"
+    //             }
+    //         }
+    //         ',
+    //         CURLOPT_HTTPHEADER => array(
+    //             'Content-Type: application/json',
+    //             'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+    //         ),
+    //     ));
+
+    //     $response = curl_exec($curl);
+
+
+    //     $response = json_decode($response, true);
+    //     if (isset($response['authentication']['redirect']['html'])) {
+    //         $htmlContent = $response['authentication']['redirect']['html'];
+
+    //         return response()->json(['response' => $htmlContent]);
+    //         // return view('payment.otp', compact('htmlContent'));
+    //     } else {
+    //         return response()->json(['response' => 'Invalid response format.']);
+    //     }
+
+    //     curl_close($curl);
+    // }
 
 
     public function payment_store_sub(Request $request)
-    {
+{
+    // Step 1: Gather & prepare data
+    $total_cost = $request->totalamount1;
+    $number_of_page = $request->number_of_page;
+    $cost_per_page_final = $request->cost_per_page_final;
+    $total_costs[] = $total_cost;
 
-        //dd($request->all());
+    $truncatedSessionId = substr($request->session, 0, 35);
 
-        $test = $request->session;
-        $total_cost = $request->totalamount1;
-        $number_of_page = $request->number_of_page;
-        $cost_per_page_final = $request->cost_per_page_final;
-        $total_costs[] = $request->totalamount1;
-        $truncatedSessionId = substr($test, 0, 35);
-        $randomNumber = mt_rand(100, 999);
-        $transactionId = "TRANS" . $randomNumber;
+    $transactionId = "TRANS" . mt_rand(100, 999);
+    $order_id = $request->sub_id1 . '-' . mt_rand(100000, 9999999);
 
-        $order34 =  mt_rand(100000, 9999999);
-        $order_id = $request->sub_id1;
-        $order_id = $order_id . '-' . $order34;
+    session()->put('transactionId', $transactionId);
+    session()->put('order_id', $order_id);
+    session()->put('sub_session_id', $request->session);
 
-        //not working
-        // $lastOrderId = Orders::latest()->limit(1)->value('order_id');
-        // if(!$lastOrderId)
-        // {
-        //     $order_id = '200000';
-        // }
-        // $order_id = ++$lastOrderId;
+    // Step 2: Save to database
+    $pay = new Pay;
+    $pay->order_id = $order_id;
+    $pay->session_id = $request->session;
+    $pay->truncatedSessionId = $transactionId;
+    $pay->total_cost = $total_cost;
+    $pay->cost_per_page_final = $cost_per_page_final;
+    $pay->number_of_page = $number_of_page;
+    $pay->user_id = auth()->user()->id;
+    $pay->order_details = json_encode($total_costs);
+    $pay->save();
 
-        session()->put('transactionId', $transactionId);
-        session()->put('order_id', $order_id);
-        $sessionId = session()->get('sessionId');
+    // Step 3: Load env values
+    $gatewayUrl = env('PAYMENT_GATEWAY_URL');
+    $apiVersion = env('API_VERSION');
+    $merchantId = env('MERCHANT_ID');
+    $authHeader = 'Basic ' . base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
 
+    // Common URL
+    $baseOrderUrl = "$gatewayUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId";
 
+    // Step 4: INITIATE_AUTHENTICATION
+    $initiatePayload = [
+        "session" => [
+            "id" => $truncatedSessionId
+        ],
+        "apiOperation" => "INITIATE_AUTHENTICATION",
+        "correlationId" => "INIT_AUTH" . mt_rand(10000, 99999),
+        "transaction" => [
+            "reference" => $transactionId
+        ],
+        "order" => [
+            "reference" => $order_id,
+            "currency" => "PKR"
+        ],
+        "authentication" => [
+            "purpose" => "PAYMENT_TRANSACTION",
+            "channel" => "PAYER_BROWSER",
+            "acceptVersions" => "3DS2"
+        ]
+    ];
 
+    $this->sendCurlRequest($baseOrderUrl, $initiatePayload, $authHeader);
 
+    // Step 5: AUTHENTICATE_PAYER
+    $authPayload = [
+        "apiOperation" => "AUTHENTICATE_PAYER",
+        "correlationId" => "START_AUTH" . mt_rand(10000, 99999),
+        "device" => [
+            "browserDetails" => [
+                "screenWidth" => 1920,
+                "javaEnabled" => false,
+                "screenHeight" => 1080,
+                "3DSecureChallengeWindowSize" => "FULL_SCREEN",
+                "timeZone" => -120,
+                "language" => "EN",
+                "colorDepth" => 24
+            ],
+            "browser" => $request->header('User-Agent'),
+            "ipAddress" => $request->ip()
+        ],
+        "authentication" => [
+            "redirectResponseUrl" => url("/redirectResponseUrlSub")
+        ],
+        "order" => [
+            "amount" => $total_cost,
+            "currency" => "PKR"
+        ],
+        "session" => [
+            "id" => $truncatedSessionId
+        ]
+    ];
 
-        $pay = new Pay;
-        $pay->order_id = $order_id;
-        $pay->session_id = $test;
-        $pay->truncatedSessionId = $transactionId;
-        $pay->total_cost = $total_cost;
-        $pay->cost_per_page_final = $cost_per_page_final;
-        $pay->number_of_page = $number_of_page;
+    $authResponse = $this->sendCurlRequest($baseOrderUrl, $authPayload, $authHeader);
 
-        $pay->user_id = Auth()->user()->id;
-        $pay->order_details = json_encode($total_costs);
-        $pay->save();
-
-
-
-
-
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'PUT',
-            CURLOPT_POSTFIELDS => '{
-                "session":{
-                    "id": "' . $truncatedSessionId . '"
-                },
-                "apiOperation":"INITIATE_AUTHENTICATION",
-                "correlationId":"INIT_AUTH11187-991090777766",
-                "transaction":
-                {
-                    "reference": "' . $transactionId . '",
-                },
-                "order":{
-
-                "reference": "' . $order_id . '",
-                "currency":"PKR"
-                },
-                "authentication":{
-                    "purpose":"PAYMENT_TRANSACTION",
-                    "channel":"PAYER_BROWSER",
-                "acceptVersions":"3DS2"
-                }
-                }',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-
-        //return response()->json(['response' => $response]);
-
-
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'PUT',
-            CURLOPT_POSTFIELDS => '{
-                "apiOperation": "AUTHENTICATE_PAYER",
-                "correlationId":"START_AUTH11187-991090777766",
-            "device":{
-            "browserDetails":{
-            "screenWidth":1920,
-            "javaEnabled":false,
-            "screenHeight":1080,
-            "3DSecureChallengeWindowSize":"FULL_SCREEN",
-            "timeZone":-120,
-            "language":"EN",
-            "colorDepth":24
-            },
-            "browser":"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/95.0.4638.54 Safari\\/537.36",
-            "ipAddress":"182.185.178.141"
-            },
-                    "authentication": {
-                        "redirectResponseUrl": "'.url("/redirectResponseUrlSub").'"
-                    },
-                "order": {
-                    "amount": "' . $total_cost . '",
-                    "currency": "PKR"
-                },
-                "session": {
-                    "id": "' . $truncatedSessionId . '"
-                }
-            }
-            ',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-
-        $response = json_decode($response, true);
-        if (isset($response['authentication']['redirect']['html'])) {
-            $htmlContent = $response['authentication']['redirect']['html'];
-
-            return response()->json(['response' => $htmlContent]);
-            // return view('payment.otp', compact('htmlContent'));
-        } else {
-            return response()->json(['response' => 'Invalid response format.']);
-        }
-
-        curl_close($curl);
+    // Step 6: Handle response
+    if (isset($authResponse['authentication']['redirect']['html'])) {
+        return response()->json(['response' => $authResponse['authentication']['redirect']['html']]);
+    } else {
+        return response()->json(['response' => 'Invalid response format.']);
     }
+}
+
 
     public function payment_store_addpages(Request $request)
     {
@@ -1297,99 +1703,205 @@ $emailContent = "
 
 
 
-        $curl = curl_init();
+        // $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'PUT',
-            CURLOPT_POSTFIELDS => '{
-                "session":{
-                    "id": "' . $truncatedSessionId . '"
-                },
-                "apiOperation":"INITIATE_AUTHENTICATION",
-                "correlationId":"INIT_AUTH11187-991090777766",
-                "transaction":
-                {
-                    "reference": "' . $transactionId . '",
-                },
-                "order":{
+        // curl_setopt_array($curl, array(
+        //     CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
+        //     CURLOPT_RETURNTRANSFER => true,
+        //     CURLOPT_ENCODING => '',
+        //     CURLOPT_MAXREDIRS => 10,
+        //     CURLOPT_TIMEOUT => 0,
+        //     CURLOPT_FOLLOWLOCATION => true,
+        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //     CURLOPT_CUSTOMREQUEST => 'PUT',
+        //     CURLOPT_POSTFIELDS => '{
+        //         "session":{
+        //             "id": "' . $truncatedSessionId . '"
+        //         },
+        //         "apiOperation":"INITIATE_AUTHENTICATION",
+        //         "correlationId":"INIT_AUTH11187-991090777766",
+        //         "transaction":
+        //         {
+        //             "reference": "' . $transactionId . '",
+        //         },
+        //         "order":{
 
-                "reference": "' . $order_id . '",
-                "currency":"PKR"
-                },
-                "authentication":{
-                    "purpose":"PAYMENT_TRANSACTION",
-                    "channel":"PAYER_BROWSER",
-                "acceptVersions":"3DS2"
-                }
-                }',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
-            ),
-        ));
+        //         "reference": "' . $order_id . '",
+        //         "currency":"PKR"
+        //         },
+        //         "authentication":{
+        //             "purpose":"PAYMENT_TRANSACTION",
+        //             "channel":"PAYER_BROWSER",
+        //         "acceptVersions":"3DS2"
+        //         }
+        //         }',
+        //     CURLOPT_HTTPHEADER => array(
+        //         'Content-Type: application/json',
+        //         'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+        //     ),
+        // ));
 
-        $response = curl_exec($curl);
+        // $response = curl_exec($curl);
 
-        curl_close($curl);
+        // curl_close($curl);
+
+        $baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
+$apiVersion = env('API_VERSION');      // e.g. 74
+$merchantId = env('MERCHANT_ID');      // e.g. TESTWRITINGSPACE
+$authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+
+$initiateUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId";
+
+$initiatePayload = [
+    "session" => [
+        "id" => $truncatedSessionId
+    ],
+    "apiOperation" => "INITIATE_AUTHENTICATION",
+    "correlationId" => "INIT_AUTH11187-991090777766",
+    "transaction" => [
+        "reference" => $transactionId
+    ],
+    "order" => [
+        "reference" => $order_id,
+        "currency" => "PKR"
+    ],
+    "authentication" => [
+        "purpose" => "PAYMENT_TRANSACTION",
+        "channel" => "PAYER_BROWSER",
+        "acceptVersions" => "3DS2"
+    ]
+];
+
+$curl = curl_init();
+curl_setopt_array($curl, [
+    CURLOPT_URL => $initiateUrl,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'PUT',
+    CURLOPT_POSTFIELDS => json_encode($initiatePayload),
+    CURLOPT_HTTPHEADER => [
+        'Content-Type: application/json',
+        "Authorization: Basic $authToken"
+    ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
 
 
         //return response()->json(['response' => $response]);
 
 
-        $localurl = url("/redirectResponseUrladdpages");
-        $curl = curl_init();
+        // $localurl = url("/redirectResponseUrladdpages");
+        // $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'PUT',
-            CURLOPT_POSTFIELDS => '{
-                "apiOperation": "AUTHENTICATE_PAYER",
-                "correlationId":"START_AUTH11187-991090777766",
-            "device":{
-            "browserDetails":{
-            "screenWidth":1920,
-            "javaEnabled":false,
-            "screenHeight":1080,
-            "3DSecureChallengeWindowSize":"FULL_SCREEN",
-            "timeZone":-120,
-            "language":"EN",
-            "colorDepth":24
-            },
-            "browser":"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/95.0.4638.54 Safari\\/537.36",
-            "ipAddress":"182.185.178.141"
-            },
-                    "authentication": {
-                        "redirectResponseUrl": "'.$localurl.'"
-                    },
-                "order": {
-                    "amount": "' . $total_cost . '",
-                    "currency": "PKR"
-                },
-                "session": {
-                    "id": "' . $truncatedSessionId . '"
-                }
-            }
-            ',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
-            ),
-        ));
+        // curl_setopt_array($curl, array(
+        //     CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
+        //     CURLOPT_RETURNTRANSFER => true,
+        //     CURLOPT_ENCODING => '',
+        //     CURLOPT_MAXREDIRS => 10,
+        //     CURLOPT_TIMEOUT => 0,
+        //     CURLOPT_FOLLOWLOCATION => true,
+        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //     CURLOPT_CUSTOMREQUEST => 'PUT',
+        //     CURLOPT_POSTFIELDS => '{
+        //         "apiOperation": "AUTHENTICATE_PAYER",
+        //         "correlationId":"START_AUTH11187-991090777766",
+        //     "device":{
+        //     "browserDetails":{
+        //     "screenWidth":1920,
+        //     "javaEnabled":false,
+        //     "screenHeight":1080,
+        //     "3DSecureChallengeWindowSize":"FULL_SCREEN",
+        //     "timeZone":-120,
+        //     "language":"EN",
+        //     "colorDepth":24
+        //     },
+        //     "browser":"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/95.0.4638.54 Safari\\/537.36",
+        //     "ipAddress":"182.185.178.141"
+        //     },
+        //             "authentication": {
+        //                 "redirectResponseUrl": "'.$localurl.'"
+        //             },
+        //         "order": {
+        //             "amount": "' . $total_cost . '",
+        //             "currency": "PKR"
+        //         },
+        //         "session": {
+        //             "id": "' . $truncatedSessionId . '"
+        //         }
+        //     }
+        //     ',
+        //     CURLOPT_HTTPHEADER => array(
+        //         'Content-Type: application/json',
+        //         'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+        //     ),
+        // ));
 
-        $response = curl_exec($curl);
+        // $response = curl_exec($curl);
+
+        $baseUrl = env('PAYMENT_GATEWAY_URL');
+$apiVersion = env('API_VERSION');
+$merchantId = env('MERCHANT_ID');
+$authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+
+$authenticateUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId";
+$redirectUrl = url("/redirectResponseUrladdpages");
+
+$authenticatePayload = [
+    "apiOperation" => "AUTHENTICATE_PAYER",
+    "correlationId" => "START_AUTH11187-991090777766",
+    "device" => [
+        "browserDetails" => [
+            "screenWidth" => 1920,
+            "javaEnabled" => false,
+            "screenHeight" => 1080,
+            "3DSecureChallengeWindowSize" => "FULL_SCREEN",
+            "timeZone" => -120,
+            "language" => "EN",
+            "colorDepth" => 24
+        ],
+        "browser" => request()->header('User-Agent'),  // dynamic browser
+        "ipAddress" => request()->ip()                 // dynamic IP
+    ],
+    "authentication" => [
+        "redirectResponseUrl" => $redirectUrl
+    ],
+    "order" => [
+        "amount" => $total_cost,
+        "currency" => "PKR"
+    ],
+    "session" => [
+        "id" => $truncatedSessionId
+    ]
+];
+
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => $authenticateUrl,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'PUT',
+    CURLOPT_POSTFIELDS => json_encode($authenticatePayload),
+    CURLOPT_HTTPHEADER => [
+        'Content-Type: application/json',
+        "Authorization: Basic $authToken"
+    ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
 
 
         $response = json_decode($response, true);
@@ -1404,6 +1916,98 @@ $emailContent = "
 
         curl_close($curl);
     }
+
+//     public function payment_store_addpages(Request $request)
+// {
+//     $test = $request->session;
+//     $no_of_page = $request->input('no_of_page');
+//     $used_package_id = $request->input('used_package_id');
+//     $package_id = $request->input('package_id');
+//     $cost_per_page = $request->input('cost_per_page');
+//     $total_cost = $no_of_page * $cost_per_page;
+
+//     $order34 = mt_rand(100000, 9999999);
+//     $order_id = $package_id . '-' . $order34;
+//     $transactionId = "TRANS" . mt_rand(100, 999);
+//     $truncatedSessionId = substr($test, 0, 35);
+//     $sessionId = session()->get('sessionId');
+
+//     session()->put('transactionId', $transactionId);
+//     session()->put('order_id', $order_id);
+
+//     // Save payment info
+//     $pay = new Pay;
+//     $pay->order_id = $order_id;
+//     $pay->session_id = $test;
+//     $pay->truncatedSessionId = $transactionId;
+//     $pay->user_id = auth()->id();
+//     $pay->order_details = json_encode([
+//         'no_of_page' => $no_of_page,
+//         'used_package_id' => $used_package_id,
+//         'package_id' => $package_id,
+//         'cost_per_page' => $cost_per_page,
+//         'total_cost' => $total_cost,
+//         'order_id' => $order_id
+//     ]);
+//     $pay->save();
+
+//     $baseUrl = env('PAYMENT_GATEWAY_URL') . "/api/rest/version/" . env('API_VERSION') . "/merchant/" . env('MERCHANT_ID') . "/order/$order_id/transaction/$transactionId";
+//     $authHeader = "Basic " . base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+
+//     // Step 1: INITIATE_AUTHENTICATION
+//     $initiatePayload = [
+//         'session' => ['id' => $truncatedSessionId],
+//         'apiOperation' => 'INITIATE_AUTHENTICATION',
+//         'correlationId' => 'INIT_AUTH_' . $transactionId,
+//         'transaction' => ['reference' => $transactionId],
+//         'order' => [
+//             'reference' => $order_id,
+//             'currency' => 'PKR'
+//         ],
+//         'authentication' => [
+//             'purpose' => 'PAYMENT_TRANSACTION',
+//             'channel' => 'PAYER_BROWSER',
+//             'acceptVersions' => '3DS2'
+//         ]
+//     ];
+//     $this->sendCurlRequest($baseUrl, $initiatePayload, $authHeader);
+
+//     // Step 2: AUTHENTICATE_PAYER
+//     $authPayload = [
+//         'apiOperation' => 'AUTHENTICATE_PAYER',
+//         'correlationId' => 'START_AUTH_' . $transactionId,
+//         'device' => [
+//             'browserDetails' => [
+//                 'screenWidth' => 1920,
+//                 'javaEnabled' => false,
+//                 'screenHeight' => 1080,
+//                 '3DSecureChallengeWindowSize' => 'FULL_SCREEN',
+//                 'timeZone' => -120,
+//                 'language' => 'EN',
+//                 'colorDepth' => 24
+//             ],
+//             'browser' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)...',
+//             'ipAddress' => $request->ip()
+//         ],
+//         'authentication' => [
+//             'redirectResponseUrl' => url("/redirectResponseUrladdpages")
+//         ],
+//         'order' => [
+//             'amount' => $total_cost,
+//             'currency' => 'PKR'
+//         ],
+//         'session' => ['id' => $truncatedSessionId]
+//     ];
+
+//     $response = $this->sendCurlRequest($baseUrl, $authPayload, $authHeader);
+
+//     if (isset($response['authentication']['redirect']['html'])) {
+//         return response()->json(['response' => $response['authentication']['redirect']['html']]);
+//     } else {
+//         return response()->json(['response' => 'Invalid response format.']);
+//     }
+// }
+
 
     public function payment_store_managepage(Request $request)
     {
@@ -1467,99 +2071,205 @@ $emailContent = "
 
 
 
-        $curl = curl_init();
+        // $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'PUT',
-            CURLOPT_POSTFIELDS => '{
-                "session":{
-                    "id": "' . $truncatedSessionId . '"
-                },
-                "apiOperation":"INITIATE_AUTHENTICATION",
-                "correlationId":"INIT_AUTH11187-991090777766",
-                "transaction":
-                {
-                    "reference": "' . $transactionId . '",
-                },
-                "order":{
+        // curl_setopt_array($curl, array(
+        //     CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
+        //     CURLOPT_RETURNTRANSFER => true,
+        //     CURLOPT_ENCODING => '',
+        //     CURLOPT_MAXREDIRS => 10,
+        //     CURLOPT_TIMEOUT => 0,
+        //     CURLOPT_FOLLOWLOCATION => true,
+        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //     CURLOPT_CUSTOMREQUEST => 'PUT',
+        //     CURLOPT_POSTFIELDS => '{
+        //         "session":{
+        //             "id": "' . $truncatedSessionId . '"
+        //         },
+        //         "apiOperation":"INITIATE_AUTHENTICATION",
+        //         "correlationId":"INIT_AUTH11187-991090777766",
+        //         "transaction":
+        //         {
+        //             "reference": "' . $transactionId . '",
+        //         },
+        //         "order":{
 
-                "reference": "' . $order_id . '",
-                "currency":"PKR"
-                },
-                "authentication":{
-                    "purpose":"PAYMENT_TRANSACTION",
-                    "channel":"PAYER_BROWSER",
-                "acceptVersions":"3DS2"
-                }
-                }',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
-            ),
-        ));
+        //         "reference": "' . $order_id . '",
+        //         "currency":"PKR"
+        //         },
+        //         "authentication":{
+        //             "purpose":"PAYMENT_TRANSACTION",
+        //             "channel":"PAYER_BROWSER",
+        //         "acceptVersions":"3DS2"
+        //         }
+        //         }',
+        //     CURLOPT_HTTPHEADER => array(
+        //         'Content-Type: application/json',
+        //         'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+        //     ),
+        // ));
 
-        $response = curl_exec($curl);
+        // $response = curl_exec($curl);
 
-        curl_close($curl);
+        // curl_close($curl);
+
+        $baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g., https://test-bankalfalah.gateway.mastercard.com
+$apiVersion = env('API_VERSION', 74); // default fallback
+$merchantId = env('MERCHANT_ID');     // e.g., TESTWRITINGSPACE
+$authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+
+$initiateUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId";
+
+$initiatePayload = [
+    "session" => [
+        "id" => $truncatedSessionId
+    ],
+    "apiOperation" => "INITIATE_AUTHENTICATION",
+    "correlationId" => "INIT_AUTH11187-991090777766",
+    "transaction" => [
+        "reference" => $transactionId
+    ],
+    "order" => [
+        "reference" => $order_id,
+        "currency" => "PKR"
+    ],
+    "authentication" => [
+        "purpose" => "PAYMENT_TRANSACTION",
+        "channel" => "PAYER_BROWSER",
+        "acceptVersions" => "3DS2"
+    ]
+];
+
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => $initiateUrl,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'PUT',
+    CURLOPT_POSTFIELDS => json_encode($initiatePayload),
+    CURLOPT_HTTPHEADER => [
+        'Content-Type: application/json',
+        "Authorization: Basic $authToken"
+    ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
 
 
         //return response()->json(['response' => $response]);
 
 
 
-        $curl = curl_init();
+        // $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'PUT',
-            CURLOPT_POSTFIELDS => '{
-                "apiOperation": "AUTHENTICATE_PAYER",
-                "correlationId":"START_AUTH11187-991090777766",
-            "device":{
-            "browserDetails":{
-            "screenWidth":1920,
-            "javaEnabled":false,
-            "screenHeight":1080,
-            "3DSecureChallengeWindowSize":"FULL_SCREEN",
-            "timeZone":-120,
-            "language":"EN",
-            "colorDepth":24
-            },
-            "browser":"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/95.0.4638.54 Safari\\/537.36",
-            "ipAddress":"182.185.178.141"
-            },
-                    "authentication": {
-                        "redirectResponseUrl": "'.url("/redirectResponsemanagepages").'",
-                    },
-                "order": {
-                    "amount": "' . $total . '",
-                    "currency": "PKR"
-                },
-                "session": {
-                    "id": "' . $truncatedSessionId . '"
-                }
-            }
-            ',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
-            ),
-        ));
+        // curl_setopt_array($curl, array(
+        //     CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
+        //     CURLOPT_RETURNTRANSFER => true,
+        //     CURLOPT_ENCODING => '',
+        //     CURLOPT_MAXREDIRS => 10,
+        //     CURLOPT_TIMEOUT => 0,
+        //     CURLOPT_FOLLOWLOCATION => true,
+        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //     CURLOPT_CUSTOMREQUEST => 'PUT',
+        //     CURLOPT_POSTFIELDS => '{
+        //         "apiOperation": "AUTHENTICATE_PAYER",
+        //         "correlationId":"START_AUTH11187-991090777766",
+        //     "device":{
+        //     "browserDetails":{
+        //     "screenWidth":1920,
+        //     "javaEnabled":false,
+        //     "screenHeight":1080,
+        //     "3DSecureChallengeWindowSize":"FULL_SCREEN",
+        //     "timeZone":-120,
+        //     "language":"EN",
+        //     "colorDepth":24
+        //     },
+        //     "browser":"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/95.0.4638.54 Safari\\/537.36",
+        //     "ipAddress":"182.185.178.141"
+        //     },
+        //             "authentication": {
+        //                 "redirectResponseUrl": "'.url("/redirectResponsemanagepages").'",
+        //             },
+        //         "order": {
+        //             "amount": "' . $total . '",
+        //             "currency": "PKR"
+        //         },
+        //         "session": {
+        //             "id": "' . $truncatedSessionId . '"
+        //         }
+        //     }
+        //     ',
+        //     CURLOPT_HTTPHEADER => array(
+        //         'Content-Type: application/json',
+        //         'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+        //     ),
+        // ));
 
-        $response = curl_exec($curl);
+        // $response = curl_exec($curl);
+
+
+        $baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g., https://test-bankalfalah.gateway.mastercard.com
+$apiVersion = env('API_VERSION', 74);
+$merchantId = env('MERCHANT_ID'); // e.g., TESTWRITINGSPACE
+$authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+
+$authenticateUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId";
+
+$authenticatePayload = [
+    "apiOperation" => "AUTHENTICATE_PAYER",
+    "correlationId" => "START_AUTH11187-991090777766",
+    "device" => [
+        "browserDetails" => [
+            "screenWidth" => 1920,
+            "javaEnabled" => false,
+            "screenHeight" => 1080,
+            "3DSecureChallengeWindowSize" => "FULL_SCREEN",
+            "timeZone" => -120,
+            "language" => "EN",
+            "colorDepth" => 24
+        ],
+        "browser" => request()->header('User-Agent') ?? "Mozilla/5.0",
+        "ipAddress" => request()->ip()
+    ],
+    "authentication" => [
+        "redirectResponseUrl" => url("/redirectResponsemanagepages")
+    ],
+    "order" => [
+        "amount" => $total,
+        "currency" => "PKR"
+    ],
+    "session" => [
+        "id" => $truncatedSessionId
+    ]
+];
+
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => $authenticateUrl,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'PUT',
+    CURLOPT_POSTFIELDS => json_encode($authenticatePayload),
+    CURLOPT_HTTPHEADER => [
+        'Content-Type: application/json',
+        "Authorization: Basic $authToken"
+    ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
 
 
         $response = json_decode($response, true);
@@ -1575,6 +2285,107 @@ $emailContent = "
         curl_close($curl);
     }
 
+
+//   public function payment_store_managepage(Request $request)
+// {
+//     $sessionIdFromRequest = $request->session;
+//     $order_id_original = $request->order_id;
+//     $total = $request->total;
+//     $page = $request->page;
+//     $deadline = $request->deadline;
+
+//     $data = [
+//         'order_id' => $order_id_original,
+//         'total' => $total,
+//         'page' => $page,
+//         'deadline' => $deadline,
+//     ];
+
+//     // Generate unique identifiers
+//     $randomOrder = mt_rand(100000, 9999999);
+//     $order_id = $order_id_original . '-' . $randomOrder;
+//     $truncatedSessionId = substr($sessionIdFromRequest, 0, 35);
+//     $transactionId = "TRANS" . mt_rand(100000, 999999);
+//     $correlationId1 = 'INIT_AUTH_' . uniqid();
+//     $correlationId2 = 'START_AUTH_' . uniqid();
+
+//     // Save Pay record
+//     $pay = new Pay;
+//     $pay->order_id = $order_id;
+//     $pay->session_id = $sessionIdFromRequest;
+//     $pay->truncatedSessionId = $transactionId;
+//     $pay->user_id = auth()->id();
+//     $pay->order_details = json_encode($data);
+//     $pay->save();
+
+//     // Gateway config
+//     $baseUrl = env('PAYMENT_GATEWAY_URL');
+//     $apiVersion = env('API_VERSION');
+//     $merchantId = env('MERCHANT_ID');
+//     $authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+
+//     // INITIATE_AUTHENTICATION
+//     $initiatePayload = [
+//         "session" => ["id" => $truncatedSessionId],
+//         "apiOperation" => "INITIATE_AUTHENTICATION",
+//         "correlationId" => $correlationId1,
+//         "transaction" => ["reference" => $transactionId],
+//         "order" => ["reference" => $order_id, "currency" => "PKR"],
+//         "authentication" => [
+//             "purpose" => "PAYMENT_TRANSACTION",
+//             "channel" => "PAYER_BROWSER",
+//             "acceptVersions" => "3DS2"
+//         ]
+//     ];
+
+//     $initiateResponse = $this->sendCurlRequest(
+//         "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId",
+//         $initiatePayload,
+//         $authToken
+//     );
+
+//     // AUTHENTICATE_PAYER
+//     $authenticatePayload = [
+//         "apiOperation" => "AUTHENTICATE_PAYER",
+//         "correlationId" => $correlationId2,
+//         "device" => [
+//             "browserDetails" => [
+//                 "screenWidth" => 1920,
+//                 "javaEnabled" => false,
+//                 "screenHeight" => 1080,
+//                 "3DSecureChallengeWindowSize" => "FULL_SCREEN",
+//                 "timeZone" => -120,
+//                 "language" => "EN",
+//                 "colorDepth" => 24
+//             ],
+//             "browser" => $request->header('User-Agent'),
+//             "ipAddress" => $request->ip()
+//         ],
+//         "authentication" => [
+//             "redirectResponseUrl" => url("/redirectResponsemanagepages")
+//         ],
+//         "order" => [
+//             "amount" => $total,
+//             "currency" => "PKR"
+//         ],
+//         "session" => ["id" => $truncatedSessionId]
+//     ];
+
+//     $authenticateResponse = $this->sendCurlRequest(
+//         "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId",
+//         $authenticatePayload,
+//         $authToken
+//     );
+
+//     $response = json_decode($authenticateResponse, true);
+
+//     if (isset($response['authentication']['redirect']['html'])) {
+//         return response()->json(['response' => $response['authentication']['redirect']['html']]);
+//     } else {
+//         Log::error('Invalid authentication response', ['response' => $authenticateResponse]);
+//         return response()->json(['response' => 'Invalid response format.']);
+//     }
+// }
 
     public function otp($creqValue, Request $request)
     {
@@ -1694,38 +2505,92 @@ $emailContent = "
           //  $noofpage = $order_detail->no_of_page;
             $transactionIdurl = $transactionId . $randomNumber;
 
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionIdurl,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'PUT',
-                CURLOPT_POSTFIELDS => '{
-                                            "apiOperation": "PAY",
-                                            "authentication":{
-                                        "transactionId":"' . $transactionId . '"
-                                        },
-                                            "order": {
-                                                "amount": "' . $amount . '",
-                                                "currency": "PKR"
-                                            },
-                                            "session": {
-                                                "id": "' . $sessionId . '"
-                                            }
+            // $curl = curl_init();
+            // curl_setopt_array($curl, array(
+            //     CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionIdurl,
+            //     CURLOPT_RETURNTRANSFER => true,
+            //     CURLOPT_ENCODING => '',
+            //     CURLOPT_MAXREDIRS => 10,
+            //     CURLOPT_TIMEOUT => 0,
+            //     CURLOPT_FOLLOWLOCATION => true,
+            //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            //     CURLOPT_CUSTOMREQUEST => 'PUT',
+            //     CURLOPT_POSTFIELDS => '{
+            //                                 "apiOperation": "PAY",
+            //                                 "authentication":{
+            //                             "transactionId":"' . $transactionId . '"
+            //                             },
+            //                                 "order": {
+            //                                     "amount": "' . $amount . '",
+            //                                     "currency": "PKR"
+            //                                 },
+            //                                 "session": {
+            //                                     "id": "' . $sessionId . '"
+            //                                 }
 
-                                        }',
-                CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/json',
-                    'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
-                ),
-            ));
-            $response = curl_exec($curl);
-            curl_close($curl);
-            $responseArray = json_decode($response, true);
+            //                             }',
+            //     CURLOPT_HTTPHEADER => array(
+            //         'Content-Type: application/json',
+            //         'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+            //     ),
+            // ));
+            // $response = curl_exec($curl);
+            // curl_close($curl);
+            // $responseArray = json_decode($response, true);
+
+
+            $payload = [
+    "apiOperation" => "PAY",
+    "authentication" => [
+        "transactionId" => $transactionId
+    ],
+    "order" => [
+        "amount" => $amount,
+        "currency" => "PKR"
+    ],
+    "session" => [
+        "id" => $sessionId
+    ]
+];
+
+// Load credentials and config from .env
+$baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
+$apiVersion = env('API_VERSION'); // e.g. 74
+$merchantId = env('MERCHANT_ID'); // e.g. TESTWRITINGSPACE
+$authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+
+$url = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionIdurl";
+
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => $url,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'PUT',
+    CURLOPT_POSTFIELDS => json_encode($payload),
+    CURLOPT_HTTPHEADER => [
+        'Content-Type: application/json',
+        'Authorization: Basic ' . $authToken
+    ],
+]);
+
+$response = curl_exec($curl);
+
+if (curl_errno($curl)) {
+    $error = curl_error($curl);
+    curl_close($curl);
+    Log::error("CURL Error: " . $error);
+    return response()->json(['error' => $error], 500);
+}
+
+curl_close($curl);
+$responseArray = json_decode($response, true);
+
 
             if ($responseArray) {
                 $authenticationStatus = $responseArray['order']['authenticationStatus'];
@@ -2030,41 +2895,84 @@ $emailContent = "
 
 
 
-            $curl = curl_init();
+            // $curl = curl_init();
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionIdurl,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'PUT',
-                CURLOPT_POSTFIELDS => '{
-              "apiOperation": "PAY",
-              "authentication":{
-                "transactionId":"' . $transactionId . '"
-                },
-                    "order": {
-                        "amount": "' . $amount . '",
-                        "currency": "PKR"
-                    },
-                    "session": {
-                        "id": "' . $sessionId . '"
-                    }
+            // curl_setopt_array($curl, array(
+            //     CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionIdurl,
+            //     CURLOPT_RETURNTRANSFER => true,
+            //     CURLOPT_ENCODING => '',
+            //     CURLOPT_MAXREDIRS => 10,
+            //     CURLOPT_TIMEOUT => 0,
+            //     CURLOPT_FOLLOWLOCATION => true,
+            //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            //     CURLOPT_CUSTOMREQUEST => 'PUT',
+            //     CURLOPT_POSTFIELDS => '{
+            //   "apiOperation": "PAY",
+            //   "authentication":{
+            //     "transactionId":"' . $transactionId . '"
+            //     },
+            //         "order": {
+            //             "amount": "' . $amount . '",
+            //             "currency": "PKR"
+            //         },
+            //         "session": {
+            //             "id": "' . $sessionId . '"
+            //         }
 
-                }',
-                        CURLOPT_HTTPHEADER => array(
-                            'Content-Type: application/json',
-                            'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
-                        ),
-                    ));
+            //     }',
+            //             CURLOPT_HTTPHEADER => array(
+            //                 'Content-Type: application/json',
+            //                 'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+            //             ),
+            //         ));
 
-            $response = curl_exec($curl);
+            // $response = curl_exec($curl);
 
-            curl_close($curl);
-            $responseArray = json_decode($response, true);
+            // curl_close($curl);
+            // $responseArray = json_decode($response, true);
+$baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
+$apiVersion = env('API_VERSION'); // e.g. 74
+$merchantId = env('MERCHANT_ID'); // e.g. TESTWRITINGSPACE
+$authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+// Build URL
+$url = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/{$order_id}/transaction/{$transactionIdurl}";
+
+// Prepare payload
+$payload = [
+    "apiOperation" => "PAY",
+    "authentication" => [
+        "transactionId" => $transactionId
+    ],
+    "order" => [
+        "amount" => $amount,
+        "currency" => "PKR"
+    ],
+    "session" => [
+        "id" => $sessionId
+    ]
+];
+
+// Use CURL to send the request
+$curl = curl_init();
+curl_setopt_array($curl, [
+    CURLOPT_URL => $url,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'PUT',
+    CURLOPT_POSTFIELDS => json_encode($payload),
+    CURLOPT_HTTPHEADER => [
+        'Content-Type: application/json',
+        "Authorization: Basic $authToken"
+    ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+$responseArray = json_decode($response, true);
 
 
 
@@ -2252,7 +3160,7 @@ $emailContent = "
 
     <p><strong>Order Details:</strong></p>
     <ul>
-
+       
         <li><strong>Additional Pages Added:</strong> {$pages}</li>
         <li><strong>Total Pages Used So Far:</strong> {$currentSubs->total_pages}</li>
         <li><strong>Remaining Pages in Your Package:</strong> {$currentSubs->remaining_pages}</li>
@@ -2327,41 +3235,89 @@ $emailContent = "
 
 
 
-            $curl = curl_init();
+        //     $curl = curl_init();
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionIdurl,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'PUT',
-                CURLOPT_POSTFIELDS => '{
-              "apiOperation": "PAY",
-              "authentication":{
-          "transactionId":"' . $transactionId . '"
-          },
-              "order": {
-                  "amount": "' . $amount . '",
-                  "currency": "PKR"
-              },
-              "session": {
-                "id": "' . $sessionId . '"
-              }
+        //     curl_setopt_array($curl, array(
+        //         CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionIdurl,
+        //         CURLOPT_RETURNTRANSFER => true,
+        //         CURLOPT_ENCODING => '',
+        //         CURLOPT_MAXREDIRS => 10,
+        //         CURLOPT_TIMEOUT => 0,
+        //         CURLOPT_FOLLOWLOCATION => true,
+        //         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //         CURLOPT_CUSTOMREQUEST => 'PUT',
+        //         CURLOPT_POSTFIELDS => '{
+        //       "apiOperation": "PAY",
+        //       "authentication":{
+        //   "transactionId":"' . $transactionId . '"
+        //   },
+        //       "order": {
+        //           "amount": "' . $amount . '",
+        //           "currency": "PKR"
+        //       },
+        //       "session": {
+        //         "id": "' . $sessionId . '"
+        //       }
 
-          }',
-                CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/json',
-                    'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
-                ),
-            ));
+        //   }',
+        //         CURLOPT_HTTPHEADER => array(
+        //             'Content-Type: application/json',
+        //             'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+        //         ),
+        //     ));
 
-            $response = curl_exec($curl);
+        //     $response = curl_exec($curl);
 
-            curl_close($curl);
-            $responseArray = json_decode($response, true);
+        //     curl_close($curl);
+        //     $responseArray = json_decode($response, true);
+
+        // Load from .env
+$baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
+$apiVersion = env('API_VERSION'); // e.g. 74
+$merchantId = env('MERCHANT_ID'); // e.g. TESTWRITINGSPACE
+$authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+
+// Prepare the full URL
+$url = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionIdurl";
+
+// Prepare the payload
+$payload = [
+    "apiOperation" => "PAY",
+    "authentication" => [
+        "transactionId" => $transactionId
+    ],
+    "order" => [
+        "amount" => $amount,
+        "currency" => "PKR"
+    ],
+    "session" => [
+        "id" => $sessionId
+    ]
+];
+
+// Initialize cURL
+$curl = curl_init();
+curl_setopt_array($curl, [
+    CURLOPT_URL => $url,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'PUT',
+    CURLOPT_POSTFIELDS => json_encode($payload),
+    CURLOPT_HTTPHEADER => [
+        'Content-Type: application/json',
+        "Authorization: Basic $authToken"
+    ],
+]);
+
+// Execute cURL and decode the response
+$response = curl_exec($curl);
+curl_close($curl);
+$responseArray = json_decode($response, true);
+
 
             if ($responseArray) {
 
@@ -2541,7 +3497,7 @@ $emailContent = "
     <li><strong>Purchase Date:</strong> " . $invoice->created_at->format('F j, Y') . "</li>
   <li><strong>Total:</strong> {$subTotal}</li>
     <li><strong>Total Pages:</strong> {$totalPages}</li>
-
+  
 </ul>
 
 <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
@@ -2602,7 +3558,7 @@ Writing Space</p>
                     Auth::login($user);
 
 
-                    return redirect('/customer/thankyou');
+                    return redirect('https://ws.elementary-solutions.com/customer/thankyou');
                 }
             }
         // } catch (\Exception $e) {
@@ -2626,40 +3582,87 @@ Writing Space</p>
         $randomNumber = mt_rand(100, 999);
         $transactionIdurl = $transactionId . $randomNumber;
 
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionIdurl,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'PUT',
-            CURLOPT_POSTFIELDS => '{
-                                        "apiOperation": "PAY",
-                                        "authentication":{
-                                    "transactionId":"' . $transactionId . '"
-                                    },
-                                        "order": {
-                                            "amount": "' . $amount . '",
-                                            "currency": "PKR"
-                                        },
-                                        "session": {
-                                            "id": "' . $sessionId . '"
-                                        }
+        // $curl = curl_init();
+        // curl_setopt_array($curl, array(
+        //     CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionIdurl,
+        //     CURLOPT_RETURNTRANSFER => true,
+        //     CURLOPT_ENCODING => '',
+        //     CURLOPT_MAXREDIRS => 10,
+        //     CURLOPT_TIMEOUT => 0,
+        //     CURLOPT_FOLLOWLOCATION => true,
+        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //     CURLOPT_CUSTOMREQUEST => 'PUT',
+        //     CURLOPT_POSTFIELDS => '{
+        //                                 "apiOperation": "PAY",
+        //                                 "authentication":{
+        //                             "transactionId":"' . $transactionId . '"
+        //                             },
+        //                                 "order": {
+        //                                     "amount": "' . $amount . '",
+        //                                     "currency": "PKR"
+        //                                 },
+        //                                 "session": {
+        //                                     "id": "' . $sessionId . '"
+        //                                 }
 
-                                    }',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
-            ),
-        ));
+        //                             }',
+        //     CURLOPT_HTTPHEADER => array(
+        //         'Content-Type: application/json',
+        //         'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
+        //     ),
+        // ));
 
-        $response = curl_exec($curl);
+        // $response = curl_exec($curl);
 
-        curl_close($curl);
-        $responseArray = json_decode($response, true);
+        // curl_close($curl);
+        // $responseArray = json_decode($response, true);
+
+        // Load from .env
+$baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
+$apiVersion = env('API_VERSION'); // e.g. 74
+$merchantId = env('MERCHANT_ID'); // e.g. TESTWRITINGSPACE
+$authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+
+// Prepare full URL
+$url = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionIdurl";
+
+// Prepare payload
+$payload = [
+    "apiOperation" => "PAY",
+    "authentication" => [
+        "transactionId" => $transactionId
+    ],
+    "order" => [
+        "amount" => $amount,
+        "currency" => "PKR"
+    ],
+    "session" => [
+        "id" => $sessionId
+    ]
+];
+
+// cURL request
+$curl = curl_init();
+curl_setopt_array($curl, [
+    CURLOPT_URL => $url,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'PUT',
+    CURLOPT_POSTFIELDS => json_encode($payload),
+    CURLOPT_HTTPHEADER => [
+        'Content-Type: application/json',
+        "Authorization: Basic $authToken"
+    ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+$responseArray = json_decode($response, true);
+
 
         if ($responseArray) {
             // dd($responseArray);
@@ -2904,7 +3907,7 @@ Writing Space</p>
 
                 if ($email) {
 
-
+       
 $totalValue = $pricePerPage * $totalPages;
 $totalBeforeDiscount = $totalValue + $finaltotaladdon;
 
@@ -2987,7 +3990,7 @@ $formattedFinalTotal = number_format($finalTotal, 2);
                 ->subject($emailSubject);
         });
 
-
+ 
 
 
                     $data = [
