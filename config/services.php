@@ -44,4 +44,12 @@ return [
         'include_tenant_info' => true,
     ],
 
+    'payment_gateway' => [
+        'base_url' => env('PAYMENT_GATEWAY_BASE_URL', 'https://test-bankalfalah.gateway.mastercard.com/api/rest'),
+        'version' => env('PAYMENT_GATEWAY_VERSION', '74'),
+        'merchant' => env('PAYMENT_GATEWAY_MERCHANT', 'TESTWRITINGSPACE'),
+        'username' => env('PAYMENT_GATEWAY_USERNAME'),
+        'password' => env('PAYMENT_GATEWAY_PASSWORD'),
+    ],
+
 ];
