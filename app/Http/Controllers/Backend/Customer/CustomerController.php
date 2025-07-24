@@ -66,31 +66,69 @@ class CustomerController extends Controller
 
 
 
-    public function filterDate(Request $request)
-    {
-        $date = $request->input('date');
-        $month = date('m', strtotime($date)); // Get month (e.g., '07')
-        $year = date('Y', strtotime($date));
+   public function filterDate(Request $request)
+{
+    $date = $request->input('date');
+    $month = date('m', strtotime($date));
+    $year = date('Y', strtotime($date));
+    $type = $request->input('type');
 
+    if ($type === 'custom_inc') {
+        // Custom Orders ki fields (order table)
+        $data = DB::table('orders')
+            ->where('user_id', Auth::user()->id)
+            ->whereYear('created_at', $year)
+            ->whereMonth('created_at', $month)
+            ->select(
+                'created_at',
+                'deadline',
+                'order_type',
+                'order_id',
+                'number_of_pages',
+                'topic',
+                'order_status'
+            )
+            ->latest('created_at')
+            ->get();
+    } else {
+        // Payment Records ki fields (invoice + order join if needed)
+        $typeArr = is_array($type) ? $type : [$type];
         $data = DB::table('invoices')
-                        ->leftJoin('orders', 'invoices.order_id', '=', 'orders.order_id')
-                        ->leftJoin('user_subscription', 'invoices.order_id', '=', 'user_subscription.subscription_id')
-                        ->where('invoices.email', Auth::user()->email)
-                        ->where('invoices.invoice_type', '!=', null)
-                        ->where('invoices.invoice_type', $request->input('type'))
-                        ->whereYear('invoices.created_at', $year)
-                        ->whereMonth('invoices.created_at', $month)
-                        ->select('invoices.*')
-                        ->latest('invoices.created_at')
-                        ->get();
-        if($data->isNotEmpty())
-        {
-            return response()->json(['status' => true, 'data' => $data], 200);
-        }else{
-            return response()->json(['status' => false, 'message' => 'Data not found'], 404);
-        }
-
+            ->leftJoin('orders', 'invoices.order_id', '=', 'orders.order_id')
+            ->where('invoices.email', Auth::user()->email)
+            ->when(is_array($typeArr), function($q) use ($typeArr) {
+                return $q->where(function($query) use ($typeArr) {
+                    $query->whereIn('invoices.invoice_type', array_filter($typeArr))
+                        ->orWhereNull('invoices.invoice_type');
+                });
+            }, function($q) use ($type) {
+                if ($type == '' || $type == null) {
+                    return $q->whereNull('invoices.invoice_type');
+                } else {
+                    return $q->where('invoices.invoice_type', $type);
+                }
+            })
+            ->whereYear('invoices.created_at', $year)
+            ->whereMonth('invoices.created_at', $month)
+            ->select(
+                'invoices.invoice_id',
+                'invoices.invoice_type',
+                'invoices.item_name',
+                'invoices.total',
+                'invoices.created_at'
+            )
+            ->distinct()
+            ->latest('invoices.created_at')
+            ->get();
     }
+
+    if($data->isNotEmpty()) {
+        return response()->json(['status' => true, 'data' => $data], 200);
+    } else {
+        return response()->json(['status' => false, 'message' => 'Data not found'], 404);
+    }
+}
+
 
 
 

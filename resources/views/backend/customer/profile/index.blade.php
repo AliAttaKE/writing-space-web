@@ -338,6 +338,7 @@
                                                 <tbody class="fs-6 fw-semibold text-gray-600" id="old_package_payment_tbody">
                                                     @foreach ($orders as $order)
                                                     @if($order->invoice_id)
+
                                                         <tr>
                                                                 <td>
                                                                     @if($order->invoice_type == 'package_inc')
@@ -352,10 +353,10 @@
                                                                 </td>
 
                                                                 <td>
-                                                                    <a href="{{ url('invoices/invoice_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $order->invoice_id}}</a>
+                                                                    <a href="{{ url('invoices/invoice_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1"  target="_blank">{{ $order->invoice_id}}</a>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="{{ url('storage/receipts/receipt_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1">{{ $order->invoice_id}}</a>
+                                                                    <a href="{{ url('storage/receipts/receipt_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1"  target="_blank">{{ $order->invoice_id}}</a>
                                                                 </td>
                                                                 <td>
                                                                     @if ($order->total != null)
@@ -1508,74 +1509,94 @@ $('#totalcost').text('$' + totalCost.toFixed(2));
 
 </script>
 <script>
-    $(document).ready(function() {
+   $(document).ready(function() {
 
-        $('#packages_filter_date').on('change', function() {
-            var selectedDate = $(this).val();
-            var url = '{{ route('customer.filter.date') }}';
-            var type = 'package_inc';
+    $('#packages_filter_date').on('change', function() {
+        var selectedDate = $(this).val();
+        var url = '{{ route('customer.filter.date') }}';
+var types = ['package_inc', 'custom_inc', ''];
 
-            $.ajax({
-                type: 'get',
-                url: url,
-                data: { date: selectedDate, type: type},
-                success: function(response) {
-                    if (response.status == true && response.data.length > 0) {
-                        var datas = response.data;
-                        var rows = '';
-                        $('#old_package_payment_tbody').hide();
-                        $('#new_package_payment_tbody').empty();
-                        for (var data of datas) {
-                            var row = `
+
+        $.ajax({
+            type: 'get',
+            url: url,
+            data: { date: selectedDate, type: types },
+            success: function(response) {
+                console.log("AJAX Response:", response);
+
+                if (response.status === true && response.data.length > 0) {
+                    var datas = response.data;
+                    var rows = '';
+                    $('#old_package_payment_tbody').hide();
+                    $('#new_package_payment_tbody').empty();
+
+                    for (var data of datas) {
+                        let paymentType = '';
+                        if (data.invoice_type === 'package_inc') {
+                            paymentType = 'Package';
+                        } else if (data.invoice_type === null) {
+                            paymentType = 'Package - Addon';
+                        } else if (data.invoice_type === 'custom_inc' && data.item_name === 'Custom Order - Pages Addon') {
+                            paymentType = 'Custom Order - Pages Addon';
+                        } else if (data.invoice_type === 'custom_inc') {
+                            paymentType = 'Custom Order';
+                        }else if (!data.invoice_type) {
+    paymentType = 'Package - Addon';
+}
+
+
+                        var formattedAmount = (parseFloat(data.total) || 0).toFixed(2);
+                        var dateStr = data.created_at ? new Date(data.created_at).toLocaleString() : '';
+
+                        var row = `
                             <tr>
-                                <td>${data.order_id}</td>
+                                <td>${paymentType}</td>
                                 <td>
-                                    <a href="#" class="text-gray-600 text-hover-primary mb-1">${data.invoice_id}</a>
+                                    <a href="/invoices/invoice_${data.invoice_id}.pdf" class="text-gray-600 text-hover-primary mb-1"  target="_blank">${data.invoice_id}</a>
+                                </td>
+                                <td>
+                                    <a href="/storage/receipts/receipt_${data.invoice_id}.pdf" class="text-gray-600 text-hover-primary mb-1"  target="_blank">${data.invoice_id}</a>
                                 </td>
                                 <td>
                                     ${data.total != null ? '<span class="badge badge-light-success badge-custom-bg">Successful</span>' : '<span class="badge badge-light-danger">No paid</span>'}
                                 </td>
                                 <td>
-                                    $ ${parseFloat(data.total).toFixed(2)}
+                                    $ ${formattedAmount}
                                 </td>
                                 <td>
-                                    ${new Date(data.created_at).toLocaleString()}
+                                    ${dateStr}
                                 </td>
-                                <td class="pe-0">
-                                    <a href="#" class="btn btn-sm btn-light image.png btn-active-light-primary badge-custom-bg" id="badge-custom-bg" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
-                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
-                                    </a>
-                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded fs-color-white menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4 badge-custom-bg" data-kt-menu="true">
-                                        <div class="menu-item px-3">
-                                            <a href="javascript:void(0)" class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white" data-bs-toggle="modal" data-bs-target="#view-invoice_${data.order_id}">View</a>
-                                        </div>
-                                        <div class="menu-item px-3">
-                                            {{-- <a href="#" class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white" id="badge-custom-bg" download="">Download</a> --}}
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>`;
-                            rows += row;
-                        }
-                        $('#new_package_payment_tbody').append(rows);
+                            </tr>
+                        `;
+                        rows += row;
                     }
-                },
+                    $('#new_package_payment_tbody').append(rows);
+                } else {
+                    $('#new_package_payment_tbody').empty();
+                    $('#old_package_payment_tbody').hide();
+                    var errorMessage = "Data not found";
+                    $('#new_package_payment_tbody').append(`<tr><td colspan="6">${errorMessage}</td></tr>`);
+                }
+            },
 
-                error: function(xhr, status, error) {
+            error: function(xhr, status, error) {
                 console.log("Error status:", xhr.status);
                 $('#new_package_payment_tbody').empty();
                 $('#old_package_payment_tbody').hide();
                 var errorMessage = "Data not found";
                 $('#new_package_payment_tbody').append(`<tr><td colspan="6">${errorMessage}</td></tr>`);
             }
-            });
-
         });
 
-        $('.reset_package_filter').on('click', function(){
-            $('#new_package_payment_tbody').empty();
-            $('#old_package_payment_tbody').show();
-        });
+    });
+
+    $('.reset_package_filter').on('click', function() {
+        $('#new_package_payment_tbody').empty();
+        $('#old_package_payment_tbody').show();
+         $('#packages_filter_date').val('');
+    });
+
+
 
         $('#custom_filter_date').on('change', function() {
             var selectedDate = $(this).val();
@@ -1597,33 +1618,15 @@ $('#totalcost').text('$' + totalCost.toFixed(2));
                         for (var data of datas) {
                             var row = `
                             <tr>
-                                <td>${data.order_id}</td>
-                                <td>
-                                    <a href="#" class="text-gray-600 text-hover-primary mb-1">${data.invoice_id}</a>
-                                </td>
-                                <td>
-                                    ${data.total != null ? '<span class="badge badge-light-success badge-custom-bg">Successful</span>' : '<span class="badge badge-light-danger">No paid</span>'}
-                                </td>
-                                <td>
-                                    $ ${parseFloat(data.total).toFixed(2)}
-                                </td>
-                                <td>
-                                    ${new Date(data.created_at).toLocaleString()}
-                                </td>
-                                <td class="pe-0">
-                                    <a href="#" class="btn btn-sm btn-light image.png btn-active-light-primary badge-custom-bg" id="badge-custom-bg" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
-                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
-                                    </a>
-                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded fs-color-white menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4 badge-custom-bg" data-kt-menu="true">
-                                        <div class="menu-item px-3">
-                                            <a href="javascript:void(0)" class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white" data-bs-toggle="modal" data-bs-target="#view-invoice_${data.order_id}">View</a>
-                                        </div>
-                                        <div class="menu-item px-3">
-                                            {{-- <a href="#" class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white" id="badge-custom-bg" download="">Download</a> --}}
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>`;
+        <td>${data.created_at ? new Date(data.created_at).toLocaleString() : ''}</td>
+        <td>${data.deadline ? new Date(data.deadline).toLocaleString() : ''}</td>
+        <td>${(data.order_type === 'Subscription') ? 'Package' : 'Custom Order'}</td>
+        <td>${data.order_id || ''}</td>
+        <td>${data.number_of_pages || ''}</td>
+        <td>${data.topic || ''}</td>
+        <td>${data.order_status || ''}</td>
+    </tr>
+`;
                             rows += row;
                         }
                         $('#new_custom_payment_tbody').append(rows);
@@ -1643,6 +1646,7 @@ $('#totalcost').text('$' + totalCost.toFixed(2));
         $('.reset_custom_filter').on('click', function(){
             $('#new_custom_payment_tbody').empty();
             $('#old_custom_payment_tbody').show();
+              $('#custom_filter_date').val('');
         });
 
 

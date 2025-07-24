@@ -810,14 +810,14 @@
                                                 </div>
                                             </div>
                                             <div class="d-flex">
-                                                <div class="col-6 align-items-center d-flex ok">
+                                                <div class="col-8 align-items-center d-flex ok">
                                                     <label for="" class="mt-3 fs-6 fw-semibold cost_label"
                                                         id="cost_label2">Outline in Bullets:</label>
                                                     <button type="button" class="border-0 bg-transparent"
                                                         data-bs-toggle="modal" data-bs-target="#modal-11"><i
                                                             class="bi bi-info-circle-fill ms-3"></i></button>
                                                 </div>
-                                                <div class="col-6 d-flex  align-items-center justify-content-end">
+                                                <div class="col-4 d-flex  align-items-center justify-content-end">
                                                     <label for="" class="mt-3 fs-6 fw-semibold me-3">$<span
                                                             id="">{{ $Addons->paper_utline_in_bullets }}</span></label>
                                                     <div class="switch-container">
@@ -830,14 +830,14 @@
 
                                             </div>
                                             <div class="d-flex">
-                                                <div class="col-6 align-items-center d-flex ok">
+                                                <div class="col-8 align-items-center d-flex ok">
                                                     <label for="" class="mt-3 fs-6 fw-semibold cost_label"
                                                         id="cost_label3">AI Detection Report:</label>
                                                     <button type="button" class="border-0 bg-transparent"
                                                         data-bs-toggle="modal" data-bs-target="#modal-12"><i
                                                             class="bi bi-info-circle-fill ms-3"></i></button>
                                                 </div>
-                                                <div class="col-6 d-flex  align-items-center justify-content-end">
+                                                <div class="col-4 d-flex  align-items-center justify-content-end">
                                                     <label for="" class="mt-3 fs-6 fw-semibold me-3">$<span
                                                             id="">{{ $Addons->paper_abstract }}</span></label>
                                                     <div class="switch-container">
@@ -850,14 +850,14 @@
                                             </div>
 
                                             <div class="d-flex">
-                                                <div class="col-6 align-items-center d-flex ok">
+                                                <div class="col-8 align-items-center d-flex ok">
                                                     <label for="" class="my-3 fs-6 fw-semibold cost_label"
                                                         id="cost_label4">Plagiarism Report:</label>
                                                     <button type="button" class="border-0 bg-transparent"
                                                         data-bs-toggle="modal" data-bs-target="#modal-14"><i
                                                             class="bi bi-info-circle-fill ms-3"></i></button>
                                                 </div>
-                                                <div class="col-6 d-flex  align-items-center justify-content-end">
+                                                <div class="col-4 d-flex  align-items-center justify-content-end">
                                                     <label for="" class="mt-3 fs-6 fw-semibold me-3">$<span
                                                             id="">{{ $Addons->turnitin_report }}</span></label>
 

@@ -2013,8 +2013,8 @@ $.ajax({
                      window.location.href = "{{ route('customer.thankyou') }}";
                     }else{
                         Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
+                    icon: 'error',
+                    title: 'Error!',
                     html: message,
                     customClass: {
                         popup: 'custom-popup-class',
