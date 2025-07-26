@@ -526,7 +526,7 @@
                                         <!--begin::Controls-->
                                         <div class="dropzone-panel mb-4">
                                             <label for="file-1" class="dropzone-select btn btn-sm btn-primary me-2">Attach Files</label>
-                                            <input type="file" id="file-1" name="file" class="d-none" accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .png, .gif"></input>
+                                            <input type="file" id="file-1" name="file" class="d-none" accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .png, .gif.Zip,.Rar"></input>
                                             <p id="attach_file_1"></p>
 
 
@@ -539,7 +539,7 @@
                                     </div>
                                     <!--end::Dropzone-->
                                     <!--begin::Hint-->
-                                    <span class="form-text fs-6 text-muted mb-2">Allowed File Types : DOCX, PDF, TXT, RTF,XLSX, CSV,PPTX,JPEG, PNG, GIF</span>
+                                    <span class="form-text fs-6 text-muted mb-2">Allowed File Types : DOCX, PDF, TXT, RTF,XLSX, CSV,PPTX,JPEG, PNG, GIF,.Zip, .Rar</span>
                                     <span class="form-text fs-6 text-muted mb-2">Max File Size is 500-MB per file.</span>
                                     <!--end::Hint-->
                                     <div class="d-flex justify-content-end">
@@ -588,7 +588,7 @@
                                         <!--begin::Controls-->
                                         <div class="dropzone-panel mb-4">
                                             <label for="file-2" class="dropzone-select btn btn-sm btn-primary me-2">Attach Files</label>
-                                            <input type="file" name="file" id="file-2" class="d-none" accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .png, .gif"></input>
+                                            <input type="file" name="file" id="file-2" class="d-none" accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .png, .gif.Zip,.Rar"></input>
                                             <p id="attach_file_2"></p>
 
                                             <input type="hidden" value="Writer" name="Writer">
@@ -651,7 +651,7 @@
                                         <!--begin::Controls-->
                                         <div class="dropzone-panel mb-4">
                                             <label for="file-3" class="dropzone-select btn btn-sm btn-dark-primary me-2">Attach Files</label>
-                                            <input type="file" id="file-3" name="file" class="d-none" accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .jpg"></input>
+                                            <input type="file" id="file-3" name="file" class="d-none" accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .jpg,.Zip,.Rar"></input>
                                             <p id="attach_file_3"></p>
 
 
@@ -667,7 +667,7 @@
                                     </div>
                                     <!--end::Dropzone-->
                                     <!--begin::Hint-->
-                                    <span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPG, JPEG</span>
+                                    <span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPG, JPEG,ZIP,RAR</span>
                                     <br>
                                     <span class="form-text fs-6 text-muted mb-2">Max file size is 50-MB per file.</span>
                                     <!--end::Hint-->
@@ -1151,11 +1151,11 @@ document
     if (!file) return; // no file selected
 
     // 1) allowed extensions
-    const allowedExt = [
-      "docx","pdf","txt","rtf",
-      "xlsx","csv","pptx",
-      "jpeg","jpg"
-    ];
+  const allowedExt = [
+  "docx", "pdf", "txt", "rtf",
+  "xlsx", "csv", "pptx",
+  "jpeg", "jpg", "zip", "rar"
+];
     const ext = file.name.split(".").pop().toLowerCase();
 
     if (!allowedExt.includes(ext)) {

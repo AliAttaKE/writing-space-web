@@ -858,12 +858,20 @@ public function upload(Request $request)
 
     public function upload_customer(Request $request)
     {
-        // Validate the incoming request
-        $request->validate([
-            'file' => 'required|mimes:pdf,doc,docx,txt,rtf,xlsx,csv,pptx,jpg,jpeg,png,gif|max:512000',
-        ], [
-            'file.max' => 'The file size must not exceed 500 MB.',
-        ]);
+        // // Validate the incoming request
+        // $request->validate([
+        //     'file' => 'required|mimes:pdf,doc,docx,txt,rtf,xlsx,csv,pptx,jpg,jpeg,png,gif|max:512000',
+        // ], [
+        //     'file.max' => 'The file size must not exceed 500 MB.',
+        // ]);
+
+       
+$request->validate([
+    'file' => 'required|mimes:pdf,doc,docx,txt,rtf,xlsx,csv,pptx,jpg,jpeg,png,gif,zip,rar|max:512000',
+], [
+    'file.max' => 'The file size must not exceed 500 MB.',
+]);
+
 
 
 
