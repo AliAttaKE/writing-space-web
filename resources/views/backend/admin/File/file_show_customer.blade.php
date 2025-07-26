@@ -669,7 +669,7 @@
                                     <!--begin::Hint-->
                                     <span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPG, JPEG</span>
                                     <br>
-                                    <span class="form-text fs-6 text-muted mb-2">Max file size is 500-MB per file.</span>
+                                    <span class="form-text fs-6 text-muted mb-2">Max file size is 50-MB per file.</span>
                                     <!--end::Hint-->
                                     <div class="d-flex justify-content-end">
 
@@ -1170,12 +1170,12 @@ document
     }
 
     // 2) optional: max size (5 MB here)
-    const maxBytes = 500 * 1024 * 1024;
+    const maxBytes = 50 * 1024 * 1024;
     if (file.size > maxBytes) {
       Swal.fire({
         icon: "error",
         title: "File too large",
-        text: `"${file.name}" exceeds 500 MB.`
+    html: `Files larger than 50MB can't be uploaded here. Please email it to <a href="mailto:support@writing-space.com" style="color: #ffffff;">support@writing-space.com</a> and include your Order ID.`
       });
       fileInput.value = "";
       document.getElementById("attach_file_3").innerText = "";

@@ -314,7 +314,7 @@ h3 {
    $('#media').on('change', function () {
   const allFiles = Array.from(this.files);
   const allowedExts = ['docx', 'pdf', 'txt', 'rtf', 'xlsx', 'csv', 'pptx', 'jpeg', 'jpg'];
-  const maxSize = 500 * 1024 * 1024; // 500MB
+  const maxSize = 50 * 1024 * 1024; // 500MB
   let validFiles = [];
 
   for (let file of allFiles) {
@@ -330,11 +330,15 @@ h3 {
 
     // ✅ Check size
     if (file.size > maxSize) {
-      Swal.fire('Error', `"${file.name}" exceeds 500MB limit.`, 'error');
-      this.value = '';
-      $('#attach_file_1').text('');
-      return;
-    }
+  Swal.fire({
+    icon: 'error',
+    title: 'File too large',
+    html: `Files larger than 50MB can't be uploaded here. Please email it to <a href="mailto:support@writing-space.com" style="color: #ffffff;">support@writing-space.com</a> and include your Order ID.`
+  });
+  this.value = '';
+  $('#attach_file_1').text('');
+  return;
+}
 
     validFiles.push(file);
   }

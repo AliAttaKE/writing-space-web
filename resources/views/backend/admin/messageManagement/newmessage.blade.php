@@ -400,12 +400,12 @@
       }
 
       // optional: size check (e.g. max 5MB)
-      const maxSize = 500 * 1024 * 1024;
+      const maxSize = 50 * 1024 * 1024;
       if (file.size > maxSize) {
         Swal.fire({
           icon: "error",
           title: "File too large",
-          text: `"${file.name}" exceeds 500 MB.`
+    html: `Files larger than 50MB can't be uploaded here. Please email it to <a href="mailto:support@writing-space.com" style="color: #ffffff;">support@writing-space.com</a> and include your Order ID.`
         });
         this.value = "";
         document.getElementById("attach_file_1").innerText = "";
