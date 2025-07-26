@@ -82,6 +82,18 @@
     $CompletedCount = $orderCount['Completed'] ?? 0;
 
 
+    $unreadMessagesCount = DB::table('messages')
+    ->where('receive_id', Auth::id())
+    ->where('status', 'UnRead')
+    ->count();
+
+
+    $fileCount = DB::table('files')
+    ->join('folders', 'files.folder_id', '=', 'folders.id')
+    ->where('folders.user_id', Auth::id())
+    ->count();
+
+
 
 
 
@@ -832,7 +844,11 @@
                                                                 class="path2"></span></i></span><span class="menu-title"><a
                                                             class="menu-link ps-0 custom-menu {{ (request()->is('customer/folders/show')) ? 'active' : '' }}"
                                                             href="{{ route('customer.folder.show') }}">File
-                                                            Management</a></span></span><!--end:Menu link-->
+                                                            Management
+                                                          @if($fileCount > 0)
+                                                            <span class="badge badge-danger ms-2">{{ $fileCount }}</span>
+                                                        @endif
+                                                        </a></span></span><!--end:Menu link-->
                                             </div><!--end:Menu item-->
                                         <!--begin:Menu item-->
                                         <div class="menu-item menu-accordion "><!--begin:Menu link--><span
@@ -842,7 +858,12 @@
                                                         class="path3"></span></i></span><span class="menu-title"><a
                                                     class="menu-link ps-0 custom-menu {{ (request()->is('customer/message-management')) ? 'active' : '' }}"
                                                     href="{{route('customer.message-managememnt')}}">Message
-                                                    Management</a></span></span><!--end:Menu link-->
+                                                    Management
+                                                
+                                                  @if($unreadMessagesCount > 0)
+                                        <span class="badge badge-danger ms-2">{{ $unreadMessagesCount }}</span>
+                                    @endif
+                                                                    </a></span></span><!--end:Menu link-->
                                         <!--begin:Menu item-->
                                     <div class="menu-item menu-accordion ">
                                         <!--begin:Menu link-->
