@@ -318,32 +318,39 @@ $emailContent = "
             Orders::where('order_id', $request->order_id)->update(['order_status' => 'Revision']);
 
 
-$user = Auth::user(); // Add this
+        $user = Auth::user(); // Add this
 
-$emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is In-Revision';
+        $emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is In-Revision';
 
-$emailContent = "
-    <p>Hi {$user->name},</p>
-    <p>Your revision request is received and your Order ID {$order->order_id} is currently in the revision stage. We are making the necessary adjustments to ensure that the final product aligns perfectly with your specifications.</p>
-    <p><strong>What’s Next?</strong></p>
-    <ul>
-        <li>Once revisions are complete, we will move forward to finalizing your order. You will receive a notification when your order is ready for delivery.</li>
-    </ul>
-    <p>Thank you for your collaboration and patience.</p>
-    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+            $emailContent = "
+                <p>Hi {$user->name},</p>
+                <p>Your revision request is received and your Order ID {$order->order_id} is currently in the revision stage. We are making the necessary adjustments to ensure that the final product aligns perfectly with your specifications.</p>
+                <p><strong>What’s Next?</strong></p>
+                <ul>
+                    <li>Once revisions are complete, we will move forward to finalizing your order. You will receive a notification when your order is ready for delivery.</li>
+                </ul>
+                <p>Thank you for your collaboration and patience.</p>
+                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
 
-Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
-    $message->to($user->email)
-            ->subject($emailSubject);
-});
-            // $emailSubject = 'Status Update: Your Order ID ' . $request->order_id . ' is Revision Request';
-            // $emailContent = "
-            //     <p>Hi {$admin->name},</p>
-            //     <p>{$request->revision_request}</p>";
-            //     Mail::html($emailContent, function ($message) use ($admin, $emailSubject) {
-            //         $message->to($admin->email)
-            //         ->subject($emailSubject);
-            //     });
+            Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
+                $message->to($user->email)
+                        ->subject($emailSubject);
+            });
+
+
+            // ADMIN EMAIL
+        $adminSubject = 'Rewrite Request for Order ID-' . $order->order_id;
+        $adminBody = "
+            <p>Dear Admin,</p>
+            <p>A rewrite request has been submitted for <strong>Order ID: {$order->order_id}</strong>.</p>
+            <p>Please review the request and proceed with necessary actions.</p>
+            <p>Regards,<br>Writing Space System</p>";
+
+        Mail::html($adminBody, function ($message) use ($admin, $adminSubject) {
+            $message->to($admin->email)
+                    ->subject($adminSubject);
+        });
+           
             return response()->json(['Success' => true, 'message' => 'Revision request submitted successfully.']);
         } else {
             return response()->json(['Success' => true, 'message' => 'Revision request not submitted order not deliver status.']);
