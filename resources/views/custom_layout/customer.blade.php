@@ -82,7 +82,7 @@
     $CompletedCount = $orderCount['Completed'] ?? 0;
 
 
-    $unreadMessagesCount = DB::table('messages')
+    $unreadMessagesCount = DB::table('message')
     ->where('receive_id', Auth::id())
     ->where('status', 'UnRead')
     ->count();
