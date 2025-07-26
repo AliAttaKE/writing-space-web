@@ -751,7 +751,7 @@
 												</tr>
 											</thead>
 											<tbody class="text-gray-600 fw-semibold">
-												@if(!empty($showLatestMsgs))
+												{{-- @if(!empty($showLatestMsgs))
 													@foreach($showLatestMsgs as $key => $msg)
 														<tr>
 															<td>{{$key+1}}</td>
@@ -767,8 +767,10 @@
 															<td>{{ $msg->created_at->format('F j, Y g:i A') }}</td>
 														</tr>
 													@endforeach
-												@endif
+												@endif --}}
 
+
+												
 											</tbody>
 
 										</table>
