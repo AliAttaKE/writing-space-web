@@ -8851,6 +8851,7 @@ if (order_id && revision_request) {
 					Swal.fire('Success', response.message, 'success');
 					$('#request').val('');
 					requestRevisionEditor.setText('');
+					location.reload();
 
 				},
 				error: function(error) {
