@@ -975,7 +975,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																		<!--end::Controls-->
 																	</div>
 																	<!--end::Dropzone-->
-																	<span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPG, JPEG</span>
+																	<span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPG, JPEG,ZIP,RAR</span>
 																	<br>
 																	<!--begin::Hint-->
 																	<span class="form-text fs-6 text-muted mb-2 fs-color-white custom-fs-13">Max file size is 50-MB per file.</span>
