@@ -751,7 +751,7 @@
 												</tr>
 											</thead>
 											<tbody class="text-gray-600 fw-semibold">
-												{{-- @if(!empty($showLatestMsgs))
+												@if(!empty($showLatestMsgs))
 													@foreach($showLatestMsgs as $key => $msg)
 														<tr>
 															<td>{{$key+1}}</td>
@@ -767,10 +767,8 @@
 															<td>{{ $msg->created_at->format('F j, Y g:i A') }}</td>
 														</tr>
 													@endforeach
-												@endif --}}
+												@endif
 
-
-												
 											</tbody>
 
 										</table>
@@ -1250,10 +1248,10 @@
 <script>
 	 $(document).ready(function () {
 
-		$('#message_summary_table').DataTable({
-    paging: false,
-	info: false
-});
+// 		$('#message_summary_table').DataTable({
+//     paging: false,
+// 	info: false
+// });
 
 
 $('#folder_table').DataTable({
@@ -1266,65 +1264,65 @@ $('#folder_table').DataTable({
 		$('#customer_profile_new_order_table').DataTable();
     });
 
-	$(document).ready(function() {
-		// Initialize DataTables
-		var table = $('#message_summary_table').DataTable();
+	// $(document).ready(function() {
+	// 	// Initialize DataTables
+	// 	var table = $('#message_summary_table').DataTable();
 
 
-		// Attach the search handler to the input change event
-		$('[data-kt-user-table-filter="search"]').on('input', function() {
-			handleTableSearch();
-		});
+	// 	// Attach the search handler to the input change event
+	// 	$('[data-kt-user-table-filter="search"]').on('input', function() {
+	// 		handleTableSearch();
+	// 	});
 
-		// Filter form submission
-		$('[data-kt-user-table-filter="filter"]').on('click', function(e) {
-			e.preventDefault();
+	// 	// Filter form submission
+	// 	$('[data-kt-user-table-filter="filter"]').on('click', function(e) {
+	// 		e.preventDefault();
 
-			// Get filter values
-			var orderId = $('input[name="order-id"]').val();
-			var message = $('input[name="message"]').val();
-			var lastModified = $('input[name="last-modified"]').val();
-			var status = $('input[name="status"]').val();
+	// 		// Get filter values
+	// 		var orderId = $('input[name="order-id"]').val();
+	// 		var message = $('input[name="message"]').val();
+	// 		var lastModified = $('input[name="last-modified"]').val();
+	// 		var status = $('input[name="status"]').val();
 
-			// Apply filters
-			table.columns(1).search(orderId).draw();
-			table.columns(2).search(message).draw();
-			table.columns(3).search(lastModified).draw();
-			table.columns(4).search(status).draw();
-		});
+	// 		// Apply filters
+	// 		table.columns(1).search(orderId).draw();
+	// 		table.columns(2).search(message).draw();
+	// 		table.columns(3).search(lastModified).draw();
+	// 		table.columns(4).search(status).draw();
+	// 	});
 
-		// Reset filter form
-		$('[data-kt-user-table-filter="reset"]').on('click', function(e) {
-			e.preventDefault();
+	// 	// Reset filter form
+	// 	$('[data-kt-user-table-filter="reset"]').on('click', function(e) {
+	// 		e.preventDefault();
 
-			// Reset input fields
-			$('input[name="order-id"]').val('');
-			$('input[name="message"]').val('');
-			$('input[name="last-modified"]').val('');
-			$('input[name="status"]').val('');
+	// 		// Reset input fields
+	// 		$('input[name="order-id"]').val('');
+	// 		$('input[name="message"]').val('');
+	// 		$('input[name="last-modified"]').val('');
+	// 		$('input[name="status"]').val('');
 
-			// Clear filters
-			table.columns().search('').draw();
-		});
+	// 		// Clear filters
+	// 		table.columns().search('').draw();
+	// 	});
 
-		function handleTableSearch() {
-			// Get the search input value
-			var searchText = $('[data-kt-user-table-filter="search"]').val().toLowerCase();
+	// 	function handleTableSearch() {
+	// 		// Get the search input value
+	// 		var searchText = $('[data-kt-user-table-filter="search"]').val().toLowerCase();
 
-			// Loop through each table row
-			$('#message_summary_table tbody tr').each(function() {
-				// Check if any cell contains the search text
-				var rowText = $(this).text().toLowerCase();
-				if (rowText.indexOf(searchText) === -1) {
-					// Hide the row if it doesn't match the search text
-					$(this).hide();
-				} else {
-					// Show the row if it matches the search text
-					$(this).show();
-				}
-			});
-		}
-	});
+	// 		// Loop through each table row
+	// 		$('#message_summary_table tbody tr').each(function() {
+	// 			// Check if any cell contains the search text
+	// 			var rowText = $(this).text().toLowerCase();
+	// 			if (rowText.indexOf(searchText) === -1) {
+	// 				// Hide the row if it doesn't match the search text
+	// 				$(this).hide();
+	// 			} else {
+	// 				// Show the row if it matches the search text
+	// 				$(this).show();
+	// 			}
+	// 		});
+	// 	}
+	// });
 
 
 
