@@ -7585,7 +7585,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
     const allowedExt = [
       "docx","pdf","txt","rtf",
       "xlsx","csv","pptx",
-      "jpeg","jpg","png","gif"
+      "jpeg","jpg","png","gif", "zip", "rar"
     ];
     const ext = file.name.split(".").pop().toLowerCase();
 
@@ -8334,7 +8334,7 @@ $(document).ready(function() {
     // 1) File extension check before AJAX
     const fileInput = document.getElementById('media');
     const files     = fileInput.files;
-    const allowed   = ['pdf','docx','doc','txt','rtf','xls','xlsx','csv','pptx','jpeg','jpg'];
+    const allowed   = ['pdf','docx','doc','txt','rtf','xls','xlsx','csv','pptx','jpeg','jpg', 'zip', 'rar'];
 
     for (let i = 0; i < files.length; i++) {
       const ext = files[i].name.split('.').pop().toLowerCase();
