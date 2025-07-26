@@ -7680,6 +7680,9 @@ function modal_open122() {
 
         var order_id = {{$order->order_id}};
         localStorage.setItem('order_id', order_id);
+		
+      var meeting_time_custom = $('#meeting-time_custom').val();
+        localStorage.setItem('meeting_time_custom', meeting_time_custom);
 
 
 

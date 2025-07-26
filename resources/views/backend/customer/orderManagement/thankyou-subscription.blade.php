@@ -74,6 +74,7 @@
         localStorage.removeItem('cost_per_page');
         localStorage.removeItem('package_id');
         localStorage.removeItem('used_package_id');
+        localStorage.removeItem('meeting_time_custom');
         localStorage.removeItem('no_of_page');
         localStorage.removeItem('costPerPage');
         localStorage.removeItem('deadline');

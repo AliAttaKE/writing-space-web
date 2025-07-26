@@ -267,6 +267,7 @@ PaymentSession.configure({
                var no_of_page = JSON.parse(localStorage.getItem('no_of_page'));
 
                var used_package_id = JSON.parse(localStorage.getItem('used_package_id'));
+               var meeting_time_custom = JSON.parse(localStorage.getItem('meeting_time_custom'));
                var package_id = JSON.parse(localStorage.getItem('package_id'));
                var cost_per_page = JSON.parse(localStorage.getItem('cost_per_page'));
                var order_id = JSON.parse(localStorage.getItem('order_id'));
@@ -278,6 +279,7 @@ PaymentSession.configure({
                    console.log(package_id);
                     console.log(cost_per_page);
                      console.log(order_id);
+                     console.log(meeting_time_custom);
 
 
                      if (order_id !== null) {
@@ -285,7 +287,7 @@ PaymentSession.configure({
                             $.ajax({
                             url: '{{ route("customer.payment.store.addpages") }}',
                             type: 'POST',
-                            data: { 'session': response.session.id ,'no_of_page':no_of_page,'used_package_id':used_package_id,'package_id':package_id,'cost_per_page':cost_per_page,'order_id':order_id},
+                            data: { 'session': response.session.id ,'no_of_page':no_of_page,'used_package_id':used_package_id,'package_id':package_id,'cost_per_page':cost_per_page,'order_id':order_id,'meeting_time_custom':meeting_time_custom},
                             dataType: 'json',
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

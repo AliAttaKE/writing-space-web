@@ -1648,6 +1648,7 @@ private function sendCurlRequest($url, $payload, $authHeader)
 
         $no_of_page = $request->input('no_of_page');
         $used_package_id = $request->input('used_package_id');
+        $meeting_time_custom = $request->input('meeting_time_custom');
         $package_id = $request->input('package_id');
         $cost_per_page = $request->input('cost_per_page');
 
@@ -1658,6 +1659,7 @@ private function sendCurlRequest($url, $payload, $authHeader)
         $data = [
             'no_of_page' => $no_of_page,
             'used_package_id' => $used_package_id,
+            'meeting_time_custom' => $meeting_time_custom,
             'package_id' => $package_id,
             'cost_per_page' => $cost_per_page,
             'total_cost' => $total_cost,
@@ -3042,6 +3044,7 @@ $responseArray = json_decode($response, true);
                             $current_page = $orderdetailspk->number_of_pages;
                             $orderdetailspk->number_of_pages += $pages;
                             $orderdetailspk->no_of_extra_sources += $pages;
+                            $orderdetailspk->deadline = $orderDetails['meeting_time_custom'];
 
                             $orderdetailspk->save();
                             $user1 = User::findOrFail($pay->user_id);
