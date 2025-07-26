@@ -8212,7 +8212,7 @@ function submit_payment() {
         document.getElementById("kt_modal_upload_form1").addEventListener("submit", function(e) {
 
     const input = document.getElementById("file-3");
-    const allowedTypes = ["DOCX","docx", "pdf", "txt", "rtf","xlsx", "csv","pptx","jpeg", "png", "gif","jpg"];
+    const allowedTypes = ["DOCX","docx", "pdf", "txt", "rtf","xlsx", "csv","pptx","jpeg", "png", "gif","jpg", "zip", "rar"];
     const maxSizeMB = 500; // maximum size per file in MB
     let hasInvalid = false;
 
