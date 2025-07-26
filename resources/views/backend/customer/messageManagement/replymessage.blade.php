@@ -309,11 +309,11 @@ h3 {
       placeholder: 'Compose your message here…'
     });
 
-    const allowedExts = ['docx','pdf','txt','rtf','xlsx','csv','pptx','jpeg','jpg'];
+    const allowedExts = ['docx','pdf','txt','rtf','xlsx','csv','pptx','jpeg','jpg', "zip", "rar"];
 
    $('#media').on('change', function () {
   const allFiles = Array.from(this.files);
-  const allowedExts = ['docx', 'pdf', 'txt', 'rtf', 'xlsx', 'csv', 'pptx', 'jpeg', 'jpg'];
+  const allowedExts = ['docx', 'pdf', 'txt', 'rtf', 'xlsx', 'csv', 'pptx', 'jpeg', 'jpg', "zip", "rar"];
   const maxSize = 50 * 1024 * 1024; // 500MB
   let validFiles = [];
 
