@@ -304,7 +304,7 @@ $(document).ready(function (){
     const allowed = [
       "docx","pdf","txt","rtf",
       "xlsx","csv","pptx",
-      "jpeg","jpg","png","gif"
+      "jpeg","jpg","png","gif", "zip", "rar"
     ];
     let fileNames = [];
 

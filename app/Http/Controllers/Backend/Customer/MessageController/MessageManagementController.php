@@ -170,7 +170,10 @@ class MessageManagementController extends Controller
                 $uploadedFile->type = 'image';
             } elseif (in_array($extension, ['mp4', 'avi', 'mov', 'bin'])) {
                 $uploadedFile->type = 'video';
-            } else {
+            } elseif (in_array($extension, ['zip', 'rar'])) {
+                $uploadedFile->type = 'archive';
+            }
+            else {
                 $uploadedFile->type = 'document';
             }
 
