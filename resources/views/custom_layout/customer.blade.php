@@ -82,7 +82,11 @@
     $CompletedCount = $orderCount['Completed'] ?? 0;
 
 
+<<<<<<< HEAD
   $unreadMessagesCount = DB::table('message')
+=======
+    $unreadMessagesCount = DB::table('message')
+>>>>>>> 631d5d75d4a5372650f11bd61cce31ad8789a66d
     ->where('receive_id', Auth::id())
     ->where('status', 'UnRead')
     ->whereIn('send_by', ['Admin', 'Writer']) // <-- both roles
