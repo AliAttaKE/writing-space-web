@@ -852,8 +852,7 @@ public function upload(Request $request)
     // ]);
 
 
-      // ✅ Get folder info to fetch customer and order ID
-    $folder = DB::table('folders')->where('id', $request->folder_id)->first();
+       $folder = DB::table('folders')->where('id', $request->folder_id)->first();
     if ($folder) {
         $orderId = $folder->name;
         $customer = DB::table('users')->where('id', $folder->user_id)->first();
@@ -884,6 +883,8 @@ public function upload(Request $request)
                 $message->to($customer->email)->subject($subject);
             });
         }
+
+    }
 
      return back()->with('success', 'File uploaded successfully');
 }
