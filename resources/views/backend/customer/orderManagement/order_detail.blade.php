@@ -943,7 +943,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															<!--begin::Modal header-->
 															<div class="modal-header">
 																<!--begin::Modal title-->
-																<h2 class="fw-bold fs-color-white custom-fs-23">Upload files for customer</h2>
+																<h2 class="fw-bold fs-color-white custom-fs-23">Upload files for customer 1</h2>
 																<!--end::Modal title-->
 																<!--begin::Close-->
 																<div class="btn btn-icon btn-sm btn-active-icon-primary text-white" data-bs-dismiss="modal">
@@ -964,7 +964,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																		<!--begin::Controls-->
 																		<div class="dropzone-panel mb-4 w-100">
 																			<label for="file-3" class="dropzone-select btn btn-sm btn-dark-primary me-2">Attach Files</label>
-																			<input type="file" id="file-3" name="file" class="d-none" accept=".pdf, .docx, .doc, .txt, .rtf, .xls, .xlsx, .csv, .pptx, .jpeg, .jpg, .zip, .rar">
+																			<input type="file" id="file-4" name="file" class="d-none" accept=".pdf, .docx, .doc, .txt, .rtf, .xls, .xlsx, .csv, .pptx, .jpeg, .jpg, .zip, .rar">
 
 																			<p id="attach_file" class="attach_file"></p>
 																			<input type="hidden" value="Customer" name="Writer">
@@ -7574,20 +7574,19 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 			})
 
 
-	d
-document
-  .getElementById("file-3")
-  .addEventListener("change", function() {
+	document.getElementById("file-3").addEventListener("change", function() {
+
+	
     const fileInput = this;
     const file = fileInput.files[0];
     if (!file) return; // no file selected
 
     // 1) allowed extensions
-  const allowedExt = [
-  "docx", "pdf", "txt", "rtf",
-  "xlsx", "csv", "pptx",
-  "jpeg", "jpg", "zip", "rar"
-];
+    const allowedExt = [
+      "docx","pdf","txt","rtf",
+      "xlsx","csv","pptx",
+      "jpeg","jpg","png","gif", "zip", "rar"
+    ];
     const ext = file.name.split(".").pop().toLowerCase();
 
     if (!allowedExt.includes(ext)) {
@@ -7597,7 +7596,7 @@ document
         text: `"${file.name}" is not allowed.`
       });
       fileInput.value = "";              // clear selection
-      document.getElementById("attach_file_3").innerText = "";
+      document.getElementById("attach_file").innerText = "";
       return;
     }
 
@@ -7607,17 +7606,64 @@ document
       Swal.fire({
         icon: "error",
         title: "File too large",
-    html: `Files larger than 50MB can't be uploaded here. Please email it to <a href="mailto:support@writing-space.com" style="color: #ffffff;">support@writing-space.com</a> and include your Order ID.`
-      });
-      fileInput.value = "";
-      document.getElementById("attach_file_3").innerText = "";
-      return;
+		html: "Files larger than 50MB can't be uploaded here. Please email them to <a href=\"mailto:support@writing-space.com\" style=\"color: #ffffff;\">support@writing-space.com</a> and include your Order ID."
+	  });
+	  fileInput.value = "";
+	  document.getElementById("attach_file").innerText = "";
+	  return;
     }
 
     // 3) all good → show filename
-    document.getElementById("attach_file_3").innerText =
+    document.getElementById("attach_file").innerText =
       "Selected file: " + file.name;
   });
+
+
+  
+	document.getElementById("file-4").addEventListener("change", function() {
+
+	
+    const fileInput = this;
+    const file = fileInput.files[0];
+    if (!file) return; // no file selected
+
+    // 1) allowed extensions
+    const allowedExt = [
+      "docx","pdf","txt","rtf",
+      "xlsx","csv","pptx",
+      "jpeg","jpg","png","gif", "zip", "rar"
+    ];
+    const ext = file.name.split(".").pop().toLowerCase();
+
+    if (!allowedExt.includes(ext)) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid file type",
+        text: `"${file.name}" is not allowed.`
+      });
+      fileInput.value = "";              // clear selection
+      document.getElementById("attach_file").innerText = "";
+      return;
+    }
+
+    // 2) optional: max size (5 MB here)
+    const maxBytes = 50 * 1024 * 1024;
+    if (file.size > maxBytes) {
+      Swal.fire({
+        icon: "error",
+        title: "File too large",
+		html: "Files larger than 50MB can't be uploaded here. Please email them to <a href=\"mailto:support@writing-space.com\" style=\"color: #ffffff;\">support@writing-space.com</a> and include your Order ID."
+	  });
+	  fileInput.value = "";
+	  document.getElementById("attach_file").innerText = "";
+	  return;
+    }
+
+    // 3) all good → show filename
+    document.getElementById("attach_file").innerText =
+      "Selected file: " + file.name;
+  });
+
 
 
 
