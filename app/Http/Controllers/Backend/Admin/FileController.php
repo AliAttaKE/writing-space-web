@@ -873,36 +873,59 @@ $request->validate([
 ]);
 
 
-
-
         $file = $request->file('file');
         $originalName = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
 
 
         $fileName = time() . '_' . Str::random(10) . '.' . $extension;
-
-
         $filePath = $file->storeAs('public/uploads_folders/' . $request->folder_name, $fileName);
-
 
         $size = $file->getSize();
         $formattedSize = $this->formatSizeUnits($size);
 
 
 
-        // Save file details to database
         $fileModel = new File();
         $fileModel->file_name = $fileName;
         $fileModel->title = $originalName;
-        $fileModel->writer = $request->Writer; // Adjust this based on your actual field name
+        $fileModel->writer = $request->Writer; 
         $fileModel->file_path = $filePath;
-        $fileModel->folder_id = $request->folder_id; // Adjust this based on your actual field name
+        $fileModel->folder_id = $request->folder_id; 
         $fileModel->size = $formattedSize;
-        $fileModel->total_size = $size; // Store the original size if needed
+        $fileModel->total_size = $size; 
         $fileModel->file_type = $extension; // Store the file extension
         $fileModel->save();
 
+
+    $admin = User::where('role', 'admin')->first();
+    $orderId = $request->folder_id; // 🔁 Folder ID = Order ID
+    $dateTime = now()->format('F d, Y h:i A');
+    $fileType = strtoupper($extension);
+
+    $subject = "📎 New File Uploaded by Customer – Order #{$orderId}";
+    $emailContent = "
+        <p>Hello,</p>
+        <p>A new file has been uploaded for your order.</p>
+        <p><strong>Here are the details:</strong></p>
+        <ul>
+            <li><strong>Order ID:</strong> #{$orderId}</li>
+            <li><strong>File Name:</strong> {$originalName}</li>
+            <li><strong>Upload Time:</strong> {$dateTime}</li>
+            <li><strong>File Type:</strong> {$fileType}</li>
+        </ul>
+        <p>You can view or download the file from the admin panel.</p>
+        <p>Please review the file and proceed with the next steps.</p>
+        <br>
+        <p>Best Regards,<br>Customer Success Team<br>Writing Space</p>
+    ";
+
+    if ($admin) {
+        Mail::html($emailContent, function ($message) use ($admin, $subject) {
+            $message->to($admin->email)->subject($subject);
+        });
+    }
+        
         // Redirect back with success message
       return back()->with('success', 'uploaded');
     }
