@@ -7574,19 +7574,20 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 			})
 
 
-	document.getElementById("file-3").addEventListener("change", function() {
-
-		alert("test");
+	d
+document
+  .getElementById("file-3")
+  .addEventListener("change", function() {
     const fileInput = this;
     const file = fileInput.files[0];
     if (!file) return; // no file selected
 
     // 1) allowed extensions
-    const allowedExt = [
-      "docx","pdf","txt","rtf",
-      "xlsx","csv","pptx",
-      "jpeg","jpg","png","gif", "zip", "rar"
-    ];
+  const allowedExt = [
+  "docx", "pdf", "txt", "rtf",
+  "xlsx", "csv", "pptx",
+  "jpeg", "jpg", "zip", "rar"
+];
     const ext = file.name.split(".").pop().toLowerCase();
 
     if (!allowedExt.includes(ext)) {
@@ -7596,7 +7597,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
         text: `"${file.name}" is not allowed.`
       });
       fileInput.value = "";              // clear selection
-      document.getElementById("attach_file").innerText = "";
+      document.getElementById("attach_file_3").innerText = "";
       return;
     }
 
@@ -7606,18 +7607,17 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
       Swal.fire({
         icon: "error",
         title: "File too large",
-		html: "Files larger than 50MB can't be uploaded here. Please email them to <a href=\"mailto:support@writing-space.com\" style=\"color: #ffffff;\">support@writing-space.com</a> and include your Order ID."
-	  });
-	  fileInput.value = "";
-	  document.getElementById("attach_file").innerText = "";
-	  return;
+    html: `Files larger than 50MB can't be uploaded here. Please email it to <a href="mailto:support@writing-space.com" style="color: #ffffff;">support@writing-space.com</a> and include your Order ID.`
+      });
+      fileInput.value = "";
+      document.getElementById("attach_file_3").innerText = "";
+      return;
     }
 
     // 3) all good → show filename
-    document.getElementById("attach_file").innerText =
+    document.getElementById("attach_file_3").innerText =
       "Selected file: " + file.name;
   });
-
 
 
 
