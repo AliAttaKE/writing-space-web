@@ -846,9 +846,9 @@
                                                             class="menu-link ps-0 custom-menu {{ (request()->is('customer/folders/show')) ? 'active' : '' }}"
                                                             href="{{ route('customer.folder.show') }}">File
                                                             Management
-                                                          @if($fileCount > 0)
+                                                          {{-- @if($fileCount > 0)
                                                             <span class="badge badge-danger ms-2">{{ $fileCount }}</span>
-                                                        @endif
+                                                        @endif --}}
                                                         </a></span></span><!--end:Menu link-->
                                             </div><!--end:Menu item-->
                                         <!--begin:Menu item-->
@@ -860,10 +860,10 @@
                                                     class="menu-link ps-0 custom-menu {{ (request()->is('customer/message-management')) ? 'active' : '' }}"
                                                     href="{{route('customer.message-managememnt')}}">Message
                                                     Management
-                                                
+{{--                                                 
                                                   @if($unreadMessagesCount > 0)
                                         <span class="badge badge-danger ms-2">{{ $unreadMessagesCount }}</span>
-                                    @endif
+                                    @endif --}}
                                                                     </a></span></span><!--end:Menu link-->
                                         <!--begin:Menu item-->
                                     <div class="menu-item menu-accordion ">
