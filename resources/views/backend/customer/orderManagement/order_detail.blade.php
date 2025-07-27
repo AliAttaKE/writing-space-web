@@ -7580,7 +7580,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 
 
-		
+
     const fileInput = this;
     const file = fileInput.files[0];
     if (!file) return; // no file selected
@@ -7606,7 +7606,11 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
     // 2) optional: max size (5 MB here)
     const maxBytes = 50 * 1024 * 1024;
+
+	 console.log("maxBytes",file.size,maxBytes);
     if (file.size > maxBytes) {
+
+		console.log("IF",file.size,maxBytes);
       Swal.fire({
         icon: "error",
         title: "File too large",
