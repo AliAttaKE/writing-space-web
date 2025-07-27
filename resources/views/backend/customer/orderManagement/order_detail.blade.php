@@ -7575,6 +7575,8 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 
 	document.getElementById("file-3").addEventListener("change", function() {
+
+		alert("test");
     const fileInput = this;
     const file = fileInput.files[0];
     if (!file) return; // no file selected
