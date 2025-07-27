@@ -852,6 +852,39 @@ public function upload(Request $request)
     // ]);
 
 
+      // ✅ Get folder info to fetch customer and order ID
+    $folder = DB::table('folders')->where('id', $request->folder_id)->first();
+    if ($folder) {
+        $orderId = $folder->name;
+        $customer = DB::table('users')->where('id', $folder->user_id)->first();
+
+        if ($customer) {
+            $dateTime = now()->format('F d, Y h:i A');
+            $fileType = strtoupper($extension);
+
+            $subject = "📎 New File Uploaded – Order #{$orderId}";
+            $emailContent = "
+                <p>Hello {$customer->name},</p>
+                <p>A new file has been uploaded for your order.</p>
+                <p><strong>Here are the details:</strong></p>
+                <ul>
+                    <li><strong>Order ID:</strong> #{$orderId}</li>
+                    <li><strong>File Name:</strong> {$originalName}</li>
+                    <li><strong>Upload Time:</strong> {$dateTime}</li>
+                    <li><strong>File Type:</strong> {$fileType}</li>
+                </ul>
+                <p>You can view or download the file from the admin panel.</p>
+                <p>Please review the file and proceed with the next steps.</p>
+                <br>
+                <p>Best Regards,<br>Customer Success Team<br>Writing Space</p>
+            ";
+
+            // Send email to customer
+            Mail::html($emailContent, function ($message) use ($customer, $subject) {
+                $message->to($customer->email)->subject($subject);
+            });
+        }
+
      return back()->with('success', 'File uploaded successfully');
 }
 
