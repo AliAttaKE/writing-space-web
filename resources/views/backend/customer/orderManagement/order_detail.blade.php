@@ -943,7 +943,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															<!--begin::Modal header-->
 															<div class="modal-header">
 																<!--begin::Modal title-->
-																<h2 class="fw-bold fs-color-white custom-fs-23">Upload files for customer1111111</h2>
+																<h2 class="fw-bold fs-color-white custom-fs-23">Upload files for customer</h2>
 																<!--end::Modal title-->
 																<!--begin::Close-->
 																<div class="btn btn-icon btn-sm btn-active-icon-primary text-white" data-bs-dismiss="modal">
