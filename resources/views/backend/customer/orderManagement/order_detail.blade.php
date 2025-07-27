@@ -943,7 +943,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															<!--begin::Modal header-->
 															<div class="modal-header">
 																<!--begin::Modal title-->
-																<h2 class="fw-bold fs-color-white custom-fs-23">Upload files for customer</h2>
+																<h2 class="fw-bold fs-color-white custom-fs-23">Upload files for customer1111111</h2>
 																<!--end::Modal title-->
 																<!--begin::Close-->
 																<div class="btn btn-icon btn-sm btn-active-icon-primary text-white" data-bs-dismiss="modal">
@@ -964,7 +964,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																		<!--begin::Controls-->
 																		<div class="dropzone-panel mb-4 w-100">
 																			<label for="file-3" class="dropzone-select btn btn-sm btn-dark-primary me-2">Attach Files</label>
-																			<input type="file" id="file-3" name="file" class="d-none" accept=".pdf, .docx, .doc, .txt, .rtf, .xls, .xlsx, .csv, .pptx, .jpeg, .jpg, .zip, .rar">
+																			<input type="file" id="file-3" name="file" class="d-none uploadfilecheck" accept=".pdf, .docx, .doc, .txt, .rtf, .xls, .xlsx, .csv, .pptx, .jpeg, .jpg, .zip, .rar">
 
 																			<p id="attach_file" class="attach_file"></p>
 																			<input type="hidden" value="Customer" name="Writer">
@@ -8456,6 +8456,51 @@ $('#media').on('change', function () {
   // ✅ Update selected file name text
   $('#attach_file_1').text(validFiles.map(f => f.name).join(', '));
 });
+
+
+
+$('.uploadfilecheck').on('change', function () {
+  const allFiles = Array.from(this.files);
+  const allowedExts = ['docx', 'pdf', 'txt', 'rtf', 'xlsx', 'csv', 'pptx', 'jpeg', 'jpg','zip','rar'];
+  const maxSize = 50 * 1024 * 1024; // 500MB
+  let validFiles = [];
+
+  for (let file of allFiles) {
+    const ext = file.name.split('.').pop().toLowerCase();
+
+    // ✅ Check extension
+    if (!allowedExts.includes(ext)) {
+      Swal.fire('Error', `"${file.name}" has an invalid file type.`, 'error');
+      this.value = '';
+      $('#attach_file_1').text('');
+      return;
+    }
+
+    // ✅ Check size
+   if (file.size > maxSize) {
+  Swal.fire({
+    icon: 'error',
+    title: 'File too large',
+    html: `Files larger than 50MB can't be uploaded here. Please email it to <a href="mailto:support@writing-space.com" style="color: #ffffff;">support@writing-space.com</a> and include your Order ID.`
+  });
+  this.value = '';
+  $('#attach_file_1').text('');
+  return;
+}
+
+
+    validFiles.push(file);
+  }
+
+  // ✅ Replace input.files so FormData uses validFiles only
+  const dt = new DataTransfer();
+  validFiles.forEach(f => dt.items.add(f));
+  this.files = dt.files;
+
+  // ✅ Update selected file name text
+  $('#attach_file_1').text(validFiles.map(f => f.name).join(', '));
+});
+
 
 </script>
 
