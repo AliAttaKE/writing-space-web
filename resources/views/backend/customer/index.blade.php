@@ -761,7 +761,11 @@
 																</a>
 															</td>
 															<!-- <td>{!! $msg->message !!}</td> -->
-															<td>{!! substr($msg->message, 0, 12) !!}</td>
+														<td>
+  {!! !empty($msg->message) ? mb_substr(trim(html_entity_decode(strip_tags($msg->message))), 0, 18) : '' !!}
+</td>
+
+
 
 
 															<td>{{ $msg->created_at->format('F j, Y g:i A') }}</td>
