@@ -964,7 +964,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																		<!--begin::Controls-->
 																		<div class="dropzone-panel mb-4 w-100">
 																			<label for="file-3" class="dropzone-select btn btn-sm btn-dark-primary me-2">Attach Files</label>
-																			{{-- <input type="file" id="file-3" name="file" class="d-none" accept=".pdf, .docx, .doc, .txt, .rtf, .xls, .xlsx, .csv, .pptx, .jpeg, .jpg, .zip, .rar"> --}}
+																			<input type="file" id="file-3" name="file" class="d-none" accept=".pdf, .docx, .doc, .txt, .rtf, .xls, .xlsx, .csv, .pptx, .jpeg, .jpg, .zip, .rar">
 
 																			<p id="attach_file" class="attach_file"></p>
 																			<input type="hidden" value="Customer" name="Writer">
@@ -7574,9 +7574,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 			})
 
 
-	  document
-  .getElementById("file-3")
-  .addEventListener("change", function() {
+	document.getElementById("file-3").addEventListener("change", function() {
     const fileInput = this;
     const file = fileInput.files[0];
     if (!file) return; // no file selected
