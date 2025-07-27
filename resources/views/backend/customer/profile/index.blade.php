@@ -310,7 +310,9 @@
                                     <div class="card-toolbar">
                                         <div class="d-flex">
                                             <!-- <input type="date" name="packages_filter_date" class="form-control btn-dark-primary" id="packages_filter_date"> -->
-                                            <input type="month" name="packages_filter_date" class="form-control btn-dark-primary" id="packages_filter_date">
+                                        <input type="month" name="packages_filter_date" class="form-control btn-dark-primary" id="packages_filter_date" min="2018-01">
+
+
 
                                             <button type="button" class="btn badge-custom-bg btn-sm reset_package_filter ms-4">Reset</button>
                                         </div>
@@ -407,7 +409,7 @@
                                     <!--begin::Toolbar-->
                                     <div class="card-toolbar">
                                         <div class="d-flex">
-                                            <input type="month" name="custom_filter_date" class="form-control btn-dark-primary" id="custom_filter_date">
+                                            <input type="month" name="custom_filter_date" class="form-control btn-dark-primary" id="custom_filter_date" min="2018-01">
 
                                             <button type="button" class="btn badge-custom-bg btn-sm reset_custom_filter ms-4">Reset</button>
                                         </div>
@@ -1680,5 +1682,44 @@ var types = ['package_inc', 'custom_inc', ''];
     }
 
 
+</script>
+
+<script>
+  const minMonth = "2018-01";
+  const inputs = [
+    document.getElementById("packages_filter_date"),
+    document.getElementById("custom_filter_date")
+  ];
+
+  let alreadyShown = false;
+
+  function validateInputs() {
+    let invalidFound = false;
+
+    inputs.forEach(input => {
+      if (input.value && input.value < minMonth) {
+        input.value = ""; // Clear invalid input
+        invalidFound = true;
+      }
+    });
+
+    if (invalidFound && !alreadyShown) {
+      alreadyShown = true;
+
+      Swal.fire({
+        title: 'Invalid Date',
+        text: 'Please select a date from January 2018 onwards.',
+        icon: 'warning',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        alreadyShown = false; // Allow alert again in future
+      });
+    }
+  }
+
+  // Attach the same validation to both fields
+  inputs.forEach(input => {
+    input.addEventListener("change", validateInputs);
+  });
 </script>
 @endpush
