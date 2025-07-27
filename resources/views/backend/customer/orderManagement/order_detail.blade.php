@@ -943,7 +943,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 															<!--begin::Modal header-->
 															<div class="modal-header">
 																<!--begin::Modal title-->
-																<h2 class="fw-bold fs-color-white custom-fs-23">Upload files for customer 1</h2>
+																<h2 class="fw-bold fs-color-white custom-fs-23">Upload files for customer </h2>
 																<!--end::Modal title-->
 																<!--begin::Close-->
 																<div class="btn btn-icon btn-sm btn-active-icon-primary text-white" data-bs-dismiss="modal">
@@ -963,7 +963,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																	<div class="dropzone dropzone-queue mb-2" id="kt_modal_upload_dropzone">
 																		<!--begin::Controls-->
 																		<div class="dropzone-panel mb-4 w-100">
-																			<label for="file-3" class="dropzone-select btn btn-sm btn-dark-primary me-2">Attach Files</label>
+																			<label for="file-4" class="dropzone-select btn btn-sm btn-dark-primary me-2">Attach Files</label>
 																			<input type="file" id="file-4" name="file" class="d-none" accept=".pdf, .docx, .doc, .txt, .rtf, .xls, .xlsx, .csv, .pptx, .jpeg, .jpg, .zip, .rar">
 
 																			<p id="attach_file" class="attach_file"></p>
@@ -8257,7 +8257,7 @@ function submit_payment() {
 
         document.getElementById("kt_modal_upload_form1").addEventListener("submit", function(e) {
 
-    const input = document.getElementById("file-3");
+    const input = document.getElementById("file-4");
     const allowedTypes = ["DOCX","docx", "pdf", "txt", "rtf","xlsx", "csv","pptx","jpeg", "png", "gif","jpg", "zip", "rar"];
     const maxSizeMB = 500; // maximum size per file in MB
     let hasInvalid = false;
