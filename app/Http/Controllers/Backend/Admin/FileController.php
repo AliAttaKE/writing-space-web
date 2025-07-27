@@ -899,6 +899,7 @@ public function upload(Request $request)
         //     'file.max' => 'The file size must not exceed 500 MB.',
         // ]);
 
+        
        
 $request->validate([
     'file' => 'required|mimes:pdf,doc,docx,txt,rtf,xlsx,csv,pptx,jpg,jpeg,png,gif,zip,rar|max:512000',
