@@ -898,33 +898,36 @@ $request->validate([
         $fileModel->save();
 
 
-    $admin = User::where('role', 'admin')->first();
-    $orderId = $fileModel->folder_id; // 🔁 Folder ID = Order ID
-    $dateTime = now()->format('F d, Y h:i A');
-    $fileType = strtoupper($extension);
+   $admin = User::where('role', 'admin')->first();
 
-    $subject = "📎 New File Uploaded by Customer – Order #{$orderId}";
-    $emailContent = "
-        <p>Hello,</p>
-        <p>A new file has been uploaded for your order.</p>
-        <p><strong>Here are the details:</strong></p>
-        <ul>
-            <li><strong>Order ID:</strong> #{$orderId}</li>
-            <li><strong>File Name:</strong> {$originalName}</li>
-            <li><strong>Upload Time:</strong> {$dateTime}</li>
-            <li><strong>File Type:</strong> {$fileType}</li>
-        </ul>
-        <p>You can view or download the file from the admin panel.</p>
-        <p>Please review the file and proceed with the next steps.</p>
-        <br>
-        <p>Best Regards,<br>Customer Success Team<br>Writing Space</p>
-    ";
+// Get folder name as order ID
+$folder = DB::table('folders')->where('id', $fileModel->folder_id)->first();
+$orderId = $folder ? $folder->name : 'N/A'; // folder.name = order id
+$dateTime = now()->format('F d, Y h:i A');
+$fileType = strtoupper($extension);
 
-    if ($admin) {
-        Mail::html($emailContent, function ($message) use ($admin, $subject) {
-            $message->to($admin->email)->subject($subject);
-        });
-    }
+$subject = "📎 New File Uploaded by Customer – Order #{$orderId}";
+$emailContent = "
+    <p>Hello,</p>
+    <p>A new file has been uploaded for your order.</p>
+    <p><strong>Here are the details:</strong></p>
+    <ul>
+        <li><strong>Order ID:</strong> #{$orderId}</li>
+        <li><strong>File Name:</strong> {$originalName}</li>
+        <li><strong>Upload Time:</strong> {$dateTime}</li>
+        <li><strong>File Type:</strong> {$fileType}</li>
+    </ul>
+    <p>You can view or download the file from the admin panel.</p>
+    <p>Please review the file and proceed with the next steps.</p>
+    <br>
+    <p>Best Regards,<br>Customer Success Team<br>Writing Space</p>
+";
+
+if ($admin) {
+    Mail::html($emailContent, function ($message) use ($admin, $subject) {
+        $message->to($admin->email)->subject($subject);
+    });
+}
         
         // Redirect back with success message
       return back()->with('success', 'uploaded');
