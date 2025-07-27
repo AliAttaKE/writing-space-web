@@ -899,7 +899,7 @@ $request->validate([
 
 
     $admin = User::where('role', 'admin')->first();
-    $orderId = $request->folder_id; // 🔁 Folder ID = Order ID
+    $orderId = $fileModel->folder_id; // 🔁 Folder ID = Order ID
     $dateTime = now()->format('F d, Y h:i A');
     $fileType = strtoupper($extension);
 
