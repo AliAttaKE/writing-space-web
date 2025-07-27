@@ -108,6 +108,10 @@ class CustomerController extends Controller
                     return $q->where('invoices.invoice_type', $type);
                 }
             })
+               ->where(function($query) {
+        $query->where('orders.order_type', '!=', 'Subscription')
+              ->orWhereNull('orders.order_type');
+    })
             ->whereYear('invoices.created_at', $year)
             ->whereMonth('invoices.created_at', $month)
             ->select(

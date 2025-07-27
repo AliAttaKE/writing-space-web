@@ -36,23 +36,23 @@ class AuthenticatedSessionController extends Controller
 
      //   dd($request->all());
 
-         $recaptcha_token = $request->input('g-recaptcha-response');
+//          $recaptcha_token = $request->input('g-recaptcha-response');
 
        
 
-    // Verify with Google
-    $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-        'secret' => env('RECAPTCHA_SECRET_KEY'),
-        'response' => $recaptcha_token,
-    ]);
+//     // Verify with Google
+//     $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+//         'secret' => env('RECAPTCHA_SECRET_KEY'),
+//         'response' => $recaptcha_token,
+//     ]);
 
-    $result = $response->json();
+//     $result = $response->json();
 
 
    
-   if (!($result['success'] ?? false)) {
-    return back()->with('error', 'reCAPTCHA validation failed. Please try again.');
-}
+//    if (!($result['success'] ?? false)) {
+//     return back()->with('error', 'reCAPTCHA validation failed. Please try again.');
+// }
         $request->authenticate();
         // $request->session()->regenerate();
         // getMoreDeatils();

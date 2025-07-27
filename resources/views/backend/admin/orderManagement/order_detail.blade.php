@@ -320,7 +320,7 @@
        name="media[]" 
        id="media" 
        multiple 
-       accept=".pdf,.doc,.docx,.txt,.rtf,.xls,.xlsx,.csv,.pptx,.jpeg,.jpg,.png,.gif"/>
+       accept=".pdf,.doc,.docx,.txt,.rtf,.xls,.xlsx,.csv,.pptx,.jpeg,.jpg,.png,.zip,.rar"/>
 
 
 																				</label>

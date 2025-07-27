@@ -687,7 +687,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
     <input
       hidden
       type="file"
-      accept=".pdf, .docx, .doc, .txt, .rtf, .xls, .xlsx, .csv, .pptx, .jpeg, .jpg"
+      accept=".pdf, .docx, .doc, .txt, .rtf, .xls, .xlsx, .csv, .pptx, .jpeg, .jpg, .zip, .rar"
       class="upload-attachment"
       name="media[]"
       id="media"
@@ -964,7 +964,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																		<!--begin::Controls-->
 																		<div class="dropzone-panel mb-4 w-100">
 																			<label for="file-3" class="dropzone-select btn btn-sm btn-dark-primary me-2">Attach Files</label>
-																			<input type="file" id="file-3" name="file" class="d-none" accept=".pdf, .docx, .doc, .txt, .rtf, .xls, .xlsx, .csv, .pptx, .jpeg, .jpg">
+																			<input type="file" id="file-3" name="file" class="d-none" accept=".pdf, .docx, .doc, .txt, .rtf, .xls, .xlsx, .csv, .pptx, .jpeg, .jpg, .zip, .rar">
 
 																			<p id="attach_file" class="attach_file"></p>
 																			<input type="hidden" value="Customer" name="Writer">
@@ -975,7 +975,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																		<!--end::Controls-->
 																	</div>
 																	<!--end::Dropzone-->
-																	<span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPG, JPEG,ZIP,RAR</span>
+																	<span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPG, JPEG, ZIP, RAR</span>
 																	<br>
 																	<!--begin::Hint-->
 																	<span class="form-text fs-6 text-muted mb-2 fs-color-white custom-fs-13">Max file size is 50-MB per file.</span>
