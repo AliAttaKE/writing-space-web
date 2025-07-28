@@ -149,7 +149,7 @@
                             class="active custom-menu">Contact Us</a><!--end:Menu link-->
         </div><!--end:Menu item-->
 
-      <div class="app-navbar-item ms-1 ms-md-4 align-items-center h-100">
+      <div class="menu-item here show menu-here-bg menu-lg-down-accordion me-0 me-lg-2 p-4">
     <button type="button" onclick="syncStorage()" class="btn btn-rainbow fs-color-white">
         Sync Files
     </button>
