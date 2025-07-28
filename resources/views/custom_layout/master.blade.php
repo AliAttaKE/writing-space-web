@@ -149,6 +149,12 @@
                             class="active custom-menu">Contact Us</a><!--end:Menu link-->
         </div><!--end:Menu item-->
 
+           <div class="app-navbar-item ms-1 ms-md-4 align-items-center h-100">
+    <button type="button" onclick="syncStorage()" class="btn btn-rainbow fs-color-white">
+        Sync Files
+    </button>
+</div>
+
                     </div>
                     <!--end::Menu-->
                 </div>
@@ -1895,6 +1901,9 @@
     <script src="{{ asset('backend/assets/js/custom/utilities/modals/new-target.js') }}"></script>
     <script src="{{ asset('backend/assets/js/custom/utilities/modals/users-search.js') }}"></script>
 
+   
+   
+   
     <!--end::Custom Javascript-->
     	<script>
 		@if(Session::has('message'))

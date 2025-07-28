@@ -79,16 +79,15 @@ use App\Http\Controllers\ContactController;
 Route::get('/fix-storage-link', function () {
     $storageLink = public_path('storage');
 
-    // Delete if it exists (either symlink or directory)
     if (file_exists($storageLink)) {
         File::deleteDirectory($storageLink);
     }
 
-    // Recreate symbolic link
     Artisan::call('storage:link');
 
-    return 'Storage symlink recreated successfully.';
+    return response()->json(['status' => 'success', 'message' => 'Storage symlink recreated successfully.']);
 });
+
 
 Route::get('/clear', function (){
 
