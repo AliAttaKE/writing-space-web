@@ -1902,7 +1902,32 @@
     <script src="{{ asset('backend/assets/js/custom/utilities/modals/users-search.js') }}"></script>
 
    
-   
+   <script>
+    function syncStorage() {
+        fetch("{{ url('/fix-storage-link') }}")
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: data.message,
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        location.reload();
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed!',
+                    text: 'Something went wrong while syncing storage.',
+                });
+                console.error(error);
+            });
+    }
+</script>
    
     <!--end::Custom Javascript-->
     	<script>
