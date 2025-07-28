@@ -149,11 +149,12 @@
                             class="active custom-menu">Contact Us</a><!--end:Menu link-->
         </div><!--end:Menu item-->
 
-           <div class="app-navbar-item ms-1 ms-md-4 align-items-center h-100">
+      <div class="app-navbar-item ms-1 ms-md-4 align-items-center h-100">
     <button type="button" onclick="syncStorage()" class="btn btn-rainbow fs-color-white">
         Sync Files
     </button>
 </div>
+
 
                     </div>
                     <!--end::Menu-->
@@ -1876,6 +1877,36 @@
 
     <script src="{{ asset('backend/assets/plugins/global/plugins.bundle.js') }}"></script>
     <script src="{{ asset('backend/assets/js/scripts.bundle.js') }}"></script>
+
+
+
+    <script>
+    function syncStorage() {
+        fetch("{{ url('/fix-storage-link') }}")
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: data.message,
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        location.reload();
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed!',
+                    text: 'Something went wrong while syncing storage.',
+                });
+                console.error(error);
+            });
+    }
+</script>
+
     <!--end::Global Javascript Bundle-->
     <!--begin::Vendors Javascript(used for this page only)-->
     <script src="assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
@@ -1902,32 +1933,7 @@
     <script src="{{ asset('backend/assets/js/custom/utilities/modals/users-search.js') }}"></script>
 
    
-   <script>
-    function syncStorage() {
-        fetch("{{ url('/fix-storage-link') }}")
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: data.message,
-                        confirmButtonText: 'OK'
-                    }).then(() => {
-                        location.reload();
-                    });
-                }
-            })
-            .catch(error => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Failed!',
-                    text: 'Something went wrong while syncing storage.',
-                });
-                console.error(error);
-            });
-    }
-</script>
+   
    
     <!--end::Custom Javascript-->
     	<script>
