@@ -872,7 +872,7 @@ public function upload(Request $request)
                     <li><strong>Upload Time:</strong> {$dateTime}</li>
                     <li><strong>File Type:</strong> {$fileType}</li>
                 </ul>
-                <p>You can view or download the file from the admin panel.</p>
+                <p>You can view or download the file from the Customer Panel Dashboard.</p>
                 <p>Please review the file and proceed with the next steps.</p>
                 <br>
                 <p>Best Regards,<br>Customer Success Team<br>Writing Space</p>
@@ -899,7 +899,7 @@ public function upload(Request $request)
         //     'file.max' => 'The file size must not exceed 500 MB.',
         // ]);
 
-
+        
        
 $request->validate([
     'file' => 'required|mimes:pdf,doc,docx,txt,rtf,xlsx,csv,pptx,jpg,jpeg,png,gif,zip,rar|max:512000',
@@ -952,7 +952,7 @@ $emailContent = "
         <li><strong>Upload Time:</strong> {$dateTime}</li>
         <li><strong>File Type:</strong> {$fileType}</li>
     </ul>
-    <p>You can view or download the file from the Customer Panel Dashboard.</p>
+    <p>You can view or download the file from the admin panel.</p>
     <p>Please review the file and proceed with the next steps.</p>
     <br>
     <p>Best Regards,<br>Customer Success Team<br>Writing Space</p>
