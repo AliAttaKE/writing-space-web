@@ -993,10 +993,10 @@ $emailContent = "
                     'message' => "<div style='text-align:left !important;'>Oops! You've exceeded your page limit.\n\n" .
                                  "You're trying to order {$input['no_of_pages']} pages, but you currently have only  {$remianingPages} page(s) left in your package.\n\n" .
                                  "<br><br>No worries — here’s how you can proceed:\n" .
-                                 "<br><br><strong>1. Add More Pages:</strong><br><br><ul><li>Navigate to your Profile Page.</li><li>Locate the option to Add Pages to Your Existing Package and follow the prompts to purchase additional pages at your original rates.</li><li>Once you've added the pages, return here to create your new order.</li></ul> \n" .
-                                 "<strong>2. Use Your Remaining Pages:</strong><br><br> If you prefer, you can place an order for the  {$remianingPages} pages you have remaining in your package right now. Later, you can navigate to the Order Details page for this order, go to the Manage Pages tab, and add the additional pages you need to complete the order at your original rates.\n" .
+                                  "<br><br><strong><span style='color:#FFC056 !important;'>1. Add More Pages:</span></strong><br><br><ul><li>Navigate to your Profile Page.</li><li>Locate the option to Add Pages to Your Existing Package and follow the prompts to purchase additional pages at your original rates.</li><li>Once you've added the pages, return here to create your new order.</li></ul> \n" .
+                                 "<strong><span style='color:#FFC056 !important;'>2. Use Your Remaining Pages:</span></strong><br><br> If you prefer, you can place an order for the  {$remianingPages} pages you have remaining in your package right now. Later, you can navigate to the Order Details page for this order, go to the Manage Pages tab, and add the additional pages you need to complete the order at your original rates.\n" .
 
-                                 "3. Contact Support: For more options or assistance, please reach out to our support team. We're here to help!</div>"
+                                 "<br><br> <strong><span style='color:#FFC056 !important;'>3. Contact Support:</span></strong><br><br> For more options or assistance, please reach out to our support team. We're here to help!</div>"
                 ]);
 
             // return response()->json(['success' => true, 'message' => "Oops! Looks like you've exceeded your page limit.
