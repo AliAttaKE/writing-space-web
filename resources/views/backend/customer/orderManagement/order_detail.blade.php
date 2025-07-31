@@ -1051,6 +1051,7 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																				</div>
 																			</th>
 																			<th class="w-25" style="width: 177px;">File Title</th>
+																			<th class="w-25" style="width: 177px;">Upload Time</th>
 																			<th class="w-25" style="width: 177px;">File Type</th>
 																			<th class="w-25" style="width: 177px;" >Size</th>
 																			<th class="w-25" style="width: 177px;" >Uploaded By</th>
@@ -1076,6 +1077,12 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																						<a href="#" class="text-gray-800 text-hover-primary">{{ $file->title }}</a>
 																					</div>
 																				</td>
+																				  <td class="text-white">
+                                        <div class="d-flex align-items-center">
+                                         
+                                            <a class="text-white" href="#" class="text-gray-800 text-hover-primary">{{ \Carbon\Carbon::parse($file->created_at)->format('F d, Y h:i A') }}</a>
+                                        </div>
+                                    </td>
 
 																				<td class="w-25">{{ $file->file_type }}</td>
 																				<td class="w-25">{{$file->Size }}</td>
