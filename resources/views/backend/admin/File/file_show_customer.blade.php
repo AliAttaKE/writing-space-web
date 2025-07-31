@@ -258,7 +258,7 @@
                                     </td>
                                     <td class="text-white">
                                         <div class="d-flex align-items-center">
-                                            <span class="icon-wrapper"><i class="ki-duotone ki-file fs-2x text-primary me-4"><span class="path1"></span><span class="path2"></span></i></span>
+                                         
                                             <a class="text-white" href="#" class="text-gray-800 text-hover-primary">{{ \Carbon\Carbon::parse($file->created_at)->format('F d, Y h:i A') }}</a>
                                         </div>
                                     </td>
