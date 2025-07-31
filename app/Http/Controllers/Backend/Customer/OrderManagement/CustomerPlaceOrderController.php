@@ -3568,7 +3568,9 @@ Writing Space</p>
                     Auth::login($user);
 
 
-                    return redirect('https://ws.elementary-solutions.com/customer/thankyou');
+                    // return redirect('https://ws.elementary-solutions.com/customer/thankyou');
+
+                    return redirect()->route('customer.thankyou');
                 }
             }
         // } catch (\Exception $e) {

@@ -221,6 +221,9 @@
                                         </div>
                                     </th>
                                     <th class="min-w-250px sorting_disabled text-white" rowspan="1" colspan="1">File Title</th>
+                                     <th class="min-w-150px text-white">
+                                        Upload Time
+                                    </th>
                                     <th class="min-w-150px text-white">
                                         Uploaded By
                                     </th>
@@ -251,6 +254,12 @@
                                         <div class="d-flex align-items-center">
                                             <span class="icon-wrapper"><i class="ki-duotone ki-file fs-2x text-primary me-4"><span class="path1"></span><span class="path2"></span></i></span>
                                             <a class="text-white" href="#" class="text-gray-800 text-hover-primary">{{ $file->title }}</a>
+                                        </div>
+                                    </td>
+                                    <td class="text-white">
+                                        <div class="d-flex align-items-center">
+                                            <span class="icon-wrapper"><i class="ki-duotone ki-file fs-2x text-primary me-4"><span class="path1"></span><span class="path2"></span></i></span>
+                                            <a class="text-white" href="#" class="text-gray-800 text-hover-primary">  {{ $file->created_at->format('F d, Y h:i A') }}</a>
                                         </div>
                                     </td>
                                     <td class="text-white">{{ $file->Writer ?? Auth::user()->role }}</td>
