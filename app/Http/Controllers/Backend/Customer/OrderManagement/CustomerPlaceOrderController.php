@@ -1100,7 +1100,7 @@ $payload = [
         "id" => $truncatedSessionId
     ],
     "apiOperation" => "INITIATE_AUTHENTICATION",
-    "correlationId" => "INIT_AUTH11187-991090777766",
+    
     "transaction" => [
         "reference" => $transactionId
     ],
@@ -1199,7 +1199,7 @@ $authUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$or
 // Prepare payload
 $payload = [
     "apiOperation" => "AUTHENTICATE_PAYER",
-    "correlationId" => "START_AUTH11187-991090777766",
+    
     "device" => [
         "browserDetails" => [
             "screenWidth" => 1920,
@@ -1766,7 +1766,7 @@ $initiatePayload = [
         "id" => $truncatedSessionId
     ],
     "apiOperation" => "INITIATE_AUTHENTICATION",
-    "correlationId" => "INIT_AUTH11187-991090777766",
+    
     "transaction" => [
         "reference" => $transactionId
     ],
@@ -1864,7 +1864,7 @@ $redirectUrl = url("/redirectResponseUrladdpages");
 
 $authenticatePayload = [
     "apiOperation" => "AUTHENTICATE_PAYER",
-    "correlationId" => "START_AUTH11187-991090777766",
+    
     "device" => [
         "browserDetails" => [
             "screenWidth" => 1920,
@@ -1875,8 +1875,12 @@ $authenticatePayload = [
             "language" => "EN",
             "colorDepth" => 24
         ],
-        "browser" => request()->header('User-Agent'),  // dynamic browser
-        "ipAddress" => request()->ip()                 // dynamic IP
+        // "browser" => "Mozilla\\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/95.0.4638.54 Safari\\/537.36",  // dynamic browser
+        // "ipAddress" => "182.185.178.141"                 // dynamic IP
+
+         "browser" => request()->header('User-Agent'),
+        "ipAddress" => request()->ip()
+
     ],
     "authentication" => [
         "redirectResponseUrl" => $redirectUrl
@@ -1912,10 +1916,12 @@ $response = curl_exec($curl);
 curl_close($curl);
 
 
+;
 
         $response = json_decode($response, true);
         if (isset($response['authentication']['redirect']['html'])) {
             $htmlContent = $response['authentication']['redirect']['html'];
+            
 
             return response()->json(['response' => $htmlContent]);
             // return view('payment.otp', compact('htmlContent'));
@@ -2134,7 +2140,7 @@ $initiatePayload = [
         "id" => $truncatedSessionId
     ],
     "apiOperation" => "INITIATE_AUTHENTICATION",
-    "correlationId" => "INIT_AUTH11187-991090777766",
+    
     "transaction" => [
         "reference" => $transactionId
     ],
@@ -2233,7 +2239,7 @@ $authenticateUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/o
 
 $authenticatePayload = [
     "apiOperation" => "AUTHENTICATE_PAYER",
-    "correlationId" => "START_AUTH11187-991090777766",
+    
     "device" => [
         "browserDetails" => [
             "screenWidth" => 1920,
