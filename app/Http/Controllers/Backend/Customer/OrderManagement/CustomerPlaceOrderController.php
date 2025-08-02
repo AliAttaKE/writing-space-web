@@ -50,6 +50,7 @@ use App\Models\Addons;
 use App\Models\Language;
 use App\Models\FileChatGPT;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 
 use Carbon\Carbon;
@@ -1210,8 +1211,11 @@ $payload = [
             "language" => "EN",
             "colorDepth" => 24
         ],
-        "browser" => request()->header('User-Agent'),
-        "ipAddress" => request()->ip()
+        // "browser" => request()->header('User-Agent'),
+        // "ipAddress" => request()->ip()
+
+           "browser"=>"Mozilla\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/95.0.4638.54 Safari\/537.36",
+        "ipAddress"=> "223.123.9.108"
     ],
     "authentication" => [
         "redirectResponseUrl" => $redirectUrl
@@ -1249,6 +1253,8 @@ curl_close($curl);
 
 
         $response = json_decode($response, true);
+
+      //  dd($response['authentication']['redirect']['html']);
         if (isset($response['authentication']['redirect']['html'])) {
             $htmlContent = $response['authentication']['redirect']['html'];
             return response()->json(['response' => $htmlContent]);
@@ -1620,8 +1626,11 @@ private function sendCurlRequest($url, $payload, $authHeader)
                 "language" => "EN",
                 "colorDepth" => 24
             ],
-            "browser" => $request->header('User-Agent'),
-            "ipAddress" => $request->ip()
+            // "browser" => $request->header('User-Agent'),
+            // "ipAddress" => $request->ip()
+            "browser" => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36",
+"ipAddress" => "182.185.178.141"
+
         ],
         "authentication" => [
             "redirectResponseUrl" => url("/redirectResponseUrlSub")
@@ -1637,8 +1646,9 @@ private function sendCurlRequest($url, $payload, $authHeader)
 
     $authResponse = $this->sendCurlRequest($baseOrderUrl, $authPayload, $authHeader);
 
-    // Step 6: Handle response
+   
     if (isset($authResponse['authentication']['redirect']['html'])) {
+        
         return response()->json(['response' => $authResponse['authentication']['redirect']['html']]);
     } else {
         return response()->json(['response' => 'Invalid response format.']);
@@ -1875,11 +1885,11 @@ $authenticatePayload = [
             "language" => "EN",
             "colorDepth" => 24
         ],
-        // "browser" => "Mozilla\\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/95.0.4638.54 Safari\\/537.36",  // dynamic browser
-        // "ipAddress" => "182.185.178.141"                 // dynamic IP
+       "browser" => "Mozilla\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/95.0.4638.54 Safari\/537.36",
+        "ipAddress" => "223.123.9.108"               // dynamic IP
 
-         "browser" => request()->header('User-Agent'),
-        "ipAddress" => request()->ip()
+        //  "browser" => request()->header('User-Agent'),
+        // "ipAddress" => request()->ip()
 
     ],
     "authentication" => [
@@ -1919,10 +1929,12 @@ curl_close($curl);
 ;
 
         $response = json_decode($response, true);
+
+      
         if (isset($response['authentication']['redirect']['html'])) {
             $htmlContent = $response['authentication']['redirect']['html'];
             
-
+//   dd($htmlContent);
             return response()->json(['response' => $htmlContent]);
             // return view('payment.otp', compact('htmlContent'));
         } else {
@@ -2250,8 +2262,11 @@ $authenticatePayload = [
             "language" => "EN",
             "colorDepth" => 24
         ],
-        "browser" => request()->header('User-Agent') ?? "Mozilla/5.0",
-        "ipAddress" => request()->ip()
+        // "browser" => request()->header('User-Agent') ?? "Mozilla/5.0",
+        // "ipAddress" => request()->ip()
+
+        "browser"=>"Mozilla\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/95.0.4638.54 Safari\/537.36",
+        "ipAddress"=> "223.123.9.108"
     ],
     "authentication" => [
         "redirectResponseUrl" => url("/redirectResponsemanagepages")
@@ -2411,10 +2426,37 @@ curl_close($curl);
         return view('backend.customer.orderManagement.otp', compact('creqValue'));
     }
 
+
+    
+
+     public function storeOtpHtml(Request $request)
+
+
+    {
+
+        //dd($request->All());
+        $html = $request->input('html');
+
+        if (!$html) {
+            return response()->json(['success' => false, 'message' => 'No HTML found']);
+        }
+   if (!$html) {
+        return "3DS HTML expired or not found.";
+    }
+
+    // ✅ pass 'html' variable to the view
+    return view('backend.customer.orderManagement.otp', ['html' => $html]);
+     
+    }
+
+   
+
     public function redirectResponseUrl(Request $request)
 
     {
 
+
+      
 
         $data = $request->all();
 
@@ -2486,8 +2528,10 @@ curl_close($curl);
 
         $data = $request->all();
 
-        if ($data['result'] === 'SUCCESS') {
+       
 
+        if ($data['result'] === 'SUCCESS') {
+ 
 
             return redirect()->route('pay.sub', ['orderid' => $data['order_id']]);
         } else {
@@ -2508,6 +2552,8 @@ curl_close($curl);
     {
         try {
             $pay = Pay::where('order_id', $orderid)->first();
+
+           
             $sessionId = $pay->session_id;
             $totalamountpro = $pay->total_cost;
             $order_id = $pay->order_id;
@@ -2554,57 +2600,59 @@ curl_close($curl);
             // $responseArray = json_decode($response, true);
 
 
-            $payload = [
-    "apiOperation" => "PAY",
-    "authentication" => [
-        "transactionId" => $transactionId
-    ],
-    "order" => [
-        "amount" => $amount,
-        "currency" => "PKR"
-    ],
-    "session" => [
-        "id" => $sessionId
-    ]
-];
+                                $payload = [
+                        "apiOperation" => "PAY",
+                        "authentication" => [
+                            "transactionId" => $transactionId
+                        ],
+                        "order" => [
+                            "amount" => $amount,
+                            "currency" => "PKR"
+                        ],
+                        "session" => [
+                            "id" => $sessionId
+                        ]
+                    ];
 
-// Load credentials and config from .env
-$baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
-$apiVersion = env('API_VERSION'); // e.g. 74
-$merchantId = env('MERCHANT_ID'); // e.g. TESTWRITINGSPACE
-$authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+                    // Load credentials and config from .env
+                    $baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
+                    $apiVersion = env('API_VERSION'); // e.g. 74
+                    $merchantId = env('MERCHANT_ID'); // e.g. TESTWRITINGSPACE
+                    $authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
 
-$url = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionIdurl";
+                    $url = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionIdurl";
 
-$curl = curl_init();
+                $curl = curl_init();
 
-curl_setopt_array($curl, [
-    CURLOPT_URL => $url,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 30,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'PUT',
-    CURLOPT_POSTFIELDS => json_encode($payload),
-    CURLOPT_HTTPHEADER => [
-        'Content-Type: application/json',
-        'Authorization: Basic ' . $authToken
-    ],
-]);
+                curl_setopt_array($curl, [
+                    CURLOPT_URL => $url,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 30,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'PUT',
+                    CURLOPT_POSTFIELDS => json_encode($payload),
+                    CURLOPT_HTTPHEADER => [
+                        'Content-Type: application/json',
+                        'Authorization: Basic ' . $authToken
+                    ],
+                ]);
 
-$response = curl_exec($curl);
+                $response = curl_exec($curl);
 
-if (curl_errno($curl)) {
-    $error = curl_error($curl);
-    curl_close($curl);
-    Log::error("CURL Error: " . $error);
-    return response()->json(['error' => $error], 500);
-}
 
-curl_close($curl);
-$responseArray = json_decode($response, true);
+
+                if (curl_errno($curl)) {
+                    $error = curl_error($curl);
+                    curl_close($curl);
+                    Log::error("CURL Error: " . $error);
+                    return response()->json(['error' => $error], 500);
+                }
+
+                curl_close($curl);
+                $responseArray = json_decode($response, true);
 
 
             if ($responseArray) {
@@ -2746,7 +2794,17 @@ $responseArray = json_decode($response, true);
 
                         $user = User::find($user->id);
                         Auth::login($user);
-                        return redirect()->route('customer.thankyou.sub');
+
+                        return response()->make('
+    <script>
+        if (window.top !== window.self) {
+            window.top.location.href = "' . route('customer.thankyou.sub') . '";
+        } else {
+            window.location.href = "' . route('customer.thankyou.sub') . '";
+        }
+    </script>
+', 200, ['Content-Type' => 'text/html']);
+                     
                     } else {
                         $user->customer = "Subscription";
                         $user->subscription_id = $orderidexplode;
@@ -2837,31 +2895,28 @@ $responseArray = json_decode($response, true);
 
                     $purchaseDate = now()->format('Y-m-d');
                   $emailContent = "
-    <p>Hello {$user->name},</p>
-    <p>Congratulations on securing your new package at Writing Space! We're excited to support you with enhanced services and resources tailored to your academic needs.</p>
+                        <p>Hello {$user->name},</p>
+                        <p>Congratulations on securing your new package at Writing Space! We're excited to support you with enhanced services and resources tailored to your academic needs.</p>
 
-    <p><strong>Package Details:</strong></p>
-    <ul>
-        <li><strong>Package Type:</strong> {$subs->subscription_name}</li>
-        <li><strong>Purchase Date:</strong> {$purchaseDate}</li>
-        <li><strong>Total:</strong> {$total} $</li>
-        <li><strong>Total Pages:</strong> {$totalPages}</li>
-    </ul>
+                        <p><strong>Package Details:</strong></p>
+                        <ul>
+                            <li><strong>Package Type:</strong> {$subs->subscription_name}</li>
+                            <li><strong>Purchase Date:</strong> {$purchaseDate}</li>
+                            <li><strong>Total:</strong> {$total} $</li>
+                            <li><strong>Total Pages:</strong> {$totalPages}</li>
+                        </ul>
 
-    <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
-    <p>You can now access all the features and benefits of your package through your dashboard. Explore the additional resources and services available to you and make the most of your Writing Space experience!</p>
-    <p>If you have any questions about your package or need further assistance, our customer support team is ready to help.</p>
-    <p>Thank you for choosing Writing Space! We look forward to helping you achieve your academic goals.</p>
+                        <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
+                        <p>You can now access all the features and benefits of your package through your dashboard. Explore the additional resources and services available to you and make the most of your Writing Space experience!</p>
+                        <p>If you have any questions about your package or need further assistance, our customer support team is ready to help.</p>
+                        <p>Thank you for choosing Writing Space! We look forward to helping you achieve your academic goals.</p>
 
-    <p>Best regards,<br>
-    Customer Success Team<br>
-    Writing Space</p>
-";
+                        <p>Best regards,<br>
+                        Customer Success Team<br>
+                        Writing Space</p>
+                    ";
                     $subject = 'Welcome to Your New Writing-Space Package – Thank You for Your Purchase!';
-                    // Mail::html($emailContent, function ($message) use ($user) {
-                    //     $message->to($user->email)
-                    //             ->subject('Welcome to Your New Writing-Space Package – Thank You for Your Purchase!');
-                    // });
+                  
 
                     $this->send_invoice_pay_sub($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$subs->min_page);
 
@@ -2869,7 +2924,19 @@ $responseArray = json_decode($response, true);
                         $user_id =  $pay->user_id;
                         $user = User::find($user_id);
                         Auth::login($user);
-                        return redirect()->route('customer.thankyou.sub');
+
+                        
+                        
+                                                        return response()->make('
+                                    <script>
+                                        if (window.top !== window.self) {
+                                            window.top.location.href = "' . route('customer.thankyou.sub') . '";
+                                        } else {
+                                            window.location.href = "' . route('customer.thankyou.sub') . '";
+                                        }
+                                    </script>
+                                ', 200, ['Content-Type' => 'text/html']);
+                        
                     } //checkuser if
                 } //success attentication if
 
@@ -3217,7 +3284,18 @@ $emailContent = "
                     Auth::login($user);
 
 
-                    return redirect(url('/customer/thankyou'));
+                    // return redirect(url('/customer/thankyou'));
+
+                    return response()->make('
+    <script>
+        if (window.top !== window.self) {
+            window.top.location.href = "' . route('customer.thankyou.sub') . '";
+        } else {
+            window.location.href = "' . route('customer.thankyou.sub') . '";
+        }
+    </script>
+', 200, ['Content-Type' => 'text/html']);
+
                 }
             }
         // } catch (\Exception $e) {
@@ -4057,8 +4135,18 @@ $formattedFinalTotal = number_format($finalTotal, 2);
                 $user_id =  $pay->user_id;
                 $user = User::find($user_id);
                 Auth::login($user);
+                
+return response()->make('
+    <script>
+        if (window.top !== window.self) {
+            window.top.location.href = "' . route('customer.thankyou.sub') . '";
+        } else {
+            window.location.href = "' . route('customer.thankyou.sub') . '";
+        }
+    </script>
+', 200, ['Content-Type' => 'text/html']);
 
-                return redirect(url('/customer/thankyou'));
+                // return redirect(url('/customer/thankyou'));
             }
         } else {
 
