@@ -287,28 +287,28 @@ PaymentSession.configure({
                                 var responseHtml = ajaxResponse.response;
 
                                                 if (responseHtml) {
-                                                    $if (responseHtml) {
-    let form = $('<form>', {
-        method: 'POST',
-        action: '{{ route("customer.otp.new") }}'
-    });
+                                                   
+                                                        let form = $('<form>', {
+                                                            method: 'POST',
+                                                            action: '{{ route("customer.otp.new") }}'
+                                                        });
 
-    form.append($('<input>', {
-        type: 'hidden',
-        name: 'html',
-        value: responseHtml
-    }));
+                                                        form.append($('<input>', {
+                                                            type: 'hidden',
+                                                            name: 'html',
+                                                            value: responseHtml
+                                                        }));
 
-    // Add CSRF token
-    form.append($('<input>', {
-        type: 'hidden',
-        name: '_token',
-        value: $('meta[name="csrf-token"]').attr('content')
-    }));
+                                                        // Add CSRF token
+                                                        form.append($('<input>', {
+                                                            type: 'hidden',
+                                                            name: '_token',
+                                                            value: $('meta[name="csrf-token"]').attr('content')
+                                                        }));
 
-    $('body').append(form);
-    form.submit(); // redirects with post data
-}
+                                                        $('body').append(form);
+                                                        form.submit(); // redirects with post data
+                                                    }
 
                                                 }
 
