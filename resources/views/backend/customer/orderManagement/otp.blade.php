@@ -1,6 +1,5 @@
+{!! $html !!}
 
-
-{!! $creqValue !!}
 
 {{-- <div id="threedsChallengeRedirect" xmlns="http://www.w3.org/1999/html" style=" height: 100vh">
     <form id ="threedsChallengeRedirectForm" method="POST"

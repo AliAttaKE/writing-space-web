@@ -271,62 +271,52 @@ PaymentSession.configure({
 
 
 
+$.ajax({
+    url: '{{ route("customer.payment.store.sub") }}',
+    type: 'POST',
+    data: {
+        'session': response.session.id,
+        'sub_id1': sub_id1,
+        'totalamount1': totalamount1,
+        'number_of_page': number_of_page,
+        'cost_per_page_final': cost_per_page_final
+    },
+    dataType: 'json',
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    success: function (ajaxResponse) {
+        var responseHtml = ajaxResponse.response;
 
-                        $.ajax({
-                            url: '{{ route("customer.payment.store.sub") }}',
-                            type: 'POST',
-                            data: { 'session': response.session.id ,'sub_id1':sub_id1,'totalamount1':totalamount1,'number_of_page':number_of_page,'cost_per_page_final':cost_per_page_final},
-                            dataType: 'json',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            success: function (ajaxResponse) {
+        if (responseHtml) {
+            $.ajax({
+                url: '{{ route("customer.otp.store.html") }}',
+                type: 'POST',
+                data: { html: responseHtml },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (ajaxResponse) {
+                    if (ajaxResponse.success) {
+                        window.location.href = '{{ route("otp.show") }}';
+                    } else {
+                        alert("Error storing HTML: " + ajaxResponse.message);
+                    }
+                },
+                error: function (xhr) {
+                    console.log("Store HTML error", xhr);
+                }
+            });
+        } else {
+            alert("No HTML returned from payment API.");
+        }
+    },
+    error: function (xhr) {
+        console.log("Payment error", xhr);
+    }
+});
 
-                                                console.log(ajaxResponse);
-                               // alert(ajaxResponse);
-                                var responseHtml = ajaxResponse.response;
-
-
-
-                                    // var tempDiv = document.createElement('div');
-                                    // tempDiv.innerHTML = responseHtml;
-                                    // var creqInput = tempDiv.querySelector('input[name="creq"]');
-                                    // if (creqInput) {
-                                    //     var creqValue = creqInput.getAttribute('value');
-                                    //     console.log(creqValue);
-                                    //  //   alert(creqValue);
-                                    // } else {
-                                    //     console.log('Input element with name "creq" not found in the HTML content');
-                                    //     //alert('Input element with name "creq" not found in the HTML content');
-                                    // }
-                                               var responseHtml = ajaxResponse.response;
-                                                        if (ajaxResponse.success) {
-                                                                    window.location.href = "{{ route('customer.otp.new') }}";
-                                                                } else {
-                                                                    alert("Something went wrong: " + ajaxResponse.message);
-                                                                }
-                                                                                        
-
-
-
-                                // var Url = "{{ route('customer.otp.new', ['creqValue' => ':creqValue']) }}".replace(':creqValue', creqValue);
-
-                                // if (ajaxResponse) {
-                                //     console.log('if');
-                                //   window.location.href = Url;
-                                // } else {
-                                //     console.log('Error or other condition');
-                                // }
-
-
-                            },
-                            error: function (xhr) {
-                                console.log(xhr);
-
-
-                            }
-
-                        });
 
                     //check if the security code was provided by the user
                     if (response.sourceOfFunds.provided.card.securityCode) {
