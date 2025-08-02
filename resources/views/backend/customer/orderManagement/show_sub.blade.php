@@ -299,7 +299,7 @@ $.ajax({
                 },
                 success: function (ajaxResponse) {
                     if (ajaxResponse.success) {
-                        window.location.href = '{{ route("otp.show") }}';
+                        window.location.href = '{{ route("customer.otp.show") }}';
                     } else {
                         alert("Error storing HTML: " + ajaxResponse.message);
                     }
