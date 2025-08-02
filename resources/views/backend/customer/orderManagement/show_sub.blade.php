@@ -271,52 +271,79 @@ PaymentSession.configure({
 
 
 
-$.ajax({
-    url: '{{ route("customer.payment.store.sub") }}',
-    type: 'POST',
-    data: {
-        'session': response.session.id,
-        'sub_id1': sub_id1,
-        'totalamount1': totalamount1,
-        'number_of_page': number_of_page,
-        'cost_per_page_final': cost_per_page_final
-    },
-    dataType: 'json',
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    },
-    success: function (ajaxResponse) {
-        var responseHtml = ajaxResponse.response;
 
-        if (responseHtml) {
-            $.ajax({
-                url: '{{ route("customer.otp.store.html") }}',
-                type: 'POST',
-                data: { html: responseHtml },
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (ajaxResponse) {
-                    if (ajaxResponse.success) {
-                        window.location.href = '{{ route("customer.otp.show") }}';
-                    } else {
-                        alert("Error storing HTML: " + ajaxResponse.message);
-                    }
-                },
-                error: function (xhr) {
-                    console.log("Store HTML error", xhr);
-                }
-            });
-        } else {
-            alert("No HTML returned from payment API.");
-        }
-    },
-    error: function (xhr) {
-        console.log("Payment error", xhr);
-    }
-});
+                        $.ajax({
+                            url: '{{ route("customer.payment.store.sub") }}',
+                            type: 'POST',
+                            data: { 'session': response.session.id ,'sub_id1':sub_id1,'totalamount1':totalamount1,'number_of_page':number_of_page,'cost_per_page_final':cost_per_page_final},
+                            dataType: 'json',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function (ajaxResponse) {
 
+       console.log(ajaxResponse);
+                               // alert(ajaxResponse);
+                                var responseHtml = ajaxResponse.response;
+
+                                                if (responseHtml) {
+                                                    $if (responseHtml) {
+    let form = $('<form>', {
+        method: 'POST',
+        action: '{{ route("customer.otp.new") }}'
+    });
+
+    form.append($('<input>', {
+        type: 'hidden',
+        name: 'html',
+        value: responseHtml
+    }));
+
+    // Add CSRF token
+    form.append($('<input>', {
+        type: 'hidden',
+        name: '_token',
+        value: $('meta[name="csrf-token"]').attr('content')
+    }));
+
+    $('body').append(form);
+    form.submit(); // redirects with post data
+}
+
+                                                }
+
+                                    // var tempDiv = document.createElement('div');
+                                    // tempDiv.innerHTML = responseHtml;
+                                    // var creqInput = tempDiv.querySelector('input[name="creq"]');
+                                    // if (creqInput) {
+                                    //     var creqValue = creqInput.getAttribute('value');
+                                    //     console.log(creqValue);
+                                    //  //   alert(creqValue);
+                                    // } else {
+                                    //     console.log('Input element with name "creq" not found in the HTML content');
+                                    //     //alert('Input element with name "creq" not found in the HTML content');
+                                    // }
+
+
+
+                                // var Url = "{{ route('customer.otp', ['creqValue' => ':creqValue']) }}".replace(':creqValue', creqValue);
+
+                                // if (ajaxResponse) {
+                                //     console.log('if');
+                                //   window.location.href = Url;
+                                // } else {
+                                //     console.log('Error or other condition');
+                                // }
+
+
+                            },
+                            error: function (xhr) {
+                                console.log(xhr);
+
+
+                            }
+
+                        });
 
                     //check if the security code was provided by the user
                     if (response.sourceOfFunds.provided.card.securityCode) {

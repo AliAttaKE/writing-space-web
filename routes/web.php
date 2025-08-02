@@ -692,10 +692,8 @@ Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->nam
     Route::post('/payment/store/managepage', [CustomerPlaceOrderController::class, 'payment_store_managepage'])->name('payment.store.managepage');
     Route::post('/payment/store', [CustomerPlaceOrderController::class, 'payment_store'])->name('payment.store');
     Route::get('/otp/{creqValue}', [CustomerPlaceOrderController::class, 'otp'])->name('otp');
-    Route::post('/otp/new', [CustomerPlaceOrderController::class, 'otp_new'])->name('otp.new');
+    Route::post('/otp/new', [CustomerPlaceOrderController::class, 'storeOtpHtml'])->name('otp.new');
 
-   Route::post('/otp/store-html', [CustomerPlaceOrderController::class, 'storeOtpHtml'])->name('otp.store.html');
-Route::get('/otp/show', [CustomerPlaceOrderController::class, 'showOtp'])->name('otp.show');
 
 
     Route::get('/thankyou', [CustomerPlaceOrderController::class, 'thankyou'])->name('thankyou');
