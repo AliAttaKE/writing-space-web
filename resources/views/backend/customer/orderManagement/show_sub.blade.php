@@ -282,22 +282,31 @@ PaymentSession.configure({
                             },
                             success: function (ajaxResponse) {
 
-       console.log(ajaxResponse);
+                                                console.log(ajaxResponse);
                                // alert(ajaxResponse);
                                 var responseHtml = ajaxResponse.response;
 
 
 
-                                    var tempDiv = document.createElement('div');
-                                    tempDiv.innerHTML = responseHtml;
-                                    var creqInput = tempDiv.querySelector('input[name="creq"]');
-                                    if (creqInput) {
-                                        var creqValue = creqInput.getAttribute('value');
-                                        console.log(creqValue);
-                                     //   alert(creqValue);
-                                    } else {
-                                        console.log('Input element with name "creq" not found in the HTML content');
-                                        //alert('Input element with name "creq" not found in the HTML content');
+                                    // var tempDiv = document.createElement('div');
+                                    // tempDiv.innerHTML = responseHtml;
+                                    // var creqInput = tempDiv.querySelector('input[name="creq"]');
+                                    // if (creqInput) {
+                                    //     var creqValue = creqInput.getAttribute('value');
+                                    //     console.log(creqValue);
+                                    //  //   alert(creqValue);
+                                    // } else {
+                                    //     console.log('Input element with name "creq" not found in the HTML content');
+                                    //     //alert('Input element with name "creq" not found in the HTML content');
+                                    // }
+
+                                    if(responseHtml){
+                                        console.log("html okay");
+                                        creqValue = responseHtml ;
+
+                                    }
+                                    else{
+                                        console.log("html check");
                                     }
 
 

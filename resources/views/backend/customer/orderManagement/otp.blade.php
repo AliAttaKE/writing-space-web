@@ -1,5 +1,8 @@
 
-<div id="threedsChallengeRedirect" xmlns="http://www.w3.org/1999/html" style=" height: 100vh">
+
+
+{{ $creqValue }}
+{{-- <div id="threedsChallengeRedirect" xmlns="http://www.w3.org/1999/html" style=" height: 100vh">
     <form id ="threedsChallengeRedirectForm" method="POST"
         action="https://mtf.gateway.mastercard.com/acs/mastercard/v2/prompt" > 
         @csrf
@@ -15,4 +18,4 @@
             }
         }
     </script>
-</div>
+</div> --}}
