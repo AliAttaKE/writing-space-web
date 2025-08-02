@@ -310,7 +310,7 @@ PaymentSession.configure({
                                                         form.submit(); // redirects with post data
                                                     }
 
-                                                }
+                                                
 
                                     // var tempDiv = document.createElement('div');
                                     // tempDiv.innerHTML = responseHtml;
