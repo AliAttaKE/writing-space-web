@@ -301,7 +301,7 @@ PaymentSession.configure({
                                     // }
                                                var responseHtml = ajaxResponse.response;
                                                         if (ajaxResponse.success) {
-                                                                    window.location.href = "{{ route('otp.new') }}";
+                                                                    window.location.href = "{{ route('customer.otp.new') }}";
                                                                 } else {
                                                                     alert("Something went wrong: " + ajaxResponse.message);
                                                                 }
