@@ -296,32 +296,57 @@ PaymentSession.configure({
 
                                      console.log(ajaxResponse);
                                // alert(ajaxResponse);
-                                var responseHtml = ajaxResponse.response;
+                                // var responseHtml = ajaxResponse.response;
+
+ var responseHtml = ajaxResponse.response;
+
+                                                if (responseHtml) {
+                                                   
+                                                        let form = $('<form>', {
+                                                            method: 'POST',
+                                                            action: '{{ route("customer.otp.new") }}'
+                                                        });
+
+                                                        form.append($('<input>', {
+                                                            type: 'hidden',
+                                                            name: 'html',
+                                                            value: responseHtml
+                                                        }));
+
+                                                        // Add CSRF token
+                                                        form.append($('<input>', {
+                                                            type: 'hidden',
+                                                            name: '_token',
+                                                            value: $('meta[name="csrf-token"]').attr('content')
+                                                        }));
+
+                                                        $('body').append(form);
+                                                        form.submit(); // redirects with post data
+                                                    }
+
+
+                                    // var tempDiv = document.createElement('div');
+                                    // tempDiv.innerHTML = responseHtml;
+                                    // var creqInput = tempDiv.querySelector('input[name="creq"]');
+                                    // if (creqInput) {
+                                    //     var creqValue = creqInput.getAttribute('value');
+                                    //     console.log(creqValue);
+                                    //  //   alert(creqValue);
+                                    // } else {
+                                    //     console.log('Input element with name "creq" not found in the HTML content');
+                                    //     //alert('Input element with name "creq" not found in the HTML content');
+                                    // }
 
 
 
-                                    var tempDiv = document.createElement('div');
-                                    tempDiv.innerHTML = responseHtml;
-                                    var creqInput = tempDiv.querySelector('input[name="creq"]');
-                                    if (creqInput) {
-                                        var creqValue = creqInput.getAttribute('value');
-                                        console.log(creqValue);
-                                     //   alert(creqValue);
-                                    } else {
-                                        console.log('Input element with name "creq" not found in the HTML content');
-                                        //alert('Input element with name "creq" not found in the HTML content');
-                                    }
+                                // var Url = "{{ route('customer.otp', ['creqValue' => ':creqValue']) }}".replace(':creqValue', creqValue);
 
-
-
-                                var Url = "{{ route('customer.otp', ['creqValue' => ':creqValue']) }}".replace(':creqValue', creqValue);
-
-                                if (ajaxResponse) {
-                                    console.log(Url);
-                                  window.location.href = Url;
-                                } else {
-                                    console.log('Error or other condition');
-                                }
+                                // if (ajaxResponse) {
+                                //     console.log(Url);
+                                //   window.location.href = Url;
+                                // } else {
+                                //     console.log('Error or other condition');
+                                // }
 
 
                             },
