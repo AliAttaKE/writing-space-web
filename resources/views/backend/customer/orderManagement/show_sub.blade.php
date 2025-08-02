@@ -299,26 +299,24 @@ PaymentSession.configure({
                                     //     console.log('Input element with name "creq" not found in the HTML content');
                                     //     //alert('Input element with name "creq" not found in the HTML content');
                                     // }
-
-                                    if(responseHtml){
-                                        console.log("html okay");
-                                        creqValue = responseHtml ;
-
-                                    }
-                                    else{
-                                        console.log("html check");
-                                    }
+                                               var responseHtml = ajaxResponse.response;
+                                                        if (ajaxResponse.success) {
+                                                                    window.location.href = "{{ route('otp.new') }}";
+                                                                } else {
+                                                                    alert("Something went wrong: " + ajaxResponse.message);
+                                                                }
+                                                                                        
 
 
 
-                                var Url = "{{ route('customer.otp', ['creqValue' => ':creqValue']) }}".replace(':creqValue', creqValue);
+                                // var Url = "{{ route('customer.otp.new', ['creqValue' => ':creqValue']) }}".replace(':creqValue', creqValue);
 
-                                if (ajaxResponse) {
-                                    console.log('if');
-                                  window.location.href = Url;
-                                } else {
-                                    console.log('Error or other condition');
-                                }
+                                // if (ajaxResponse) {
+                                //     console.log('if');
+                                //   window.location.href = Url;
+                                // } else {
+                                //     console.log('Error or other condition');
+                                // }
 
 
                             },
