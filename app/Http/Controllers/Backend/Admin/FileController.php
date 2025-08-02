@@ -804,9 +804,9 @@ $emailContent = "
 public function upload(Request $request)
 {
     $request->validate([
-        'file' => 'required|mimes:pdf,doc,docx,txt,rtf,xlsx,csv,pptx,jpg,jpeg,png,gif|max:512000',
+        'file' => 'required|mimes:pdf,doc,docx,txt,rtf,xlsx,csv,pptx,jpg,jpeg,zip,rar|max:51200',
     ], [
-        'file.max' => 'The file size must not exceed 500 MB.',
+        'file.max' => 'The file size must not exceed 50 MB.',
     ]);
 
     $file = $request->file('file');

@@ -166,7 +166,7 @@ class MessageManagementController extends Controller
             $uploadedFile = new \stdClass();
 
             $extension = $file->extension();
-            if (in_array($extension, ['png', 'jpg', 'jpeg', 'gif', 'webp'])) {
+            if (in_array($extension, ['jpg', 'jpeg', 'webp'])) {
                 $uploadedFile->type = 'image';
             } elseif (in_array($extension, ['mp4', 'avi', 'mov', 'bin'])) {
                 $uploadedFile->type = 'video';

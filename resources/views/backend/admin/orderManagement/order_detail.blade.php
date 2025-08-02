@@ -320,7 +320,7 @@
        name="media[]" 
        id="media" 
        multiple 
-       accept=".pdf,.doc,.docx,.txt,.rtf,.xls,.xlsx,.csv,.pptx,.jpeg,.jpg,.png,.zip,.rar"/>
+       accept=".pdf,.doc,.docx,.txt,.rtf,.xls,.xlsx,.csv,.pptx,.jpeg,.jpg,.zip,.rar"/>
 
 
 																				</label>
@@ -507,7 +507,7 @@
                 <div class="dropzone-panel mb-4">
                     <label for="file-3" class="dropzone-select btn btn-sm btn-dark-primary me-2">Attach Files</label>
                     <input type="file" id="file-3" name="file" class="d-none"
-                        accept=".pdf, .docx, .doc, .txt, .xls, .xlsx, .rtf, .csv, .pptx, .jpeg, .png, .gif">
+                        accept=".pdf, .docx, .doc, .txt, .xls, .xlsx, .rtf, .csv, .pptx, .jpeg, .jpg, .zip, .rar">
                     <p id="attach_file_3"></p>
 
                     <input type="hidden" value="Customer" name="Writer">
@@ -517,8 +517,8 @@
             </div>
 
             <span class="form-text fs-color-white custom-fs-13 mb-2">
-                Accepted file formats: DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPEG, PNG, GIF.<br>
-                Maximum file size: 500 MB per file.
+                Accepted file formats: DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPEG, JPG, ZIP, RAR.<br>
+                Maximum file size: 50 MB per file.
             </span>
 <!-- Loader -->
 <div id="uploadLoader" style="display: none; text-align: center; margin-top: 10px;">
@@ -6024,7 +6024,9 @@ document.getElementById("media").addEventListener("change", function() {
             ]
         }
     });
-
+quill.on('text-change', function() {
+    $('textarea[name="order-msg"]').val(quill.root.innerHTML);
+});
     // Update the hidden textarea with Quill content
     var form = document.querySelector('form');
     form.onsubmit = function() {
@@ -6050,7 +6052,7 @@ document.getElementById("media").addEventListener("change", function() {
 
 
 		document.getElementById('media').addEventListener('change', function () {
-    const allowedExtensions = ['pdf', 'docx', 'doc', 'txt', 'rtf', 'xls', 'xlsx', 'csv', 'pptx', 'jpeg', 'jpg', 'png', 'gif'];
+    const allowedExtensions = ['pdf', 'docx', 'doc', 'txt', 'rtf', 'xls', 'xlsx', 'csv', 'pptx', 'jpeg', 'jpg', 'zip', 'rar'];
     const files = this.files;
     let invalid = false;
 
@@ -6065,7 +6067,7 @@ document.getElementById("media").addEventListener("change", function() {
     }
 
     if (invalid) {
-        Swal.fire('Error!', 'Only files with the following types are allowed: PDF, DOCX, DOC, TXT, RTF, XLS, XLSX, CSV, PPTX, JPEG, JPG, PNG, GIF', 'error');
+        Swal.fire('Error!', 'Only files with the following types are allowed: PDF, DOCX, DOC, TXT, RTF, XLS, XLSX, CSV, PPTX, JPEG, JPG, ZIP, RAR', 'error');
         this.value = ''; 
         document.getElementById('file_name').innerText = ''; 
     } else {
@@ -6089,28 +6091,31 @@ document.getElementById("media").addEventListener("change", function() {
 
 
 
-        $('#kt_inbox_reply_form').submit(function(e) {
-            e.preventDefault(); // Prevent the form from submitting in the traditional way
-			console.log('hello')
-            // Create a FormData object to gather form data
-            var formData = new FormData(this);
-            formData.append('_token', '{{ csrf_token() }}');
-            // You can append additional data if needed
-            // formData.append('key', 'value');
+     $('#kt_inbox_reply_form').submit(function(e) {
+    e.preventDefault();
 
-			var send_by = $('.radioAdminWriter:checked').val();
-            console.log("Selected value:", send_by);
-            // Append the selected value to the FormData object if needed
-            formData.append('send_by', send_by);
+    // Sync Quill editor HTML to textarea before submitting
+    $('#message_box').val($('.ql-editor').html());
 
+    var formData = new FormData(this);
+    formData.append('_token', '{{ csrf_token() }}');
 
-            var message = $('.ql-editor').text();
+    var send_by = $('.radioAdminWriter:checked').val();
+    formData.append('send_by', send_by);
 
-               if (!message) {
-    Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
+    // Now you can continue with your existing validations and AJAX...
+    var message = $('.ql-editor').text();
+    if (!message) {
+        Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
+        return;
+    }
+    var words = plainMessage.trim().split(/\s+/);
+
+// Words count
+if (words.length > 6000) {
+    Swal.fire('Error!', 'Message is too long. Please limit your message to 6000 words.', 'error');
     return;
-        }
-
+}
           var sendby = $('.radioAdminWriter:checked').val();
 
           if (sendby == '' || sendby == null) {
@@ -6261,12 +6266,14 @@ console.log(element.value)
 	const messageEditor = new Quill("#messageEditor", {
 		theme: "snow",
 	});
-
-	addEventListener('keyup', () => {
-		var editorContent = messageEditor.root.innerHTML;
-		var message = document.getElementById('message_box');
-		message.innerHTML = editorContent;
-	});
+messageEditor.on('text-change', function() {
+    $('#message_box').val(messageEditor.root.innerHTML);
+});
+	// addEventListener('keyup', () => {
+	// 	var editorContent = messageEditor.root.innerHTML;
+	// 	var message = document.getElementById('message_box');
+	// 	message.innerHTML = editorContent;
+	// });
 
 
     $(document).on('click', '.clear_message_box', function (e) {
@@ -6330,6 +6337,8 @@ console.log(element.value)
 					});
                 },
                 error: function(error) {
+		  console.log('Error:', error);
+		      Swal.fire('Error', 'There was an error sending your message. Please try again.', 'error');
                     console.error('Error:', error);
                 }
             });
