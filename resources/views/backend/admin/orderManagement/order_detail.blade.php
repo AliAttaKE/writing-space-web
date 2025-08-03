@@ -68,7 +68,11 @@
 						<!--end::Toolbar container-->
 					</div>
 					<!--end::Toolbar-->
-
+<style>
+	.yellow_color {
+		color: #FFC056 !important;
+	}
+</style>
 					<!--begin::Content-->
 					<div id="kt_app_content" class="app-content flex-column-fluid">
 						<!--begin::Content container-->
@@ -123,13 +127,13 @@
 																						<thead>
 																							<tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
 
-																								<th class="min-w-70px fw_800 pb-8">order No</th>
-																								<th class="min-w-70px fw_800 pb-8">Pages</th>
-																								<th class="min-w-70px fw_800 pb-8">Arrival Date</th>
-																								<th class="min-w-80px fw_800 pb-8">Due Date</th>
-																								<th class="min-w-80px fw_800 pb-8">Citation</th>
-																								<th class="min-w-50px fw_800 pb-8">Subject</th>
-																								<th class="min-w-50px fw_800 pb-8">Doc Type</th>
+																								<th class="min-w-70px fw_800 pb-8" style="color: #FFC056 !important;">order No</th>
+																								<th class="min-w-70px fw_800 pb-8" style="color: #FFC056 !important;">Pages</th>
+																								<th class="min-w-70px fw_800 pb-8" style="color: #FFC056 !important;">Arrival Date</th>
+																								<th class="min-w-80px fw_800 pb-8" style="color: #FFC056 !important;">Due Date</th>
+																								<th class="min-w-80px fw_800 pb-8" style="color: #FFC056 !important;">Citation</th>
+																								<th class="min-w-50px fw_800 pb-8" style="color: #FFC056 !important;">Subject</th>
+																								<th class="min-w-50px fw_800 pb-8" style="color: #FFC056 !important;">Doc Type</th>
 																								{{-- <th class="min-w-80px fw_800 pb-8">Sources</th> --}}
 
 																							</tr>
@@ -171,7 +175,7 @@
 													<div class="col-sm-6 mb-10">
 														<div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">Academic Level</h3>
+																<h3 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">Academic Level</h3>
 															</div>
 															<div class="col-6">
 																<p class="fw-bold text-dark fs-color-white custom-fs-13">{{$order->academic_level}}</p>
@@ -179,7 +183,7 @@
 														</div>
 														<div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">No of Sources</h3>
+																<h3 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">No of Sources</h3>
 															</div>
 															<div class="col-6">
 																<p class="fw-bold text-dark fs-color-white custom-fs-13">{{$order->no_of_extra_sources}}</p>
@@ -187,7 +191,7 @@
 														</div>
 														<div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex text-gray-900 fw-bold fs-3 fs-color-white custom-fs-13 flex-column justify-content-center my-0">Statistical Analysis</h3>
+																<h3 class="page-heading d-flex text-gray-900 fw-bold fs-3 yellow_color custom-fs-13 flex-column justify-content-center my-0">Statistical Analysis</h3>
 															</div>
 															<div class="col-6">
 																<p class="fw-bold fs-color-white custom-fs-13 ">@if($order->statistical_analysis == 0) No @else Yes @endif</p>
@@ -195,7 +199,7 @@
 														</div>
 														<div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex fs-color-white custom-fs-13 fw-bold fs-3 flex-column justify-content-center my-0">Language Style</h3>
+																<h3 class="page-heading d-flex yellow_color custom-fs-13 fw-bold fs-3 flex-column justify-content-center my-0">Language Style</h3>
 															</div>
 															<div class="col-6">
 
@@ -208,7 +212,7 @@
 														</div>
 														<div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">Topic</h3>
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">Topic</h3>
 															</div>
 															<div class="col-6">
 																<p class="fw-bold fs-color-white custom-fs-13">{{$order->topic}}</p>
@@ -216,7 +220,7 @@
 														</div>
 														<div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">PowerPoint Slides</h3>
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">PowerPoint Slides</h3>
 															</div>
 															<div class="col-6">
 																<p class="fw-bold fs-color-white custom-fs-13">{{$order->powerpoint_slide}}</p>
@@ -225,7 +229,7 @@
 
 														<div class="d-flex">
 															<div class="col-6">
-																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 fs-color-white custom-fs-13">Files from Customer</h3>
+																<h3 class="page-heading d-flex fw-bold fs-3 flex-column justify-content-center my-0 yellow_color custom-fs-13">Files from Customer</h3>
 															</div>
 															<div class="col-6">
 																<p class="fw-bold fs-color-white custom-fs-13">{{$order->submitting}}</p>
@@ -266,7 +270,7 @@
 														</div>
 													</div>
 													<div class="col-12 fs-color-white">
-														<h2 class="page-heading px-3 mb-5 d-flex fw-bold fs-2 flex-column justify-content-center my-0">Instructions</h2>
+														<h2 class="page-heading px-3 mb-5 d-flex fw-bold fs-2 flex-column justify-content-center my-0 yellow_color">Instructions</h2>
 														{!! $order->description !!}
 													</div>
 
@@ -558,7 +562,7 @@
 														->select('files.*')
 														->latest('files.created_at')
 														->where('folders.id', $folder->id)
-														->paginate(10);
+														->paginate(100);
 
 
 														$filesCount = $files->total(); // Use $files->total() instead of $files::count()
@@ -613,6 +617,9 @@
 																				<input class="form-check-input" type="checkbox" id="selectAll" >
 																			</div>
 																		</th>
+																		<th class="min-w-150px text-color">
+																			Upload Time
+																		</th>
 																		<th class="min-w-250px sorting_disabled text-color" rowspan="1" colspan="1" style="width: 416.797px;">File Title</th>
 																		<th class="min-w-150px text-color">
 																			Uploaded For
@@ -647,10 +654,15 @@
 																				<a href="#" class=" text-white text-hover-primary">{{ $file->title }}</a>
 																			</div>
 																		</td>
+																		<td class="text-white" data-order="{{ $file->created_at }}">
+																		{{ \Carbon\Carbon::parse($file->created_at)->format('F d, Y h:i A') }}
+																		</td>
+
 																		<td class="text-white">{{ $file->Writer }}</td>
 																		<td class="text-white">{{ $file->file_type }}</td>
 																		<td class="text-white">{{$file->Size }}</td>
 																		<td class="text-white" data-order="2023-08-19T14:40:00+05:00">{{ $file->created_at }}</td>
+																		
 																		<td class="text-white" data-order="2023-08-19T14:40:00+05:00">{{ $file->download_time }}</td>
 																		<td class="text-end text-white" data-kt-filemanager-table="action_dropdown">
 																			<div class="d-flex justify-content-end">
@@ -709,6 +721,7 @@
 																	<ul class="pagination">
 																		<li class="paginate_button page-item previous disabled" id="kt_file_manager_list_previous"><a href="#" aria-controls="kt_file_manager_list" data-dt-idx="0" tabindex="0" class="page-link"><i class="previous"></i></a></li>
 																		<li class="paginate_button page-item active"><a href="#" aria-controls="kt_file_manager_list" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
+																		
 																		<li class="paginate_button page-item next disabled" id="kt_file_manager_list_next"><a href="#" aria-controls="kt_file_manager_list" data-dt-idx="2" tabindex="0" class="page-link"><i class="next"></i></a></li>
 																	</ul>
 																</div>
@@ -6109,13 +6122,9 @@ quill.on('text-change', function() {
         Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
         return;
     }
-    var words = plainMessage.trim().split(/\s+/);
-
-// Words count
-if (words.length > 6000) {
-    Swal.fire('Error!', 'Message is too long. Please limit your message to 6000 words.', 'error');
-    return;
-}
+//  if(message.length > 6000){
+// 	 Swal.fire('Error!', 'Message is too long. Please limit your message to 6000 characters.', 'error');
+// 	 return;
           var sendby = $('.radioAdminWriter:checked').val();
 
           if (sendby == '' || sendby == null) {

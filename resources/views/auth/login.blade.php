@@ -100,4 +100,16 @@
     });
 </script>
 
+<script>
+    const input = document.getElementById('login_password');
+    const icon = document.querySelector('.toggle-password i');
+
+    input.addEventListener('input', function () {
+        if (input.value.trim() !== "") {
+            icon.style.color = 'black';
+        } else {
+            icon.style.color = '#fff';
+        }
+    });
+</script>
 @endsection
