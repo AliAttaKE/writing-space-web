@@ -69,7 +69,7 @@
             ->count();
     @endphp
                 <!--begin:Menu item-->
-                <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.other-order')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Others</span> <span class="badge">( {{ $totalOtherss }} )</span></a><!--end:Menu link-->
+                <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.other-order')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Others12</span> <span class="badge">( {{ $totalOtherss }} )</span></a><!--end:Menu link-->
                 </div><!--end:Menu item-->
             </div><!--end:Menu sub-->
         </div><!--end:Menu item-->
