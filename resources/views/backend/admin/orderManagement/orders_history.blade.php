@@ -171,14 +171,14 @@
                             <!--end::Menu 1-->
                             <!--end::Filter-->
                             <!--begin::Export-->
-                            <button type="button" class="btn btn-light-primary me-3 badge-custom-bg"
-                            {{-- data-bs-toggle="modal" data-bs-target="#kt_modal_export_users" --}}
+                            {{-- <button type="button" class="btn btn-light-primary me-3 badge-custom-bg"
+                          
                             onclick="window.location.href='{{ route('admin.export.orders',['value' => 'Delivered']) }}'"
                             >
                                 <i class="ki-duotone ki-exit-up fs-2 text-white">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
-                                </i>Export</button>
+                                </i>Export</button> --}}
                             <!--end::Export-->
                         </div>
                         <!--end::Toolbar-->
@@ -507,6 +507,7 @@
 
                                 <th class="min-w-50px fw_800 pb-8">Topic</th>
                                  <th class="min-w-80px fw_800 pb-8">Customer Name</th>
+                                 <th class="min-w-80px fw_800 pb-8">Email</th>
                                 <th class="min-w-70px fw_800 pb-8">Pages</th>
                                 <th class="min-w-70px fw_800 pb-8">Order Date</th>
                                 <th class="min-w-80px fw_800 pb-8">Due Date</th>
@@ -525,6 +526,7 @@
     <td><a class="fs-color-yellow" href="{{route('admin.admin-order-detail',[$o->order_id])}}">{{$o->order_id}}</a></td>
     <td class="limit-text">{{$o->topic}}</td>
  <td class="limit-text">{{$o->user_name}}</td>
+ <td class="limit-text">{{$o->email}}</td>
     <td>{{$o->number_of_pages}}</td>
     <td>{{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($o->deadline)->format('d F Y h:iA') }}</td>

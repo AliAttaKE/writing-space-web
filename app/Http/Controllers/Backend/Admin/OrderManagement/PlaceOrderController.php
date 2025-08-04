@@ -595,7 +595,7 @@ class PlaceOrderController extends Controller
 public function orders_history(Request $request)
 {
     $order = Orders::join('users', 'orders.user_id', '=', 'users.id') // Join with the users table
-        ->select('orders.*', 'users.name as user_name') // Select order fields and the user's name
+        ->select('orders.*', 'users.name as user_name','users.email as email') // Select order fields and the user's name
         ->when($request->order_id, function ($q) use ($request) {
             return $q->where('order_id', $request->order_id);
         })
