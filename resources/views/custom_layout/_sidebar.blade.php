@@ -73,7 +73,7 @@
                 </div><!--end:Menu item-->
 
                      <!--begin:Menu item-->
-                <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.order_log')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Order Log</span> <span class="badge"></span></a><!--end:Menu link-->
+                <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.orders_history')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Order Log</span> <span class="badge"></span></a><!--end:Menu link-->
                 </div>
             </div><!--end:Menu sub-->
         </div><!--end:Menu item-->
