@@ -702,6 +702,8 @@ Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->nam
     Route::post('/createOrder/{id}',[CustomerPlaceOrderController::class,'create_order'])->name('create_order');
     Route::post('/payment/{id}',[PaymentController::class,'make_payment'])->name('customer_payment');
     Route::get('/new-order',[CustomerPlaceOrderController::class,'new_order'])->name('new-order');
+    Route::get('/order_log',[CustomerPlaceOrderController::class,'new_order'])->name('order_log');
+
     Route::get('/inprogress-order',[CustomerPlaceOrderController::class,'inprogress_order'])->name('inprogress-order');
     Route::get('/revision-order',[CustomerPlaceOrderController::class,'revision_order'])->name('revision-order');
     Route::get('/delivered-order',[CustomerPlaceOrderController::class,'delivered_order'])->name('delivered-order');

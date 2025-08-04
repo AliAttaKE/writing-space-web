@@ -4532,6 +4532,21 @@ public function index()
             ->get();
         return view('backend.customer.orderManagement.new_order', compact('order'));
     }
+    public function order_log(Request $request)
+    {
+        $id = Auth()->user()->id;
+        // $order = Orders::where('user_id', $id)->where('order_status', 'Pending')->get();
+        $order = Orders::where('user_id', $id)
+            ->when($request->order_id != null, function ($q) use ($request) {
+                return $q->where('order_id', $request->order_id);
+            })
+            ->when($request->topic != null, function ($q) use ($request) {
+                return $q->where('topic', $request->topic);
+            })
+            ->latest()
+            ->get();
+        return view('backend.customer.orderManagement.order_log', compact('order'));
+    }
 
     public function inprogress_order(Request $request)
     {
