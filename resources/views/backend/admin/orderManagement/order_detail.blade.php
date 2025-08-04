@@ -6298,7 +6298,18 @@ messageEditor.on('text-change', function() {
     $(document).ready(function() {
         $('#kt_inbox_compose_form').submit(function(e) {
             e.preventDefault();
+  // Check file size before proceeding
+            var fileInput = document.getElementById('media');
+            if (fileInput && fileInput.files.length > 0) {
+                var file = fileInput.files[0];
+                var maxSizeInMB = 50;
+                var maxSizeInBytes = maxSizeInMB * 1024 * 1024;
 
+                if (file.size > maxSizeInBytes) {
+                    Swal.fire('Error', 'File size must be less than 50MB.', 'error');
+                    return false; // Stop the form submission
+                }
+            }
 
             var formData = new FormData(this);
             formData.append('_token', '{{ csrf_token() }}');
