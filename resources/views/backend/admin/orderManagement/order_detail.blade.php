@@ -678,14 +678,14 @@
 																						</i>
 																					</button>
 																					<!--begin::Menu-->
-																					<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-150px py-4" data-kt-menu="true">
+																					<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-150px py-4 badge-custom-bg" data-kt-menu="true">
 																						<!--begin::Menu item-->
 																						<div class="menu-item px-3">
 
 
 
 																						<a href="{{ route('admin.files.download', ['id' => $file->id,'folder_name'=>$folder->name]) }}" class="menu-link px-3 shah">
-																							<button type="button" class="downloadPdf">Download File</button>
+																							<button type="button" class="btn btn-flex btn-dark-primary  justify-content-center px-2 badge-custom-bg downloadBtnForm">Download</button>
 																						</a>
 
 
@@ -695,7 +695,7 @@
 
 																						<!--begin::Menu item-->
 																						<div class="menu-item px-3">
-																							<a class="menu-link text-danger px-3" onclick="confirmDelete({{ $file->id }}, '{{ $folder->name }}')">Delete</a>
+																							<a class="btn btn-flex btn-dark-primary w-100 justify-content-center px-2 badge-custom-bg deleteBtnForm" onclick="confirmDelete({{ $file->id }}, '{{ $folder->name }}')">Delete</a>
 																						</div>
 																						<!--end::Menu item-->
 																					</div>
@@ -5907,7 +5907,96 @@
 @endsection
 
 @section('customJs')
+<script>
+	$(document).ready(function () {
+    const allowedExtensions = [
+        'pdf', 'docx', 'doc', 'txt', 'rtf', 'xls', 'xlsx',
+        'csv', 'pptx', 'jpeg', 'jpg', 'zip', 'rar'
+    ];
+    const maxSizeInMB = 50;
+    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
 
+    $('#file-3').on('change', function () {
+        const files = this.files;
+        let invalidExt = false;
+        let invalidSize = false;
+        let names = [];
+
+        for (let i = 0; i < files.length; i++) {
+            const fileName = files[i].name;
+            const ext = fileName.split('.').pop().toLowerCase();
+
+            if (!allowedExtensions.includes(ext)) {
+                invalidExt = true;
+                break;
+            }
+            if (files[i].size > maxSizeInBytes) {
+                invalidSize = true;
+                break;
+            }
+            names.push(fileName);
+        }
+
+        if (invalidExt) {
+            Swal.fire('Error!', 'Only these types are allowed: PDF, DOCX, DOC, TXT, RTF, XLS, XLSX, CSV, PPTX, JPEG, JPG, ZIP, RAR.', 'error');
+            this.value = '';
+            $('#attach_file_3').text('');
+        } else if (invalidSize) {
+            Swal.fire('Error!', 'File size must be less than 50MB per file.', 'error');
+            this.value = '';
+            $('#attach_file_3').text('');
+        } else {
+            $('#attach_file_3').text(names.join(', '));
+        }
+    });
+});
+
+</script>
+<script>
+$(document).ready(function() {
+    // Allowed extensions
+    const allowedExtensions = [
+        'pdf', 'docx', 'doc', 'txt', 'rtf', 'xls', 'xlsx',
+        'csv', 'pptx', 'jpeg', 'jpg', 'zip', 'rar'
+    ];
+    const maxSizeInMB = 50;
+    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+    $('#media').on('change', function () {
+        const files = this.files;
+        let invalidExt = false;
+        let invalidSize = false;
+        let names = [];
+
+        for (let i = 0; i < files.length; i++) {
+            const fileName = files[i].name;
+            const ext = fileName.split('.').pop().toLowerCase();
+
+            if (!allowedExtensions.includes(ext)) {
+                invalidExt = true;
+                break;
+            }
+            if (files[i].size > maxSizeInBytes) {
+                invalidSize = true;
+                break;
+            }
+            names.push(fileName);
+        }
+
+        if (invalidExt) {
+            Swal.fire('Error!', 'Only files with the following types are allowed: PDF, DOCX, DOC, TXT, RTF, XLS, XLSX, CSV, PPTX, JPEG, JPG, ZIP, RAR', 'error');
+            this.value = '';
+            $('#file_name').text('');
+        } else if (invalidSize) {
+            Swal.fire('Error!', 'File size must be less than 50MB per file.', 'error');
+            this.value = '';
+            $('#file_name').text('');
+        } else {
+            $('#file_name').text(names.join(', '));
+        }
+    });
+});
+</script>
 <script>
 
 const selectAllCheckbox = document.getElementById('selectAll');
@@ -6298,19 +6387,7 @@ messageEditor.on('text-change', function() {
     $(document).ready(function() {
         $('#kt_inbox_compose_form').submit(function(e) {
             e.preventDefault();
-  // Check file size before proceeding
-            var fileInput = document.getElementById('media');
-            if (fileInput && fileInput.files.length > 0) {
-                var file = fileInput.files[0];
-                var maxSizeInMB = 50;
-                var maxSizeInBytes = maxSizeInMB * 1024 * 1024;
-
-                if (file.size > maxSizeInBytes) {
-                    Swal.fire('Error', 'File size must be less than 50MB.', 'error');
-                    return false; // Stop the form submission
-                }
-            }
-
+  
             var formData = new FormData(this);
             formData.append('_token', '{{ csrf_token() }}');
 
