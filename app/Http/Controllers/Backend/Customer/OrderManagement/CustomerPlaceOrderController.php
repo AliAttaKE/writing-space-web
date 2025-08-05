@@ -59,6 +59,13 @@ use Maatwebsite\Excel\Facades\Excel;
 class CustomerPlaceOrderController extends Controller
 {
 
+
+    protected $currency;
+
+    public function __construct()
+    {
+        $this->currency = env('APP_CURRENCY');
+    }
     public function pakageaddorderpage(Request $request)
     {
         $userId = Auth::id();
@@ -86,15 +93,15 @@ class CustomerPlaceOrderController extends Controller
             $remaining_pages = $remaining_pages;
 
 
-            $orderlog = OrderLogs::create([
-                                'user_id' => $userId,
-                                'order_type'=> 'Package Order',
-                                'order_id' => $orderid,
-                                'status' => $Orders->order_status,
-                                'pages_addon_type' => 'None',
-                                'pages_addon' => $request->page,
-                                'pages_purchase' => $Orders->number_of_pages,
-                            ]);
+            // $orderlog = OrderLogs::create([
+            //                     'user_id' => $userId,
+            //                     'order_type'=> 'Package Order',
+            //                     'order_id' => $orderid,
+            //                     'status' => $Orders->order_status,
+            //                     'pages_addon_type' => 'None',
+            //                     'pages_addon' => $request->page,
+            //                     'pages_purchase' => $Orders->number_of_pages,
+            //                 ]);
 
 
             $email = Email::where('type','confirmation_of_additional_pages_purchase_order_id')->first();
@@ -413,7 +420,7 @@ $emailContent = "
     //                 CURLOPT_POSTFIELDS => '{
     //                     "order": {
     //                 "amount": "10.00",
-    //                 "currency": "PKR"
+    //                 "currency": $this->currency 
     //                 }
     //             }',
     //                 CURLOPT_HTTPHEADER => array(
@@ -503,7 +510,7 @@ $emailContent = "
         CURLOPT_POSTFIELDS => json_encode([
             'order' => [
                 'amount' => '10.00',
-                'currency' => 'USD'
+                'currency' => 'PKR'
             ]
         ]),
         CURLOPT_HTTPHEADER => [
@@ -1067,7 +1074,7 @@ $emailContent = "
         //         "order":{
 
         //         "reference": "' . $order_id . '",
-        //         "currency":"PKR"
+        //         "currency":$this->currency 
         //         },
         //         "authentication":{
         //             "purpose":"PAYMENT_TRANSACTION",
@@ -1106,7 +1113,7 @@ $payload = [
     ],
     "order" => [
         "reference" => "NT111",
-        "currency" => "USD"
+        "currency" => $this->currency 
     ],
     "authentication" => [
         "purpose" => "PAYMENT_TRANSACTION",
@@ -1173,7 +1180,7 @@ curl_close($curl);
         //             },
         //         "order": {
         //             "amount": "' . $total_cost . '",
-        //             "currency": "PKR"
+        //             "currency": $this->currency 
         //         },
         //         "session": {
         //             "id": "' . $truncatedSessionId . '"
@@ -1221,7 +1228,7 @@ $payload = [
     ],
     "order" => [
         "amount" => $total_cost,
-        "currency" => "USD"
+        "currency" => $this->currency 
     ],
     "session" => [
         "id" => $truncatedSessionId
@@ -1307,7 +1314,7 @@ curl_close($curl);
 //         ],
 //         "order" => [
 //             "reference" => $order_id,
-//             "currency" => "PKR"
+//             "currency" => $this->currency 
 //         ],
 //         "authentication" => [
 //             "purpose" => "PAYMENT_TRANSACTION",
@@ -1344,7 +1351,7 @@ curl_close($curl);
 //         ],
 //         "order" => [
 //             "amount" => $total_cost,
-//             "currency" => "PKR"
+//             "currency" => $this->currency 
 //         ],
 //         "session" => [
 //             "id" => $truncatedSessionId
@@ -1465,7 +1472,7 @@ private function sendCurlRequest($url, $payload, $authHeader)
     //             "order":{
 
     //             "reference": "' . $order_id . '",
-    //             "currency":"PKR"
+    //             "currency":$this->currency 
     //             },
     //             "authentication":{
     //                 "purpose":"PAYMENT_TRANSACTION",
@@ -1520,7 +1527,7 @@ private function sendCurlRequest($url, $payload, $authHeader)
     //                 },
     //             "order": {
     //                 "amount": "' . $total_cost . '",
-    //                 "currency": "PKR"
+    //                 "currency": $this->currency 
     //             },
     //             "session": {
     //                 "id": "' . $truncatedSessionId . '"
@@ -1600,7 +1607,7 @@ private function sendCurlRequest($url, $payload, $authHeader)
         ],
         "order" => [
             "reference" => $order_id,
-            "currency" => "USD"
+            "currency" => $this->currency 
         ],
         "authentication" => [
             "purpose" => "PAYMENT_TRANSACTION",
@@ -1636,7 +1643,7 @@ private function sendCurlRequest($url, $payload, $authHeader)
         ],
         "order" => [
             "amount" => $total_cost,
-            "currency" => "USD"
+            "currency" => $this->currency 
         ],
         "session" => [
             "id" => $truncatedSessionId
@@ -1745,7 +1752,7 @@ private function sendCurlRequest($url, $payload, $authHeader)
         //         "order":{
 
         //         "reference": "' . $order_id . '",
-        //         "currency":"PKR"
+        //         "currency":$this->currency 
         //         },
         //         "authentication":{
         //             "purpose":"PAYMENT_TRANSACTION",
@@ -1781,7 +1788,7 @@ $initiatePayload = [
     ],
     "order" => [
         "reference" => $order_id,
-        "currency" => "USD"
+        "currency" => $this->currency 
     ],
     "authentication" => [
         "purpose" => "PAYMENT_TRANSACTION",
@@ -1848,7 +1855,7 @@ curl_close($curl);
         //             },
         //         "order": {
         //             "amount": "' . $total_cost . '",
-        //             "currency": "PKR"
+        //             "currency": $this->currency 
         //         },
         //         "session": {
         //             "id": "' . $truncatedSessionId . '"
@@ -1896,7 +1903,7 @@ $authenticatePayload = [
     ],
     "order" => [
         "amount" => $total_cost,
-        "currency" => "USD"
+        "currency" => $this->currency 
     ],
     "session" => [
         "id" => $truncatedSessionId
@@ -2121,7 +2128,7 @@ curl_close($curl);
         //         "order":{
 
         //         "reference": "' . $order_id . '",
-        //         "currency":"PKR"
+        //         "currency":$this->currency 
         //         },
         //         "authentication":{
         //             "purpose":"PAYMENT_TRANSACTION",
@@ -2157,7 +2164,7 @@ $initiatePayload = [
     ],
     "order" => [
         "reference" => $order_id,
-        "currency" => "USD"
+        "currency" => $this->currency 
     ],
     "authentication" => [
         "purpose" => "PAYMENT_TRANSACTION",
@@ -2225,7 +2232,7 @@ curl_close($curl);
         //             },
         //         "order": {
         //             "amount": "' . $total . '",
-        //             "currency": "PKR"
+        //             "currency": $this->currency 
         //         },
         //         "session": {
         //             "id": "' . $truncatedSessionId . '"
@@ -2272,7 +2279,7 @@ $authenticatePayload = [
     ],
     "order" => [
         "amount" => $total,
-        "currency" => "USD"
+        "currency" => $this->currency 
     ],
     "session" => [
         "id" => $truncatedSessionId
@@ -2359,7 +2366,7 @@ curl_close($curl);
 //         "apiOperation" => "INITIATE_AUTHENTICATION",
 //         "correlationId" => $correlationId1,
 //         "transaction" => ["reference" => $transactionId],
-//         "order" => ["reference" => $order_id, "currency" => "PKR"],
+//         "order" => ["reference" => $order_id, "currency" => $this->currency ],
 //         "authentication" => [
 //             "purpose" => "PAYMENT_TRANSACTION",
 //             "channel" => "PAYER_BROWSER",
@@ -2395,7 +2402,7 @@ curl_close($curl);
 //         ],
 //         "order" => [
 //             "amount" => $total,
-//             "currency" => "PKR"
+//             "currency" => $this->currency 
 //         ],
 //         "session" => ["id" => $truncatedSessionId]
 //     ];
@@ -2582,7 +2589,7 @@ curl_close($curl);
             //                             },
             //                                 "order": {
             //                                     "amount": "' . $amount . '",
-            //                                     "currency": "PKR"
+            //                                     "currency": $this->currency 
             //                                 },
             //                                 "session": {
             //                                     "id": "' . $sessionId . '"
@@ -2606,7 +2613,7 @@ curl_close($curl);
                         ],
                         "order" => [
                             "amount" => $amount,
-                            "currency" => "USD"
+                            "currency" => $this->currency 
                         ],
                         "session" => [
                             "id" => $sessionId
@@ -2994,7 +3001,7 @@ curl_close($curl);
             //     },
             //         "order": {
             //             "amount": "' . $amount . '",
-            //             "currency": "PKR"
+            //             "currency": $this->currency 
             //         },
             //         "session": {
             //             "id": "' . $sessionId . '"
@@ -3026,7 +3033,7 @@ $payload = [
     ],
     "order" => [
         "amount" => $amount,
-        "currency" => "USD"
+        "currency" => $this->currency 
     ],
     "session" => [
         "id" => $sessionId
@@ -3269,16 +3276,16 @@ $emailContent = "
         //             ->subject('Confirmation of Additional Pages Added to Order ID - ' . $order_id);
         // });
 
-        $orderlog = OrderLogs::create([
-                                'user_id' => $user->id,
-                                'invoice_id' => $invoice_id,
-                                'order_id' => $order_id,
-                                'order_type'=> 'Pages Addon Package',
-                                'status' => '',
-                                'pages_addon_type' => 'Purchased',
-                                'pages_addon' => $pages,
-                                'pages_purchase' => $current_page,
-                            ]);
+        // $orderlog = OrderLogs::create([
+        //                         'user_id' => $user->id,
+        //                         'invoice_id' => $invoice_id,
+        //                         'order_id' => $order_id,
+        //                         'order_type'=> 'Pages Addon Package',
+        //                         'status' => '',
+        //                         'pages_addon_type' => 'Purchased',
+        //                         'pages_addon' => $pages,
+        //                         'pages_purchase' => $current_page,
+        //                     ]);
 
                     Auth::login($user);
 
@@ -3346,7 +3353,7 @@ $emailContent = "
         //   },
         //       "order": {
         //           "amount": "' . $amount . '",
-        //           "currency": "PKR"
+        //           "currency": $this->currency 
         //       },
         //       "session": {
         //         "id": "' . $sessionId . '"
@@ -3381,7 +3388,7 @@ $payload = [
     ],
     "order" => [
         "amount" => $amount,
-        "currency" => "USD"
+        "currency" => $this->currency 
     ],
     "session" => [
         "id" => $sessionId
@@ -3637,23 +3644,32 @@ Writing Space</p>
                     ));
 
                     $user_id =  $pay->user_id;
-                    $orderlog = OrderLogs::create([
-                                'user_id' => $user->id,
-                                'invoice_id' => $invoice_id,
-                                'order_id' => $order->order_id,
-                                'order_type'=> 'Customer Order - Addon',
-                                'status' => $order->order_status,
-                                'pages_addon_type' => 'Purchased',
-                                'pages_addon' => $order->number_of_pages,
-                                'pages_purchase' => $totalPages,
-                            ]);
+                    // $orderlog = OrderLogs::create([
+                    //             'user_id' => $user->id,
+                    //             'invoice_id' => $invoice_id,
+                    //             'order_id' => $order->order_id,
+                    //             'order_type'=> 'Customer Order - Addon',
+                    //             'status' => $order->order_status,
+                    //             'pages_addon_type' => 'Purchased',
+                    //             'pages_addon' => $order->number_of_pages,
+                    //             'pages_purchase' => $totalPages,
+                    //         ]);
                     $user = User::find($user_id);
                     Auth::login($user);
 
 
                     // return redirect('https://ws.elementary-solutions.com/customer/thankyou');
 
-                    return redirect()->route('customer.thankyou');
+                    // return redirect()->route('customer.thankyou');
+                    return response()->make('
+    <script>
+        if (window.top !== window.self) {
+            window.top.location.href = "' . route('customer.thankyou.sub') . '";
+        } else {
+            window.location.href = "' . route('customer.thankyou.sub') . '";
+        }
+    </script>
+', 200, ['Content-Type' => 'text/html']);
                 }
             }
         // } catch (\Exception $e) {
@@ -3694,7 +3710,7 @@ Writing Space</p>
         //                             },
         //                                 "order": {
         //                                     "amount": "' . $amount . '",
-        //                                     "currency": "PKR"
+        //                                     "currency": $this->currency 
         //                                 },
         //                                 "session": {
         //                                     "id": "' . $sessionId . '"
@@ -3729,7 +3745,7 @@ $payload = [
     ],
     "order" => [
         "amount" => $amount,
-        "currency" => "USD"
+        "currency" => $this->currency 
     ],
     "session" => [
         "id" => $sessionId
@@ -4120,16 +4136,16 @@ $formattedFinalTotal = number_format($finalTotal, 2);
                 //         $emailContent
                 //     ));
 
-                    $orderlog = OrderLogs::create([
-                                'user_id' => $user->id,
-                                'invoice_id' => $invoiceNumber,
-                                'order_id' => $order_id,
-                                'order_type'=> 'Customer Order',
-                                'status' => $order->order_status,
-                                'pages_addon_type' => 'Purchased',
-                                'pages_addon' => 'None',
-                                'pages_purchase' => $totalPages,
-                            ]);
+                    // $orderlog = OrderLogs::create([
+                    //             'user_id' => $user->id,
+                    //             'invoice_id' => $invoiceNumber,
+                    //             'order_id' => $order_id,
+                    //             'order_type'=> 'Customer Order',
+                    //             'status' => $order->order_status,
+                    //             'pages_addon_type' => 'Purchased',
+                    //             'pages_addon' => 'None',
+                    //             'pages_purchase' => $totalPages,
+                    //         ]);
 
                 $user_id =  $pay->user_id;
                 $user = User::find($user_id);
