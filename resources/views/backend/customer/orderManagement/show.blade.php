@@ -230,7 +230,7 @@
                                 <img src="{{asset("backend/assets/media/ws/american-express.png")}}"
                                     class="masterCard mb-3" alt="">
                             </div>
-                           
+
                         </div>
                     </div>
                 </div>
@@ -304,7 +304,7 @@
 
 
                                                     if (responseHtml) {
-                                                   
+
                                                         let form = $('<form>', {
                                                             method: 'POST',
                                                             action: '{{ route("customer.otp.new") }}'

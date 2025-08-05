@@ -128,7 +128,7 @@ $emailContent = "
         <li>Remaining Pages in Your Package: {$remaining_pages}</li>
     </ul>
 
-    <h2>What’s Next:</h2>
+    <h2>Whats Next:</h2>
     <ol>
         <li>You can continue to track the progress of your order through your dashboard under the \"My Orders\" section.</li>
         <li>We’ll keep you updated as your order develops, and we’ll notify you when it’s ready for review or download.</li>
@@ -351,7 +351,7 @@ $emailContent = "
             $message->to($admin->email)
                     ->subject($adminSubject);
         });
-           
+
             return response()->json(['Success' => true, 'message' => 'Revision request submitted successfully.']);
         } else {
             return response()->json(['Success' => true, 'message' => 'Revision request not submitted order not deliver status.']);
@@ -462,7 +462,7 @@ $emailContent = "
     $merchantId = env('MERCHANT_ID');
     $username = env('MERCHANT_USERNAME');
     $password = env('MERCHANT_PASSWORD');
-    
+
     // Create Basic Auth header
     $authHeader = 'Authorization: Basic ' . base64_encode("$username:$password");
 
@@ -483,7 +483,6 @@ $emailContent = "
     $response = curl_exec($curl);
     curl_close($curl);
     $responseArray = json_decode($response, true);
-
     if (!isset($responseArray['session']['id'])) {
         return response()->json(['error' => 'Failed to create session'], 500);
     }
@@ -504,7 +503,7 @@ $emailContent = "
         CURLOPT_POSTFIELDS => json_encode([
             'order' => [
                 'amount' => '10.00',
-                'currency' => 'PKR'
+                'currency' => 'USD'
             ]
         ]),
         CURLOPT_HTTPHEADER => [
@@ -516,7 +515,7 @@ $emailContent = "
     $response = curl_exec($curl);
     curl_close($curl);
     $responseObject = json_decode($response);
-
+	//dd($responseObject);
     if (!$responseObject || !isset($responseObject->session->id)) {
         return response()->json(['error' => 'Failed to update session'], 500);
     }
@@ -1094,20 +1093,20 @@ $authUsername = env('MERCHANT_USERNAME');
 $authPassword = env('MERCHANT_PASSWORD');
 $authToken = base64_encode("$authUsername:$authPassword");
 
-$initiateUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId";
+ $initiateUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId";
 
 $payload = [
     "session" => [
         "id" => $truncatedSessionId
     ],
     "apiOperation" => "INITIATE_AUTHENTICATION",
-    
+
     "transaction" => [
-        "reference" => $transactionId
+        "reference" => "NT11"
     ],
     "order" => [
-        "reference" => $order_id,
-        "currency" => "PKR"
+        "reference" => "NT111",
+        "currency" => "USD"
     ],
     "authentication" => [
         "purpose" => "PAYMENT_TRANSACTION",
@@ -1115,7 +1114,7 @@ $payload = [
         "acceptVersions" => "3DS2"
     ]
 ];
-
+//print_r($payload);
 $curl = curl_init();
 curl_setopt_array($curl, array(
     CURLOPT_URL => $initiateUrl,
@@ -1128,7 +1127,7 @@ curl_setopt_array($curl, array(
     CURLOPT_CUSTOMREQUEST => 'PUT',
     CURLOPT_POSTFIELDS => json_encode($payload),
     CURLOPT_HTTPHEADER => array(
-        'Content-Type: application/json',
+        "Content-Type: application/json",
         "Authorization: Basic $authToken"
     ),
 ));
@@ -1200,7 +1199,7 @@ $authUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$or
 // Prepare payload
 $payload = [
     "apiOperation" => "AUTHENTICATE_PAYER",
-    
+
     "device" => [
         "browserDetails" => [
             "screenWidth" => 1920,
@@ -1222,7 +1221,7 @@ $payload = [
     ],
     "order" => [
         "amount" => $total_cost,
-        "currency" => "PKR"
+        "currency" => "USD"
     ],
     "session" => [
         "id" => $truncatedSessionId
@@ -1250,7 +1249,7 @@ curl_setopt_array($curl, [
 $response = curl_exec($curl);
 curl_close($curl);
 
-
+//dd($response);
 
         $response = json_decode($response, true);
 
@@ -1601,7 +1600,7 @@ private function sendCurlRequest($url, $payload, $authHeader)
         ],
         "order" => [
             "reference" => $order_id,
-            "currency" => "PKR"
+            "currency" => "USD"
         ],
         "authentication" => [
             "purpose" => "PAYMENT_TRANSACTION",
@@ -1637,7 +1636,7 @@ private function sendCurlRequest($url, $payload, $authHeader)
         ],
         "order" => [
             "amount" => $total_cost,
-            "currency" => "PKR"
+            "currency" => "USD"
         ],
         "session" => [
             "id" => $truncatedSessionId
@@ -1646,9 +1645,9 @@ private function sendCurlRequest($url, $payload, $authHeader)
 
     $authResponse = $this->sendCurlRequest($baseOrderUrl, $authPayload, $authHeader);
 
-   
+
     if (isset($authResponse['authentication']['redirect']['html'])) {
-        
+
         return response()->json(['response' => $authResponse['authentication']['redirect']['html']]);
     } else {
         return response()->json(['response' => 'Invalid response format.']);
@@ -1776,13 +1775,13 @@ $initiatePayload = [
         "id" => $truncatedSessionId
     ],
     "apiOperation" => "INITIATE_AUTHENTICATION",
-    
+
     "transaction" => [
         "reference" => $transactionId
     ],
     "order" => [
         "reference" => $order_id,
-        "currency" => "PKR"
+        "currency" => "USD"
     ],
     "authentication" => [
         "purpose" => "PAYMENT_TRANSACTION",
@@ -1874,7 +1873,7 @@ $redirectUrl = url("/redirectResponseUrladdpages");
 
 $authenticatePayload = [
     "apiOperation" => "AUTHENTICATE_PAYER",
-    
+
     "device" => [
         "browserDetails" => [
             "screenWidth" => 1920,
@@ -1897,7 +1896,7 @@ $authenticatePayload = [
     ],
     "order" => [
         "amount" => $total_cost,
-        "currency" => "PKR"
+        "currency" => "USD"
     ],
     "session" => [
         "id" => $truncatedSessionId
@@ -1930,10 +1929,10 @@ curl_close($curl);
 
         $response = json_decode($response, true);
 
-      
+
         if (isset($response['authentication']['redirect']['html'])) {
             $htmlContent = $response['authentication']['redirect']['html'];
-            
+
 //   dd($htmlContent);
             return response()->json(['response' => $htmlContent]);
             // return view('payment.otp', compact('htmlContent'));
@@ -2152,13 +2151,13 @@ $initiatePayload = [
         "id" => $truncatedSessionId
     ],
     "apiOperation" => "INITIATE_AUTHENTICATION",
-    
+
     "transaction" => [
         "reference" => $transactionId
     ],
     "order" => [
         "reference" => $order_id,
-        "currency" => "PKR"
+        "currency" => "USD"
     ],
     "authentication" => [
         "purpose" => "PAYMENT_TRANSACTION",
@@ -2251,7 +2250,7 @@ $authenticateUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/o
 
 $authenticatePayload = [
     "apiOperation" => "AUTHENTICATE_PAYER",
-    
+
     "device" => [
         "browserDetails" => [
             "screenWidth" => 1920,
@@ -2273,7 +2272,7 @@ $authenticatePayload = [
     ],
     "order" => [
         "amount" => $total,
-        "currency" => "PKR"
+        "currency" => "USD"
     ],
     "session" => [
         "id" => $truncatedSessionId
@@ -2427,7 +2426,7 @@ curl_close($curl);
     }
 
 
-    
+
 
      public function storeOtpHtml(Request $request)
 
@@ -2443,20 +2442,20 @@ curl_close($curl);
    if (!$html) {
         return "3DS HTML expired or not found.";
     }
-
+   // dd($html);
     // ✅ pass 'html' variable to the view
     return view('backend.customer.orderManagement.otp', ['html' => $html]);
-     
+
     }
 
-   
+
 
     public function redirectResponseUrl(Request $request)
 
     {
 
 
-      
+
 
         $data = $request->all();
 
@@ -2528,10 +2527,10 @@ curl_close($curl);
 
         $data = $request->all();
 
-       
+
 
         if ($data['result'] === 'SUCCESS') {
- 
+
 
             return redirect()->route('pay.sub', ['orderid' => $data['order_id']]);
         } else {
@@ -2553,7 +2552,7 @@ curl_close($curl);
         try {
             $pay = Pay::where('order_id', $orderid)->first();
 
-           
+
             $sessionId = $pay->session_id;
             $totalamountpro = $pay->total_cost;
             $order_id = $pay->order_id;
@@ -2607,7 +2606,7 @@ curl_close($curl);
                         ],
                         "order" => [
                             "amount" => $amount,
-                            "currency" => "PKR"
+                            "currency" => "USD"
                         ],
                         "session" => [
                             "id" => $sessionId
@@ -2804,7 +2803,7 @@ curl_close($curl);
         }
     </script>
 ', 200, ['Content-Type' => 'text/html']);
-                     
+
                     } else {
                         $user->customer = "Subscription";
                         $user->subscription_id = $orderidexplode;
@@ -2915,8 +2914,8 @@ curl_close($curl);
                         Customer Success Team<br>
                         Writing Space</p>
                     ";
-                    $subject = 'Welcome to Your New Writing-Space Package – Thank You for Your Purchase!';
-                  
+                    $subject = 'Welcome to Your New Writing-Space Package  Thank You for Your Purchase!';
+
 
                     $this->send_invoice_pay_sub($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$subs->min_page);
 
@@ -2925,8 +2924,8 @@ curl_close($curl);
                         $user = User::find($user_id);
                         Auth::login($user);
 
-                        
-                        
+
+
                                                         return response()->make('
                                     <script>
                                         if (window.top !== window.self) {
@@ -2936,7 +2935,7 @@ curl_close($curl);
                                         }
                                     </script>
                                 ', 200, ['Content-Type' => 'text/html']);
-                        
+
                     } //checkuser if
                 } //success attentication if
 
@@ -3027,7 +3026,7 @@ $payload = [
     ],
     "order" => [
         "amount" => $amount,
-        "currency" => "PKR"
+        "currency" => "USD"
     ],
     "session" => [
         "id" => $sessionId
@@ -3243,13 +3242,13 @@ $emailContent = "
 
     <p><strong>Order Details:</strong></p>
     <ul>
-       
+
         <li><strong>Additional Pages Added:</strong> {$pages}</li>
         <li><strong>Total Pages Used So Far:</strong> {$currentSubs->total_pages}</li>
         <li><strong>Remaining Pages in Your Package:</strong> {$currentSubs->remaining_pages}</li>
     </ul>
 
-    <p><strong>What’s Next:</strong></p>
+    <p><strong>Whats Next:</strong></p>
     <ol>
         <li>You can continue to track the progress of your order through your dashboard under the \"My Orders\" section.</li>
         <li>We’ll keep you updated as your order develops, and we’ll notify you when it’s ready for review or download.</li>
@@ -3382,7 +3381,7 @@ $payload = [
     ],
     "order" => [
         "amount" => $amount,
-        "currency" => "PKR"
+        "currency" => "USD"
     ],
     "session" => [
         "id" => $sessionId
@@ -3591,7 +3590,7 @@ $emailContent = "
     <li><strong>Purchase Date:</strong> " . $invoice->created_at->format('F j, Y') . "</li>
   <li><strong>Total:</strong> {$subTotal}</li>
     <li><strong>Total Pages:</strong> {$totalPages}</li>
-  
+
 </ul>
 
 <p>Your receipt and invoice for this transaction are attached to this email as a PDF. Please review these documents to ensure all details are correct and keep them for your records.</p>
@@ -3730,7 +3729,7 @@ $payload = [
     ],
     "order" => [
         "amount" => $amount,
-        "currency" => "PKR"
+        "currency" => "USD"
     ],
     "session" => [
         "id" => $sessionId
@@ -4003,7 +4002,7 @@ $responseArray = json_decode($response, true);
 
                 if ($email) {
 
-       
+
 $totalValue = $pricePerPage * $totalPages;
 $totalBeforeDiscount = $totalValue + $finaltotaladdon;
 
@@ -4074,7 +4073,7 @@ $formattedFinalTotal = number_format($finalTotal, 2);
             $emailContent = "
                 <p>Hi {$user->name},</p>
                 <p>Just a quick update on your order with Writing Space: Your order ID {$order->order_id} is currently pending approval. We are reviewing the details to ensure everything is set to meet your expectations.</p>
-                <p><strong>What’s Next?</strong></p>
+                <p><strong>Whats Next?</strong></p>
                 <ul>
                     <li>You will receive a notification once your order has been approved and moved to the next stage of our process.</li>
                 </ul>
@@ -4086,7 +4085,7 @@ $formattedFinalTotal = number_format($finalTotal, 2);
                 ->subject($emailSubject);
         });
 
- 
+
 
 
                     $data = [
@@ -4135,7 +4134,7 @@ $formattedFinalTotal = number_format($finalTotal, 2);
                 $user_id =  $pay->user_id;
                 $user = User::find($user_id);
                 Auth::login($user);
-                
+
 return response()->make('
     <script>
         if (window.top !== window.self) {
@@ -4484,7 +4483,7 @@ public function index()
                 $path = "uploads_folders/{$order->order_id}";
                 Storage::disk('public')->deleteDirectory($path);
 
-                dd(Storage::disk('public')->directoryExists($path));
+               // dd(Storage::disk('public')->directoryExists($path));
 
                 if (!Storage::disk('public')->directoryExists($path)) {
                     Storage::disk('public')->makeDirectory($path);
@@ -5147,7 +5146,7 @@ $orderid_new = $matches[1] ?? null;
 
 
 
-            
+
             $subject = "Confirmation of Purchase of Additional Pages from Package";
             Mail::to($user->email)->send(new AddPkgInvoiceEmailTemplate(
                 $data,$data,

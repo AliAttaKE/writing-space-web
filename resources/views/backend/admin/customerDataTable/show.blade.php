@@ -220,7 +220,7 @@
                                 <div class="card-title">
                                             <h2 class="fw-bold fs-color-white custom-fs-13">Package </h2><span class="badge badge-warning ms-3">
 
-                                            BestPakage
+                                            Best Package
 
                                             </span>
                                         </div>
