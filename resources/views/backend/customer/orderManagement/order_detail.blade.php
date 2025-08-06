@@ -1158,21 +1158,21 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 																	<div class="row justify-content-between px-3">
 																		<div class="col-md-5 card-custom-bg mb-5 rounded">
 
-																			<div class=" p-3">
-																				<h2
-																					class="text-gray-900 fw-bold fs-color-white custom-fs-13 fs-2 mb-5">
-																					Page Adjustment Section</h2>
-																				<h5 class=" mb-2 fs-color-white custom-fs-13">Add More Pages</h5>
-																				<input type="number"
-																					class="form-control mb-5 btn-dark-primary"
-																					id="pageCount"
-																					placeholder="Enter page count" min="0">
-																					<p class="fs-3 fs-color-white custom-fs-13">Cost Per Page : $<span
-																						id="totalCostPerPage1" class="fs-color-yellow">0.00</span></p>
-                                                                                    <p class="fs-3 fs-color-white custom-fs-13">Total Cost: $<span
-																						id="totalCost" class="fs-color-yellow">0.00</span></p>
+											<div class=" p-3">
+												<h2
+													class="text-gray-900 fw-bold fs-color-white custom-fs-13 fs-2 mb-5">
+													Page Adjustment Section</h2>
+												<h5 class=" mb-2 fs-color-white custom-fs-13">Add More Pages</h5>
+												<input type="number"
+													class="form-control mb-5 btn-dark-primary"
+													id="pageCount"
+													placeholder="Enter page count" min="0">
+													<p class="fs-3 fs-color-white custom-fs-13">Cost Per Page : $<span
+														id="totalCostPerPage1" class="fs-color-yellow">0.00</span></p>
+													<p class="fs-3 fs-color-white custom-fs-13">Total Cost: $<span
+														id="totalCost" class="fs-color-yellow">0.00</span></p>
 
-																			</div>
+											</div>
 																		</div>
 																		<div class="col-md-5 card-custom-bg mb-5 rounded current-order-summary">
 
@@ -8619,32 +8619,26 @@ $('.uploadfilecheck').on('change', function () {
 	$(document).ready(function () {
 
 
-  // read and parse the per-page cost
-  const cost123 = parseFloat(localStorage.getItem('cost_per_page')) || parseFloat(localStorage.getItem('costperpage1'));
-  // get the selected number of pages
-  //const noOfPages = parseInt($(this).val(), 10) || 0;
-  // calculate total
-  //const totalCost = cost * noOfPages;
-            //console.log(cost);
-  // update the DOM (formatted with two decimals)
-  //$('#cost_per_page12').text(cost);
-  $('#totalCostPerPage').text(cost123.toFixed(2));
+		// read and parse the per-page cost
+		const cost123 = parseFloat(localStorage.getItem('cost_per_page')) || parseFloat(localStorage.getItem('costperpage1'));
 
-    const input = document.getElementById("pageCount");
+  		$('#totalCostPerPage').text(cost123.toFixed(2));
 
-    // Prevent typing minus sign or 'e' (used in scientific notation)
-    input.addEventListener("keydown", function (e) {
-      if (e.key === '-' || e.key === 'e' || e.key === 'E') {
-        e.preventDefault();
-      }
-    });
+			const input = document.getElementById("pageCount");
 
-    // Prevent pasting negative numbers
-    input.addEventListener("input", function () {
-      if (this.value < 0) {
-        this.value = Math.abs(this.value);
-      }
-    });
+			// Prevent typing minus sign or 'e' (used in scientific notation)
+			input.addEventListener("keydown", function (e) {
+			if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+				e.preventDefault();
+			}
+			});
+
+			// Prevent pasting negative numbers
+			input.addEventListener("input", function () {
+			if (this.value < 0) {
+				this.value = Math.abs(this.value);
+			}
+			});
 
 
 
@@ -8664,64 +8658,64 @@ $('.uploadfilecheck').on('change', function () {
 
 
 
-@if ($used_subscription && $used_subscription->rollover_pages != 0 && $used_subscription->remaining_pages != 0)
+					@if ($used_subscription && $used_subscription->rollover_pages != 0 && $used_subscription->remaining_pages != 0)
 
 
 
 
-	var total_pages = {{ $used_subscription->total_pages ?? 0 }};
-	var remaining_pages = {{ $used_subscription->remaining_pages ?? 0 }};
-    var rollover_pages = {{ $used_subscription->rollover_pages ?? 0 }};
+						var total_pages = {{ $used_subscription->total_pages ?? 0 }};
+						var remaining_pages = {{ $used_subscription->remaining_pages ?? 0 }};
+						var rollover_pages = {{ $used_subscription->rollover_pages ?? 0 }};
 
-	var RequiredPagesRemainingPages =  remaining_pages;
-	$('.RemainingPages').text(RequiredPagesRemainingPages);
-    $('.rollover').text(rollover_pages);
+						var RequiredPagesRemainingPages =  remaining_pages;
+						$('.RemainingPages').text(RequiredPagesRemainingPages);
+						$('.rollover').text(rollover_pages);
 
-@else
-
-
-// $('.RemainingPages').text('N/A');
-
-// var total_pages = {{ $used_subscription->total_pages ?? 0 }};
-// 	var remaining_pages = {{ $used_subscription->remaining_pages ?? 0 }};
-//     var rollover_pages = {{ $used_subscription->rollover_pages ?? 0 }};
-
-	//   $('.rollover').text(rollover_pages);
-var total_pages = {{ $used_subscription->total_pages ?? 0 }};
-	var remaining_pages = {{ $used_subscription->remaining_pages ?? 0 }};
-    var rollover_pages = {{ $used_subscription->rollover_pages ?? 0 }};
-
-	var RequiredPagesRemainingPages =  remaining_pages;
-	$('.RemainingPages').text(RequiredPagesRemainingPages);
-    $('.rollover').text(rollover_pages);
-@endif
-
-$('.RequiredPages').text(pageCount);
+					@else
 
 
+					// $('.RemainingPages').text('N/A');
+
+					// var total_pages = {{ $used_subscription->total_pages ?? 0 }};
+					// 	var remaining_pages = {{ $used_subscription->remaining_pages ?? 0 }};
+					//     var rollover_pages = {{ $used_subscription->rollover_pages ?? 0 }};
+
+						//   $('.rollover').text(rollover_pages);
+					var total_pages = {{ $used_subscription->total_pages ?? 0 }};
+						var remaining_pages = {{ $used_subscription->remaining_pages ?? 0 }};
+						var rollover_pages = {{ $used_subscription->rollover_pages ?? 0 }};
+
+						var RequiredPagesRemainingPages =  remaining_pages;
+						$('.RemainingPages').text(RequiredPagesRemainingPages);
+						$('.rollover').text(rollover_pages);
+					@endif
+
+					$('.RequiredPages').text(pageCount);	
 
 
 
 
 
-	var numpage = $('.numpage').text();
 
 
-	var numpageParsed = Number(numpage);
-var pageCountParsed = Number(pageCount);
+						var numpage = $('.numpage').text();
 
-// Calculate the total page count
-var totalpageCount = numpageParsed + pageCountParsed;
 
-// Check if the result is NaN
-if (isNaN(totalpageCount)) {
-    $('.totalpageg').text(0);
-} else {
-    $('.totalpageg').text(totalpageCount);
-}
+						var numpageParsed = Number(numpage);
+					var pageCountParsed = Number(pageCount);
 
-console.log("numpageParsed:", numpageParsed, "pageCountParsed:", pageCountParsed);
-console.log("sahriq totalpageCount:", totalpageCount);
+					// Calculate the total page count
+					var totalpageCount = numpageParsed + pageCountParsed;
+
+							// Check if the result is NaN
+							if (isNaN(totalpageCount)) {
+								$('.totalpageg').text(0);
+							} else {
+								$('.totalpageg').text(totalpageCount);
+							}
+
+					console.log("numpageParsed:", numpageParsed, "pageCountParsed:", pageCountParsed);
+					console.log("sahriq totalpageCount:", totalpageCount);
 
 
 		var cost = pageCount * parseInt({{$order->cost_per_page}});
@@ -8730,44 +8724,44 @@ console.log("sahriq totalpageCount:", totalpageCount);
 
 		//	 var cost = pageCount * parseInt(cost_perpage_get);
 			$("#totalCost").text(cost.toFixed(2));
-			$("#totalCostPerPage1").text({{$order->cost_per_page}});
-				$('#totalcostreq').text(cost.toFixed(2));
-
-
-@if ($used_subscription && $used_subscription->rollover_pages != 0 && $used_subscription->remaining_pages != 0)
-
-
-
-			  var cost_perpage_get = "{{$used_subscription->cost_per_page_final ?? ''}}";
-
-
-
-
-			// var cost_perpage_get = $('#cost_per_page').val();
-
-			console.log("cost par page",cost_perpage_get);
-
-		 var cost = pageCount * cost_perpage_get;
-			$("#totalCost").text(cost.toFixed(2));
-			$("#totalCostPerPage1").text(cost_perpage_get.toFixed(2));
 			
-@else
-	var cost = pageCount * {{$order->cost_per_page}};
+	var cost_perpage_get = "{{$used_subscription->cost_per_page_final ?? ''}}";
 
-			 var cost_perpage_get = $('#cost_per_page').val();
+			@if ($used_subscription && $used_subscription->rollover_pages != 0 && $used_subscription->remaining_pages != 0)
 
 
-		//	 var cost = pageCount * parseInt(cost_perpage_get);
-			$("#totalCost").text(cost.toFixed(2));
-			$("#totalCostPerPage1").text({{$order->cost_per_page}});
-			
-@endif
+
+					
+
+
+
+
+						// var cost_perpage_get = $('#cost_per_page').val();
+
+						console.log("cost par page",cost_perpage_get);
+
+					var cost = pageCount * cost_perpage_get;
+						$("#totalCost").text(cost.toFixed(2));
+						// $("#totalCostPerPage1").text(cost_perpage_get.toFixed(2));
+						$("#totalCostPerPage1").text(cost_perpage_get);
+						
+			@else
+				var cost = pageCount * {{$order->cost_per_page}};
+
+						var cost_perpage_get = $('#cost_per_page').val();
+
+
+					//	 var cost = pageCount * parseInt(cost_perpage_get);
+						$("#totalCost").text(cost.toFixed(2));
+						$("#totalCostPerPage1").text({{$order->cost_per_page}});
+						
+			@endif
 
 
 
 
 				$('#totalcostreq').text(cost.toFixed(2));
-				$('#pakg_cost_per_page').text(cost_perpage_get.toFixed(2));
+				$('#pakg_cost_per_page').text(cost_perpage_get);
 
 			var remainingPages = $("#remainingPages").text();
 
