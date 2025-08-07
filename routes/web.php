@@ -89,6 +89,11 @@ Route::get('/fix-storage-link', function () {
 });
 
 
+Route::get('/payment/error', function () {
+    return view('payment.error');
+})->name('payment.error');
+
+
 Route::get('/clear', function (){
 
     Artisan::call('cache:clear');
