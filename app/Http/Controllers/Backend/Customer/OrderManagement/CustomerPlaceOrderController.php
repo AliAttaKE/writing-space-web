@@ -4495,6 +4495,9 @@ public function index()
         ]);
 
         clearstatcache(); // Clears PHP file system cache
+$user = Auth::user();
+$user->tier = 'tier_1';
+$user->save();
 
                 $path = "uploads_folders/{$order->order_id}";
                 Storage::disk('public')->deleteDirectory($path);
@@ -4517,7 +4520,9 @@ public function index()
                     chmod($absolutePath, 0755);
                 }
 
-
+//  $user = Auth::user();
+//         $user->tier = 'tier_1';
+//         $user->save();
 
         // $user = User::find($id);
         // $email = Email::where('type', '=', 'Order Place Confirmation')->first();
