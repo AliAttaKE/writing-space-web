@@ -281,7 +281,12 @@
 
                                                         @if($invoice->invoice_type == 'package_inc')
                                                             <tr>
-                                                                <td>{{ $invoice->subscription_name }}</td>
+                                                            @if($invoice->invoice_type == 'package_inc')
+    <td>{{ $used_subscription->subscription->subscription_name ?? 'subs' }}</td>
+@endif
+
+
+
                                                                 <td>
                                                                     <a href="{{ route('admin.generate.invoice.by.id', ['id' => $invoice->invoice_id]) }}" class="text-gray-600 text-hover-primary mb-1">{{ $invoice->invoice_id}}</a>
                                                                 </td>

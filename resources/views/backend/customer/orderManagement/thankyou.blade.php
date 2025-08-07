@@ -59,7 +59,7 @@
             e.preventDefault();
             $.ajax({
                     type: "GET",
-                    url: "{{route('customer.update.tier')}}",
+                    url: "{{route('customer.update.tier1')}}",
                     dataType: 'json',
                     success: function (response) {
                         console.log(response);
@@ -72,6 +72,8 @@
                 });
         });
     });
+
+
 
 
     document.addEventListener('DOMContentLoaded', function() {

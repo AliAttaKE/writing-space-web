@@ -4196,6 +4196,15 @@ return response()->make('
         $user->save();
         return response()->json(['status' => true, 'message' => 'Customer dashboard'], 200);
     }
+    public function updateTierAfterPayment1()
+    {
+        $user = User::findOrFail(Auth::user()->id);
+        $user->tier = 'tier_1';
+        $user->save();
+        return response()->json(['status' => true, 'message' => 'Customer dashboard'], 200);
+    }
+
+
 
 
     public function exportInvoiceprofile($value)

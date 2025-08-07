@@ -187,23 +187,27 @@ class CustomerController extends Controller
                         ->select('invoices.*')
                         ->latest('invoices.created_at')
                         ->get();
+$PackageInvoices = DB::table('invoices')
+    ->leftJoin('orders', 'invoices.order_id', '=', 'orders.order_id')
+    ->leftJoin('user_subscription', 'orders.user_id', '=', 'user_subscription.user_id')
+    ->leftJoin('subscription', 'user_subscription.subscription_id', '=', 'subscription.id')
+    ->where('invoices.email', Auth::user()->email)
+    ->select(
+        'invoices.*',
+        'orders.user_id as order_user_id',
+        'user_subscription.subscription_id',
+        'subscription.subscription_name'
+    )
+    ->distinct()
+    ->latest('invoices.created_at')
+    ->get();
 
 
 
 
-          $PackageInvoices = DB::table('invoices')
-                        ->leftJoin('orders', 'invoices.order_id', '=', 'orders.order_id')
-                        ->leftJoin('user_subscription', 'invoices.order_id', '=', 'user_subscription.subscription_id')
-                        ->leftJoin('subscription', 'user_subscription.subscription_id', '=', 'subscription.id')
-                        ->leftJoin('user_subscription as sub2', 'sub2.id', '=', 'invoices.order_id')
-                        ->leftJoin('subscription as sub3', 'sub2.subscription_id', '=', 'sub3.id')
-                        ->where('invoices.email', Auth::user()->email)
-                        //->whereNotNull('invoices.invoice_type')
-                        //->where('invoices.invoice_type', 'package_inc')
-                       ->select('invoices.*','orders.order_id as order_table_id','subscription.subscription_name','sub3.subscription_name as package_id')
-                        ->distinct() // Yeh duplicate records remove karega
-                        ->latest('invoices.created_at')
-                        ->get();
+
+
+
 
                         //dd($PackageInvoices);
 
