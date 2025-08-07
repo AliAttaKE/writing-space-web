@@ -4172,10 +4172,10 @@ return response()->make('
     // customer custom subscription;
     public function thankyou()
     {
-        // $user_id = Auth::user()->id;
-        // $user = User::findOrFail($user_id);
-        // $user->tier = 'tier_1';
-        // $user->save();
+        $user_id = Auth::user()->id;
+        $user = User::findOrFail($user_id);
+        $user->tier = 'tier_1';
+        $user->save();
 
         return view('backend.customer.orderManagement.thankyou');
     }
