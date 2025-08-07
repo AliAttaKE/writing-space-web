@@ -2801,16 +2801,34 @@ curl_close($curl);
                         $user = User::find($user->id);
                         Auth::login($user);
 
-                        return response()->make('
-    <script>
-        if (window.top !== window.self) {
-            window.top.location.href = "' . route('customer.thankyou.sub') . '";
-        } else {
-            window.location.href = "' . route('customer.thankyou.sub') . '";
-        }
-    </script>
-', 200, ['Content-Type' => 'text/html']);
+       $isSuccess =
+                        isset($response['result']) && $response['result'] === 'SUCCESS' &&
+                        isset($response['order']['status']) && $response['order']['status'] === 'CAPTURED' &&
+                        isset($response['response']['gatewayCode']) && $response['response']['gatewayCode'] === 'APPROVED';
 
+                    if ($isSuccess) {
+                       
+                        return response()->make('
+                            <script>
+                                if (window.top !== window.self) {
+                                    window.top.location.href = "' . route('customer.thankyou.sub') . '";
+                                } else {
+                                    window.location.href = "' . route('customer.thankyou.sub') . '";
+                                }
+                            </script>
+                        ', 200, ['Content-Type' => 'text/html']);
+                    }else{
+                        return response()->make('
+                            <script>
+                                if (window.top !== window.self) {
+                                    window.top.location.href = "' . route('payment.error') . '";
+                                } else {
+                                    window.location.href = "' . route('payment.error') . '";
+                                }
+                            </script>
+                        ', 200, ['Content-Type' => 'text/html']);
+
+                    }
                     } else {
                         $user->customer = "Subscription";
                         $user->subscription_id = $orderidexplode;
@@ -2932,16 +2950,38 @@ curl_close($curl);
                         Auth::login($user);
 
 
+                        $isSuccess =
+                        isset($response['result']) && $response['result'] === 'SUCCESS' &&
+                        isset($response['order']['status']) && $response['order']['status'] === 'CAPTURED' &&
+                        isset($response['response']['gatewayCode']) && $response['response']['gatewayCode'] === 'APPROVED';
 
-                                                        return response()->make('
-                                    <script>
-                                        if (window.top !== window.self) {
-                                            window.top.location.href = "' . route('customer.thankyou.sub') . '";
-                                        } else {
-                                            window.location.href = "' . route('customer.thankyou.sub') . '";
-                                        }
-                                    </script>
-                                ', 200, ['Content-Type' => 'text/html']);
+
+
+
+
+                    if ($isSuccess) {
+                       
+                        return response()->make('
+                            <script>
+                                if (window.top !== window.self) {
+                                    window.top.location.href = "' . route('customer.thankyou.sub') . '";
+                                } else {
+                                    window.location.href = "' . route('customer.thankyou.sub') . '";
+                                }
+                            </script>
+                        ', 200, ['Content-Type' => 'text/html']);
+                    }else{
+                        return response()->make('
+                            <script>
+                                if (window.top !== window.self) {
+                                    window.top.location.href = "' . route('payment.error') . '";
+                                } else {
+                                    window.location.href = "' . route('payment.error') . '";
+                                }
+                            </script>
+                        ', 200, ['Content-Type' => 'text/html']);
+
+                    }
 
                     } //checkuser if
                 } //success attentication if
@@ -3291,16 +3331,34 @@ $emailContent = "
 
 
                     // return redirect(url('/customer/thankyou'));
+ $isSuccess =
+                        isset($response['result']) && $response['result'] === 'SUCCESS' &&
+                        isset($response['order']['status']) && $response['order']['status'] === 'CAPTURED' &&
+                        isset($response['response']['gatewayCode']) && $response['response']['gatewayCode'] === 'APPROVED';
 
-                    return response()->make('
-    <script>
-        if (window.top !== window.self) {
-            window.top.location.href = "' . route('customer.thankyou.sub') . '";
-        } else {
-            window.location.href = "' . route('customer.thankyou.sub') . '";
-        }
-    </script>
-', 200, ['Content-Type' => 'text/html']);
+                    if ($isSuccess) {
+                       
+                        return response()->make('
+                            <script>
+                                if (window.top !== window.self) {
+                                    window.top.location.href = "' . route('customer.thankyou.sub') . '";
+                                } else {
+                                    window.location.href = "' . route('customer.thankyou.sub') . '";
+                                }
+                            </script>
+                        ', 200, ['Content-Type' => 'text/html']);
+                    }else{
+                        return response()->make('
+                            <script>
+                                if (window.top !== window.self) {
+                                    window.top.location.href = "' . route('payment.error') . '";
+                                } else {
+                                    window.location.href = "' . route('payment.error') . '";
+                                }
+                            </script>
+                        ', 200, ['Content-Type' => 'text/html']);
+
+                    }
 
                 }
             }
@@ -3661,15 +3719,34 @@ Writing Space</p>
                     // return redirect('https://ws.elementary-solutions.com/customer/thankyou');
 
                     // return redirect()->route('customer.thankyou');
-                    return response()->make('
-    <script>
-        if (window.top !== window.self) {
-            window.top.location.href = "' . route('customer.thankyou.sub') . '";
-        } else {
-            window.location.href = "' . route('customer.thankyou.sub') . '";
-        }
-    </script>
-', 200, ['Content-Type' => 'text/html']);
+                    $isSuccess =
+                        isset($response['result']) && $response['result'] === 'SUCCESS' &&
+                        isset($response['order']['status']) && $response['order']['status'] === 'CAPTURED' &&
+                        isset($response['response']['gatewayCode']) && $response['response']['gatewayCode'] === 'APPROVED';
+
+                    if ($isSuccess) {
+                       
+                        return response()->make('
+                            <script>
+                                if (window.top !== window.self) {
+                                    window.top.location.href = "' . route('customer.thankyou.sub') . '";
+                                } else {
+                                    window.location.href = "' . route('customer.thankyou.sub') . '";
+                                }
+                            </script>
+                        ', 200, ['Content-Type' => 'text/html']);
+                    }else{
+                        return response()->make('
+                            <script>
+                                if (window.top !== window.self) {
+                                    window.top.location.href = "' . route('payment.error') . '";
+                                } else {
+                                    window.location.href = "' . route('payment.error') . '";
+                                }
+                            </script>
+                        ', 200, ['Content-Type' => 'text/html']);
+
+                    }
                 }
             }
         // } catch (\Exception $e) {
@@ -3692,41 +3769,6 @@ Writing Space</p>
         $amount = $total_amount;
         $randomNumber = mt_rand(100, 999);
         $transactionIdurl = $transactionId . $randomNumber;
-
-        // $curl = curl_init();
-        // curl_setopt_array($curl, array(
-        //     CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionIdurl,
-        //     CURLOPT_RETURNTRANSFER => true,
-        //     CURLOPT_ENCODING => '',
-        //     CURLOPT_MAXREDIRS => 10,
-        //     CURLOPT_TIMEOUT => 0,
-        //     CURLOPT_FOLLOWLOCATION => true,
-        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        //     CURLOPT_CUSTOMREQUEST => 'PUT',
-        //     CURLOPT_POSTFIELDS => '{
-        //                                 "apiOperation": "PAY",
-        //                                 "authentication":{
-        //                             "transactionId":"' . $transactionId . '"
-        //                             },
-        //                                 "order": {
-        //                                     "amount": "' . $amount . '",
-        //                                     "currency": $this->currency 
-        //                                 },
-        //                                 "session": {
-        //                                     "id": "' . $sessionId . '"
-        //                                 }
-
-        //                             }',
-        //     CURLOPT_HTTPHEADER => array(
-        //         'Content-Type: application/json',
-        //         'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
-        //     ),
-        // ));
-
-        // $response = curl_exec($curl);
-
-        // curl_close($curl);
-        // $responseArray = json_decode($response, true);
 
         // Load from .env
 $baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
@@ -3980,25 +4022,6 @@ $responseArray = json_decode($response, true);
 
                 // $totaladdon = optional($order)->total_cost - optional($order)->cost;
 
-                // $finaltotaladdon = $totaladdon
-                // + optional($order)->no_of_extra_sources
-                // + optional($order)->statistical_analysis;
-
-
-
-                // dd($order->discount);
-                // if($order->discount == null){
-                //     $totafinal = $pricePerPage * $totalPages;
-                //      $finaltotaladdon = abs($totafinal - $subTotal);
-                // }
-                // else{
-
-
-                //         $totafinal = $pricePerPage * $totalPages;
-
-                //        $originalPrice = $subTotal / (1 - ($discount / 100));
-                //           $finaltotaladdon = abs($totafinal - $originalPrice);
-                // }
 
                $totafinal = $pricePerPage * $totalPages;
 
@@ -4151,15 +4174,41 @@ $formattedFinalTotal = number_format($finalTotal, 2);
                 $user = User::find($user_id);
                 Auth::login($user);
 
-return response()->make('
-    <script>
-        if (window.top !== window.self) {
-            window.top.location.href = "' . route('customer.thankyou.sub') . '";
-        } else {
-            window.location.href = "' . route('customer.thankyou.sub') . '";
-        }
-    </script>
-', 200, ['Content-Type' => 'text/html']);
+
+
+                $isSuccess =
+                        isset($response['result']) && $response['result'] === 'SUCCESS' &&
+                        isset($response['order']['status']) && $response['order']['status'] === 'CAPTURED' &&
+                        isset($response['response']['gatewayCode']) && $response['response']['gatewayCode'] === 'APPROVED';
+
+                    if ($isSuccess) {
+                       
+                        return response()->make('
+                            <script>
+                                if (window.top !== window.self) {
+                                    window.top.location.href = "' . route('customer.thankyou.sub') . '";
+                                } else {
+                                    window.location.href = "' . route('customer.thankyou.sub') . '";
+                                }
+                            </script>
+                        ', 200, ['Content-Type' => 'text/html']);
+                    }else{
+                        return response()->make('
+                            <script>
+                                if (window.top !== window.self) {
+                                    window.top.location.href = "' . route('payment.error') . '";
+                                } else {
+                                    window.location.href = "' . route('payment.error') . '";
+                                }
+                            </script>
+                        ', 200, ['Content-Type' => 'text/html']);
+
+                    }
+
+                   
+                   
+
+                        
 
                 // return redirect(url('/customer/thankyou'));
             }
