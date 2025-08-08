@@ -51,6 +51,7 @@ use App\Models\Language;
 use App\Models\FileChatGPT;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 
 use Carbon\Carbon;
@@ -2480,7 +2481,10 @@ curl_close($curl);
             Auth::login($user);
 
 
-            return redirect()->route('customer.customerPlaceOrder');
+                    return response()->make(
+            '<script>window.location.href="' . route('customer.customerPlaceOrder') . '"</script>'
+        );
+
         }
     }
 
@@ -2506,7 +2510,12 @@ curl_close($curl);
             Auth::login($user);
 
 
-            return redirect()->route('customer.show.profile');
+            return response()->make(
+    '<script>window.location.href="' . route('customer.show.profile') . '"</script>'
+);
+
+
+           
         }
     }
 
@@ -2521,6 +2530,22 @@ curl_close($curl);
 
 
             return redirect()->route('pay.add.manage', ['orderid' => $data['order_id']]);
+        }
+        else {
+
+            $pay = Pay::where('order_id', $data['order_id'])->first();
+
+            $user_id =  $pay->user_id;
+
+            $user = User::find($user_id);
+            Auth::login($user);
+
+
+            return response()->make(
+    '<script>window.location.href="' . route('customer.show.profile') . '"</script>'
+);
+
+
         }
     }
 
@@ -2550,7 +2575,11 @@ curl_close($curl);
             Auth::login($user);
 
 
-            return redirect()->route('front.subscriptions');
+            return response()->make(
+    '<script>window.location.href="' . route('front.subscriptions') . '"</script>'
+);
+
+
         }
     }
     // Subscriptions Purchase / Uprgrade
@@ -2661,7 +2690,20 @@ curl_close($curl);
                 $responseArray = json_decode($response, true);
 
 
-            if ($responseArray) {
+                  
+
+
+            $responseData = json_decode($response, true); // true means associative array
+
+
+            $isSuccess = 
+                isset($responseData['result']) && strtoupper(trim($responseData['result'])) === 'SUCCESS' &&
+                isset($responseData['order']['status']) && strtoupper(trim($responseData['order']['status'])) === 'CAPTURED' &&
+                isset($responseData['response']['gatewayCode']) && strtoupper(trim($responseData['response']['gatewayCode'])) === 'APPROVED';
+
+
+
+            if ($responseArray && $isSuccess) {
                 $authenticationStatus = $responseArray['order']['authenticationStatus'];
                 if ($authenticationStatus == 'AUTHENTICATION_SUCCESSFUL') {
                     $responseObject = json_decode($response);
@@ -2801,12 +2843,7 @@ curl_close($curl);
                         $user = User::find($user->id);
                         Auth::login($user);
 
-       $isSuccess =
-                        isset($response['result']) && $response['result'] === 'SUCCESS' &&
-                        isset($response['order']['status']) && $response['order']['status'] === 'CAPTURED' &&
-                        isset($response['response']['gatewayCode']) && $response['response']['gatewayCode'] === 'APPROVED';
-
-                    if ($isSuccess) {
+        
                        
                         return response()->make('
                             <script>
@@ -2817,18 +2854,10 @@ curl_close($curl);
                                 }
                             </script>
                         ', 200, ['Content-Type' => 'text/html']);
-                    }else{
-                        return response()->make('
-                            <script>
-                                if (window.top !== window.self) {
-                                    window.top.location.href = "' . route('payment.error') . '";
-                                } else {
-                                    window.location.href = "' . route('payment.error') . '";
-                                }
-                            </script>
-                        ', 200, ['Content-Type' => 'text/html']);
+                  
+                     
 
-                    }
+                  
                     } else {
                         $user->customer = "Subscription";
                         $user->subscription_id = $orderidexplode;
@@ -2949,18 +2978,11 @@ curl_close($curl);
                         $user = User::find($user_id);
                         Auth::login($user);
 
-
-                        $isSuccess =
-                        isset($response['result']) && $response['result'] === 'SUCCESS' &&
-                        isset($response['order']['status']) && $response['order']['status'] === 'CAPTURED' &&
-                        isset($response['response']['gatewayCode']) && $response['response']['gatewayCode'] === 'APPROVED';
+                    
 
 
-
-
-
-                    if ($isSuccess) {
-                       
+                      
+                   
                         return response()->make('
                             <script>
                                 if (window.top !== window.self) {
@@ -2970,8 +2992,14 @@ curl_close($curl);
                                 }
                             </script>
                         ', 200, ['Content-Type' => 'text/html']);
-                    }else{
-                        return response()->make('
+                 
+                    } //checkuser if
+                } //success attentication if
+
+            
+            } //resobse array if
+            else {
+                  return response()->make('
                             <script>
                                 if (window.top !== window.self) {
                                     window.top.location.href = "' . route('payment.error') . '";
@@ -2980,15 +3008,6 @@ curl_close($curl);
                                 }
                             </script>
                         ', 200, ['Content-Type' => 'text/html']);
-
-                    }
-
-                    } //checkuser if
-                } //success attentication if
-
-            } //resobse array if
-            else {
-                echo "Error decoding JSON";
             }
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
@@ -3104,7 +3123,20 @@ $responseArray = json_decode($response, true);
 
 
 
-            if ($responseArray) {
+
+
+
+            $responseData = json_decode($response, true); // true means associative array
+
+
+            $isSuccess = 
+                isset($responseData['result']) && strtoupper(trim($responseData['result'])) === 'SUCCESS' &&
+                isset($responseData['order']['status']) && strtoupper(trim($responseData['order']['status'])) === 'CAPTURED' &&
+                isset($responseData['response']['gatewayCode']) && strtoupper(trim($responseData['response']['gatewayCode'])) === 'APPROVED';
+
+
+
+            if ($responseArray && $isSuccess) {
                 $authenticationStatus = $responseArray['order']['authenticationStatus'];
                 if ($authenticationStatus == 'AUTHENTICATION_SUCCESSFUL') {
 
@@ -3331,12 +3363,7 @@ $emailContent = "
 
 
                     // return redirect(url('/customer/thankyou'));
- $isSuccess =
-                        isset($response['result']) && $response['result'] === 'SUCCESS' &&
-                        isset($response['order']['status']) && $response['order']['status'] === 'CAPTURED' &&
-                        isset($response['response']['gatewayCode']) && $response['response']['gatewayCode'] === 'APPROVED';
 
-                    if ($isSuccess) {
                        
                         return response()->make('
                             <script>
@@ -3347,8 +3374,12 @@ $emailContent = "
                                 }
                             </script>
                         ', 200, ['Content-Type' => 'text/html']);
-                    }else{
-                        return response()->make('
+                  
+
+                }
+            }
+            else{
+                return response()->make('
                             <script>
                                 if (window.top !== window.self) {
                                     window.top.location.href = "' . route('payment.error') . '";
@@ -3357,10 +3388,6 @@ $emailContent = "
                                 }
                             </script>
                         ', 200, ['Content-Type' => 'text/html']);
-
-                    }
-
-                }
             }
         // } catch (\Exception $e) {
         //     // Handle the exception
@@ -3477,7 +3504,17 @@ curl_close($curl);
 $responseArray = json_decode($response, true);
 
 
-            if ($responseArray) {
+            $responseData = json_decode($response, true); // true means associative array
+
+
+            $isSuccess = 
+                isset($responseData['result']) && strtoupper(trim($responseData['result'])) === 'SUCCESS' &&
+                isset($responseData['order']['status']) && strtoupper(trim($responseData['order']['status'])) === 'CAPTURED' &&
+                isset($responseData['response']['gatewayCode']) && strtoupper(trim($responseData['response']['gatewayCode'])) === 'APPROVED';
+
+
+
+            if ($responseArray && $isSuccess) {
 
 
 
@@ -3719,13 +3756,7 @@ Writing Space</p>
                     // return redirect('https://ws.elementary-solutions.com/customer/thankyou');
 
                     // return redirect()->route('customer.thankyou');
-                    $isSuccess =
-                        isset($response['result']) && $response['result'] === 'SUCCESS' &&
-                        isset($response['order']['status']) && $response['order']['status'] === 'CAPTURED' &&
-                        isset($response['response']['gatewayCode']) && $response['response']['gatewayCode'] === 'APPROVED';
-
-                    if ($isSuccess) {
-                       
+                
                         return response()->make('
                             <script>
                                 if (window.top !== window.self) {
@@ -3735,8 +3766,11 @@ Writing Space</p>
                                 }
                             </script>
                         ', 200, ['Content-Type' => 'text/html']);
-                    }else{
-                        return response()->make('
+                   
+                }
+            }
+             else{
+                  return response()->make('
                             <script>
                                 if (window.top !== window.self) {
                                     window.top.location.href = "' . route('payment.error') . '";
@@ -3745,10 +3779,8 @@ Writing Space</p>
                                 }
                             </script>
                         ', 200, ['Content-Type' => 'text/html']);
-
-                    }
-                }
             }
+           
         // } catch (\Exception $e) {
         //     // Handle the exception
         //     return response()->json(['error' => $e->getMessage()]);
@@ -3760,64 +3792,75 @@ Writing Space</p>
     {
 
 
-        $pay = Pay::where('order_id', $orderid)->first();
-        $sessionId = $pay->session_id;
-        $order_id = $pay->order_id;
-        $transactionId = $pay->truncatedSessionId;
-        $order_detail = json_decode($pay->order_details);
-        $total_amount = $order_detail->total_cost;
-        $amount = $total_amount;
-        $randomNumber = mt_rand(100, 999);
-        $transactionIdurl = $transactionId . $randomNumber;
+                $pay = Pay::where('order_id', $orderid)->first();
+                $sessionId = $pay->session_id;
+                $order_id = $pay->order_id;
+                $transactionId = $pay->truncatedSessionId;
+                $order_detail = json_decode($pay->order_details);
+                $total_amount = $order_detail->total_cost;
+                $amount = $total_amount;
+                $randomNumber = mt_rand(100, 999);
+                $transactionIdurl = $transactionId . $randomNumber;
 
-        // Load from .env
-$baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
-$apiVersion = env('API_VERSION'); // e.g. 74
-$merchantId = env('MERCHANT_ID'); // e.g. TESTWRITINGSPACE
-$authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+                        // Load from .env
+                $baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
+                $apiVersion = env('API_VERSION'); // e.g. 74
+                $merchantId = env('MERCHANT_ID'); // e.g. TESTWRITINGSPACE
+                $authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
 
-// Prepare full URL
-$url = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionIdurl";
+                // Prepare full URL
+                $url = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionIdurl";
 
-// Prepare payload
-$payload = [
-    "apiOperation" => "PAY",
-    "authentication" => [
-        "transactionId" => $transactionId
-    ],
-    "order" => [
-        "amount" => $amount,
-        "currency" => $this->currency 
-    ],
-    "session" => [
-        "id" => $sessionId
-    ]
-];
+                // Prepare payload
+                $payload = [
+                    "apiOperation" => "PAY",
+                    "authentication" => [
+                        "transactionId" => $transactionId
+                    ],
+                    "order" => [
+                        "amount" => $amount,
+                        "currency" => $this->currency 
+                    ],
+                    "session" => [
+                        "id" => $sessionId
+                    ]
+                ];
 
-// cURL request
-$curl = curl_init();
-curl_setopt_array($curl, [
-    CURLOPT_URL => $url,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 30,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'PUT',
-    CURLOPT_POSTFIELDS => json_encode($payload),
-    CURLOPT_HTTPHEADER => [
-        'Content-Type: application/json',
-        "Authorization: Basic $authToken"
-    ],
-]);
+                // cURL request
+                $curl = curl_init();
+                curl_setopt_array($curl, [
+                    CURLOPT_URL => $url,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 30,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => 'PUT',
+                    CURLOPT_POSTFIELDS => json_encode($payload),
+                    CURLOPT_HTTPHEADER => [
+                        'Content-Type: application/json',
+                        "Authorization: Basic $authToken"
+                    ],
+                ]);
 
-$response = curl_exec($curl);
-curl_close($curl);
-$responseArray = json_decode($response, true);
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $responseArray = json_decode($response, true);
 
 
-        if ($responseArray) {
+            $responseData = json_decode($response, true); // true means associative array
+
+
+            $isSuccess = 
+                isset($responseData['result']) && strtoupper(trim($responseData['result'])) === 'SUCCESS' &&
+                isset($responseData['order']['status']) && strtoupper(trim($responseData['order']['status'])) === 'CAPTURED' &&
+                isset($responseData['response']['gatewayCode']) && strtoupper(trim($responseData['response']['gatewayCode'])) === 'APPROVED';
+
+       
+
+
+        if ($responseArray && $isSuccess) {
             // dd($responseArray);
             $authenticationStatus = $responseArray['order']['authenticationStatus'];
             echo $authenticationStatus;
@@ -3968,20 +4011,6 @@ $responseArray = json_decode($response, true);
                     chmod($absolutePath, 0755);
                 }
 
-                // if (!Storage::disk('public')->exists($path)) {
-                //     Storage::disk('public')->makeDirectory($path);
-
-                //     $folder = new Folder();
-                //     $folder->name = $order_id;
-                //     $folder->description = $order_id;
-                //     $folder->user_id = $user_id;
-                //     $folder->save();
-                // }
-
-                // // Optional: set permission if needed
-                // chmod(storage_path("app/public/uploads_folders/{$order_id}"), 0777);
-
-
 
 
                 $user = User::find($user_id);
@@ -4042,15 +4071,15 @@ $responseArray = json_decode($response, true);
                 if ($email) {
 
 
-$totalValue = $pricePerPage * $totalPages;
-$totalBeforeDiscount = $totalValue + $finaltotaladdon;
+                    $totalValue = $pricePerPage * $totalPages;
+                    $totalBeforeDiscount = $totalValue + $finaltotaladdon;
 
-$discountAmount = ($totalBeforeDiscount * $discount) / 100;
-$finalTotal = $totalBeforeDiscount - $discountAmount;
+                    $discountAmount = ($totalBeforeDiscount * $discount) / 100;
+                    $finalTotal = $totalBeforeDiscount - $discountAmount;
 
-// Format values if needed
-$formattedDiscountAmount = number_format($discountAmount, 2);
-$formattedFinalTotal = number_format($finalTotal, 2);
+                    // Format values if needed
+                    $formattedDiscountAmount = number_format($discountAmount, 2);
+                    $formattedFinalTotal = number_format($finalTotal, 2);
 
 
 
@@ -4120,9 +4149,9 @@ $formattedFinalTotal = number_format($finalTotal, 2);
                 <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
 
                   Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
-        $message->to($user->email)
-                ->subject($emailSubject);
-        });
+            $message->to($user->email)
+                    ->subject($emailSubject);
+            });
 
 
 
@@ -4176,36 +4205,19 @@ $formattedFinalTotal = number_format($finalTotal, 2);
 
 
 
-                $isSuccess =
-                        isset($response['result']) && $response['result'] === 'SUCCESS' &&
-                        isset($response['order']['status']) && $response['order']['status'] === 'CAPTURED' &&
-                        isset($response['response']['gatewayCode']) && $response['response']['gatewayCode'] === 'APPROVED';
 
-                    if ($isSuccess) {
-                       
-                        return response()->make('
-                            <script>
-                                if (window.top !== window.self) {
-                                    window.top.location.href = "' . route('customer.thankyou.sub') . '";
-                                } else {
-                                    window.location.href = "' . route('customer.thankyou.sub') . '";
-                                }
-                            </script>
-                        ', 200, ['Content-Type' => 'text/html']);
-                    }else{
-                        return response()->make('
-                            <script>
-                                if (window.top !== window.self) {
-                                    window.top.location.href = "' . route('payment.error') . '";
-                                } else {
-                                    window.location.href = "' . route('payment.error') . '";
-                                }
-                            </script>
-                        ', 200, ['Content-Type' => 'text/html']);
+    return response()->make('
+        <script>
+            if (window.top !== window.self) {
+                window.top.location.href = "' . route('customer.thankyou.sub') . '";
+            } else {
+                window.location.href = "' . route('customer.thankyou.sub') . '";
+            }
+        </script>
+    ', 200, ['Content-Type' => 'text/html']);
 
-                    }
+   
 
-                   
                    
 
                         
@@ -4214,9 +4226,22 @@ $formattedFinalTotal = number_format($finalTotal, 2);
             }
         } else {
 
-            echo "Error decoding JSON";
+           return response()->make('
+        <script>
+            if (window.top !== window.self) {
+                window.top.location.href = "' . route('payment.error') . '";
+            } else {
+                window.location.href = "' . route('payment.error') . '";
+            }
+        </script>
+    ', 200, ['Content-Type' => 'text/html']);
         }
     }
+
+
+
+ 
+    
 
     // customer custom subscription;
     public function thankyou()
