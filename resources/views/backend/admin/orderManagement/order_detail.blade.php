@@ -94,6 +94,9 @@
 										<li class="nav-item">
 											<a class="nav-link text-active-primary pb-4 tabBtn" data-bs-toggle="tab" href="#kt_ecommerce_customer_orderFiles">Order Files</a>
 										</li>
+										<li class="nav-item">
+											<a class="nav-link text-active-primary pb-4 tabBtn" data-bs-toggle="tab" href="#kt_ecommerce_customer_completed_orders">Completed Order</a>
+										</li>
 										<!--end:::Tab item-->
 									</ul>
 									<!--end:::Tabs-->
@@ -545,8 +548,10 @@
 														</div>
 													</div>
 													<!--end::Card toolbar-->
+													
 												</div>
 												<!--end::Card header-->
+												
 												<!--begin::Card body-->
 												<div class="card-body custom-overflow-x-auto p-0">
 													<!--begin::Table header-->
@@ -735,6 +740,125 @@
 										</div>
 										<!--end:::Tab pane-->
 									</div>
+									<!-- //new work by ab start -->
+											{{-- ===================== Completed Order (TAB PANE) ===================== --}}
+<div class="tab-pane fade" id="kt_ecommerce_customer_completed_orders" role="tabpanel">
+    @php
+        use Illuminate\Support\Facades\DB;
+        use Carbon\Carbon;
+
+        // Folder ID decide karo (order ke folder_id se ya route/query se)
+        $folderId = $order->folder_id ?? ($folder->id ?? request()->route('folder') ?? request('folder_id'));
+
+        // Completed files: yahan logic maine "download_time NOT NULL" maana hai.
+        // Agar tumhara criterion aur hai to where(...) ko adjust kar lena.
+        $completedOrders = collect();
+        $completedCount  = 0;
+        $completedSizeHR = '0 B';
+
+        if ($folderId) {
+            $completedOrders = DB::table('folders')
+                ->join('files', 'folders.id', '=', 'files.folder_id')
+                ->select('files.*')
+                ->where('folders.id', $folderId)
+                ->whereNotNull('files.download_time')   // <-- Completed ka criterion
+                ->latest('files.created_at')
+                ->paginate(10);
+
+            $completedCount = $completedOrders->total();
+
+            // Total size (sirf completed files ka)
+            $completedBytes = DB::table('files')
+                ->where('folder_id', $folderId)
+                ->whereNotNull('download_time')
+                ->sum('total_size');
+
+            // Bytes -> Human readable
+            $units = ['B','KB','MB','GB','TB'];
+            $i = 0;
+            $sizeVal = $completedBytes;
+            while ($sizeVal >= 1024 && $i < count($units)-1) {
+                $sizeVal /= 1024; $i++;
+            }
+            $completedSizeHR = round($sizeVal, 0).' '.$units[$i];
+        }
+    @endphp
+
+    <div class="card card-custom-bg">
+        <div class="card-body">
+
+            {{-- Header stats --}}
+            <div class="d-flex flex-stack mb-4">
+                <div class="badge badge-lg badge-custom-bg">
+                    <span id="kt_completed_items_counter">{{ $completedCount }} items</span>
+                </div>
+                <div class="text-muted">Total Size: {{ $completedSizeHR }}</div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table align-middle table-row-dashed fs-6 gy-5" id="completed_order_file_table">
+                    <thead>
+                        <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+                            <th>File Title</th>
+                            <th>File Type</th>
+                            <th>Size</th>
+                            <th>Upload Time</th>
+                            <th>Download Time</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="fw-semibold text-gray-600">
+                        @forelse ($completedOrders as $file)
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="ki-duotone ki-file fs-2x text-primary me-3"></i>
+                                        <span class="text-gray-800">{{ $file->title }}</span>
+                                    </div>
+                                </td>
+
+                                <td>{{ $file->file_type }}</td>
+
+                                {{-- NOTE: tumhari dump me "Size" capital S tha; fallback bhi rakh diya --}}
+                                <td>{{ $file->Size ?? $file->size ?? '' }}</td>
+
+                                {{-- stdClass safe formatting --}}
+                                <td>
+                                    {{ $file->created_at ? Carbon::parse($file->created_at)->format('F j, Y g:i A') : '' }}
+                                </td>
+                                <td>
+                                    {{ $file->download_time ? Carbon::parse($file->download_time)->format('F j, Y g:i A') : '' }}
+                                </td>
+
+                                <td class="text-end">
+                                    <a class="btn btn-sm btn-light-primary"
+                                       href="{{ route('customer.completed.order.file.download', [
+                                           'order_id' => $order->order_id ?? ($file->order_id ?? null),
+                                           'file_id'  => $file->id
+                                       ]) }}">
+                                        Download
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center">No completed files found.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            {{-- Pagination --}}
+            <div class="mt-3">
+                {{ $completedOrders->withQueryString()->links() }}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+											<!-- //new work by ab end -->
 									<!--end:::Tab content-->
 								</div>
 								<!--end::Content-->
@@ -764,6 +888,7 @@
 												</div>
 												<!--end::Close-->
 											</div>
+											
 											<!--end::Modal header-->
 											<!--begin::Modal body-->
 											<div class="modal-body py-10 px-lg-17">
