@@ -2523,6 +2523,7 @@ curl_close($curl);
 
     {
 
+        
 
         $data = $request->all();
 
