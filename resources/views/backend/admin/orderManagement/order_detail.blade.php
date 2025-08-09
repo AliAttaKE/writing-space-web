@@ -811,7 +811,7 @@
             <th class="min-w-100px">Size</th>
             <th class="min-w-170px">Upload Time</th>
             <th class="min-w-170px">Download Time</th>
-            <th class="min-w-100px text-end"></th>
+            <!-- <th class="min-w-100px text-end"></th> -->
           </tr>
         </thead>
         <tbody class="fw-semibold body-rows">
@@ -827,9 +827,9 @@
               <td class="text-muted">{{ $f->Size ?? $f->size ?? '-' }}</td>
               <td class="text-muted">{{ $f->created_at ? Carbon::parse($f->created_at)->format('F j, Y g:i A') : '' }}</td>
               <td class="text-muted">{{ $f->download_time ? Carbon::parse($f->download_time)->format('F j, Y g:i A') : '' }}</td>
-              <td class="text-end">
+              <!-- <td class="text-end">
                 <a class="download-link" href="{{ route('customer.completed.order.file.download', ['order_id' => $order->order_id, 'file_id' => $f->id]) }}">Download File</a>
-              </td>
+              </td> -->
             </tr>
           @empty
             <tr>

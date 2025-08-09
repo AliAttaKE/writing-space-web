@@ -20,7 +20,9 @@
 
         body {
             height: 100vh;
-            background: linear-gradient(to bottom, #1a0033, #4b0082);
+            background-image:url(https://ws.elementary-solutions.com/backend/assets/media/ws/customer-dashboard.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
             font-family: 'Segoe UI', sans-serif;
             display: flex;
             align-items: center;
@@ -29,22 +31,22 @@
             overflow: hidden;
             color: white;
         }
-
+/* 
         #tsparticles {
             position: absolute;
             width: 100%;
             height: 100%;
             z-index: -1;
-        }
+        } */
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            /* background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2); */
             border-radius: 16px;
             padding: 40px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); */
             text-align: center;
             max-width: 400px;
             width: 90%;
@@ -60,22 +62,23 @@
             padding: 12px 25px;
             border: none;
             border-radius: 8px;
-            background-color: #e74c3c;
             color: white;
             font-size: 16px;
             cursor: pointer;
             transition: background 0.3s ease;
         }
 
-        .btn:hover {
-            background-color: #c0392b;
-        }
+        .btn-primary {
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
     </style>
 </head>
 <body>
 
     <!-- Particle Background -->
-    <div id="tsparticles"></div>
+    <!-- <div id="tsparticles"></div> -->
 
     <!-- Error Card -->
     <div class="glass-card">
@@ -91,12 +94,12 @@
         <h2>Oops! Something went wrong with your payment.</h2>
 
         <a href="{{ route('dashboard') }}">
-            <button class="btn">Back to Dashboard</button>
+            <button class="btn btn-primary">Dashboard</button>
         </a>
     </div>
 
     <!-- Particle Script -->
-    <script>
+    <!-- <script>
         tsParticles.load("tsparticles", {
             particles: {
                 number: { value: 50 },
@@ -106,7 +109,7 @@
                 links: { enable: true, color: "#ffffff", distance: 100 }
             }
         });
-    </script>
+    </script> -->
 
 </body>
 </html>
