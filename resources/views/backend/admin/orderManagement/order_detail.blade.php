@@ -740,122 +740,133 @@
 										</div>
 										<!--end:::Tab pane-->
 									</div>
+									<style>
+/* Card & surface */
+.custom-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; }
+.card-elev { box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+
+/* Counter badge */
+.counter-badge { background: #6C3EF3; color: #fff; font-weight: 700; }
+
+/* Table */
+.custom-table-wrap { border-radius: 12px; overflow: hidden; }
+.custom-table thead .header-row th { color: #B7B9CF; letter-spacing: .08em; font-weight: 800; border-bottom: 1px dashed rgba(255,255,255,0.25); }
+.custom-table td, .custom-table th { padding: 14px 16px; }
+
+.custom-table tbody tr { border-bottom: 1px dashed rgba(255,255,255,0.15); }
+.custom-table tbody tr:last-child { border-bottom: none; }
+.custom-table tbody tr:hover { background: rgba(255,255,255,0.035); }
+
+.text-icon { color: #A9A4FF !important; }
+.file-title { color: #E8E8FF; font-weight: 600; }
+
+/* Download link (yellow) */
+.download-link { color: #FFC056; font-weight: 600; text-decoration: none; }
+.download-link:hover { text-decoration: underline; }
+
+/* Per page select */
+.perpage-select { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; }
+
+/* Pagination theme */
+.pagination .page-link { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: #E8E8FF; }
+.pagination .page-item.active .page-link { background: #6C3EF3; border-color: #6C3EF3; color: #fff; }
+.pagination .page-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+</style>
+
 									<!-- //new work by ab start -->
 											{{-- ===================== Completed Order (TAB PANE) ===================== --}}
 <div class="tab-pane fade" id="kt_ecommerce_customer_completed_orders" role="tabpanel">
-    @php
-        use Illuminate\Support\Facades\DB;
-        use Carbon\Carbon;
+	@php
+    use App\Models\FileChatGPT;
+    use Carbon\Carbon;
 
-        // Folder ID decide karo (order ke folder_id se ya route/query se)
-        $folderId = $order->folder_id ?? ($folder->id ?? request()->route('folder') ?? request('folder_id'));
+    $perPage = (int) request('completed_per_page', 5);
 
-        // Completed files: yahan logic maine "download_time NOT NULL" maana hai.
-        // Agar tumhara criterion aur hai to where(...) ko adjust kar lena.
-        $completedOrders = collect();
-        $completedCount  = 0;
-        $completedSizeHR = '0 B';
+    $completedOrders = FileChatGPT::where('status', 1)
+        ->where('order_id', $order->order_id)
+        ->latest('created_at')
+        ->paginate($perPage, ['*'], 'completed_page');
 
-        if ($folderId) {
-            $completedOrders = DB::table('folders')
-                ->join('files', 'folders.id', '=', 'files.folder_id')
-                ->select('files.*')
-                ->where('folders.id', $folderId)
-                ->whereNotNull('files.download_time')   // <-- Completed ka criterion
-                ->latest('files.created_at')
-                ->paginate(10);
+    $completedCount = $completedOrders->total();
+    $completedBytes = (int) ($completedOrders->sum('total_size') ?? 0);
+    $units = ['B','KB','MB','GB','TB']; $i=0; $v=$completedBytes;
+    while ($v >= 1024 && $i < count($units)-1) { $v/=1024; $i++; }
+    $completedSizeHR = round($v, 0).' '.$units[$i];
+@endphp
 
-            $completedCount = $completedOrders->total();
+<div class="card card-flush card-elev custom-card">
+  <div class="card-body">
 
-            // Total size (sirf completed files ka)
-            $completedBytes = DB::table('files')
-                ->where('folder_id', $folderId)
-                ->whereNotNull('download_time')
-                ->sum('total_size');
-
-            // Bytes -> Human readable
-            $units = ['B','KB','MB','GB','TB'];
-            $i = 0;
-            $sizeVal = $completedBytes;
-            while ($sizeVal >= 1024 && $i < count($units)-1) {
-                $sizeVal /= 1024; $i++;
-            }
-            $completedSizeHR = round($sizeVal, 0).' '.$units[$i];
-        }
-    @endphp
-
-    <div class="card card-custom-bg">
-        <div class="card-body">
-
-            {{-- Header stats --}}
-            <div class="d-flex flex-stack mb-4">
-                <div class="badge badge-lg badge-custom-bg">
-                    <span id="kt_completed_items_counter">{{ $completedCount }} items</span>
-                </div>
-                <div class="text-muted">Total Size: {{ $completedSizeHR }}</div>
-            </div>
-
-            <div class="table-responsive">
-                <table class="table align-middle table-row-dashed fs-6 gy-5" id="completed_order_file_table">
-                    <thead>
-                        <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                            <th>File Title</th>
-                            <th>File Type</th>
-                            <th>Size</th>
-                            <th>Upload Time</th>
-                            <th>Download Time</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody class="fw-semibold text-gray-600">
-                        @forelse ($completedOrders as $file)
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <i class="ki-duotone ki-file fs-2x text-primary me-3"></i>
-                                        <span class="text-gray-800">{{ $file->title }}</span>
-                                    </div>
-                                </td>
-
-                                <td>{{ $file->file_type }}</td>
-
-                                {{-- NOTE: tumhari dump me "Size" capital S tha; fallback bhi rakh diya --}}
-                                <td>{{ $file->Size ?? $file->size ?? '' }}</td>
-
-                                {{-- stdClass safe formatting --}}
-                                <td>
-                                    {{ $file->created_at ? Carbon::parse($file->created_at)->format('F j, Y g:i A') : '' }}
-                                </td>
-                                <td>
-                                    {{ $file->download_time ? Carbon::parse($file->download_time)->format('F j, Y g:i A') : '' }}
-                                </td>
-
-                                <td class="text-end">
-                                    <a class="btn btn-sm btn-light-primary"
-                                       href="{{ route('customer.completed.order.file.download', [
-                                           'order_id' => $order->order_id ?? ($file->order_id ?? null),
-                                           'file_id'  => $file->id
-                                       ]) }}">
-                                        Download
-                                    </a>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center">No completed files found.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-
-            {{-- Pagination --}}
-            <div class="mt-3">
-                {{ $completedOrders->withQueryString()->links() }}
-            </div>
-
-        </div>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <span class="badge rounded-pill px-3 py-2 counter-badge">{{ $completedCount }} items</span>
+      <!-- <span class="text-muted small">Total Size: {{ $completedSizeHR }}</span> -->
     </div>
+
+    <div class="table-responsive custom-table-wrap">
+      <table class="table align-middle table-row-dashed fs-6 gy-4 custom-table">
+        <thead>
+          <tr class="text-start text-uppercase header-row">
+            <th class="min-w-250px">File Title</th>
+            <th class="min-w-80px">File Type</th>
+            <th class="min-w-100px">Size</th>
+            <th class="min-w-170px">Upload Time</th>
+            <th class="min-w-170px">Download Time</th>
+            <th class="min-w-100px text-end"></th>
+          </tr>
+        </thead>
+        <tbody class="fw-semibold body-rows">
+          @forelse($completedOrders as $f)
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <i class="ki-duotone ki-file fs-2x me-3 text-icon"></i>
+                  <span class="file-title">{{ $f->title ?? $f->file_name ?? 'File' }}</span>
+                </div>
+              </td>
+              <td class="text-muted">{{ $f->file_type ?? '-' }}</td>
+              <td class="text-muted">{{ $f->Size ?? $f->size ?? '-' }}</td>
+              <td class="text-muted">{{ $f->created_at ? Carbon::parse($f->created_at)->format('F j, Y g:i A') : '' }}</td>
+              <td class="text-muted">{{ $f->download_time ? Carbon::parse($f->download_time)->format('F j, Y g:i A') : '' }}</td>
+              <td class="text-end">
+                <a class="download-link" href="{{ route('customer.completed.order.file.download', ['order_id' => $order->order_id, 'file_id' => $f->id]) }}">Download File</a>
+              </td>
+            </tr>
+          @empty
+            <tr>
+              <td colspan="6" class="text-center text-muted py-6">No completed files found.</td>
+            </tr>
+          @endforelse
+        </tbody>
+      </table>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mt-3 gap-3 flex-wrap">
+      <form id="completedPerPageForm" method="GET" class="d-inline">
+        <select name="completed_per_page" class="form-select form-select-sm w-auto perpage-select"
+                onchange="document.getElementById('completedPerPageForm').submit()">
+          @foreach([5,10,25,50] as $n)
+            <option value="{{ $n }}" @selected($perPage==$n)>{{ $n }}</option>
+          @endforeach
+        </select>
+        {{-- Preserve other query params --}}
+        @foreach(request()->except(['completed_per_page','page','completed_page']) as $k=>$v)
+          <input type="hidden" name="{{ $k }}" value="{{ $v }}">
+        @endforeach
+      </form>
+
+      <div class="text-muted small flex-grow-1 text-center text-xl-start">
+        Showing {{ $completedOrders->firstItem() ?? 0 }} to {{ $completedOrders->lastItem() ?? 0 }} of {{ $completedOrders->total() }} records
+      </div>
+
+      <div class="pagination-wrap">
+        {{ $completedOrders->appends(['completed_per_page'=>$perPage] + request()->except('page','completed_page'))->links() }}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 </div>
 
 											<!-- //new work by ab end -->
