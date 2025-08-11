@@ -734,8 +734,8 @@ Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->nam
     Route::post('/update-detail-order/{id}',[CustomerPlaceOrderController::class,'update_detail_order'])->name('update_detail_order');
     Route::post('check-package/{sub_id}',[CustomerPlaceOrderController::class,'check_package'])->name('check.package');
 
-    Route::get('/update-tier', [CustomerPlaceOrderController::class, 'updateTierAfterPayment'])->name('update.tier');
-    Route::get('/update-tier1', [CustomerPlaceOrderController::class, 'updateTierAfterPayment1'])->name('update.tier1');
+    Route::get('/update-tier', [CustomerPlaceOrderController::class, 'updateTierAfterPayment1'])->name('update.tier');
+    Route::get('/update-tier1', [CustomerPlaceOrderController::class, 'updateTierAfterPayment'])->name('update.tier1');
 
 
     Route::post('/send-message',[MessageManagementController::class,'sendMessage'])->name('send-message');
