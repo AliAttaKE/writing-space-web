@@ -4271,25 +4271,35 @@ Writing Space</p>
         $user->save();
         return response()->json(['status' => true, 'message' => 'Customer dashboard'], 200);
     }
- public function updateTierAfterPayment1(Request $request)
+public function updateTierAfterPayment1(Request $request)
 {
-    $user = User::findOrFail(Auth::id());
+    $user = Auth::user();
 
-    $order = Order::where('user_id', Auth::id())->latest()->first();
-if ($order && $order->type === 'custom_order') {
-    $user->tier = 'tier_1';
-} elseif ($order && $order->type === 'package') {
-    $user->tier = 'tier_2';
-}
+    // 1) Try to take from request (e.g. "custom_order" or "package")
+    $type = $request->input('order_type');
+
+    // 2) If not in request, pick the user's latest PAID order
+    if (!$type) {
+        $lastOrder = Order::where('user_id', $user->id)
+            ->where('payment_status', 'paid')   // apne project ke mutabiq field adjust kar lo
+            ->latest('id')
+            ->first();
+
+        // field aap ke DB me "type" ya "order_type" ho sakta hai — dono me se jo hai use karein
+        $type = $lastOrder?->order_type ?? $lastOrder?->type;
+    }
+
+    // 3) Map to tier
+    if ($type === 'custom_order') {
+        $user->tier = 'tier_1';
+    } elseif ($type === 'package') {
+        $user->tier = 'tier_2';
+    }
 
     $user->save();
 
-    return response()->json([
-        'status' => true,
-        'message' => 'Customer dashboard'
-    ], 200);
+    return response()->json(['status' => true, 'message' => 'Customer dashboard'], 200);
 }
-
 
 
 
