@@ -4282,8 +4282,7 @@ public function updateTierAfterPayment1(Request $request)
     $hasActiveSubscription = DB::table('user_subscription') // <-- agar plural ho to 'user_subscriptions'
         ->where('user_id', $user->id)
         ->where(function ($q) {
-            $q->whereIn('status', ['active','Active','ACTIVE'])
-              ->orWhere('is_active', 1);
+            $q->whereIn('status', ['active','Active','ACTIVE']);
         })
         ->where(function ($q) {
             // expiry/ends_at future me ho — columns apne DB ke mutabiq adjust kar lo
