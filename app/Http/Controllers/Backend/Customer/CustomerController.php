@@ -189,13 +189,7 @@ class CustomerController extends Controller
                         ->get();
 
 
-                        
-// A) orders ko per order_id single row
-$ordersOne = DB::table('orders')
-    ->select('order_id', DB::raw('MAX(user_id) as user_id'))
-    ->groupBy('order_id');
-
-// B) per user sirf latest ACTIVE subscription
+  // (Optional) latest ACTIVE subscription per user — same as before
 $latestActiveSub = DB::table('user_subscription as us')
     ->select('us.user_id', 'us.subscription_id')
     ->join(
@@ -209,33 +203,27 @@ $latestActiveSub = DB::table('user_subscription as us')
         }
     );
 
-// C) invoices ko per invoice_id latest row par reduce karo (email filter ke saath)
-$uniqInvoices = DB::table('invoices as i')
+// A) Base invoices: one row per invoice_id (latest id)
+$baseInvoices = DB::table('invoices as i')
     ->where('i.email', Auth::user()->email)
-    // ->where('i.invoice_type', 'package_inc') // (optional) sirf packages
-    ->select('i.invoice_id', DB::raw('MAX(i.id) as id'))
-    ->groupBy('i.invoice_id');
+    ->where('i.invoice_type', 'package_inc')              // filter yahin lagao
+    ->whereRaw('i.id = (SELECT MAX(ii.id) FROM invoices ii WHERE ii.invoice_id = i.invoice_id)')
+    ->select('i.*');
 
-// D) final query – ab duplicates nahi aane chahiye
-$PackageInvoices = DB::table('invoices as inv')
-    ->joinSub($uniqInvoices, 'u', function ($j) {
-        $j->on('inv.id', '=', 'u.id'); // only the latest row per invoice_id
-    })
-    ->leftJoinSub($ordersOne, 'o1', function ($j) {
-        $j->on('inv.order_id', '=', 'o1.order_id'); // NOTE: agar orders ka PK "id" ho to neeche wali line use karo
-        // $j->on('inv.order_id', '=', 'o1.id'); // <— uncomment if join key this is actually id
-    })
+// B) Orders ko join karo (agar aapka relation order_id->orders.id hai to neeche wali line use karo)
+$PackageInvoices = $baseInvoices
+    ->leftJoin('orders as o', 'i.order_id', '=', 'o.order_id')   // <-- verify this key!
+    // ->leftJoin('orders as o', 'i.order_id', '=', 'o.id')      // <-- use this if the real key is orders.id
     ->leftJoinSub($latestActiveSub, 'uas', function ($j) {
-        $j->on('o1.user_id', '=', 'uas.user_id');
+        $j->on('o.user_id', '=', 'uas.user_id');
     })
     ->leftJoin('subscription as s', 'uas.subscription_id', '=', 's.id')
-    ->select(
-        'inv.*',
-        'o1.user_id as order_user_id',
+    ->addSelect(
+        'o.user_id as order_user_id',
         'uas.subscription_id',
         's.subscription_name'
     )
-    ->orderByDesc('inv.created_at')
+    ->orderByDesc('i.created_at')
     ->get();
 
 
