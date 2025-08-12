@@ -4275,18 +4275,23 @@ public function updateTierAfterPayment1(Request $request)
 {
     $user = Auth::user();
 
-    // 1) Request se order type (optional)
+    // 1) optional: ?order_type=custom|package|subscription
     $type = $request->input('order_type');
 
-    // 2) User ki active subscription check (table name adjust kar lo: user_subscription / user_subscriptions)
-    $hasActiveSubscription = DB::table('user_subscription') // <-- agar plural ho to 'user_subscriptions'
+    // 2) Pro subscription check: ACTIVE + totalamountpro present
+   $hasPro = DB::table('user_subscription') // plural ho to 'user_subscriptions'
+    ->where('user_id', $user->id)
+    ->whereIn('status', ['active','Active','ACTIVE'])
+    ->where('totalamountpro', '>', 0)   // numeric check
+    ->exists();
+
+    // 3) Normal active subscription
+    $hasActiveSubscription = DB::table('user_subscription')
         ->where('user_id', $user->id)
-        ->where(function ($q) {
-            $q->whereIn('status', ['active','Active','ACTIVE']);
-        })
+        ->whereIn('status', ['active','Active','ACTIVE'])
         ->exists();
 
-    // 3) Agar type missing ho to last paid order se nikaal lo
+    // 4) Fallback: last paid order se type nikaalo
     if (!$type) {
         $lastOrder = Orders::where('user_id', $user->id)
             ->whereIn('payment_status', ['paid','Paid','PAID'])
@@ -4301,8 +4306,10 @@ public function updateTierAfterPayment1(Request $request)
 
     $normalized = $type ? strtolower(trim($type)) : null;
 
-    // 4) Decision: subscription active ho ya type package/subscription => tier_2 ; custom => tier_1
-    if ($hasActiveSubscription || in_array($normalized, ['package','subscription','package_order'])) {
+    // 5) Priority: PRO > subscription/package > custom
+    if ($hasPro) {
+        $user->tier = 'tier_3';
+    } elseif ($hasActiveSubscription || in_array($normalized, ['package','subscription','package_order'])) {
         $user->tier = 'tier_2';
     } elseif (in_array($normalized, ['custom','custom_order','customorder'])) {
         $user->tier = 'tier_1';
@@ -4311,9 +4318,10 @@ public function updateTierAfterPayment1(Request $request)
             'status' => false,
             'message' => 'Order type not recognized and no active subscription found.',
             'debug' => [
-                'raw_type' => $type,
+                'raw_type'   => $type,
                 'normalized' => $normalized,
-                'hasActiveSubscription' => $hasActiveSubscription,
+                'hasActive'  => $hasActiveSubscription,
+                'hasPro'     => $hasPro,
             ]
         ], 422);
     }
@@ -4328,10 +4336,10 @@ public function updateTierAfterPayment1(Request $request)
             'new_tier'   => $user->tier,
             'order_type' => $type,
             'active_subscription' => $hasActiveSubscription,
+            'pro_subscription'     => $hasPro,
         ],
     ]);
 }
-
 
 
 
