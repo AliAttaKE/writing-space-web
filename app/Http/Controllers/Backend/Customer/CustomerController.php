@@ -187,12 +187,15 @@ class CustomerController extends Controller
                         ->select('invoices.*')
                         ->latest('invoices.created_at')
                         ->get();
-// 1) Make orders unique per order_id (single row per order_id)
+
+
+                        
+// A) orders ko per order_id single row
 $ordersOne = DB::table('orders')
-    ->select('order_id', DB::raw('MIN(id) as any_id'), DB::raw('MAX(user_id) as user_id'))
+    ->select('order_id', DB::raw('MAX(user_id) as user_id'))
     ->groupBy('order_id');
 
-// 2) Latest ACTIVE subscription per user (single row per user)
+// B) per user sirf latest ACTIVE subscription
 $latestActiveSub = DB::table('user_subscription as us')
     ->select('us.user_id', 'us.subscription_id')
     ->join(
@@ -200,35 +203,40 @@ $latestActiveSub = DB::table('user_subscription as us')
                   FROM user_subscription
                   WHERE status IN ("active","Active","ACTIVE")
                   GROUP BY user_id) AS last'),
-        function ($join) {
-            $join->on('us.user_id', '=', 'last.user_id')
-                 ->on('us.id', '=', 'last.max_id');
+        function ($j) {
+            $j->on('us.user_id', '=', 'last.user_id')
+              ->on('us.id', '=', 'last.max_id');
         }
     );
 
-// 3) Main query — no duplicates now
-$PackageInvoices = DB::table('invoices as i')
-    ->leftJoinSub($ordersOne, 'o1', function ($join) {
-        $join->on('i.order_id', '=', 'o1.order_id');
+// C) invoices ko per invoice_id latest row par reduce karo (email filter ke saath)
+$uniqInvoices = DB::table('invoices as i')
+    ->where('i.email', Auth::user()->email)
+    // ->where('i.invoice_type', 'package_inc') // (optional) sirf packages
+    ->select('i.invoice_id', DB::raw('MAX(i.id) as id'))
+    ->groupBy('i.invoice_id');
+
+// D) final query – ab duplicates nahi aane chahiye
+$PackageInvoices = DB::table('invoices as inv')
+    ->joinSub($uniqInvoices, 'u', function ($j) {
+        $j->on('inv.id', '=', 'u.id'); // only the latest row per invoice_id
     })
-    ->leftJoinSub($latestActiveSub, 'uas', function ($join) {
-        $join->on('o1.user_id', '=', 'uas.user_id');
+    ->leftJoinSub($ordersOne, 'o1', function ($j) {
+        $j->on('inv.order_id', '=', 'o1.order_id'); // NOTE: agar orders ka PK "id" ho to neeche wali line use karo
+        // $j->on('inv.order_id', '=', 'o1.id'); // <— uncomment if join key this is actually id
+    })
+    ->leftJoinSub($latestActiveSub, 'uas', function ($j) {
+        $j->on('o1.user_id', '=', 'uas.user_id');
     })
     ->leftJoin('subscription as s', 'uas.subscription_id', '=', 's.id')
-    ->where('i.email', Auth::user()->email)
-    // ->where('i.invoice_type', 'package_inc') // optional: sirf packages
     ->select(
-        'i.*',
+        'inv.*',
         'o1.user_id as order_user_id',
         'uas.subscription_id',
         's.subscription_name'
     )
-    ->orderByDesc('i.created_at')
+    ->orderByDesc('inv.created_at')
     ->get();
-
-
-
-
 
 
 
