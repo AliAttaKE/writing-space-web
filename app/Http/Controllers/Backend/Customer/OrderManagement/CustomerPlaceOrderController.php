@@ -4290,9 +4290,9 @@ public function updateTierAfterPayment1(Request $request)
     }
 
     // 3) Map to tier
-    if ($type === 'custom_order') {
+    if ($type === 'custom') {
         $user->tier = 'tier_1';
-    } elseif ($type === 'package') {
+    } elseif ($type === 'subscription') {
         $user->tier = 'tier_2';
     }
 
