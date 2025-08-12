@@ -4275,30 +4275,49 @@ public function updateTierAfterPayment1(Request $request)
 {
     $user = Auth::user();
 
-    // 1) Try to take from request (e.g. "custom_order" or "package")
+    // from request ?order_type=custom | subscription | package ...
     $type = $request->input('order_type');
 
-    // 2) If not in request, pick the user's latest PAID order
+    // fallback: read user's last PAID order
     if (!$type) {
         $lastOrder = Orders::where('user_id', $user->id)
-            ->where('payment_status', 'Paid')   // apne project ke mutabiq field adjust kar lo
+            ->whereIn('payment_status', ['paid','Paid','PAID'])
             ->latest('id')
             ->first();
 
-        // field aap ke DB me "type" ya "order_type" ho sakta hai — dono me se jo hai use karein
-        $type = $lastOrder?->order_type ?? $lastOrder?->type;
+        // try common field names
+        $type = $lastOrder?->order_type
+            ?? $lastOrder?->type
+            ?? $lastOrder?->package_type
+            ?? null;
     }
 
-    // 3) Map to tier
-    if ($type === 'custom') {
+    $normalized = $type ? strtolower(trim($type)) : null;
+
+    // custom → tier_1, package/subscription → tier_2
+    if (in_array($normalized, ['custom','custom_order','customorder'])) {
         $user->tier = 'tier_1';
-    } elseif ($type === 'subscription') {
+    } elseif (in_array($normalized, ['package','subscription','package_order'])) {
         $user->tier = 'tier_2';
+    } else {
+        return response()->json([
+            'status' => false,
+            'message' => 'Order type not recognized',
+            'debug'   => ['raw' => $type, 'normalized' => $normalized],
+        ], 422);
     }
-dd($user);
+
     $user->save();
 
-    return response()->json(['status' => true, 'message' => 'Customer dashboard'], 200);
+    return response()->json([
+        'status'  => true,
+        'message' => 'Tier updated',
+        'data'    => [
+            'user_id'    => $user->id,
+            'new_tier'   => $user->tier,
+            'order_type' => $type,
+        ],
+    ]);
 }
 
 
