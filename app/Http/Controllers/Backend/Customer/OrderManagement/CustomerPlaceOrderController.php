@@ -4275,12 +4275,12 @@ Writing Space</p>
 {
     $user = User::findOrFail(Auth::id());
 
-    // yahan tum order type check kar rahe ho
-    if ($request->order_type === 'custom_order') {
-        $user->tier = 'tier_1';
-    } elseif ($request->order_type === 'package') {
-        $user->tier = 'tier_2';
-    }
+    $order = Order::where('user_id', Auth::id())->latest()->first();
+if ($order && $order->type === 'custom_order') {
+    $user->tier = 'tier_1';
+} elseif ($order && $order->type === 'package') {
+    $user->tier = 'tier_2';
+}
 
     $user->save();
 
