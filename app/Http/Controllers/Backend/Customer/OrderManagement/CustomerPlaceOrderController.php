@@ -4281,7 +4281,7 @@ public function updateTierAfterPayment1(Request $request)
     // 2) If not in request, pick the user's latest PAID order
     if (!$type) {
         $lastOrder = Orders::where('user_id', $user->id)
-            ->where('payment_status', 'paid')   // apne project ke mutabiq field adjust kar lo
+            ->where('payment_status', 'Paid')   // apne project ke mutabiq field adjust kar lo
             ->latest('id')
             ->first();
 
@@ -4295,7 +4295,7 @@ public function updateTierAfterPayment1(Request $request)
     } elseif ($type === 'subscription') {
         $user->tier = 'tier_2';
     }
-
+dd($user);
     $user->save();
 
     return response()->json(['status' => true, 'message' => 'Customer dashboard'], 200);
