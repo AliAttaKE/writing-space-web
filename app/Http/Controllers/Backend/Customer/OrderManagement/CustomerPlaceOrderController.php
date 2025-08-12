@@ -9,6 +9,7 @@ use App\Models\Paper_Format;
 use App\Models\Term_of_paper;
 use Illuminate\Http\Request;
 use App\Models\Orders;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Pricing;
 use App\Models\Subject;
 use App\Models\Folder;
@@ -35,7 +36,6 @@ use App\Mail\PkgIdmanageInvoiceEmailTemplate;
 use App\Mail\Pkg_Id_manage_optin1_Email_Template;
 use App\Models\Email;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use App\Exports\OrdersExport;
 use App\Exports\OrdersExportInvoice;
 use App\Models\Feedback;
@@ -4280,7 +4280,7 @@ public function updateTierAfterPayment1(Request $request)
 
     // 2) If not in request, pick the user's latest PAID order
     if (!$type) {
-        $lastOrder = Order::where('user_id', $user->id)
+        $lastOrder = Orders::where('user_id', $user->id)
             ->where('payment_status', 'paid')   // apne project ke mutabiq field adjust kar lo
             ->latest('id')
             ->first();
