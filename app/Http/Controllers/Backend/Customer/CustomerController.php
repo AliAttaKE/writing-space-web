@@ -187,7 +187,12 @@ class CustomerController extends Controller
                         ->select('invoices.*')
                         ->latest('invoices.created_at')
                         ->get();
-// 1) Latest ACTIVE subscription per user (ek row per user)
+// 1) Make orders unique per order_id (single row per order_id)
+$ordersOne = DB::table('orders')
+    ->select('order_id', DB::raw('MIN(id) as any_id'), DB::raw('MAX(user_id) as user_id'))
+    ->groupBy('order_id');
+
+// 2) Latest ACTIVE subscription per user (single row per user)
 $latestActiveSub = DB::table('user_subscription as us')
     ->select('us.user_id', 'us.subscription_id')
     ->join(
@@ -201,24 +206,25 @@ $latestActiveSub = DB::table('user_subscription as us')
         }
     );
 
-// 2) Main query — ab sirf 1 subscription row join hogi per user
-$PackageInvoices = DB::table('invoices')
-    ->leftJoin('orders', 'invoices.order_id', '=', 'orders.order_id') // confirm keys
-    ->leftJoinSub($latestActiveSub, 'uas', function ($join) {
-        $join->on('orders.user_id', '=', 'uas.user_id');
+// 3) Main query — no duplicates now
+$PackageInvoices = DB::table('invoices as i')
+    ->leftJoinSub($ordersOne, 'o1', function ($join) {
+        $join->on('i.order_id', '=', 'o1.order_id');
     })
-    ->leftJoin('subscription', 'uas.subscription_id', '=', 'subscription.id')
-    ->where('invoices.email', Auth::user()->email)
-    // ->where('invoices.invoice_type', 'package_inc') // (optional) sirf packages dikhao
+    ->leftJoinSub($latestActiveSub, 'uas', function ($join) {
+        $join->on('o1.user_id', '=', 'uas.user_id');
+    })
+    ->leftJoin('subscription as s', 'uas.subscription_id', '=', 's.id')
+    ->where('i.email', Auth::user()->email)
+    // ->where('i.invoice_type', 'package_inc') // optional: sirf packages
     ->select(
-        'invoices.*',
-        'orders.user_id as order_user_id',
+        'i.*',
+        'o1.user_id as order_user_id',
         'uas.subscription_id',
-        'subscription.subscription_name'
+        's.subscription_name'
     )
-    ->orderByDesc('invoices.created_at')
+    ->orderByDesc('i.created_at')
     ->get();
-
 
 
 
