@@ -4271,13 +4271,25 @@ Writing Space</p>
         $user->save();
         return response()->json(['status' => true, 'message' => 'Customer dashboard'], 200);
     }
-    public function updateTierAfterPayment1()
-    {
-        $user = User::findOrFail(Auth::user()->id);
+ public function updateTierAfterPayment1(Request $request)
+{
+    $user = User::findOrFail(Auth::id());
+
+    // yahan tum order type check kar rahe ho
+    if ($request->order_type === 'custom_order') {
         $user->tier = 'tier_1';
-        $user->save();
-        return response()->json(['status' => true, 'message' => 'Customer dashboard'], 200);
+    } elseif ($request->order_type === 'package') {
+        $user->tier = 'tier_2';
     }
+
+    $user->save();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Customer dashboard'
+    ], 200);
+}
+
 
 
 
