@@ -4284,16 +4284,6 @@ public function updateTierAfterPayment1(Request $request)
         ->where(function ($q) {
             $q->whereIn('status', ['active','Active','ACTIVE']);
         })
-        ->where(function ($q) {
-            // expiry/ends_at future me ho — columns apne DB ke mutabiq adjust kar lo
-            $q->whereNull('ends_at')
-              ->orWhere('ends_at', '>=', now())
-              ->orWhere('expiry_date', '>=', now());
-        })
-        ->where(function ($q) {
-            $q->whereNull('payment_status')
-              ->orWhereIn('payment_status', ['paid','Paid','PAID']);
-        })
         ->exists();
 
     // 3) Agar type missing ho to last paid order se nikaal lo
