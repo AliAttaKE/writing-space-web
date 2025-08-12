@@ -35,7 +35,6 @@ use App\Mail\PkgIdmanageInvoiceEmailTemplate;
 use App\Mail\Pkg_Id_manage_optin1_Email_Template;
 use App\Models\Email;
 use App\Models\User;
-use App\Models\order;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\OrdersExport;
 use App\Exports\OrdersExportInvoice;
