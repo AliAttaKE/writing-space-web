@@ -187,19 +187,36 @@ class CustomerController extends Controller
                         ->select('invoices.*')
                         ->latest('invoices.created_at')
                         ->get();
+// 1) Latest ACTIVE subscription per user (ek row per user)
+$latestActiveSub = DB::table('user_subscription as us')
+    ->select('us.user_id', 'us.subscription_id')
+    ->join(
+        DB::raw('(SELECT user_id, MAX(id) AS max_id
+                  FROM user_subscription
+                  WHERE status IN ("active","Active","ACTIVE")
+                  GROUP BY user_id) AS last'),
+        function ($join) {
+            $join->on('us.user_id', '=', 'last.user_id')
+                 ->on('us.id', '=', 'last.max_id');
+        }
+    );
+
+// 2) Main query — ab sirf 1 subscription row join hogi per user
 $PackageInvoices = DB::table('invoices')
-    ->leftJoin('orders', 'invoices.order_id', '=', 'orders.order_id')
-    ->leftJoin('user_subscription', 'orders.user_id', '=', 'user_subscription.user_id')
-    ->leftJoin('subscription', 'user_subscription.subscription_id', '=', 'subscription.id')
+    ->leftJoin('orders', 'invoices.order_id', '=', 'orders.order_id') // confirm keys
+    ->leftJoinSub($latestActiveSub, 'uas', function ($join) {
+        $join->on('orders.user_id', '=', 'uas.user_id');
+    })
+    ->leftJoin('subscription', 'uas.subscription_id', '=', 'subscription.id')
     ->where('invoices.email', Auth::user()->email)
+    // ->where('invoices.invoice_type', 'package_inc') // (optional) sirf packages dikhao
     ->select(
         'invoices.*',
         'orders.user_id as order_user_id',
-        'user_subscription.subscription_id',
+        'uas.subscription_id',
         'subscription.subscription_name'
     )
-    ->distinct()
-    ->latest('invoices.created_at')
+    ->orderByDesc('invoices.created_at')
     ->get();
 
 
