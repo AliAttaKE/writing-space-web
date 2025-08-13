@@ -511,7 +511,7 @@ $emailContent = "
         CURLOPT_POSTFIELDS => json_encode([
             'order' => [
                 'amount' => '10.00',
-                'currency' => 'PKR'
+                'currency' => $this->currency 
             ]
         ]),
         CURLOPT_HTTPHEADER => [
@@ -1663,6 +1663,348 @@ private function sendCurlRequest($url, $payload, $authHeader)
 }
 
 
+
+ protected $bankResponseCodes = [
+     
+    '1' => [
+        'message' => 'Refer To Card Issuer',
+        'description' => 'Client Contact Issuing Bank'
+    ],
+    '2' => [
+        'message' => 'Refer To Card Issuer, Special Condition',
+        'description' => 'Client Contact Issuing Bank'
+    ],
+    '3' => [
+        'message' => 'Invalid Merchant',
+        'description' => 'Contact Mygate At 021 555 3260'
+    ],
+    '4' => [
+        'message' => 'Pick-Up Card',
+        'description' => 'If Not Hostile Keep The Card'
+    ],
+    '5' => [
+        'message' => 'Do Not Honour',
+        'description' => 'Client To Contact Issuing Bank'
+    ],
+    '6' => [
+        'message' => 'Error',
+        'description' => 'Error Cable Faulty, Connection Config Wrong'
+    ],
+    '7' => [
+        'message' => 'Pick-Up Card, Special Condition',
+        'description' => 'If Not Hostile Keep The Card'
+    ],
+    '8' => [
+        'message' => 'Honour With Identification',
+        'description' => 'Confirm Clients ID'
+    ],
+    '9' => [
+        'message' => 'Request In Progress',
+        'description' => 'Wait For Transaction Completion'
+    ],
+    '10' => [
+        'message' => 'Approved, Partial',
+        'description' => ''
+    ],
+    '11' => [
+        'message' => 'Approved, VIP',
+        'description' => ''
+    ],
+    '12' => [
+        'message' => 'Invalid Transaction',
+        'description' => 'Incorrect Information (Invalid Budget Period) Redo Transaction'
+    ],
+    '13' => [
+        'message' => 'Invalid Amount',
+        'description' => 'Invalid Amount For Budget Period Incorrect Amount / Redo Transaction Budget Amount'
+    ],
+    '14' => [
+        'message' => 'Invalid Card Number',
+        'description' => 'Wrong Pin / Re Insert Pin'
+    ],
+    '15' => [
+        'message' => 'No Such Issuer',
+        'description' => ''
+    ],
+    '16' => [
+        'message' => 'Approved, Update Track 3',
+        'description' => 'Bank Is Back Online'
+    ],
+    '17' => [
+        'message' => 'Operator Cancelled',
+        'description' => ''
+    ],
+    '18' => [
+        'message' => 'Customer Dispute',
+        'description' => 'Client To Contact Issuing Bank'
+    ],
+    '19' => [
+        'message' => 'Re Enter Transaction',
+        'description' => 'Re Enter Transaction'
+    ],
+    '22' => [
+        'message' => 'Suspected Malfunction',
+        'description' => ''
+    ],
+    '23' => [
+        'message' => 'Unacceptable Transaction Fee',
+        'description' => ''
+    ],
+    '24' => [
+        'message' => 'File Update Not Supported',
+        'description' => 'Bank Is Offline'
+    ],
+    '25' => [
+        'message' => 'Unable To Locate Record',
+        'description' => 'Bank Is Offline'
+    ],
+    '26' => [
+        'message' => 'Duplicate Record',
+        'description' => ''
+    ],
+    '27' => [
+        'message' => 'File Update Edit Error',
+        'description' => ''
+    ],
+    '28' => [
+        'message' => 'File Update File Locked',
+        'description' => ''
+    ],
+    '30' => [
+        'message' => 'File Update Failed',
+        'description' => ''
+    ],
+    '31' => [
+        'message' => 'Bank Not Supported',
+        'description' => ''
+    ],
+    '32' => [
+        'message' => 'Completed Partially',
+        'description' => ''
+    ],
+    '33' => [
+        'message' => 'Expired Card, Pick-Up',
+        'description' => ''
+    ],
+    '34' => [
+        'message' => 'Suspected Fraud, Pick-Up',
+        'description' => ''
+    ],
+    '35' => [
+        'message' => 'Contact Acquirer, Pick-Up',
+        'description' => ''
+    ],
+    '36' => [
+        'message' => 'Restricted Card, Pick-Up',
+        'description' => ''
+    ],
+    '37' => [
+        'message' => 'Call Acquirer Security, Pick-Up',
+        'description' => ''
+    ],
+    '38' => [
+        'message' => 'PIN Tries Exceeded, Pick-Up',
+        'description' => ''
+    ],
+    '39' => [
+        'message' => 'No Credit Account',
+        'description' => ''
+    ],
+    '40' => [
+        'message' => 'Function Not Supported',
+        'description' => ''
+    ],
+    '41' => [
+        'message' => 'Lost Card (Contact Bank)',
+        'description' => ''
+    ],
+    '42' => [
+        'message' => 'No Universal Account',
+        'description' => ''
+    ],
+    '43' => [
+        'message' => 'Stolen Card',
+        'description' => ''
+    ],
+    '44' => [
+        'message' => 'No Investment Account',
+        'description' => ''
+    ],
+    '51' => [
+        'message' => 'Not Sufficient Funds (Client To Contact Bank)',
+        'description' => ''
+    ],
+    '52' => [
+        'message' => 'No Check Account',
+        'description' => ''
+    ],
+    '53' => [
+        'message' => 'No Savings Account',
+        'description' => ''
+    ],
+    '54' => [
+        'message' => 'Expired Card (Contact Bank)',
+        'description' => ''
+    ],
+    '55' => [
+        'message' => 'Incorrect PIN',
+        'description' => ''
+    ],
+    '56' => [
+        'message' => 'No Card Record',
+        'description' => ''
+    ],
+    '57' => [
+        'message' => 'Transaction Not Permitted To Cardholder',
+        'description' => ''
+    ],
+    '58' => [
+        'message' => 'Transaction Not Permitted On Terminal',
+        'description' => ''
+    ],
+    '59' => [
+        'message' => 'Suspected Fraud',
+        'description' => ''
+    ],
+    '60' => [
+        'message' => 'Contact Acquirer',
+        'description' => ''
+    ],
+    '61' => [
+        'message' => 'Exceeds Withdrawal Limit',
+        'description' => ''
+    ],
+    '62' => [
+        'message' => 'Restricted Card',
+        'description' => ''
+    ],
+    '63' => [
+        'message' => 'Security Violation',
+        'description' => ''
+    ],
+    '64' => [
+        'message' => 'Original Amount Incorrect',
+        'description' => ''
+    ],
+    '65' => [
+        'message' => 'Exceeds Withdrawal Frequency',
+        'description' => ''
+    ],
+    '66' => [
+        'message' => 'Call Acquirer Security',
+        'description' => ''
+    ],
+    '67' => [
+        'message' => 'Hard Capture',
+        'description' => ''
+    ],
+    '68' => [
+        'message' => 'Response Received Too Late',
+        'description' => ''
+    ],
+    '75' => [
+        'message' => 'PIN Tries Exceeded',
+        'description' => ''
+    ],
+    '77' => [
+        'message' => 'Intervene, Bank Approval Required',
+        'description' => ''
+    ],
+    '78' => [
+        'message' => 'Intervene, Bank Approval Required For Partial Amount',
+        'description' => ''
+    ],
+    '90' => [
+        'message' => 'Cut-Off In Progress',
+        'description' => ''
+    ],
+    '91' => [
+        'message' => 'Issuer Or Switch Inoperative',
+        'description' => ''
+    ],
+    '92' => [
+        'message' => 'Routing Error',
+        'description' => ''
+    ],
+    '93' => [
+        'message' => 'Violation Of Law',
+        'description' => ''
+    ],
+    '94' => [
+        'message' => 'Duplicate Transaction',
+        'description' => ''
+    ],
+    '95' => [
+        'message' => 'Reconcile Error',
+        'description' => ''
+    ],
+    '96' => [
+        'message' => 'Communication System Malfunction',
+        'description' => ''
+    ],
+    '97' => [
+        'message' => 'Communication Error – Cannot Connect To FNB',
+        'description' => ''
+    ],
+    '98' => [
+        'message' => 'Exceeds Cash Limit',
+        'description' => ''
+    ],
+    'N0' => [
+        'message' => 'Unable To Authorise / Card Type Incorrect I.E. Credit Not Debit Please Redo As Correct Type',
+        'description' => ''
+    ],
+    'N1' => [
+        'message' => 'Invalid PAN Length',
+        'description' => ''
+    ],
+    'N2' => [
+        'message' => 'Preauthorisation Full',
+        'description' => ''
+    ],
+    'N3' => [
+        'message' => 'Maximum Online Refund Reached',
+        'description' => ''
+    ],
+    'N4' => [
+        'message' => 'Maximum Off-Line Refund Reached',
+        'description' => ''
+    ],
+    'N5' => [
+        'message' => 'Maximum Credit Per Refund',
+        'description' => ''
+    ],
+    'N6' => [
+        'message' => 'Maximum Refund Credit Reached',
+        'description' => ''
+    ],
+    'N7' => [
+        'message' => 'Customer Selected Negative File Reason',
+        'description' => ''
+    ],
+    'N8' => [
+        'message' => 'Over Floor Limit',
+        'description' => ''
+    ],
+    'N9' => [
+        'message' => 'Maximum Number Refund Credits',
+        'description' => ''
+    ],
+    '0' => [
+        'message' => 'Successful',
+        'description' => ''
+    ],
+    'A0' => [
+        'message' => 'Invalid Terminal / Merchant',
+        'description' => ''
+    ],
+    'AF' => [
+        'message' => 'Gateway Authorization Failure',
+        'description' => ''
+    ]
+    // Add more codes as needed from the PDF
+
+    ];
     public function payment_store_addpages(Request $request)
     {
 
@@ -1729,54 +2071,14 @@ private function sendCurlRequest($url, $payload, $authHeader)
 
 
 
-        // $curl = curl_init();
-
-        // curl_setopt_array($curl, array(
-        //     CURLOPT_URL => 'https://test-bankalfalah.gateway.mastercard.com/api/rest/version/74/merchant/TESTWRITINGSPACE/order/' . $order_id . '/transaction/' . $transactionId,
-        //     CURLOPT_RETURNTRANSFER => true,
-        //     CURLOPT_ENCODING => '',
-        //     CURLOPT_MAXREDIRS => 10,
-        //     CURLOPT_TIMEOUT => 0,
-        //     CURLOPT_FOLLOWLOCATION => true,
-        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        //     CURLOPT_CUSTOMREQUEST => 'PUT',
-        //     CURLOPT_POSTFIELDS => '{
-        //         "session":{
-        //             "id": "' . $truncatedSessionId . '"
-        //         },
-        //         "apiOperation":"INITIATE_AUTHENTICATION",
-        //         "correlationId":"INIT_AUTH11187-991090777766",
-        //         "transaction":
-        //         {
-        //             "reference": "' . $transactionId . '",
-        //         },
-        //         "order":{
-
-        //         "reference": "' . $order_id . '",
-        //         "currency":$this->currency 
-        //         },
-        //         "authentication":{
-        //             "purpose":"PAYMENT_TRANSACTION",
-        //             "channel":"PAYER_BROWSER",
-        //         "acceptVersions":"3DS2"
-        //         }
-        //         }',
-        //     CURLOPT_HTTPHEADER => array(
-        //         'Content-Type: application/json',
-        //         'Authorization: Basic bWVyY2hhbnQuVEVTVFdSSVRJTkdTUEFDRToyZjk4ZWJhNWE5ZmFmYzk0YjBmZTVmMTM5NjQ5MWZmYg=='
-        //     ),
-        // ));
-
-        // $response = curl_exec($curl);
-
-        // curl_close($curl);
+       
 
         $baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
-$apiVersion = env('API_VERSION');      // e.g. 74
-$merchantId = env('MERCHANT_ID');      // e.g. TESTWRITINGSPACE
-$authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+    $apiVersion = env('API_VERSION');      // e.g. 74
+    $merchantId = env('MERCHANT_ID');      // e.g. TESTWRITINGSPACE
+    $authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
 
-$initiateUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId";
+    $initiateUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId";
 
 $initiatePayload = [
     "session" => [
@@ -1933,7 +2235,6 @@ $response = curl_exec($curl);
 curl_close($curl);
 
 
-;
 
         $response = json_decode($response, true);
 
@@ -2523,7 +2824,7 @@ curl_close($curl);
 
     {
 
-        
+
 
         $data = $request->all();
 
@@ -2703,7 +3004,7 @@ curl_close($curl);
                 isset($responseData['response']['gatewayCode']) && strtoupper(trim($responseData['response']['gatewayCode'])) === 'APPROVED';
 
 
-
+$responseCode = 5;
             if ($responseArray && $isSuccess) {
                 $authenticationStatus = $responseArray['order']['authenticationStatus'];
                 if ($authenticationStatus == 'AUTHENTICATION_SUCCESSFUL') {
@@ -3000,16 +3301,34 @@ curl_close($curl);
             
             } //resobse array if
             else {
-                  return response()->make('
-                            <script>
-                                if (window.top !== window.self) {
-                                    window.top.location.href = "' . route('payment.error') . '";
-                                } else {
-                                    window.location.href = "' . route('payment.error') . '";
-                                }
-                            </script>
-                        ', 200, ['Content-Type' => 'text/html']);
-            }
+                
+
+              
+                            // Handle the error appropriately
+                        if (isset($this->bankResponseCodes[$responseCode])) {
+                            $errorMessage = $this->bankResponseCodes[$responseCode]['message'];
+                            $errorDescription = $this->bankResponseCodes[$responseCode]['description'];
+                            
+                            // Build the error URL with parameters
+                                    $errorUrl = route('payment.error') . 
+                                                '?code=' . urlencode($responseCode) . 
+                                                '&message=' . urlencode($errorMessage) . 
+                                                '&description=' . urlencode($errorDescription);
+                            
+                            // Redirect to error page with parameters
+                                return response()->make('
+                                    <script>
+                                        var errorUrl = "' . $errorUrl . '";
+                                        if (window.top !== window.self) {
+                                            window.top.location.href = errorUrl;
+                                        } else {
+                                            window.location.href = errorUrl;
+                                        }
+                                    </script>
+                                ', 200, ['Content-Type' => 'text/html']);
+                }
+              
+                            }
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
         }
@@ -3125,15 +3444,16 @@ $responseArray = json_decode($response, true);
 
 
 
-
-
             $responseData = json_decode($response, true); // true means associative array
+            
 
 
             $isSuccess = 
                 isset($responseData['result']) && strtoupper(trim($responseData['result'])) === 'SUCCESS' &&
                 isset($responseData['order']['status']) && strtoupper(trim($responseData['order']['status'])) === 'CAPTURED' &&
                 isset($responseData['response']['gatewayCode']) && strtoupper(trim($responseData['response']['gatewayCode'])) === 'APPROVED';
+
+$responseCode = 5;
 
 
 
@@ -3380,15 +3700,35 @@ $emailContent = "
                 }
             }
             else{
+
+
+ 
+            
+            // Handle the error appropriately
+           if (isset($this->bankResponseCodes[$responseCode])) {
+    $errorMessage = $this->bankResponseCodes[$responseCode]['message'];
+    $errorDescription = $this->bankResponseCodes[$responseCode]['description'];
+    
+    // Build the error URL with parameters
+            $errorUrl = route('payment.error') . 
+                        '?code=' . urlencode($responseCode) . 
+                        '&message=' . urlencode($errorMessage) . 
+                        '&description=' . urlencode($errorDescription);
+    
+    // Redirect to error page with parameters
                 return response()->make('
-                            <script>
-                                if (window.top !== window.self) {
-                                    window.top.location.href = "' . route('payment.error') . '";
-                                } else {
-                                    window.location.href = "' . route('payment.error') . '";
-                                }
-                            </script>
-                        ', 200, ['Content-Type' => 'text/html']);
+                    <script>
+                        var errorUrl = "' . $errorUrl . '";
+                        if (window.top !== window.self) {
+                            window.top.location.href = errorUrl;
+                        } else {
+                            window.location.href = errorUrl;
+                        }
+                    </script>
+                ', 200, ['Content-Type' => 'text/html']);
+
+        }
+              
             }
         // } catch (\Exception $e) {
         //     // Handle the exception
@@ -3513,7 +3853,7 @@ $responseArray = json_decode($response, true);
                 isset($responseData['order']['status']) && strtoupper(trim($responseData['order']['status'])) === 'CAPTURED' &&
                 isset($responseData['response']['gatewayCode']) && strtoupper(trim($responseData['response']['gatewayCode'])) === 'APPROVED';
 
-
+$responseCode =5;
 
             if ($responseArray && $isSuccess) {
 
@@ -3771,15 +4111,33 @@ Writing Space</p>
                 }
             }
              else{
-                  return response()->make('
-                            <script>
-                                if (window.top !== window.self) {
-                                    window.top.location.href = "' . route('payment.error') . '";
-                                } else {
-                                    window.location.href = "' . route('payment.error') . '";
-                                }
-                            </script>
-                        ', 200, ['Content-Type' => 'text/html']);
+                
+
+
+            
+            // Handle the error appropriately
+           if (isset($this->bankResponseCodes[$responseCode])) {
+    $errorMessage = $this->bankResponseCodes[$responseCode]['message'];
+    $errorDescription = $this->bankResponseCodes[$responseCode]['description'];
+    
+    // Build the error URL with parameters
+            $errorUrl = route('payment.error') . 
+                        '?code=' . urlencode($responseCode) . 
+                        '&message=' . urlencode($errorMessage) . 
+                        '&description=' . urlencode($errorDescription);
+    
+    // Redirect to error page with parameters
+                return response()->make('
+                    <script>
+                        var errorUrl = "' . $errorUrl . '";
+                        if (window.top !== window.self) {
+                            window.top.location.href = errorUrl;
+                        } else {
+                            window.location.href = errorUrl;
+                        }
+                    </script>
+                ', 200, ['Content-Type' => 'text/html']);
+}
             }
            
         // } catch (\Exception $e) {
@@ -3858,7 +4216,7 @@ Writing Space</p>
                 isset($responseData['order']['status']) && strtoupper(trim($responseData['order']['status'])) === 'CAPTURED' &&
                 isset($responseData['response']['gatewayCode']) && strtoupper(trim($responseData['response']['gatewayCode'])) === 'APPROVED';
 
-       
+       $responseCode = 5;
 
 
         if ($responseArray && $isSuccess) {
@@ -4227,16 +4585,34 @@ Writing Space</p>
             }
         } else {
 
-           return response()->make('
-        <script>
-            if (window.top !== window.self) {
-                window.top.location.href = "' . route('payment.error') . '";
-            } else {
-                window.location.href = "' . route('payment.error') . '";
+            
+
+
+            // Handle the error appropriately
+           if (isset($this->bankResponseCodes[$responseCode])) {
+    $errorMessage = $this->bankResponseCodes[$responseCode]['message'];
+    $errorDescription = $this->bankResponseCodes[$responseCode]['description'];
+    
+    // Build the error URL with parameters
+            $errorUrl = route('payment.error') . 
+                        '?code=' . urlencode($responseCode) . 
+                        '&message=' . urlencode($errorMessage) . 
+                        '&description=' . urlencode($errorDescription);
+    
+    // Redirect to error page with parameters
+                return response()->make('
+                    <script>
+                        var errorUrl = "' . $errorUrl . '";
+                        if (window.top !== window.self) {
+                            window.top.location.href = errorUrl;
+                        } else {
+                            window.location.href = errorUrl;
+                        }
+                    </script>
+                ', 200, ['Content-Type' => 'text/html']);
+}
+
             }
-        </script>
-    ', 200, ['Content-Type' => 'text/html']);
-        }
     }
 
 
