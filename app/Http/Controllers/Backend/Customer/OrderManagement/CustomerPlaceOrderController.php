@@ -2737,25 +2737,43 @@ curl_close($curl);
 
 
 
-     public function storeOtpHtml(Request $request)
+//      public function storeOtpHtml(Request $request)
 
 
-    {
+//     {
 
-        //dd($request->All());
-        $html = $request->input('html');
+//         //dd($request->All());
+//         $html = $request->input('html');
 
-        if (!$html) {
-            return response()->json(['success' => false, 'message' => 'No HTML found']);
-        }
-   if (!$html) {
+//         if (!$html) {
+//             return response()->json(['success' => false, 'message' => 'No HTML found']);
+//         }
+//    if (!$html) {
+//         return "3DS HTML expired or not found.";
+//     }
+//    // dd($html);
+//     // ✅ pass 'html' variable to the view
+//     return view('backend.customer.orderManagement.otp', ['html' => $html]);
+
+//     }
+
+
+public function storeOtpHtml(Request $request)
+{
+    $html = $request->input('html');
+
+    if (stripos($html, 'Invalid response format') !== false) {
+        return view('backend.customer.orderManagement.otp', [
+            'html' => "<div style='color:red; font-weight:bold;'>$html</div>"
+        ]);
+    }
+
+    if (!$html) {
         return "3DS HTML expired or not found.";
     }
-   // dd($html);
-    // ✅ pass 'html' variable to the view
-    return view('backend.customer.orderManagement.otp', ['html' => $html]);
 
-    }
+    return view('backend.customer.orderManagement.otp', ['html' => $html]);
+}
 
 
 
