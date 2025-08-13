@@ -187,25 +187,44 @@ class CustomerController extends Controller
                         ->select('invoices.*')
                         ->latest('invoices.created_at')
                         ->get();
-$PackageInvoices = DB::table('invoices')
-    ->leftJoin('orders', 'invoices.order_id', '=', 'orders.order_id')
-    ->leftJoin('user_subscription', 'orders.user_id', '=', 'user_subscription.user_id')
-    ->leftJoin('subscription', 'user_subscription.subscription_id', '=', 'subscription.id')
-    ->where('invoices.email', Auth::user()->email)
-    ->select(
-        'invoices.*',
-        'orders.user_id as order_user_id',
-        'user_subscription.subscription_id',
-        'subscription.subscription_name'
+
+
+  // (Optional) latest ACTIVE subscription per user — same as before
+$latestActiveSub = DB::table('user_subscription as us')
+    ->select('us.user_id', 'us.subscription_id')
+    ->join(
+        DB::raw('(SELECT user_id, MAX(id) AS max_id
+                  FROM user_subscription
+                  WHERE status IN ("active","Active","ACTIVE")
+                  GROUP BY user_id) AS last'),
+        function ($j) {
+            $j->on('us.user_id', '=', 'last.user_id')
+              ->on('us.id', '=', 'last.max_id');
+        }
+    );
+
+// A) Base invoices: one row per invoice_id (latest id)
+$baseInvoices = DB::table('invoices as i')
+    ->where('i.email', Auth::user()->email)
+    ->where('i.invoice_type', 'package_inc')              // filter yahin lagao
+    ->whereRaw('i.id = (SELECT MAX(ii.id) FROM invoices ii WHERE ii.invoice_id = i.invoice_id)')
+    ->select('i.*');
+
+// B) Orders ko join karo (agar aapka relation order_id->orders.id hai to neeche wali line use karo)
+$PackageInvoices = $baseInvoices
+    ->leftJoin('orders as o', 'i.order_id', '=', 'o.order_id')   // <-- verify this key!
+    // ->leftJoin('orders as o', 'i.order_id', '=', 'o.id')      // <-- use this if the real key is orders.id
+    ->leftJoinSub($latestActiveSub, 'uas', function ($j) {
+        $j->on('o.user_id', '=', 'uas.user_id');
+    })
+    ->leftJoin('subscription as s', 'uas.subscription_id', '=', 's.id')
+    ->addSelect(
+        'o.user_id as order_user_id',
+        'uas.subscription_id',
+        's.subscription_name'
     )
-    ->distinct()
-    ->latest('invoices.created_at')
+    ->orderByDesc('i.created_at')
     ->get();
-
-
-
-
-
 
 
 

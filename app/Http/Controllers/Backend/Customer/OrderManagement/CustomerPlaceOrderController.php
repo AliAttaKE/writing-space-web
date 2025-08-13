@@ -9,6 +9,7 @@ use App\Models\Paper_Format;
 use App\Models\Term_of_paper;
 use Illuminate\Http\Request;
 use App\Models\Orders;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Pricing;
 use App\Models\Subject;
 use App\Models\Folder;
@@ -35,7 +36,6 @@ use App\Mail\PkgIdmanageInvoiceEmailTemplate;
 use App\Mail\Pkg_Id_manage_optin1_Email_Template;
 use App\Models\Email;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use App\Exports\OrdersExport;
 use App\Exports\OrdersExportInvoice;
 use App\Models\Feedback;
@@ -4647,14 +4647,75 @@ Writing Space</p>
         $user->save();
         return response()->json(['status' => true, 'message' => 'Customer dashboard'], 200);
     }
-    public function updateTierAfterPayment1()
-    {
-        $user = User::findOrFail(Auth::user()->id);
-        $user->tier = 'tier_1';
-        $user->save();
-        return response()->json(['status' => true, 'message' => 'Customer dashboard'], 200);
+public function updateTierAfterPayment1(Request $request)
+{
+    $user = Auth::user();
+
+    // 1) optional: ?order_type=custom|package|subscription
+    $type = $request->input('order_type');
+
+    // 2) Pro subscription check: ACTIVE + totalamountpro present
+   $hasPro = DB::table('user_subscription') // plural ho to 'user_subscriptions'
+    ->where('user_id', $user->id)
+    ->whereIn('status', ['active','Active','ACTIVE'])
+    ->where('totalamountpro', '>', 0)   // numeric check
+    ->exists();
+
+    // 3) Normal active subscription
+    $hasActiveSubscription = DB::table('user_subscription')
+        ->where('user_id', $user->id)
+        ->whereIn('status', ['active','Active','ACTIVE'])
+        ->exists();
+
+    // 4) Fallback: last paid order se type nikaalo
+    if (!$type) {
+        $lastOrder = Orders::where('user_id', $user->id)
+            ->whereIn('payment_status', ['paid','Paid','PAID'])
+            ->latest('id')
+            ->first();
+
+        $type = $lastOrder?->order_type
+            ?? $lastOrder?->type
+            ?? $lastOrder?->package_type
+            ?? null;
     }
 
+    $normalized = $type ? strtolower(trim($type)) : null;
+
+    // 5) Priority: PRO > subscription/package > custom
+    if ($hasPro) {
+        $user->tier = 'tier_3';
+    } elseif ($hasActiveSubscription || in_array($normalized, ['package','subscription','package_order'])) {
+        $user->tier = 'tier_2';
+    } elseif (in_array($normalized, ['custom','custom_order','customorder'])) {
+        $user->tier = 'tier_1';
+    } else {
+        return response()->json([
+            'status' => false,
+            'message' => 'Order type not recognized and no active subscription found.',
+            'debug' => [
+                'raw_type'   => $type,
+                'normalized' => $normalized,
+                'hasActive'  => $hasActiveSubscription,
+                'hasPro'     => $hasPro,
+            ]
+        ], 422);
+    }
+
+    $user->save();
+
+    return response()->json([
+        'status'  => true,
+        'message' => 'Tier updated',
+        'data'    => [
+            'user_id'    => $user->id,
+            'new_tier'   => $user->tier,
+            'order_type' => $type,
+            'active_subscription' => $hasActiveSubscription,
+            'pro_subscription'     => $hasPro,
+        ],
+    ]);
+}
 
 
 
