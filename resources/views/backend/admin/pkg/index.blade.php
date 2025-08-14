@@ -14,7 +14,7 @@
             <!--begin::Page title-->
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <!--begin::Title-->
-                <h1 class="page-heading d-flex text-gray-900 fw-bold fs-1 flex-column justify-content-center my-0 fs-color-white custom-fs-23">Customer package Purchase Details</h1>
+                <h1 class="page-heading d-flex text-gray-900 fw-bold fs-1 flex-column justify-content-center my-0 fs-color-white custom-fs-23">Customer’s Package Purchase Details</h1>
                 <!--end::Title-->
 
             </div>
