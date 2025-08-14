@@ -175,7 +175,7 @@
                                         <!--    <a class="learn-more d-flex justify-content-end fs-color-yellow custom-fs-13" href="#">Learn More</a>-->
                                         <!--</div>-->
                                         <!--begin::Card title-->
-                                          @if($used_subscription!= null)
+                                    {{-- @if($used_subscription!= null)
 
 
                                         <!--begin::Card title-->
@@ -239,7 +239,58 @@
 
 
 
-                                @endif
+                                @endif --}}
+
+                                @if(!empty($used_subscription) && isset($used_subscription->subscription))
+    <!--begin::Card title-->
+    <div class="card-title">
+        <h2 class="fw-bold fs-color-white custom-fs-13">Package </h2>
+        <span class="badge badge-warning ms-3">
+            {{ optional($used_subscription->subscription)->subscription_name ?? 'N/A' }}
+        </span>
+    </div>
+</div>
+<!--end::Card header-->
+
+<!--begin::Card body-->
+<div class="card-body pt-0">
+    <div class="fs-7 fw-normal text-muted">
+        Total Package pages: {{ $used_subscription->total_pages ?? 0 }}
+    </div>
+    <div class="fs-7 fw-normal text-muted">
+        Total Used pages: {{ (float)($used_subscription->total_pages ?? 0) - (float)($used_subscription->remaining_pages ?? 0) }}
+    </div>
+    <div class="fs-7 fw-normal text-muted">
+        Expire Date: {{ $used_subscription->due_date ?? 'N/A' }}
+    </div>
+    <div class="fs-7 fw-normal text-muted">
+        Status: 
+        @if(($used_subscription->status ?? '') === 'Active')
+            <span style="color: green">{{ $used_subscription->status }}</span>
+        @else
+            <span style="color: red">{{ $used_subscription->status ?? 'N/A' }}</span>
+        @endif
+    </div>
+
+    <input type="hidden" value="{{ $used_subscription->id ?? '' }}" id="used_package_id">
+    <input type="hidden" value="{{ $used_subscription->subscription_id ?? '' }}" id="package_id">
+    <input type="hidden" value="{{ optional($used_subscription->subscription)->cost_per_page ?? 0 }}" id="cost_per_page">
+</div>
+@else
+    <div class="card-title">
+        <h2 class="fw-bold fs-color-white custom-fs-13">Package </h2>
+        <span class="badge badge-warning ms-3">Best Package</span>
+    </div>
+</div>
+
+<div class="card-body pt-0">
+    <div class="fs-7 fw-normal text-muted">Total Package pages: 0</div>
+    <div class="fs-7 fw-normal text-muted">Total Used pages: 0</div>
+    <div class="fs-7 fw-normal text-muted">Expire Date: 0</div>
+    <div class="fs-7 fw-normal text-muted">Status: UnActive</div>
+</div>
+@endif
+
                                 </div>
                                 <!--end::Card-->
                             </div>
