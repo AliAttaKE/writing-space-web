@@ -33,11 +33,10 @@ class BlogController extends Controller
 
 
         
-        $User_Subscription= User_Subscription::with('user')->latest()->paginate(5);
+                $User_Subscription = User_Subscription::with('user')->latest()->get();
 
-    
-       
-        return view('backend.admin.pkg.index',compact('User_Subscription'));    
+            return view('backend.admin.pkg.index', compact('User_Subscription'));
+
     }
 
 public function createBlog(Request $request)
