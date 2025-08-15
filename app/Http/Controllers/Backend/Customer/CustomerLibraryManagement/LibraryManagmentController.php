@@ -13,35 +13,65 @@ use App\Models\WordCount;
 
 class LibraryManagmentController extends Controller
 {
-    public function showLibrary(Request $request)
-    {
-        $query = Paper::where('status', 'Enable');
+    // public function showLibrary(Request $request)
+    // {
+    //     $query = Paper::where('status', 'Enable');
         
-        $subject = $request->get('subject');
-        $termOption = $request->get('termOption');
-        $wordCount = $request->get('wordCount');
-        $citation = $request->get('citation');
+    //     $subject = $request->get('subject');
+    //     $termOption = $request->get('termOption');
+    //     $wordCount = $request->get('wordCount');
+    //     $citation = $request->get('citation');
 
-        if (!empty($subject)) {
-            $query->where('subject_topic', $subject);
-        }
-        if (!empty($termOption)) {
-            $query->where('paper_type', $termOption);
-        }
-        if (!empty($wordCount)) {
-            $query->where('word_count', $wordCount);
-        }
-        if (!empty($citation)) {
-            $query->where('citation', $citation);
-        }
-
-
-        $libraries = $query->latest()->get();
+    //     if (!empty($subject)) {
+    //         $query->where('subject_topic', $subject);
+    //     }
+    //     if (!empty($termOption)) {
+    //         $query->where('paper_type', $termOption);
+    //     }
+    //     if (!empty($wordCount)) {
+    //         $query->where('word_count', $wordCount);
+    //     }
+    //     if (!empty($citation)) {
+    //         $query->where('citation', $citation);
+    //     }
 
 
+    //     $libraries = $query->latest()->get();
 
-        return view('backend.customer.libraryManagement.index', compact('libraries', 'subject', 'termOption', 'wordCount', 'citation'));
+
+
+    //     return view('backend.customer.libraryManagement.index', compact('libraries', 'subject', 'termOption', 'wordCount', 'citation'));
+    // }
+
+
+    public function showLibrary(Request $request)
+{
+    $query = Paper::where('status', 'Enable');
+    
+    $subject = $request->get('subject');
+    $termOption = $request->get('termOption');
+    $wordCount = $request->get('wordCount');
+    $citation = $request->get('citation');
+
+    if (!empty($subject)) {
+        $query->where('subject_topic', $subject); // yahan sahi column ka naam do
     }
+    if (!empty($termOption)) {
+        $query->where('paper_type', $termOption);
+    }
+    if (!empty($wordCount)) {
+        $query->where('word_count', $wordCount);
+    }
+    if (!empty($citation)) {
+        $query->where('citation', $citation);
+    }
+
+    // Alphabetical sorting by subject_topic
+    $libraries = $query->orderBy('subject_topic', 'asc')->latest()->get();
+
+    return view('backend.customer.libraryManagement.index', compact('libraries', 'subject', 'termOption', 'wordCount', 'citation'));
+}
+
 
 
 }
