@@ -480,7 +480,7 @@
         </div>
     </td> --}}
     <td><a class="fs-color-yellow" href="{{route('admin.admin-order-detail',[$o->order_id])}}">{{$o->order_id}}</a></td>
-    <td class="limit-text">{{$o->subject}}</td>
+    <td class="limit-text">{{$o->topic}}</td>
         <td class="limit-text">{{$o->user_name}}</td>
                                                      <td class="">{{$o->user_email}}</td>
 

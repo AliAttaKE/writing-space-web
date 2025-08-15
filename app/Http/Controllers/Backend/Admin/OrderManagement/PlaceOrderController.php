@@ -633,7 +633,9 @@ public function orders_history(Request $request)
     public function other_order(Request $request)
     {
         $id = Auth()->user()->id;
-        $order_refund = Orders::where('order_status', 'Refund')
+        $order_refund = Orders::
+        join('users', 'orders.user_id', '=', 'users.id') // Join with the users table
+        ->select('orders.*', 'users.name as user_name','users.email as user_email')->where('order_status', 'Refund')
             ->when($request->order_id != null, function ($q) use ($request) {
                 return $q->where('order_id', $request->order_id);
             })
@@ -643,7 +645,8 @@ public function orders_history(Request $request)
              ->latest()
             ->get();
 
-        $order_canceled = Orders::where('order_status', 'Canceled')
+        $order_canceled = Orders::join('users', 'orders.user_id', '=', 'users.id') // Join with the users table
+        ->select('orders.*', 'users.name as user_name','users.email as user_email')->where('order_status', 'Canceled')
             ->when($request->order_id != null, function ($q) use ($request) {
                 return $q->where('order_id', $request->order_id);
             })

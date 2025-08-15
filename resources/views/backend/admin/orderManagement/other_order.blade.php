@@ -469,6 +469,8 @@
 	                                                </th> --}}
 	                                                <th class="min-w-70px fw_800 pb-8">order No</th>
 	                                                <th class="min-w-50px fw_800 pb-8">Topic</th>
+                                                     <th class="min-w-80px fw_800 pb-8">Customer Name</th>
+                                 <th class="min-w-80px fw_800 pb-8">Email</th>
 	                                                <th class="min-w-70px fw_800 pb-8">Pages</th>
 	                                                <th class="min-w-70px fw_800 pb-8">Order Date</th>
 	                                                <th class="min-w-80px fw_800 pb-8">Due Date</th>
@@ -490,6 +492,8 @@
                                                     </td> --}}
                                                     <td><a class="fs-color-yellow" href="{{route('admin.admin-order-detail',[$o->order_id])}}">{{$o->order_id}}</a></td>
                                                     <td class="limit-text">{{$o->topic}}</td>
+                                                        <td class="limit-text">{{$o->user_name}}</td>
+                                                     <td class="">{{$o->user_email}}</td>
 
                                                     <td>{{$o->number_of_pages}}</td>
                                                     <td>{{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</td>
@@ -977,6 +981,8 @@
 	                                                </th> --}}
 	                                                <th class="min-w-70px fw_800 pb-8 fs-color-white">order No</th>
 	                                                <th class="min-w-50px fw_800 pb-8 fs-color-white">Topic</th>
+                                                     <th class="min-w-80px fw_800 pb-8">Customer Name</th>
+                                 <th class="min-w-80px fw_800 pb-8">Email</th>
 	                                                <th class="min-w-70px fw_800 pb-8 fs-color-white">Pages</th>
 	                                                <th class="min-w-70px fw_800 pb-8 fs-color-white">Order Date</th>
 	                                                <th class="min-w-80px fw_800 pb-8 fs-color-white">Due Date</th>
@@ -997,7 +1003,9 @@
                                                         </div>
                                                     </td> --}}
                                                     <td><a class="fs-color-yellow" href="{{route('admin.admin-order-detail',[$o->order_id])}}">{{$o->order_id}}</a></td>
-                                                    <td class="limit-text">{{$o->subject}}</td>
+                                                    <td class="limit-text">{{$o->topic}}</td>
+                                                        <td class="limit-text">{{$o->user_name}}</td>
+                                                     <td class="">{{$o->user_email}}</td>
 
                                                     <td>{{$o->number_of_pages}}</td>
                                                     <td>{{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</td>
