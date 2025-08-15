@@ -460,7 +460,9 @@ class PlaceOrderController extends Controller
     public function new_order(Request $request)
     {
         // $order = Orders::where('order_status','Pending')->get();
-        $order = Orders::where('order_status', 'Pending')
+        $order = Orders::join('users', 'orders.user_id', '=', 'users.id') // Join with the users table
+        ->select('orders.*', 'users.name as user_name','users.email as user_email')
+        ->where('order_status', 'Pending')
             ->when($request->order_id != null, function ($q) use ($request) {
                 return $q->where('order_id', $request->order_id);
             })

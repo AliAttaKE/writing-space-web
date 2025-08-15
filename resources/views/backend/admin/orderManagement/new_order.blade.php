@@ -477,6 +477,8 @@
 
                                     </tr>
 
+
+                                    
                                 </thead>
                                 <tbody class="text-gray-600 fw-semibold text-color">
                                                 @if($order)
@@ -490,7 +492,7 @@
                                                     <td><a class="fs-color-yellow" href="{{route('admin.admin-order-detail',[$o->order_id])}}">{{$o->order_id}}</a></td>
                                                     <td class="limit-text">{{$o->topic}}</td>
                                                      <td class="limit-text">{{$o->user_name}}</td>
-                                                     <td class="">{{$o->email}}</td>
+                                                     <td class="">{{$o->user_email}}</td>
 
                                                     <td>{{$o->number_of_pages}}</td>
                                                     <td>{{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</td>
