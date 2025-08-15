@@ -478,7 +478,8 @@ class PlaceOrderController extends Controller
     {
         $id = Auth()->user()->id;
         // $order=Orders::where('order_status','Inprogress')->get();
-        $order = Orders::where('order_status', 'In-Progress')
+        $order = Orders::join('users', 'orders.user_id', '=', 'users.id') // Join with the users table
+        ->select('orders.*', 'users.name as user_name','users.email as user_email')->where('order_status', 'In-Progress')
             ->when($request->order_id != null, function ($q) use ($request) {
                 return $q->where('order_id', $request->order_id);
             })
