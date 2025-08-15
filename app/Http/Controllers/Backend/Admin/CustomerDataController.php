@@ -136,6 +136,7 @@ class CustomerDataController extends Controller
                         ->where('invoices.invoice_type', '!=', null)
                         ->where('invoices.invoice_type','package_inc')
                         ->select('invoices.*')
+                         ->distinct() 
                         ->latest('invoices.created_at')
                         ->get();
 

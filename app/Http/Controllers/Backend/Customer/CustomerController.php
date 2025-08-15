@@ -212,8 +212,7 @@ $baseInvoices = DB::table('invoices as i')
 
 // B) Orders ko join karo (agar aapka relation order_id->orders.id hai to neeche wali line use karo)
 $PackageInvoices = $baseInvoices
-    ->leftJoin('orders as o', 'i.order_id', '=', 'o.order_id')   // <-- verify this key!
-    // ->leftJoin('orders as o', 'i.order_id', '=', 'o.id')      // <-- use this if the real key is orders.id
+    ->leftJoin('orders as o', 'i.order_id', '=', 'o.order_id')
     ->leftJoinSub($latestActiveSub, 'uas', function ($j) {
         $j->on('o.user_id', '=', 'uas.user_id');
     })
@@ -223,8 +222,10 @@ $PackageInvoices = $baseInvoices
         'uas.subscription_id',
         's.subscription_name'
     )
+    ->distinct()
     ->orderByDesc('i.created_at')
     ->get();
+
 
 
 
