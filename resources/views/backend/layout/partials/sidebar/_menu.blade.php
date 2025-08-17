@@ -76,6 +76,27 @@ $page = substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'], '/') + 
                 
                 <!--begin:Menu item-->
                 <div class="menu-item menu-accordion"><!--begin:Menu link--><span class="menu-link py-0"><span class="menu-icon"><i class="ki-duotone ki-abstract-26 fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title"><a class="menu-link ps-0 custom-menu <?= $page == 'library-access.php' ? 'active' : '' ?>" href="library-access.php">Library Management</a></span></span><!--end:Menu link-->
+                <!--begin:Menu item-->
+<div class="menu-item menu-accordion">
+    <!--begin:Menu link-->
+    <span class="menu-link py-0">
+        <span class="menu-icon">
+            <i class="ki-duotone ki-credit-cart fs-2">
+                <span class="path1"></span>
+                <span class="path2"></span>
+            </i>
+        </span>
+        <span class="menu-title">
+            <a class="menu-link ps-0 custom-menu <?= $page == 'payment-management.php' ? 'active' : '' ?>" 
+               href="{{ route('admin.transactions.index') }}">
+                Payment Management
+            </a>
+        </span>
+    </span>
+    <!--end:Menu link-->
+</div>
+<!--end:Menu item-->
+
                 </div><!--end:Menu item--><!--begin:Menu item-->
                 <div class="menu-item menu-accordion"><!--begin:Menu link--><span class="menu-link py-0"><span class="menu-icon"><i class="ki-duotone ki-profile-circle fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i></span><span class="menu-title">
                     <a class="menu-link ps-0 custom-menu" href="{{ route('admin.show.profile') }}">
