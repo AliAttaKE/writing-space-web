@@ -49,7 +49,7 @@ use App\Http\Controllers\Backend\Admin\SystemConfigurationController;
 use App\Http\Controllers\Backend\Admin\PakageLimitController;
 use App\Http\Controllers\Backend\Admin\AddOnController;
 
-
+use App\Http\Controllers\Backend\Admin\TransactionController;
 use App\Http\Controllers\Backend\Customer\CustomerController;
 use App\Http\Controllers\Backend\Customer\Payment\PaymentController;
 use App\Http\Controllers\Backend\Customer\OrderManagement\CustomerPlaceOrderController;
@@ -76,6 +76,9 @@ use App\Http\Controllers\ContactController;
 */
 
 
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('transactions', TransactionController::class)->only(['index','show']);
+});
 Route::get('/fix-storage-link', function () {
     $storageLink = public_path('storage');
 
