@@ -187,6 +187,27 @@
             <a class="menu-link ps-0 custom-menu {{ (request()->is('admin/library/management')) ? 'active' : '' }}" href="{{ route('admin.library.index') }}">Library
                         Management</a></span></span><!--end:Menu link-->
         </div><!--end:Menu item-->
+        
+<!--begin:Menu item-->
+<div class="menu-item menu-accordion">
+    <!--begin:Menu link-->
+    <span class="menu-link py-0">
+        <span class="menu-icon">
+            <i class="ki-duotone ki-credit-cart fs-2">
+                <span class="path1"></span>
+                <span class="path2"></span>
+            </i>
+        </span>
+        <span class="menu-title">
+            <a class="menu-link ps-0 custom-menu {{ request()->is('admin/transactions*') ? 'active' : '' }}" 
+               href="{{ route('admin.transactions.index') }}">
+                Payment Management
+            </a>
+        </span>
+    </span>
+    <!--end:Menu link-->
+</div>
+<!--end:Menu item-->
 
 
 
