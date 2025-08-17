@@ -35,6 +35,7 @@ class AuthenticatedSessionController extends Controller
     {
 
      //   dd($request->all());
+     
 
          $recaptcha_token = $request->input('g-recaptcha-response');
 
