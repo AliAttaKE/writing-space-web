@@ -548,8 +548,8 @@
                                     </div>
                                     <!--end::Dropzone-->
                                     <!--begin::Hint-->
-                                    <span class="form-text fs-6 text-muted mb-2">Allowed File Types : DOCX, PDF, TXT, RTF,XLSX, CSV,PPTX,JPEG, PNG, GIF,.Zip, .Rar</span>
-                                    <span class="form-text fs-6 text-muted mb-2">Max File Size is 500-MB per file.</span>
+                                    <span class="form-text fs-6 text-muted mb-2">Allowed File Types : DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPEG, Zip, Rar</span>
+                                    <span class="form-text fs-6 text-muted mb-2">Max File Size is 50-MB per file.</span>
                                     <!--end::Hint-->
                                     <div class="d-flex justify-content-end">
                                         <input type="submit" class="btn btn-sm btn-primary" Value="Upload Files">

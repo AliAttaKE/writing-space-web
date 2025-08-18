@@ -596,7 +596,7 @@
                                                 class="dropzone-select btn btn-sm swal2-confirm swal2-styled me-2">Attach
                                                 Files</label>
                                             <input type="file" id="file-1" name="file" class="d-none"
-                                                accept=".pdf, .docx, .doc, .txt, .xls, .xlsx, .rtf, .xlsx, .csv, .pptx, .jpeg, .png, .gif"></input>
+                                                accept=".pdf, .docx, .doc, .txt, .xls, .xlsx, .rtf, .xlsx, .csv, .pptx, .jpg, .jpeg, .zip, .rar"></input>
                                             <p id="attach_file_1"></p>
 
                                             <input type="hidden" value="Main File" name="Writer">
@@ -608,9 +608,9 @@
                                     </div>
                                     <!--end::Dropzone-->
                                     <!--begin::Hint-->
-                                    <span class="form-text fs-6 text-muted mb-2">Allowed File Types : DOCX, PDF, TXT, RTF,XLSX, CSV,PPTX,JPEG, PNG, GIF</span>
+                                    <span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPG, JPEG, ZIP, RAR</span>
                                     <br>
-                                    <span class="form-text fs-6 text-muted mb-2">Max File Size is 500-MB per file.</span>
+                                    <span class="form-text fs-6 text-muted mb-2">Max File Size is 50-MB per file.</span>
                                     <!--end::Hint-->
                                     <div class="d-flex justify-content-end">
                                         <input type="submit" class="btn btn-sm swal2-confirm swal2-styled"
@@ -663,7 +663,7 @@
                                                 class="dropzone-select btn btn-sm swal2-confirm swal2-styled me-2">Attach
                                                 Files</label>
                                             <input type="file" name="file" id="file-2" class="d-none"
-                                                accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .png, .gif"></input>
+                                                accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .zip, .rar"></input>
                                             <p id="attach_file_2"></p>
 
                                             <input type="hidden" value="Writer" name="Writer">
@@ -674,9 +674,9 @@
                                     </div>
                                     <!--end::Dropzone-->
                                     <!--begin::Hint-->
-                                    <span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF,XLSX, CSV,PPTX,JPEG, PNG, GIF</span>
+                                    <span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPG, JPEG, ZIP, RAR</span>
                                     <br>
-                                    <span class="form-text fs-6 text-muted mb-2">Max file size is 500-MB per file.</span>
+                                    <span class="form-text fs-6 text-muted mb-2">Max file size is 50-MB per file.</span>
                                     <!--end::Hint-->
                                     <div class="d-flex justify-content-end">
 
@@ -733,7 +733,7 @@
                                                 class="dropzone-select btn btn-sm swal2-confirm swal2-styled me-2">Attach
                                                 Files</label>
                                             <input type="file" id="file-3" name="file" class="d-none"
-                                                accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .png, .gif"></input>
+                                                accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpg, .jpeg, .zip, .rar"></input>
                                             <p id="attach_file_3"></p>
 
 
@@ -749,9 +749,9 @@
                                     </div>
                                     <!--end::Dropzone-->
                                     <!--begin::Hint-->
-                                    <span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF,XLSX, CSV,PPTX,JPEG, PNG, GIF</span>
+                                    <span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPG, JPEG, ZIP, RAR</span>
                                     <br>
-                                    <span class="form-text fs-6 text-muted mb-2">Max file size is 500-MB per file.</span>
+                                    <span class="form-text fs-6 text-muted mb-2">Max file size is 50-MB per file.</span>
                                     <!--end::Hint-->
                                     <div class="d-flex justify-content-end">
 

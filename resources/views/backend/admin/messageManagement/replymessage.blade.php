@@ -164,7 +164,7 @@ h3 {
                                             <!--end::Send-->
                                             <!--begin::Upload attachement-->
                                             <div class="btn btn-icon btn-sm btn-clean  me-2 badge-custom-bg" id="media_button" data-kt-inbox-form="dropzone_upload">
-                                                <label><span class="ki-duotone ki-paper-clip fs-2 m-0 fs-color-white"></span><input hidden type="file" class="upload-attachment" name="media[]" id="media" multiple accept=".docx,.pdf,.txt,.rtf,.xlsx,.csv,.pptx,.jpeg,.jpg,.png,.gif"/></label>
+                                                <label><span class="ki-duotone ki-paper-clip fs-2 m-0 fs-color-white"></span><input hidden type="file" class="upload-attachment" name="media[]" id="media" multiple accept=".docx,.pdf,.txt,.rtf,.xlsx,.csv,.pptx,.jpeg,.jpg,.zip,.rar"/></label>
                                             </div>
                                             <!--end::Upload attachement-->
                                             <p id="attach_file_1" class="text-white  w-200px"></p>
@@ -419,7 +419,7 @@ document
     const allowed = [
       "docx","pdf","txt","rtf",
       "xlsx","csv","pptx",
-      "jpeg","jpg","png","gif"
+      "jpeg","jpg","zip","rar"
     ];
     let fileNames = [];
 
@@ -439,13 +439,12 @@ document
         return;                      // stop further processing
       }
 
-      // optional: size check (e.g. max 5MB)
-      const maxSize = 5 * 1024 * 1024;
+      const maxSize = 50 * 1024 * 1024; // 50 MB
       if (file.size > maxSize) {
         Swal.fire({
           icon: "error",
           title: "File too large",
-          text: `"${file.name}" exceeds 5 MB.`
+          text: `"${file.name}" exceeds 50 MB.`
         });
         this.value = "";
         document.getElementById("attach_file_1").innerText = "";

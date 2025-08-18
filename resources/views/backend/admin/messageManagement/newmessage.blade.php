@@ -220,7 +220,7 @@
                                                         class="ki-duotone ki-paper-clip fs-2 m-0 text-white"></span>
                                                         <input
                                                         hidden type="file" class="upload-attachment" name="media[]"
-                                                        id="media" multiple accept=".docx,.pdf,.txt,.rtf,.xlsx,.csv,.pptx,.jpeg,.jpg,.png,.gif"/></label>
+                                                        id="media" multiple accept=".docx,.pdf,.txt,.rtf,.xlsx,.csv,.pptx,.jpeg,.jpg,.zip,.rar"/></label>
                                             </div>
                                             <p id="attach_file_1" class="text-white  w-200px"></p>
                                             <!--end::Upload attachement-->
@@ -371,15 +371,14 @@
 
 
 
-
-    document
+document
   .getElementById("media")
   .addEventListener("change", function() {
     const files = this.files;
     const allowed = [
       "docx","pdf","txt","rtf",
       "xlsx","csv","pptx",
-      "jpeg","jpg","png","gif"
+      "jpeg","jpg","zip","rar"
     ];
     let fileNames = [];
 
@@ -388,24 +387,22 @@
       const ext = file.name.split(".").pop().toLowerCase();
 
       if (!allowed.includes(ext)) {
-        // show error and clear the input
         Swal.fire({
           icon: "error",
           title: "Invalid file type",
           text: `"${file.name}" is not allowed.`
         });
-        this.value = "";             // reset the input
+        this.value = "";
         document.getElementById("attach_file_1").innerText = "";
-        return;                      // stop further processing
+        return;
       }
 
-      // optional: size check (e.g. max 5MB)
       const maxSize = 50 * 1024 * 1024;
       if (file.size > maxSize) {
         Swal.fire({
           icon: "error",
           title: "File too large",
-    html: `Files larger than 50MB can't be uploaded here. Please email it to <a href="mailto:support@writing-space.com" style="color: #ffffff;">support@writing-space.com</a> and include your Order ID.`
+          html: `Files larger than 50MB can't be uploaded here. Please email it to <a href="mailto:support@writing-space.com" style="color: #ffffff;">support@writing-space.com</a> and include your Order ID.`
         });
         this.value = "";
         document.getElementById("attach_file_1").innerText = "";
@@ -414,8 +411,7 @@
 
       fileNames.push(file.name);
     }
-  });
-    // if we get here, all files are valid
+
     document.getElementById("attach_file_1").innerText =
       "Selected files: " + fileNames.join(", ");
   });
