@@ -578,7 +578,7 @@
                 <ul class="ps-0">
                 <li><a href="order-details.php" class="menu-link d-flex justify-content-center px-3 text-white" data-bs-toggle="modal" data-bs-target="#view-invoice_{{$o->id}}">View</a></li>
 
-            @if($revisioncheck)
+            {{-- @if($revisioncheck)
 
             <div class="menu-item px-3">
                 <a class="menu-link d-flex justify-content-center px-3 text-white" data-bs-toggle="modal" data-bs-target="#view-revision_{{$o->id}}">Revision</a>
@@ -587,7 +587,7 @@
             <div class="menu-item px-3">
                 <a class="menu-link d-flex justify-content-center px-3 text-white" data-bs-toggle="modal" data-bs-target="#view-revision_update_{{$o->id}}">Revision Exp</a>
             </div>
-            @endif
+            @endif --}}
             <!--end::Menu item-->
             <!--begin::Menu item-->
             <!--<div class="menu-item px-3">-->
@@ -599,6 +599,12 @@
                   <li><a class="menu-link d-flex justify-content-center px-3 text-white" onclick="delivered({{$o->id}},'Revision')">Revision</a></li>
                     <li><a class="menu-link d-flex justify-content-center px-3 text-white" onclick="delivered({{$o->id}},'Refund')">Refund</a></li>
                      <li><a class="menu-link d-flex justify-content-center px-3 text-white" onclick="delivered({{$o->id}},'Canceled')">Canceled</a></li>
+                 <li>
+    <a class="menu-link d-flex justify-content-center px-3 text-white" 
+       href="{{ route('admin.orders.edit', $o->id) }}">
+       Edit
+    </a>
+</li>
 
             </ul>
             </div>

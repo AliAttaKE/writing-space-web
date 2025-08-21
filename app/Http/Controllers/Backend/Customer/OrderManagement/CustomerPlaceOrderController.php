@@ -5275,8 +5275,104 @@ public function index()
             return response()->json(['success' => false, 'message' => 'order id not found'], 404);
         }
     }
+public function edit($id)
+{
+    $order = Orders::findOrFail($id);
+    
+    // Check if user owns this order
+    // if ($order->user_id != Auth::id()) {
+    //     abort(403, 'Unauthorized action.');
+    // }
 
+    $user = Auth::user();
+    $user_id = $user->id;
 
+    // Common Data
+    $Addons = Addons::latest()->first();
+    $subjects = Subject::orderBy('title', 'asc')->get();
+    $academic = Academic_level::orderBy('title', 'asc')->get();
+    $term = Term_of_paper::whereNotIn('title', ['Other (explain in description)', 'Other (Not Listed Above)'])->orderBy('title', 'asc')->get();
+    $deadline = Deadline::all();
+    $paper_format = Paper_Format::whereNotIn('title', ['None', 'Let the writer choose', 'Does Not Matter', 'Other (Not Listed Above)'])->orderBy('title', 'asc')->get();
+    $Languages = Language::orderBy('title', 'asc')->get();
+    $pricing = PricingPakage::latest()->get();
+
+    // Parse deadline into date and time
+    $deadline_parts = explode(' ', $order->deadline);
+    $order->due_date = $deadline_parts[0] ?? '';
+    $order->due_time = $deadline_parts[1] ?? '00:00';
+
+    // Parse additional_info if exists
+    $additional_info = json_decode($order->additional_info, true) ?? [];
+
+    return view('backend.admin.orderManagement.edit_custom_order', compact(
+        'order', 'Languages', 'Addons', 'pricing', 
+        'subjects', 'academic', 'term', 'deadline', 'paper_format', 'additional_info'
+    ));
+}
+public function update(Request $request, $id)
+{
+    $order = Orders::findOrFail($id);
+    
+    // Check if user owns this order
+    // if ($order->user_id != Auth::id()) {
+    //     abort(403, 'Unauthorized action.');
+    // }
+
+    // Validation
+    // $validated = $request->validate([
+    //     'topic' => 'required|string|max:255',
+    //     'no_of_pages' => 'required|numeric|min:1',
+    //     'subject' => 'required|string',
+    //     'academic_level' => 'required|string',
+    //     'term_of_paper' => 'required|string',
+    //     'paper_format' => 'required|string',
+    //     'description' => 'required|string',
+    //     'due_date' => 'required|date',
+    //     'due_time' => 'required',
+    //     'language_spelling' => 'required|string',
+    //     'no_of_extra_sources' => 'nullable|numeric|min:0',
+    //     'powerpoint_slide' => 'nullable|numeric|min:0',
+    //     'submitting' => 'required|string',
+       
+        
+    //     'cost_per_page' => 'required|numeric',
+    //     'sub_total' => 'required|numeric',
+    //     'total_cost' => 'required|numeric',
+    //     'cost_per_page_edit' => 'nullable|numeric',
+    //     'sub_total_edit' => 'nullable|numeric',
+    //     'total_cost_edit' => 'nullable|numeric',
+    // ]);
+
+    // Use manual amounts if provided, otherwise use calculated amounts
+    $costPerPage = $request->cost_per_page_edit ?? $request->cost_per_page;
+    $subTotal = $request->sub_total_edit ?? $request->sub_total;
+    $totalCost = $request->total_cost_edit ?? $request->total_cost;
+
+    // Update the order
+    $order->update([
+        'topic' => $request->topic,
+        'number_of_pages' => $request->no_of_pages,
+        'subject' => $request->subject,
+        'academic_level' => $request->academic_level,
+        'type_of_paper' => $request->term_of_paper,
+        'paper_format' => $request->paper_format,
+        'description' => $request->description,
+        'deadline' => $request->due_date . ' ' . $request->due_time,
+        'language_spelling' => $request->language_spelling,
+        'no_of_extra_sources' => $request->no_of_extra_sources ?? 0,
+        'powerpoint_slide' => $request->powerpoint_slide ?? 0,
+        'submitting' => $request->submitting,
+        'email' => $request->email,
+        'backup_email' => $request->backup_email,
+        'statistical_analysis' => $request->has('statistical_analysis'),
+        'cost_per_page' => $costPerPage,
+        'cost' => $subTotal,
+        'total_cost' => $totalCost,
+    ]);
+
+    return redirect()->route('admin.orders_history')->with('success', 'Order updated successfully!');
+}
     public function select_plan($sub_id)
     {
 

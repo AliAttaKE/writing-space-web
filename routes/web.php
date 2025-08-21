@@ -211,6 +211,10 @@ Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->gro
       Route::post('/revisionsubmit', [PlaceOrderController::class, 'revisionsubmit'])->name('revision.submit');
 
 
+         Route::get('/orders/{id}/edit', [CustomerPlaceOrderController::class, 'edit'])->name('orders.edit');
+Route::put('/orders/{id}', [CustomerPlaceOrderController::class, 'update'])->name('orders.update');
+
+
 
         Route::get('dashboard/Ajax', [AdminController::class, 'indexajax'])->name('getChartData');
     Route::post('dashboard/Ajax/post', [AdminController::class, 'indexajaxpost'])->name('indexajaxpost');
@@ -723,6 +727,9 @@ Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->nam
     Route::get('custom/subscription', [CustomerPlaceOrderController::class, 'customSubscription'])->name('custom.subscription');
     Route::post('custom/subscription/store', [CustomerPlaceOrderController::class, 'customSubscriptionStore'])->name('custom.subscription.store');
     Route::post('/add-more-pages',[CustomerPlaceOrderController::class,'addMorePages'])->name('addmorepages');
+    Route::post('/add-more-pages',[CustomerPlaceOrderController::class,'addMorePages'])->name('addmorepages');
+
+ 
     //21-02-2024
 
     //23-02-2024
