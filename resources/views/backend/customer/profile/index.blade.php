@@ -358,7 +358,7 @@
                                                                     <a href="{{ url('invoices/invoice_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1"  target="_blank">{{ $order->invoice_id}}</a>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="{{ url('storage/receipts/receipt_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1"  target="_blank">{{ $order->invoice_id}}</a>
+                                                                    <a href="{{ url('storage/receipts/receipt_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1"  target="_blank">{{ $order->receipt_number}}</a>
                                                                 </td>
                                                                 <td>
                                                                     @if ($order->total != null)

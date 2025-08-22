@@ -12,7 +12,7 @@ class Invoice extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['Name', 'email', 'item_name','page' ,'price_per_page','total','to_name','to_email','order_id','invoice_id','invoice_type'];
+    protected $fillable = ['Name', 'email', 'item_name','page' ,'price_per_page','total','to_name','to_email','order_id','invoice_id','receipt_number','invoice_type'];
 
     public function order()
     {

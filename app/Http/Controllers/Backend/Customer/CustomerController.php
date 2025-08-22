@@ -152,6 +152,7 @@ class CustomerController extends Controller
                                 ->latest('invoices.created_at')
                                 ->get();
 
+
         $yearsData = $userPaymentRecords->groupBy(function ($record) {
         $createdAt = Carbon::parse($record->created_at);
             return $createdAt->format('Y');
