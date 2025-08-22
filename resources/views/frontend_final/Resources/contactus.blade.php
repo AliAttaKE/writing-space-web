@@ -67,6 +67,10 @@
             <textarea name="message" class="form-control" cols="30" rows="10" placeholder="Message" required></textarea>
         </div>
         <p class="text-danger my-4"> Disclaimer: By submitting, you agree to our Privacy Policy and Terms. <br> Data is used solely to respond to inquiries.</p>
+       <div class="mb-3 text-center">
+                    <div class="g-recaptcha d-inline-block" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                    @error('g-recaptcha-response') <small class="text-danger d-block">{{ $message }}</small> @enderror
+                </div>
         <div class="col-md-2 col-sm-3 mt-4">
             <button type="submit" class="btn gradient-button w-100">Submit</button>
         </div>
@@ -256,4 +260,7 @@
                        
        
     </div>
+
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     @endsection

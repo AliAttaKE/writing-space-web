@@ -214,8 +214,20 @@ class IndexController extends Controller
             'last_name'  => 'required|string|max:100',
             'email'      => 'required|email',
             'message'    => 'required|string',
+             'g-recaptcha-response' => 'required',
         ]);
 
+         $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        'secret'   => env('RECAPTCHA_SECRET_KEY'),
+        'response' => $request->input('g-recaptcha-response'),
+        'remoteip' => $request->ip(),
+    ]);
+
+    $data = $response->json();
+
+    if (!($data['success'] ?? false)) {
+        return back()->with('error', 'reCAPTCHA validation failed. Please try again.');
+    }
         $admin = User::where('role', 'admin')->first();
         if (!$admin) {
             return back()->with('error', 'Admin not found.');
@@ -469,7 +481,7 @@ class IndexController extends Controller
 
        $validated = $request->validate([
         'email' => 'required|email|unique:users,email',
-        'g-recaptcha-response' => 'required',
+        // 'g-recaptcha-response' => 'required',
         'name' => [
             'required',
             'regex:/^(?:\S+(?:\s+|$)){1,20}$/'
@@ -486,17 +498,17 @@ class IndexController extends Controller
     ]);
 
     // Verify reCAPTCHA
-    $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-        'secret'   => env('RECAPTCHA_SECRET_KEY'),
-        'response' => $request->input('g-recaptcha-response'),
-        'remoteip' => $request->ip(),
-    ]);
+    // $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+    //     'secret'   => env('RECAPTCHA_SECRET_KEY'),
+    //     'response' => $request->input('g-recaptcha-response'),
+    //     'remoteip' => $request->ip(),
+    // ]);
 
-    $data = $response->json();
+    // $data = $response->json();
 
-    if (!($data['success'] ?? false)) {
-        return back()->with('error', 'reCAPTCHA validation failed. Please try again.');
-    }
+    // if (!($data['success'] ?? false)) {
+    //     return back()->with('error', 'reCAPTCHA validation failed. Please try again.');
+    // }
         $account_id = 'ID-' . rand(1000, 99999999);
 
         $input = [
