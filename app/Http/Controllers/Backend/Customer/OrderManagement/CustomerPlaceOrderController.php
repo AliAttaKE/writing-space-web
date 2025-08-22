@@ -3192,10 +3192,12 @@ $responseCode = 5;
                         $pay_chk = Pay::where('order_id', $orderid)->first();
 
                        // dd($pay_chk);
+
+                        $cherollover_pages = ($subs->max_page - $subs->min_page);
                         $User_Subscription = User_Subscription::create([
                             'subscription_id' => $orderidexplode,
                             'total_pages' => $subs->min_page,
-                            'rollover_pages' => $subs->min_page,
+                            'rollover_pages' => $cherollover_pages,
                             'remaining_pages' => $subs->min_page,
                             'remaining_rollover_pages' => $subs->rollover_limit,
                             'user_id' => $user->id,
@@ -3207,6 +3209,8 @@ $responseCode = 5;
                             'number_of_page' => $pay_chk->number_of_page
                         ]);
 
+
+                       
                         $pakge = PakageLimit::first();
                         $remaining_pages =  $pakge->renaming - $subs->total_subscription;
 
