@@ -442,10 +442,10 @@
                                                                                         <label class="form-label fs-color-white custom-fs-13 fw-semibold">Duration Type:</label>
                                                                                         <input type="text" value="{{$subs->duration_type}}" name="duration_type" autocomplete="off" class="form-control btn-dark-primary" />
                                                                                     </div>
-                                                                                    <div class="mb-3">
+                                                                                    {{-- <div class="mb-3">
                                                                                         <label class="form-label fs-color-white custom-fs-13 fw-semibold">Title:</label>
                                                                                         <input type="text" value="{{$subs->title}}" name="title" autocomplete="off" class="form-control btn-dark-primary" />
-                                                                                    </div>
+                                                                                    </div> --}}
                                                                                     <div class="mb-3">
                                                                                         <label class="form-label fs-color-white custom-fs-13 fw-semibold">Cost Per Page:</label>
                                                                                         <input type="text" value="{{$subs->cost_per_page}}" name="cost_per_page" autocomplete="off" class="form-control btn-dark-primary" />
@@ -456,10 +456,10 @@
                                                                                         <label class="form-label fs-color-white custom-fs-13 fw-semibold">Page Limit:</label>
                                                                                         <input type="text" value="{{$subs->page_limit}}" name="page_limit" autocomplete="off" class="form-control btn-dark-primary" />
                                                                                     </div>
-                                                                                    <div class="mb-3">
+                                                                                    {{-- <div class="mb-3">
                                                                                         <label class="form-label fs-color-white custom-fs-13 fw-semibold">Page Text:</label>
                                                                                         <input type="text" value="{{$subs->page_text}}" name="page_text" autocomplete="off" class="form-control btn-dark-primary" />
-                                                                                    </div>
+                                                                                    </div> --}}
 
                                                                                     <!--end::Row-->
                                                                                 </div>
