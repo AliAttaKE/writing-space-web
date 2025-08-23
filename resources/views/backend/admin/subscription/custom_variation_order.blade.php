@@ -19,7 +19,7 @@
                             <!--begin::Page title-->
                             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                                 <!--begin::Title-->
-                                <h1 class="page-heading d-flex text-gray-900 fw-bold fs-1 flex-column justify-content-center my-0 text-color">Variation</h1>
+                                <h1 class="page-heading d-flex text-gray-900 fw-bold fs-1 flex-column justify-content-center my-0 text-color">Custom Setting Order</h1>
                                 <!--end::Title-->
 
                             </div>
@@ -40,7 +40,7 @@
                                 <!--begin::Page title-->
                                 <div class="page-title d-flex flex-column justify-content-center pt-6 px-6 flex-wrap me-3">
                                     <!--begin::Title-->
-                                    <h3 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 text-color d-none">Variation</h3>
+                                    <h3 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 text-color d-none">Custom Setting Order</h3>
                                     <!--end::Title-->
 
                                 </div>
@@ -400,7 +400,7 @@
                                                 <div class="modal-dialog modal-dialog-centered modal-lg">
                                                     <div class="modal-content badge-custom-bg">
                                                         <div class="modal-header border-0">
-                                                            <h5 class="modal-title fs-color-white custom-fs-23" id="exampleModalLabel">Variations</h5>
+                                                            <h5 class="modal-title fs-color-white custom-fs-23" id="exampleModalLabel">Custom Setting Order</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <form method="post" action="{{route('admin.custom_edit_order',[$subs->id])}}">
@@ -442,10 +442,10 @@
                                                                                         <label class="form-label fs-color-white custom-fs-13 fw-semibold">Duration Type:</label>
                                                                                         <input type="text" value="{{$subs->duration_type}}" name="duration_type" autocomplete="off" class="form-control btn-dark-primary" />
                                                                                     </div>
-                                                                                    <div class="mb-3">
+                                                                                    {{-- <div class="mb-3">
                                                                                         <label class="form-label fs-color-white custom-fs-13 fw-semibold">Title:</label>
                                                                                         <input type="text" value="{{$subs->title}}" name="title" autocomplete="off" class="form-control btn-dark-primary" />
-                                                                                    </div>
+                                                                                    </div> --}}
                                                                                     <div class="mb-3">
                                                                                         <label class="form-label fs-color-white custom-fs-13 fw-semibold">Cost Per Page:</label>
                                                                                         <input type="text" value="{{$subs->cost_per_page}}" name="cost_per_page" autocomplete="off" class="form-control btn-dark-primary" />
@@ -456,10 +456,10 @@
                                                                                         <label class="form-label fs-color-white custom-fs-13 fw-semibold">Page Limit:</label>
                                                                                         <input type="text" value="{{$subs->page_limit}}" name="page_limit" autocomplete="off" class="form-control btn-dark-primary" />
                                                                                     </div>
-                                                                                    <div class="mb-3">
+                                                                                    {{-- <div class="mb-3">
                                                                                         <label class="form-label fs-color-white custom-fs-13 fw-semibold">Page Text:</label>
                                                                                         <input type="text" value="{{$subs->page_text}}" name="page_text" autocomplete="off" class="form-control btn-dark-primary" />
-                                                                                    </div>
+                                                                                    </div> --}}
 
                                                                                     <!--end::Row-->
                                                                                 </div>

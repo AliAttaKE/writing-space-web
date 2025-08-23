@@ -19,7 +19,7 @@
                             <!--begin::Page title-->
                             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                                 <!--begin::Title-->
-                                <h1 class="page-heading d-flex text-gray-900 fw-bold fs-1 flex-column justify-content-center my-0 text-color">Variation</h1>
+                                <h1 class="page-heading d-flex text-gray-900 fw-bold fs-1 flex-column justify-content-center my-0 text-color">Custom Setting Website</h1>
                                 <!--end::Title-->
 
                             </div>
@@ -40,7 +40,7 @@
                                 <!--begin::Page title-->
                                 <div class="page-title d-flex flex-column justify-content-center pt-6 px-6 flex-wrap me-3">
                                     <!--begin::Title-->
-                                    <h3 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 text-color d-none">Variation</h3>
+                                    <h3 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0 text-color d-none">Custom Setting Website</h3>
                                     <!--end::Title-->
 
                                 </div>
@@ -400,7 +400,7 @@
                                                 <div class="modal-dialog modal-dialog-centered modal-lg">
                                                     <div class="modal-content badge-custom-bg">
                                                         <div class="modal-header border-0">
-                                                            <h5 class="modal-title fs-color-white custom-fs-23" id="exampleModalLabel">Variations</h5>
+                                                            <h5 class="modal-title fs-color-white custom-fs-23" id="exampleModalLabel">Custom Setting Website</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <form method="post" action="{{route('admin.custom_edit',[$subs->id])}}">
