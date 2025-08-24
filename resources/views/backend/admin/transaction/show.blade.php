@@ -87,11 +87,11 @@
                             </tr>
                             <tr>
                                 <th>Created At</th>
-                                <td>{{ $transaction->created_at }}</td>
+                                <td>{{ \Carbon\Carbon::parse($transaction->created_at)->format('j M Y, g:i a') }}</td>
                             </tr>
                             <tr>
                                 <th>Last Updated</th>
-                                <td>{{ $transaction->updated_at }}</td>
+                                <td>{{ \Carbon\Carbon::parse($transaction->updated_at)->format('j M Y, g:i a') }}</td>
                             </tr>
                         </tbody>
                     </table>

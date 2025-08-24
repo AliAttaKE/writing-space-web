@@ -40,22 +40,23 @@
                 <!--end::Page title-->
 
                 <!--begin::Card header-->
-                <div class="card-header border-0 pt-6">
-                    <div class="card-title">
-                        <!--begin::Search-->
-                        <div class="d-flex align-items-center position-relative my-1">
-                            <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                            </i>
-                            <input type="text" id="transaction_search" 
-                                class="form-control form-control-solid w-250px ps-13 btn-dark-primary" 
-                                placeholder="Search Transaction" />
-                        </div>
-                        <!--end::Search-->
-                    </div>
-                </div>
-                <!--end::Card header-->
+<div class="card-header border-0 pt-6">
+    <div class="card-title">
+        <!--begin::Search-->
+        <form method="GET" action="{{ route('admin.transactions.index') }}">
+            <div class="d-flex align-items-center position-relative my-1">
+                <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"></i>
+                <input type="text" name="search" value="{{ request('search') }}"
+                    class="form-control form-control-solid w-250px  btn-dark-primary"
+                    placeholder="Search Transaction" />
+                <button type="submit" class="btn btn-sm btn-primary ms-2 py-4 px-5" style="background-color: #783afb !important; color: #fff !important;">Search</button>
+            </div>
+        </form>
+        <!--end::Search-->
+    </div>
+</div>
+<!--end::Card header-->
+
 
                 <!--begin::Card body-->
                 <div class="card-body py-4">
@@ -85,7 +86,7 @@
                                             {{ $transaction->status ?? 'N/A' }}
                                         </span>
                                     </td>
-                                    <td>{{ $transaction->created_at }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($transaction->created_at)->format('j M Y, g:i a') }}</td>
                                     <td class="text-end">
                                         <a href="{{ route('admin.transactions.show', $transaction->id) }}" 
                                            class="btn badge-custom-bg btn-sm">View</a>
