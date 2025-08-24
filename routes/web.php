@@ -75,6 +75,41 @@ use App\Http\Controllers\ContactController;
 |
 */
 
+// Route::get('/invoice-preview', function () {
+//     $invoiceData = [
+//         'invoiceNumber' => 'INV-2025',
+//         'dateOfIssue' => now(),
+//         'customerName' => 'Jane Smith',
+//         'customerAdress' => '456 Avenue, London, UK',
+//         'customerEmail' => 'jane.smith@example.com',
+//         'itemName' => 'Book Printing',
+//         'totalPages' => 200,
+//         'pricePerPage' => 1.75,
+//         'finaltotaladdon' => 25,
+//         'discounttotalamount' => 15,
+//         'subTotal' => 360
+//     ];
+
+//     return view('emails.invoice_custom_template', compact('invoiceData'));
+// });
+// Route::get('/receipt-preview', function () {
+//     $invoiceData = [
+//         'invoiceNumber' => 'INV-2025',
+//         'receiptNumber' => 'RCPT-2025', // 👈 Receipt no. add karna hoga
+//         'dateOfIssue' => now(),
+//         'customerName' => 'Jane Smith',
+//         'customerAdress' => '456 Avenue, London, UK',
+//         'customerEmail' => 'jane.smith@example.com',
+//         'itemName' => 'Book Printing',
+//         'totalPages' => 200,
+//         'pricePerPage' => 1.75,
+//         'finaltotaladdon' => 25,
+//         'discounttotalamount' => 15,
+//         'subTotal' => 360
+//     ];
+
+//     return view('emails.receipt_custom_template', compact('invoiceData'));
+// });
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('transactions', TransactionController::class)->only(['index','show']);

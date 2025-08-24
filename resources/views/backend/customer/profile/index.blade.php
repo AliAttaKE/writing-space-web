@@ -296,7 +296,8 @@
                                 <!--end::Card-->
                             </div>
 
-
+   <!-- new section -->
+                            <div id="payment-section-wrapper">
                             <!--begin::Statements-->
                             <div class="card mb-6 mb-xl-9 card-custom-bg message-summ">
                                <!--begin::Header-->
@@ -373,7 +374,7 @@
                                                                     @endphp
                                                                     $ {{ $formattedAmount }}
                                                                 </td>
-                                                                <td>
+                                                                <td data-order="{{ $order->created_at }}">
                                                                     @php
                                                                         $date = \Carbon\Carbon::parse($order->created_at)->format('j M Y, g:i a');
                                                                     @endphp
@@ -396,7 +397,9 @@
                                 </div>
                             </div>
                             <!--end::Statements main card-->
-
+                        </div>
+                        <!-- new section -->
+                        <div id="order-section-wrapper">
                             <!--begin::Statements-->
                             <div class="card mb-6 mb-xl-9 card-custom-bg message-summ">
                                <!--begin::Header-->
@@ -439,8 +442,8 @@
                                                     @foreach ($userOrders as $order)
 
                                                             <tr>
-                                                                <td>{{ \Carbon\Carbon::parse($order->created_at)->format('j M Y, g:i a') }}</td>
-                                                                <td>{{ \Carbon\Carbon::parse($order->deadline)->format('j M Y, g:i a') }}</td>
+                                                                <td data-order="{{ $order->created_at }}">{{ \Carbon\Carbon::parse($order->created_at)->format('j M Y, g:i a') }}</td>
+                                                                <td data-order="{{ $order->deadline }}">{{ \Carbon\Carbon::parse($order->deadline)->format('j M Y, g:i a') }}</td>
                                                                 <td>{{ ($order->order_type == 'Subscription') ? 'Package' : 'Custom Order' }}</td>
                                                                 <td>{{ $order->order_id }}</td>
                                                                 <td>{{ $order->number_of_pages }}</td>
@@ -463,6 +466,7 @@
                                 </div>
                             </div>
                             <!--end::Statements main card-->
+                        </div>
 
                         </div>
 
@@ -1511,149 +1515,115 @@ $('#totalcost').text('$' + totalCost.toFixed(2));
 
 </script>
 <script>
-   $(document).ready(function() {
+$(document).ready(function() {
 
-    $('#packages_filter_date').on('change', function() {
-        var selectedDate = $(this).val();
-        var url = '{{ route('customer.filter.date') }}';
-var types = ['package_inc', 'custom_inc', ''];
+// 🔹 Date filter change (delegated event)
+$(document).on('change', '#packages_filter_date', function() {
+    var selectedDate = $(this).val();
+    var url = '{{ route('customer.filter.date') }}';
+    var types = ['package_inc', 'custom_inc', ''];
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        data: { date: selectedDate, type: types },
+        success: function(response) {
+    console.log("AJAX Response:", response);
+
+    if (response.status === true) {
+        // Pehle selected month save kar lo
+        var selectedDate = $('#packages_filter_date').val();
+
+        // 1) Destroy DataTable
+        if ($.fn.DataTable.isDataTable('#kt_table_packages_payment')) {
+            $('#kt_table_packages_payment').DataTable().destroy();
+        }
+
+        // 2) Section replace
+        $('#payment-section-wrapper').html(response.html);
+
+        // 3) Dobara DataTable initialize
+        $('#kt_table_packages_payment').DataTable({
+            pageLength: 5,
+            lengthMenu: [5, 10, 25, 50]
+        });
+
+        // 4) Dobara selected month set kar do
+        $('#packages_filter_date').val(selectedDate);
+    } else {
+        $('#kt_table_packages_payment tbody').html(response.tbody);
+    }
+},
+        error: function(xhr, status, error) {
+            console.log("Error status:", xhr.status);
+            $('#payment-section-wrapper').html('<p>Error loading data</p>');
+        }
+    });
+});
+
+// 🔹 Reset button (delegated event)
+$(document).on('click', '.reset_package_filter', function() {
+    location.reload();
+});
+});
 
 
-        $.ajax({
-            type: 'get',
-            url: url,
-            data: { date: selectedDate, type: types },
-            success: function(response) {
-                console.log("AJAX Response:", response);
 
-                if (response.status === true && response.data.length > 0) {
-                    var datas = response.data;
-                    var rows = '';
-                    $('#old_package_payment_tbody').hide();
-                    $('#new_package_payment_tbody').empty();
+     // 🔹 Date filter change (delegated event for order records)
+$(document).on('change', '#custom_filter_date', function() {
+    var selectedDate = $(this).val();
+    var url = '{{ route('customer.filter.date') }}';
+    var type = 'custom_inc';
 
-                    for (var data of datas) {
-                        let paymentType = '';
-                        if (data.invoice_type === 'package_inc') {
-                            paymentType = 'Package';
-                        } else if (data.invoice_type === null) {
-                            paymentType = 'Package - Addon';
-                        } else if (data.invoice_type === 'custom_inc' && data.item_name === 'Custom Order - Pages Addon') {
-                            paymentType = 'Custom Order - Pages Addon';
-                        } else if (data.invoice_type === 'custom_inc') {
-                            paymentType = 'Custom Order';
-                        }else if (!data.invoice_type) {
-    paymentType = 'Package - Addon';
-}
+    $.ajax({
+        type: 'GET',
+        url: url,
+        data: { date: selectedDate, type: type },
+        success: function(response) {
+            console.log("AJAX Response:", response);
 
+            if (response.status === true) {
+                // Save selected month
+                var selectedDate = $('#custom_filter_date').val();
 
-                        var formattedAmount = (parseFloat(data.total) || 0).toFixed(2);
-                        var dateStr = data.created_at ? new Date(data.created_at).toLocaleString() : '';
-
-                        var row = `
-                            <tr>
-                                <td>${paymentType}</td>
-                                <td>
-                                    <a href="/invoices/invoice_${data.invoice_id}.pdf" class="text-gray-600 text-hover-primary mb-1"  target="_blank">${data.invoice_id}</a>
-                                </td>
-                                <td>
-                                    <a href="/storage/receipts/receipt_${data.invoice_id}.pdf" class="text-gray-600 text-hover-primary mb-1"  target="_blank">${data.invoice_id}</a>
-                                </td>
-                                <td>
-                                    ${data.total != null ? '<span class="badge badge-light-success badge-custom-bg">Successful</span>' : '<span class="badge badge-light-danger">No paid</span>'}
-                                </td>
-                                <td>
-                                    $ ${formattedAmount}
-                                </td>
-                                <td>
-                                    ${dateStr}
-                                </td>
-                            </tr>
-                        `;
-                        rows += row;
-                    }
-                    $('#new_package_payment_tbody').append(rows);
-                } else {
-                    $('#new_package_payment_tbody').empty();
-                    $('#old_package_payment_tbody').hide();
-                    var errorMessage = "Data not found";
-                    $('#new_package_payment_tbody').append(`<tr><td colspan="6">${errorMessage}</td></tr>`);
+                // 1) Agar pehle DataTable init hai to destroy kar do
+                if ($.fn.DataTable.isDataTable('#kt_table_custom_payment')) {
+                    $('#kt_table_custom_payment').DataTable().destroy();
                 }
-            },
 
-            error: function(xhr, status, error) {
-                console.log("Error status:", xhr.status);
-                $('#new_package_payment_tbody').empty();
-                $('#old_package_payment_tbody').hide();
-                var errorMessage = "Data not found";
-                $('#new_package_payment_tbody').append(`<tr><td colspan="6">${errorMessage}</td></tr>`);
+                // 2) Section replace karo
+                $('#order-section-wrapper').html(response.html);
+
+                // 3) Dobara DataTable initialize karo
+                $('#kt_table_custom_payment').DataTable({
+                    pageLength: 5,
+                    lengthMenu: [5, 10, 25, 50]
+                });
+
+                // 4) Dobara selected month set kar do
+                $('#custom_filter_date').val(selectedDate);
+
+            } else {
+                // ❌ Pura section replace karne ke bajaye sirf tbody update karo
+                $('#kt_table_custom_payment tbody').html(
+                    '<tr><td colspan="7" class="text-center">Data not found</td></tr>'
+                );
             }
-        });
-
+        },
+        error: function(xhr, status, error) {
+            console.log("Error status:", xhr.status);
+            $('#kt_table_custom_payment tbody').html(
+                '<tr><td colspan="7" class="text-center">Data not found</td></tr>'
+            );
+        }
     });
+});
 
-    $('.reset_package_filter').on('click', function() {
-        $('#new_package_payment_tbody').empty();
-        $('#old_package_payment_tbody').show();
-         $('#packages_filter_date').val('');
-    });
+// 🔹 Reset button (delegated)
+$(document).on('click', '.reset_custom_filter', function() {
+    location.reload();
+});
 
-
-
-        $('#custom_filter_date').on('change', function() {
-            var selectedDate = $(this).val();
-            console.log('Selected date:', selectedDate);
-
-            var url = '{{ route('customer.filter.date') }}';
-            var type = 'custom_inc';
-
-            $.ajax({
-                type: 'get',
-                url: url,
-                data: { date: selectedDate, type: type},
-                success: function(response) {
-                   if (response.status == true && response.data.length > 0) {
-                        var datas = response.data;
-                        var rows = '';
-                        $('#old_custom_payment_tbody').hide();
-                        $('#new_custom_payment_tbody').empty();
-                        for (var data of datas) {
-                            var row = `
-                            <tr>
-        <td>${data.created_at ? new Date(data.created_at).toLocaleString() : ''}</td>
-        <td>${data.deadline ? new Date(data.deadline).toLocaleString() : ''}</td>
-        <td>${(data.order_type === 'Subscription') ? 'Package' : 'Custom Order'}</td>
-        <td>${data.order_id || ''}</td>
-        <td>${data.number_of_pages || ''}</td>
-        <td>${data.topic || ''}</td>
-        <td>${data.order_status || ''}</td>
-    </tr>
-`;
-                            rows += row;
-                        }
-                        $('#new_custom_payment_tbody').append(rows);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.log("Error status:", xhr.status);
-                    $('#new_custom_payment_tbody').empty();
-                    $('#old_custom_payment_tbody').hide();
-                    var errorMessage = "Data not found";
-                    $('#new_custom_payment_tbody').append(`<tr><td colspan="6">${errorMessage}</td></tr>`);
-                }
-            });
-
-        });
-
-        $('.reset_custom_filter').on('click', function(){
-            $('#new_custom_payment_tbody').empty();
-            $('#old_custom_payment_tbody').show();
-              $('#custom_filter_date').val('');
-        });
-
-
-
-    });
 
 
     $(document).ready(function() {

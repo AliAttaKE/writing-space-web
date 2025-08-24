@@ -622,10 +622,10 @@
 																				<input class="form-check-input" type="checkbox" id="selectAll" >
 																			</div>
 																		</th>
+																		<th class="min-w-250px sorting_disabled text-color" rowspan="1" colspan="1" style="width: 416.797px;">File Title</th>
 																		<th class="min-w-150px text-color">
 																			Upload Time
 																		</th>
-																		<th class="min-w-250px sorting_disabled text-color" rowspan="1" colspan="1" style="width: 416.797px;">File Title</th>
 																		<th class="min-w-150px text-color">
 																			Uploaded For
 																		</th>
@@ -699,9 +699,15 @@
 
 
 																						<!--begin::Menu item-->
-																						<div class="menu-item px-3">
-																							<a class="btn btn-flex btn-dark-primary w-100 justify-content-center px-2 badge-custom-bg deleteBtnForm" onclick="confirmDelete({{ $file->id }}, '{{ $folder->name }}')">Delete</a>
-																						</div>
+																							<!-- Delete button -->
+<div class="menu-item px-3">
+<a href="javascript:void(0);"
+   onclick="confirmDelete({{ $file->id }}, '{{ $folder->name }}')"
+   class="btn btn-flex btn-dark-primary w-100 justify-content-center px-2 badge-custom-bg">
+   Delete
+</a>
+</div>
+
 																						<!--end::Menu item-->
 																					</div>
 																					<!--end::Menu-->
@@ -6398,37 +6404,38 @@ console.log(element.value)
 </script>
 <script>
 	function confirmDelete(id, name) {
-	    console.log(id);
-	    console.log(name);
-	 Swal.fire({
-		 title: 'Are you sure?',
-		 text: 'You will not be able to recover this data!',
-		 icon: 'warning',
-		 showCancelButton: true,
-		 confirmButtonColor: '#d33',
-		 cancelButtonColor: '#3085d6',
-		 confirmButtonText: 'Yes, delete it!'
-	 }).then((result) => {
-		 if (result.isConfirmed) {
-			 $.ajax({
-				 type: 'get', // Change to DELETE method
-				//  url: '/admin/files/' + id + '/' + name + '/delete',
-				 url: "{{ route('admin.files.delete', ['id' => ':id', 'folder_name' => ':name']) }}".replace(':id', id).replace(':name', name),
-                    data: { id: id ,name:name},
-				 success: function (response) {
-					 console.log(response);
-				 	 location.reload(true);
-					Swal.fire('Deleted!', 'Your data has been deleted.', 'success');
-				 },
-				 error: function (error) {
-					 console.error(error);
-				 }
-			 });
+    console.log("Deleting:", id, name);
 
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this data!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "{{ route('admin.files.delete', ['id' => ':id', 'folder_name' => ':name']) }}"
+                        .replace(':id', id)
+                        .replace(':name', name),
+                type: "GET", // agar GET route hai
+                data: { _token: '{{ csrf_token() }}' },
+                success: function (response) {
+                    Swal.fire('Deleted!', 'Your file has been deleted.', 'success')
+                        .then(() => location.reload());
+                },
+                error: function (xhr) {
+                    Swal.fire('Error!', 'Something went wrong.', 'error');
+                }
+            });
+        }
+    });
 
-		 }
-	 });
- }
+    return false; // 🔥 ye bhi ensure karega ke form submit na ho
+}
+
  </script>
 
 
