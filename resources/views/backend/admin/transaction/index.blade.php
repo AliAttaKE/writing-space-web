@@ -65,6 +65,8 @@
                             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
                                 <th>#</th>
                                 <th>User ID</th>
+                                <th>User Name</th>
+                                <th>User Email</th>
                                 <th>Reference</th>
                                 <th>Amount</th>
                                 <th>Currency</th>
@@ -76,14 +78,16 @@
                         <tbody class="text-white fw-semibold">
                             @forelse ($transactions as $key => $transaction)
                                 <tr>
-                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $transaction->id }}</td>
                                     <td>{{ $transaction->userid }}</td>
+                                    <td>{{ $transaction->user->name ?? 'N/A' }}</td>
+                                    <td>{{ $transaction->user->email ?? 'N/A' }}</td>
                                     <td>{{ $transaction->reference }}</td>
                                     <td>{{ $transaction->amount }}</td>
                                     <td>{{ $transaction->currency }}</td>
                                     <td>
                                         <span class="badge badge-custom-bg fw-bold">
-                                            {{ $transaction->status ?? 'N/A' }}
+                                            {{ $transaction->authenticationStatus ?? 'N/A' }}
                                         </span>
                                     </td>
                                     <td>{{ \Carbon\Carbon::parse($transaction->created_at)->format('j M Y, g:i a') }}</td>
@@ -94,7 +98,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="text-center">No Transactions Found</td>
+                                    <td colspan="10" class="text-center">No Transactions Found</td>
                                 </tr>
                             @endforelse
                         </tbody>

@@ -62,6 +62,14 @@
                                 <td>{{ $transaction->userid ?? '-' }}</td>
                             </tr>
                             <tr>
+                                <th>User Name</th>
+                                <td>{{ $transaction->user->name ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <th>User Email</th>
+                                <td>{{ $transaction->user->email ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
                                 <th>Authentication Status</th>
                                 <td>{{ $transaction->authenticationStatus ?? 'N/A' }}</td>
                             </tr>

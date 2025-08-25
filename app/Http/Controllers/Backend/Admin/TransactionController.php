@@ -11,7 +11,7 @@ class TransactionController extends Controller
     // All transactions list
     public function index(Request $request)
     {
-        $query = Transaction::query();
+        $query = Transaction::with('user');
     
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
@@ -21,7 +21,11 @@ class TransactionController extends Controller
                   ->orWhere('reference', 'like', "%{$search}%")
                   ->orWhere('amount', 'like', "%{$search}%")
                   ->orWhere('currency', 'like', "%{$search}%")
-                  ->orWhere('status', 'like', "%{$search}%");
+                  ->orWhere('status', 'like', "%{$search}%")
+                  ->orWhereHas('user', function($userQuery) use ($search) {
+                      $userQuery->where('name', 'like', "%{$search}%")
+                               ->orWhere('email', 'like', "%{$search}%");
+                  });
             });
         }
     
@@ -33,7 +37,7 @@ class TransactionController extends Controller
     // Show single transaction
     public function show($id)
     {
-        $transaction = Transaction::findOrFail($id);
+        $transaction = Transaction::with('user')->findOrFail($id);
         return view('backend.admin.transaction.show', compact('transaction'));
     }
 }
