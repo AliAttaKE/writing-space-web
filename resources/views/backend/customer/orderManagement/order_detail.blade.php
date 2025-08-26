@@ -8907,7 +8907,7 @@ if (order_id && revision_request) {
 					requestRevisionEditor.setText('');
 					setTimeout(function() {
 						location.reload();
-					}, 5000);
+					}, 1000);
 
 				},
 				error: function(error) {
