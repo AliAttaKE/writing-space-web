@@ -1528,32 +1528,40 @@ $(document).on('change', '#packages_filter_date', function() {
         url: url,
         data: { date: selectedDate, type: types },
         success: function(response) {
-    console.log("AJAX Response:", response);
+            console.log("AJAX Response:", response);
 
-    if (response.status === true) {
-        // Pehle selected month save kar lo
-        var selectedDate = $('#packages_filter_date').val();
+           if (response.status === true) {
+    var selectedDate = $('#packages_filter_date').val();
 
-        // 1) Destroy DataTable
-        if ($.fn.DataTable.isDataTable('#kt_table_packages_payment')) {
-            $('#kt_table_packages_payment').DataTable().destroy();
-        }
-
-        // 2) Section replace
-        $('#payment-section-wrapper').html(response.html);
-
-        // 3) Dobara DataTable initialize
-        $('#kt_table_packages_payment').DataTable({
-            pageLength: 5,
-            lengthMenu: [5, 10, 25, 50]
-        });
-
-        // 4) Dobara selected month set kar do
-        $('#packages_filter_date').val(selectedDate);
-    } else {
-        $('#kt_table_packages_payment tbody').html(response.tbody);
+    if ($.fn.DataTable.isDataTable('#kt_table_packages_payment')) {
+        $('#kt_table_packages_payment').DataTable().destroy();
     }
-},
+
+    $('#payment-section-wrapper').html(response.html);
+
+    $('#kt_table_packages_payment').DataTable({
+        pageLength: 5,
+        lengthMenu: [5, 10, 25, 50],
+        language: {
+            emptyTable: "Data not found",
+            zeroRecords: "Data not found"
+        }
+    });
+
+    $('#packages_filter_date').val(selectedDate);
+
+} else {
+    if ($.fn.DataTable.isDataTable('#kt_table_packages_payment')) {
+        $('#kt_table_packages_payment').DataTable().clear().draw();
+    }
+
+    // ✅ Only hide inside Payment Records wrapper
+    $('#payment-section-wrapper .dataTables_info').hide();
+    $('#payment-section-wrapper .dataTables_paginate').hide();
+    $('#payment-section-wrapper .dataTables_length').hide();
+}
+
+        },
         error: function(xhr, status, error) {
             console.log("Error status:", xhr.status);
             $('#payment-section-wrapper').html('<p>Error loading data</p>');
@@ -1561,11 +1569,13 @@ $(document).on('change', '#packages_filter_date', function() {
     });
 });
 
-// 🔹 Reset button (delegated event)
+// 🔹 Reset button
 $(document).on('click', '.reset_package_filter', function() {
     location.reload();
 });
+
 });
+
 
 
 
@@ -1582,33 +1592,47 @@ $(document).on('change', '#custom_filter_date', function() {
         success: function(response) {
             console.log("AJAX Response:", response);
 
-            if (response.status === true) {
-                // Save selected month
-                var selectedDate = $('#custom_filter_date').val();
+           if (response.status === true) {
+    // Save selected month
+    var selectedDate = $('#custom_filter_date').val();
 
-                // 1) Agar pehle DataTable init hai to destroy kar do
-                if ($.fn.DataTable.isDataTable('#kt_table_custom_payment')) {
-                    $('#kt_table_custom_payment').DataTable().destroy();
-                }
+    // 1) Agar pehle DataTable init hai to destroy kar do
+    if ($.fn.DataTable.isDataTable('#kt_table_custom_payment')) {
+        $('#kt_table_custom_payment').DataTable().destroy();
+    }
 
-                // 2) Section replace karo
-                $('#order-section-wrapper').html(response.html);
+    // 2) Section replace karo
+    $('#order-section-wrapper').html(response.html);
 
-                // 3) Dobara DataTable initialize karo
-                $('#kt_table_custom_payment').DataTable({
-                    pageLength: 5,
-                    lengthMenu: [5, 10, 25, 50]
-                });
+    // 3) Dobara DataTable initialize karo
+    $('#kt_table_custom_payment').DataTable({
+        pageLength: 5,
+        lengthMenu: [5, 10, 25, 50],
+        language: {
+            emptyTable: "Data not found",
+            zeroRecords: "Data not found"
+        }
+    });
 
-                // 4) Dobara selected month set kar do
-                $('#custom_filter_date').val(selectedDate);
+    // 4) Dobara selected month set kar do
+    $('#custom_filter_date').val(selectedDate);
 
-            } else {
-                // ❌ Pura section replace karne ke bajaye sirf tbody update karo
-                $('#kt_table_custom_payment tbody').html(
-                    '<tr><td colspan="7" class="text-center">Data not found</td></tr>'
-                );
-            }
+} else {
+    if ($.fn.DataTable.isDataTable('#kt_table_custom_payment')) {
+        $('#kt_table_custom_payment').DataTable().clear().draw();
+    } else {
+        $('#kt_table_custom_payment tbody').html(
+            '<tr><td colspan="7" class="text-center">Data not found</td></tr>'
+        );
+    }
+
+    // ✅ Only hide inside Order Records wrapper
+    $('#order-section-wrapper .dataTables_info').hide();
+    $('#order-section-wrapper .dataTables_paginate').hide();
+    $('#order-section-wrapper .dataTables_length').hide();
+}
+
+
         },
         error: function(xhr, status, error) {
             console.log("Error status:", xhr.status);

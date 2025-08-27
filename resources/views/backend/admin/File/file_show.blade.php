@@ -247,7 +247,7 @@
                                     <th class="min-w-10px " rowspan="1" colspan="1"
                                         >Download Time</th>
                                     <th class="min-w-125px " rowspan="1" colspan="1"
-                                        >Last Modified</th>
+                                        >Upload Time</th>
                                     <th class="w-125px " rowspan="1" colspan="1" >
                                         Action</th>
                                 </tr>
