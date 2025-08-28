@@ -4794,8 +4794,9 @@ $user = User::find($pay->user_id);
 
              $currency = $this->currency;
 
-$adminSubject = "New Custom Order — #{$order->order_id} — {$user->name} — {$currency} {$discountAmount}";
-$transactionTime = $order->transaction_time ?? Carbon::now()->toDateTimeString();
+$adminSubject = "New Custom Order — #{$order->order_id} — {$user->name} — {$currency} {$order->total_cost}";
+$transactionTime = $order->transaction_time 
+    ?? Carbon::now()->format('Y-m-d H:i:s');
 
 
 $adminContent = "
@@ -4805,7 +4806,7 @@ $adminContent = "
         <li><strong>Order ID:</strong> {$order->order_id}</li>
         <li><strong>Customer:</strong> {$user->name}</li>
         <li><strong>Customer Email:</strong> {$user->email}</li>
-        <li><strong>Amount:</strong> {$currency} {$discountAmount}</li>
+        <li><strong>Amount:</strong> {$currency} {$order->total_cost}</li>
         <li><strong>Transaction ID:</strong> {$order->order_id}</li>
         <li><strong>Time:</strong> {$transactionTime}</li>
     </ul>
