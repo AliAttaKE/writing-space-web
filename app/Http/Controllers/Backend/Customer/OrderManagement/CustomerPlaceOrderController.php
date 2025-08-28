@@ -6164,6 +6164,8 @@ $orderid_new = $matches[1] ?? null;
             ));
 
 
+            $transactionTime = Carbon::now()->format('F j, Y h:i A');
+
              $adminSubject = "Add-on Purchase — {$noofpage} pages —— {$transaction->currency} {$transaction->merchantAmount}";
 
         $adminContent = "
@@ -6173,8 +6175,8 @@ $orderid_new = $matches[1] ?? null;
                 <li><strong>Customer:</strong> {$user->name} ({$user->email})</li>
                 <li><strong>Add-on:</strong> {$noofpage} pages</li>
                 <li><strong>Amount:</strong> {$transaction->currency} {$transaction->merchantAmount}</li>
-                <li><strong>Transaction ID:</strong> {$transaction->transaction_id}</li>
-                <li><strong>Time:</strong> {$transaction->transaction_time}</li>
+                <li><strong>Transaction ID:</strong> {$orderid_new}</li>
+                <li><strong>Time:</strong> {$transactionTime}</li>
             </ul>
             <p>Regards,<br>System Notification</p>
         ";
