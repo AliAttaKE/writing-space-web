@@ -3178,14 +3178,15 @@ $adminContent = "
 ";
 
 // Admins nikaalo jinke role = admin hai
-$admins = User::where('role', 'admin')->pluck('email');
+$admins = User::where('role', 'admin')->pluck('email')->toArray();
 
-if ($admins->count() > 0) {
+if (!empty($admins)) {
     Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
-        $message->to($admins)
+        $message->to($admins)   // ab ye ek valid array of strings hoga
                 ->subject($adminSubject);
     });
 }
+
 
                         $user = User::find($user->id);
                         Auth::login($user);
@@ -3327,7 +3328,7 @@ if ($admins->count() > 0) {
 
 
 
-$adminSubject = "Package Purchase — {$subs->subscription_name} — {$transaction->currency} {$transaction->amount}";
+                    $adminSubject = "Package Purchase — {$subs->subscription_name} — {$transaction->currency} {$transaction->amount}";
 
 $adminContent = "
     <p>Hi team,</p>
@@ -3344,11 +3345,11 @@ $adminContent = "
 ";
 
 // Admins nikaalo jinke role = admin hai
-$admins = User::where('role', 'admin')->pluck('email');
+$admins = User::where('role', 'admin')->pluck('email')->toArray();
 
-if ($admins->count() > 0) {
+if (!empty($admins)) {
     Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
-        $message->to($admins)
+        $message->to($admins)   // ab ye ek valid array of strings hoga
                 ->subject($adminSubject);
     });
 }
