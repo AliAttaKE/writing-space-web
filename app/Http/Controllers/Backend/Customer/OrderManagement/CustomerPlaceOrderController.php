@@ -5893,6 +5893,32 @@ $orderid_new = $matches[1] ?? null;
                 $subject,
                 $emailContent
             ));
+
+
+             $adminSubject = "Add-on Purchase — {$noofpage} pages —— {$transaction->currency} {$transaction->merchantAmount}";
+
+        $adminContent = "
+            <p>Hi team,</p>
+            <p>An add-on purchase was completed.</p>
+            <ul>
+                <li><strong>Customer:</strong> {$user->name} ({$user->email})</li>
+                <li><strong>Add-on:</strong> {$noofpage} pages</li>
+                <li><strong>Amount:</strong> {$transaction->currency} {$transaction->merchantAmount}</li>
+                <li><strong>Transaction ID:</strong> {$transaction->transaction_id}</li>
+                <li><strong>Time:</strong> {$transaction->transaction_time}</li>
+            </ul>
+            <p>Regards,<br>System Notification</p>
+        ";
+
+        // Admins nikaalo jinke role = admin hai
+        $admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+        if (!empty($admins)) {
+            Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+                $message->to($admins)
+                        ->subject($adminSubject);
+            });
+        }
         }
         catch(\Exception $e){
 
