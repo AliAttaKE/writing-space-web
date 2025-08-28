@@ -3161,6 +3161,32 @@ $responseCode = 5;
 
 
 
+                        $adminSubject = "Package Purchase — {$subs->subscription_name} — {$transaction->currency} {$transaction->amount}";
+
+$adminContent = "
+    <p>Hi team,</p>
+    <p>A package has been purchased.</p>
+    <ul>
+        <li><strong>Package:</strong> {$subs->subscription_name}</li>
+        <li><strong>Customer:</strong> {$user->name}</li>
+        <li><strong>Customer Email:</strong> {$user->email}</li>
+        <li><strong>Amount:</strong> {$transaction->currency} {$transaction->amount}</li>
+        <li><strong>Transaction ID:</strong> {$transaction->transaction_id}</li>
+        <li><strong>Time:</strong> {$transaction->transaction_time}</li>
+    </ul>
+    <p>Regards,<br>System Notification</p>
+";
+
+// Admins nikaalo jinke role = admin hai
+$admins = User::where('role', 'admin')->pluck('email');
+
+if ($admins->count() > 0) {
+    Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+        $message->to($admins)
+                ->subject($adminSubject);
+    });
+}
+
                         $user = User::find($user->id);
                         Auth::login($user);
 
@@ -3299,6 +3325,33 @@ $responseCode = 5;
 
                     $this->send_invoice_pay_sub($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$subs->min_page);
 
+
+
+$adminSubject = "Package Purchase — {$subs->subscription_name} — {$transaction->currency} {$transaction->amount}";
+
+$adminContent = "
+    <p>Hi team,</p>
+    <p>A package has been purchased.</p>
+    <ul>
+        <li><strong>Package:</strong> {$subs->subscription_name}</li>
+        <li><strong>Customer:</strong> {$user->name}</li>
+        <li><strong>Customer Email:</strong> {$user->email}</li>
+        <li><strong>Amount:</strong> {$transaction->currency} {$transaction->amount}</li>
+        <li><strong>Transaction ID:</strong> {$transaction->transaction_id}</li>
+        <li><strong>Time:</strong> {$transaction->transaction_time}</li>
+    </ul>
+    <p>Regards,<br>System Notification</p>
+";
+
+// Admins nikaalo jinke role = admin hai
+$admins = User::where('role', 'admin')->pluck('email');
+
+if ($admins->count() > 0) {
+    Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+        $message->to($admins)
+                ->subject($adminSubject);
+    });
+}
 
                         $user_id =  $pay->user_id;
                         $user = User::find($user_id);
