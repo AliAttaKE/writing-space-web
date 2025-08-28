@@ -286,8 +286,10 @@
                                         </td>
                                         {{-- <td class="text-white" data-order="2023-08-19T14:40:00+05:00">{{$file->download_time}} --}}
                                         </td>
-                                        <td class="text-white" data-order="2023-08-19T14:40:00+05:00">{{ $file->created_at }}
-                                        </td>
+                                       <td class="text-white" data-order="{{ $file->created_at }}">
+    {{ \Carbon\Carbon::parse($file->created_at)->format('F d, Y g:i A') }}
+</td>
+
                                         <td class="text-end text-white" data-kt-filemanager-table="action_dropdown">
                                             <div class="d-flex justify-content-end">
                                                 <!--begin::Share link-->

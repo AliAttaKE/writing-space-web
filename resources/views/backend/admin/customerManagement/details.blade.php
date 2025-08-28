@@ -232,7 +232,8 @@
                                                 </th>
                                                 <th class="min-w-100px  pb-8">
                                                     <div class="fw-bold text-success"> 
-                                                        {{ $customer->created_at->format('Y-m-d') }}
+                                                       {{ \Carbon\Carbon::parse($customer->created_at)->format('F d, Y g:i A') }}
+
 
                                                     </div>
                                                 </th>

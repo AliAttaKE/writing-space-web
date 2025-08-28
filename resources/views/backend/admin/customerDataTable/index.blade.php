@@ -232,7 +232,8 @@
                                             <td><a href="#" class="text-warning">{{ $customer->tier }}</a>
                                             </td>
                                     
-                                            <td>{{ $customer->created_at }}</td>
+                                           <td>{{ \Carbon\Carbon::parse($customer->created_at)->format('F d, Y g:i A') }}</td>
+
                                            <td>
                                             <a href="{{ route('admin.customers.show.details', $customer->id) }}" class="btn btn-primary btn-sm">View</a>
                                         </td>

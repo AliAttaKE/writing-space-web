@@ -147,8 +147,8 @@
 																							<tr>
 																								<td>{{$order->order_id}}</td>
 																								<td>{{$order->number_of_pages}}</td>
-																								<td>{{ \Carbon\Carbon::parse($order->created_at)->format('Y/m/d h:iA') }}</td>
-																								<td>{{ \Carbon\Carbon::parse($order->deadline)->format('Y/m/d h:iA') }}</td>
+																								<td>{{ \Carbon\Carbon::parse($order->created_at)->format('F d, Y g:i A') }}</td>
+																								<td>{{ \Carbon\Carbon::parse($order->deadline)->format('F d, Y g:i A') }}</td>
 																								<td>{{$order->paper_format}}</td>
 																								<td>{{$order->subject}}</td>
 																								<td>{{$order->type_of_paper}}</td>
@@ -666,9 +666,14 @@
 																		<td class="text-white">{{ $file->Writer }}</td>
 																		<td class="text-white">{{ $file->file_type }}</td>
 																		<td class="text-white">{{$file->Size }}</td>
-																		<td class="text-white" data-order="2023-08-19T14:40:00+05:00">{{ $file->created_at }}</td>
-																		
-																		<td class="text-white" data-order="2023-08-19T14:40:00+05:00">{{ $file->download_time }}</td>
+																		<td class="text-white" data-order="{{ $file->created_at }}">
+    {{ \Carbon\Carbon::parse($file->created_at)->format('F d, Y g:i A') }}
+</td>
+
+<td class="text-white" data-order="{{ $file->download_time }}">
+    {{ \Carbon\Carbon::parse($file->download_time)->format('F d, Y g:i A') }}
+</td>
+
 																		<td class="text-end text-white" data-kt-filemanager-table="action_dropdown">
 																			<div class="d-flex justify-content-end">
 
