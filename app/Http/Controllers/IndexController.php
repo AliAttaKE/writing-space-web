@@ -481,7 +481,7 @@ class IndexController extends Controller
 
        $validated = $request->validate([
         'email' => 'required|email|unique:users,email',
-        // 'g-recaptcha-response' => 'required',
+        'g-recaptcha-response' => 'required',
         'name' => [
             'required',
             'regex:/^(?:\S+(?:\s+|$)){1,20}$/'
@@ -498,17 +498,17 @@ class IndexController extends Controller
     ]);
 
     // Verify reCAPTCHA
-    // $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-    //     'secret'   => env('RECAPTCHA_SECRET_KEY'),
-    //     'response' => $request->input('g-recaptcha-response'),
-    //     'remoteip' => $request->ip(),
-    // ]);
+    $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        'secret'   => env('RECAPTCHA_SECRET_KEY'),
+        'response' => $request->input('g-recaptcha-response'),
+        'remoteip' => $request->ip(),
+    ]);
 
-    // $data = $response->json();
+    $data = $response->json();
 
-    // if (!($data['success'] ?? false)) {
-    //     return back()->with('error', 'reCAPTCHA validation failed. Please try again.');
-    // }
+    if (!($data['success'] ?? false)) {
+        return back()->with('error', 'reCAPTCHA validation failed. Please try again.');
+    }
         $account_id = 'ID-' . rand(1000, 99999999);
 
         $input = [
@@ -568,6 +568,29 @@ Mail::html($emailContent, function ($message) use ($user) {
     $message->to($user->email)
             ->subject('Welcome to Writing Space – Start Your Journey to Academic Mastery!');
 });
+
+
+// --- Admin Email for New Signup ---
+$adminSubject = "New signup: {$user->name} ({$user->email})";
+$adminContent = "
+    <p>Hi team,</p>
+    <p>A new user just signed up.</p>
+    <ul>
+        <li><strong>Name:</strong> {$user->name}</li>
+        <li><strong>Email:</strong> {$user->email}</li>
+        <li><strong>Sign-up time:</strong> " . now()->format('Y-m-d H:i:s') . "</li>
+    </ul>
+    <p>Regards,<br>System Notification</p>
+";
+
+// get all admin emails as array
+$admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+if (!empty($admins)) {
+    Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+        $message->to($admins)->subject($adminSubject);
+    });
+}
 
 
 
