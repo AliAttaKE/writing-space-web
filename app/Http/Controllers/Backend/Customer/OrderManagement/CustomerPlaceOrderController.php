@@ -4796,8 +4796,8 @@ $user = User::find($pay->user_id);
 
 $adminSubject = "New Custom Order — #{$order->order_id} — {$user->name} — {$currency} {$order->total_cost}";
 $transactionTime = $order->transaction_time 
-    ?? Carbon::now()->format('Y-m-d H:i:s');
-
+    ? Carbon::parse($order->transaction_time)->format('F j, Y h:i A') 
+    : Carbon::now()->format('F j, Y h:i A');
 
 $adminContent = "
     <p>Hi team,</p>
