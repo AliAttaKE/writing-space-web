@@ -3381,6 +3381,73 @@ if (!empty($admins)) {
             else {
                 
 
+                 
+
+$user = User::find($pay->user_id); 
+              $bank_code = $responseData['response']['acquirerCode'] ?? $responseCode;
+    $bank_reason = $responseData['response']['acquirerMessage'] 
+                    ?? ($this->bankResponseCodes[$responseCode]['message'] ?? 'Unknown Reason');
+
+    $amount   = $order_detail->total_cost;
+    $currency = $this->currency;
+    $time     = now()->toDateTimeString();
+    $txn_id   = $transactionIdurl;
+
+    // ---------------------------------
+    // 1) Customer Email (Payment Failed)
+    // ---------------------------------
+    $customerSubject = "Your transaction didn’t go through (Code {$bank_code} — {$bank_reason})";
+
+    $customerContent = "
+        <p>Hi {$user->name},</p>
+        <p>We tried to process your payment but it didn’t go through.</p>
+        <ul>
+            <li><strong>Amount:</strong> {$currency} {$amount}</li>
+            <li><strong>Date/time:</strong> {$time}</li>
+            <li><strong>Bank response:</strong> {$bank_code} — {$bank_reason}</li>
+            <li><strong>Reference:</strong> {$txn_id}</li>
+        </ul>
+        <p><strong>What you can do:</strong></p>
+        <ol>
+            <li>Double-check card details and available funds.</li>
+            <li>Try another card or payment method.</li>
+            <li>If you’re sure everything is correct, contact your bank and share this code: {$bank_code}.</li>
+            <li>If you need help, we’re here: <a href='mailto:support@writing-space.com'>support@writing-space.com</a></li>
+        </ol>
+        <p>Thanks for your patience,<br>Writing Space<br>Customer Success Team</p>
+    ";
+
+    Mail::html($customerContent, function ($message) use ($user, $customerSubject) {
+        $message->to($user->email)
+                ->subject($customerSubject);
+    });
+
+    // -------------------------------
+    // 2) Admin Email (Payment Failed)
+    // -------------------------------
+    $adminSubject = "Payment failed —— {$user->name} — Code {$bank_code} ({$bank_reason})";
+
+    $adminContent = "
+        <p>Hi team,</p>
+        <p>A payment attempt failed.</p>
+        <ul>
+            <li><strong>Customer:</strong> {$user->name} ({$user->email})</li>
+            <li><strong>Amount:</strong> {$currency} {$amount}</li>
+            <li><strong>Time:</strong> {$time}</li>
+            <li><strong>Transaction ID:</strong> {$txn_id}</li>
+            <li><strong>Bank response:</strong> {$bank_code} — {$bank_reason}</li>
+        </ul>
+        <p>Regards,<br>System Notification</p>
+    ";
+
+    $admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+    if (!empty($admins)) {
+        Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+            $message->to($admins)
+                    ->subject($adminSubject);
+        });
+    }
               
                             // Handle the error appropriately
                         if (isset($this->bankResponseCodes[$responseCode])) {
@@ -3780,7 +3847,73 @@ $emailContent = "
             }
             else{
 
+ 
 
+$user = User::find($pay->user_id); 
+              $bank_code = $responseData['response']['acquirerCode'] ?? $responseCode;
+    $bank_reason = $responseData['response']['acquirerMessage'] 
+                    ?? ($this->bankResponseCodes[$responseCode]['message'] ?? 'Unknown Reason');
+
+    $amount   = $order_detail->total_cost;
+    $currency = $this->currency;
+    $time     = now()->toDateTimeString();
+    $txn_id   = $transactionIdurl;
+
+    // ---------------------------------
+    // 1) Customer Email (Payment Failed)
+    // ---------------------------------
+    $customerSubject = "Your transaction didn’t go through (Code {$bank_code} — {$bank_reason})";
+
+    $customerContent = "
+        <p>Hi {$user->name},</p>
+        <p>We tried to process your payment but it didn’t go through.</p>
+        <ul>
+            <li><strong>Amount:</strong> {$currency} {$amount}</li>
+            <li><strong>Date/time:</strong> {$time}</li>
+            <li><strong>Bank response:</strong> {$bank_code} — {$bank_reason}</li>
+            <li><strong>Reference:</strong> {$txn_id}</li>
+        </ul>
+        <p><strong>What you can do:</strong></p>
+        <ol>
+            <li>Double-check card details and available funds.</li>
+            <li>Try another card or payment method.</li>
+            <li>If you’re sure everything is correct, contact your bank and share this code: {$bank_code}.</li>
+            <li>If you need help, we’re here: <a href='mailto:support@writing-space.com'>support@writing-space.com</a></li>
+        </ol>
+        <p>Thanks for your patience,<br>Writing Space<br>Customer Success Team</p>
+    ";
+
+    Mail::html($customerContent, function ($message) use ($user, $customerSubject) {
+        $message->to($user->email)
+                ->subject($customerSubject);
+    });
+
+    // -------------------------------
+    // 2) Admin Email (Payment Failed)
+    // -------------------------------
+    $adminSubject = "Payment failed —— {$user->name} — Code {$bank_code} ({$bank_reason})";
+
+    $adminContent = "
+        <p>Hi team,</p>
+        <p>A payment attempt failed.</p>
+        <ul>
+            <li><strong>Customer:</strong> {$user->name} ({$user->email})</li>
+            <li><strong>Amount:</strong> {$currency} {$amount}</li>
+            <li><strong>Time:</strong> {$time}</li>
+            <li><strong>Transaction ID:</strong> {$txn_id}</li>
+            <li><strong>Bank response:</strong> {$bank_code} — {$bank_reason}</li>
+        </ul>
+        <p>Regards,<br>System Notification</p>
+    ";
+
+    $admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+    if (!empty($admins)) {
+        Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+            $message->to($admins)
+                    ->subject($adminSubject);
+        });
+    }
  
             
             // Handle the error appropriately
@@ -4193,7 +4326,73 @@ Writing Space</p>
              else{
                 
 
+ 
 
+$user = User::find($pay->user_id); 
+              $bank_code = $responseData['response']['acquirerCode'] ?? $responseCode;
+    $bank_reason = $responseData['response']['acquirerMessage'] 
+                    ?? ($this->bankResponseCodes[$responseCode]['message'] ?? 'Unknown Reason');
+
+    $amount   = $order_detail->total_cost;
+    $currency = $this->currency;
+    $time     = now()->toDateTimeString();
+    $txn_id   = $transactionIdurl;
+
+    // ---------------------------------
+    // 1) Customer Email (Payment Failed)
+    // ---------------------------------
+    $customerSubject = "Your transaction didn’t go through (Code {$bank_code} — {$bank_reason})";
+
+    $customerContent = "
+        <p>Hi {$user->name},</p>
+        <p>We tried to process your payment but it didn’t go through.</p>
+        <ul>
+            <li><strong>Amount:</strong> {$currency} {$amount}</li>
+            <li><strong>Date/time:</strong> {$time}</li>
+            <li><strong>Bank response:</strong> {$bank_code} — {$bank_reason}</li>
+            <li><strong>Reference:</strong> {$txn_id}</li>
+        </ul>
+        <p><strong>What you can do:</strong></p>
+        <ol>
+            <li>Double-check card details and available funds.</li>
+            <li>Try another card or payment method.</li>
+            <li>If you’re sure everything is correct, contact your bank and share this code: {$bank_code}.</li>
+            <li>If you need help, we’re here: <a href='mailto:support@writing-space.com'>support@writing-space.com</a></li>
+        </ol>
+        <p>Thanks for your patience,<br>Writing Space<br>Customer Success Team</p>
+    ";
+
+    Mail::html($customerContent, function ($message) use ($user, $customerSubject) {
+        $message->to($user->email)
+                ->subject($customerSubject);
+    });
+
+    // -------------------------------
+    // 2) Admin Email (Payment Failed)
+    // -------------------------------
+    $adminSubject = "Payment failed —— {$user->name} — Code {$bank_code} ({$bank_reason})";
+
+    $adminContent = "
+        <p>Hi team,</p>
+        <p>A payment attempt failed.</p>
+        <ul>
+            <li><strong>Customer:</strong> {$user->name} ({$user->email})</li>
+            <li><strong>Amount:</strong> {$currency} {$amount}</li>
+            <li><strong>Time:</strong> {$time}</li>
+            <li><strong>Transaction ID:</strong> {$txn_id}</li>
+            <li><strong>Bank response:</strong> {$bank_code} — {$bank_reason}</li>
+        </ul>
+        <p>Regards,<br>System Notification</p>
+    ";
+
+    $admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+    if (!empty($admins)) {
+        Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+            $message->to($admins)
+                    ->subject($adminSubject);
+        });
+    }
             
             // Handle the error appropriately
            if (isset($this->bankResponseCodes[$responseCode])) {
@@ -4692,6 +4891,72 @@ if ($admin) {
         } else {
 
             
+
+$user = User::find($pay->user_id); 
+              $bank_code = $responseData['response']['acquirerCode'] ?? $responseCode;
+    $bank_reason = $responseData['response']['acquirerMessage'] 
+                    ?? ($this->bankResponseCodes[$responseCode]['message'] ?? 'Unknown Reason');
+
+    $amount   = $order_detail->total_cost;
+    $currency = $this->currency;
+    $time     = now()->toDateTimeString();
+    $txn_id   = $transactionIdurl;
+
+    // ---------------------------------
+    // 1) Customer Email (Payment Failed)
+    // ---------------------------------
+    $customerSubject = "Your transaction didn’t go through (Code {$bank_code} — {$bank_reason})";
+
+    $customerContent = "
+        <p>Hi {$user->name},</p>
+        <p>We tried to process your payment but it didn’t go through.</p>
+        <ul>
+            <li><strong>Amount:</strong> {$currency} {$amount}</li>
+            <li><strong>Date/time:</strong> {$time}</li>
+            <li><strong>Bank response:</strong> {$bank_code} — {$bank_reason}</li>
+            <li><strong>Reference:</strong> {$txn_id}</li>
+        </ul>
+        <p><strong>What you can do:</strong></p>
+        <ol>
+            <li>Double-check card details and available funds.</li>
+            <li>Try another card or payment method.</li>
+            <li>If you’re sure everything is correct, contact your bank and share this code: {$bank_code}.</li>
+            <li>If you need help, we’re here: <a href='mailto:support@writing-space.com'>support@writing-space.com</a></li>
+        </ol>
+        <p>Thanks for your patience,<br>Writing Space<br>Customer Success Team</p>
+    ";
+
+    Mail::html($customerContent, function ($message) use ($user, $customerSubject) {
+        $message->to($user->email)
+                ->subject($customerSubject);
+    });
+
+    // -------------------------------
+    // 2) Admin Email (Payment Failed)
+    // -------------------------------
+    $adminSubject = "Payment failed —— {$user->name} — Code {$bank_code} ({$bank_reason})";
+
+    $adminContent = "
+        <p>Hi team,</p>
+        <p>A payment attempt failed.</p>
+        <ul>
+            <li><strong>Customer:</strong> {$user->name} ({$user->email})</li>
+            <li><strong>Amount:</strong> {$currency} {$amount}</li>
+            <li><strong>Time:</strong> {$time}</li>
+            <li><strong>Transaction ID:</strong> {$txn_id}</li>
+            <li><strong>Bank response:</strong> {$bank_code} — {$bank_reason}</li>
+        </ul>
+        <p>Regards,<br>System Notification</p>
+    ";
+
+    $admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+    if (!empty($admins)) {
+        Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+            $message->to($admins)
+                    ->subject($adminSubject);
+        });
+    }
 
 
             // Handle the error appropriately
