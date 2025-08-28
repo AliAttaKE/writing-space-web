@@ -4540,6 +4540,31 @@ Writing Space</p>
             });
 
 
+$adminSubject = "New Custom Order — #{$order->order_id} — {$user->name} — {$order->currency} {$order->amount}";
+
+$adminContent = "
+    <p>Hi team,</p>
+    <p>A new custom order has been placed.</p>
+    <ul>
+        <li><strong>Order ID:</strong> {$order->order_id}</li>
+        <li><strong>Customer:</strong> {$user->name}</li>
+        <li><strong>Customer Email:</strong> {$user->email}</li>
+        <li><strong>Amount:</strong> {$order->currency} {$order->amount}</li>
+        <li><strong>Transaction ID:</strong> {$order->transaction_id}</li>
+        <li><strong>Time:</strong> {$order->transaction_time}</li>
+    </ul>
+    <p>Regards,<br>System Notification</p>
+";
+
+$admin = User::where('role', 'admin')->first();
+
+if ($admin) {
+    Mail::html($adminContent, function ($message) use ($adminSubject, $admin) {
+        $message->to($admin->email) // DB se email
+                ->subject($adminSubject);
+    });
+}
+
 
 
                     $data = [

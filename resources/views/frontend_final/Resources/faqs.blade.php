@@ -394,6 +394,13 @@
                     </div>
                 </div>
             </div>
+
+                <?php 
+                        $get_pricing = \App\Models\Pricing::where('text','Early Planner Perk')->orderBy('id', 'desc')->first();
+
+                        
+                    ?>
+
             
             <div class="tab-pane fade" id="pricing-fess" role="tabpanel" aria-labelledby="pricing-fess-tab">
                 <div class="faqs-acord-2">
@@ -406,7 +413,7 @@
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                               Our pricing for custom orders starts at $20 per page for assignments with a 15-day deadline, with rates varying based on the urgency and complexity of the order. For detailed pricing information, please visit our <a href="./custom-order.php" class="text-decoration-none text-white">Pricing Page</a>.
+                               Our pricing for custom orders starts at ${{ $get_pricing->cost_per_page }} per page for assignments with a {{ $get_pricing->duration_type }} deadline, with rates varying based on the urgency and complexity of the order. For detailed pricing information, please visit our <a href="./custom-order.php" class="text-decoration-none text-white">Pricing Page</a>.
                                 </div>
                             </div>
                         </div>
