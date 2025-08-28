@@ -4793,8 +4793,10 @@ $user = User::find($pay->user_id);
             });
 
 
-$adminSubject = "New Custom Order — #{$order->order_id} — {$user->name} — {$order->currency} {$order->amount}";
+$adminSubject = "New Custom Order — #{$order->order_id} — {$user->name} — {$currency} {$discountAmount}";
+$transactionTime = $order->transaction_time ?? Carbon::now()->toDateTimeString();
 
+$currency = env('APP_CURRENCY');
 $adminContent = "
     <p>Hi team,</p>
     <p>A new custom order has been placed.</p>
@@ -4802,9 +4804,9 @@ $adminContent = "
         <li><strong>Order ID:</strong> {$order->order_id}</li>
         <li><strong>Customer:</strong> {$user->name}</li>
         <li><strong>Customer Email:</strong> {$user->email}</li>
-        <li><strong>Amount:</strong> {$order->currency} {$order->amount}</li>
-        <li><strong>Transaction ID:</strong> {$order->transaction_id}</li>
-        <li><strong>Time:</strong> {$order->transaction_time}</li>
+        <li><strong>Amount:</strong> {$currency} {$discountAmount}</li>
+        <li><strong>Transaction ID:</strong> {$order->order_id}</li>
+        <li><strong>Time:</strong> {$transactionTime}</li>
     </ul>
     <p>Regards,<br>System Notification</p>
 ";
