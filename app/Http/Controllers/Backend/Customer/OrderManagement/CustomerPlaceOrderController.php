@@ -4792,11 +4792,12 @@ $user = User::find($pay->user_id);
                     ->subject($emailSubject);
             });
 
+             $currency = $this->currency;
 
 $adminSubject = "New Custom Order — #{$order->order_id} — {$user->name} — {$currency} {$discountAmount}";
 $transactionTime = $order->transaction_time ?? Carbon::now()->toDateTimeString();
 
-$currency = env('APP_CURRENCY');
+
 $adminContent = "
     <p>Hi team,</p>
     <p>A new custom order has been placed.</p>
