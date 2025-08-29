@@ -156,6 +156,40 @@ $emailContent = "
             $message->to($userdata->email)->subject($emailSubject);
         });
 
+
+        $transactionTime = Carbon::now()->format('F j, Y h:i A');
+
+$currency = env('APP_CURRENCY', 'PKR'); // config se lo
+$amount = $AdditionalPagesAdded * ($User_Subscription->cost_per_page ?? 0); // agar per page cost hai
+
+$adminSubject = "Add-on Purchase — {$AdditionalPagesAdded} pages —— {$currency} {$amount}";
+
+$adminContent = "
+    <p>Hi team,</p>
+    <p>An add-on purchase was completed.</p>
+    <ul>
+        <li><strong>Customer:</strong> {$userdata->name} ({$userdata->email})</li>
+        <li><strong>Add-on:</strong> {$AdditionalPagesAdded} pages</li>
+        <li><strong>Amount:</strong> {$currency} {$amount}</li>
+        <li><strong>Transaction ID:</strong> {$orderid}</li>
+        <li><strong>Time:</strong> {$transactionTime}</li>
+    </ul>
+    <p>Regards,<br>System Notification</p>
+";
+
+// Admins list nikalo
+$admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+if (!empty($admins)) {
+    Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+        $message->to($admins)->subject($adminSubject);
+    });
+}
+
+
+
+
+
             return response()->json(['message' => 'Pages added successfully!']);
         } else {
 
