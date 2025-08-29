@@ -162,7 +162,7 @@ $emailContent = "
 $currency = env('APP_CURRENCY', 'PKR'); // config se lo
 $amount = $AdditionalPagesAdded * ($User_Subscription->cost_per_page ?? 0); // agar per page cost hai
 
-$adminSubject = "Add-on Purchase — {$AdditionalPagesAdded} pages —— {$currency} {$amount}";
+$adminSubject = "Add-on Purchase — {$AdditionalPagesAdded} pages —— package";
 
 $adminContent = "
     <p>Hi team,</p>
@@ -170,7 +170,7 @@ $adminContent = "
     <ul>
         <li><strong>Customer:</strong> {$userdata->name} ({$userdata->email})</li>
         <li><strong>Add-on:</strong> {$AdditionalPagesAdded} pages</li>
-        <li><strong>Amount:</strong> {$currency} {$amount}</li>
+        <li><strong>Amount:</strong> package</li>
         <li><strong>Transaction ID:</strong> {$orderid}</li>
         <li><strong>Time:</strong> {$transactionTime}</li>
     </ul>
