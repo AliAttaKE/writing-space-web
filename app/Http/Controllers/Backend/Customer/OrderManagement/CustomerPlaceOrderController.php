@@ -994,6 +994,37 @@ $emailContent = "
 
 
 
+                                
+$adminSubject = "New Custom Order — #{$order->order_id} — {$user->name} — package";
+$transactionTime = $order->transaction_time 
+    ? Carbon::parse($order->transaction_time)->format('F j, Y h:i A') 
+    : Carbon::now()->format('F j, Y h:i A');
+
+$adminContent = "
+    <p>Hi team,</p>
+    <p>A new custom order has been placed.</p>
+    <ul>
+        <li><strong>Order ID:</strong> {$order->order_id}</li>
+        <li><strong>Customer:</strong> {$user->name}</li>
+        <li><strong>Customer Email:</strong> {$user->email}</li>
+        <li><strong>Amount:</strong> package</li>
+        <li><strong>Transaction ID:</strong> {$order->order_id}</li>
+        <li><strong>Time:</strong> {$transactionTime}</li>
+    </ul>
+    <p>Regards,<br>System Notification</p>
+";
+
+$admin = User::where('role', 'admin')->first();
+
+if ($admin) {
+    Mail::html($adminContent, function ($message) use ($adminSubject, $admin) {
+        $message->to($admin->email) // DB se email
+                ->subject($adminSubject);
+    });
+}
+
+
+
             return response()->json(['success' => true, 'order' => $order, 'message' => 'Order placed successfully! customization']);
         } else {
                 return response()->json([
