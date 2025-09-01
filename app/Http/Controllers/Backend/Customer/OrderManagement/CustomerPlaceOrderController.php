@@ -2790,21 +2790,56 @@ public function storeOtpHtml(Request $request)
 
 
             return redirect()->route('pay', ['orderid' => $data['order_id']]);
-        } else {
+        } 
+        
+        // else {
 
-            $pay = Pay::where('order_id', $data['order_id'])->first();
+        //     $pay = Pay::where('order_id', $data['order_id'])->first();
 
-            $user_id =  $pay->user_id;
+        //     $user_id =  $pay->user_id;
 
+        //     $user = User::find($user_id);
+        //     Auth::login($user);
+
+
+        //             return response()->make(
+        //     '<script>window.location.href="' . route('customer.customerPlaceOrder') . '"</script>'
+        // );
+
+        // }
+
+           else {
+        $pay = Pay::where('order_id', $data['order_id'])->first();
+        $user_id = $pay->user_id ?? null;
+
+        if ($user_id) {
             $user = User::find($user_id);
-            Auth::login($user);
-
-
-                    return response()->make(
-            '<script>window.location.href="' . route('customer.customerPlaceOrder') . '"</script>'
-        );
-
+            if ($user) {
+                Auth::login($user);
+            }
         }
+
+        // Yeh values aap gateway se ya $data se le sakte ho
+        $responseCode = $data['response_code'] ?? '500';
+        $errorMessage = $data['error_message'] ?? 'Payment failed';
+        $errorDescription = $data['error_description'] ?? 'Something went wrong during the payment process.';
+
+        $errorUrl = route('payment.error') .
+            '?code=' . urlencode($responseCode) .
+            '&message=' . urlencode($errorMessage) .
+            '&description=' . urlencode($errorDescription);
+
+        return response()->make('
+            <script>
+                var errorUrl = "' . $errorUrl . '";
+                if (window.top !== window.self) {
+                    window.top.location.href = errorUrl;
+                } else {
+                    window.location.href = errorUrl;
+                }
+            </script>
+        ', 200, ['Content-Type' => 'text/html']);
+    }
     }
 
     public function redirectResponseUrladdpages(Request $request)
@@ -2886,22 +2921,55 @@ public function storeOtpHtml(Request $request)
 
             return redirect()->route('pay.add.manage', ['orderid' => $data['order_id']]);
         }
-        else {
+//         else {
 
-            $pay = Pay::where('order_id', $data['order_id'])->first();
+//             $pay = Pay::where('order_id', $data['order_id'])->first();
 
-            $user_id =  $pay->user_id;
+//             $user_id =  $pay->user_id;
 
+//             $user = User::find($user_id);
+//             Auth::login($user);
+
+
+//             return response()->make(
+//     '<script>window.location.href="' . route('customer.show.profile') . '"</script>'
+// );
+
+
+//         }
+
+   else {
+        $pay = Pay::where('order_id', $data['order_id'])->first();
+        $user_id = $pay->user_id ?? null;
+
+        if ($user_id) {
             $user = User::find($user_id);
-            Auth::login($user);
-
-
-            return response()->make(
-    '<script>window.location.href="' . route('customer.show.profile') . '"</script>'
-);
-
-
+            if ($user) {
+                Auth::login($user);
+            }
         }
+
+        // Yeh values aap gateway se ya $data se le sakte ho
+        $responseCode = $data['response_code'] ?? '500';
+        $errorMessage = $data['error_message'] ?? 'Payment failed';
+        $errorDescription = $data['error_description'] ?? 'Something went wrong during the payment process.';
+
+        $errorUrl = route('payment.error') .
+            '?code=' . urlencode($responseCode) .
+            '&message=' . urlencode($errorMessage) .
+            '&description=' . urlencode($errorDescription);
+
+        return response()->make('
+            <script>
+                var errorUrl = "' . $errorUrl . '";
+                if (window.top !== window.self) {
+                    window.top.location.href = errorUrl;
+                } else {
+                    window.location.href = errorUrl;
+                }
+            </script>
+        ', 200, ['Content-Type' => 'text/html']);
+    }
     }
 
 
@@ -2920,22 +2988,55 @@ public function storeOtpHtml(Request $request)
 
 
             return redirect()->route('pay.sub', ['orderid' => $data['order_id']]);
-        } else {
+         } 
+//else {
 
-            $pay = Pay::where('order_id', $data['order_id'])->first();
+//             $pay = Pay::where('order_id', $data['order_id'])->first();
 
-            $user_id =  $pay->user_id;
+//             $user_id =  $pay->user_id;
 
+//             $user = User::find($user_id);
+//             Auth::login($user);
+
+
+//             return response()->make(
+//     '<script>window.location.href="' . route('front.subscriptions') . '"</script>'
+// );
+
+
+//         }
+   else {
+        $pay = Pay::where('order_id', $data['order_id'])->first();
+        $user_id = $pay->user_id ?? null;
+
+        if ($user_id) {
             $user = User::find($user_id);
-            Auth::login($user);
-
-
-            return response()->make(
-    '<script>window.location.href="' . route('front.subscriptions') . '"</script>'
-);
-
-
+            if ($user) {
+                Auth::login($user);
+            }
         }
+
+        // Yeh values aap gateway se ya $data se le sakte ho
+        $responseCode = $data['response_code'] ?? '500';
+        $errorMessage = $data['error_message'] ?? 'Payment failed';
+        $errorDescription = $data['error_description'] ?? 'Something went wrong during the payment process.';
+
+        $errorUrl = route('payment.error') .
+            '?code=' . urlencode($responseCode) .
+            '&message=' . urlencode($errorMessage) .
+            '&description=' . urlencode($errorDescription);
+
+        return response()->make('
+            <script>
+                var errorUrl = "' . $errorUrl . '";
+                if (window.top !== window.self) {
+                    window.top.location.href = errorUrl;
+                } else {
+                    window.location.href = errorUrl;
+                }
+            </script>
+        ', 200, ['Content-Type' => 'text/html']);
+    }
     }
     // Subscriptions Purchase / Uprgrade
     public function pay_sub($orderid)
