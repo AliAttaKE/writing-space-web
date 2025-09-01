@@ -156,40 +156,6 @@ $emailContent = "
             $message->to($userdata->email)->subject($emailSubject);
         });
 
-
-        $transactionTime = Carbon::now()->format('F j, Y h:i A');
-
-$currency = env('APP_CURRENCY', 'PKR'); // config se lo
-$amount = $AdditionalPagesAdded * ($User_Subscription->cost_per_page ?? 0); // agar per page cost hai
-
-$adminSubject = "Add-on Purchase — {$AdditionalPagesAdded} pages —— package";
-
-$adminContent = "
-    <p>Hi team,</p>
-    <p>An add-on purchase was completed.</p>
-    <ul>
-        <li><strong>Customer:</strong> {$userdata->name} ({$userdata->email})</li>
-        <li><strong>Add-on:</strong> {$AdditionalPagesAdded} pages</li>
-        <li><strong>Amount:</strong> package</li>
-        <li><strong>Transaction ID:</strong> {$orderid}</li>
-        <li><strong>Time:</strong> {$transactionTime}</li>
-    </ul>
-    <p>Regards,<br>System Notification</p>
-";
-
-// Admins list nikalo
-$admins = User::where('role', 'admin')->pluck('email')->toArray();
-
-if (!empty($admins)) {
-    Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
-        $message->to($admins)->subject($adminSubject);
-    });
-}
-
-
-
-
-
             return response()->json(['message' => 'Pages added successfully!']);
         } else {
 
@@ -1025,37 +991,6 @@ $emailContent = "
                                     $message->to($user->email)
                                             ->subject("Confirmation of Your New Order – Package Order ID {$order->order_id}");
                                 });
-
-
-
-                                
-$adminSubject = "New Custom Order — #{$order->order_id} — {$user->name} — package";
-$transactionTime = $order->transaction_time 
-    ? Carbon::parse($order->transaction_time)->format('F j, Y h:i A') 
-    : Carbon::now()->format('F j, Y h:i A');
-
-$adminContent = "
-    <p>Hi team,</p>
-    <p>A new custom order has been placed.</p>
-    <ul>
-        <li><strong>Order ID:</strong> {$order->order_id}</li>
-        <li><strong>Customer:</strong> {$user->name}</li>
-        <li><strong>Customer Email:</strong> {$user->email}</li>
-        <li><strong>Amount:</strong> package</li>
-        <li><strong>Transaction ID:</strong> {$order->order_id}</li>
-        <li><strong>Time:</strong> {$transactionTime}</li>
-    </ul>
-    <p>Regards,<br>System Notification</p>
-";
-
-$admin = User::where('role', 'admin')->first();
-
-if ($admin) {
-    Mail::html($adminContent, function ($message) use ($adminSubject, $admin) {
-        $message->to($admin->email) // DB se email
-                ->subject($adminSubject);
-    });
-}
 
 
 
@@ -2884,23 +2819,58 @@ public function storeOtpHtml(Request $request)
 
 
             return redirect()->route('pay.add.pages', ['orderid' => $data['order_id']]);
-        } else {
+        } 
+        
+    //     else {
 
-            $pay = Pay::where('order_id', $data['order_id'])->first();
+    //         $pay = Pay::where('order_id', $data['order_id'])->first();
 
-            $user_id =  $pay->user_id;
+    //         $user_id =  $pay->user_id;
 
-            $user = User::find($user_id);
-            Auth::login($user);
+    //         $user = User::find($user_id);
+    //         Auth::login($user);
 
 
-            return response()->make(
-    '<script>window.location.href="' . route('customer.show.profile') . '"</script>'
-);
+    //         return response()->make(
+    // '<script>window.location.href="' . route('customer.show.profile') . '"</script>'
+    //     );
 
 
            
+    //     }
+
+    else {
+        $pay = Pay::where('order_id', $data['order_id'])->first();
+        $user_id = $pay->user_id ?? null;
+
+        if ($user_id) {
+            $user = User::find($user_id);
+            if ($user) {
+                Auth::login($user);
+            }
         }
+
+        // Yeh values aap gateway se ya $data se le sakte ho
+        $responseCode = $data['response_code'] ?? '500';
+        $errorMessage = $data['error_message'] ?? 'Payment failed';
+        $errorDescription = $data['error_description'] ?? 'Something went wrong during the payment process.';
+
+        $errorUrl = route('payment.error') .
+            '?code=' . urlencode($responseCode) .
+            '&message=' . urlencode($errorMessage) .
+            '&description=' . urlencode($errorDescription);
+
+        return response()->make('
+            <script>
+                var errorUrl = "' . $errorUrl . '";
+                if (window.top !== window.self) {
+                    window.top.location.href = errorUrl;
+                } else {
+                    window.location.href = errorUrl;
+                }
+            </script>
+        ', 200, ['Content-Type' => 'text/html']);
+    }
     }
 
     public function redirectResponsemanagepages(Request $request)
@@ -4860,9 +4830,8 @@ $user = User::find($pay->user_id);
              $currency = $this->currency;
 
 $adminSubject = "New Custom Order — #{$order->order_id} — {$user->name} — {$currency} {$order->total_cost}";
-$transactionTime = $order->transaction_time 
-    ? Carbon::parse($order->transaction_time)->format('F j, Y h:i A') 
-    : Carbon::now()->format('F j, Y h:i A');
+$transactionTime = $order->transaction_time ?? Carbon::now()->toDateTimeString();
+
 
 $adminContent = "
     <p>Hi team,</p>
@@ -6229,8 +6198,6 @@ $orderid_new = $matches[1] ?? null;
             ));
 
 
-            $transactionTime = Carbon::now()->format('F j, Y h:i A');
-
              $adminSubject = "Add-on Purchase — {$noofpage} pages —— {$transaction->currency} {$transaction->merchantAmount}";
 
         $adminContent = "
@@ -6240,8 +6207,8 @@ $orderid_new = $matches[1] ?? null;
                 <li><strong>Customer:</strong> {$user->name} ({$user->email})</li>
                 <li><strong>Add-on:</strong> {$noofpage} pages</li>
                 <li><strong>Amount:</strong> {$transaction->currency} {$transaction->merchantAmount}</li>
-                <li><strong>Transaction ID:</strong> {$orderid_new}</li>
-                <li><strong>Time:</strong> {$transactionTime}</li>
+                <li><strong>Transaction ID:</strong> {$transaction->transaction_id}</li>
+                <li><strong>Time:</strong> {$transaction->transaction_time}</li>
             </ul>
             <p>Regards,<br>System Notification</p>
         ";
