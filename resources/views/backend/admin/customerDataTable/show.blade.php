@@ -302,178 +302,13 @@
                             </div>
 
 
-                            <!--begin::Statements-->
-                            <div class="card mb-6 mb-xl-9 card-custom-bg message-summ">
-                               <!--begin::Header-->
-                                <div class="card-header">
-                                    <!--begin::Title-->
-                                    <div class="card-title">
-                                        <h2 class="fs-color-white custom-fs-23">Packages Payment Records</h2>
-                                    </div>
-                                    <!--end::Title-->
-                                    <!--begin::Toolbar-->
+                   {{-- Admin Payment Records (all types) --}}
+@include('backend.admin.customerDataTable.partials.payment_section', [
+    'data'              => $AllInvoices ?? collect(),   // controller se bhejo
+    'used_subscription' => $used_subscription ?? null,
+    'customerId'        => $customers[0]->id ?? null,
+])
 
-                                    <!--end::Toolbar-->
-                                </div>
-                                <!--end::Header-->
-                                <div class="card-body pb-5">
-                                    <!--begin::Tab Content-->
-                                        <!--begin::Tab panel-->
-                                        <div class="py-0">
-                                            <!--begin::Table-->
-                                            <table class="table align-middle table-row-dashed gy-5" id="kt_table_packages_payment">
-                                                <thead class="border-bottom border-gray-200 fs-7 fw-bold">
-                                                    <tr class="text-start text-muted text-uppercase gs-0">
-                                                        <th class="min-w-150px">Package</th>
-                                                        <th class="min-w-100px">Invoice No.</th>
-                                                        <th>Status</th>
-                                                        <th>Amount</th>
-                                                        <th class="min-w-100px">Date</th>
-                                                        <th class="text-end min-w-100px pe-4">Actions</th>
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody class="fs-6 fw-semibold text-gray-600" id="old_package_payment_tbody">
-                                                    @foreach ($PackageInvoices as $invoice)
-
-                                                        @if($invoice->invoice_type == 'package_inc')
-                                                            <tr>
-                                                            @if($invoice->invoice_type == 'package_inc')
-    <td>{{ $used_subscription->subscription->subscription_name ?? 'subs' }}</td>
-@endif
-
-
-
-                                                                <td>
-                                                                    <a href="{{ route('admin.generate.invoice.by.id', ['id' => $invoice->invoice_id]) }}" class="text-gray-600 text-hover-primary mb-1">{{ $invoice->invoice_id}}</a>
-                                                                </td>
-                                                                <td>
-                                                                    @if ($invoice->total != null)
-                                                                        <span class="badge badge-light-success badge-custom-bg">Successful</span>
-                                                                    @else
-                                                                        <span class="badge badge-light-danger">No paid</span>
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    @php
-                                                                        $formattedAmount = number_format($invoice->total, 2);
-                                                                    @endphp
-                                                                    $ {{ $formattedAmount }}
-                                                                </td>
-                                                                <td>
-                                                                    @php
-                                                                        $date = \Carbon\Carbon::parse($invoice->created_at)->format('j M Y, g:i a');
-                                                                    @endphp
-                                                                    {{ $date }}
-                                                                </td>
-                                                                <td class="pe-0">
-                                                                    <a href="#" class="btn btn-sm btn-light image.png btn-active-light-primary badge-custom-bg" id="badge-custom-bg" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
-                                                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
-                                                                    </a>
-                                                                    <!--begin::Menu-->
-                                                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded fs-color-white menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4 badge-custom-bg" data-kt-menu="true">
-                                                                        <!--begin::Menu item-->
-                                                                            <div class="menu-item px-3">
-                                                                                <a href="javascript:void(0)" class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white" data-bs-toggle="modal" data-bs-target="#view-invoice_{{$invoice->order_id}}">View</a>
-                                                                            </div>
-                                                                        <!--end::Menu item-->
-                                                                        <!--begin::Menu item-->
-                                                                        <div class="menu-item px-3">
-                                                                        <a  class="menu-link d-flex justify-content-center px-3 badge-custom-bg fs-color-white"
-                                                                                    onclick="window.location.href='{{ route('customer.export.invoice',['value' => $invoice->order_id]) }}'">
-                                                                                Export
-                                                                            </a>
-                                                                        </div>
-                                                                        <!--end::Menu item-->
-                                                                    </div>
-                                                                    <!--end::Menu-->
-                                                                </td>
-                                                            </tr>
-                                                            <div class="modal view-invoice" id="view-invoice_{{$invoice->order_id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                <div class="modal-dialog modal-dialog-centered modal-lg">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header border-0 badge-custom-bg">
-                                                                            <!-- <h5 class="modal-title" id="exampleModalLabel">Invoice</h5> -->
-                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body badge-custom-bg">
-                                                                            <div class="">
-                                                                                <!--begin::Body-->
-                                                                                <div class="card-body">
-                                                                                    <!--begin::Layout-->
-                                                                                    <div class="d-flex flex-column flex-xl-row">
-                                                                                        <!--begin::Content-->
-                                                                                        <div class="flex-lg-row-fluid me-xl-18 mb-10 mb-xl-0">
-                                                                                            <!--begin::Invoice 2 content-->
-                                                                                            <div class="mt-n1">
-                                                                                                <!--begin::Top-->
-                                                                                                <div class="d-flex flex-stack pb-10">
-                                                                                                    <!--begin::Logo-->
-                                                                                                    <a href="#">
-                                                                                                        <img alt="Logo" src="{{asset('backend/assets/media/ws/ws-light-logo.png')}}" />
-                                                                                                    </a>
-                                                                                                    <!--end::Logo-->
-                                                                                                </div>
-                                                                                                <!--end::Top-->
-                                                                                                <!--begin::Wrapper-->
-                                                                                                <div class="m-0">
-                                                                                                    <!--begin::Label-->
-                                                                                                    <div class="fw-bold fs-3 text-gray-800 mb-8 fs-color-white">Order #{{$invoice->order_id}}</div>
-
-                                                                                                    <div class="row g-5 mb-12">
-                                                                                                        <!--end::Col-->
-                                                                                                        <div class="col-sm-9">
-                                                                                                            <div class="fw-bold fs-3 text-gray-800 mb-8 fs-color-white">Invoice Id #{{$invoice->invoice_id ?? ''}}</div>
-
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="row g-5 mb-12">
-                                                                                                        <!--end::Col-->
-                                                                                                        <div class="col-sm-9">
-                                                                                                            <div class="fw-bold fs-3 text-gray-800 mb-8 fs-color-white">Name #</div>
-                                                                                                            {{$invoice->item_name ?? ''}}
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="row g-5 mb-12">
-                                                                                                    <!--end::Col-->
-                                                                                                    <div class="col-sm-9">
-                                                                                                        <div class="fw-bold fs-3 text-gray-800 mb-8 fs-color-white">Total Amount #</div>
-                                                                                                        {{$invoice->total ?? ''}}
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <!--end::Wrapper-->
-                                                                                            </div>
-                                                                                            <!--end::Invoice 2 content-->
-                                                                                        </div>
-                                                                                        <!--end::Content-->
-
-                                                                                    </div>
-                                                                                    <!--end::Layout-->
-                                                                                </div>
-                                                                                <!--end::Body-->
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="modal-footer border-0 justify-content-between badge-custom-bg">
-                                                                            <div class="">
-                                                                                <button type="button" class="btn btn-dark-primary" data-bs-dismiss="modal">Close</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        @endif
-                                                    @endforeach
-                                                </tbody>
-                                                <tbody class="fs-6 fw-semibold text-gray-600" id="new_package_payment_tbody"></tbody>
-                                                    <!--end::Table body-->
-                                            </table>
-                                        <!--end::Table-->
-                                        </div>
-                                    <!--end::Tab panel-->
-                                </div>
-                            </div>
-                            <!--end::Statements main card-->
 
                             <!--begin::Statements-->
                             <div class="card mb-6 mb-xl-9 card-custom-bg message-summ">
@@ -1762,6 +1597,70 @@
 @endsection
 
 @section('customJs')
+<script>
+/** AJAX helper */
+function fetchAdminPayments(dateVal, typesArr) {
+  var url = "{{ route('admin.customer.filter.date', ['id' => ($customer->id ?? ($customers[0]->id ?? 0))]) }}";
+  $.ajax({
+    type: 'GET',
+    url: url,
+    data: { date: dateVal, type: typesArr },
+    success: function (response) {
+      if (response && response.html) {
+        // replace section
+        $('#admin-payment-section-wrapper').replaceWith(response.html);
+
+        // re-init DT
+        if ($.fn.DataTable.isDataTable('#admin_kt_table_payments')) {
+          $('#admin_kt_table_payments').DataTable().destroy();
+        }
+        $('#admin_kt_table_payments').DataTable({
+          pageLength: 5,
+          lengthChange: false,
+          searching: false,
+          dom: 't<"dt-bottom d-flex flex-wrap justify-content-between align-items-center gap-2 mt-3" i p>',
+          language: { emptyTable: "Data not found", zeroRecords: "Data not found" }
+        });
+
+        // restore month input
+        $('#admin_packages_filter_date').val(dateVal || '');
+      }
+    },
+    error: function (xhr) {
+      console.log("Admin filter error:", xhr.status);
+    }
+  });
+}
+
+/** First init on page load */
+function initAdminDT() {
+  if ($.fn.DataTable.isDataTable('#admin_kt_table_payments')) {
+    $('#admin_kt_table_payments').DataTable().destroy();
+  }
+  $('#admin_kt_table_payments').DataTable({
+    pageLength: 5,
+    lengthChange: false,
+    searching: false,
+    dom: 't<"dt-bottom d-flex flex-wrap justify-content-between align-items-center gap-2 mt-3" i p>',
+    language: { emptyTable: "Data not found", zeroRecords: "Data not found" }
+  });
+}
+document.addEventListener('DOMContentLoaded', initAdminDT);
+
+/** Month change -> filtered fetch */
+$(document).on('change', '#admin_packages_filter_date', function () {
+  var selectedDate = $(this).val();                          // 'YYYY-MM' or ''
+  var types = selectedDate ? ['package_inc','custom_inc',''] // filtered types
+                           : [];                              // reset case = ALL
+  fetchAdminPayments(selectedDate, types);
+});
+
+/** Reset -> show ALL data (no date, no types) */
+$(document).on('click', '.admin-reset-package-filter', function () {
+  $('#admin_packages_filter_date').val('');
+  fetchAdminPayments('', []); // ALL data
+});
+</script>
 
     <script>
         $(document).ready(function() {

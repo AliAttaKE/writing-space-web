@@ -275,7 +275,7 @@ Route::put('/orders/{id}', [CustomerPlaceOrderController::class, 'update'])->nam
     Route::get('/coupon/delete/{id}', [CouponController::class, 'destroy'])->name('coupon.destroy');
 
    Route::get('/customers/details/{id}', [CustomerDataController::class, 'show'])->name('customers.show.details');
-
+Route::get('/customers/{id}/payments/filter', [CustomerDataController::class, 'filterDate'])->name('customer.filter.date');
 
 
     Route::get('user/activity/log', [UserManagementController::class, 'userActivityLog'])->name('user.activity.log');
