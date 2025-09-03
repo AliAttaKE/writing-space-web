@@ -189,19 +189,15 @@
                         <h5>Payment Via</h5>
                     </div>
                 <div class="row">
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-4 d-flex align-items-center">
                     <img src="{{asset("backend/assets/media/ws/visaCard.png")}}"
                             class="visaCard mb-3" alt="">
                             </div>
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-4 d-flex align-items-center">
                             <img src="{{asset("backend/assets/media/ws/masterCard.png")}}"
                             class="masterCard mb-3" alt="">
                 </div>
-                    <div class="col-6 d-flex align-items-center">
-                    <img src="{{asset("backend/assets/media/ws/discover.png")}}"
-                            class="visaCard mb-3" alt="">
-                            </div>
-                    <div class="col-6 d-flex align-items-center">
+                    <div class="col-4 d-flex align-items-center">
                             <img src="{{asset("backend/assets/media/ws/american-express.png")}}"
                             class="masterCard mb-3" alt="">
                 </div>

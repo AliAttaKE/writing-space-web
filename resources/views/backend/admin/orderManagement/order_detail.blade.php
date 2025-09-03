@@ -753,7 +753,7 @@
 									</div>
 									<style>
 /* Card & surface */
-.custom-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; }
+.custom-card {  border: 1px solid #6C3EF3; border-radius: 14px; }
 .card-elev { box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
 
 /* Counter badge */
@@ -778,6 +778,28 @@
 /* Per page select */
 .perpage-select { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; }
 
+  /* Control (the visible closed select) */
+  .perpage-select{
+    background: #1b1433 !important;
+    color: #fff !important;
+    border-color: rgba(255,255,255,.25) !important;
+  }
+
+  /* Options list (when you open the select) */
+  .perpage-select option{
+    background: #1b1433 !important;  /* dropdown panel bg per option */
+    color: #fff !important;
+  }
+
+  /* Selected / hover state (Chromium & Firefox) */
+  .perpage-select option:checked,
+  .perpage-select option:hover{
+    background: #2a1f47 !important;
+    color: #fff !important;
+  }
+
+  /* Hint: force dark defaults for native control */
+  .perpage-select{ color-scheme: dark; }
 /* Pagination theme */
 .pagination .page-link { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: #E8E8FF; }
 .pagination .page-item.active .page-link { background: #6C3EF3; border-color: #6C3EF3; color: #fff; }
@@ -822,6 +844,8 @@
             <th class="min-w-100px">Size</th>
             <th class="min-w-170px">Upload Time</th>
             <th class="min-w-170px">Download Time</th>
+	     <th class="min-w-120px text-end">Actions</th>
+
             <!-- <th class="min-w-100px text-end"></th> -->
           </tr>
         </thead>
@@ -838,9 +862,16 @@
               <td class="text-muted">{{ $f->Size ?? $f->size ?? '-' }}</td>
               <td class="text-muted">{{ $f->created_at ? Carbon::parse($f->created_at)->format('F j, Y g:i A') : '' }}</td>
               <td class="text-muted">{{ $f->download_time ? Carbon::parse($f->download_time)->format('F j, Y g:i A') : '' }}</td>
-              <!-- <td class="text-end">
-                <a class="download-link" href="{{ route('customer.completed.order.file.download', ['order_id' => $order->order_id, 'file_id' => $f->id]) }}">Download File</a>
-              </td> -->
+  <td class="text-end">
+  <a class="menu-link px-3"
+   href="{{ route('admin.files.download', ['id' => $file->id, 'folder_name' => $folder->name]) }}"
+   >
+  Download File
+</a>
+
+</td>
+
+
             </tr>
           @empty
             <tr>
@@ -850,7 +881,13 @@
         </tbody>
       </table>
     </div>
-
+<style>
+  /* hide the default "Showing X to Y..." chunk inside pagination nav */
+  .pagination-wrap nav .small,
+  .pagination-wrap nav p[class*="text-sm"] {
+    display: none !important;
+  }
+</style>
     <div class="d-flex justify-content-between align-items-center mt-3 gap-3 flex-wrap">
       <form id="completedPerPageForm" method="GET" class="d-inline">
         <select name="completed_per_page" class="form-select form-select-sm w-auto perpage-select"

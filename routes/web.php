@@ -61,7 +61,7 @@ use App\Http\Controllers\FileChatGPTController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\RevisionController;
 use App\Http\Controllers\ContactController;
-
+use App\Http\Controllers\Admin\FileController as AdminFileController;
 
 
 /*
@@ -110,6 +110,7 @@ use App\Http\Controllers\ContactController;
 
 //     return view('emails.receipt_custom_template', compact('invoiceData'));
 // });
+
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('transactions', TransactionController::class)->only(['index','show']);
@@ -219,7 +220,8 @@ Route::get('/approved-files', [FileChatGPTController::class, 'approvedFiles'])->
 
 Route::middleware(['auth', 'roles:admin'])->prefix('admin')->name('admin.')->group(function () {
 
-
+ Route::get('files/{id}/{folder_name}/download', [AdminFileController::class, 'download'])
+            ->name('files.download');
     Route::resource('contacts', ContactController::class);
     Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard');
 
@@ -276,6 +278,9 @@ Route::put('/orders/{id}', [CustomerPlaceOrderController::class, 'update'])->nam
 
    Route::get('/customers/details/{id}', [CustomerDataController::class, 'show'])->name('customers.show.details');
 Route::get('/customers/{id}/payments/filter', [CustomerDataController::class, 'filterDate'])->name('customer.filter.date');
+Route::get('/customers/{id}/custom-orders/filter',
+        [CustomerDataController::class, 'filterCustomOrders']
+    )->name('customer.custom_orders.filter');
 
 
     Route::get('user/activity/log', [UserManagementController::class, 'userActivityLog'])->name('user.activity.log');

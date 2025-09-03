@@ -150,12 +150,17 @@ class CustomerDataController extends Controller
     $countCurrentOrders = Orders::where('user_id', $id)
         ->whereIn('order_status', ['Pending', 'Completed', 'Revision', 'Refund', 'Canceled', 'In-Progress'])
         ->count();
-
+$AdminOrders = DB::table('orders')
+    ->where('user_id', $id)
+    ->select('created_at','deadline','order_type','order_id','number_of_pages','topic','order_status')
+    ->orderByDesc('created_at')
+    ->get();
     $countPastOrders = Orders::whereUserId($id)->where('order_status', 'Delivered')->count();
     $countPackages   = User_Subscription::whereUserId($id)->count();
 
     return view('backend.admin.customerDataTable.show', compact(
         'customer',
+        'AdminOrders',
         'customers',
         'customers_email',
         'CustomInvoices',
@@ -257,5 +262,61 @@ public function filterDate(Request $request, $id)
     ], 200);
 }
 
-    
+    public function filterCustomOrders(Request $request, $id)
+{
+    // Month optional (blank = ALL)
+    $monthStr  = $request->input('date'); // 'YYYY-MM' or ''
+    $applyDate = false;
+    $start = $end = null;
+
+    if (!empty($monthStr)) {
+        try {
+            $start = \Carbon\Carbon::createFromFormat('Y-m', $monthStr)->startOfMonth();
+            $end   = \Carbon\Carbon::createFromFormat('Y-m', $monthStr)->endOfMonth();
+            $applyDate = true;
+        } catch (\Throwable $e) {
+            $applyDate = false;
+        }
+    }
+
+    // Customer must exist
+    $customer = DB::table('users')->where('id', $id)->first();
+    if (!$customer) {
+        return response()->json([
+            'status' => false,
+            'html'   => '<div id="admin-order-section-wrapper"><div class="p-4 text-center">Customer not found</div></div>',
+        ], 200);
+    }
+
+    // Base query from orders
+    $q = DB::table('orders')
+        ->where('user_id', $id);
+
+    if ($applyDate) {
+        $q->whereBetween('created_at', [$start, $end]);
+    }
+
+    $data = $q->select(
+                'created_at',
+                'deadline',
+                'order_type',
+                'order_id',
+                'number_of_pages',
+                'topic',
+                'order_status'
+            )
+            ->orderByDesc('created_at')
+            ->get();
+
+    $html = view('backend.admin.customerDataTable.partials.custom_orders_section', [
+        'data'       => $data,
+        'customerId' => $id,
+    ])->render();
+
+    return response()->json([
+        'status' => true,
+        'html'   => $html,
+    ], 200);
+}
+
 }
