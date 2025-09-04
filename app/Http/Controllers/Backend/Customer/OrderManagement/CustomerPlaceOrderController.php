@@ -4370,7 +4370,7 @@ $responseCode =5;
 //     <p>Writing Space</p>
 // ";
 
-
+$time = now()->format('d M Y, h:i A');
 
              $adminSubject = "Add-on Purchase — {$totalPages} pages —— {$transaction->currency} {$transaction->merchantAmount}";
 
@@ -4381,8 +4381,8 @@ $responseCode =5;
                 <li><strong>Customer:</strong> {$user->name} ({$user->email})</li>
                 <li><strong>Add-on:</strong> {$totalPages} pages</li>
                 <li><strong>Amount:</strong> {$transaction->currency} {$transaction->merchantAmount}</li>
-                <li><strong>Transaction ID:</strong> {$transaction->transaction_id}</li>
-                <li><strong>Time:</strong> {$transaction->transaction_time}</li>
+                <li><strong>Transaction ID:</strong> {$order->order_id}</li>
+                <li><strong>Time:</strong> {$time}</li>
             </ul>
             <p>Regards,<br>System Notification</p>
         ";
