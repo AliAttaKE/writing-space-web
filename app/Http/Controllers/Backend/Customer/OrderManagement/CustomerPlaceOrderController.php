@@ -4370,7 +4370,7 @@ $responseCode =5;
 //     <p>Writing Space</p>
 // ";
 
- $time     = now()->toDateTimeString();
+$time = now()->format('d M Y, h:i A');
 
              $adminSubject = "Add-on Purchase — {$totalPages} pages —— {$transaction->currency} {$transaction->merchantAmount}";
 
