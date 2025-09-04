@@ -4371,6 +4371,32 @@ $responseCode =5;
 // ";
 
 
+
+             $adminSubject = "Add-on Purchase — {$totalPages} pages —— {$transaction->currency} {$transaction->merchantAmount}";
+
+        $adminContent = "
+            <p>Hi team,</p>
+            <p>An add-on purchase was completed.</p>
+            <ul>
+                <li><strong>Customer:</strong> {$user->name} ({$user->email})</li>
+                <li><strong>Add-on:</strong> {$totalPages} pages</li>
+                <li><strong>Amount:</strong> {$transaction->currency} {$transaction->merchantAmount}</li>
+                <li><strong>Transaction ID:</strong> {$transaction->transaction_id}</li>
+                <li><strong>Time:</strong> {$transaction->transaction_time}</li>
+            </ul>
+            <p>Regards,<br>System Notification</p>
+        ";
+
+        // Admins nikaalo jinke role = admin hai
+        $admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+        if (!empty($admins)) {
+            Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+                $message->to($admins)
+                        ->subject($adminSubject);
+            });
+        }
+
 $emailContent = "
 <p>Hi {$user->name},</p>
 
