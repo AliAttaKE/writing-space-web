@@ -4390,12 +4390,12 @@ $time = now()->format('d M Y, h:i A');
         // Admins nikaalo jinke role = admin hai
         $admins = User::where('role', 'admin')->pluck('email')->toArray();
 
-        if (!empty($admins)) {
-            Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
-                $message->to($admins)
-                        ->subject($adminSubject);
-            });
-        }
+       if (!empty($admins)) {
+    Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+        $message->to($admins)
+                ->subject($adminSubject);
+    });
+}
 
 $emailContent = "
 <p>Hi {$user->name},</p>
