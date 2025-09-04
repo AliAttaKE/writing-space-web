@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ProfileController;
 
@@ -110,6 +110,19 @@ use App\Http\Controllers\Admin\FileController as AdminFileController;
 
 //     return view('emails.receipt_custom_template', compact('invoiceData'));
 // });
+
+
+Route::get('/test-mail', function () {
+    try {
+        Mail::raw('This is a test email from Laravel Titan setup.', function ($message) {
+            $message->to('shariqiqbal571@gmail.com')
+                    ->subject('Titan SMTP Test');
+        });
+        return "✅ Email sent successfully!";
+    } catch (\Exception $e) {
+        return "❌ Error: " . $e->getMessage();
+    }
+});
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
