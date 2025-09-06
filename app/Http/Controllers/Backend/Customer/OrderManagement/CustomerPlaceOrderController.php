@@ -2819,6 +2819,57 @@ public function storeOtpHtml(Request $request)
             }
         }
 
+        
+
+                    // ========== Customer Email ==========
+            $customerSubject = "Payment Failed — {$pay->order_id}";
+            $customerContent = "
+                <p>Hi {$user->name},</p>
+                <p>Your recent payment attempt has <strong>failed</strong>.</p>
+                <ul>
+                    <li><strong>Order ID:</strong> {$pay->order_id}</li>
+                    <li><strong>Amount:</strong> {$pay->amount} {$pay->currency}</li>
+                    <li><strong>Reason:</strong> " . ($data['error_message'] ?? 'Unknown error') . "</li>
+                    <li><strong>Response Code:</strong> " . ($data['response_code'] ?? 'N/A') . "</li>
+                </ul>
+                <p>Please try again or contact support.</p>
+                <p>Regards,<br>Support Team</p>
+            ";
+
+            Mail::send([], [], function ($message) use ($customerSubject, $customerContent, $user) {
+                $message->to($user->email)
+                        ->subject($customerSubject)
+                        ->html($customerContent);
+            });
+
+
+            // ========== Admin Email ==========
+                    $adminSubject = "Payment Failed — Order #" . ($pay->order_id ?? 'N/A');
+                    $adminContent = "
+                        <p>Hi team,</p>
+                        <p>A customer's payment has <strong>failed</strong>.</p>
+                        <ul>
+                            <li><strong>Order ID:</strong> " . ($pay->order_id ?? 'N/A') . "</li>
+                            <li><strong>Customer:</strong> " . ($user->name ?? 'N/A') . "</li>
+                            <li><strong>Customer Email:</strong> " . ($user->email ?? 'N/A') . "</li>
+                            <li><strong>Phone:</strong> " . ($user->phone ?? 'N/A') . "</li>
+                            <li><strong>Amount:</strong> " . ($pay->amount ?? '0') . " " . ($pay->currency ?? '') . "</li>
+                            <li><strong>Error:</strong> " . ($data['error_message'] ?? 'Unknown error') . "</li>
+                            <li><strong>Response Code:</strong> " . ($data['response_code'] ?? 'N/A') . "</li>
+                            <li><strong>Description:</strong> " . ($data['error_description'] ?? 'N/A') . "</li>
+                        </ul>
+                        <p>Regards,<br>System Notification</p>
+                    ";
+
+                    $admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+                    if (!empty($admins)) {
+                        Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+                            $message->to($admins)
+                                    ->subject($adminSubject);
+                        });
+                    }
+
         // Yeh values aap gateway se ya $data se le sakte ho
         $responseCode = $data['response_code'] ?? '500';
         $errorMessage = $data['error_message'] ?? 'Payment failed';
@@ -2885,6 +2936,56 @@ public function storeOtpHtml(Request $request)
             }
         }
 
+              // ========== Customer Email ==========
+            $customerSubject = "Payment Failed — {$pay->order_id}";
+            $customerContent = "
+                <p>Hi {$user->name},</p>
+                <p>Your recent payment attempt has <strong>failed</strong>.</p>
+                <ul>
+                    <li><strong>Order ID:</strong> {$pay->order_id}</li>
+                    <li><strong>Amount:</strong> {$pay->amount} {$pay->currency}</li>
+                    <li><strong>Reason:</strong> " . ($data['error_message'] ?? 'Unknown error') . "</li>
+                    <li><strong>Response Code:</strong> " . ($data['response_code'] ?? 'N/A') . "</li>
+                </ul>
+                <p>Please try again or contact support.</p>
+                <p>Regards,<br>Support Team</p>
+            ";
+
+            Mail::send([], [], function ($message) use ($customerSubject, $customerContent, $user) {
+                $message->to($user->email)
+                        ->subject($customerSubject)
+                        ->html($customerContent);
+            });
+
+
+            // ========== Admin Email ==========
+                    $adminSubject = "Payment Failed — Order #" . ($pay->order_id ?? 'N/A');
+                    $adminContent = "
+                        <p>Hi team,</p>
+                        <p>A customer's payment has <strong>failed</strong>.</p>
+                        <ul>
+                            <li><strong>Order ID:</strong> " . ($pay->order_id ?? 'N/A') . "</li>
+                            <li><strong>Customer:</strong> " . ($user->name ?? 'N/A') . "</li>
+                            <li><strong>Customer Email:</strong> " . ($user->email ?? 'N/A') . "</li>
+                            <li><strong>Phone:</strong> " . ($user->phone ?? 'N/A') . "</li>
+                            <li><strong>Amount:</strong> " . ($pay->amount ?? '0') . " " . ($pay->currency ?? '') . "</li>
+                            <li><strong>Error:</strong> " . ($data['error_message'] ?? 'Unknown error') . "</li>
+                            <li><strong>Response Code:</strong> " . ($data['response_code'] ?? 'N/A') . "</li>
+                            <li><strong>Description:</strong> " . ($data['error_description'] ?? 'N/A') . "</li>
+                        </ul>
+                        <p>Regards,<br>System Notification</p>
+                    ";
+
+                    $admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+                    if (!empty($admins)) {
+                        Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+                            $message->to($admins)
+                                    ->subject($adminSubject);
+                        });
+                    }
+
+        
         // Yeh values aap gateway se ya $data se le sakte ho
         $responseCode = $data['response_code'] ?? '500';
         $errorMessage = $data['error_message'] ?? 'Payment failed';
@@ -2949,6 +3050,55 @@ public function storeOtpHtml(Request $request)
             }
         }
 
+
+                      // ========== Customer Email ==========
+            $customerSubject = "Payment Failed — {$pay->order_id}";
+            $customerContent = "
+                <p>Hi {$user->name},</p>
+                <p>Your recent payment attempt has <strong>failed</strong>.</p>
+                <ul>
+                    <li><strong>Order ID:</strong> {$pay->order_id}</li>
+                    <li><strong>Amount:</strong> {$pay->amount} {$pay->currency}</li>
+                    <li><strong>Reason:</strong> " . ($data['error_message'] ?? 'Unknown error') . "</li>
+                    <li><strong>Response Code:</strong> " . ($data['response_code'] ?? 'N/A') . "</li>
+                </ul>
+                <p>Please try again or contact support.</p>
+                <p>Regards,<br>Support Team</p>
+            ";
+
+            Mail::send([], [], function ($message) use ($customerSubject, $customerContent, $user) {
+                $message->to($user->email)
+                        ->subject($customerSubject)
+                        ->html($customerContent);
+            });
+
+
+            // ========== Admin Email ==========
+                    $adminSubject = "Payment Failed — Order #" . ($pay->order_id ?? 'N/A');
+                    $adminContent = "
+                        <p>Hi team,</p>
+                        <p>A customer's payment has <strong>failed</strong>.</p>
+                        <ul>
+                            <li><strong>Order ID:</strong> " . ($pay->order_id ?? 'N/A') . "</li>
+                            <li><strong>Customer:</strong> " . ($user->name ?? 'N/A') . "</li>
+                            <li><strong>Customer Email:</strong> " . ($user->email ?? 'N/A') . "</li>
+                            <li><strong>Phone:</strong> " . ($user->phone ?? 'N/A') . "</li>
+                            <li><strong>Amount:</strong> " . ($pay->amount ?? '0') . " " . ($pay->currency ?? '') . "</li>
+                            <li><strong>Error:</strong> " . ($data['error_message'] ?? 'Unknown error') . "</li>
+                            <li><strong>Response Code:</strong> " . ($data['response_code'] ?? 'N/A') . "</li>
+                            <li><strong>Description:</strong> " . ($data['error_description'] ?? 'N/A') . "</li>
+                        </ul>
+                        <p>Regards,<br>System Notification</p>
+                    ";
+
+                    $admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+                    if (!empty($admins)) {
+                        Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+                            $message->to($admins)
+                                    ->subject($adminSubject);
+                        });
+                    }
         // Yeh values aap gateway se ya $data se le sakte ho
         $responseCode = $data['response_code'] ?? '500';
         $errorMessage = $data['error_message'] ?? 'Payment failed';
@@ -3016,6 +3166,55 @@ public function storeOtpHtml(Request $request)
             }
         }
 
+
+                      // ========== Customer Email ==========
+            $customerSubject = "Payment Failed — {$pay->order_id}";
+            $customerContent = "
+                <p>Hi {$user->name},</p>
+                <p>Your recent payment attempt has <strong>failed</strong>.</p>
+                <ul>
+                    <li><strong>Order ID:</strong> {$pay->order_id}</li>
+                    <li><strong>Amount:</strong> {$pay->amount} {$pay->currency}</li>
+                    <li><strong>Reason:</strong> " . ($data['error_message'] ?? 'Unknown error') . "</li>
+                    <li><strong>Response Code:</strong> " . ($data['response_code'] ?? 'N/A') . "</li>
+                </ul>
+                <p>Please try again or contact support.</p>
+                <p>Regards,<br>Support Team</p>
+            ";
+
+            Mail::send([], [], function ($message) use ($customerSubject, $customerContent, $user) {
+                $message->to($user->email)
+                        ->subject($customerSubject)
+                        ->html($customerContent);
+            });
+
+
+            // ========== Admin Email ==========
+                    $adminSubject = "Payment Failed — Order #" . ($pay->order_id ?? 'N/A');
+                    $adminContent = "
+                        <p>Hi team,</p>
+                        <p>A customer's payment has <strong>failed</strong>.</p>
+                        <ul>
+                            <li><strong>Order ID:</strong> " . ($pay->order_id ?? 'N/A') . "</li>
+                            <li><strong>Customer:</strong> " . ($user->name ?? 'N/A') . "</li>
+                            <li><strong>Customer Email:</strong> " . ($user->email ?? 'N/A') . "</li>
+                            <li><strong>Phone:</strong> " . ($user->phone ?? 'N/A') . "</li>
+                            <li><strong>Amount:</strong> " . ($pay->amount ?? '0') . " " . ($pay->currency ?? '') . "</li>
+                            <li><strong>Error:</strong> " . ($data['error_message'] ?? 'Unknown error') . "</li>
+                            <li><strong>Response Code:</strong> " . ($data['response_code'] ?? 'N/A') . "</li>
+                            <li><strong>Description:</strong> " . ($data['error_description'] ?? 'N/A') . "</li>
+                        </ul>
+                        <p>Regards,<br>System Notification</p>
+                    ";
+
+                    $admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+                    if (!empty($admins)) {
+                        Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+                            $message->to($admins)
+                                    ->subject($adminSubject);
+                        });
+                    }
         // Yeh values aap gateway se ya $data se le sakte ho
         $responseCode = $data['response_code'] ?? '500';
         $errorMessage = $data['error_message'] ?? 'Payment failed';
