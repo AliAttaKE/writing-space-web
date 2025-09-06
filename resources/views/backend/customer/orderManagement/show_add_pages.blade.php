@@ -214,6 +214,7 @@
 </div>
 
 <!-- JAVASCRIPT FRAME-BREAKER CODE TO PROVIDE PROTECTION AGAINST IFRAME CLICK-JACKING -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -450,23 +451,42 @@ PaymentSession.configure({
 
                     console.log("Session update failed with field errors.");
                    // alert("Session update failed with field errors.");
+if (response.errors.cardNumber) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Invalid Card Number',
+        text: 'Card number is invalid or missing.',
+        confirmButtonText: 'OK'
+    });
+}
 
-                    if (response.errors.cardNumber) {
-                        console.log("Card number invalid or missing.");
-                     //   alert("Card number invalid or missing.");
-                    }
-                    if (response.errors.expiryYear) {
-                        console.log("Expiry year invalid or missing.");
-                      //  alert("Expiry year invalid or missing.");
-                    }
-                    if (response.errors.expiryMonth) {
-                        console.log("Expiry month invalid or missing.");
-                      //  alert("Expiry month invalid or missing.");
-                    }
-                    if (response.errors.securityCode) {
-                        console.log("Security code invalid.");
-                      //  alert("Security code invalid.");
-                    }
+if (response.errors.expiryYear) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Invalid Expiry Year',
+        text: 'Expiry year is invalid or missing.',
+        confirmButtonText: 'OK'
+    });
+}
+
+if (response.errors.expiryMonth) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Invalid Expiry Month',
+        text: 'Expiry month is invalid or missing.',
+        confirmButtonText: 'OK'
+    });
+}
+
+if (response.errors.securityCode) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Invalid Security Code',
+        text: 'Security code is invalid.',
+        confirmButtonText: 'OK'
+    });
+}
+
                 } else if ("request_timeout" == response.status)  {
                     console.log("Session update failed with request timeout: " + response.errors.message);
                   //  alert("Session update failed with request timeout: " + response.errors.message);

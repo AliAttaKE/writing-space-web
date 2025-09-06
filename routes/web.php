@@ -115,7 +115,7 @@ use App\Http\Controllers\Admin\FileController as AdminFileController;
 Route::get('/test-mail', function () {
     try {
         Mail::raw('This is a test email from Laravel Titan setup.', function ($message) {
-            $message->to('shariqiqbal571@gmail.com')
+            $message->to('shariqiqbal572@gmail.com')
                     ->subject('Titan SMTP Test');
         });
         return "✅ Email sent successfully!";
