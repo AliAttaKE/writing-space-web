@@ -2432,6 +2432,9 @@ document.querySelectorAll('input[type="checkbox"][class^="toggleSwitch"]').forEa
             });
         }
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
 <script src="{{ asset('backend/assets/plugins/global/plugins.bundle.js') }}"></script>
 <script src="{{ asset('backend/assets/js/scripts.bundle.js') }}"></script>
@@ -2559,22 +2562,42 @@ document.querySelectorAll('input[type="checkbox"][class^="toggleSwitch"]').forEa
                     } else if ("fields_in_error" == response.status) {
 
                         console.log("Session update failed with field errors.");
-                        if (response.errors.cardNumber) {
-                            console.log("Card number invalid or missing.");
-                            Swal.fire('Success', 'Card number invalid or missing', 'success');
-                        }
-                        if (response.errors.expiryYear) {
-                            console.log("Expiry year invalid or missing.");
-                            Swal.fire('Success', 'Expiry year invalid or missing!', 'success');
-                        }
-                        if (response.errors.expiryMonth) {
-                            console.log("Expiry month invalid or missing.");
-                            Swal.fire('Success', 'Expiry month invalid or missing!', 'success');
-                        }
-                        if (response.errors.securityCode) {
-                            console.log("Security code invalid.");
-                            Swal.fire('Success', 'Security code invalid!', 'success');
-                        }
+                       if (response.errors.cardNumber) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Invalid Card Number',
+        text: 'Card number is invalid or missing.',
+        confirmButtonText: 'OK'
+    });
+}
+
+if (response.errors.expiryYear) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Invalid Expiry Year',
+        text: 'Expiry year is invalid or missing.',
+        confirmButtonText: 'OK'
+    });
+}
+
+if (response.errors.expiryMonth) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Invalid Expiry Month',
+        text: 'Expiry month is invalid or missing.',
+        confirmButtonText: 'OK'
+    });
+}
+
+if (response.errors.securityCode) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Invalid Security Code',
+        text: 'Security code is invalid.',
+        confirmButtonText: 'OK'
+    });
+}
+
                     } else if ("request_timeout" == response.status) {
                         console.log("Session update failed with request timeout: " + response.errors.message);
                     } else if ("system_error" == response.status) {
