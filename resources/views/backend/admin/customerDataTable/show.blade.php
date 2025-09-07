@@ -1434,24 +1434,49 @@
 @section('customJs')
 <script>
 function initAdminCustomDT() {
-  if ($.fn.DataTable.isDataTable('#admin_kt_table_custom_orders')) {
-    $('#admin_kt_table_custom_orders').DataTable().destroy();
-  }
-  $('#admin_kt_table_custom_orders').DataTable({
+  const $t = $('#admin_kt_table_custom_orders');
+  if ($.fn.DataTable.isDataTable($t)) $t.DataTable().destroy();
+
+  // ✅ DataTable instance ko variable me lo
+  const dt = $t.DataTable({
     pageLength: 5,
-    lengthChange: false,
-    searching: false,
+    lengthMenu: [[5, 10, 25, 50], [5, 10, 25, 50]],
+    lengthChange: true,
+    paging: true,
+    searching: true,
     ordering: true,
-    dom: 't<"dt-bottom d-flex flex-wrap justify-content-between align-items-center gap-2 mt-3" i p>',
-    language: { emptyTable: "Data not found", zeroRecords: "Data not found" }
+    info: true,
+    dom:
+      "t" +
+      "<'row mt-3 align-items-center'\
+         <'col-12 col-md-8 d-flex align-items-center flex-wrap gap-3'l i>\
+         <'col-12 col-md-4 d-flex justify-content-md-end mt-2 mt-md-0'p>\
+       >",
+    language: {
+      lengthMenu: "_MENU_",
+      info: "Showing _START_ to _END_ of _TOTAL_ records",
+      emptyTable: "Data not found",
+      zeroRecords: "Data not found"
+    }
   });
+
+  // ✅ Purani binding remove + nayi binding (so multiple binds na ho)
+  $(document)
+    .off('input.adminCustomSearch keyup.adminCustomSearch', '#admin_custom_search')
+    .on('input.adminCustomSearch keyup.adminCustomSearch', '#admin_custom_search', function () {
+      dt.search(this.value).draw();
+    });
 }
+
+
 
 document.addEventListener('DOMContentLoaded', initAdminCustomDT);
 
 /** AJAX helper */
 function fetchAdminCustomOrders(dateVal) {
-  var url = "{{ route('admin.customer.custom_orders.filter', ['id' => ($customer->id ?? ($customers[0]->id ?? 0))]) }}";
+  var url = "{{ route('admin.customer.custom_orders.filter', ['id' => ($customer->id ?? ($customers[0]->id ?? 0))]) }}"; // ← yeh aapke routes ke mutabiq
+  var q = $('#admin_custom_search').val() || '';
+
   $.ajax({
     type: 'GET',
     url: url,
@@ -1461,13 +1486,13 @@ function fetchAdminCustomOrders(dateVal) {
         $('#admin-order-section-wrapper').replaceWith(response.html);
         initAdminCustomDT();
         $('#admin_custom_filter_date').val(dateVal || '');
+        $('#admin_custom_search').val(q).trigger('input');   // 🔁 search preserve
       }
-    },
-    error: function (xhr) {
-      console.log('Admin custom orders filter error:', xhr.status);
     }
   });
 }
+
+
 
 /** Month change */
 $(document).on('change', '#admin_custom_filter_date', function () {
@@ -1508,6 +1533,7 @@ function fetchAdminPayments(dateVal, typesArr) {
 
         // restore month input
         $('#admin_packages_filter_date').val(dateVal || '');
+          $('#admin_payments_search').val(q).trigger('input');
       }
     },
     error: function (xhr) {
@@ -1516,19 +1542,40 @@ function fetchAdminPayments(dateVal, typesArr) {
   });
 }
 
-/** First init on page load */
 function initAdminDT() {
-  if ($.fn.DataTable.isDataTable('#admin_kt_table_payments')) {
-    $('#admin_kt_table_payments').DataTable().destroy();
-  }
-  $('#admin_kt_table_payments').DataTable({
+  const $t = $('#admin_kt_table_payments');
+  if ($.fn.DataTable.isDataTable($t)) $t.DataTable().destroy();
+
+  const dt = $t.DataTable({
     pageLength: 5,
-    lengthChange: false,
-    searching: false,
-    dom: 't<"dt-bottom d-flex flex-wrap justify-content-between align-items-center gap-2 mt-3" i p>',
-    language: { emptyTable: "Data not found", zeroRecords: "Data not found" }
+    lengthMenu: [[5, 10, 25, 50], [5, 10, 25, 50]],
+    lengthChange: true,
+    paging: true,
+    searching: true,   // ✅ search engine ON (UI hum custom input se control karenge)
+    ordering: true,
+    info: true,
+    // length + info + pagination bottom row
+    dom: "t" +
+         "<'row mt-3 align-items-center'\
+            <'col-12 col-md-8 d-flex align-items-center flex-wrap gap-3'l i>\
+            <'col-12 col-md-4 d-flex justify-content-md-end mt-2 mt-md-0'p>\
+          >",
+    language: {
+      lengthMenu: "_MENU_",
+      info: "Showing _START_ to _END_ of _TOTAL_ records",
+      emptyTable: "Data not found",
+      zeroRecords: "Data not found"
+    }
+  });
+
+  // 🔎 Bind custom search input
+  $(document).off('input.adminSearch', '#admin_payments_search');
+  $(document).on('input.adminSearch', '#admin_payments_search', function () {
+    dt.search(this.value).draw();
   });
 }
+
+
 document.addEventListener('DOMContentLoaded', initAdminDT);
 
 /** Month change -> filtered fetch */
