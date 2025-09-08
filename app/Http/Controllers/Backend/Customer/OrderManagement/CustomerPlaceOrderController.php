@@ -3649,7 +3649,8 @@ $user = User::find($pay->user_id);
 
     $amount   = $order_detail->total_cost;
     $currency = $this->currency;
-    $time     = now()->toDateTimeString();
+    $time = now()->format('F j, Y g:i A'); // e.g. "August 26, 2025 10:47 PM"
+
     $txn_id   = $transactionIdurl;
 
     // ---------------------------------
@@ -4115,7 +4116,8 @@ $user = User::find($pay->user_id);
 
     $amount   = $order_detail->total_cost;
     $currency = $this->currency;
-    $time     = now()->toDateTimeString();
+    $time = now()->format('F j, Y g:i A'); // e.g. "August 26, 2025 10:47 PM"
+
     $txn_id   = $transactionIdurl;
 
     // ---------------------------------
@@ -4620,7 +4622,8 @@ $user = User::find($pay->user_id);
 
     $amount   = $order_detail->total_cost;
     $currency = $this->currency;
-    $time     = now()->toDateTimeString();
+    $time = now()->format('F j, Y g:i A'); // e.g. "August 26, 2025 10:47 PM"
+
     $txn_id   = $transactionIdurl;
 
     // ---------------------------------
@@ -5187,7 +5190,8 @@ $user = User::find($pay->user_id);
 
     $amount   = $order_detail->total_cost;
     $currency = $this->currency;
-    $time     = now()->toDateTimeString();
+    $time = now()->format('F j, Y g:i A'); // e.g. "August 26, 2025 10:47 PM"
+
     $txn_id   = $transactionIdurl;
 
     // ---------------------------------

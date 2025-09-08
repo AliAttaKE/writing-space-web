@@ -1,6 +1,29 @@
 @extends('custom_layout.master')
 @section('main_content')<!--begin::Content wrapper-->
-
+<style>
+    .form-select-solid{
+        width: 50px !important;
+    }
+/* Keep ONLY theme (orange) arrow — hide native browser arrow */
+#admin_kt_table_payments_wrapper .dataTables_length .form-select,
+#admin_kt_table_custom_orders_wrapper .dataTables_length .form-select {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;        /* native arrow off */
+  background-repeat: no-repeat !important;
+  background-position: right .75rem center !important;
+  background-size: 16px 12px !important;
+  padding-right: 2.25rem !important;  /* arrow ke liye space */
+}
+/* Old Edge/IE fallback */
+#admin_kt_table_payments_wrapper .dataTables_length .form-select::-ms-expand,
+#admin_kt_table_custom_orders_wrapper .dataTables_length .form-select::-ms-expand {
+  display: none;
+}
+label::after{
+    display: none !important;
+}
+</style>
     <!--begin::Content wrapper-->
     <div class="d-flex flex-column flex-column-fluid">
         <!--begin::Toolbar-->
@@ -232,7 +255,9 @@
                                             <td><a href="#" class="text-warning">{{ $customer->tier }}</a>
                                             </td>
                                     
-                                           <td>{{ \Carbon\Carbon::parse($customer->created_at)->format('F d, Y g:i A') }}</td>
+                                          <td data-order="{{ \Carbon\Carbon::parse($customer->created_at)->timestamp }}">
+  {{ \Carbon\Carbon::parse($customer->created_at)->format('F d, Y g:i A') }}
+</td>
 
                                            <td>
                                             <a href="{{ route('admin.customers.show.details', $customer->id) }}" class="btn btn-primary btn-sm">View</a>
@@ -863,6 +888,41 @@
 @endsection
 
 @section('customJs')
+<script>
+(function () {
+  function initCustomersDT() {
+    var $t = $('#kt_customers_table');
+    if ($.fn.DataTable.isDataTable($t)) {
+      $t.DataTable().destroy();
+    }
+
+    var dt = $t.DataTable({
+      // ✅ default rows per page = 15
+      pageLength: 15,
+      // ✅ length dropdown me 15 dikhane ke liye
+      lengthMenu: [[15, 25, 50, 100], [15, 25, 50, 100]],
+
+      ordering: true,
+      order: [[3, 'desc']],
+      columnDefs: [
+        { targets: [4], orderable: false }
+      ],
+      paging: true,
+      info: true,
+      searching: true
+    });
+
+    $(document)
+      .off('input.custSearch keyup.custSearch', '[data-kt-customer-table-filter="search"]')
+      .on('input.custSearch keyup.custSearch', '[data-kt-customer-table-filter="search"]', function () {
+        dt.search(this.value).draw();
+      });
+  }
+
+  document.addEventListener('DOMContentLoaded', initCustomersDT);
+})();
+
+</script>
 
     <script>
         $(document).ready(function() {

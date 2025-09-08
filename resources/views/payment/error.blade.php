@@ -81,22 +81,34 @@
     <!-- <div id="tsparticles"></div> -->
 
     <!-- Error Card -->
-    <div class="glass-card">
-        <lottie-player
-            src="https://assets2.lottiefiles.com/packages/lf20_qp1q7mct.json"
-            background="transparent"
-            speed="1"
-            style="width: 150px; height: 150px; margin: auto;"
-            loop
-            autoplay>
-        </lottie-player>
+<div class="glass-card">
+  <!-- 🔁 replaced Lottie with SVG -->
+  <svg class="error-illustration" width="150" height="150" viewBox="0 0 128 128" role="img" aria-label="Payment failed">
+    <defs>
+      <radialGradient id="g" cx="50%" cy="35%" r="70%">
+        <stop offset="0%" stop-color="#ff7a7a"/>
+        <stop offset="100%" stop-color="#d7263d"/>
+      </radialGradient>
+      <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+        <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="rgba(0,0,0,0.35)"/>
+      </filter>
+    </defs>
+    <circle cx="64" cy="64" r="56" fill="url(#g)" filter="url(#shadow)"/>
+    <rect x="58" y="28" width="12" height="56" rx="6" fill="#ffffff"/>
+    <circle cx="64" cy="94" r="7" fill="#ffffff"/>
+    <g opacity="0.08">
+      <rect x="26" y="60" width="76" height="8" rx="4" fill="#000" transform="rotate(45 64 64)"/>
+      <rect x="26" y="60" width="76" height="8" rx="4" fill="#000" transform="rotate(-45 64 64)"/>
+    </g>
+  </svg>
 
-        <h2>Oops! Something went wrong with your payment.</h2>
+  <h2>Oops! Something went wrong with your payment.</h2>
 
-        <a href="{{ route('dashboard') }}">
-            <button class="btn btn-primary">Dashboard</button>
-        </a>
-    </div>
+  <a href="{{ route('dashboard') }}">
+    <button class="btn btn-primary">Dashboard</button>
+  </a>
+</div>
+
 
     <!-- Particle Script -->
     <!-- <script>

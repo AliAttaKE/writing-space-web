@@ -214,10 +214,10 @@
                             <img src="{{asset("backend/assets/media/ws/masterCard.png")}}"
                             class="masterCard mb-3" alt="">
                 </div>
-                    <div class="col-4 d-flex align-items-center">
+                    <!-- <div class="col-4 d-flex align-items-center">
                             <img src="{{asset("backend/assets/media/ws/american-express.png")}}"
                             class="masterCard mb-3" alt="">
-                </div>
+                </div> -->
                     
                 </div>
             </div>
@@ -377,6 +377,8 @@ PaymentSession.configure({
         icon: 'error',
         title: 'Invalid Card Number',
         text: 'Card number is invalid or missing.',
+  customClass: { popup: 'ws-swal' },   // 👈 yeh add karo
+  backdrop: 'rgba(0,0,0,0.6)',         // optional dim overlay
         confirmButtonText: 'OK'
     });
 }
@@ -386,6 +388,8 @@ if (response.errors.expiryYear) {
         icon: 'error',
         title: 'Invalid Expiry Year',
         text: 'Expiry year is invalid or missing.',
+  customClass: { popup: 'ws-swal' },   // 👈 yeh add karo
+  backdrop: 'rgba(0,0,0,0.6)',         // optional dim overlay
         confirmButtonText: 'OK'
     });
 }
@@ -395,6 +399,8 @@ if (response.errors.expiryMonth) {
         icon: 'error',
         title: 'Invalid Expiry Month',
         text: 'Expiry month is invalid or missing.',
+  customClass: { popup: 'ws-swal' },   // 👈 yeh add karo
+  backdrop: 'rgba(0,0,0,0.6)',         // optional dim overlay
         confirmButtonText: 'OK'
     });
 }
@@ -404,6 +410,8 @@ if (response.errors.securityCode) {
         icon: 'error',
         title: 'Invalid Security Code',
         text: 'Security code is invalid.',
+  customClass: { popup: 'ws-swal' },   // 👈 yeh add karo
+  backdrop: 'rgba(0,0,0,0.6)',         // optional dim overlay
         confirmButtonText: 'OK'
     });
 }

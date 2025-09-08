@@ -94,6 +94,33 @@
             background: #783AFB !important;
             color: #fff !important;
         }
+          /* Popup par aapki custom styling */
+  .swal2-popup.ws-swal {
+    display: grid !important;                  /* aapka rule */
+    border: 1px solid #783AFB !important;      /* aapka rule */
+    background-image: url('{{ asset('backend/assets/media/ws/customer-dashboard.jpg') }}') !important; /* safe path */
+    background-size: cover !important;
+    background-position: center !important;
+    color: #fff !important;                     /* aapka rule */
+  }
+
+  /* Text readable rahe */
+  .swal2-popup.ws-swal .swal2-title,
+  .swal2-popup.ws-swal .swal2-html-container {
+    color: #fff !important;
+  }
+
+  /* Buttons optional theme */
+  .swal2-popup.ws-swal .swal2-confirm {
+    background: #783AFB !important;
+    border: 0 !important;
+    color: #fff !important;
+  }
+  .swal2-popup.ws-swal .swal2-cancel {
+    background: rgba(0,0,0,.4) !important;
+    border: 1px solid #783AFB !important;
+    color: #fff !important;
+  }
     </style>
 </head>
 
@@ -222,10 +249,10 @@
                                 <img src="{{asset("backend/assets/media/ws/masterCard.png")}}" class="masterCard mb-3"
                                     alt="">
                             </div>
-                            <div class="col-4 d-flex align-items-center">
+                            <!-- <div class="col-4 d-flex align-items-center">
                                 <img src="{{asset("backend/assets/media/ws/american-express.png")}}"
                                     class="masterCard mb-3" alt="">
-                            </div>
+                            </div> -->
 
                         </div>
                     </div>
@@ -233,7 +260,6 @@
             </div>
         </div>
         <!-- JAVASCRIPT FRAME-BREAKER CODE TO PROVIDE PROTECTION AGAINST IFRAME CLICK-JACKING -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -374,42 +400,22 @@
                                 console.log("Session update failed with field errors.");
                                // alert("Session update failed with field errors.");
 
-                           if (response.errors.cardNumber) {
-    Swal.fire({
-        icon: 'error',
-        title: 'Invalid Card Number',
-        text: 'Card number is invalid or missing.',
-        confirmButtonText: 'OK'
-    });
-}
-
-if (response.errors.expiryYear) {
-    Swal.fire({
-        icon: 'error',
-        title: 'Invalid Expiry Year',
-        text: 'Expiry year is invalid or missing.',
-        confirmButtonText: 'OK'
-    });
-}
-
-if (response.errors.expiryMonth) {
-    Swal.fire({
-        icon: 'error',
-        title: 'Invalid Expiry Month',
-        text: 'Expiry month is invalid or missing.',
-        confirmButtonText: 'OK'
-    });
-}
-
-if (response.errors.securityCode) {
-    Swal.fire({
-        icon: 'error',
-        title: 'Invalid Security Code',
-        text: 'Security code is invalid.',
-        confirmButtonText: 'OK'
-    });
-}
-
+                                if (response.errors.cardNumber) {
+                                    console.log("Card number invalid or missing.");
+                                  //  alert("Card number invalid or missing.");
+                                }
+                                if (response.errors.expiryYear) {
+                                    console.log("Expiry year invalid or missing.");
+                                 //   alert("Expiry year invalid or missing.");
+                                }
+                                if (response.errors.expiryMonth) {
+                                    console.log("Expiry month invalid or missing.");
+                                  //  alert("Expiry month invalid or missing.");
+                                }
+                                if (response.errors.securityCode) {
+                                    console.log("Security code invalid.");
+                                  //  alert("Security code invalid.");
+                                }
                             } else if ("request_timeout" == response.status) {
                                 console.log("Session update failed with request timeout: " + response.errors.message);
                               //  alert("Session update failed with request timeout: " + response.errors.message);

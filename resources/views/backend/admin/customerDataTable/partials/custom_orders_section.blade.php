@@ -4,19 +4,24 @@
             <div class="card-title">
                 <h2 class="fs-color-white custom-fs-23">Order Records</h2>
             </div>
-            <div class="card-toolbar">
-                <div class="d-flex">
-                    <input type="month"
-                           name="admin_custom_filter_date"
-                           class="form-control btn-dark-primary"
-                           id="admin_custom_filter_date"
-                           min="2018-01">
-                    <button type="button"
-                            class="btn badge-custom-bg btn-sm admin-reset-custom-filter ms-4">
-                        Reset
-                    </button>
-                </div>
-            </div>
+          <div class="card-toolbar">
+  <div class="d-flex">
+      
+          <!-- 🔎 NEW: global search -->
+          <input type="text" id="admin_custom_search"
+                 class="form-control btn-dark-primary ms-3"
+                 placeholder="Search orders…" style="min-width:220px;">
+    <input type="month" name="admin_custom_filter_date"
+           class="form-control btn-dark-primary ms-3"
+           id="admin_custom_filter_date" min="2018-01">
+
+    <button type="button"
+            class="btn badge-custom-bg btn-sm admin-reset-custom-filter ms-4">
+      Reset
+    </button>
+  </div>
+</div>
+
         </div>
 
         <div class="card-body pb-5">
