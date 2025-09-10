@@ -63,6 +63,8 @@ use App\Http\Controllers\RevisionController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\FileController as AdminFileController;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -123,6 +125,9 @@ Route::get('/test-mail', function () {
         return "❌ Error: " . $e->getMessage();
     }
 });
+
+
+
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -692,11 +697,13 @@ Route::get('/white-paper', [IndexController::class, 'whitepaper'])->name('front.
  Route::post('/redirectResponseUrl', [CustomerPlaceOrderController::class, 'redirectResponseUrl'])->name('redirectResponseUrl');
   Route::post('/redirectResponseUrlSub', [CustomerPlaceOrderController::class, 'redirectResponseUrlSub'])->name('redirectResponseUrlSub');
     Route::post('/redirectResponseUrladdpages', [CustomerPlaceOrderController::class, 'redirectResponseUrladdpages'])->name('redirectResponseUrladdpages');
+    Route::post('/redirectResponseUrladdpagesProfile', [CustomerPlaceOrderController::class, 'redirectResponseUrladdpagesProfile'])->name('redirectResponseUrladdpagesProfile');
 
       Route::post('/redirectResponsemanagepages', [CustomerPlaceOrderController::class, 'redirectResponsemanagepages'])->name('redirectResponseUrladdpages');
     Route::get('/pay/{orderid}', [CustomerPlaceOrderController::class, 'pay'])->name('pay');
 Route::get('/pay/sub/{orderid}', [CustomerPlaceOrderController::class, 'pay_sub'])->name('pay.sub');
 Route::get('/pay/add/pages/{orderid}', [CustomerPlaceOrderController::class, 'pay_add_pages'])->name('pay.add.pages');
+Route::get('/pay/add/pages/profile/{orderid}', [CustomerPlaceOrderController::class, 'pay_add_pages_profile'])->name('pay.add.pages.profile');
 Route::get('/pay/add/manage/{orderid}', [CustomerPlaceOrderController::class, 'pay_add_manage'])->name('pay.add.manage');
 Route::get('dashboard', [CustomerController::class, 'index'])->name('dashboard');
 Route::get('/placeOrder',[CustomerPlaceOrderController::class,'index'])->name('customerPlaceOrder');
@@ -752,8 +759,10 @@ Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->nam
 
     Route::get('card/show/sub/{sessionid}', [CustomerPlaceOrderController::class, 'checkoutshowsub'])->name('card.show.sub');
     Route::get('card/show/addpage/{sessionid}', [CustomerPlaceOrderController::class, 'checkoutshowaddpage'])->name('card.show.addpage');
+    Route::get('card/show/addpage/profile/{sessionid}', [CustomerPlaceOrderController::class, 'checkoutshowaddpageprofile'])->name('card.show.addpage.profile');
     Route::post('/payment/store/sub', [CustomerPlaceOrderController::class, 'payment_store_sub'])->name('payment.store.sub');
     Route::post('/payment/store/addpages', [CustomerPlaceOrderController::class, 'payment_store_addpages'])->name('payment.store.addpages');
+    Route::post('/payment/store/addpages/profile', [CustomerPlaceOrderController::class, 'payment_store_addpages_profile'])->name('payment.store.addpages.profile');
     Route::post('/payment/store/managepage', [CustomerPlaceOrderController::class, 'payment_store_managepage'])->name('payment.store.managepage');
     Route::post('/payment/store', [CustomerPlaceOrderController::class, 'payment_store'])->name('payment.store');
     Route::get('/otp/{creqValue}', [CustomerPlaceOrderController::class, 'otp'])->name('otp');

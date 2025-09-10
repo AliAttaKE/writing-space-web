@@ -1378,7 +1378,8 @@ $('#totalcost').text('$' + totalCost.toFixed(2));
                                             if (response && response.sessionId) {
 
 
-                                    window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
+                                    window.location.href = '{{ route("customer.card.show.addpage.profile", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
+                                    // window.location.href = '{{ route("customer.card.show.addpage", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
 
 
                                     } else {

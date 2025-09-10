@@ -16,5 +16,6 @@ class VerifyCsrfToken extends Middleware
         'redirectResponseUrlSub',
         'redirectResponseUrladdpages',
         'redirectResponsemanagepages',
+        'redirectResponseUrladdpagesProfile',
     ];
 }

@@ -27,7 +27,7 @@ class PkgIdmanageInvoiceEmailTemplate extends Mailable
     {
         $this->invoiceData = $invoiceData;
         $this->receiptData = $receiptData;
-        $this->subject = $subject ?? 'Confirmation of Additional Pages Purchase – Order ' . ($invoiceData['orderid'] ?? ''); // Default subject if not provided
+        $this->subject = $subject ?? 'Confirmation of Purchase of Additional Pages from Package – Order ID  ' . ($invoiceData['orderid'] ?? ''); // Default subject if not provided
     }
 
     /**

@@ -31,6 +31,7 @@ use App\Mail\EmailTemplate;
 use App\Mail\InvoiceEmailTemplate;
 use App\Mail\PkgInvoiceEmailTemplate;
 use App\Mail\AddPkgInvoiceEmailTemplate;
+use App\Mail\AddPkgInvoiceEmailTemplateProfile;
 use App\Mail\PkgIdInvoiceEmailTemplate1;
 use App\Mail\PkgIdmanageInvoiceEmailTemplate;
 use App\Mail\Pkg_Id_manage_optin1_Email_Template;
@@ -559,6 +560,12 @@ $emailContent = "
         $sessionid = $sessionid;
         return view('backend.customer.orderManagement.show_add_pages', compact('sessionid'));
     }
+        public function checkoutshowaddpageprofile($sessionid, Request $request)
+        {
+
+            $sessionid = $sessionid;
+            return view('backend.customer.orderManagement.show_add_pages_profile', compact('sessionid'));
+        }
 
 
     // public function customSubscriptionStore(Request $request)
@@ -2251,6 +2258,198 @@ curl_close($curl);
 
         curl_close($curl);
     }
+    public function payment_store_addpages_profile(Request $request)
+    {
+
+
+
+        $test = $request->session;
+
+        $no_of_page = $request->input('no_of_page');
+        $used_package_id = $request->input('used_package_id');
+        $meeting_time_custom = $request->input('meeting_time_custom');
+        $package_id = $request->input('package_id');
+        $cost_per_page = $request->input('cost_per_page');
+
+        // Calculate the total cost
+        // $total_cost = $no_of_page * $cost_per_page;
+
+        $total_cost = number_format($no_of_page * $cost_per_page, 2, '.', '');
+
+        // Prepare data array
+        $data = [
+            'no_of_page' => $no_of_page,
+            'used_package_id' => $used_package_id,
+            'meeting_time_custom' => $meeting_time_custom,
+            'package_id' => $package_id,
+            'cost_per_page' => $cost_per_page,
+            'total_cost' => $total_cost,
+        ];
+
+        // Check if order_id is available in the request
+        if ($request->has('order_id')) {
+            $order_id = $request->input('order_id');
+            $data['order_id'] = $order_id;
+        }
+
+        $order34 =  mt_rand(100000, 9999999);
+        $order_id = $order34;
+        $order_id = $package_id . '-' . $order34;
+
+        $total_costs[] = $total_cost;
+
+
+        $truncatedSessionId = substr($test, 0, 35);
+        $randomNumber = mt_rand(100, 999);
+        $transactionId = "TRANS" . $randomNumber;
+
+
+       
+
+        session()->put('transactionId', $transactionId);
+        session()->put('order_id', $order_id);
+        $sessionId = session()->get('sessionId');
+
+        $pay = new Pay;
+        $pay->order_id = $order_id;
+        $pay->session_id = $test;
+        $pay->truncatedSessionId = $transactionId;
+        $pay->user_id = Auth()->user()->id;
+        $pay->order_details = json_encode($data);
+        $pay->save();
+
+
+        $baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
+    $apiVersion = env('API_VERSION');      // e.g. 74
+    $merchantId = env('MERCHANT_ID');      // e.g. TESTWRITINGSPACE
+    $authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+
+    $initiateUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId";
+
+$initiatePayload = [
+    "session" => [
+        "id" => $truncatedSessionId
+    ],
+    "apiOperation" => "INITIATE_AUTHENTICATION",
+
+    "transaction" => [
+        "reference" => $transactionId
+    ],
+    "order" => [
+        "reference" => $order_id,
+        "currency" => $this->currency 
+    ],
+    "authentication" => [
+        "purpose" => "PAYMENT_TRANSACTION",
+        "channel" => "PAYER_BROWSER",
+        "acceptVersions" => "3DS2"
+    ]
+];
+
+$curl = curl_init();
+curl_setopt_array($curl, [
+    CURLOPT_URL => $initiateUrl,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'PUT',
+    CURLOPT_POSTFIELDS => json_encode($initiatePayload),
+    CURLOPT_HTTPHEADER => [
+        'Content-Type: application/json',
+        "Authorization: Basic $authToken"
+    ],
+]);
+
+$response = curl_exec($curl);
+
+
+
+curl_close($curl);
+
+
+
+
+        $baseUrl = env('PAYMENT_GATEWAY_URL');
+$apiVersion = env('API_VERSION');
+$merchantId = env('MERCHANT_ID');
+$authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+
+$authenticateUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId";
+$redirectUrl = url("/redirectResponseUrladdpagesProfile");
+
+$authenticatePayload = [
+    "apiOperation" => "AUTHENTICATE_PAYER",
+
+    "device" => [
+        "browserDetails" => [
+            "screenWidth" => 1920,
+            "javaEnabled" => false,
+            "screenHeight" => 1080,
+            "3DSecureChallengeWindowSize" => "FULL_SCREEN",
+            "timeZone" => -120,
+            "language" => "EN",
+            "colorDepth" => 24
+        ],
+       "browser" => "Mozilla\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/95.0.4638.54 Safari\/537.36",
+        "ipAddress" => "223.123.9.108"               // dynamic IP
+
+        //  "browser" => request()->header('User-Agent'),
+        // "ipAddress" => request()->ip()
+
+    ],
+    "authentication" => [
+        "redirectResponseUrl" => $redirectUrl
+    ],
+    "order" => [
+        "amount" => $total_cost,
+        "currency" => $this->currency 
+    ],
+    "session" => [
+        "id" => $truncatedSessionId
+    ]
+];
+
+$curl = curl_init();
+
+curl_setopt_array($curl, [
+    CURLOPT_URL => $authenticateUrl,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'PUT',
+    CURLOPT_POSTFIELDS => json_encode($authenticatePayload),
+    CURLOPT_HTTPHEADER => [
+        'Content-Type: application/json',
+        "Authorization: Basic $authToken"
+    ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+
+// dd($response);
+
+        $response = json_decode($response, true);
+
+
+        if (isset($response['authentication']['redirect']['html'])) {
+            $htmlContent = $response['authentication']['redirect']['html'];
+
+            return response()->json(['response' => $htmlContent]);
+            // return view('payment.otp', compact('htmlContent'));
+        } else {
+            return response()->json(['response' => 'Invalid response format.']);
+        }
+
+        curl_close($curl);
+    }
 
 //     public function payment_store_addpages(Request $request)
 // {
@@ -2762,11 +2961,17 @@ public function storeOtpHtml(Request $request)
 {
     $html = $request->input('html');
 
+//    dd($html);
+  
     if (stripos($html, 'Invalid response format') !== false) {
+
+       
         return view('backend.customer.orderManagement.otp', [
             'html' => "<div style='color:red; font-weight:bold;'>$html</div>"
         ]);
     }
+
+   
 
     if (!$html) {
         return "3DS HTML expired or not found.";
@@ -2904,6 +3109,91 @@ public function storeOtpHtml(Request $request)
 
            
     //     }
+
+    else {
+        $pay = Pay::where('order_id', $data['order_id'])->first();
+        $user_id = $pay->user_id ?? null;
+
+        if ($user_id) {
+            $user = User::find($user_id);
+            if ($user) {
+                Auth::login($user);
+            }
+        }
+                          // ========== Customer Email ==========
+                    $customerSubject = "Payment Failed";
+                    $customerContent = "
+                        <p>Hi {$user->name},</p>
+                        <p>Your recent payment attempt has <strong>failed</strong>. Please try again or use another payment method.</p>
+                        <p>If you continue to face issues, kindly contact our support team for assistance.</p>
+                        <p>Regards,<br>Support Team</p>
+                    ";
+
+                    Mail::send([], [], function ($message) use ($customerSubject, $customerContent, $user) {
+                        $message->to($user->email)
+                                ->subject($customerSubject)
+                                ->html($customerContent);
+                    });
+                    // ========== Admin Email ==========
+                    $adminSubject = "Payment Failure Alert";
+                    $adminContent = "
+                        <p>Hi Team,</p>
+                        <p>A customer's payment attempt has <strong>failed</strong>. Please check the system logs or payment gateway dashboard for more details.</p>
+                        <p>Regards,<br>System Notification</p>
+                    ";
+
+                    $admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+                    if (!empty($admins)) {
+                        Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+                            $message->to($admins)
+                                    ->subject($adminSubject);
+                        });
+                    }
+
+        
+        // Yeh values aap gateway se ya $data se le sakte ho
+        $responseCode = $data['response_code'] ?? '500';
+        $errorMessage = $data['error_message'] ?? 'Payment failed';
+        $errorDescription = $data['error_description'] ?? 'Something went wrong during the payment process.';
+
+        $errorUrl = route('payment.error') .
+            '?code=' . urlencode($responseCode) .
+            '&message=' . urlencode($errorMessage) .
+            '&description=' . urlencode($errorDescription);
+
+        return response()->make('
+            <script>
+                var errorUrl = "' . $errorUrl . '";
+                if (window.top !== window.self) {
+                    window.top.location.href = errorUrl;
+                } else {
+                    window.location.href = errorUrl;
+                }
+            </script>
+        ', 200, ['Content-Type' => 'text/html']);
+    }
+    }
+
+    public function redirectResponseUrladdpagesProfile(Request $request)
+
+    {
+
+
+        $data = $request->all();
+
+
+        
+       
+
+
+        if ($data['result'] === 'SUCCESS') {
+
+
+            return redirect()->route('pay.add.pages.profile', ['orderid' => $data['order_id']]);
+        } 
+        
+   
 
     else {
         $pay = Pay::where('order_id', $data['order_id'])->first();
@@ -4210,6 +4500,398 @@ $user = User::find($pay->user_id);
     }
 
 
+   public function pay_add_pages_profile($orderid)
+    {
+        $real_order_id = $orderid;
+
+       // try {
+            $pay = Pay::where('order_id', $orderid)->first();
+            $sessionId = $pay->session_id;
+            $order_id = $pay->order_id;
+
+            $orderidexplode = explode('-', $order_id);
+            $orderidexplode = $orderidexplode[0];
+
+
+            $transactionId = $pay->truncatedSessionId;
+
+            $order_detail = json_decode($pay->order_details);
+
+
+            $amount = $order_detail->total_cost;
+            $noofpage = $order_detail->no_of_page;
+
+            $randomNumber = mt_rand(100, 999);
+            $transactionIdurl = $transactionId . $randomNumber;
+
+
+
+$baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
+$apiVersion = env('API_VERSION'); // e.g. 74
+$merchantId = env('MERCHANT_ID'); // e.g. TESTWRITINGSPACE
+$authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+// Build URL
+$url = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/{$order_id}/transaction/{$transactionIdurl}";
+
+// Prepare payload
+$payload = [
+    "apiOperation" => "PAY",
+    "authentication" => [
+        "transactionId" => $transactionId
+    ],
+    "order" => [
+        "amount" => $amount,
+        "currency" => $this->currency 
+    ],
+    "session" => [
+        "id" => $sessionId
+    ]
+];
+
+// Use CURL to send the request
+$curl = curl_init();
+curl_setopt_array($curl, [
+    CURLOPT_URL => $url,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'PUT',
+    CURLOPT_POSTFIELDS => json_encode($payload),
+    CURLOPT_HTTPHEADER => [
+        'Content-Type: application/json',
+        "Authorization: Basic $authToken"
+    ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+$responseArray = json_decode($response, true);
+
+
+
+
+            $responseData = json_decode($response, true); // true means associative array
+            
+
+
+            $isSuccess = 
+                isset($responseData['result']) && strtoupper(trim($responseData['result'])) === 'SUCCESS' &&
+                isset($responseData['order']['status']) && strtoupper(trim($responseData['order']['status'])) === 'CAPTURED' &&
+                isset($responseData['response']['gatewayCode']) && strtoupper(trim($responseData['response']['gatewayCode'])) === 'APPROVED';
+
+$responseCode = 5;
+
+
+
+            if ($responseArray && $isSuccess) {
+                $authenticationStatus = $responseArray['order']['authenticationStatus'];
+                if ($authenticationStatus == 'AUTHENTICATION_SUCCESSFUL') {
+
+                    $responseObject = json_decode($response);
+                    $order = $responseObject->order;
+                    $sourceOfFunds = $responseObject->sourceOfFunds->provided->card;
+                    $transaction = new Transaction();
+
+                    $creationTime = Carbon::parse($order->creationTime)->toDateTimeString();
+
+                    // Assign values to the model's properties
+                    $transaction->amount = $order->amount;
+                    $transaction->authenticationStatus = $order->authenticationStatus;
+                    $transaction->chargeback_amount = $order->chargeback->amount;
+                    $transaction->chargeback_currency = $order->chargeback->currency;
+
+                    $transaction->currency = $order->currency;
+                    $transaction->reference = $order->reference;
+                    $transaction->status = $order->status;
+                    $transaction->merchantAmount = $order->merchantAmount;
+                    $transaction->merchantCategoryCode = $order->merchantCategoryCode;
+                    $transaction->merchantCurrency = $order->merchantCurrency;
+
+                    $transaction->totalAuthorizedAmount = $order->totalAuthorizedAmount;
+                    $transaction->totalCapturedAmount = $order->totalCapturedAmount;
+                    $transaction->totalDisbursedAmount = $order->totalDisbursedAmount;
+                    $transaction->totalRefundedAmount = $order->totalRefundedAmount;
+                    $transaction->fundingMethod = $sourceOfFunds->fundingMethod;
+                    $transaction->userid = $pay->user_id;
+                    $transaction->save();
+                    $user_id =  $pay->user_id;
+
+                    //  $user = User::find($pay->user_id);
+
+
+                    $pages = $order_detail->no_of_page;
+                    $user = User::findOrFail($pay->user_id);
+                    $currentSubs = User_Subscription::where('user_id', $user->id)->first();
+                    if ($currentSubs) {
+                        $subs = Subscription::findOrFail($currentSubs->subscription_id);
+                        $pageCost =  $subs->cost_per_page;
+                    }
+
+                    $billAmount =  $pages * $pageCost;
+
+                    $currentSubs->total_pages += $pages;
+                    $currentSubs->remaining_pages += $pages;
+                    $currentSubs->rollover_pages -= $pages;
+                    $currentSubs->save();
+
+
+
+
+                    $orderDetails = json_decode($pay['order_details'], true);
+                    $orderss = "";
+                    //$orderidpkg = $orderDetails['order_id'];
+                    $current_page = '';
+                    if (isset($orderDetails['order_id'])) {
+                        $orderidpkg = $orderDetails['order_id'];
+                        $orderdetailspk = Orders::where('order_id', $orderidpkg)->first();
+
+                        if ($orderdetailspk) {
+                            $current_page = $orderdetailspk->number_of_pages;
+                            $orderdetailspk->number_of_pages += $pages;
+                            $orderdetailspk->no_of_extra_sources += $pages;
+                            $orderdetailspk->deadline = $orderDetails['meeting_time_custom'];
+
+                            $orderdetailspk->save();
+                            $user1 = User::findOrFail($pay->user_id);
+                            $currentSubs1 = User_Subscription::where('user_id', $user1->id)->first();
+
+                            if ($currentSubs1) {
+                                $subs = Subscription::findOrFail($currentSubs1->subscription_id);
+                            }
+                            $currentSubs1->remaining_pages -= $pages;
+                            $currentSubs1->save();
+                        }
+                        $orderss = Orders::where('order_id',$orderidpkg)->first();
+
+                    }
+                    $order_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+                    $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+                    $receipt_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+                    $pakge = PakageLimit::first();
+                    $remaining_pages =  $pakge->renaming - $pages;
+                    $consum_pages = $pakge->consum + $pages;
+                    $pakge->update(['renaming' => $remaining_pages, 'consum' => $consum_pages]);
+                    $invoice = Invoice::create([
+                        'Name' => $user->name,
+                        'email' => $user->email,
+                        'page' => $pages,
+                        'description' => 'Purchased more pages',
+                        'price_per_page' => $pageCost,
+                        'item_name' => 'Pages',
+                        'receipt_number' => $receipt_id,
+                        'total' => $billAmount,
+                        'to_name' => 'Admin',
+                        'to_email' => 'admin@gmail.com',
+                        'order_id' => $order_detail->used_package_id,
+                        'invoice_id' => $invoice_id,
+
+                    ]);
+
+                    $user_id =  $pay->user_id;
+                    $user = User::find($user_id);
+
+                    //add new pages from customer profile and send email;
+                    $data['order_id'] = $orderid;
+                    $data['number_of_pages'] = $pages; // new oder pages;
+                    $data['pages_remaining'] = $currentSubs->remaining_pages; // old order remaining pages;
+                    $data['purchased_at'] = $invoice->created_at->format('Y-m-d');
+                    $data['customer_name'] = $user->name;
+                    $data['customer_email'] = $user->email;
+
+
+
+
+
+                    $user23 = User::findOrFail($pay->user_id);
+                    $currentSubs23 = User_Subscription::where('user_id', $user23->id)->first();
+
+                    $createdAt = $invoice->created_at;
+                    $orderid = $order->id;
+
+
+                    $invoiceNumber = $invoice_id;
+                    $dateOfIssue = $createdAt;
+                    $dueDate = $currentSubs23->due_date;
+                    $orderid = $orderid;
+
+                     $remaining_pages = $currentSubs23->remaining_pages;
+
+                    $customerName =$user->name;
+                    $customerEmail = $user->email;
+                    $customerAdress = $user->address_1.''.$user->address_2;
+
+                    $itemName = $subs->subscription_name;
+                    $totalPages = $pages;
+                    $pricePerPage = $pageCost;
+                    $subTotal =$billAmount;
+                    $payment_status ='Paid';
+
+
+                    $discount = 0.0;
+
+                    $total = $billAmount;
+
+                   
+
+                   $purchaseDate = now()->format('F j, Y'); // e.g. June 3, 2025
+
+$emailContent = "
+    <p>Hi {$user->name},</p>
+    <p>Thank you for expanding your order at <strong>Writing Space</strong>! We've successfully processed the purchase of additional pages for your ongoing project.</p>
+
+    <p><strong>Order Details:</strong></p>
+    <ul>
+        <li><strong>Additional Pages Purchased:</strong> {$pages}</li>
+        <li><strong>Remaining Pages in Your Package:</strong> {$currentSubs->remaining_pages}</li>
+        <li><strong>Date of Purchase:</strong> {$purchaseDate}</li>
+    </ul>
+
+    <p><strong>What's Next:</strong></p>
+    <ol>
+        <li>Your invoice and receipt for this transaction are attached as a PDF. Please review these documents for your records.</li>
+        <li>If you have any questions or need further assistance, feel free to reach out to our support team.</li>
+    </ol>
+
+    <p>We appreciate your continued trust in <strong>Writing Space</strong>, and we're here to assist you every step of the way!</p>
+
+    <p>Best regards,<br>
+    Customer Success Team<br>
+    Writing Space</p>
+";
+
+$subject = "Confirmation of Purchase of Additional Pages from Package ";
+
+
+        $this->send_invoice_just_Add_page_profile($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages);
+      
+
+                    Auth::login($user);
+
+
+                    // return redirect(url('/customer/thankyou'));
+
+                       
+                        return response()->make('
+                            <script>
+                                if (window.top !== window.self) {
+                                    window.top.location.href = "' . route('customer.thankyou.sub') . '";
+                                } else {
+                                    window.location.href = "' . route('customer.thankyou.sub') . '";
+                                }
+                            </script>
+                        ', 200, ['Content-Type' => 'text/html']);
+                  
+
+                }
+            }
+            else{
+
+ 
+
+$user = User::find($pay->user_id); 
+              $bank_code = $responseData['response']['acquirerCode'] ?? $responseCode;
+    $bank_reason = $responseData['response']['acquirerMessage'] 
+                    ?? ($this->bankResponseCodes[$responseCode]['message'] ?? 'Unknown Reason');
+
+    $amount   = $order_detail->total_cost;
+    $currency = $this->currency;
+    $time = now()->format('F j, Y g:i A'); // e.g. "August 26, 2025 10:47 PM"
+
+    $txn_id   = $transactionIdurl;
+
+    // ---------------------------------
+    // 1) Customer Email (Payment Failed)
+    // ---------------------------------
+    $customerSubject = "Your transaction didn’t go through (Code {$bank_code} — {$bank_reason})";
+
+    $customerContent = "
+        <p>Hi {$user->name},</p>
+        <p>We tried to process your payment but it didn’t go through.</p>
+        <ul>
+            <li><strong>Amount:</strong> {$currency} {$amount}</li>
+            <li><strong>Date/time:</strong> {$time}</li>
+            <li><strong>Bank response:</strong> {$bank_code} — {$bank_reason}</li>
+            <li><strong>Reference:</strong> {$txn_id}</li>
+        </ul>
+        <p><strong>What you can do:</strong></p>
+        <ol>
+            <li>Double-check card details and available funds.</li>
+            <li>Try another card or payment method.</li>
+            <li>If you’re sure everything is correct, contact your bank and share this code: {$bank_code}.</li>
+            <li>If you need help, we’re here: <a href='mailto:support@writing-space.com'>support@writing-space.com</a></li>
+        </ol>
+        <p>Thanks for your patience,<br>Writing Space<br>Customer Success Team</p>
+    ";
+
+    Mail::html($customerContent, function ($message) use ($user, $customerSubject) {
+        $message->to($user->email)
+                ->subject($customerSubject);
+    });
+
+    // -------------------------------
+    // 2) Admin Email (Payment Failed)
+    // -------------------------------
+    $adminSubject = "Payment failed —— {$user->name} — Code {$bank_code} ({$bank_reason})";
+
+    $adminContent = "
+        <p>Hi team,</p>
+        <p>A payment attempt failed.</p>
+        <ul>
+            <li><strong>Customer:</strong> {$user->name} ({$user->email})</li>
+            <li><strong>Amount:</strong> {$currency} {$amount}</li>
+            <li><strong>Time:</strong> {$time}</li>
+            <li><strong>Transaction ID:</strong> {$txn_id}</li>
+            <li><strong>Bank response:</strong> {$bank_code} — {$bank_reason}</li>
+        </ul>
+        <p>Regards,<br>System Notification</p>
+    ";
+
+    $admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+    if (!empty($admins)) {
+        Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+            $message->to($admins)
+                    ->subject($adminSubject);
+        });
+    }
+ 
+            
+            // Handle the error appropriately
+           if (isset($this->bankResponseCodes[$responseCode])) {
+    $errorMessage = $this->bankResponseCodes[$responseCode]['message'];
+    $errorDescription = $this->bankResponseCodes[$responseCode]['description'];
+    
+    // Build the error URL with parameters
+            $errorUrl = route('payment.error') . 
+                        '?code=' . urlencode($responseCode) . 
+                        '&message=' . urlencode($errorMessage) . 
+                        '&description=' . urlencode($errorDescription);
+    
+    // Redirect to error page with parameters
+                return response()->make('
+                    <script>
+                        var errorUrl = "' . $errorUrl . '";
+                        if (window.top !== window.self) {
+                            window.top.location.href = errorUrl;
+                        } else {
+                            window.location.href = errorUrl;
+                        }
+                    </script>
+                ', 200, ['Content-Type' => 'text/html']);
+
+        }
+              
+            }
+        // } catch (\Exception $e) {
+        //     // Handle the exception
+        //     return response()->json(['error' => $e->getMessage()]);
+        // }
+    }
+
+
 
     public function pay_add_manage($orderid)
     {
@@ -4433,7 +5115,9 @@ $responseCode =5;
                     $customerEmail = $user->email;
                     $customerAdress = $user->address_1.''.$user->address_2;
 
-                    $itemName = 'Custom order Add Pages';
+                 
+                    $itemName = 'Custom Order ' . $orderid . ' - Pages Addon';
+
                     $totalPages = $order_detail->page;
                     $pricePerPage =  $order->cost_per_page;
                     $subTotal =$order_detail->total;
@@ -6393,7 +7077,119 @@ public function update(Request $request, $id)
             $customerEmail = $user->email;
             $customerAdress = $user->address_1.''.$user->address_2;
 
-            $itemName = 'Additional Pages Purchased';
+                $input = $orderid;
+          preg_match('/^(\d+)-/', $input, $matches);
+$orderid_new = $matches[1] ?? null;
+
+
+           $itemName = 'Package Order ' . $orderid_new . ' - Pages Addon';
+
+            // $itemName = $subs->subscription_name;
+
+           $toalamountsub =  $subs->cost_per_page * $subs->min_page;
+
+
+
+            $totalPages = $subs->min_page;
+
+            $subTotal = $transaction->merchantAmount;
+
+           $discounttotalamount = $toalamountsub - $subTotal;
+
+            $pricePerPage = ($totalPages != 0) ? ($subTotal / $noofpage) : 0;
+
+            $payment_status ='Paid';
+
+
+
+
+            $discount = 0.0;
+            $purchaseDate = now()->format('Y-m-d');
+            $total = $transaction->merchantAmount;
+
+        
+            $data = [
+                'invoiceNumber' => $invoiceNumber,
+                'receiptNumber' => $receiptNumber,
+                'dateOfIssue' => $dateOfIssue,
+                'dueDate' => $dueDate,
+                'customerName' => $customerName,
+                'customerEmail' => $customerEmail,
+                'customerAdress' => $customerAdress,
+                'orderid' => $orderid_new,
+                'itemName' => $itemName,
+                'totalPages' => $noofpage,
+                'pricePerPage' => $pricePerPage,
+                'payment_status' => $payment_status,
+                'subTotal' => $subTotal,
+                'discount' => $discount,
+                'total' => $total,
+                'discounttotalamount' => '0.0',
+                'remaining_pages' => $remaining_pages,
+            ];
+
+
+
+
+            $subject = "Confirmation of Purchase of Additional Pages from Package";
+            Mail::to($user->email)->send(new AddPkgInvoiceEmailTemplate(
+                $data,$data,
+                $subject,
+                $emailContent
+            ));
+
+
+             $adminSubject = "Add-on Purchase — {$noofpage} pages —— {$transaction->currency} {$transaction->merchantAmount}";
+
+        $adminContent = "
+            <p>Hi team,</p>
+            <p>An add-on purchase was completed.</p>
+            <ul>
+                <li><strong>Customer:</strong> {$user->name} ({$user->email})</li>
+                <li><strong>Add-on:</strong> {$noofpage} pages</li>
+                <li><strong>Amount:</strong> {$transaction->currency} {$transaction->merchantAmount}</li>
+                <li><strong>Transaction ID:</strong> {$transaction->transaction_id}</li>
+                <li><strong>Time:</strong> {$transaction->transaction_time}</li>
+            </ul>
+            <p>Regards,<br>System Notification</p>
+        ";
+
+        // Admins nikaalo jinke role = admin hai
+        $admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+        if (!empty($admins)) {
+            Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+                $message->to($admins)
+                        ->subject($adminSubject);
+            });
+        }
+        }
+        catch(\Exception $e){
+
+            dd($e);
+        }
+
+    }
+    public function send_invoice_just_Add_page_profile($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages)
+    {
+       // dd($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
+        try{
+            $createdAt = $invoice->created_at;
+            $orderid = $orderidexplode;
+            $dueDate = now()->addDays((int)$subs->set_time)->toDateTimeString();
+
+
+            $invoiceNumber = $invoice_id;
+            $receiptNumber = $receipt_id;
+            $dateOfIssue = $createdAt;
+            $dueDate = $dueDate;
+            $orderid = $orderid;
+
+            $customerName =$user->name;
+            $customerEmail = $user->email;
+            $customerAdress = $user->address_1.''.$user->address_2;
+
+            $itemName = 'Package - Pages Addon';
             // $itemName = $subs->subscription_name;
 
            $toalamountsub =  $subs->cost_per_page * $subs->min_page;
@@ -6444,8 +7240,8 @@ $orderid_new = $matches[1] ?? null;
 
 
 
-            $subject = "Confirmation of Purchase of Additional Pages from Package";
-            Mail::to($user->email)->send(new AddPkgInvoiceEmailTemplate(
+            $subject = "Confirmation of Purchase of Additional Pages from Package ";
+            Mail::to($user->email)->send(new AddPkgInvoiceEmailTemplateProfile(
                 $data,$data,
                 $subject,
                 $emailContent

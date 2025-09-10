@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\View;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
-class AddPkgInvoiceEmailTemplate extends Mailable
+class AddPkgInvoiceEmailTemplateProfile extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -50,7 +50,7 @@ class AddPkgInvoiceEmailTemplate extends Mailable
 
             
 
-        $invoiceHtml = View::make('emails.invoice_custom_template')
+        $invoiceHtml = View::make('emails.invoice_custom_template_profile')
             ->with([
                 'subject'     => $this->subject,
                 'invoiceData' => $this->invoiceData
@@ -62,7 +62,7 @@ class AddPkgInvoiceEmailTemplate extends Mailable
 
 
 
-        $receiptHtml = View::make('emails.receipt_custom_template')
+        $receiptHtml = View::make('emails.receipt_custom_template_profile')
             ->with([
                 'subject'     => $this->subject,
                 'invoiceData' => $this->invoiceData
@@ -125,7 +125,7 @@ if (file_put_contents($receiptDir . '/' . $receiptFilename, $receiptPdfContent) 
 }
 
         return $this->subject($this->subject)
-                    ->view('emails.add_invoicec_text_pkg_template')
+                    ->view('emails.add_invoicec_text_pkg_template_profile')
                     ->with([
                         'welcomeContent' => $this->emailContent,
                         'invoiceData'    => $this->invoiceData
