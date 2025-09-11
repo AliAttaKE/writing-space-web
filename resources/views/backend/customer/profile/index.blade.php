@@ -330,6 +330,7 @@
                                                 <thead class="border-bottom border-gray-200 fs-7 fw-bold">
                                                     <tr class="text-start text-muted text-uppercase gs-0">
                                                         <th class="min-w-150px">Payment Type</th>
+                                                        <th class="min-w-150px">Order ID</th>
                                                         <th class="min-w-100px">Invoice No.</th>
                                                         <th class="min-w-100px">Receipt No.</th>
                                                         <th>Status</th>
@@ -354,6 +355,10 @@
                                                                         Custom Order
                                                                     @endif
                                                                 </td>
+                                                             <td>
+                                                                {{ $order->order_id ?? 'None' }}
+                                                            </td>
+
 
                                                                 <td>
                                                                     <a href="{{ url('invoices/invoice_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1"  target="_blank">{{ $order->invoice_id}}</a>
