@@ -80,6 +80,8 @@ class CustomerDataController extends Controller
     $customers = collect([$customer]);
     $customers_email = $customer->email;
 
+  
+
     // Latest used subscription (optional display)
     $used_subscription = User_Subscription::where('user_id', $id)->latest('id')->first();
     if ($used_subscription) {
@@ -143,7 +145,7 @@ class CustomerDataController extends Controller
             $q->where('o.order_type', '!=', 'Subscription')
               ->orWhereNull('o.order_type');
         })
-        ->select('i.invoice_id','i.invoice_type','i.receipt_number','i.item_name','i.total','i.created_at')
+        ->select('i.invoice_id','i.invoice_type','i.receipt_number','i.item_name','i.total','i.created_at','i.order_id')
         ->orderByDesc('i.created_at')
         ->get();
 
@@ -184,6 +186,7 @@ $AdminOrders = DB::table('orders')
 
 public function filterDate(Request $request, $id)
 {
+    
     // month is optional now (blank = show ALL)
     $monthStr  = $request->input('date'); // 'YYYY-MM' or ''
     $applyDate = false;
@@ -249,6 +252,8 @@ public function filterDate(Request $request, $id)
                   ->orderByDesc('i.created_at')
                   ->get();
 
+
+             
     // Render admin partial (full card)
     $html = view('backend.admin.customerDataTable.partials.payment_section', [
         'data'              => $data,

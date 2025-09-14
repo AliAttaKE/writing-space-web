@@ -45,6 +45,7 @@ label::after{
                     <thead class="border-bottom border-gray-200 fs-7 fw-bold">
                         <tr class="text-start text-muted text-uppercase gs-0">
                             <th class="min-w-150px">Payment Type</th>
+                            <th class="min-w-150px">Order ID</th>
                             <th class="min-w-100px">Invoice No.</th>
                             <th class="min-w-100px">Receipt No.</th>
                             <th>Status</th>
@@ -69,6 +70,9 @@ label::after{
                     —
                 @endif
             </td>
+             <td>
+                                                                {{ $row->order_id ?? 'None' }}
+                                                            </td>
 
             {{-- 2: Invoice No. --}}
             <td>
