@@ -308,6 +308,8 @@
                                     </div>
                                     <!--end::Title-->
                                     <!--begin::Toolbar-->
+
+                                    
                                     <div class="card-toolbar">
                                         <div class="d-flex">
                                             <!-- <input type="date" name="packages_filter_date" class="form-control btn-dark-primary" id="packages_filter_date"> -->
@@ -320,11 +322,27 @@
                                     </div>
                                     <!--end::Toolbar-->
                                 </div>
+                                <div class="row mb-5">
+   
                                 <!--end::Header-->
                                 <div class="card-body pb-5">
                                     <!--begin::Tab Content-->
                                         <!--begin::Tab panel-->
                                         <div class="py-0">
+
+                                            <div class="row mb-5">
+    <div class="col-md-4">
+        <div class="input-group">
+            <span class="input-group-text bg-dark border-dark">
+                <i class="ki-duotone ki-magnifier fs-3 text-white">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                </i>
+            </span>
+            <input type="text" id="payment-search-input" class="form-control form-control-solid btn-dark-primary text-white" placeholder="Search payment records...">
+        </div>
+    </div>
+</div>
                                             <!--begin::Table-->
                                             <table class="table align-middle table-row-dashed gy-5" id="kt_table_packages_payment">
                                                 <thead class="border-bottom border-gray-200 fs-7 fw-bold">
@@ -429,6 +447,20 @@
                                     <!--begin::Tab Content-->
                                         <!--begin::Tab panel-->
                                         <div class="py-0">
+
+                                            <div class="row mb-5">
+    <div class="col-md-4">
+        <div class="input-group">
+            <span class="input-group-text bg-dark border-dark">
+                <i class="ki-duotone ki-magnifier fs-3 text-white">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                </i>
+            </span>
+            <input type="text" id="order-search-input" class="form-control form-control-solid btn-dark-primary text-white" placeholder="Search order records...">
+        </div>
+    </div>
+</div>
                                             <!--begin::Table-->
                                             <table class="table align-middle table-row-dashed gy-5" id="kt_table_custom_payment">
                                                 <thead class="border-bottom border-gray-200 fs-7 fw-bold">
@@ -1656,19 +1688,7 @@ $(document).on('click', '.reset_custom_filter', function() {
 
 
 
-    $(document).ready(function() {
-        $('#kt_table_custom_payment').DataTable();
-        $('#kt_table_packages_payment').DataTable();
-
-
-    });
-    $(document).ready(function(){
-        $('.usage-table-customer').DataTable();
-
-
-
-
-    })
+    
 
 
 
@@ -1721,5 +1741,144 @@ $(document).on('click', '.reset_custom_filter', function() {
   inputs.forEach(input => {
     input.addEventListener("change", validateInputs);
   });
+
+
+    $(document).ready( function() {
+        // ... aapka existing code ...
+
+        // Initialize DataTables with search functionality
+        var paymentTable = $('#kt_table_packages_payment').DataTable({
+            pageLength: 5,
+            lengthMenu: [5, 10, 25, 50],
+            language: {
+                emptyTable: "Data not found",
+                zeroRecords: "No matching records found"
+            }
+        });
+
+        var orderTable = $('#kt_table_custom_payment').DataTable({
+            pageLength: 5,
+            lengthMenu: [5, 10, 25, 50],
+            language: {
+                emptyTable: "Data not found",
+                zeroRecords: "No matching records found"
+            }
+        });
+
+        // Add search functionality for payment records
+        $('#payment-search-input').on('keyup', function() {
+            paymentTable.search(this.value).draw();
+        });
+
+        // Add search functionality for order records
+        $('#order-search-input').on('keyup', function() {
+            orderTable.search(this.value).draw();
+        });
+
+        // 🔹 Date filter change (delegated event)
+        $(document).on('change', '#packages_filter_date', function() {
+            var selectedDate = $(this).val();
+            var url = '{{ route('customer.filter.date') }}';
+            var types = ['package_inc', 'custom_inc', ''];
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: { date: selectedDate, type: types },
+                success: function(response) {
+                    console.log("AJAX Response:", response);
+
+                    if (response.status === true) {
+                        var selectedDate = $('#packages_filter_date').val();
+
+                        if ($.fn.DataTable.isDataTable('#kt_table_packages_payment')) {
+                            $('#kt_table_packages_payment').DataTable().destroy();
+                        }
+
+                        $('#payment-section-wrapper').html(response.html);
+
+                        // Reinitialize DataTable with search
+                        paymentTable = $('#kt_table_packages_payment').DataTable({
+                            pageLength: 5,
+                            lengthMenu: [5, 10, 25, 50],
+                            language: {
+                                emptyTable: "Data not found",
+                                zeroRecords: "No matching records found"
+                            }
+                        });
+
+                        // Reattach search event
+                        $('#payment-search-input').off('keyup').on('keyup', function() {
+                            paymentTable.search(this.value).draw();
+                        });
+
+                        $('#packages_filter_date').val(selectedDate);
+                    } else {
+                        if ($.fn.DataTable.isDataTable('#kt_table_packages_payment')) {
+                            $('#kt_table_packages_payment').DataTable().clear().draw();
+                        }
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error status:", xhr.status);
+                    $('#payment-section-wrapper').html('<p>Error loading data</p>');
+                }
+            });
+        });
+
+        // 🔹 Date filter change (delegated event for order records)
+        $(document).on('change', '#custom_filter_date', function() {
+            var selectedDate = $(this).val();
+            var url = '{{ route('customer.filter.date') }}';
+            var type = 'custom_inc';
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: { date: selectedDate, type: type },
+                success: function(response) {
+                    console.log("AJAX Response:", response);
+
+                    if (response.status === true) {
+                        var selectedDate = $('#custom_filter_date').val();
+
+                        if ($.fn.DataTable.isDataTable('#kt_table_custom_payment')) {
+                            $('#kt_table_custom_payment').DataTable().destroy();
+                        }
+
+                        $('#order-section-wrapper').html(response.html);
+
+                        // Reinitialize DataTable with search
+                        orderTable = $('#kt_table_custom_payment').DataTable({
+                            pageLength: 5,
+                            lengthMenu: [5, 10, 25, 50],
+                            language: {
+                                emptyTable: "Data not found",
+                                zeroRecords: "No matching records found"
+                            }
+                        });
+
+                        // Reattach search event
+                        $('#order-search-input').off('keyup').on('keyup', function() {
+                            orderTable.search(this.value).draw();
+                        });
+
+                        $('#custom_filter_date').val(selectedDate);
+                    } else {
+                        if ($.fn.DataTable.isDataTable('#kt_table_custom_payment')) {
+                            $('#kt_table_custom_payment').DataTable().clear().draw();
+                        }
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error status:", xhr.status);
+                    $('#order-section-wrapper').html('<p>Error loading data</p>');
+                }
+            });
+        });
+
+        // ... aapka existing code ...
+
+    });
 </script>
 @endpush
