@@ -381,10 +381,13 @@ h3 {
       // 3) Populate hidden textarea
       $('#message_box').val(replyMessageEditor.root.innerHTML);
 
+      var send_to = 'Customer';
+
       // 4) Build FormData with everything
       const fd = new FormData(this);
       fd.append('_token', '{{ csrf_token() }}');
       fd.append('send_by', recipient);
+      fd.append('send_to', send_to);
 
       // 5) AJAX send
       $.ajax({

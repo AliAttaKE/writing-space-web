@@ -21,6 +21,125 @@ use Illuminate\Support\Facades\Validator;
 class MessageController extends Controller
 {
 
+
+public function writerReply(Request $request)
+{
+    $rules = [
+        'order_id' => 'required|integer|exists:orders,order_id',
+        'send_to'  => 'required|in:Admin,Customer',   // Writer sirf Admin ya Customer ko reply karega
+        'message'  => 'nullable|string',
+        'media.*'  => 'nullable|file|mimes:pdf,docx,doc,txt,rtf,xls,xlsx,csv,pptx,jpeg,jpg,png,mp4,avi,mov,bin'
+    ];
+
+    $validator = Validator::make($request->all(), $rules);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'success' => false,
+            'errors'  => $validator->errors()
+        ], 422);
+    }
+
+    $input = $request->all();
+    $input['send_by']  = 'Writer';  // Fixed
+    $input['sender_id'] = Auth::id();
+
+    // Receiver set karna
+    if ($request->send_to === 'Admin') {
+        $admin = User::where('role', 'admin')->first();
+        if (!$admin) {
+            return response()->json(['error' => 'Admin not found'], 404);
+        }
+        $input['receive_id'] = $admin->id;
+    } elseif ($request->send_to === 'Customer') {
+        $order = Orders::where('order_id', $request->order_id)->first();
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
+        $input['receive_id'] = $order->user_id;
+    }
+
+    // Media Uploads
+    if ($request->hasFile('media')) {
+        $uploadedFiles = [];
+        foreach ($request->file('media') as $file) {
+            $uploadedFile = new \stdClass();
+            $extension = $file->extension();
+
+            $uploadedFile->type = in_array($extension, ['png','jpg','jpeg','gif','webp'])
+                                ? 'image'
+                                : (in_array($extension, ['mp4','avi','mov','bin'])
+                                    ? 'video'
+                                    : 'others');
+
+            $fileName = uniqid().'.'.$extension;
+            $path = $file->storeAs('media', $fileName, 'public');
+            $uploadedFile->url = asset('storage/'.$path);
+
+            $uploadedFiles[] = $uploadedFile;
+        }
+        $input['media'] = json_encode($uploadedFiles);
+    }
+
+    // Message create karo
+    $message = Message::create($input);
+
+    return response()->json([
+        'success' => true,
+        'message' => $message
+    ]);
+}
+
+
+public function adminToWriterMessages($order_id)
+{
+ $messages = Message::where('order_id', $order_id)
+    ->where(function($q) {
+        $q->where('send_by', 'Writer')
+          ->orWhere('send_to', 'Writer');
+    })
+    ->orderBy('created_at', 'desc')
+    ->get();
+
+
+
+    $messages->transform(function ($message) {
+        // Receiver
+        if ($message->receive_id) {
+            $receiver = User::find($message->receive_id);
+            $message->receiver_name   = $receiver->name ?? '';
+            $message->receiver_avatar = $receiver->avatar ?? '';
+            $message->receiver_role   = $receiver->role ?? '';
+        }
+
+        // Sender
+        if ($message->sender_id) {
+            $sender = User::find($message->sender_id);
+            $message->sender_name   = $sender->name ?? '';
+            $message->sender_avatar = $sender->avatar ?? '';
+            $message->sender_role   = $sender->role ?? '';
+        }
+
+        // Media Handling (agar hai to full URL bana do)
+        if (!empty($message->media)) {
+            $mediaFiles = json_decode($message->media, true);
+            if (is_array($mediaFiles)) {
+                foreach ($mediaFiles as &$file) {
+                    $file['full_url'] = asset('storage/' . $file['url']);
+                }
+                $message->media = $mediaFiles;
+            }
+        }
+
+        return $message;
+    });
+
+    return response()->json([
+        'success' => true,
+        'messages' => $messages
+    ]);
+}
+
     public function index()
     {
         $inbox = Inbox::latest()->paginate(5);

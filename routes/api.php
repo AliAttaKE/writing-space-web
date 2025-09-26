@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Admin\OrderManagement\PlaceOrderController;
 use App\Http\Controllers\FileChatGPTController;
+use App\Http\Controllers\Backend\Admin\Message\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,10 +17,14 @@ use App\Http\Controllers\FileChatGPTController;
 |
 */
 
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/messages/admin-to-writer/{order_id}', [MessageController::class, 'adminToWriterMessages']);
+Route::post('/messages/writer/reply', [MessageController::class, 'writerReply']);
 
 // Route::get('/new-order',[PlaceOrderController::class,'new_order_api'])->name('new-order-api');
 Route::get('/new-folder',[PlaceOrderController::class,'new_folder_api'])->name('new-folder-api');

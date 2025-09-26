@@ -249,10 +249,10 @@ class MessageManagementController extends Controller
 ";
 
     // Send the email
-    Mail::html($emailContent, function ($message) use ($admin_email_get) {
-        $message->to($admin_email_get)
-            ->subject('You\'ve Got a New Message at Writing Space!');
-    });
+    // Mail::html($emailContent, function ($message) use ($admin_email_get) {
+    //     $message->to($admin_email_get)
+    //         ->subject('You\'ve Got a New Message at Writing Space!');
+    // });
 
     // Return a success response
     return response()->json(['success' => true, 'message' => $message]);
