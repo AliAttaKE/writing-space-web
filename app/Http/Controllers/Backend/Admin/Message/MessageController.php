@@ -169,13 +169,17 @@ class MessageController extends Controller
 //     }
 
 
-
 public function sendMessage(Request $request)
 {
-$rules = [
-    'media.*' => 'nullable|file|mimes:pdf,docx,doc,txt,rtf,xls,xlsx,csv,pptx,jpeg,jpg',
-];
-    
+
+
+    // dd($request->All());
+    $rules = [
+        'media.*' => 'nullable|file|mimes:pdf,docx,doc,txt,rtf,xls,xlsx,csv,pptx,jpeg,jpg,png',
+        'send_as' => 'required|in:Admin,Writer',
+        'send_to' => 'required|in:Admin,Writer,Customer',
+    ];
+
     $validator = Validator::make($request->all(), $rules);
 
     if ($validator->fails()) {
@@ -184,22 +188,30 @@ $rules = [
             'errors'  => $validator->errors()
         ], 422);
     }
+
     $input = $request->all();
-    $input['sender_id'] = Auth::user()->id; // Use Auth facade for consistency
+    $input['sender_id'] = Auth::user()->id;
     $user = User::find($input['sender_id']);
 
-    if ($user->role === 'admin') {
+    // Determine receiver based on send_to
+    if ($request->send_to === 'Customer') {
         $order = Orders::where('order_id', $request['order_id'])->first();
         if (!$order) {
             return response()->json(['error' => 'Order not found'], 404);
         }
         $input['receive_id'] = $order->user_id;
-    } else {
+    } elseif ($request->send_to === 'Admin') {
         $admin = User::where('role', 'admin')->first();
         if (!$admin) {
             return response()->json(['error' => 'Admin not found'], 404);
         }
         $input['receive_id'] = $admin->id;
+    } elseif ($request->send_to === 'Writer') {
+        $writer = User::where('role', 'writer')->first();
+        if (!$writer) {
+            return response()->json(['error' => 'Writer not found'], 404);
+        }
+        $input['receive_id'] = $writer->id;
     }
 
     // Validate if the receiving user exists
@@ -221,7 +233,7 @@ $rules = [
 
             $extension = $file->extension();
             $uploadedFile->type = in_array($extension, ['png', 'jpg', 'jpeg', 'gif', 'webp']) ? 'image' :
-                                  (in_array($extension, ['mp4', 'avi', 'mov', 'bin']) ? 'video' : 'others');
+                                (in_array($extension, ['mp4', 'avi', 'mov', 'bin']) ? 'video' : 'others');
 
             $fileName = uniqid() . '.' . $extension;
             $path = $file->storeAs('media', $fileName, 'public');
@@ -237,28 +249,25 @@ $rules = [
 
     // Prepare email data
     $data = [
-        'customer_name' => $user->name,
-        'customer_email' => $user->email,
-        'sender_role' => $user->role === 'admin' ? 'Admin' : 'Customer',
-        'order_id' => $request['order_id'],
+        'customer_name'   => $user->name,
+        'customer_email'  => $user->email,
+        'sender_role'     => $request->send_as,
+        'order_id'        => $request['order_id'],
         'message_content' => $request->message
     ];
 
-    $senderRole = ($input['statusRadio'] == 'Admin') ? 'Admin' : 'Writer';
-    $recipientName = auth()->user()->name;
-
- 
+    $recipientName = $userCheck->name;
 
     $emailContent = "
     <html>
         <body>
-            <p>Hi ,</p>
+            <p>Hi {$recipientName},</p>
 
             <p>We’re keeping the lines of communication open at Writing Space! You’ve just received a new message in your account. Here’s what you need to know:</p>
 
             <p>
-                <strong>From:</strong> {$senderRole}<br>
-                <strong>To:</strong> Customer<br>
+                <strong>From:</strong> {$data['sender_role']}<br>
+                <strong>To:</strong> {$request->send_to}<br>
                 <strong>Order ID:</strong> {$data['order_id']}
             </p>
 
@@ -287,14 +296,13 @@ $rules = [
             </p>
         </body>
     </html>
-";
-
+    ";
 
     // Send email
-    Mail::html($emailContent, function ($mail) use ($userCheck) {
-        $mail->to($userCheck->email)
-             ->subject('You\'ve Got a New Message at Writing Space!');
-    });
+    // Mail::html($emailContent, function ($mail) use ($userCheck) {
+    //     $mail->to($userCheck->email)
+    //          ->subject('You\'ve Got a New Message at Writing Space!');
+    // });
 
     // Broadcast message event
     $receiver = $message->receive_id;
@@ -315,6 +323,152 @@ $rules = [
 
     return response()->json(['success' => true, 'message' => $message]);
 }
+
+    // public function sendMessage(Request $request)
+    // {
+    // $rules = [
+    //     'media.*' => 'nullable|file|mimes:pdf,docx,doc,txt,rtf,xls,xlsx,csv,pptx,jpeg,jpg',
+    // ];
+        
+    //     $validator = Validator::make($request->all(), $rules);
+
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'errors'  => $validator->errors()
+    //         ], 422);
+    //     }
+    //     $input = $request->all();
+    //     $input['sender_id'] = Auth::user()->id; // Use Auth facade for consistency
+    //     $user = User::find($input['sender_id']);
+
+    //     if ($user->role === 'admin') {
+    //         $order = Orders::where('order_id', $request['order_id'])->first();
+    //         if (!$order) {
+    //             return response()->json(['error' => 'Order not found'], 404);
+    //         }
+    //         $input['receive_id'] = $order->user_id;
+    //     } else {
+    //         $admin = User::where('role', 'admin')->first();
+    //         if (!$admin) {
+    //             return response()->json(['error' => 'Admin not found'], 404);
+    //         }
+    //         $input['receive_id'] = $admin->id;
+    //     }
+
+    //     // Validate if the receiving user exists
+    //     $userCheck = User::find($input['receive_id']);
+    //     if (!$userCheck) {
+    //         return response()->json(['error' => 'Receiver not found'], 404);
+    //     }
+
+    //     // Add message content
+    //     if ($request->message) {
+    //         $input['message'] = $request->message;
+    //     }
+
+    //     // Handle media uploads if any
+    //     if ($request->hasFile('media')) {
+    //         $uploadedFiles = [];
+    //         foreach ($request->file('media') as $file) {
+    //             $uploadedFile = new \stdClass();
+
+    //             $extension = $file->extension();
+    //             $uploadedFile->type = in_array($extension, ['png', 'jpg', 'jpeg', 'gif', 'webp']) ? 'image' :
+    //                                 (in_array($extension, ['mp4', 'avi', 'mov', 'bin']) ? 'video' : 'others');
+
+    //             $fileName = uniqid() . '.' . $extension;
+    //             $path = $file->storeAs('media', $fileName, 'public');
+    //             $uploadedFile->url = $path;
+
+    //             $uploadedFiles[] = $uploadedFile;
+    //         }
+    //         $input['media'] = json_encode($uploadedFiles);
+    //     }
+
+    //     // Create the message
+    //     $message = Message::create($input);
+
+    //     // Prepare email data
+    //     $data = [
+    //         'customer_name' => $user->name,
+    //         'customer_email' => $user->email,
+    //         'sender_role' => $user->role === 'admin' ? 'Admin' : 'Customer',
+    //         'order_id' => $request['order_id'],
+    //         'message_content' => $request->message
+    //     ];
+
+    //     $senderRole = ($input['statusRadio'] == 'Admin') ? 'Admin' : 'Writer';
+    //     $recipientName = auth()->user()->name;
+
+    
+
+    //     $emailContent = "
+    //     <html>
+    //         <body>
+    //             <p>Hi ,</p>
+
+    //             <p>We’re keeping the lines of communication open at Writing Space! You’ve just received a new message in your account. Here’s what you need to know:</p>
+
+    //             <p>
+    //                 <strong>From:</strong> {$senderRole}<br>
+    //                 <strong>To:</strong> Customer<br>
+    //                 <strong>Order ID:</strong> {$data['order_id']}
+    //             </p>
+
+    //             <p><strong>Message:</strong></p>
+    //             <p>{$data['message_content']}</p>
+
+    //             <p><strong>What’s Next?</strong></p>
+    //             <p>
+    //                 We encourage you to review the message and respond if needed. Staying engaged and communicating effectively is key to getting the most out of our services and ensuring a smooth academic experience.
+    //             </p>
+
+    //             <p>
+    //                 You can reply directly through your dashboard under the <strong>“Messages”</strong> section. It’s simple, fast, and secure.
+    //             </p>
+
+    //             <p>
+    //                 If you have any questions or need assistance, our support team is just an email away. We're here to help you succeed!
+    //             </p>
+
+    //             <p>Thanks for choosing Writing Space as your trusted academic partner.</p>
+
+    //             <p>
+    //                 Warm regards,<br>
+    //                 Customer Success Team<br>
+    //                 Writing Space
+    //             </p>
+    //         </body>
+    //     </html>
+    // ";
+
+
+    //     // Send email
+    //     Mail::html($emailContent, function ($mail) use ($userCheck) {
+    //         $mail->to($userCheck->email)
+    //             ->subject('You\'ve Got a New Message at Writing Space!');
+    //     });
+
+    //     // Broadcast message event
+    //     $receiver = $message->receive_id;
+    //     $status = 'New Message Arrive!';
+    //     $order = $message->order_id;
+    //     event(new SendMessage($receiver, $status, $order));
+
+    //     // Update or create inbox
+    //     Inbox::updateOrCreate(
+    //         ['order_id' => $request['order_id']],
+    //         [
+    //             'sender_id' => $input['sender_id'],
+    //             'receive_id' => $input['receive_id'],
+    //             'message' => $input['message'] ?? null,
+    //             'media' => $input['media'] ?? null
+    //         ]
+    //     );
+
+    //     return response()->json(['success' => true, 'message' => $message]);
+    // }
 
 
 

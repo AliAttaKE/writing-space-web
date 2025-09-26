@@ -2,14 +2,21 @@
     @if($messages->count() > 0)
         @foreach ($messages as $m)
             @php
+                $currentUserRole = Auth()->user()->role;
+
+                // Skip messages: agar customer login hai aur message writer ke liye hai
+                if ($currentUserRole == 'customer' && $m->send_to == 'Writer') {
+                    continue;
+                }
+
                 $output = $m->created_at->diffForHumans();
                 $isSender = $m->sender_id == Auth()->user()->id;
                 $senderRole = $m->sender_role;
                 $sendBy = $m->send_by;
+                $sendto = $m->send_to;
                 $type = $m->type;
                 $orderId = $m->order_id;
                 $createdAt = $m->created_at->format('F j, Y g:i A');
-                $currentUserRole = Auth()->user()->role;
 
                 // Determine sender display name
                 $senderDisplay = match(true) {
@@ -24,25 +31,21 @@
                     $m->sender_avatar => asset('images/users/customers/'.$m->sender_avatar),
                     default => asset('backend/assets/media/ws/profile.png')
                 };
+
                 if(!isset($type)){
                     $messageDirection = match(true) {
-                    // Admin sending to customer
-                    $isSender && $senderRole == 'admin' => 'Message for Customer',
-                    // Customer sending to admin/writer
-                    $isSender && $senderRole == 'customer' => 'Message for ' . $sendBy,
-                    // Customer viewing admin's message
-                    !$isSender && $currentUserRole == 'customer' && $senderRole == 'admin' => 'Message for Customer',
-                    // Admin viewing customer's message
-                    !$isSender && $currentUserRole != 'customer' && $senderRole == 'customer' => 'Message for ' . $sendBy,
-                    // Default case
-                    default => 'Message from ' . $senderDisplay
-                };
-                }else{
+                        $isSender && $senderRole == 'admin' => 'Message for ' . $sendto,
+                        $isSender && $senderRole == 'customer' => 'Message for ' . $sendBy,
+                        $isSender && $senderRole == 'Writer' => 'Message for ' . $sendBy,
+                        !$isSender && $currentUserRole == 'customer' && $senderRole == 'admin' => 'Message for ' . $sendto,
+                        !$isSender && $currentUserRole != 'customer' && $senderRole == 'customer' => 'Message for ' . $sendBy,
+                        default => 'Message from ' . $senderDisplay
+                    };
+                } else {
                     $messageDirection = "Rewrite Request";
                 }
-                // Determine message direction text
-
             @endphp
+
 
             <div data-kt-inbox-message="message_wrapper">
                 <div class="d-flex flex-wrap gap-2 flex-stack cursor-pointer custom-padding" data-kt-inbox-message="header">

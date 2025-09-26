@@ -227,14 +227,38 @@
                                         </div>
 
 
-                                        <div>
+                                        {{-- <div>
                                             <input type="radio" id="AdminRadio" class="radioAdminWriter" name="statusRadio" value="Admin"  >
                                             <label for="AdminRadio" class="text-white">Admin</label>
                                         </div>
                                         <div>
                                             <input type="radio" id="WriterRadio" class="radioAdminWriter" name="statusRadio" value="Writer" >
                                             <label for="WriterRadio" class="text-white">Writer</label>
-                                        </div>
+                                        </div> --}}
+<div class="d-flex align-items-center gap-4">
+    <!-- Send As -->
+    <div>
+        <label class="text-white">Send As:</label>
+        <select class="form-select form-select-sm badge-custom-bg text-white" 
+                name="send_as" id="send_as">
+            <option value="">-- Select --</option>
+            <option value="Admin">Admin</option>
+            <option value="Writer">Writer</option>
+        </select>
+    </div>
+
+    <!-- Send To -->
+    <div>
+        <label class="text-white">Send To:</label>
+        <select class="form-select form-select-sm badge-custom-bg text-white" 
+                name="send_to" id="send_to">
+            <option value="">-- Select --</option>
+            <option value="Admin">Admin</option>
+            <option value="Writer">Writer</option>
+            <option value="Customer">Customer</option>
+        </select>
+    </div>
+</div>
 
 
 
@@ -427,7 +451,7 @@ document
     //     form.querySelector('textarea[name=message]').value = quillContent;
     // };
 </script>
-<script>
+{{-- <script>
 $(document).ready(function () {
 
      const newMessageEditor = new Quill("#newMessageEditor", {
@@ -526,9 +550,109 @@ $(document).ready(function () {
 });
 
 
+</script> --}}
+
+<script>
+    $(document).ready(function () {
+
+    // Initialize Quill editor
+    const newMessageEditor = new Quill("#newMessageEditor", {
+        theme: "snow",
+    });
+
+    // Sync hidden textarea with Quill editor
+    addEventListener('keyup', () => {
+        var editorContent = newMessageEditor.root.innerHTML;
+        var message = document.getElementById('message_box');
+        message.innerHTML = editorContent;
+    });
+
+    // Form submit handler
+    $('#kt_inbox_compose_form').submit(function (e) {
+        e.preventDefault(); // Prevent the form from submitting in the traditional way
+        $('.clear_message_box').attr('disabled', true);
+
+        // Create a FormData object to gather form data
+        var formData = new FormData(this);
+        formData.append('_token', '{{ csrf_token() }}');
+
+        // Get Send As and Send To values
+        var send_as = $('#send_as').val();
+        var send_to = $('#send_to').val();
+
+        // Validate Send As
+        if (!send_as) {
+            Swal.fire('Error!', 'Please select "Send As".', 'error');
+            $('.clear_message_box').attr('disabled', false);
+            return;
+        }
+
+        // Validate Send To
+        if (!send_to) {
+            Swal.fire('Error!', 'Please select "Send To".', 'error');
+            $('.clear_message_box').attr('disabled', false);
+            return;
+        }
+
+        // Append send_as and send_to in formData
+        formData.append('send_as', send_as);
+        formData.append('send_to', send_to);
+
+        // Get the message from the Quill editor as HTML
+        var messageHTML = newMessageEditor.root.innerHTML.trim();
+        console.log("Message HTML content:", messageHTML);
+
+        // Validate the message content to ensure it's not empty
+        var isEmpty = !messageHTML || messageHTML === '<p><br></p>' || messageHTML.replace(/<[^>]*>/g, '').trim() === '';
+
+        if (isEmpty) {
+            Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
+            $('.clear_message_box').attr('disabled', false);
+            return;
+        }
+
+          var send_by = $('#send_as').val();
+      
+        formData.append('send_by', send_by);
+
+        // Append the message content (HTML) to formData
+        formData.append('message', messageHTML);
+
+        // Debug log
+        console.log("Form Data before sending:", formData);
+
+        // Send the form data using AJAX
+        var url = '{{ route("admin.send-message") }}';
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false, // Don't process the data
+            contentType: false, // Don't set contentType
+            success: function (response) {
+                console.log('Server response:', response);
+                Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
+
+                // Clear editor and inputs
+                newMessageEditor.setText('');
+                $('#attach_file_1').text('');
+                $('#message_box').val('');
+                $('#send_as').val('');
+                $('#send_to').val('');
+                $('.clear_message_box').attr('disabled', false);
+            },
+            error: function (error) {
+                console.error('Error:', error);
+                $('.clear_message_box').attr('disabled', false);
+            }
+        });
+
+        return false; // Prevent the form from submitting traditionally
+    });
+
+});
+
 </script>
-
-
 <script>
     document.getElementById('media').addEventListener('change', function () {
         const fileList = this.files;

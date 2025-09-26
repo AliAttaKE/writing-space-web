@@ -170,14 +170,35 @@ h3 {
                                             <p id="attach_file_1" class="text-white  w-200px"></p>
                                         </div>
 
-                                        <div>
+                                        {{-- <div>
                                             <input type="radio" id="AdminRadio" class="radioAdminWriter" name="statusRadio" value="Admin"  >
                                             <label for="AdminRadio" class="text-white">Admin</label>
                                         </div>
                                         <div>
                                             <input type="radio" id="WriterRadio" class="radioAdminWriter" name="statusRadio" value="Writer" >
                                             <label for="WriterRadio" class="text-white">Writer</label>
-                                        </div>
+                                        </div> --}}
+
+                                         <div class="me-5">
+                                                                <label class="text-white fw-bold me-2">Send As:</label>
+                                                            <select class="form-select form-select-sm" name="send_as" id="send_as">
+                                                    <option value="">Select</option>
+                                                    <option value="Admin">Admin</option>
+                                                    <option value="Writer">Writer</option>
+                                                            </select>
+                                                            </div>
+
+                                                            <!-- Send To -->
+                                                            <div class="me-5">
+                                                                <label class="text-white fw-bold me-2">Send To:</label>
+                                                            <select class="form-select form-select-sm" name="send_to" id="send_to">
+                                                    <option value="">Select</option>
+                                                    <option value="Admin">Admin</option>
+                                                    <option value="Writer">Writer</option>
+                                                    <option value="Customer">Customer</option>
+                                                </select>
+                                                            </div>
+
 
 
                                         <!--end::Actions-->
@@ -312,7 +333,141 @@ h3 {
 <!--begin::Javascript-->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
+
 <script>
+var hostUrl = "assets/";
+
+// Global variable to store order_id
+window.order_id = "{{ $order_id }}";
+
+$(document).ready(function () {
+
+    // Initialize Quill editor once
+    const replyMessageEditor = new Quill("#replayMessageEditor", {
+        theme: "snow",
+    });
+
+    // Form submit (AJAX)
+    $('#kt_inbox_reply_form').submit(function (e) {
+        e.preventDefault();
+
+        var formData = new FormData(this);
+        formData.append('_token', '{{ csrf_token() }}');
+        $('.badge-custom-bg').attr('disabled', true);
+
+        // Get "Send As" from select
+        var send_by = $('#send_as').val();
+        if (!send_by) {
+            Swal.fire('Error!', 'Please select "Send As" (Writer/Admin).', 'error');
+            $('.badge-custom-bg').attr('disabled', false);
+            return;
+        }
+        formData.append('send_by', send_by);
+
+        // Get "Send To" from select
+        var send_to = $('#send_to').val();
+        if (!send_to) {
+            Swal.fire('Error!', 'Please select "Send To" (Writer/Customer/Admin).', 'error');
+            $('.badge-custom-bg').attr('disabled', false);
+            return;
+        }
+        formData.append('send_to', send_to);
+
+        // Get message from Quill editor
+        var messageText = replyMessageEditor.getText().trim();
+        var messageHTML = replyMessageEditor.root.innerHTML;
+
+        if (!messageText || messageText === '') {
+            Swal.fire('Error!', 'Message cannot be empty.', 'error');
+            $('.badge-custom-bg').attr('disabled', false);
+            return;
+        }
+        formData.append('message', messageHTML);
+
+        // Debug: log FormData
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
+        // AJAX request
+        $.ajax({
+            type: 'POST',
+            url: '{{ route("admin.send-message") }}',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log('Server response:', response);
+                Swal.fire('Success!', 'Your message has been sent successfully.', 'success');
+
+                // Clear fields
+                replyMessageEditor.setText('');
+                $('#media').val('');
+                $('#attach_file_1').text('');
+                $('#send_as').val('');
+                $('#send_to').val('');
+                $('.badge-custom-bg').attr('disabled', false);
+            },
+            error: function (error) {
+                console.error('Error:', error);
+                Swal.fire('Error!', 'Something went wrong while sending message.', 'error');
+                $('.badge-custom-bg').attr('disabled', false);
+            }
+        });
+
+    });
+
+    // File validation & preview
+    $('#media').on('change', function () {
+        const files = this.files;
+        const allowed = [
+            "docx", "pdf", "txt", "rtf",
+            "xlsx", "csv", "pptx",
+            "jpeg", "jpg", "zip", "rar"
+        ];
+        let fileNames = [];
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const ext = file.name.split(".").pop().toLowerCase();
+
+            if (!allowed.includes(ext)) {
+                Swal.fire('Error!', `"${file.name}" is not allowed.`, 'error');
+                this.value = "";
+                $('#attach_file_1').text('');
+                return;
+            }
+
+            const maxSize = 50 * 1024 * 1024; // 50 MB
+            if (file.size > maxSize) {
+                Swal.fire('Error!', `"${file.name}" exceeds 50 MB.`, 'error');
+                this.value = "";
+                $('#attach_file_1').text('');
+                return;
+            }
+
+            fileNames.push(file.name);
+        }
+
+        // Show selected file names
+        $('#attach_file_1').text(fileNames.join(', '));
+    });
+
+    // Clear message box
+    $(document).on('click', '.clear_message_box', function () {
+        replyMessageEditor.setText('');
+        $('#media').val('');
+        $('#attach_file_1').text('');
+        $('#send_as').val('');
+        $('#send_to').val('');
+    });
+
+});
+</script>
+
+
+
+{{-- <script>
     var hostUrl = "assets/";
 
 
@@ -464,7 +619,7 @@ document
     });
 });
 
-</script>
+</script> --}}
 
 <script>
     document.getElementById('media').addEventListener('change', function () {
