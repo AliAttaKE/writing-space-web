@@ -142,7 +142,7 @@
                                 <i class="ki-duotone ki-folder-up fs-2 text-white">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
-                                </i>Upload Main Files for Customer</button>
+                                </i>Upload Files for Admin</button>
                             <!--end::Add customer-->
                         </div>
                         <div class="col-lg-3 col-md-4 col-sm-5 mb-2">
@@ -429,7 +429,7 @@
                             <i class="ki-duotone ki-folder-up fs-2 text-white">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
-                            </i>Upload Main Files for Customer</button>
+                            </i>Upload Files for Admin</button>
                         <!--end::Add customer-->
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-5 mb-2">
@@ -440,7 +440,7 @@
                             <i class="ki-duotone ki-folder-up fs-2 text-white">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
-                            </i>Upload Files1 for Writer</button>
+                            </i>Upload Files for Writer</button>
                         <!--end::Add customer-->
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
@@ -570,6 +570,8 @@
                             class="form" id="kt_modal_upload_form">
                             <!--begin::Modal header-->
                             @csrf
+
+                            
                             <!--begin::Modal header-->
                             <div class="modal-header">
                                 <!--begin::Modal title-->
@@ -601,7 +603,8 @@
                                                 accept=".pdf, .docx, .doc, .txt, .xls, .xlsx, .rtf, .xlsx, .csv, .pptx, .jpg, .jpeg, .zip, .rar"></input>
                                             <p id="attach_file_1"></p>
 
-                                            <input type="hidden" value="Main File" name="Writer">
+                                          
+                                            <input type="hidden" value="Admin" name="Writer">
                                             <input type="hidden" value="{{ $folder->name }}" name="folder_name">
                                             <input type="hidden" value="{{ $folder->id }}" name="folder_id">
 
@@ -639,6 +642,9 @@
                             class="form" id="kt_modal_upload_form">
                             <!--begin::Modal header-->
                             @csrf
+
+                            
+
                             <div class="modal-header">
                                 <!--begin::Modal title-->
                                 <h2 class="fw-bold text-white">Upload files for writer</h2>
@@ -707,6 +713,7 @@
                             class="form" id="kt_modal_upload_form">
                             <!--begin::Modal header-->
                             @csrf
+
 
                             <!--begin::Modal header-->
                             <div class="modal-header">

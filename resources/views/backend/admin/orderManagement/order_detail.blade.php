@@ -339,14 +339,36 @@
 
                                                                         </div>
 
-																		<div>
+																		{{-- <div>
 																		<input type="radio" id="AdminRadio" class="radioAdminWriter" name="statusRadio" value="Admin"  >
 																		<label for="AdminRadio">Admin</label>
 																	</div>
 																	<div>
 																		<input type="radio" id="WriterRadio" class="radioAdminWriter" name="statusRadio" value="Writer" >
 																		<label for="WriterRadio">Writer</label>
-																	</div>
+																	</div> --}}
+
+
+																	     <div class="me-5">
+                                                                <label class="text-white fw-bold me-2">Send As:</label>
+                                                            <select class="form-select form-select-sm" name="send_as" id="send_as">
+                                                    <option value="">Select</option>
+                                                    <option value="Admin">Admin</option>
+                                                    <option value="Writer">Writer</option>
+                                                            </select>
+                                                            </div>
+
+                                                            <!-- Send To -->
+                                                            <div class="me-5">
+                                                                <label class="text-white fw-bold me-2">Send To:</label>
+                                                            <select class="form-select form-select-sm" name="send_to" id="send_to">
+                                                    <option value="">Select</option>
+                                                    <option value="Admin">Admin</option>
+                                                    <option value="Writer">Writer</option>
+                                                    <option value="Customer">Customer</option>
+                                                </select>
+                                                            </div>
+
 
 
                                                                         <div class="text-center me-3">
@@ -447,6 +469,150 @@
 										<!--end:::Tab pane-->
 										<!--begin:::Tab pane-->
 
+
+										 <div class="modal fade" id="kt_modal_uploadCustomer" tabindex="-1" aria-hidden="true">
+                <!--begin::Modal dialog-->
+                <div class="modal-dialog modal-dialog-centered mw-650px">
+                    <!--begin::Modal content-->
+                    <div class="modal-content badge-custom-bg">
+                        <!--begin::Form-->
+
+                        <form method="post" action="{{ route('admin.file.upload') }}" enctype="multipart/form-data"
+                            class="form" id="kt_modal_upload_form">
+                            <!--begin::Modal header-->
+                            @csrf
+
+                            
+                            <!--begin::Modal header-->
+                            <div class="modal-header">
+                                <!--begin::Modal title-->
+                                <h2 class="fw-bold text-white">Upload files main files for customer</h2>
+                                <!--end::Modal title-->
+                                <!--begin::Close-->
+                                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal">
+                                    <i class="ki-duotone ki-cross fs-1 text-white">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                </div>
+                                <!--end::Close-->
+                            </div>
+                            <!--end::Modal header-->
+                            <!--begin::Modal body-->
+                            <div class="modal-body pt-10 pb-15 px-lg-17">
+                                <!--begin::Input group-->
+                                <div class="form-group">
+                                    <!--begin::Dropzone-->
+                                    <div class="dropzone dropzone-queue mb-2" id="kt_modal_upload_dropzone">
+                                        <!--begin::Controls-->
+                                        <div class="dropzone-panel mb-4">
+
+                                            <label for="file-1"
+                                                class="dropzone-select btn btn-sm swal2-confirm swal2-styled me-2">Attach
+                                                Files</label>
+                                            <input type="file" id="file-1" name="file" class="d-none"
+                                                accept=".pdf, .docx, .doc, .txt, .xls, .xlsx, .rtf, .xlsx, .csv, .pptx, .jpg, .jpeg, .zip, .rar"></input>
+                                            <p id="attach_file_1"></p>
+
+                                          
+                                            <input type="hidden" value="Admin" name="Writer">
+                                            <input type="hidden" value="{{ $folder->name }}" name="folder_name">
+                                            <input type="hidden" value="{{ $folder->id }}" name="folder_id">
+
+                                        </div>
+                                        <!--end::Controls-->
+                                    </div>
+                                    <!--end::Dropzone-->
+                                    <!--begin::Hint-->
+                                    <span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPG, JPEG, ZIP, RAR</span>
+                                    <br>
+                                    <span class="form-text fs-6 text-muted mb-2">Max File Size is 50-MB per file.</span>
+                                    <!--end::Hint-->
+                                    <div class="d-flex justify-content-end">
+                                        <input type="submit" class="btn btn-sm swal2-confirm swal2-styled"
+                                            Value="Upload Files">
+                                    </div>
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::Modal body-->
+                        </form>
+                        <!--end::Form-->
+                    </div>
+                </div>
+            </div>
+            <!--end::Modal - Upload File-->
+            <!--begin::Modal - Upload File-->
+            <div class="modal fade" id="kt_modal_uploadWriter" tabindex="-1" aria-hidden="true">
+                <!--begin::Modal dialog-->
+                <div class="modal-dialog modal-dialog-centered mw-650px">
+                    <!--begin::Modal content-->
+                    <div class="modal-content badge-custom-bg">
+                        <!--begin::Form-->
+                        <form method="post" action="{{ route('admin.file.upload') }}" enctype="multipart/form-data"
+                            class="form" id="kt_modal_upload_form">
+                            <!--begin::Modal header-->
+                            @csrf
+
+                            
+
+                            <div class="modal-header">
+                                <!--begin::Modal title-->
+                                <h2 class="fw-bold text-white">Upload files for writer</h2>
+                                <!--end::Modal title-->
+                                <!--begin::Close-->
+                                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal">
+                                    <i class="ki-duotone ki-cross fs-1 text-white">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                </div>
+                                <!--end::Close-->
+                            </div>
+                            <!--end::Modal header-->
+                            <!--begin::Modal body-->
+                            <div class="modal-body pt-10 pb-15 px-lg-17">
+                                <!--begin::Input group-->
+                                <div class="form-group">
+                                    <!--begin::Dropzone-->
+                                    <div class="dropzone dropzone-queue mb-2" id="kt_modal_upload_dropzone">
+                                        <!--begin::Controls-->
+                                        <div class="dropzone-panel mb-4">
+                                            <label for="file-2"
+                                                class="dropzone-select btn btn-sm swal2-confirm swal2-styled me-2">Attach
+                                                Files</label>
+                                            <input type="file" name="file" id="file-2" class="d-none"
+                                                accept=".pdf, .docx, .doc, .txt, .xls, .xlsx , .rtf, .xlsx, .csv, .pptx, .jpeg, .zip, .rar"></input>
+                                            <p id="attach_file_2"></p>
+
+                                            <input type="hidden" value="Writer" name="Writer">
+                                            <input type="hidden" value="{{ $folder->name }}" name="folder_name">
+                                            <input type="hidden" value="{{ $folder->id }}" name="folder_id">
+                                        </div>
+                                        <!--end::Controls-->
+                                    </div>
+                                    <!--end::Dropzone-->
+                                    <!--begin::Hint-->
+                                    <span class="form-text fs-6 text-muted mb-2">DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPG, JPEG, ZIP, RAR</span>
+                                    <br>
+                                    <span class="form-text fs-6 text-muted mb-2">Max file size is 50-MB per file.</span>
+                                    <!--end::Hint-->
+                                    <div class="d-flex justify-content-end">
+
+                                        <input type="submit" class="btn btn-sm swal2-confirm swal2-styled"
+                                            Value="Upload Files">
+
+                                    </div>
+                                </div>
+                                <!--end::Input group-->
+                            </div>
+                            <!--end::Modal body-->
+                        </form>
+                        <!--end::Form-->
+                    </div>
+                </div>
+            </div>
+
 										<div class="tab-pane fade order-cus" id="kt_ecommerce_customer_orderFiles" role="tabpanel">
 											<div class="card card-flush">
 												<!--begin::Card header-->
@@ -478,6 +644,28 @@
 														>
 															Download</button>
 													</div>
+													 <div class="col-lg-4 col-md-4 col-sm-6 mb-2" style="width: 23%;margin-right: 14px;">
+                            <!--begin::Add customer-->
+                            <button type="button"
+                                class="btn btn-flex btn-primary w-100 justify-content-center px-2 badge-custom-bg"
+                                data-bs-toggle="modal" data-bs-target="#kt_modal_uploadCustomer">
+                                <i class="ki-duotone ki-folder-up fs-2 text-white">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i>Upload Files for Admin</button>
+                            <!--end::Add customer-->
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-5 mb-2" style="width: 23%;">
+                            <!--begin::Add customer-->
+                            <button type="button"
+                                class="btn btn-flex btn-primary w-100 justify-content-center px-2 badge-custom-bg"
+                                data-bs-toggle="modal" data-bs-target="#kt_modal_uploadWriter">
+                                <i class="ki-duotone ki-folder-up fs-2 text-white">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i>Upload Files for Writer</button>
+                            <!--end::Add customer-->
+                        </div>
 													<div class="col-lg-3 col-md-3 col-sm-6 mb-2 px-4 " >
 														<!--begin::Add customer-->
 														<button type="button" class="btn btn-flex btn-dark-primary w-100 justify-content-center px-2 badge-custom-bg" data-bs-toggle="modal" data-bs-target="#kt_modal_uploadCustomer_2">
@@ -495,51 +683,51 @@
 														<div class="modal-content badge-custom-bg">
 															<!--begin::Form-->
 															
-											<form method="post" action="{{ route('admin.file.upload') }}" enctype="multipart/form-data" class="form" id="kt_modal_upload_form">
-    @csrf
+																													<form method="post" action="{{ route('admin.file.upload') }}" enctype="multipart/form-data" class="form" id="kt_modal_upload_form">
+																			@csrf
 
-    <div class="modal-header">
-        <h2 class="fw-bold fs-color-white custom-fs-23">Upload files for customer</h2>
-        <div class="btn btn-icon btn-sm btn-dark-primary" data-bs-dismiss="modal">
-            <i class="ki-duotone ki-cross fs-1 text-white">
-                <span class="path1"></span>
-                <span class="path2"></span>
-            </i>
-        </div>
-    </div>
+																			<div class="modal-header">
+																				<h2 class="fw-bold fs-color-white custom-fs-23">Upload files for customer</h2>
+																				<div class="btn btn-icon btn-sm btn-dark-primary" data-bs-dismiss="modal">
+																					<i class="ki-duotone ki-cross fs-1 text-white">
+																						<span class="path1"></span>
+																						<span class="path2"></span>
+																					</i>
+																				</div>
+																			</div>
 
-    <div class="modal-body pt-10 pb-15 px-lg-17">
-        <div class="form-group">
-            <div class="dropzone dropzone-queue mb-2" id="kt_modal_upload_dropzone">
-                <div class="dropzone-panel mb-4">
-                    <label for="file-3" class="dropzone-select btn btn-sm btn-dark-primary me-2">Attach Files</label>
-                    <input type="file" id="file-3" name="file" class="d-none"
-                        accept=".pdf, .docx, .doc, .txt, .xls, .xlsx, .rtf, .csv, .pptx, .jpeg, .jpg, .zip, .rar">
-                    <p id="attach_file_3"></p>
+																	<div class="modal-body pt-10 pb-15 px-lg-17">
+																		<div class="form-group">
+																			<div class="dropzone dropzone-queue mb-2" id="kt_modal_upload_dropzone">
+																				<div class="dropzone-panel mb-4">
+																					<label for="file-3" class="dropzone-select btn btn-sm btn-dark-primary me-2">Attach Files</label>
+																					<input type="file" id="file-3" name="file" class="d-none"
+																						accept=".pdf, .docx, .doc, .txt, .xls, .xlsx, .rtf, .csv, .pptx, .jpeg, .jpg, .zip, .rar">
+																					<p id="attach_file_3"></p>
 
-                    <input type="hidden" value="Customer" name="Writer">
-                    <input type="hidden" value="{{ $folder->name }}" name="folder_name">
-                    <input type="hidden" value="{{ $folder->id }}" name="folder_id">
-                </div>
-            </div>
+																					<input type="hidden" value="Customer" name="Writer">
+																					<input type="hidden" value="{{ $folder->name }}" name="folder_name">
+																					<input type="hidden" value="{{ $folder->id }}" name="folder_id">
+																				</div>
+																			</div>
 
-            <span class="form-text fs-color-white custom-fs-13 mb-2">
-                Accepted file formats: DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPEG, JPG, ZIP, RAR.<br>
-                Maximum file size: 50 MB per file.
-            </span>
-<!-- Loader -->
-<div id="uploadLoader" style="display: none; text-align: center; margin-top: 10px;">
-    <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Uploading...</span>
-    </div>
-    <div class="text-white mt-2">Uploading file, please wait...</div>
-</div>
-            <div class="d-flex justify-content-end">
-                <input type="submit" class="btn btn-sm btn-dark-primary" value="Upload Files">
-            </div>
-        </div>
-    </div>
-</form>
+																			<span class="form-text fs-color-white custom-fs-13 mb-2">
+																				Accepted file formats: DOCX, PDF, TXT, RTF, XLSX, CSV, PPTX, JPEG, JPG, ZIP, RAR.<br>
+																				Maximum file size: 50 MB per file.
+																			</span>
+																<!-- Loader -->
+																<div id="uploadLoader" style="display: none; text-align: center; margin-top: 10px;">
+																	<div class="spinner-border text-primary" role="status">
+																		<span class="visually-hidden">Uploading...</span>
+																	</div>
+																	<div class="text-white mt-2">Uploading file, please wait...</div>
+																</div>
+																			<div class="d-flex justify-content-end">
+																				<input type="submit" class="btn btn-sm btn-dark-primary" value="Upload Files">
+																			</div>
+																		</div>
+																	</div>
+																</form>
 
 
 
@@ -6368,6 +6556,7 @@ quill.on('text-change', function() {
 
 
 
+
          $('.clear_message_box').on('click', function (e){
 			messageEditor.setText('');
             $('#message_box').val('');
@@ -6377,72 +6566,132 @@ quill.on('text-change', function() {
 
 
 
-     $('#kt_inbox_reply_form').submit(function(e) {
+		
+
+});
+
+
+$('#kt_inbox_reply_form').submit(function(e) {
     e.preventDefault();
 
-    // Sync Quill editor HTML to textarea before submitting
-    $('#message_box').val($('.ql-editor').html());
+    // Get message from Quill
+    var messageHtml = messageEditor.root.innerHTML.trim();
+    var messageText = messageEditor.getText().trim();
+    $('#message_box').val(messageHtml);
+
+    if (!messageText || messageText === '\n') {
+        Swal.fire('Error!', 'Message cannot be empty.', 'error');
+        return;
+    }
+
+    var sendAs = $('#send_as').val();
+    if (!sendAs) {
+        Swal.fire('Error!', 'Please select "Send As" (Admin or Writer).', 'error');
+        return;
+    }
+
+    var sendTo = $('#send_to').val();
+    if (!sendTo) {
+        Swal.fire('Error!', 'Please select "Send To" (Admin, Writer, or Customer).', 'error');
+        return;
+    }
 
     var formData = new FormData(this);
     formData.append('_token', '{{ csrf_token() }}');
+    formData.append('send_as', sendAs);
+    formData.append('send_to', sendTo);
 
-    var send_by = $('.radioAdminWriter:checked').val();
-    formData.append('send_by', send_by);
+	  formData.append('send_by', sendAs);
 
-    // Now you can continue with your existing validations and AJAX...
-    var message = $('.ql-editor').text();
-    if (!message) {
-        Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
-        return;
-    }
-//  if(message.length > 6000){
-// 	 Swal.fire('Error!', 'Message is too long. Please limit your message to 6000 characters.', 'error');
-// 	 return;
-          var sendby = $('.radioAdminWriter:checked').val();
+    $.ajax({
+        type: 'POST',
+        url: '{{ route("admin.send-message") }}',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            Swal.fire('Success!', 'Your message was sent successfully.', 'success');
+            $('#message_box').val('');
+            $('#file_name').text('');
+            $('#media').val('');
+            messageEditor.setText('');
+        },
+        error: function(error) {
+            Swal.fire('Error!', 'Failed to send message.', 'error');
+            console.error(error);
+        }
+    });
 
-          if (sendby == '' || sendby == null) {
-       Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
-        return; // Stop execution if the condition is met
-    }
+    return false;
+});
+
+
+//      $('#kt_inbox_reply_form').submit(function(e) {
+//     e.preventDefault();
+
+//     // Sync Quill editor HTML to textarea before submitting
+//     $('#message_box').val($('.ql-editor').html());
+
+//     var formData = new FormData(this);
+//     formData.append('_token', '{{ csrf_token() }}');
+
+//     var send_by = $('.radioAdminWriter:checked').val();
+//     formData.append('send_by', send_by);
+
+//     // Now you can continue with your existing validations and AJAX...
+//     var message = $('.ql-editor').text();
+//     if (!message) {
+//         Swal.fire('Error!', 'Message cannot be empty. Please type a message before sending.', 'error');
+//         return;
+//     }
+// //  if(message.length > 6000){
+// // 	 Swal.fire('Error!', 'Message is too long. Please limit your message to 6000 characters.', 'error');
+// // 	 return;
+//           var sendby = $('.radioAdminWriter:checked').val();
+
+//           if (sendby == '' || sendby == null) {
+//        Swal.fire('Error!', 'Please select a message receiver (Admin or Writer) before proceeding.', 'error');
+//         return; // Stop execution if the condition is met
+//     }
 
 
 	
 
-console.log(formData)
-var element = document.getElementById('media');
-console.log(element.value)
-            // Display the form data in the console (for testing purposes)
-            for (var pair of formData.entries()) {
-                console.log(pair[0] + ', ' + pair[1]);
-            }
+// console.log(formData)
+// var element = document.getElementById('media');
+// console.log(element.value)
+//             // Display the form data in the console (for testing purposes)
+//             for (var pair of formData.entries()) {
+//                 console.log(pair[0] + ', ' + pair[1]);
+//             }
 
-            // Now you can use the formData object to send the data to the server using AJAX or perform other actions
-            var url = '{{ route("admin.send-message")}}'
+//             // Now you can use the formData object to send the data to the server using AJAX or perform other actions
+//             var url = '{{ route("admin.send-message")}}'
 
-            // Example of sending formData using AJAX:
-            $.ajax({
+//             // Example of sending formData using AJAX:
+//             $.ajax({
 
-                type: 'POST',
-                url: url,
-                    data: formData,
-                    processData: false,  // Don't process the data
-				contentType: false,  // Don't set contentType
-                success: function(response) {
-                    console.log('Server response:', response);
-                	Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
+//                 type: 'POST',
+//                 url: url,
+//                     data: formData,
+//                     processData: false,  // Don't process the data
+// 				contentType: false,  // Don't set contentType
+//                 success: function(response) {
+//                     console.log('Server response:', response);
+//                 	Swal.fire('Success!', 'Your Message Sent Successfully.', 'success');
 
-                	 $('#message_box').val('');
-                	 $('#file_name').text('');
-					 messageEditor.setText('');
-                },
-                error: function(error) {
-                    console.error('Error:', error);
-                }
-            });
+//                 	 $('#message_box').val('');
+//                 	 $('#file_name').text('');
+// 					 messageEditor.setText('');
+//                 },
+//                 error: function(error) {
+//                     console.error('Error:', error);
+//                 }
+//             });
 
-            return false; // Prevent the form from submitting in the traditional way
-        });
-    });
+//             return false; // Prevent the form from submitting in the traditional way
+//         });
+
 </script>
 <script>
 	function confirmDelete(id, name) {

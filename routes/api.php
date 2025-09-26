@@ -34,3 +34,7 @@ Route::post('/store_file', [FileChatGPTController::class, 'store_api'])->name('c
 
 
 Route::post('/order-complete-rs',[PlaceOrderController::class,'order_complete_rs'])->name('order-complete-rs');
+
+
+
+Route::get('/order_files_for_writer',[PlaceOrderController::class,'order_files_for_writer'])->name('order_files_for_writer');

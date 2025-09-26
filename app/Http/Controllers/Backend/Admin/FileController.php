@@ -833,7 +833,8 @@ public function upload(Request $request)
     $fileModel = new File();
     $fileModel->file_name = $fileName;
     $fileModel->title = $originalName;
-    $fileModel->Writer = 'Admin';
+    // $fileModel->Writer = 'Admin';
+     $fileModel->Writer = $request->Writer;
     $fileModel->file_path = $filePath;
     $fileModel->folder_id = $request->folder_id;
     $fileModel->Size = $formattedSize;
@@ -879,9 +880,9 @@ public function upload(Request $request)
             ";
 
             // Send email to customer
-            Mail::html($emailContent, function ($message) use ($customer, $subject) {
-                $message->to($customer->email)->subject($subject);
-            });
+            // Mail::html($emailContent, function ($message) use ($customer, $subject) {
+            //     $message->to($customer->email)->subject($subject);
+            // });
         }
 
     }

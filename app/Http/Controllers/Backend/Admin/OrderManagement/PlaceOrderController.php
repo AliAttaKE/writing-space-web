@@ -1628,4 +1628,79 @@ public function new_order_api_completed_string(Request $request)
     return response()->json(['order' => array_reverse($data)], 200);
 }
 
+
+public function order_files_for_writer(Request $request)
+{
+    // 1) Validate
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['error' => $validator->errors()->first()], 400);
+    }
+
+    // 2) Authenticate user
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+    // 3) Check if the user is writer
+    if ($user->role !== 'writer') {
+        return response()->json(['error' => 'Only writers can access this resource.'], 403);
+    }
+
+    // 4) Fetch orders
+    $orders = Orders::where('order_status', 'In-Progress')
+        ->select(
+            'id', 'order_id', 'subject', 'description', 'academic_level',
+            'type_of_paper', 'paper_format', 'order_status',
+            'language_spelling', 'number_of_pages', 'powerpoint_slide',
+            'no_of_extra_sources as sources', 'deadline', 'topic',
+            'summary', 'outline', 'ai_detection', 'plagiarism'
+        )
+        ->get();
+
+    // 5) Build response
+    $data = [];
+
+    foreach ($orders as $o) {
+        $orderArr = $o->toArray();
+        $orderArr['arrival_date'] = date('d-m-Y');
+        $orderArr['citation'] = 'APA';
+        $orderArr['instructions'] = strip_tags(html_entity_decode($o->description));
+
+        $folder = Folder::where('name', $o->order_id)->first();
+        $orderArr['attachment'] = 'no';
+        $orderArr['files'] = [];
+
+        if ($folder) {
+            $files = File::where('folder_id', $folder->id)
+            ->where('Writer', 'Writer')
+            ->get();
+
+            if ($files->isNotEmpty()) {
+                $orderArr['attachment'] = 'yes';
+                $orderArr['files'] = $files->map(function ($file) {
+                    $path = str_replace('public/', '', $file->file_path);
+                    return [
+                        'file_name' => $file->title,
+                        'file_path' => $file->file_path,
+                        'file_url' => config('app.url') . '/storage/' . $path,
+                    ];
+                })->toArray();
+            }
+        }
+
+        $data[] = $orderArr;
+    }
+
+    // 6) Return response
+    return response()->json(['order' => array_reverse($data)], 200);
+}
+
+
 }
