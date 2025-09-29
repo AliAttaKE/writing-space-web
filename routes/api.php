@@ -23,8 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/messages/admin-to-writer/{order_id}', [MessageController::class, 'adminToWriterMessages']);
-Route::post('/messages/writer/reply', [MessageController::class, 'writerReply']);
+
 
 // Route::get('/new-order',[PlaceOrderController::class,'new_order_api'])->name('new-order-api');
 Route::get('/new-folder',[PlaceOrderController::class,'new_folder_api'])->name('new-folder-api');
@@ -43,3 +42,8 @@ Route::post('/order-complete-rs',[PlaceOrderController::class,'order_complete_rs
 
 
 Route::get('/order_files_for_writer',[PlaceOrderController::class,'order_files_for_writer'])->name('order_files_for_writer');
+Route::get('/messages/admin-to-writer/{order_id}', [MessageController::class, 'adminToWriterMessages']);
+Route::post('/messages/writer/reply', [MessageController::class, 'writerReply']);
+
+
+Route::get('/order_files_for_writer_revision',[PlaceOrderController::class,'order_files_for_writer_revision'])->name('order_files_for_writer_revision');
