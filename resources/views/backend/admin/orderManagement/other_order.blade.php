@@ -499,12 +499,7 @@
                                                     <td>{{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</td>
                                                                                                 <td>{{ \Carbon\Carbon::parse($o->deadline)->format('d F Y h:iA') }}</td>
                                                     <td>
-                                                        @if($o->order_show == 'Enable')
-                                                        <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">{{$o->order_show}}</span>
-                                                        @else
-                                                        <span class="badge badge-light-danger fw-bold me-auto px-4 py-3">{{$o->order_show}}</span>
-                                                        @endif
-
+                                                        <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">{{$o->payment_status}}</span>
 
                                                     </td>
                                                     <td><a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm badge-custom-bg" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
@@ -1011,11 +1006,7 @@
                                                     <td>{{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</td>
                                                                                                 <td>{{ \Carbon\Carbon::parse($o->deadline)->format('d F Y h:iA') }}</td>
                                                     <td>
-                                                        @if($o->order_show == 'Enable')
-                                                        <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">{{$o->order_show}}</span>
-                                                        @else
-                                                        <span class="badge badge-light-danger fw-bold me-auto px-4 py-3">{{$o->order_show}}</span>
-                                                        @endif
+                                                         <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">{{$o->payment_status}}</span>
 
 
                                                     </td>

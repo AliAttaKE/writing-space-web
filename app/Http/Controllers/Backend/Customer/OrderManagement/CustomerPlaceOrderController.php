@@ -533,13 +533,137 @@ $emailContent = "
     return response()->json(['sessionId' => $responseObject->session->id]);
 }
 
+public function checkoutFree(Request $request)
+{
+    // Get the existing order ID from request
+    $existingOrderId = $request->order_id;
+    
+    // Fetch the order details from database
+    $order = Orders::where('order_id', $existingOrderId)->first();
+    
+    if (!$order) {
+        return response()->json(['error' => 'Order not found'], 404);
+    }
+
+    // Prepare dataObject similar to what localStorage expects
+    $dataObject = [
+        'no_of_pages' => $order->number_of_pages,
+        'topic' => $order->topic,
+        'cost_per_page' => $order->cost_per_page,
+        'total_cost' => $order->total_cost,
+        'subject' => $order->subject,
+        'description' => $order->description,
+        'submitting' => $order->submitting,
+        'due_date' => $order->deadline,
+        'no_of_extra_sources' => $order->no_of_extra_sources,
+        'term_of_paper' => $order->type_of_paper,
+        'paper_format' => $order->paper_format,
+        'academic_level' => $order->academic_level,
+        'language_spelling' => $order->language_spelling,
+        'powerpoint_slide' => $order->powerpoint_slide,
+        'additional_info' => json_decode($order->additional_info, true) ?? [],
+        'coupon' => $order->coupon,
+        'discount' => $order->discount,
+        'sub_total' => $order->cost,
+        'email' => $order->email,
+        'backup_email' => $order->backup_email,
+        'statistical_analysis' => $order->statistical_analysis,
+        'plagiarism' => $order->plagiarism,
+        'ai_detection' => $order->ai_detection,
+        'outline' => $order->outline,
+        'paper_summary' => $order->summary
+    ];
+
+    // Store the existing order ID and dataObject in session for later use
+    session()->put('existing_order_id', $existingOrderId);
+    session()->put('dataObject', $dataObject);
+
+    $baseUrl = env('PAYMENT_GATEWAY_URL');
+    $apiVersion = env('API_VERSION');
+    $merchantId = env('MERCHANT_ID');
+    $username = env('MERCHANT_USERNAME');
+    $password = env('MERCHANT_PASSWORD');
+
+    // Create Basic Auth header
+    $authHeader = 'Authorization: Basic ' . base64_encode("$username:$password");
+
+    // Step 1: Create session
+    $curl = curl_init();
+    curl_setopt_array($curl, [
+        CURLOPT_URL => "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/session",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_HTTPHEADER => [$authHeader],
+    ]);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+    $responseArray = json_decode($response, true);
+    
+    if (!isset($responseArray['session']['id'])) {
+        return response()->json(['error' => 'Failed to create session'], 500);
+    }
+
+    $sessionId = $responseArray['session']['id'];
+
+    // Step 2: Update session with order details - use actual amount from order
+    $curl = curl_init();
+    curl_setopt_array($curl, [
+        CURLOPT_URL => "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/session/$sessionId",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'PUT',
+        CURLOPT_POSTFIELDS => json_encode([
+            'order' => [
+                'amount' => number_format($order->total_cost, 2, '.', ''), // Use actual order amount
+                'currency' => $this->currency 
+            ]
+        ]),
+        CURLOPT_HTTPHEADER => [
+            'Content-Type: application/json',
+            $authHeader
+        ],
+    ]);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+    $responseObject = json_decode($response);
+
+    if (!$responseObject || !isset($responseObject->session->id)) {
+        return response()->json(['error' => 'Failed to update session'], 500);
+    }
+
+    session()->put('sessionId', $responseObject->session->id);
+    
+    // Return both sessionId and dataObject
+    return response()->json([
+        'sessionId' => $responseObject->session->id,
+        'dataObject' => $dataObject
+    ]);
+}
     public function checkoutshow($sessionid, Request $request)
     {
 
         $sessionid = $sessionid;
         return view('backend.customer.orderManagement.show', compact('sessionid'));
     }
-
+public function checkoutshowfree($sessionid, Request $request)
+{
+    // Get dataObject from session and pass to view for backup
+    $dataObject = session()->get('dataObject', []);
+    
+    $sessionid = $sessionid;
+    return view('backend.customer.orderManagement.checkoutshow', compact('sessionid', 'dataObject'));
+}
     public function checkoutshowmangepages($sessionid, Request $request)
     {
 
@@ -1406,6 +1530,164 @@ curl_close($curl);
         curl_close($curl);
     }
 
+
+  public function payment_store_free(Request $request)
+    {
+        $test = $request->session;
+        $dataObject = $request->dataObject;
+        $total_cost = $dataObject['total_cost'];
+        $truncatedSessionId = substr($test, 0, 35);
+
+        $order_id = mt_rand(100000, 999999);
+        $randomNumber = mt_rand(100, 999);
+        $transactionId = "TRANS" . $randomNumber;
+
+
+
+
+        session()->put('transactionId', $transactionId);
+        session()->put('order_id', $order_id);
+        $sessionId = session()->get('sessionId');
+
+
+        $pay = new Pay;
+        $pay->order_id = $order_id;
+        $pay->session_id = $sessionId;
+        $pay->truncatedSessionId = $transactionId;
+        $pay->user_id = Auth()->user()->id;
+        $pay->order_details = json_encode($dataObject);
+        $pay->save();
+
+   
+
+        // Load from .env
+$baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g., https://test-bankalfalah.gateway.mastercard.com
+$apiVersion = env('API_VERSION');      // e.g., 74
+$merchantId = env('MERCHANT_ID');      // e.g., TESTWRITINGSPACE
+$authUsername = env('MERCHANT_USERNAME');
+$authPassword = env('MERCHANT_PASSWORD');
+$authToken = base64_encode("$authUsername:$authPassword");
+
+ $initiateUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId";
+
+$payload = [
+    "session" => [
+        "id" => $truncatedSessionId
+    ],
+    "apiOperation" => "INITIATE_AUTHENTICATION",
+
+    "transaction" => [
+        "reference" => "NT11"
+    ],
+    "order" => [
+        "reference" => "NT111",
+        "currency" => $this->currency 
+    ],
+    "authentication" => [
+        "purpose" => "PAYMENT_TRANSACTION",
+        "channel" => "PAYER_BROWSER",
+        "acceptVersions" => "3DS2"
+    ]
+];
+//print_r($payload);
+$curl = curl_init();
+curl_setopt_array($curl, array(
+    CURLOPT_URL => $initiateUrl,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'PUT',
+    CURLOPT_POSTFIELDS => json_encode($payload),
+    CURLOPT_HTTPHEADER => array(
+        "Content-Type: application/json",
+        "Authorization: Basic $authToken"
+    ),
+));
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+
+
+        $baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g., https://test-bankalfalah.gateway.mastercard.com
+$apiVersion = env('API_VERSION');      // e.g., 74
+$merchantId = env('MERCHANT_ID');      // e.g., TESTWRITINGSPACE
+$authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+
+$redirectUrl = url("/redirectResponseUrlFree");
+$authUrl = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionId";
+
+// Prepare payload
+$payload = [
+    "apiOperation" => "AUTHENTICATE_PAYER",
+
+    "device" => [
+        "browserDetails" => [
+            "screenWidth" => 1920,
+            "javaEnabled" => false,
+            "screenHeight" => 1080,
+            "3DSecureChallengeWindowSize" => "FULL_SCREEN",
+            "timeZone" => -120,
+            "language" => "EN",
+            "colorDepth" => 24
+        ],
+        // "browser" => request()->header('User-Agent'),
+        // "ipAddress" => request()->ip()
+
+           "browser"=>"Mozilla\/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/95.0.4638.54 Safari\/537.36",
+        "ipAddress"=> "223.123.9.108"
+    ],
+    "authentication" => [
+        "redirectResponseUrl" => $redirectUrl
+    ],
+    "order" => [
+        "amount" => $total_cost,
+        "currency" => $this->currency 
+    ],
+    "session" => [
+        "id" => $truncatedSessionId
+    ]
+];
+
+// Execute cURL
+$curl = curl_init();
+curl_setopt_array($curl, [
+    CURLOPT_URL => $authUrl,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'PUT',
+    CURLOPT_POSTFIELDS => json_encode($payload),
+    CURLOPT_HTTPHEADER => [
+        'Content-Type: application/json',
+        "Authorization: Basic $authToken"
+    ],
+]);
+
+$response = curl_exec($curl);
+curl_close($curl);
+
+//dd($response);
+
+        $response = json_decode($response, true);
+
+      //  dd($response['authentication']['redirect']['html']);
+        if (isset($response['authentication']['redirect']['html'])) {
+            $htmlContent = $response['authentication']['redirect']['html'];
+            return response()->json(['response' => $htmlContent]);
+            // return view('payment.otp', compact('htmlContent'));
+        } else {
+            return response()->json(['response' => 'Invalid response format.']);
+        }
+
+        curl_close($curl);
+    }
 
 //     public function payment_store(Request $request)
 // {
@@ -3138,6 +3420,84 @@ public function storeOtpHtml(Request $request)
         // );
 
         // }
+
+           else {
+        $pay = Pay::where('order_id', $data['order_id'])->first();
+        $user_id = $pay->user_id ?? null;
+
+        if ($user_id) {
+            $user = User::find($user_id);
+            if ($user) {
+                Auth::login($user);
+            }
+        }
+
+                            // ========== Customer Email ==========
+                    $customerSubject = "Payment Failed";
+                    $customerContent = "
+                        <p>Hi {$user->name},</p>
+                        <p>Your recent payment attempt has <strong>failed</strong>. Please try again or use another payment method.</p>
+                        <p>If you continue to face issues, kindly contact our support team for assistance.</p>
+                        <p>Regards,<br>Support Team</p>
+                    ";
+
+                    Mail::send([], [], function ($message) use ($customerSubject, $customerContent, $user) {
+                        $message->to($user->email)
+                                ->subject($customerSubject)
+                                ->html($customerContent);
+                    });
+                    // ========== Admin Email ==========
+                    $adminSubject = "Payment Failure Alert";
+                    $adminContent = "
+                        <p>Hi Team,</p>
+                        <p>A customer's payment attempt has <strong>failed</strong>. Please check the system logs or payment gateway dashboard for more details.</p>
+                        <p>Regards,<br>System Notification</p>
+                    ";
+
+                    $admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+                    if (!empty($admins)) {
+                        Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+                            $message->to($admins)
+                                    ->subject($adminSubject);
+                        });
+                    }
+
+        // Yeh values aap gateway se ya $data se le sakte ho
+        $responseCode = $data['response_code'] ?? '500';
+        $errorMessage = $data['error_message'] ?? 'Payment failed';
+        $errorDescription = $data['error_description'] ?? 'Something went wrong during the payment process.';
+
+        $errorUrl = route('payment.error') .
+            '?code=' . urlencode($responseCode) .
+            '&message=' . urlencode($errorMessage) .
+            '&description=' . urlencode($errorDescription);
+
+        return response()->make('
+            <script>
+                var errorUrl = "' . $errorUrl . '";
+                if (window.top !== window.self) {
+                    window.top.location.href = errorUrl;
+                } else {
+                    window.location.href = errorUrl;
+                }
+            </script>
+        ', 200, ['Content-Type' => 'text/html']);
+    }
+    }
+    public function redirectResponseUrlFree(Request $request)
+
+    {
+
+        $data = $request->all();
+
+        if ($data['result'] === 'SUCCESS') {
+
+
+            return redirect()->route('pay_free', ['orderid' => $data['order_id']]);
+        } 
+        
+    
 
            else {
         $pay = Pay::where('order_id', $data['order_id'])->first();
@@ -6088,9 +6448,246 @@ $user = User::find($pay->user_id);
             }
     }
 
+public function pay_free($orderid)
+{
+    $pay = Pay::where('order_id', $orderid)->first();
+    $sessionId = $pay->session_id;
+    $order_id = $pay->order_id; // This is the existing order ID
+    $transactionId = $pay->truncatedSessionId;
+    $order_detail = json_decode($pay->order_details);
+    $total_amount = $order_detail->total_cost;
+    $amount = $total_amount;
+    $randomNumber = mt_rand(100, 999);
+    $transactionIdurl = $transactionId . $randomNumber;
+
+    // Load from .env
+    $baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
+    $apiVersion = env('API_VERSION'); // e.g. 74
+    $merchantId = env('MERCHANT_ID'); // e.g. TESTWRITINGSPACE
+    $authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+
+    // Prepare full URL
+    $url = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionIdurl";
+
+    // Prepare payload
+    $payload = [
+        "apiOperation" => "PAY",
+        "authentication" => [
+            "transactionId" => $transactionId
+        ],
+        "order" => [
+            "amount" => $amount,
+            "currency" => $this->currency 
+        ],
+        "session" => [
+            "id" => $sessionId
+        ]
+    ];
+
+    // cURL request - THIS WAS MISSING IN YOUR pay_free FUNCTION
+    $curl = curl_init();
+    curl_setopt_array($curl, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'PUT',
+        CURLOPT_POSTFIELDS => json_encode($payload),
+        CURLOPT_HTTPHEADER => [
+            'Content-Type: application/json',
+            "Authorization: Basic $authToken"
+        ],
+    ]);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+    $responseArray = json_decode($response, true);
+    $responseData = json_decode($response, true);
+
+    $isSuccess = 
+        isset($responseData['result']) && strtoupper(trim($responseData['result'])) === 'SUCCESS' &&
+        isset($responseData['order']['status']) && strtoupper(trim($responseData['order']['status'])) === 'CAPTURED' &&
+        isset($responseData['response']['gatewayCode']) && strtoupper(trim($responseData['response']['gatewayCode'])) === 'APPROVED';
+
+    if ($responseArray && $isSuccess) {
+        $authenticationStatus = $responseArray['order']['authenticationStatus'];
+        
+        if ($authenticationStatus == 'AUTHENTICATION_SUCCESSFUL') {
+            // Update the existing order's payment status
+            $order = Orders::where('order_id', $order_id)->first();
+            
+            if ($order) {
+                $order->update([
+                    'payment_status' => 'Paid'
+                ]);
+                
+                // Store transaction record
+                $responseObject = json_decode($response);
+                $orderData = $responseObject->order;
+                $sourceOfFunds = $responseObject->sourceOfFunds->provided->card;
+                
+                $transaction = new Transaction();
+                $creationTime = Carbon::parse($orderData->creationTime)->toDateTimeString();
+
+                // Assign values to the model's properties
+                $transaction->amount = $orderData->amount;
+                $transaction->authenticationStatus = $orderData->authenticationStatus;
+                $transaction->chargeback_amount = $orderData->chargeback->amount;
+                $transaction->chargeback_currency = $orderData->chargeback->currency;
+                $transaction->currency = $orderData->currency;
+                $transaction->reference = $orderData->reference;
+                $transaction->status = $orderData->status;
+                $transaction->merchantAmount = $orderData->merchantAmount;
+                $transaction->merchantCategoryCode = $orderData->merchantCategoryCode;
+                $transaction->merchantCurrency = $orderData->merchantCurrency;
+                $transaction->totalAuthorizedAmount = $orderData->totalAuthorizedAmount;
+                $transaction->totalCapturedAmount = $orderData->totalCapturedAmount;
+                $transaction->totalDisbursedAmount = $orderData->totalDisbursedAmount;
+                $transaction->totalRefundedAmount = $orderData->totalRefundedAmount;
+                $transaction->fundingMethod = $sourceOfFunds->fundingMethod;
+                $transaction->userid = $pay->user_id;
+                $transaction->save();
+
+                // Send email notifications
+                $user = User::find($pay->user_id);
+                
+                // Send success emails to customer and admin
+                $this->sendPaymentSuccessEmails($user, $order, $total_amount);
+
+                Auth::login($user);
+
+                return response()->make('
+                    <script>
+                        if (window.top !== window.self) {
+                            window.top.location.href = "' . route('customer.thankyou.sub') . '";
+                        } else {
+                            window.location.href = "' . route('customer.thankyou.sub') . '";
+                        }
+                    </script>
+                ', 200, ['Content-Type' => 'text/html']);
+            }
+        }
+    } else {
+        // Handle payment failure
+        $user = User::find($pay->user_id); 
+        
+        // Get response code from actual response
+        $responseCode = $responseData['response']['gatewayCode'] ?? 'UNKNOWN';
+        $bank_code = $responseData['response']['acquirerCode'] ?? $responseCode;
+        $bank_reason = $responseData['response']['acquirerMessage'] 
+                        ?? ($this->bankResponseCodes[$responseCode]['message'] ?? 'Unknown Reason');
+
+        $amount   = $order_detail->total_cost;
+        $currency = $this->currency;
+        $time = now()->format('F j, Y g:i A');
+        $txn_id   = $transactionIdurl;
+
+        // Customer Email (Payment Failed)
+        $customerSubject = "Your transaction didn't go through (Code {$bank_code} — {$bank_reason})";
+        $customerContent = "
+            <p>Hi {$user->name},</p>
+            <p>We tried to process your payment but it didn't go through.</p>
+            <ul>
+                <li><strong>Amount:</strong> {$currency} {$amount}</li>
+                <li><strong>Date/time:</strong> {$time}</li>
+                <li><strong>Bank response:</strong> {$bank_code} — {$bank_reason}</li>
+                <li><strong>Reference:</strong> {$txn_id}</li>
+            </ul>
+            <p><strong>What you can do:</strong></p>
+            <ol>
+                <li>Double-check card details and available funds.</li>
+                <li>Try another card or payment method.</li>
+                <li>If you're sure everything is correct, contact your bank and share this code: {$bank_code}.</li>
+                <li>If you need help, we're here: <a href='mailto:support@writing-space.com'>support@writing-space.com</a></li>
+            </ol>
+            <p>Thanks for your patience,<br>Writing Space<br>Customer Success Team</p>
+        ";
+
+        Mail::html($customerContent, function ($message) use ($user, $customerSubject) {
+            $message->to($user->email)
+                    ->subject($customerSubject);
+        });
+
+        // Admin Email (Payment Failed)
+        $adminSubject = "Payment failed —— {$user->name} — Code {$bank_code} ({$bank_reason})";
+        $adminContent = "
+            <p>Hi team,</p>
+            <p>A payment attempt failed.</p>
+            <ul>
+                <li><strong>Customer:</strong> {$user->name} ({$user->email})</li>
+                <li><strong>Amount:</strong> {$currency} {$amount}</li>
+                <li><strong>Time:</strong> {$time}</li>
+                <li><strong>Transaction ID:</strong> {$txn_id}</li>
+                <li><strong>Bank response:</strong> {$bank_code} — {$bank_reason}</li>
+            </ul>
+            <p>Regards,<br>System Notification</p>
+        ";
+
+        $admins = User::where('role', 'admin')->pluck('email')->toArray();
+        if (!empty($admins)) {
+            Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+                $message->to($admins)
+                        ->subject($adminSubject);
+            });
+        }
+
+        // Handle the error appropriately
+        $errorMessage = $this->bankResponseCodes[$responseCode]['message'] ?? 'Payment failed';
+        $errorDescription = $this->bankResponseCodes[$responseCode]['description'] ?? 'Something went wrong during the payment process.';
+
+        // Build the error URL with parameters
+        $errorUrl = route('payment.error') . 
+                    '?code=' . urlencode($responseCode) . 
+                    '&message=' . urlencode($errorMessage) . 
+                    '&description=' . urlencode($errorDescription);
+
+        // Redirect to error page with parameters
+        return response()->make('
+            <script>
+                var errorUrl = "' . $errorUrl . '";
+                if (window.top !== window.self) {
+                    window.top.location.href = errorUrl;
+                } else {
+                    window.location.href = errorUrl;
+                }
+            </script>
+        ', 200, ['Content-Type' => 'text/html']);
+    }
+}
 
 
- 
+private function sendPaymentSuccessEmails($user, $order, $amount)
+{
+    // Customer success email
+    $customerSubject = "Payment Successful - Order #{$order->order_id}";
+    $customerContent = "
+        <p>Hi {$user->name},</p>
+        <p>Your payment of {$this->currency} {$amount} for Order #{$order->order_id} has been successfully processed.</p>
+        <p>Thank you for your purchase!</p>
+        <p>Best regards,<br>Writing Space Team</p>
+    ";
+
+    Mail::html($customerContent, function ($message) use ($user, $customerSubject) {
+        $message->to($user->email)->subject($customerSubject);
+    });
+
+    // Admin notification
+    $adminSubject = "Payment Received - Order #{$order->order_id} - {$user->name}";
+    $adminContent = "
+        <p>Payment of {$this->currency} {$amount} has been successfully received for Order #{$order->order_id}.</p>
+        <p>Customer: {$user->name} ({$user->email})</p>
+    ";
+
+    $admins = User::where('role', 'admin')->pluck('email')->toArray();
+    if (!empty($admins)) {
+        Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+            $message->to($admins)->subject($adminSubject);
+        });
+    }
+}
     
 
     // customer custom subscription;

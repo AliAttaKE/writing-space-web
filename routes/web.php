@@ -695,12 +695,14 @@ Route::get('/white-paper', [IndexController::class, 'whitepaper'])->name('front.
 //payment
 
  Route::post('/redirectResponseUrl', [CustomerPlaceOrderController::class, 'redirectResponseUrl'])->name('redirectResponseUrl');
+ Route::post('/redirectResponseUrlFree', [CustomerPlaceOrderController::class, 'redirectResponseUrlFree'])->name('redirectResponseUrlFree');
   Route::post('/redirectResponseUrlSub', [CustomerPlaceOrderController::class, 'redirectResponseUrlSub'])->name('redirectResponseUrlSub');
     Route::post('/redirectResponseUrladdpages', [CustomerPlaceOrderController::class, 'redirectResponseUrladdpages'])->name('redirectResponseUrladdpages');
     Route::post('/redirectResponseUrladdpagesProfile', [CustomerPlaceOrderController::class, 'redirectResponseUrladdpagesProfile'])->name('redirectResponseUrladdpagesProfile');
 
       Route::post('/redirectResponsemanagepages', [CustomerPlaceOrderController::class, 'redirectResponsemanagepages'])->name('redirectResponseUrladdpages');
     Route::get('/pay/{orderid}', [CustomerPlaceOrderController::class, 'pay'])->name('pay');
+    Route::get('/pay_free/{orderid}', [CustomerPlaceOrderController::class, 'pay_free'])->name('pay_free');
 Route::get('/pay/sub/{orderid}', [CustomerPlaceOrderController::class, 'pay_sub'])->name('pay.sub');
 Route::get('/pay/add/pages/{orderid}', [CustomerPlaceOrderController::class, 'pay_add_pages'])->name('pay.add.pages');
 Route::get('/pay/add/pages/profile/{orderid}', [CustomerPlaceOrderController::class, 'pay_add_pages_profile'])->name('pay.add.pages.profile');
@@ -753,7 +755,9 @@ Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->nam
     //payment
 
     Route::get('/checkout', [CustomerPlaceOrderController::class, 'checkout'])->name('checkout');
+    Route::get('/checkout/Free', [CustomerPlaceOrderController::class, 'checkoutFree'])->name('checkout.Free');
     Route::get('card/show/{sessionid}', [CustomerPlaceOrderController::class, 'checkoutshow'])->name('card.show');
+    Route::get('card/show/Free/{sessionid}', [CustomerPlaceOrderController::class, 'checkoutshowfree'])->name('card.show.free');
     Route::get('card/show/checkoutshowmangepages/{sessionid}', [CustomerPlaceOrderController::class, 'checkoutshowmangepages'])->name('card.show.mangepages');
         Route::post('pakage/add/order/pages', [CustomerPlaceOrderController::class, 'pakageaddorderpage'])->name('pakage.add.order.pages');
     Route::get('/email-tester', [CustomerPlaceOrderController::class, 'email_tester'])->name('email_tester');
@@ -766,6 +770,7 @@ Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->nam
     Route::post('/payment/store/addpages/profile', [CustomerPlaceOrderController::class, 'payment_store_addpages_profile'])->name('payment.store.addpages.profile');
     Route::post('/payment/store/managepage', [CustomerPlaceOrderController::class, 'payment_store_managepage'])->name('payment.store.managepage');
     Route::post('/payment/store', [CustomerPlaceOrderController::class, 'payment_store'])->name('payment.store');
+    Route::post('/payment/store/free', [CustomerPlaceOrderController::class, 'payment_store_free'])->name('payment.store.free');
     Route::get('/otp/{creqValue}', [CustomerPlaceOrderController::class, 'otp'])->name('otp');
     Route::post('/otp/new', [CustomerPlaceOrderController::class, 'storeOtpHtml'])->name('otp.new');
 
