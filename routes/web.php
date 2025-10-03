@@ -749,6 +749,7 @@ Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->nam
     Route::post('logout', [CustomerController::class, 'destroy'])->name('logout');
     Route::get('general', [IndexController::class, 'general'])->name('general');
     Route::get('/placeOrder',[CustomerPlaceOrderController::class,'index'])->name('customerPlaceOrder');
+    Route::get('/Free/placeOrder',[CustomerPlaceOrderController::class,'index_free'])->name('FreecustomerPlaceOrder');
     //payment
 
     Route::get('/checkout', [CustomerPlaceOrderController::class, 'checkout'])->name('checkout');
@@ -788,6 +789,7 @@ Route::middleware(['auth', 'roles:customer','blocked'])->prefix('customer')->nam
     //21-02-2024
     Route::get('custom/subscription', [CustomerPlaceOrderController::class, 'customSubscription'])->name('custom.subscription');
     Route::post('custom/subscription/store', [CustomerPlaceOrderController::class, 'customSubscriptionStore'])->name('custom.subscription.store');
+    Route::post('custom/subscription/store/free', [CustomerPlaceOrderController::class, 'customSubscriptionStoreFree'])->name('custom.subscription.store.free');
     Route::post('/add-more-pages',[CustomerPlaceOrderController::class,'addMorePages'])->name('addmorepages');
     Route::post('/add-more-pages',[CustomerPlaceOrderController::class,'addMorePages'])->name('addmorepages');
 

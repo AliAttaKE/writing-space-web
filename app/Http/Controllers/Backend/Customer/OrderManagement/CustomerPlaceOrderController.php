@@ -1029,6 +1029,132 @@ $emailContent = "
         }
 
     }
+   
+public function customSubscriptionStoreFree(Request $request)
+{
+    $input = $request->dataObject;
+    $user = User::findOrFail(Auth::user()->id);
+
+    // Free order ke liye subscription ka check nahi hoga
+    $sub_name = "Free Order";
+    $used_pages = 0; // Free order me koi used pages ka hisaab nahi
+
+    if (empty($input['additional_info'])) {
+        $input['additional_info'] = [];
+    }
+
+    // Generate new order_id
+    $lastOrderId = Orders::latest()->limit(1)->value('order_id');
+    $order_id = $lastOrderId ? ++$lastOrderId : 1;
+
+    // Request se cost values lo
+    $total_pages = (int)($input['no_of_pages'] ?? 0);
+    $cost_per_page = (float)($input['cost_per_page'] ?? 0);
+    $discount = (float)($input['discount'] ?? 0);
+
+    // Frontend ka direct total cost (agar null ho to calculate karlo fallback me)
+    $total_cost = isset($input['total_cost']) 
+                    ? (float)$input['total_cost'] 
+                    : ($total_pages * $cost_per_page - $discount);
+
+    // Create order
+    $order = Orders::create([
+        'subject' => $input['subject'],
+        'description' => $input['description'],
+        'topic' => $input['topic'],
+        'cost_per_page' => $cost_per_page,
+        'submitting' => $input['submitting'],
+        'deadline' => $input['due_date'],
+        'no_of_extra_sources' => $input['no_of_extra_sources'],
+        'powerpoint_slide' => $input['powerpoint_slide'],
+        'spacing' => null,
+        'number_of_pages' => $total_pages,
+        'type_of_paper' => $input['term_of_paper'],
+        'paper_format' => $input['paper_format'],
+        'academic_level' => $input['academic_level'],
+        'language_spelling' => $input['language_spelling'],
+        'order_type' => 'Custom',
+        'discount' => $discount,
+        'order_show' => 'Enable',
+        'order_status' => 'Pending',
+        'additional_info' => json_encode($input['additional_info']),
+        'coupon' => null,
+        'user_id' => $user->id,
+        'payment_status' => 'Free',
+        'order_id' => $order_id,
+        'additional_cost' => 0,
+        'statistical_analysis' => (bool)$input['statistical_analysis'],
+        'email' => $input['email'],
+        'backup_email' => $input['backup_email'],
+        'plagiarism' => $input['plagiarism'],
+        'ai_detection' => $input['ai_detection'],
+        'outline' => $input['outline'],
+        'summary' => $input['paper_summary'],
+        // ✅ Request se cost fields
+        'cost' => $total_cost,  
+        'total_cost' => $total_cost,
+    ]);
+
+    // Invoice create karo
+    $invoice = Invoice::create([
+        'Name' => $user->name,
+        'email' => $order->email,
+        'page' => $order->number_of_pages,
+        'price_per_page' => $order->cost_per_page,
+        'item_name' => 'Free Order',
+        'total' => $order->total_cost ?? 0,
+        'to_name' => 'Admin',
+        'to_email' => 'ustadsharik@gmail.com',
+        'order_id' => $order->order_id,
+        'invoice_type' => 'custom_inc',
+    ]);
+
+    // Folder banao
+    $path = "uploads_folders/{$order->order_id}";
+    Storage::disk('public')->deleteDirectory($path);
+    if (!Storage::disk('public')->directoryExists($path)) {
+        Storage::disk('public')->makeDirectory($path);
+
+        $folder = new Folder();
+        $folder->name = $order->order_id;
+        $folder->description = "Free Order Folder - {$order->order_id}";
+        $folder->user_id = $user->id;
+        $folder->save();
+    }
+
+    $absolutePath = storage_path("app/public/{$path}");
+    if (file_exists($absolutePath)) {
+        chmod($absolutePath, 0755);
+    }
+
+    // Email content
+    $datePlaced = Carbon::parse($order->created_at)->format('F j, Y');
+    $deadline = Carbon::parse($input['due_date'])->format('F j, Y');
+
+    $emailContent = "
+        <p>Hello {$user->name},</p>
+        <p>Thank you for placing your <strong>Free Order</strong> with Writing Space!</p>
+
+        <p><strong>Order Details:</strong></p>
+        <ul>
+            <li><strong>Order ID:</strong> {$order->order_id}</li>
+            <li><strong>Date Placed:</strong> {$datePlaced}</li>
+            <li><strong>Pages:</strong> {$total_pages}</li>
+            <li><strong>Deadline:</strong> {$deadline}</li>
+            <li><strong>Total Cost:</strong> {$total_cost}</li>
+        </ul>
+
+        <p>Your free order has been successfully recorded and is now being processed.</p>
+
+        <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
+    ";
+
+   return response()->json([
+    'success' => true,
+    'redirect_url' => route('customer.thankyou'),
+]);
+
+}
 
 
 
@@ -6183,6 +6309,32 @@ public function index()
     // Default view if no active package or pages
     $pricing = PricingOrder::latest()->get();
     return view('backend.customer.orderManagement.place_order', compact(
+        'Languages', 'pricing', 'subjects', 'Addons', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails'
+    ));
+}
+public function index_free()
+{
+    $user = Auth::user();
+    $user_id = $user->id;
+
+    // Common Data
+    $Addons = Addons::latest()->first();
+    $subjects = Subject::orderBy('title', 'asc')->get();
+    $academic = Academic_level::orderBy('title', 'asc')->get();
+    $term = Term_of_paper::whereNotIn('title', ['Other (explain in description)', 'Other (Not Listed Above)'])->orderBy('title', 'asc')->get();
+    $deadline = Deadline::all();
+    $paper_format = Paper_Format::whereNotIn('title', ['None', 'Let the writer choose', 'Does Not Matter', 'Other (Not Listed Above)'])->orderBy('title', 'asc')->get();
+    $Languages = Language::orderBy('title', 'asc')->get();
+
+    // Get user subscription once
+    $used_subscription = User_Subscription::where('user_id', $user_id)->first();
+    $subscribed = null;
+    $subsDetails = null;
+
+  
+    // Default view if no active package or pages
+    $pricing = PricingOrder::latest()->get();
+    return view('backend.customer.orderManagement.free_place_order', compact(
         'Languages', 'pricing', 'subjects', 'Addons', 'academic', 'term', 'deadline', 'paper_format', 'subscribed', 'subsDetails'
     ));
 }
