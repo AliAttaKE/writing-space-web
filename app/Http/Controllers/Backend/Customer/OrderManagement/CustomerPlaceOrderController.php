@@ -547,6 +547,7 @@ public function checkoutFree(Request $request)
 
     // Prepare dataObject similar to what localStorage expects
     $dataObject = [
+        'order_id' => $existingOrderId,
         'no_of_pages' => $order->number_of_pages,
         'topic' => $order->topic,
         'cost_per_page' => $order->cost_per_page,
@@ -1533,6 +1534,9 @@ curl_close($curl);
 
   public function payment_store_free(Request $request)
     {
+
+
+        // dd($request->all());
         $test = $request->session;
         $dataObject = $request->dataObject;
         $total_cost = $dataObject['total_cost'];
@@ -3369,7 +3373,7 @@ public function storeOtpHtml(Request $request)
 {
     $html = $request->input('html');
 
-//    dd($html);
+
   
     if (stripos($html, 'Invalid response format') !== false) {
 
@@ -3491,10 +3495,24 @@ public function storeOtpHtml(Request $request)
 
         $data = $request->all();
 
+
+        // dd($request->all());
+
         if ($data['result'] === 'SUCCESS') {
 
 
-            return redirect()->route('pay_free', ['orderid' => $data['order_id']]);
+            // return redirect()->route('pay_free', ['orderid' => $data['order_id']]);
+            return response()->make('
+    <script>
+        var redirectUrl = "' . route('pay_free', ['orderid' => $data['order_id']]) . '";
+        if (window.top !== window.self) {
+            window.top.location.href = redirectUrl;
+        } else {
+            window.location.href = redirectUrl;
+        }
+    </script>
+', 200, ['Content-Type' => 'text/html']);
+
         } 
         
     
@@ -6451,6 +6469,8 @@ $user = User::find($pay->user_id);
 public function pay_free($orderid)
 {
     $pay = Pay::where('order_id', $orderid)->first();
+
+ 
     $sessionId = $pay->session_id;
     $order_id = $pay->order_id; // This is the existing order ID
     $transactionId = $pay->truncatedSessionId;
@@ -6460,6 +6480,7 @@ public function pay_free($orderid)
     $randomNumber = mt_rand(100, 999);
     $transactionIdurl = $transactionId . $randomNumber;
 
+    
     // Load from .env
     $baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
     $apiVersion = env('API_VERSION'); // e.g. 74
@@ -6512,12 +6533,17 @@ public function pay_free($orderid)
         isset($responseData['order']['status']) && strtoupper(trim($responseData['order']['status'])) === 'CAPTURED' &&
         isset($responseData['response']['gatewayCode']) && strtoupper(trim($responseData['response']['gatewayCode'])) === 'APPROVED';
 
-    if ($responseArray && $isSuccess) {
+    
+ 
+    
+        if ($responseArray && $isSuccess) {
         $authenticationStatus = $responseArray['order']['authenticationStatus'];
         
         if ($authenticationStatus == 'AUTHENTICATION_SUCCESSFUL') {
+
+
             // Update the existing order's payment status
-            $order = Orders::where('order_id', $order_id)->first();
+            $order = Orders::where('order_id',$order_detail->order_id)->first();
             
             if ($order) {
                 $order->update([
@@ -6554,10 +6580,13 @@ public function pay_free($orderid)
                 // Send email notifications
                 $user = User::find($pay->user_id);
                 
+                  
                 // Send success emails to customer and admin
-                $this->sendPaymentSuccessEmails($user, $order, $total_amount);
+                // $this->sendPaymentSuccessEmails($user, $order, $total_amount);
 
                 Auth::login($user);
+
+             
 
                 return response()->make('
                     <script>
@@ -6606,10 +6635,10 @@ public function pay_free($orderid)
             <p>Thanks for your patience,<br>Writing Space<br>Customer Success Team</p>
         ";
 
-        Mail::html($customerContent, function ($message) use ($user, $customerSubject) {
-            $message->to($user->email)
-                    ->subject($customerSubject);
-        });
+        // Mail::html($customerContent, function ($message) use ($user, $customerSubject) {
+        //     $message->to($user->email)
+        //             ->subject($customerSubject);
+        // });
 
         // Admin Email (Payment Failed)
         $adminSubject = "Payment failed —— {$user->name} — Code {$bank_code} ({$bank_reason})";
@@ -6627,12 +6656,12 @@ public function pay_free($orderid)
         ";
 
         $admins = User::where('role', 'admin')->pluck('email')->toArray();
-        if (!empty($admins)) {
-            Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
-                $message->to($admins)
-                        ->subject($adminSubject);
-            });
-        }
+        // if (!empty($admins)) {
+        //     Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+        //         $message->to($admins)
+        //                 ->subject($adminSubject);
+        //     });
+        // }
 
         // Handle the error appropriately
         $errorMessage = $this->bankResponseCodes[$responseCode]['message'] ?? 'Payment failed';
