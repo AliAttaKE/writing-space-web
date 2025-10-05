@@ -9,6 +9,7 @@ use App\Models\Paper_Format;
 use App\Models\Term_of_paper;
 use Illuminate\Http\Request;
 use App\Models\Orders;
+use App\Models\CustomerOrder;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Pricing;
 use App\Models\Subject;
@@ -1233,6 +1234,17 @@ public function customSubscriptionStoreFree(Request $request)
         'order_id' => $order->order_id,
         'invoice_type' => 'custom_inc',
     ]);
+
+
+    $user_email = Auth::user()->email;
+if ($user_email) {
+    $customerOrder = CustomerOrder::where('customer_email', $user_email)->first();
+    
+    if ($customerOrder && $customerOrder->no_of_orders > 0) {
+        // Count decrease by 1
+        $customerOrder->decrement('no_of_orders');
+    }
+}
 
     // Folder banao
     $path = "uploads_folders/{$order->order_id}";
@@ -6550,6 +6562,8 @@ public function pay_free($orderid)
                     'payment_status' => 'Paid'
                 ]);
                 
+
+
                 // Store transaction record
                 $responseObject = json_decode($response);
                 $orderData = $responseObject->order;

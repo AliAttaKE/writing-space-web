@@ -56,6 +56,7 @@ use App\Http\Controllers\Backend\Customer\OrderManagement\CustomerPlaceOrderCont
 use App\Http\Controllers\Backend\Customer\CustomerLibraryManagement\LibraryManagmentController;
 use App\Http\Controllers\Backend\Customer\MessageController\MessageManagementController;
 use App\Http\Controllers\Backend\Customer\BrandAmbassadorController;
+use App\Http\Controllers\CustomerOrderController;
 
 use App\Http\Controllers\FileChatGPTController;
 use App\Http\Controllers\CampaignController;
@@ -406,6 +407,23 @@ Route::get('/customers/{id}/custom-orders/filter',
     Route::post('/pakage_limit/store', [PakageLimitController::class, 'store'])->name('pakage_limit.store');
     Route::post('/pakage_limit/update', [PakageLimitController::class, 'update'])->name('pakage_limit.update');
     Route::get('/pakage_limit/delete/{id}', [PakageLimitController::class, 'destroy'])->name('pakage_limit.destroy');
+
+
+
+
+
+    Route::get('/customer_orders', [CustomerOrderController::class, 'index'])->name('customer_orders.index');
+Route::post('/customer_orders/store', [CustomerOrderController::class, 'store'])->name('customer_orders.store');
+Route::post('/customer_orders/update', [CustomerOrderController::class, 'update'])->name('customer_orders.update');
+Route::get('/customer_orders/delete/{id}', [CustomerOrderController::class, 'destroy'])->name('customer_orders.destroy');
+Route::get('/customer_orders/search-users', [CustomerOrderController::class, 'searchUsers'])->name('customer_orders.search_users');
+
+
+
+Route::get('/free-customer-place-order', [CustomerOrderController::class, 'FreecustomerPlaceOrder'])->name('customer.FreecustomerPlaceOrder');
+
+
+Route::get('/check-order-eligibility', [CustomerOrderController::class, 'checkOrderEligibility'])->name('customer.checkEligibility');
 
 
 

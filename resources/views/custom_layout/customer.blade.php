@@ -221,11 +221,27 @@
                     <div class="app-navbar flex-shrink-0">
                         <!--begin::Search-->
                         <!--end::Search-->
-                        {{-- <div class="app-navbar-item ms-1 ms-md-4 align-items-center h-100">
-                            <a href="#" class="btn btn-rainbow fs-color-white"
-                            onclick="window.location.href='{{route('customer.customerPlaceOrder')}}' "
-                            >Order Now</a>
-                        </div> --}}
+
+    @php
+    
+        use App\Models\CustomerOrder;
+        
+        $user = Auth::user();
+        $customerOrder = null;
+        
+        if ($user) {
+            $customerOrder = CustomerOrder::where('customer_email', $user->email)->first();
+        }
+    @endphp
+
+                        @if($user && $customerOrder && $customerOrder->no_of_orders > 0)
+                                <div class="app-navbar-item ms-1 ms-md-4 align-items-center h-100">
+                                    <a href="#" class="btn btn-rainbow fs-color-white"
+                                    onclick="window.location.href='{{route('customer.FreecustomerPlaceOrder')}}' "
+                                    >Free Order Now</a>
+                                </div>
+
+                        @endif
 
 
                         <div class="app-navbar-item ms-1 ms-md-4 align-items-center h-100">

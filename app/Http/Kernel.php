@@ -70,6 +70,7 @@ class Kernel extends HttpKernel
         'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
         'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+        'check.customer.order' => \App\Http\Middleware\CheckCustomerOrder::class,
 
         // 'is_admin' => \App\Http\Middleware\RedirectIfAdmin::class,
         // 'customer' => \App\Http\Middleware\RedirectIfAdmin::class,
