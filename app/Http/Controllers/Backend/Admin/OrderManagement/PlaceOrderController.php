@@ -626,6 +626,21 @@ public function orders_history(Request $request)
 
     return view('backend.admin.orderManagement.orders_history', compact('order'));
 }
+public function orders_free(Request $request)
+{
+    $order = Orders::join('users', 'orders.user_id', '=', 'users.id')
+        ->select('orders.*', 'users.name as user_name', 'users.email as email')
+        ->when($request->order_id, fn($q) => $q->where('orders.order_id', $request->order_id))
+        ->when($request->topic, fn($q) => $q->where('orders.topic', 'LIKE', '%' . $request->topic . '%'))
+        ->when($request->user_name, fn($q) => $q->where('users.name', 'LIKE', '%' . $request->user_name . '%'))
+        ->when($request->start_date, fn($q) => $q->whereDate('orders.created_at', '>=', $request->start_date))
+        ->when($request->end_date, fn($q) => $q->whereDate('orders.created_at', '<=', $request->end_date))
+        ->where('orders.payment_status', 'Free')
+        ->latest('orders.id')
+        ->get();
+
+    return view('backend.admin.orderManagement.orders_free', compact('order'));
+}
 
 
 

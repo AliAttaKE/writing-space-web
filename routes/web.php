@@ -409,6 +409,8 @@ Route::get('/customers/{id}/custom-orders/filter',
     Route::get('/pakage_limit/delete/{id}', [PakageLimitController::class, 'destroy'])->name('pakage_limit.destroy');
 
 
+Route::post('/admin/orders/send-reminder', [CustomerOrderController::class, 'sendReminder'])
+    ->name('orders.sendReminder');
 
 
 
@@ -526,6 +528,7 @@ Route::get('/check-order-eligibility', [CustomerOrderController::class, 'checkOr
     Route::get('/completed-order',[PlaceOrderController::class,'completed_order'])->name('completed-order');
     Route::get('/other-order',[PlaceOrderController::class,'other_order'])->name('other-order');
      Route::get('/orders_history',[PlaceOrderController::class,'orders_history'])->name('orders_history');
+     Route::get('/orders_free',[PlaceOrderController::class,'orders_free'])->name('orders_free');
     Route::get('/order-detail/{order_id}',[PlaceOrderController::class,'order_detail'])->name('admin-order-detail');
 
     Route::get('export/orders/{value?}', [PlaceOrderController::class, 'exportOrders'])->name('export.orders');
