@@ -11,6 +11,7 @@ use App\Models\Orders;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 
+ 
 
 
 class CustomerOrderController extends Controller
@@ -115,9 +116,7 @@ class CustomerOrderController extends Controller
     //     }
     // }
 
-   use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
-use App\Models\CustomerOrder;
+  
 
 public function store(Request $request)
 {
