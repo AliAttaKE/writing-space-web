@@ -82,11 +82,11 @@ class CustomerOrderController extends Controller
 
     // Send email
     try {
-        Mail::raw(strip_tags($body), function ($message) use ($order, $subject, $body) {
-            $message->to($order->email)
-                ->subject($subject)
-                ->setBody($body, 'text/html');
-        });
+        // Mail::raw(strip_tags($body), function ($message) use ($order, $subject, $body) {
+        //     $message->to($order->email)
+        //         ->subject($subject)
+        //         ->setBody($body, 'text/html');
+        // });
 
         return response()->json(['success' => true]);
     } catch (\Exception $e) {
@@ -95,26 +95,7 @@ class CustomerOrderController extends Controller
 }
 
 
-    // public function store(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'customer_name' => 'required|string|max:255',
-    //         'customer_email' => 'required|email|max:255',
-    //         // 'user_id' => 'nullable|exists:users,id',
-    //         'no_of_orders' => 'required|integer|min:1'
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         return response()->json(['error' => $validator->errors()->first()], 422);
-    //     }
-
-    //     try {
-    //         CustomerOrder::create($request->all());
-    //         return response()->json(['success' => 'Customer order created successfully']);
-    //     } catch (\Exception $e) {
-    //         return response()->json(['error' => 'Oops! Something went wrong'], 500);
-    //     }
-    // }
+   
 
   
 
