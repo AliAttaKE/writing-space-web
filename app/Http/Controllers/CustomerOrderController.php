@@ -129,10 +129,16 @@ public function store(Request $request)
         ";
 
         // Send email
-        Mail::html($content, function ($message) use ($request, $subject) {
-            $message->to($request->customer_email)
-                    ->subject($subject);
-        });
+        // Mail::html($content, function ($message) use ($request, $subject) {
+        //     $message->to($request->customer_email)
+        //             ->subject($subject);
+        // });
+
+        // Mail::html($content, function ($message) use ($request, $subject) {
+        //     $message->to($request->customer_email)
+        //             ->subject($subject);
+        // });
+
 
         return response()->json(['success' => 'Customer order created successfully and email sent']);
     } catch (\Exception $e) {
