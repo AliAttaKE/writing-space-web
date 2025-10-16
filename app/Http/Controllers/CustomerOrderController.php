@@ -82,11 +82,17 @@ class CustomerOrderController extends Controller
 
     // Send email
     try {
-        Mail::raw(strip_tags($body), function ($message) use ($order, $subject, $body) {
-            $message->to($order->email)
-                ->subject($subject)
-                ->setBody($body, 'text/html');
-        });
+        // Mail::raw(strip_tags($body), function ($message) use ($order, $subject, $body) {
+        //     $message->to($order->email)
+        //         ->subject($subject)
+        //         ->setBody($body, 'text/html');
+        // });
+
+
+           Mail::html($body, function ($message) use ($order, $subject) {
+    $message->to($order->email)
+            ->subject($subject);
+});
 
         return response()->json(['success' => true]);
     } catch (\Exception $e) {
@@ -129,10 +135,10 @@ public function store(Request $request)
         ";
 
         // Send email
-        // Mail::html($content, function ($message) use ($request, $subject) {
-        //     $message->to($request->customer_email)
-        //             ->subject($subject);
-        // });
+        Mail::html($content, function ($message) use ($request, $subject) {
+            $message->to($request->customer_email)
+                    ->subject($subject);
+        });
 
         // Mail::html($content, function ($message) use ($request, $subject) {
         //     $message->to($request->customer_email)
