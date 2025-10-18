@@ -593,6 +593,7 @@ $emailContent = "
         $totalSize /= 1024;
     }
     $formattedSize = round($totalSize, 0) . ' ' . $units[$i];
+    
 
     return view('backend.admin.File.file_show', compact(
         'folder',

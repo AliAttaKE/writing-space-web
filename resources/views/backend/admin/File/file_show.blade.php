@@ -556,7 +556,14 @@
                 </div>
                 <!--end::Card body-->
             </div>
-            @endif              <!--end::Card-->
+            @endif    
+            
+              <div class="mt-5 d-flex justify-content-end">
+    {{ $files->links('pagination::bootstrap-5') }}
+</div>
+            
+            <!--end::Card-->
+
             <!--begin::Modals-->
             <!--begin::Modal - Upload File-->
             <div class="modal fade" id="kt_modal_uploadCustomer" tabindex="-1" aria-hidden="true">
@@ -627,6 +634,8 @@
                             <!--end::Modal body-->
                         </form>
                         <!--end::Form-->
+
+                      
                     </div>
                 </div>
             </div>
