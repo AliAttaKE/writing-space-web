@@ -573,7 +573,11 @@
                                     <td>{{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</td>
                                     <td>{{ \Carbon\Carbon::parse($o->deadline)->format('d F Y h:iA') }}</td>
                                     <td>
-                                         <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">{{$o->payment_status}}</span>
+                                          @if ($o->payment_status == 'Free')
+    <button class="btn rounded-pill badge-custom-bg payt_btn" 
+            onclick="payment('{{ $o->order_id }}')">Continue to Payment</button>
+    @endif
+        <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">{{$o->payment_status}}</span>
 
 
                                     </td>
@@ -1177,7 +1181,11 @@
                                     <td>{{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</td>
                                     <td>{{ \Carbon\Carbon::parse($o->deadline)->format('d F Y h:iA') }}</td>
                                     <td>
-          <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">{{$o->payment_status}}</span>
+           @if ($o->payment_status == 'Free')
+    <button class="btn rounded-pill badge-custom-bg payt_btn" 
+            onclick="payment('{{ $o->order_id }}')">Continue to Payment</button>
+    @endif
+        <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">{{$o->payment_status}}</span>
 
                                     </td>
                                     <td><a href="#"
@@ -1545,6 +1553,40 @@
     });
 
         });
+
+
+
+
+        
+function payment(orderId) {
+    var url2 = '{{ route('customer.checkout.Free') }}';
+    
+    $.ajax({
+        type: 'GET',
+        url: url2,
+        data: {
+            order_id: orderId  // Pass the existing order ID
+        },
+        success: function (response) {
+            console.log(response.sessionId);
+            console.log(response.dataObject);
+
+            if (response && response.sessionId) {
+                // Save dataObject to localStorage
+                localStorage.setItem('dataObject', JSON.stringify(response.dataObject));
+                
+                Swal.fire('Success', 'Add Payment Details!', 'success');
+                window.location.href = '{{ route("customer.card.show.free", ["sessionid" => ":sessionId"]) }}'.replace(':sessionId', response.sessionId);
+            } else {
+                console.error('Invalid response format or missing sessionId.');
+            }
+        },
+        error: function (error) {
+            window.location.href = '{{ route("login") }}';
+            console.error(error);
+        }
+    });
+}
 </script>
 
 
