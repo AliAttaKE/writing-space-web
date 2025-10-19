@@ -1115,6 +1115,121 @@
 </script>
 <script>
 
+
+
+	$(document).ready(function () {
+    const allowedExtensions = [
+        'pdf', 'docx', 'doc', 'txt', 'rtf', 'xls', 'xlsx',
+        'csv', 'pptx', 'jpeg', 'jpg', 'zip', 'rar'
+    ];
+    const maxSizeInMB = 50;
+    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+    $('#file-3').on('change', function () {
+        const files = this.files;
+        let invalidExt = false;
+        let invalidSize = false;
+        let names = [];
+
+        for (let i = 0; i < files.length; i++) {
+            const fileName = files[i].name;
+            const ext = fileName.split('.').pop().toLowerCase();
+
+            if (!allowedExtensions.includes(ext)) {
+                invalidExt = true;
+                break;
+            }
+            if (files[i].size > maxSizeInBytes) {
+                invalidSize = true;
+                break;
+            }
+            names.push(fileName);
+        }
+
+        if (invalidExt) {
+            Swal.fire('Error!', 'Only these types are allowed: PDF, DOCX, DOC, TXT, RTF, XLS, XLSX, CSV, PPTX, JPEG, JPG, ZIP, RAR.', 'error');
+            this.value = '';
+            $('#attach_file_3').text('');
+        } else if (invalidSize) {
+            Swal.fire('Error!', 'File size must be less than 50MB per file.', 'error');
+            this.value = '';
+            $('#attach_file_3').text('');
+        } else {
+            $('#attach_file_3').text(names.join(', '));
+        }
+    });
+
+
+
+
+	  $('#file-2').on('change', function () {
+        const files = this.files;
+        let invalidExt = false;
+        let invalidSize = false;
+        let names = [];
+
+        for (let i = 0; i < files.length; i++) {
+            const fileName = files[i].name;
+            const ext = fileName.split('.').pop().toLowerCase();
+
+            if (!allowedExtensions.includes(ext)) {
+                invalidExt = true;
+                break;
+            }
+            if (files[i].size > maxSizeInBytes) {
+                invalidSize = true;
+                break;
+            }
+            names.push(fileName);
+        }
+
+        if (invalidExt) {
+            Swal.fire('Error!', 'Only these types are allowed: PDF, DOCX, DOC, TXT, RTF, XLS, XLSX, CSV, PPTX, JPEG, JPG, ZIP, RAR.', 'error');
+            this.value = '';
+            $('#attach_file_2').text('');
+        } else if (invalidSize) {
+            Swal.fire('Error!', 'File size must be less than 50MB per file.', 'error');
+            this.value = '';
+            $('#attach_file_2').text('');
+        } else {
+            $('#attach_file_2').text(names.join(', '));
+        }
+    });
+	  $('#file-1').on('change', function () {
+        const files = this.files;
+        let invalidExt = false;
+        let invalidSize = false;
+        let names = [];
+
+        for (let i = 0; i < files.length; i++) {
+            const fileName = files[i].name;
+            const ext = fileName.split('.').pop().toLowerCase();
+
+            if (!allowedExtensions.includes(ext)) {
+                invalidExt = true;
+                break;
+            }
+            if (files[i].size > maxSizeInBytes) {
+                invalidSize = true;
+                break;
+            }
+            names.push(fileName);
+        }
+
+        if (invalidExt) {
+            Swal.fire('Error!', 'Only these types are allowed: PDF, DOCX, DOC, TXT, RTF, XLS, XLSX, CSV, PPTX, JPEG, JPG, ZIP, RAR.', 'error');
+            this.value = '';
+            $('#attach_file_1').text('');
+        } else if (invalidSize) {
+            Swal.fire('Error!', 'File size must be less than 50MB per file.', 'error');
+            this.value = '';
+            $('#attach_file_1').text('');
+        } else {
+            $('#attach_file_1').text(names.join(', '));
+        }
+    });
+});
+
     $(document).on('click', '.downloadPdf', function () {
         setTimeout(function () {
             location.reload();
@@ -1234,6 +1349,8 @@ $(document).on('click', '.downloadBtnForm', function(e){
 		$('#delete_or_download_form').submit();
 		console.log('download btn'); 
 	});
+
+
 
 
 </script>
