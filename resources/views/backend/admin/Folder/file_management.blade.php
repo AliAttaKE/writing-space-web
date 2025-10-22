@@ -201,13 +201,13 @@
                                                 $formattedSize = round($totalSize, 0) . ' ' . $units[$i];
                                                 ?>
                                                 
-                                                <td>
-                                                    @if($totalSize > 0)
-                                                        {{ $formattedSize }}
-                                                    @else
-                                                        0.0
-                                                    @endif
-                                                </td>
+                                              <td data-sort="{{ $totalSize }}">
+    @if($totalSize > 0)
+        {{ $formattedSize }}
+    @else
+        0.0
+    @endif
+</td>
                                                 
                                                    
                                                 
@@ -987,12 +987,87 @@
     var hostUrl = "assets/";
 
 
-    
+    <script>
+    $(document).ready(function() {
+        // Custom sorting plugin for file sizes
+        jQuery.fn.dataTable.ext.type.order['file-size-pre'] = function(data) {
+            if (data === '0.0' || data === '0 B') {
+                return 0;
+            }
+            
+            const units = {
+                'B': 1,
+                'KB': 1024,
+                'MB': 1048576,
+                'GB': 1073741824,
+                'TB': 1099511627776
+            };
+            
+            const match = data.match(/^([\d.]+)\s*([KMGTP]?B)$/i);
+            if (match) {
+                const number = parseFloat(match[1]);
+                const unit = match[2].toUpperCase();
+                return number * (units[unit] || 1);
+            }
+            
+            return 0;
+        };
+
+        // Initialize DataTable with custom sorting
+        $('#kt_file_manager_list').DataTable({
+            columnDefs: [
+                {
+                    targets: 1, // Size column (0-based index)
+                    type: 'file-size'
+                },
+                {
+                    targets: 2, // Last Modified column
+                    type: 'date', // This will handle date sorting
+                    render: function(data, type, row) {
+                        if (type === 'sort') {
+                            // Return raw date for sorting
+                            return new Date(data).getTime();
+                        }
+                        return data; // Return formatted date for display
+                    }
+                }
+            ],
+            order: [[2, 'desc']] // Default sort by Last Modified descending
+        });
+    });
+</script>
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#kt_file_manager_list').DataTable({
+            columnDefs: [
+                {
+                    targets: 1, // Size column
+                    type: 'num' // Sort as numbers
+                },
+                {
+                    targets: 2, // Last Modified column  
+                    type: 'date',
+                    render: function(data, type, row) {
+                        if (type === 'sort') {
+                            return new Date(data).getTime();
+                        }
+                        return data;
+                    }
+                }
+            ],
+            order: [[2, 'desc']]
+        });
+    });
 </script>
  <script>
         $(document).ready(function() {
             $('#kt_file_manager_list').DataTable();
         })
+
+
+        
     </script>
 <script>
     // Function to handle table search
