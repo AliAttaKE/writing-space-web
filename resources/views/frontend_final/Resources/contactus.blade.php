@@ -95,9 +95,16 @@
                     <div class="g-recaptcha d-inline-block" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
                     @error('g-recaptcha-response') <small class="text-danger d-block">{{ $message }}</small> @enderror
                 </div>
-        <div class="col-md-2 col-sm-3 mt-4">
-            <button type="submit" class="btn gradient-button w-100">Submit</button>
-        </div>
+
+               @auth
+            <div class="col-md-2 col-sm-3 mt-4">
+                <button type="submit" class="btn gradient-button w-100">Submit</button>
+            </div>
+        @else
+            <div class="text-center text-white my-5">
+                <h4>Please <a href="{{ route('login') }}" class="text-purple">login</a> to continue.</h4>
+            </div>
+        @endauth
     </div>
 </form>
 
