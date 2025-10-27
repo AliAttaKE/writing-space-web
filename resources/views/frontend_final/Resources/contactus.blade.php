@@ -141,7 +141,7 @@
 </section>
 @guest
 <div id="loginOverlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:9999;">
-  <div class="popup" style="background: linear-gradient(135deg, #007bff, #0056b3);color: #fff;border-radius: 12px;box-shadow: 0 10px 25px rgba(0,0,0,0.3);width: 400px;padding: 35px 30px;text-align: center;position:relative;">
+  <div class="popup" style="background:#783AFB !important;color: #fff;border-radius: 12px;box-shadow: 0 10px 25px rgba(0,0,0,0.3);width: 400px;padding: 35px 30px;text-align: center;position:relative;">
     <button onclick="closePopup()" style="position:absolute;top:10px;right:15px;background:none;border:none;font-size:20px;color:white;cursor:pointer;">×</button>
     <h1>Welcome to Writing Space!</h1>
     <p>For security and better support, please sign in to reach our team.</p>
@@ -153,6 +153,7 @@
   </div>
 </div>
 @endguest
+
 
 
 <section class="bg-dark section-card-phases bg-height-0">
