@@ -531,139 +531,194 @@ public function resendVerification(Request $request)
 //         return view('frontend.signup');
 //    }
 
-   public function customCustomerRegistrationProcess(Request $request)
-    {
+//    public function customCustomerRegistrationProcess(Request $request)
+//     {
 
 
-       $validated = $request->validate([
-        'email' => 'required|email|unique:users,email',
-        'g-recaptcha-response' => 'required',
-        'name' => [
-            'required',
-            'regex:/^(?:\S+(?:\s+|$)){1,20}$/'
-        ],
-        'password' => 'required',
-        'password_confirmation' => 'required_with:password|same:password',
-    ], [
-        'email.required' => 'Email is required.',
-        'email.email' => 'Please enter a valid email address.',
-        'email.unique' => 'This email is already registered.',
-        'password.required' => 'Password is required.',
-        'password_confirmation.required' => 'Password confirmation is required.',
-        'password_confirmation.same' => 'Password confirmation does not match.',
+//        $validated = $request->validate([
+//         'email' => 'required|email|unique:users,email',
+//         'g-recaptcha-response' => 'required',
+//         'name' => [
+//             'required',
+//             'regex:/^(?:\S+(?:\s+|$)){1,20}$/'
+//         ],
+//         'password' => 'required',
+//         'password_confirmation' => 'required_with:password|same:password',
+//     ], [
+//         'email.required' => 'Email is required.',
+//         'email.email' => 'Please enter a valid email address.',
+//         'email.unique' => 'This email is already registered.',
+//         'password.required' => 'Password is required.',
+//         'password_confirmation.required' => 'Password confirmation is required.',
+//         'password_confirmation.same' => 'Password confirmation does not match.',
+//     ]);
+
+//     // Verify reCAPTCHA
+//     $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+//         'secret'   => env('RECAPTCHA_SECRET_KEY'),
+//         'response' => $request->input('g-recaptcha-response'),
+//         'remoteip' => $request->ip(),
+//     ]);
+
+//     $data = $response->json();
+
+//     if (!($data['success'] ?? false)) {
+//         return back()->with('error', 'reCAPTCHA validation failed. Please try again.');
+//     }
+//         $account_id = 'ID-' . rand(1000, 99999999);
+
+//         $input = [
+//             'name' => 'Customer-'.time(),
+//             'email' => $request->email,
+//              'name' => $request->name,
+//             'password' => Hash::make($request->password),
+//             'account_id' => $account_id,
+//         ];
+
+
+//         $user = User::create($input);
+
+//         if ($user) {
+//             session()->flash('success', 'Account created successfully!');
+//             // $email=Email::where('type','=','Sign Up')->first();
+//             // if($email){
+//             //     Mail::to($user->email)->send(new EmailTemplate($user,$email));
+//             // }
+
+//              //send verify code;
+//              $verify_code = Str::random(24);
+//              $verify_code = substr($verify_code, 0, 18);
+
+//              $user->verify_code = $verify_code;
+//              $user->status = 0;
+//              $user->save();
+
+
+
+
+//    $emailContent = "
+//     <p>Hello {$user->name},</p>
+
+//     <p>Welcome aboard! We’re thrilled to have you join us at Writing Space, where we empower your academic journey with cutting-edge tools and ethical AI solutions. It’s great to have you with us, and we can’t wait to see what you achieve with the right resources at your fingertips.</p>
+
+//     <p>Here’s a quick guide to get you started on your path to success:</p>
+
+//     <ol>
+//         <li><strong>Explore Your Dashboard:</strong> Your personal dashboard is your new best friend. Here, you can manage orders, track progress, and access a wealth of resources. Take a moment to familiarize yourself with its features—it’s designed to make your life easier!</li>
+//         <li><strong>Dive into the Library:</strong> Our extensive library is stocked with sample papers and resources across a wide range of subjects. It’s perfect for sparking ideas or understanding how to structure your papers.</li>
+//         <li><strong>Post a Custom Order:</strong> Got a specific project in mind? Post a custom order and let our tailored solutions meet your exact needs. Whether it's a tight deadline or a complex topic, we’re here to help.</li>
+//         <li><strong>Check Out Packages:</strong> If you’re looking for the best value, our packages are the way to go. With options like page rollovers and access to premium services at no additional cost, they’re designed to save you money while providing top-notch support.</li>
+//     </ol>
+
+//     <p>We're excited to see how Writing Space will enhance your academic work. If you have any questions or need guidance, don’t hesitate to reach out. Our support team is available 24/7 and ready to assist you.</p>
+
+//     <p>Again, welcome to Writing Space! Let’s make this academic journey a remarkable one.</p>
+
+//     <p>Best Regards,<br>
+//     Customer Success Team<br>
+//     Writing Space</p>
+//         ";
+
+//         // Send the email using the inline HTML content
+//         Mail::html($emailContent, function ($message) use ($user) {
+//             $message->to($user->email)
+//                     ->subject('Welcome to Writing Space – Start Your Journey to Academic Mastery!');
+//         });
+
+
+// // --- Admin Email for New Signup ---
+// $adminSubject = "New signup: {$user->name} ({$user->email})";
+// $adminContent = "
+//     <p>Hi team,</p>
+//     <p>A new user just signed up.</p>
+//     <ul>
+//         <li><strong>Name:</strong> {$user->name}</li>
+//         <li><strong>Email:</strong> {$user->email}</li>
+//         <li><strong>Sign-up time:</strong> " . now()->format('Y-m-d H:i:s') . "</li>
+//     </ul>
+//     <p>Regards,<br>System Notification</p>
+// ";
+
+// // get all admin emails as array
+// $admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+// if (!empty($admins)) {
+//     Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+//         $message->to($admins)->subject($adminSubject);
+//     });
+// }
+
+
+
+//             //  Mail::send('emails.verify_code', [
+//             //     'email' => $user->email,
+//             //     'verify_code' => $verify_code,
+//             //     'name' => $user->name,
+//             // ], function ($message) use ($user) { // Change $email to $user
+//             //     $message->to($user->email, 'Welcome to Writing Space – Start Your Journey to Academic Mastery!') // Change $email to $user->email
+//             //         ->subject('Welcome to Writing Space – Start Your Journey to Academic Mastery!');
+//             // });
+
+//             return redirect()->route('login')->with('success', 'Account created successfully!');
+//         } else {
+//             return redirect()->route('front.signup')->with('error', 'Something went wrong!');
+//         }
+//     }
+
+
+public function customCustomerRegistrationProcess(Request $request)
+{
+    // ✅ pehle user create karna hoga
+    $request->validate([
+        'name'     => 'required|string|max:255',
+        'email'    => 'required|email|unique:users,email',
+        'password' => 'required|min:8|confirmed',
     ]);
 
-    // Verify reCAPTCHA
-    $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-        'secret'   => env('RECAPTCHA_SECRET_KEY'),
-        'response' => $request->input('g-recaptcha-response'),
-        'remoteip' => $request->ip(),
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
     ]);
 
-    $data = $response->json();
+    // ✅ Verification link generate
+    $verificationLink = url('/verify-email/' . encrypt($user->email));
 
-    if (!($data['success'] ?? false)) {
-        return back()->with('error', 'reCAPTCHA validation failed. Please try again.');
-    }
-        $account_id = 'ID-' . rand(1000, 99999999);
+    // ✅ Email subject
+    $emailSubject = '✅ Verify your email to activate your Writing Space account';
 
-        $input = [
-            'name' => 'Customer-'.time(),
-            'email' => $request->email,
-             'name' => $request->name,
-            'password' => Hash::make($request->password),
-            'account_id' => $account_id,
-        ];
+    // ✅ Direct HTML email body
+    $emailBody = "
+        <p>Hi {$user->name},</p>
+        <p>Thank you for signing up with <strong>Writing Space</strong>!<br>
+        Before we can activate your account, we need to verify your email address.</p>
 
+        <p><strong>Please copy and paste the following link into your browser:</strong><br>
+        <a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
 
-        $user = User::create($input);
+        <p>⚠️ <strong>Important:</strong></p>
+        <ul>
+            <li>Check your Inbox and Spam/Junk folders if you don’t see our emails.</li>
+            <li>Add <strong>support@writing-space.com</strong> to your safe sender list.</li>
+        </ul>
 
-        if ($user) {
-            session()->flash('success', 'Account created successfully!');
-            // $email=Email::where('type','=','Sign Up')->first();
-            // if($email){
-            //     Mail::to($user->email)->send(new EmailTemplate($user,$email));
-            // }
+        <p>If you didn’t sign up for Writing Space, you can safely ignore this email.</p>
 
-             //send verify code;
-             $verify_code = Str::random(24);
-             $verify_code = substr($verify_code, 0, 18);
+        <p>Warm regards,<br>
+        <strong>Team Writing Space</strong><br>
+        support@writing-space.com<br>
+        https://www.writing-space.com
+        </p>
+    ";
 
-             $user->verify_code = $verify_code;
-             $user->status = 0;
-             $user->save();
-
-
-
-
-   $emailContent = "
-    <p>Hello {$user->name},</p>
-
-    <p>Welcome aboard! We’re thrilled to have you join us at Writing Space, where we empower your academic journey with cutting-edge tools and ethical AI solutions. It’s great to have you with us, and we can’t wait to see what you achieve with the right resources at your fingertips.</p>
-
-    <p>Here’s a quick guide to get you started on your path to success:</p>
-
-    <ol>
-        <li><strong>Explore Your Dashboard:</strong> Your personal dashboard is your new best friend. Here, you can manage orders, track progress, and access a wealth of resources. Take a moment to familiarize yourself with its features—it’s designed to make your life easier!</li>
-        <li><strong>Dive into the Library:</strong> Our extensive library is stocked with sample papers and resources across a wide range of subjects. It’s perfect for sparking ideas or understanding how to structure your papers.</li>
-        <li><strong>Post a Custom Order:</strong> Got a specific project in mind? Post a custom order and let our tailored solutions meet your exact needs. Whether it's a tight deadline or a complex topic, we’re here to help.</li>
-        <li><strong>Check Out Packages:</strong> If you’re looking for the best value, our packages are the way to go. With options like page rollovers and access to premium services at no additional cost, they’re designed to save you money while providing top-notch support.</li>
-    </ol>
-
-    <p>We're excited to see how Writing Space will enhance your academic work. If you have any questions or need guidance, don’t hesitate to reach out. Our support team is available 24/7 and ready to assist you.</p>
-
-    <p>Again, welcome to Writing Space! Let’s make this academic journey a remarkable one.</p>
-
-    <p>Best Regards,<br>
-    Customer Success Team<br>
-    Writing Space</p>
-";
-
-// Send the email using the inline HTML content
-Mail::html($emailContent, function ($message) use ($user) {
-    $message->to($user->email)
-            ->subject('Welcome to Writing Space – Start Your Journey to Academic Mastery!');
-});
-
-
-// --- Admin Email for New Signup ---
-$adminSubject = "New signup: {$user->name} ({$user->email})";
-$adminContent = "
-    <p>Hi team,</p>
-    <p>A new user just signed up.</p>
-    <ul>
-        <li><strong>Name:</strong> {$user->name}</li>
-        <li><strong>Email:</strong> {$user->email}</li>
-        <li><strong>Sign-up time:</strong> " . now()->format('Y-m-d H:i:s') . "</li>
-    </ul>
-    <p>Regards,<br>System Notification</p>
-";
-
-// get all admin emails as array
-$admins = User::where('role', 'admin')->pluck('email')->toArray();
-
-if (!empty($admins)) {
-    Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
-        $message->to($admins)->subject($adminSubject);
+    // ✅ Send email
+    Mail::html($emailBody, function($message) use($user, $emailSubject) {
+        $message->to($user->email)
+                ->subject($emailSubject);
     });
+
+    return redirect()->route('verify.notice');
 }
-
-
-
-            //  Mail::send('emails.verify_code', [
-            //     'email' => $user->email,
-            //     'verify_code' => $verify_code,
-            //     'name' => $user->name,
-            // ], function ($message) use ($user) { // Change $email to $user
-            //     $message->to($user->email, 'Welcome to Writing Space – Start Your Journey to Academic Mastery!') // Change $email to $user->email
-            //         ->subject('Welcome to Writing Space – Start Your Journey to Academic Mastery!');
-            // });
-
-            return redirect()->route('login')->with('success', 'Account created successfully!');
-        } else {
-            return redirect()->route('front.signup')->with('error', 'Something went wrong!');
-        }
-    }
 
     public function accountVerify(Request $request, $verify_code)
     {
