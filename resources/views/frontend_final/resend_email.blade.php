@@ -1,7 +1,7 @@
 @extends('frontend_final.Layout.masters')
 @section('content')
-<style>
-body {
+
+<style>body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: radial-gradient(circle at center, #3f0071, #1a0033);
@@ -13,25 +13,15 @@ body {
   justify-content: center;
   align-items: center;
 }
-.wrapper-center {
-  text-align: center;
-  min-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 h1 {
   font-size: 42px;
   margin-bottom: 10px;
-  color: #fff;
 }
 p {
   font-size: 18px;
   max-width: 500px;
   line-height: 1.6;
   margin: 0 auto 25px;
-  color: #fff;
 }
 button {
   background-color: #007bff;
@@ -43,11 +33,7 @@ button {
   cursor: pointer;
   transition: background 0.3s ease;
 }
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-button:hover:not(:disabled) {
+button:hover {
   background-color: #0056b3;
 }
 .small {
@@ -55,23 +41,7 @@ button:hover:not(:disabled) {
   opacity: 0.8;
   margin-top: 20px;
 }
-#loader {
-  display: none;
-  margin-top: 15px;
-}
-.spinner {
-  border: 4px solid rgba(255,255,255,0.2);
-  border-top: 4px solid #fff;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  animation: spin 1s linear infinite;
-}
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
 </style>
-
 
 <section class="bg-dark pt-160px">
     <div class="container wrapper-center">
