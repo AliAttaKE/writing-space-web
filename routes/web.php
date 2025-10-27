@@ -620,6 +620,12 @@ Route::get('/site-map', [IndexController::class, 'sitemap'])->name('front.site.m
 Route::get('/cookie-policy', [IndexController::class, 'cookiePolicy'])->name('front.cookie.policy');
 Route::get('/copyright', [IndexController::class, 'copyright'])->name('front.copyright');
 Route::get('/sign-up', [IndexController::class, 'createSignup'])->name('front.signup');
+Route::get('/verify-resend', [IndexController::class, 'checkEmailNotice'])->name('verify.notice');
+Route::get('/verify-confirm', [IndexController::class, 'emailverified'])->name('verification.confirm');
+Route::post('/resend-verification', [IndexController::class, 'resendVerification'])
+    ->name('verification.resend');
+
+
 Route::post('/sign-up-process', [IndexController::class, 'customCUstomerRegistrationProcess'])->name('front.signup.process');
 Route::get('/verify-account/{verify_code}', [IndexController::class, 'accountVerify'])->name('front.verify.account');
 

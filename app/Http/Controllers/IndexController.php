@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Http;
 use App\Models\Paper;
 
 
+
 class IndexController extends Controller
 {
     // public function frontend()
@@ -205,6 +206,61 @@ class IndexController extends Controller
    {
         return view('frontend_final.signup');
    }
+   public function checkEmailNotice()
+   {
+        return view('frontend_final.resend_email');
+   }
+   public function emailverified()
+   {
+        return view('frontend_final.email_verified');
+   }
+public function resendVerification(Request $request)
+{
+    $user = auth()->user();
+
+    // Rate limit : 2 minutes
+    if ($user->last_verification_sent_at && now()->diffInMinutes($user->last_verification_sent_at) < 2) {
+        return response()->json(['message' => 'Please wait before resending again.'], 429);
+    }
+
+   $verificationLink = route('verify.email', encrypt($user->email));
+
+
+    $emailSubject = "✅ Verify your email to activate your Writing Space account";
+    $emailContent = "
+        <p>Hi {$user->name},</p>
+        <p>Thank you for signing up with <strong>Writing Space!</strong><br>
+        Before we can activate your account, we need to verify your email address.</p>
+        
+        <p>Please click the link below to verify your email:</p>
+        <p><a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
+
+        <p><strong>⚠️ Important:</strong></p>
+        <ul>
+            <li>Check your Inbox and Spam/Junk folders if you don’t see our emails.</li>
+            <li>Add <strong>support@writing-space.com</strong> to your safe sender list / whitelist.</li>
+        </ul>
+
+        <p>If you didn’t sign up for Writing Space, you can safely ignore this email.</p>
+
+        <br>
+        <p>Warm regards,<br>
+        <strong>Team Writing Space</strong><br>
+        support@writing-space.com<br>
+        https://www.writing-space.com</p>
+    ";
+
+    // send email
+    Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
+        $message->to($user->email)->subject($emailSubject);
+    });
+
+    // update timestamp
+    $user->update(['last_verification_sent_at' => now()]);
+
+    return response()->json(['message' => 'Verification email sent successfully!']);
+}
+
 
 
     public function submit(Request $request)

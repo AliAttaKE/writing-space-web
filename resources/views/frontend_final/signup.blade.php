@@ -69,7 +69,11 @@
                     @error('g-recaptcha-response') <small class="text-danger d-block">{{ $message }}</small> @enderror
                 </div>
                     <div class="mb-3 text-center">
-                        <button type="submit" class="gradient-button fw-bold login-button w-100">Signup</button>
+                       <a href="{{ route('verify.notice') }}" class="gradient-button fw-bold login-button w-100">
+                        Verify Email
+                    </a>
+
+                        <!-- <button type="submit" class="gradient-button fw-bold login-button w-100">Signup</button> -->
 
 
 
