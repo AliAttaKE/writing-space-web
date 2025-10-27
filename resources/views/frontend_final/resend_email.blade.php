@@ -73,7 +73,7 @@ button:disabled {
     <button id="resendBtn" onclick="resendVerification()" style="
     margin-left: 372px;
 ">Resend Email</button>
-    <div id="loader">Please wait... (2 minutes)</div>
+    <div style="display: block;margin-left: 357px;" id="loader">Please wait... (2 minutes)</div>
 
     <p class="small">Didn’t get it? Try resending or contact <b>support@writing-space.com</b></p>
     </div>
