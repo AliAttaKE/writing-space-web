@@ -48,7 +48,7 @@ button:hover {
         You can now log in and start using your Writing Space account.
     </p>
 
-    <button onclick="window.location.href='{{ route('login') }}'">Go to Login</button>
+    <button class="gradient-button fw-bold login-button w-100" onclick="window.location.href='{{ route('login') }}'">Go to Login</button>
 
 </section>
 

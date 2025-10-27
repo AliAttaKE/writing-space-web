@@ -70,7 +70,7 @@ button:disabled {
 
     <p>Also, make sure to <b>whitelist</b> our email ID for future order updates and communication.</p>
 
-    <button id="resendBtn" onclick="resendVerification()" style="
+    <button class="gradient-button fw-bold login-button w-100" id="resendBtn" onclick="resendVerification()" style="
     margin-left: 372px;
 ">Resend Email</button>
     <div style="display: block;margin-left: 357px;" id="loader">Please wait... (2 minutes)</div>
