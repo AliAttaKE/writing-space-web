@@ -60,7 +60,9 @@ button:disabled {
             <div class="bordered-card p-5 col-md-10 forms-custom login-signup-form">
     <img src="{{ asset('verify-email-banner.png') }}" alt="Verify Email Banner" width="320" style="margin-bottom: 25px;">
 
-    <h1>Check Your Email</h1>
+    <h1 style="
+    margin-left: 240px;
+">Check Your Email</h1>
     <p>Thank you for signing up with <b>Writing Space</b>!<br>
        We’ve sent a verification email from <b>support@writing-space.com</b>.</p>
 
@@ -69,7 +71,9 @@ button:disabled {
 
     <p>Also, make sure to <b>whitelist</b> our email ID for future order updates and communication.</p>
 
-    <button id="resendBtn" onclick="resendVerification()">Resend Email</button>
+    <button id="resendBtn" onclick="resendVerification()" style="
+    margin-left: 372px;
+">Resend Email</button>
     <div id="loader">Please wait... (2 minutes)</div>
 
     <p class="small">Didn’t get it? Try resending or contact <b>support@writing-space.com</b></p>
