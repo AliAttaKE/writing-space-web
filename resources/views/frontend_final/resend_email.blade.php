@@ -1,7 +1,18 @@
 @extends('frontend_final.Layout.masters')
 @section('content')
-
 <style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at center, #3f0071, #1a0033);
+  color: #fff;
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .wrapper-center {
   text-align: center;
   min-height: 80vh;
@@ -60,6 +71,7 @@ button:hover:not(:disabled) {
   to { transform: rotate(360deg); }
 }
 </style>
+
 
 <section class="bg-dark pt-160px">
     <div class="container wrapper-center">
