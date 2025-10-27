@@ -54,7 +54,9 @@ button:disabled {
 }
 </style>
 
-
+ <br>
+ <br>
+ <br>
 
  <section class="bg-dark section-card-phases pt-160px verify-wrapper">
         <div class="container d-flex justify-content-center mb-5">
