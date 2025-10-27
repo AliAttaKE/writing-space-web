@@ -76,19 +76,46 @@
         <p class="fs-5">Depend on our consistent support to help you through academic challenges -<br>
             Fill out the form below. Help is just one click away!</p>
         <div class="col-lg-6 col-md-6">
-            <input type="text" name="first_name" class="form-control" placeholder="First Name" required>
+            <!-- <input type="text" name="first_name" class="form-control" placeholder="First Name" required> -->
+       
+       @guest
+<input type="text" class="form-control" placeholder="First Name" onclick="showLoginPopup()" readonly>
+@else
+<input type="text" name="first_name" class="form-control" placeholder="First Name" required>
+@endguest
+
         </div>
         <div class="col-lg-6 col-md-6">
-            <input type="text" name="last_name" class="form-control" placeholder="Last Name" required>
+            <!-- <input type="text" name="last_name" class="form-control" placeholder="Last Name" required> -->
+        
+        @guest
+<input type="text" class="form-control" placeholder="First Name" onclick="showLoginPopup()" readonly>
+@else
+<input type="text" name="first_name" class="form-control" placeholder="First Name" required>
+@endguest
+
         </div>
     </div>
 
     <div class="row sample-text-field justify-content-center align-items-center">
         <div class="col-lg-12 col-md-12 mt-4">
-            <input type="email" name="email" class="form-control" placeholder="Email" required>
+            <!-- <input type="email" name="email" class="form-control" placeholder="Email" required> -->
+       
+       @guest
+<input type="email" class="form-control" placeholder="Email" onclick="showLoginPopup()" readonly>
+@else
+<input type="email" name="email" class="form-control" placeholder="Email" required>
+@endguest
+
         </div>
         <div class="col-lg-12 col-md-12 mt-4">
-            <textarea name="message" class="form-control" cols="30" rows="10" placeholder="Message" required></textarea>
+            <!-- <textarea name="message" class="form-control" cols="30" rows="10" placeholder="Message" required></textarea> -->
+       @guest
+<textarea class="form-control" cols="30" rows="10" placeholder="Message" onclick="showLoginPopup()" readonly></textarea>
+@else
+<textarea name="message" class="form-control" cols="30" rows="10" placeholder="Message" required></textarea>
+@endguest
+
         </div>
         <p class="text-danger my-4"> Disclaimer: By submitting, you agree to our Privacy Policy and Terms. <br> Data is used solely to respond to inquiries.</p>
        <div class="mb-3 text-center">
@@ -96,21 +123,36 @@
                     @error('g-recaptcha-response') <small class="text-danger d-block">{{ $message }}</small> @enderror
                 </div>
 
-               @auth
-            <div class="col-md-2 col-sm-3 mt-4">
-                <button type="submit" class="btn gradient-button w-100">Submit</button>
-            </div>
-        @else
-            <div class="text-center text-white my-5">
-                <h4>Please <a href="{{ route('login') }}" class="text-purple">login</a> to continue.</h4>
-            </div>
-        @endauth
+              @guest
+<div class="col-md-2 col-sm-3 mt-4">
+    <button type="button" onclick="showLoginPopup()" class="btn gradient-button w-100">Submit</button>
+</div>
+@else
+<div class="col-md-2 col-sm-3 mt-4">
+    <button type="submit" class="btn gradient-button w-100">Submit</button>
+</div>
+@endguest
+
     </div>
 </form>
 
         </div>
     </div>
 </section>
+@guest
+<div id="loginOverlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:9999;">
+  <div class="popup" style="background: linear-gradient(135deg, #007bff, #0056b3);color: #fff;border-radius: 12px;box-shadow: 0 10px 25px rgba(0,0,0,0.3);width: 400px;padding: 35px 30px;text-align: center;position:relative;">
+    <button onclick="closePopup()" style="position:absolute;top:10px;right:15px;background:none;border:none;font-size:20px;color:white;cursor:pointer;">×</button>
+    <h1>Welcome to Writing Space!</h1>
+    <p>For security and better support, please sign in to reach our team.</p>
+    <p>Already have an account? Click <b>Login</b>.<br>New here? Choose <b>Sign Up</b> to start.</p>
+    <div class="buttons" style="display:flex;justify-content:center;gap:15px;">
+      <button onclick="window.location.href='{{ route('login') }}'">Login</button>
+      <button onclick="window.location.href='{{ route('register') }}'">Sign Up</button>
+    </div>
+  </div>
+</div>
+@endguest
 
 
 <section class="bg-dark section-card-phases bg-height-0">
@@ -294,4 +336,16 @@
 
 
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
+<script>
+    function showLoginPopup() {
+        document.getElementById('loginOverlay').style.display = 'flex';
+    }
+    function closePopup() {
+        document.getElementById('loginOverlay').style.display = 'none';
+    }
+</script>
+
+
     @endsection
