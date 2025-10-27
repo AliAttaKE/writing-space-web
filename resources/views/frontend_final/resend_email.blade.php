@@ -54,11 +54,8 @@ button:disabled {
 }
 </style>
 
- <br>
- <br>
- <br>
 
- <section class="bg-dark section-card-phases pt-160px verify-wrapper">
+ <section class="bg-dark section-card-phases pt-160px">
         <div class="container d-flex justify-content-center mb-5">
             <div class="bordered-card p-5 col-md-10 forms-custom login-signup-form">
     <img src="{{ asset('verify-email-banner.png') }}" alt="Verify Email Banner" width="320" style="margin-bottom: 25px;">
