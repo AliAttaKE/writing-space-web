@@ -1,17 +1,20 @@
 @extends('frontend_final.Layout.masters')
 @section('content')
 
-<style>body {
-  margin: 0;
+<style>
+body {
   font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at center, #3f0071, #1a0033);
+  background: radial-gradient(circle at center, #3f0071, #1a0033) !important;
   color: #fff;
+}
+.verify-wrapper {
   text-align: center;
-  height: 100vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 50px;
 }
 h1 {
   font-size: 42px;
@@ -33,82 +36,68 @@ button {
   cursor: pointer;
   transition: background 0.3s ease;
 }
-button:hover {
+button:hover:not(:disabled) {
   background-color: #0056b3;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 .small {
   font-size: 14px;
   opacity: 0.8;
   margin-top: 20px;
 }
+#loader {
+  display: none;
+  margin-top: 10px;
+}
 </style>
 
-<section class="bg-dark pt-160px">
-    <div class="container wrapper-center">
+<section class="verify-wrapper">
+    <img src="{{ asset('verify-email-banner.png') }}" alt="Verify Email Banner" width="320" style="margin-bottom: 25px;">
 
-        <img src="{{ asset('verify-email-banner.png') }}" alt="Verify Email Banner" width="320" style="margin-bottom:20px;">
-        <h1>Check Your Email</h1>
-        <p>Thank you for signing up with <b>Writing Space</b>!<br>
-           We’ve sent a verification email from <b>support@writing-space.com</b>.</p>
+    <h1>Check Your Email</h1>
+    <p>Thank you for signing up with <b>Writing Space</b>!<br>
+       We’ve sent a verification email from <b>support@writing-space.com</b>.</p>
 
-        <p>Please check your <b>Inbox</b> and <b>Spam/Junk</b> folders.<br>
-           Click the link inside that email to verify your account.</p>
+    <p>Please check your <b>Inbox</b> and <b>Spam/Junk</b> folders.<br>
+       Click the link inside that email to verify your account.</p>
 
-        <p>Also, make sure to <b>whitelist</b> our email ID for future order updates and communication.</p>
+    <p>Also, make sure to <b>whitelist</b> our email ID for future order updates and communication.</p>
 
-        <!-- ✅ Button with loader -->
-        <button id="resendBtn" onclick="resendVerification()">Resend Email</button>
-        <div id="loader">
-            <div class="spinner"></div>
-            <p class="mt-2">Sending, please wait...</p>
-        </div>
+    <button id="resendBtn" onclick="resendVerification()">Resend Email</button>
+    <div id="loader">Please wait... (2 minutes)</div>
 
-        <p class="small">Didn’t get it? Try resending or contact <b>support@writing-space.com</b></p>
-    </div>
+    <p class="small">Didn’t get it? Try resending or contact <b>support@writing-space.com</b></p>
 </section>
 
 <script>
-    function resendVerification() {
-        let btn = document.getElementById('resendBtn');
-        let loader = document.getElementById('loader');
+function resendVerification() {
+    let btn = document.getElementById('resendBtn');
+    let loader = document.getElementById('loader');
 
-        btn.disabled = true;
-        loader.style.display = 'block';
+    btn.disabled = true;
+    loader.style.display = 'block';
 
-        fetch("{{ route('verification.resend') }}", {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                "Accept": "application/json"
-            },
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-        })
-        .catch(err => console.error(err));
-
-        let twoMinutes = 2 * 60 * 1000;
-        localStorage.setItem('resendTimer', Date.now() + twoMinutes);
-    }
-
-    window.onload = function() {
-        let timer = localStorage.getItem('resendTimer');
-        let btn = document.getElementById('resendBtn');
-        let loader = document.getElementById('loader');
-
-        if (timer && Date.now() < timer) {
-            btn.disabled = true;
-            loader.style.display = 'block';
-
-            let timeLeft = timer - Date.now();
-            setTimeout(() => {
-                btn.disabled = false;
-                loader.style.display = 'none';
-                localStorage.removeItem('resendTimer');
-            }, timeLeft);
+    fetch("{{ route('verification.resend') }}", {
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+            "Accept": "application/json"
         }
-    }
+    })
+    .then(res => res.json())
+    .then(data => {})
+    .catch(err => console.error(err));
+
+    // cooldown timer - 2 minutes
+    let twoMinutes = 2 * 60 * 1000;
+    setTimeout(() => {
+        btn.disabled = false;
+        loader.style.display = 'none';
+    }, twoMinutes);
+}
 </script>
 
 @endsection
