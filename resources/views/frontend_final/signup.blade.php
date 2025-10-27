@@ -23,7 +23,7 @@
                     </div>
                     <div class="mb-3">
 
-                        <input type="email" name="email" placeholder="Email" class="w-100" value="{{ old('email') }}" required>
+                        <input type="email" name="email" placeholder="Email" class="w-100" value="{{ old('email') }}">
                         @error('email')
                               <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -68,11 +68,7 @@
                     <div class="g-recaptcha d-inline-block" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
                     @error('g-recaptcha-response') <small class="text-danger d-block">{{ $message }}</small> @enderror
                 </div>
-                    <!-- <div class="mb-3 text-center">
-                       <a href="{{ route('verify.notice') }}" class="gradient-button fw-bold login-button w-100">
-                       Signup
-                    </a> -->
-
+                    <div class="mb-3 text-center">
                         <button type="submit" class="gradient-button fw-bold login-button w-100">Signup</button>
 
 
