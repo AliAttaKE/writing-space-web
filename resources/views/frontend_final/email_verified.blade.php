@@ -40,7 +40,7 @@ button:hover {
 
 <section class="verify-wrapper">
 
-    <img src="{{ asset('email-verified-banner.png') }}" alt="Email Verified Banner" width="320" style="margin-bottom: 20px;">
+    
 
     <h1>Email Verified Successfully 🎉</h1>
     <p>
