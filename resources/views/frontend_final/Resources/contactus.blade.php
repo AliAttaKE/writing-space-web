@@ -148,7 +148,7 @@
     <p>Already have an account? Click <b>Login</b>.<br>New here? Choose <b>Sign Up</b> to start.</p>
     <div class="buttons" style="display:flex;justify-content:center;gap:15px;">
       <button class="btn gradient-button w-100" onclick="window.location.href='{{ route('login') }}'">Login</button>
-      <button class="btn gradient-button w-100" onclick="window.location.href='{{ route('register') }}'">Sign Up</button>
+      <button class="btn gradient-button w-100" onclick="window.location.href='{{ route('front.signup') }}'">Sign Up</button>
     </div>
   </div>
 </div>
