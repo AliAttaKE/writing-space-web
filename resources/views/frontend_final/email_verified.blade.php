@@ -1,17 +1,17 @@
 @extends('frontend_final.Layout.masters')
 @section('content')
+
 <style>
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at center, #3f0071, #1a0033);
-  color: #fff;
+.verify-wrapper {
   text-align: center;
-  height: 100vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: radial-gradient(circle at center, #3f0071, #1a0033);
+  color: #fff;
+  padding: 50px 0;
 }
 h1 {
   font-size: 42px;
@@ -38,20 +38,18 @@ button:hover {
 }
 </style>
 
-<section class="bg-dark pt-160px">
-    <div class="container wrapper-center">
+<section class="verify-wrapper">
 
-  <img src="email-verified-banner.png" alt="Email Verified Banner" width="320" style="margin-bottom: 20px;">
-  <h1>Email Verified Successfully 🎉</h1>
-  <p>Your email address has been verified.<br>
-     You can now log in and start using your Writing Space account.
-  </p>
-  <button onclick="window.location.href='login'">Go to Login</button>   
-</div>
+    <img src="{{ asset('email-verified-banner.png') }}" alt="Email Verified Banner" width="320" style="margin-bottom: 20px;">
+
+    <h1>Email Verified Successfully 🎉</h1>
+    <p>
+        Your email address has been successfully verified.<br>
+        You can now log in and start using your Writing Space account.
+    </p>
+
+    <button onclick="window.location.href='{{ route('login') }}'">Go to Login</button>
+
 </section>
-
-<script>
-
-</script>
 
 @endsection
