@@ -20,10 +20,10 @@ button:disabled { opacity:.6; cursor:not-allowed; }
         <div class="bordered-card p-5 col-md-10 forms-custom login-signup-form">
 
     <h1 style="margin-left: 240px;">Check Your Email</h1>
-    <p>Thank you for signing up with <b>Writing Space</b>!<br>
+    <p style="margin-left: 240px;">Thank you for signing up with <b>Writing Space</b>!<br>
        We’ve sent a verification email from <b>support@writing-space.com</b>.</p>
 
-    <p>Check your <b>Inbox</b> and <b>Spam/Junk</b> folders.<br>
+    <p style="margin-left: 240px;">Check your <b>Inbox</b> and <b>Spam/Junk</b> folders.<br>
        Click the link inside to verify your account.</p>
 
     <button class="gradient-button fw-bold login-button" id="resendBtn"
