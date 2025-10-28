@@ -746,7 +746,7 @@ public function resendVerification(Request $request)
             return redirect()->route('register')->with('error', 'Invalid or expired verification link.');
         }
     }
-}
+
 
 // public function customCustomerRegistrationProcess(Request $request)
 // {
