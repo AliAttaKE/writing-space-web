@@ -683,44 +683,43 @@ public function resendVerification(Request $request)
 //         } else {
 //             return redirect()->route('front.signup')->with('error', 'Something went wrong!');
 //         }
-//     }
- public function customCustomerRegistrationProcess(Request $request)
-    {
-        $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|min:8|confirmed',
-        ]);
+//     }public function customCustomerRegistrationProcess(Request $request)
+{
+    $request->validate([
+        'name'     => 'required|string|max:255',
+        'email'    => 'required|email|unique:users,email',
+        'password' => 'required|min:8|confirmed',
+    ]);
 
-        // Step 1: Temp encrypted data
-        $tempData = encrypt(json_encode([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
-        ]));
+    // Step 1: Temp encrypted data
+    $tempData = encrypt(json_encode([
+        'name'     => $request->name,
+        'email'    => $request->email,
+        'password' => Hash::make($request->password),
+    ]));
 
-        // Step 2: Create verification link
-        $verificationLink = route('verify.email', ['token' => $tempData]);
+    // Step 2: Create verification link
+    $verificationLink = route('verify.email', ['token' => $tempData]);
 
-        // Step 3: Email content
-        $emailSubject = '✅ Verify your email to activate your Writing Space account';
-        $emailBody = "
-            <p>Hi {$request->name},</p>
-            <p>Thank you for signing up with <strong>Writing Space</strong>!<br>
-            Please verify your email to activate your account.</p>
-            <p><a href='{$verificationLink}' target='_blank'>Click here to Verify Email</a></p>
-            <p>If you didn’t request this, you may safely ignore this message.</p>
-        ";
+    // Step 3: Email content
+    $emailSubject = '✅ Verify your email to activate your Writing Space account';
+    $emailBody = "
+        <p>Hi {$request->name},</p>
+        <p>Thank you for signing up with <strong>Writing Space</strong>!<br>
+        Please verify your email to activate your account.</p>
+        <p><a href='{$verificationLink}' target='_blank'>Click here to Verify Email</a></p>
+        <p>If you didn’t request this, you may safely ignore this message.</p>
+    ";
 
-        // Step 4: Send Email
-        Mail::html($emailBody, function ($message) use ($request, $emailSubject) {
-            $message->to($request->email)
-                    ->from('support@writing-space.com', 'Writing Space')
-                    ->subject($emailSubject);
-        });
+    // Step 4: Send Email (without from)
+    Mail::html($emailBody, function ($message) use ($request, $emailSubject) {
+        $message->to($request->email)
+                ->subject($emailSubject);
+    });
 
-        return redirect()->route('verify.notice');
-    }
+    return redirect()->route('verify.notice');
+}
+
  public function verifyEmail(Request $request)
     {
         try {
