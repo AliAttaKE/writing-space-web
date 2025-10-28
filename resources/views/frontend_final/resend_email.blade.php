@@ -32,7 +32,7 @@ button:disabled { opacity:.6; cursor:not-allowed; }
     </button>
 
     <div style="display:block; margin-left:357px;" id="loader">
-        Please wait... (2 minutes)
+        Please wait... (<span id="countdown">2:00</span>)
     </div>
 
     <p class="small">Didn’t get it? Try resending or contact <b>support@writing-space.com</b></p>
@@ -41,18 +41,46 @@ button:disabled { opacity:.6; cursor:not-allowed; }
 </section>
 
 <script>
-let cooldown = false;
+let cooldown = true;
+let countdownTime = 120; // 2 minutes in seconds
+let countdownInterval;
 
-function resendVerification() {
+window.onload = function() {
+    const btn = document.getElementById('resendBtn');
+    const loader = document.getElementById('loader');
+    const countdownDisplay = document.getElementById('countdown');
 
-    if (cooldown) return;
-
-    let btn = document.getElementById('resendBtn');
-    let loader = document.getElementById('loader');
-
+    // Disable button on load and start timer
     btn.disabled = true;
     loader.style.display = 'block';
+
+    countdownInterval = setInterval(() => {
+        if (countdownTime > 0) {
+            countdownTime--;
+            let minutes = Math.floor(countdownTime / 60);
+            let seconds = countdownTime % 60;
+            countdownDisplay.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+        } else {
+            clearInterval(countdownInterval);
+            btn.disabled = false;
+            loader.style.display = 'none';
+            cooldown = false;
+        }
+    }, 1000);
+};
+
+function resendVerification() {
+    if (cooldown) return;
+
+    const btn = document.getElementById('resendBtn');
+    const loader = document.getElementById('loader');
+    const countdownDisplay = document.getElementById('countdown');
+
     cooldown = true;
+    btn.disabled = true;
+    loader.style.display = 'block';
+    countdownTime = 120; // reset timer
+    countdownDisplay.textContent = '2:00';
 
     fetch("{{ route('verification.resend') }}", {
         method: "POST",
@@ -65,12 +93,20 @@ function resendVerification() {
     .then(data => console.log(data))
     .catch(err => console.error(err));
 
-    // 2 minute cooldown
-    setTimeout(() => {
-        cooldown = false;
-        btn.disabled = false;
-        loader.style.display = 'none';
-    }, 2 * 60 * 1000);
+    // Restart timer
+    countdownInterval = setInterval(() => {
+        if (countdownTime > 0) {
+            countdownTime--;
+            let minutes = Math.floor(countdownTime / 60);
+            let seconds = countdownTime % 60;
+            countdownDisplay.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+        } else {
+            clearInterval(countdownInterval);
+            btn.disabled = false;
+            loader.style.display = 'none';
+            cooldown = false;
+        }
+    }, 1000);
 }
 </script>
 
