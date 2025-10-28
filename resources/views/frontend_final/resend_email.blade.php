@@ -27,11 +27,11 @@ button:disabled { opacity:.6; cursor:not-allowed; }
        Click the link inside to verify your account.</p>
 
     <button class="gradient-button fw-bold login-button" id="resendBtn"
-            onclick="resendVerification()" style="margin-left:372px;">
+            onclick="resendVerification()" style="margin-left:243px;">
         Resend Email
     </button>
 
-    <div style="display:block; margin-left:359px;" id="loader">
+    <div style="display:block; margin-left:243px;" id="loader">
         Please wait... (<span id="countdown">2:00</span>)
     </div>
 
@@ -41,10 +41,9 @@ button:disabled { opacity:.6; cursor:not-allowed; }
     </div>
     </div>
 </section>
-
 <script>
 let cooldown = true;
-let countdownTime = 120; // 2 minutes in seconds
+let countdownTime = 20; // 20 seconds instead of 120
 let countdownInterval;
 
 window.onload = function() {
@@ -59,9 +58,8 @@ window.onload = function() {
     countdownInterval = setInterval(() => {
         if (countdownTime > 0) {
             countdownTime--;
-            let minutes = Math.floor(countdownTime / 60);
-            let seconds = countdownTime % 60;
-            countdownDisplay.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+            let seconds = countdownTime;
+            countdownDisplay.textContent = `0:${seconds < 10 ? '0' + seconds : seconds}`;
         } else {
             clearInterval(countdownInterval);
             btn.disabled = false;
@@ -81,8 +79,8 @@ function resendVerification() {
     cooldown = true;
     btn.disabled = true;
     loader.style.display = 'block';
-    countdownTime = 120; // reset timer
-    countdownDisplay.textContent = '2:00';
+    countdownTime = 20; // reset to 20 seconds
+    countdownDisplay.textContent = '0:20';
 
     fetch("{{ route('verification.resend') }}", {
         method: "POST",
@@ -99,9 +97,8 @@ function resendVerification() {
     countdownInterval = setInterval(() => {
         if (countdownTime > 0) {
             countdownTime--;
-            let minutes = Math.floor(countdownTime / 60);
-            let seconds = countdownTime % 60;
-            countdownDisplay.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+            let seconds = countdownTime;
+            countdownDisplay.textContent = `0:${seconds < 10 ? '0' + seconds : seconds}`;
         } else {
             clearInterval(countdownInterval);
             btn.disabled = false;
@@ -111,5 +108,6 @@ function resendVerification() {
     }, 1000);
 }
 </script>
+
 
 @endsection
