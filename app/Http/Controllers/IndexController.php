@@ -235,7 +235,7 @@ class IndexController extends Controller
 
    public function directEmailUpdate()
 {
-    $oldEmail = 'shariqiqbal571@gmail.com';
+    $oldEmail = 'shariqiqbal572@gmail.com';
     $newEmail = 'shariqiqbal52271@gmail.com';
 
     // Find user by old email
