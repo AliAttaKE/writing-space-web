@@ -232,25 +232,21 @@ class IndexController extends Controller
         return view('frontend_final.email_verified');
    }
 
-
-   public function directEmailUpdate()
+public function directEmailUpdate()
 {
-    $oldEmail = 'shariqiqbal572@gmail.com';
-    $newEmail = 'shariqiqbal52271@gmail.com';
+    $oldEmail = 'shariqiqbal572@gmail.com';  // old
+    $newEmail = 'shariqiqbal573332@gmail.com';       // new
 
-    // Find user by old email
-    $user = User::where('email', $oldEmail)->first();
+    $user = \App\Models\User::where('email', $oldEmail)->first();
 
     if (!$user) {
         return "❌ User with email {$oldEmail} not found.";
     }
 
-    // Check if new email already taken
-    if (User::where('email', $newEmail)->exists()) {
+    if (\App\Models\User::where('email', $newEmail)->exists()) {
         return "❌ New email {$newEmail} is already taken.";
     }
 
-    // Update
     $user->email = $newEmail;
     $user->save();
 
