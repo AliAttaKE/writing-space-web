@@ -268,9 +268,12 @@ public function resendVerification(Request $request)
     ";
 
     // send email
-    Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
-        $message->to($user->email)->subject($emailSubject);
-    });
+   Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
+    $message->to($user->email)
+            ->from('support@writing-space.com', 'Writing Space')
+            ->replyTo('support@writing-space.com')
+            ->subject($emailSubject);
+});
 
     // update timestamp
     $user->update(['last_verification_sent_at' => now()]);
