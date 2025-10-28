@@ -683,7 +683,9 @@ public function resendVerification(Request $request)
 //         } else {
 //             return redirect()->route('front.signup')->with('error', 'Something went wrong!');
 //         }
-//     }public function customCustomerRegistrationProcess(Request $request)
+//     }
+
+public function customCustomerRegistrationProcess(Request $request)
 {
     $request->validate([
         'name'     => 'required|string|max:255',
@@ -719,6 +721,7 @@ public function resendVerification(Request $request)
 
     return redirect()->route('verify.notice');
 }
+
 
  public function verifyEmail(Request $request)
     {
