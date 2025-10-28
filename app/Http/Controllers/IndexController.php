@@ -233,34 +233,26 @@ class IndexController extends Controller
    }
 public function resendVerification(Request $request)
 {
-    $user = auth()->user();
+    // Fetch session data (saved at registration time)
+    $tempData = session('pending_verification_data');
+    $pendingEmail = session('pending_email');
 
-    // Rate limit : 2 minutes
-    if ($user->last_verification_sent_at && now()->diffInMinutes($user->last_verification_sent_at) < 2) {
-        return response()->json(['message' => 'Please wait before resending again.'], 429);
+    if (!$tempData || !$pendingEmail) {
+        return response()->json(['message' => 'No pending verification found.'], 404);
     }
 
-  // Step 2: Create verification link
+    // Step 1: Generate link again
     $verificationLink = route('verify.email', ['token' => $tempData]);
 
-    // Step 3: Email content
+    // Step 2: Email content
     $emailSubject = '✅ Verify your email to activate your Writing Space account';
     $emailBody = "
-        <p>Hi {$request->name},</p>
+        <p>Hi,</p>
 
-        <p>Thank you for signing up with <strong>Writing Space</strong>!<br>
-        Before we can activate your account, we need to verify your email address.</p>
+        <p>Here is your email verification link:</p>
+        <p><a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
 
-        <p><strong>Please copy and paste the following link into your browser:</strong><br>
-        <a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
-
-        <p><strong>⚠️ Important:</strong></p>
-        <ul>
-            <li>Check your Inbox and Spam/Junk folders if you don’t see our emails.</li>
-            <li>Add <strong>support@writing-space.com</strong> to your safe sender or whitelist — this ensures you don’t miss important updates, order notifications, or payment alerts.</li>
-        </ul>
-
-        <p>If you didn’t sign up for Writing Space, you can safely ignore this email.</p>
+        <p>⚠️ Please check Spam/Junk if not found in Inbox.</p>
 
         <br>
 
@@ -270,16 +262,14 @@ public function resendVerification(Request $request)
         https://www.writing-space.com</p>
     ";
 
-    // Step 4: Send Email (NO FROM ADDED → Titan SMTP will use default sender)
-    Mail::html($emailBody, function ($message) use ($request, $emailSubject) {
-        $message->to($request->email)->subject($emailSubject);
+    // Step 3: Send email
+    Mail::html($emailBody, function ($message) use ($pendingEmail, $emailSubject) {
+        $message->to($pendingEmail)->subject($emailSubject);
     });
-
-    // update timestamp
-    $user->update(['last_verification_sent_at' => now()]);
 
     return response()->json(['message' => 'Verification email sent successfully!']);
 }
+
 
 
 

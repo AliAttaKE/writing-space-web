@@ -622,7 +622,7 @@ Route::get('/copyright', [IndexController::class, 'copyright'])->name('front.cop
 Route::get('/sign-up', [IndexController::class, 'createSignup'])->name('front.signup');
 Route::get('/verify-resend', [IndexController::class, 'checkEmailNotice'])->name('verify.notice');
 Route::get('/verify-confirm', [IndexController::class, 'emailverified'])->name('verification.confirm');
-Route::post('/resend-verification', [IndexController::class, 'resendVerification'])
+Route::post('/resend-verification', [IndexController::class, 'resendVerificationEmail'])
     ->name('verification.resend');
 
 
