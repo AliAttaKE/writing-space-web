@@ -240,40 +240,40 @@ public function resendVerification(Request $request)
         return response()->json(['message' => 'Please wait before resending again.'], 429);
     }
 
-   $verificationLink = route('verify.email', encrypt($user->email));
+  // Step 2: Create verification link
+    $verificationLink = route('verify.email', ['token' => $tempData]);
 
+    // Step 3: Email content
+    $emailSubject = '✅ Verify your email to activate your Writing Space account';
+    $emailBody = "
+        <p>Hi {$request->name},</p>
 
-    $emailSubject = "✅ Verify your email to activate your Writing Space account";
-    $emailContent = "
-        <p>Hi {$user->name},</p>
-        <p>Thank you for signing up with <strong>Writing Space!</strong><br>
+        <p>Thank you for signing up with <strong>Writing Space</strong>!<br>
         Before we can activate your account, we need to verify your email address.</p>
-        
-        <p>Please click the link below to verify your email:</p>
-        <p><a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
+
+        <p><strong>Please copy and paste the following link into your browser:</strong><br>
+        <a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
 
         <p><strong>⚠️ Important:</strong></p>
         <ul>
             <li>Check your Inbox and Spam/Junk folders if you don’t see our emails.</li>
-            <li>Add <strong>support@writing-space.com</strong> to your safe sender list / whitelist.</li>
+            <li>Add <strong>support@writing-space.com</strong> to your safe sender or whitelist — this ensures you don’t miss important updates, order notifications, or payment alerts.</li>
         </ul>
 
         <p>If you didn’t sign up for Writing Space, you can safely ignore this email.</p>
 
         <br>
+
         <p>Warm regards,<br>
         <strong>Team Writing Space</strong><br>
         support@writing-space.com<br>
         https://www.writing-space.com</p>
     ";
 
-    // send email
-   Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
-    $message->to($user->email)
-            ->from('support@writing-space.com', 'Writing Space')
-            ->replyTo('support@writing-space.com')
-            ->subject($emailSubject);
-});
+    // Step 4: Send Email (NO FROM ADDED → Titan SMTP will use default sender)
+    Mail::html($emailBody, function ($message) use ($request, $emailSubject) {
+        $message->to($request->email)->subject($emailSubject);
+    });
 
     // update timestamp
     $user->update(['last_verification_sent_at' => now()]);
