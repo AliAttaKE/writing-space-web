@@ -682,18 +682,20 @@ public function customCustomerRegistrationProcess(Request $request)
         'email'    => 'required|email|unique:users,email',
         'password' => 'required|min:8|confirmed',
     ]);
+  session()->forget(['pending_verification_data', 'pending_email']);
 
-    // Step 1: Temp encrypted data
+// Ab naya save karo
     $tempData = encrypt(json_encode([
         'name'     => $request->name,
         'email'    => $request->email,
         'password' => Hash::make($request->password),
     ]));
 
-     session([
-        'pending_verification_data' => $tempData,
-        'pending_email'             => $request->email
-    ]);
+  
+session([
+    'pending_verification_data' => $tempData,
+    'pending_email'             => $request->email
+]);
 
     // Step 2: Create verification link
     $verificationLink = route('verify.email', ['token' => $tempData]);
