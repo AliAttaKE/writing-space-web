@@ -43,7 +43,7 @@ button:disabled { opacity:.6; cursor:not-allowed; }
 </section>
 <script>
 let cooldown = true;
-let countdownTime = 20; // 20 seconds instead of 120
+let countdownTime = 120; // 120 seconds (2 minutes)
 let countdownInterval;
 
 window.onload = function() {
@@ -58,8 +58,10 @@ window.onload = function() {
     countdownInterval = setInterval(() => {
         if (countdownTime > 0) {
             countdownTime--;
-            let seconds = countdownTime;
-            countdownDisplay.textContent = `0:${seconds < 10 ? '0' + seconds : seconds}`;
+            // minutes and seconds calculation
+            let minutes = Math.floor(countdownTime / 60);
+            let seconds = countdownTime % 60;
+            countdownDisplay.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
         } else {
             clearInterval(countdownInterval);
             btn.disabled = false;
@@ -79,8 +81,8 @@ function resendVerification() {
     cooldown = true;
     btn.disabled = true;
     loader.style.display = 'block';
-    countdownTime = 20; // reset to 20 seconds
-    countdownDisplay.textContent = '0:20';
+    countdownTime = 120; // reset timer to 2 minutes
+    countdownDisplay.textContent = '2:00';
 
     fetch("{{ route('verification.resend') }}", {
         method: "POST",
@@ -97,8 +99,9 @@ function resendVerification() {
     countdownInterval = setInterval(() => {
         if (countdownTime > 0) {
             countdownTime--;
-            let seconds = countdownTime;
-            countdownDisplay.textContent = `0:${seconds < 10 ? '0' + seconds : seconds}`;
+            let minutes = Math.floor(countdownTime / 60);
+            let seconds = countdownTime % 60;
+            countdownDisplay.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
         } else {
             clearInterval(countdownInterval);
             btn.disabled = false;
