@@ -737,33 +737,56 @@ public function customCustomerRegistrationProcess(Request $request)
 
     return redirect()->route('verify.notice');
 }
+public function verifyEmail(Request $request)
+{
+    try {
+        // Step 1: Decrypt token
+        $data = json_decode(decrypt($request->token), true);
 
-
- public function verifyEmail(Request $request)
-    {
-        try {
-            // Step 1: Decrypt token
-            $data = json_decode(decrypt($request->token), true);
-
-            // Step 2: Already verified?
-            if (User::where('email', $data['email'])->exists()) {
-                return redirect()->route('login')->with('message', 'Email already verified. Please login.');
-            }
-
-            // Step 3: Create account
-            User::create([
-                'name'     => $data['name'],
-                'email'    => $data['email'],
-                'password' => $data['password'],
-            ]);
-
-            // Step 4: Redirect after success
-            return redirect()->route('login')->with('success', 'Email verified successfully. Please login.');
-        } 
-        catch (\Exception $e) {
-            return redirect()->route('register')->with('error', 'Invalid or expired verification link.');
+        // Step 2: Already verified?
+        if (User::where('email', $data['email'])->exists()) {
+            return redirect()->route('verification.confirm')
+                ->with('message', 'Your email is already verified.');
         }
+
+        // Step 3: Create account
+        $user = User::create([
+            'name'     => $data['name'],
+            'email'    => $data['email'],
+            'password' => $data['password'],
+        ]);
+
+        // ✅ Step 4: Success Email Body
+        $emailSubject = "🎉 Your Writing Space account is now Active";
+        $emailBody = "
+            <p>Hi {$user->name},</p>
+            <p>🎉 Congratulations! Your email has been successfully verified and your Writing Space account is now active.</p>
+            <p>You can now log in and start using all features.</p>
+            <p>
+                <a href='" . route('login') . "' target='_blank'>
+                    Click here to Login
+                </a>
+            </p>
+            <br>
+            <p>If you need help, feel free to contact us at <b>support@writing-space.com</b>.</p>
+            <p>Warm regards,<br>Team Writing Space<br>https://www.writing-space.com</p>
+        ";
+
+        // ✅ Step 5: Send Email (simple)
+        Mail::html($emailBody, function ($message) use ($user, $emailSubject) {
+            $message->to($user->email)
+                    ->subject($emailSubject);
+        });
+
+        // ✅ Step 6: Redirect to confirmation page
+        return redirect()->route('verification.confirm')
+            ->with('success', 'Your email has been verified successfully!');
+    } 
+    catch (\Exception $e) {
+        return redirect()->route('register')
+            ->with('error', 'Invalid or expired verification link.');
     }
+}
 
 
 // public function customCustomerRegistrationProcess(Request $request)
