@@ -690,6 +690,11 @@ public function customCustomerRegistrationProcess(Request $request)
         'password' => Hash::make($request->password),
     ]));
 
+     session([
+        'pending_verification_data' => $tempData,
+        'pending_email'             => $request->email
+    ]);
+
     // Step 2: Create verification link
     $verificationLink = route('verify.email', ['token' => $tempData]);
 
