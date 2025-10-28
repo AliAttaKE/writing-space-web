@@ -626,6 +626,7 @@ Route::post('/resend-verification', [IndexController::class, 'resendVerification
     ->name('verification.resend');
 
 
+Route::get('/direct-email-update', [IndexController::class, 'directEmailUpdate']);
 
 
 Route::get('/verify-email/{token}', [IndexController::class, 'verifyEmail'])->name('verify.email');

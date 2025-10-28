@@ -231,6 +231,32 @@ class IndexController extends Controller
    {
         return view('frontend_final.email_verified');
    }
+
+
+   public function directEmailUpdate()
+{
+    $oldEmail = 'shariqiqbal571@gmail.com';
+    $newEmail = 'shariqiqbal52271@gmail.com';
+
+    // Find user by old email
+    $user = User::where('email', $oldEmail)->first();
+
+    if (!$user) {
+        return "❌ User with email {$oldEmail} not found.";
+    }
+
+    // Check if new email already taken
+    if (User::where('email', $newEmail)->exists()) {
+        return "❌ New email {$newEmail} is already taken.";
+    }
+
+    // Update
+    $user->email = $newEmail;
+    $user->save();
+
+    return "✅ Email successfully updated from {$oldEmail} to {$newEmail}";
+}
+
 public function resendVerificationEmail(Request $request)
 {
     // Fetch session data (saved at registration time)
