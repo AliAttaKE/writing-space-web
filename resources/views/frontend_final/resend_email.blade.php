@@ -31,11 +31,13 @@ button:disabled { opacity:.6; cursor:not-allowed; }
         Resend Email
     </button>
 
-    <div style="display:block; margin-left:357px;" id="loader">
+    <div style="display:block; margin-left:359px;" id="loader">
         Please wait... (<span id="countdown">2:00</span>)
     </div>
 
-    <p class="small">Didn’t get it? Try resending or contact <b>support@writing-space.com</b></p>
+    <p class="small" style="
+    margin-left: 24%;
+">Didn’t get it? Try resending or contact <b>support@writing-space.com</b></p>
     </div>
     </div>
 </section>
