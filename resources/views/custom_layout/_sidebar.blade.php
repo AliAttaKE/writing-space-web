@@ -76,7 +76,7 @@
                 <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.orders_history')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Order Log</span> <span class="badge"></span></a><!--end:Menu link-->
                 </div>
 
-                 <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.orders_free')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Free Order</span> <span class="badge"></span></a><!--end:Menu link-->
+                 <div class="menu-item"><!--begin:Menu link--><a class="menu-link " href="{{route('admin.orders_free')}}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Post-Delivery Payment Status</span> <span class="badge"></span></a><!--end:Menu link-->
                 </div>
             </div><!--end:Menu sub-->
         </div><!--end:Menu item-->
@@ -220,7 +220,7 @@
                 <!--begin:Menu item-->
 
 
-                      <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="{{ route('admin.customer_orders.index') }}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Free Orders request</span></a><!--end:Menu link--></div><!--end:Menu item-->
+                      <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="{{ route('admin.customer_orders.index') }}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Assign Pay-Later Order Limit</span></a><!--end:Menu link--></div><!--end:Menu item-->
                       <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="{{ route('admin.pakage_limit.index') }}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">Package limit Pages</span></a><!--end:Menu link--></div><!--end:Menu item-->
 
                       <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="{{ route('admin.add_ons.index') }}"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title custom-menu">add ons</span></a><!--end:Menu link--></div><!--end:Menu item-->

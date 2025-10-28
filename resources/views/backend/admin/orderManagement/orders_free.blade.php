@@ -9,7 +9,7 @@
             <!--begin::Page title-->
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <!--begin::Title-->
-                <h1 class="page-heading d-flex text-gray-900 fw-bold fs-1 flex-column justify-content-center my-0 text-color">Free Orders</h1>
+                <h1 class="page-heading d-flex text-gray-900 fw-bold fs-1 flex-column justify-content-center my-0 text-color">Post-Delivery Payment Status</h1>
                 <!--end::Title-->
 
             </div>
@@ -39,7 +39,7 @@
                 </div>
                 <!--end::Page title-->
                 <div class="mb-3 d-flex justify-content-center">
-                    <h1 class="page-heading d-flex text-gray-900 fw-bold fs-1 flex-column justify-content-center my-0 text-color">Free Orders</h1>
+                    <h1 class="page-heading d-flex text-gray-900 fw-bold fs-1 flex-column justify-content-center my-0 text-color">Post-Delivery Payment Status</h1>
                 </div>
                 <!--begin::Card header-->
                 <div class="card-header border-0 pt-6">
