@@ -231,7 +231,7 @@ class IndexController extends Controller
    {
         return view('frontend_final.email_verified');
    }
-public function resendVerification(Request $request)
+public function resendVerificationEmail(Request $request)
 {
     // Fetch session data (saved at registration time)
     $tempData = session('pending_verification_data');
