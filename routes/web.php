@@ -626,6 +626,10 @@ Route::post('/resend-verification', [IndexController::class, 'resendVerification
     ->name('verification.resend');
 
 
+
+
+Route::get('/verify-email/{token}', [IndexController::class, 'verifyEmail'])->name('verify.email');
+
 Route::post('/sign-up-process', [IndexController::class, 'customCUstomerRegistrationProcess'])->name('front.signup.process');
 Route::get('/verify-account/{verify_code}', [IndexController::class, 'accountVerify'])->name('front.verify.account');
 

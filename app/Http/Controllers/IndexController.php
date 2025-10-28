@@ -210,6 +210,23 @@ class IndexController extends Controller
    {
         return view('frontend_final.resend_email');
    }
+
+
+   public function resendVerifyEmail(Request $request)
+{
+    if (!$request->user()) {
+        return response()->json(['message' => 'Unauthorized'], 401);
+    }
+
+    if ($request->user()->hasVerifiedEmail()) {
+        return response()->json(['message' => 'Email already verified'], 400);
+    }
+
+    // RESEND EMAIL AGAIN
+    $request->user()->sendEmailVerificationNotification();
+
+    return response()->json(['message' => 'Verification email sent successfully']);
+}
    public function emailverified()
    {
         return view('frontend_final.email_verified');
@@ -665,60 +682,125 @@ public function resendVerification(Request $request)
 //         }
 //     }
 
-
 public function customCustomerRegistrationProcess(Request $request)
 {
-    // ✅ pehle user create karna hoga
     $request->validate([
         'name'     => 'required|string|max:255',
         'email'    => 'required|email|unique:users,email',
         'password' => 'required|min:8|confirmed',
     ]);
 
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
+    // ✅ User data ko temporarily encrypt karke save karna
+    $tempData = encrypt(json_encode([
+        'name'     => $request->name,
+        'email'    => $request->email,
         'password' => Hash::make($request->password),
-    ]);
+    ]));
 
-    // ✅ Verification link generate
-    $verificationLink = url('/verify-email/' . encrypt($user->email));
+    // ✅ Verification Link
+    // ✅ verification link generate using route()
+$verificationLink = route('verify.email', ['token' => $tempData]);
 
-    // ✅ Email subject
+
     $emailSubject = '✅ Verify your email to activate your Writing Space account';
 
-    // ✅ Direct HTML email body
     $emailBody = "
-        <p>Hi {$user->name},</p>
-        <p>Thank you for signing up with <strong>Writing Space</strong>!<br>
-        Before we can activate your account, we need to verify your email address.</p>
-
-        <p><strong>Please copy and paste the following link into your browser:</strong><br>
-        <a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
-
-        <p>⚠️ <strong>Important:</strong></p>
-        <ul>
-            <li>Check your Inbox and Spam/Junk folders if you don’t see our emails.</li>
-            <li>Add <strong>support@writing-space.com</strong> to your safe sender list.</li>
-        </ul>
-
-        <p>If you didn’t sign up for Writing Space, you can safely ignore this email.</p>
-
-        <p>Warm regards,<br>
-        <strong>Team Writing Space</strong><br>
-        support@writing-space.com<br>
-        https://www.writing-space.com
-        </p>
+        <p>Hi {$request->name},</p>
+        <p>Click the link below to complete your registration:</p>
+        <p><a href='{$verificationLink}' target='_blank'>Verify Email</a></p>
+        <p>If you didn't sign up, ignore this email.</p>
     ";
 
-    // ✅ Send email
-    Mail::html($emailBody, function($message) use($user, $emailSubject) {
-        $message->to($user->email)
-                ->subject($emailSubject);
+    // ✅ Email send first
+    Mail::html($emailBody, function($message) use($request, $emailSubject) {
+        $message->to($request->email)->subject($emailSubject);
     });
 
     return redirect()->route('verify.notice');
 }
+
+
+
+public function verifyEmail($encryptedData)
+{
+    try {
+        $data = json_decode(decrypt($encryptedData), true);
+
+        // ✅ Check if email already exists (prevent duplicates)
+        if (User::where('email', $data['email'])->exists()) {
+            return redirect('/login')->with('info', 'Your account is already verified. Please login.');
+        }
+
+        // ✅ Now create user here
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => $data['password'],
+            'email_verified_at' => now(), // optional
+        ]);
+
+        Auth::login($user);
+
+        return redirect()->route('verify.notice')->with('success', 'Email verified and account created successfully!');
+ 
+    } catch (\Exception $e) {
+        return redirect('/')->with('error', 'Invalid or expired verification link.');
+    }
+}
+
+// public function customCustomerRegistrationProcess(Request $request)
+// {
+//     // ✅ pehle user create karna hoga
+//     $request->validate([
+//         'name'     => 'required|string|max:255',
+//         'email'    => 'required|email|unique:users,email',
+//         'password' => 'required|min:8|confirmed',
+//     ]);
+
+//     // $user = User::create([
+//     //     'name' => $request->name,
+//     //     'email' => $request->email,
+//     //     'password' => Hash::make($request->password),
+//     // ]);
+
+//     // ✅ Verification link generate
+//     $verificationLink = url('/verify-email/' . encrypt($user->email));
+
+//     // ✅ Email subject
+//     $emailSubject = '✅ Verify your email to activate your Writing Space account';
+
+//     // ✅ Direct HTML email body
+//     $emailBody = "
+//         <p>Hi {$user->name},</p>
+//         <p>Thank you for signing up with <strong>Writing Space</strong>!<br>
+//         Before we can activate your account, we need to verify your email address.</p>
+
+//         <p><strong>Please copy and paste the following link into your browser:</strong><br>
+//         <a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
+
+//         <p>⚠️ <strong>Important:</strong></p>
+//         <ul>
+//             <li>Check your Inbox and Spam/Junk folders if you don’t see our emails.</li>
+//             <li>Add <strong>support@writing-space.com</strong> to your safe sender list.</li>
+//         </ul>
+
+//         <p>If you didn’t sign up for Writing Space, you can safely ignore this email.</p>
+
+//         <p>Warm regards,<br>
+//         <strong>Team Writing Space</strong><br>
+//         support@writing-space.com<br>
+//         https://www.writing-space.com
+//         </p>
+//     ";
+
+//     // ✅ Send email
+//     Mail::html($emailBody, function($message) use($user, $emailSubject) {
+//         $message->to($user->email)
+//                 ->subject($emailSubject);
+//     });
+
+//     return redirect()->route('verify.notice');
+// }
 
     public function accountVerify(Request $request, $verify_code)
     {
