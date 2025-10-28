@@ -707,16 +707,32 @@ public function customCustomerRegistrationProcess(Request $request)
     $emailSubject = '✅ Verify your email to activate your Writing Space account';
     $emailBody = "
         <p>Hi {$request->name},</p>
+
         <p>Thank you for signing up with <strong>Writing Space</strong>!<br>
-        Please verify your email to activate your account.</p>
-        <p><a href='{$verificationLink}' target='_blank'>Click here to Verify Email</a></p>
-        <p>If you didn’t request this, you may safely ignore this message.</p>
+        Before we can activate your account, we need to verify your email address.</p>
+
+        <p><strong>Please copy and paste the following link into your browser:</strong><br>
+        <a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
+
+        <p><strong>⚠️ Important:</strong></p>
+        <ul>
+            <li>Check your Inbox and Spam/Junk folders if you don’t see our emails.</li>
+            <li>Add <strong>support@writing-space.com</strong> to your safe sender or whitelist — this ensures you don’t miss important updates, order notifications, or payment alerts.</li>
+        </ul>
+
+        <p>If you didn’t sign up for Writing Space, you can safely ignore this email.</p>
+
+        <br>
+
+        <p>Warm regards,<br>
+        <strong>Team Writing Space</strong><br>
+        support@writing-space.com<br>
+        https://www.writing-space.com</p>
     ";
 
-    // Step 4: Send Email (without from)
+    // Step 4: Send Email (NO FROM ADDED → Titan SMTP will use default sender)
     Mail::html($emailBody, function ($message) use ($request, $emailSubject) {
-        $message->to($request->email)
-                ->subject($emailSubject);
+        $message->to($request->email)->subject($emailSubject);
     });
 
     return redirect()->route('verify.notice');
