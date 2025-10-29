@@ -238,7 +238,7 @@
                                 <div class="app-navbar-item ms-1 ms-md-4 align-items-center h-100">
                                     <a href="#" class="btn btn-rainbow fs-color-white"
                                     onclick="window.location.href='{{route('customer.FreecustomerPlaceOrder')}}' "
-                                    >Free Order Now</a>
+                                    >Order Now - Pay After Delivery</a>
                                 </div>
 
                         @endif

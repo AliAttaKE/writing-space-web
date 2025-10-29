@@ -901,7 +901,7 @@
                                         </div>
                                         <div class="d-flex justify-content-center mb-5">
                                             <button class="btn rounded-pill badge-custom-bg payt_btn"
-                                                onclick="payment()">Free Order Place</button>
+                                                onclick="payment()">Order Now</button>
                                         </div>
                                     </div>
                                 </div>
