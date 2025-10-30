@@ -87,16 +87,13 @@ public function index(Request $request)
     // ✅ Paginate
     $orders = $query->paginate(10)->appends($request->all());
 
-    // ✅ Correct Orders Used & Left
+    // ✅ Correct logic: 5 total orders max
+    $maxOrders = 5; // set your global order limit
+
     foreach ($orders as $order) {
-        // Count total orders for this specific customer
-        $usedOrders = CustomerOrder::where('customer_email', $order->customer_email)->count();
-
-        // Show the actual count (not -1 offset)
+        $usedOrders = $order->no_of_orders ?? 0;
         $order->orders_used = $usedOrders;
-
-        // Set total limit as 10
-        $order->orders_left = max(0, 10 - $usedOrders);
+        $order->orders_left = max(0, $maxOrders - $usedOrders);
     }
 
     // 📤 Export
@@ -105,9 +102,9 @@ public function index(Request $request)
         $exportData = $exportQuery->get();
 
         foreach ($exportData as $order) {
-            $usedOrders = CustomerOrder::where('customer_email', $order->customer_email)->count();
+            $usedOrders = $order->no_of_orders ?? 0;
             $order->orders_used = $usedOrders;
-            $order->orders_left = max(0, 10 - $usedOrders);
+            $order->orders_left = max(0, $maxOrders - $usedOrders);
         }
 
         return Excel::download(new CustomerOrdersExport($exportData), 'customer_orders.xlsx');
