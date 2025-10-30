@@ -129,14 +129,21 @@
             </div>
             <form id="addOrderForm">
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label text-white">Customer Name</label>
-                        <input type="text" class="form-control btn-dark-primary" name="customer_name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label text-white">Customer Email</label>
-                        <input type="email" class="form-control btn-dark-primary" name="customer_email" required>
-                    </div>
+                <div class="mb-3">
+                    <label class="form-label text-white">Customer Name</label>
+                    <select class="form-control btn-dark-primary" name="customer_name" id="addCustomerName" required>
+                        <option value="">Select Customer</option>
+                        @foreach($customers as $c)
+                            <option value="{{ $c->name }}" data-email="{{ $c->email }}">{{ $c->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-white">Customer Email</label>
+                    <input type="email" class="form-control btn-dark-primary" name="customer_email" id="addCustomerEmail" readonly required>
+                </div>
+
                     <div class="mb-3">
                         <label class="form-label text-white">Number of Orders</label>
                         <input type="number" class="form-control btn-dark-primary" name="no_of_orders" min="1" required>
@@ -164,12 +171,19 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label text-white">Customer Name</label>
-                        <input type="text" class="form-control btn-dark-primary" name="customer_name" id="editCustomerName" required>
+                        <select class="form-control btn-dark-primary" name="customer_name" id="editCustomerNameSelect" required>
+                            <option value="">Select Customer</option>
+                            @foreach($customers as $c)
+                                <option value="{{ $c->name }}" data-email="{{ $c->email }}">{{ $c->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label text-white">Customer Email</label>
-                        <input type="email" class="form-control btn-dark-primary" name="customer_email" id="editCustomerEmail" required>
+                        <input type="email" class="form-control btn-dark-primary" name="customer_email" id="editCustomerEmail" readonly required>
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label text-white">Number of Orders</label>
                         <input type="number" class="form-control btn-dark-primary" name="no_of_orders" id="editNoOfOrders" min="1" required>
@@ -186,6 +200,36 @@
 
 <script>
 $(document).ready(function() {
+
+
+// Auto-fill email when customer selected in Add modal
+$('#addCustomerName').on('change', function() {
+    var email = $(this).find(':selected').data('email');
+    $('#addCustomerEmail').val(email || '');
+});
+
+// Auto-fill email when customer selected in Edit modal
+$('#editCustomerNameSelect').on('change', function() {
+    var email = $(this).find(':selected').data('email');
+    $('#editCustomerEmail').val(email || '');
+});
+
+// When opening edit modal, pre-select name and email
+$('.edit-order').on('click', function() {
+    var orderId = $(this).data('order-id');
+    var customerName = $(this).data('customer-name');
+    var customerEmail = $(this).data('customer-email');
+    var noOfOrders = $(this).data('no-of-orders');
+
+    $('#editOrderId').val(orderId);
+    $('#editCustomerEmail').val(customerEmail);
+    $('#editNoOfOrders').val(noOfOrders);
+
+    $('#editCustomerNameSelect').val(customerName).change();
+    $('#editCustomerOrderModal').modal('show');
+});
+
+
     // Initialize form values from URL parameters
     function initializeFormValues() {
         const urlParams = new URLSearchParams(window.location.search);
