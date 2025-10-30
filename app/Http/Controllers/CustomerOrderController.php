@@ -85,7 +85,7 @@ public function index(Request $request)
     }
 
     // Get paginated results
-    $orders = $query->paginate(2)->appends($request->all());
+    $orders = $query->paginate(10)->appends($request->all());
     
     // Calculate orders_left for each record
     foreach ($orders as $order) {
