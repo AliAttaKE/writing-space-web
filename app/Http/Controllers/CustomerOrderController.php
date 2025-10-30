@@ -11,7 +11,9 @@ use App\Models\Orders;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 
- 
+ use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\CustomerOrdersExport;
+use Carbon\Carbon;
 
 
 class CustomerOrderController extends Controller
@@ -20,30 +22,31 @@ public function index(Request $request)
 {
     $query = CustomerOrder::query();
 
-    // 🟢 Search by name or email
+    // 🔍 Global Search
     if ($request->filled('search')) {
-        $query->where(function($q) use ($request) {
-            $q->where('customer_name', 'like', '%' . $request->search . '%')
-              ->orWhere('customer_email', 'like', '%' . $request->search . '%');
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('customer_name', 'like', "%$search%")
+              ->orWhere('customer_email', 'like', "%$search%");
         });
     }
 
-    // 🟢 Filter by date range (created_at)
+    // 📅 Date Filter
     if ($request->filled('start_date') && $request->filled('end_date')) {
-        $start = \Carbon\Carbon::parse($request->start_date)->startOfDay();
-        $end = \Carbon\Carbon::parse($request->end_date)->endOfDay();
-
+        $start = Carbon::parse($request->start_date)->startOfDay();
+        $end = Carbon::parse($request->end_date)->endOfDay();
         $query->whereBetween('created_at', [$start, $end]);
     }
 
-    $orders = $query->latest()->paginate(10);
+    // 📊 Pagination
+    $orders = $query->latest()->paginate(10)->appends($request->all());
 
-    return view('backend.admin.customer_orders.index', compact('orders'))
-           ->with([
-               'start_date' => $request->start_date,
-               'end_date' => $request->end_date,
-               'search' => $request->search,
-           ]);
+    // 📤 Export button trigger
+    if ($request->has('export') && $request->export == 'excel') {
+        return Excel::download(new CustomerOrdersExport($query->get()), 'customer_orders.xlsx');
+    }
+
+    return view('backend.admin.customer_orders.index', compact('orders'));
 }
 
 
