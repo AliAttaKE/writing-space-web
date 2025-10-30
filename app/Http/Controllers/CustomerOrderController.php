@@ -16,39 +16,90 @@ use App\Exports\CustomerOrdersExport;
 use Carbon\Carbon;
 
 
+
 class CustomerOrderController extends Controller
 {
-public function index(Request $request)
-{
-    $query = CustomerOrder::query();
+// public function index(Request $request)
+// {
+//     $query = CustomerOrder::query();
 
-    // 🔍 Global Search
-    if ($request->filled('search')) {
-        $search = $request->search;
-        $query->where(function($q) use ($search) {
-            $q->where('customer_name', 'like', "%$search%")
-              ->orWhere('customer_email', 'like', "%$search%");
-        });
+//     // 🔍 Global Search
+//     if ($request->filled('search')) {
+//         $search = $request->search;
+//         $query->where(function($q) use ($search) {
+//             $q->where('customer_name', 'like', "%$search%")
+//               ->orWhere('customer_email', 'like', "%$search%");
+//         });
+//     }
+
+//     // 📅 Date Filter
+//     if ($request->filled('start_date') && $request->filled('end_date')) {
+//         $start = Carbon::parse($request->start_date)->startOfDay();
+//         $end = Carbon::parse($request->end_date)->endOfDay();
+//         $query->whereBetween('created_at', [$start, $end]);
+//     }
+
+//     // 📊 Pagination
+//     $orders = $query->latest()->paginate(10)->appends($request->all());
+
+//     // 📤 Export button trigger
+//     if ($request->has('export') && $request->export == 'excel') {
+//         return Excel::download(new CustomerOrdersExport($query->get()), 'customer_orders.xlsx');
+//     }
+
+//     return view('backend.admin.customer_orders.index', compact('orders'));
+// }
+
+  public function index(Request $request)
+    {
+        $query = CustomerOrder::query();
+
+        // 🔍 Global Search
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('customer_name', 'like', "%$search%")
+                  ->orWhere('customer_email', 'like', "%$search%");
+            });
+        }
+
+        // 📅 Date Filter
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $start = Carbon::parse($request->start_date)->startOfDay();
+            $end = Carbon::parse($request->end_date)->endOfDay();
+            $query->whereBetween('created_at', [$start, $end]);
+        }
+
+        // 📊 Sorting
+        if ($request->filled('sort')) {
+            $sortColumn = $request->sort;
+            $sortDirection = $request->direction ?? 'asc';
+            
+            // Handle orders_left virtual column
+            if ($sortColumn === 'orders_left') {
+                $query->orderBy('no_of_orders', $sortDirection);
+            } else {
+                $query->orderBy($sortColumn, $sortDirection);
+            }
+        } else {
+            $query->latest();
+        }
+
+        // Calculate orders_left for each record
+        $orders = $query->paginate(10)->appends($request->all());
+        
+        // Add orders_left to each order (assuming max orders is 10, adjust as needed)
+        foreach ($orders as $order) {
+            $order->orders_left = max(0, 10 - $order->no_of_orders); // Adjust max orders as needed
+        }
+
+        // 📤 Export button trigger
+        if ($request->has('export') && $request->export == 'excel') {
+            return Excel::download(new CustomerOrdersExport($query->get()), 'customer_orders.xlsx');
+        }
+
+        return view('backend.admin.customer_orders.index', compact('orders'));
     }
-
-    // 📅 Date Filter
-    if ($request->filled('start_date') && $request->filled('end_date')) {
-        $start = Carbon::parse($request->start_date)->startOfDay();
-        $end = Carbon::parse($request->end_date)->endOfDay();
-        $query->whereBetween('created_at', [$start, $end]);
-    }
-
-    // 📊 Pagination
-    $orders = $query->latest()->paginate(10)->appends($request->all());
-
-    // 📤 Export button trigger
-    if ($request->has('export') && $request->export == 'excel') {
-        return Excel::download(new CustomerOrdersExport($query->get()), 'customer_orders.xlsx');
-    }
-
-    return view('backend.admin.customer_orders.index', compact('orders'));
-}
-
 
 
     public function sendReminder(Request $request)
