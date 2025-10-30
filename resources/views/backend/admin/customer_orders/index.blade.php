@@ -11,6 +11,7 @@
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
                 <a href="#" class="btn btn-sm fw-bold badge-custom-bg" data-bs-toggle="modal" data-bs-target="#addCustomerOrderModal">New Order</a>
+                <button id="exportBtn" class="btn btn-success btn-sm">Export to Excel</button>
             </div>
         </div>
     </div>
@@ -40,45 +41,13 @@
 
                 </div>
                 <div class="card-body py-4">
-                    <!-- <table class="table align-middle table-row-dashed fs-6 gy-5" id="customerOrdersTable">
-                        <thead>
-                            <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                <th class="min-w-100px fw_800 pb-8">Customer Name</th>
-                                <th class="min-w-150px fw_800 pb-8">Email</th>
-                                {{-- <th class="min-w-100px fw_800 pb-8">User ID</th> --}}
-                                <th class="min-w-100px fw_800 pb-8">No. of Orders</th>
-                                <th class="min-w-100px fw_800 pb-8">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-gray-600 fw-semibold">
-                            @foreach($orders as $order)
-                            <tr>
-                                <td class="text-white">{{ $order->customer_name }}</td>
-                                <td class="text-white">{{ $order->customer_email }}</td>
-                                {{-- <td class="text-white">{{ $order->user_id ?? 'N/A' }}</td> --}}
-                                <td class="text-white">{{ $order->no_of_orders }}</td>
-                                <td>
-                                    <a href="#" class="btn badge-custom-bg btn-flex btn-center btn-sm edit-order" 
-                                       data-order-id="{{ $order->id }}"
-                                       data-customer-name="{{ $order->customer_name }}"
-                                       data-customer-email="{{ $order->customer_email }}"
-                                       {{-- data-user-id="{{ $order->user_id }}" --}}
-                                       data-no-of-orders="{{ $order->no_of_orders }}">
-                                        Edit
-                                    </a>
-                                    <a href="#" class="btn btn-danger btn-sm ms-1" onclick="confirmDelete({{ $order->id }})">Delete</a>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table> -->
-
                     <table class="table align-middle table-row-dashed fs-6 gy-5" id="customerOrdersTable">
                         <thead>
                             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                <th class="min-w-100px fw_800 pb-8 sortable" data-column="0">Customer Name <span class="sort-icon">⇅</span></th>
-                                <th class="min-w-150px fw_800 pb-8 sortable" data-column="1">Email <span class="sort-icon">⇅</span></th>
-                                <th class="min-w-100px fw_800 pb-8 sortable" data-column="2">No. of Orders <span class="sort-icon">⇅</span></th>
+                                <th class="min-w-100px fw_800 pb-8 sortable" data-column="customer_name">Customer Name <span class="sort-icon">⇅</span></th>
+                                <th class="min-w-150px fw_800 pb-8 sortable" data-column="customer_email">Email <span class="sort-icon">⇅</span></th>
+                                <th class="min-w-100px fw_800 pb-8 sortable" data-column="no_of_orders">Orders Used <span class="sort-icon">⇅</span></th>
+                                <th class="min-w-100px fw_800 pb-8 sortable" data-column="orders_left">Orders Left <span class="sort-icon">⇅</span></th>
                                 <th class="min-w-100px fw_800 pb-8">Actions</th>
                             </tr>
                         </thead>
@@ -88,6 +57,7 @@
                                 <td class="text-white">{{ $order->customer_name }}</td>
                                 <td class="text-white">{{ $order->customer_email }}</td>
                                 <td class="text-white">{{ $order->no_of_orders }}</td>
+                                <td class="text-white">{{ $order->orders_left ?? 0 }}</td>
                                 <td>
                                     <a href="#" class="btn badge-custom-bg btn-flex btn-center btn-sm edit-order"
                                         data-order-id="{{ $order->id }}"
@@ -102,8 +72,10 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-center">
-                        {{ $orders->links() }}
+                    
+                    <!-- Pagination Links -->
+                    <div class="d-flex justify-content-center mt-4">
+                        {{ $orders->appends(request()->query())->links() }}
                     </div>
                 </div>
             </div>
@@ -129,11 +101,6 @@
                         <label class="form-label text-white">Customer Email</label>
                         <input type="email" class="form-control btn-dark-primary" name="customer_email" required>
                     </div>
-                    {{-- <div class="mb-3">
-                        <label class="form-label text-white">User ID (Optional)</label>
-                        <input type="text" class="form-control btn-dark-primary" name="user_id" id="userSearch" placeholder="Search user...">
-                        <div id="userSuggestions" class="dropdown-menu w-100"></div>
-                    </div> --}}
                     <div class="mb-3">
                         <label class="form-label text-white">Number of Orders</label>
                         <input type="number" class="form-control btn-dark-primary" name="no_of_orders" min="1" required>
@@ -167,10 +134,6 @@
                         <label class="form-label text-white">Customer Email</label>
                         <input type="email" class="form-control btn-dark-primary" name="customer_email" id="editCustomerEmail" required>
                     </div>
-                    {{-- <div class="mb-3">
-                        <label class="form-label text-white">User ID (Optional)</label>
-                        <input type="text" class="form-control btn-dark-primary" name="user_id" id="editUserId">
-                    </div> --}}
                     <div class="mb-3">
                         <label class="form-label text-white">Number of Orders</label>
                         <input type="number" class="form-control btn-dark-primary" name="no_of_orders" id="editNoOfOrders" min="1" required>
@@ -187,69 +150,81 @@
 
 <script>
 $(document).ready(function() {
-    // Search functionality
+    let currentSortColumn = '';
+    let currentSortDirection = 'asc';
+
+    // Initialize date inputs
+    const today = new Date().toISOString().split('T')[0];
+    $('#startDate').val('');
+    $('#endDate').val(today);
+
+    // Search functionality with server-side filtering
     $('#searchInput').on('input', function() {
-        var searchText = $(this).val().toLowerCase();
-        $('#customerOrdersTable tbody tr').each(function() {
-            var rowText = $(this).text().toLowerCase();
-            $(this).toggle(rowText.indexOf(searchText) > -1);
-        });
+        applyFilters();
     });
 
+    // Date filter functionality
+    $('#filterBtn').on('click', function() {
+        applyFilters();
+    });
 
+    // Reset filters
+    $('#resetBtn').on('click', function() {
+        $('#searchInput').val('');
+        $('#startDate').val('');
+        $('#endDate').val(today);
+        applyFilters();
+    });
 
-// 📊 Column Sorting
+    // Export functionality
+    $('#exportBtn').on('click', function() {
+        const search = $('#searchInput').val();
+        const startDate = $('#startDate').val();
+        const endDate = $('#endDate').val();
+        
+        let exportUrl = '{{ route("admin.customer_orders.index") }}?export=excel';
+        
+        if (search) exportUrl += `&search=${search}`;
+        if (startDate) exportUrl += `&start_date=${startDate}`;
+        if (endDate) exportUrl += `&end_date=${endDate}`;
+        
+        window.location.href = exportUrl;
+    });
+
+    // Apply all filters
+    function applyFilters() {
+        const search = $('#searchInput').val();
+        const startDate = $('#startDate').val();
+        const endDate = $('#endDate').val();
+        
+        let url = '{{ route("admin.customer_orders.index") }}?';
+        
+        if (search) url += `search=${search}&`;
+        if (startDate) url += `start_date=${startDate}&`;
+        if (endDate) url += `end_date=${endDate}&`;
+        if (currentSortColumn) url += `sort=${currentSortColumn}&direction=${currentSortDirection}&`;
+        
+        window.location.href = url.slice(0, -1); // Remove trailing & or ?
+    }
+
+    // Column Sorting with server-side
     $('.sortable').on('click', function() {
-        const table = $('#customerOrdersTable');
-        const tbody = table.find('tbody');
-        const rows = tbody.find('tr').toArray();
         const column = $(this).data('column');
-        const asc = !$(this).hasClass('asc');
-
-        $('.sortable').removeClass('asc desc');
-        $(this).addClass(asc ? 'asc' : 'desc');
-
-        rows.sort(function(a, b) {
-            let A = $(a).find('td').eq(column).text().trim().toLowerCase();
-            let B = $(b).find('td').eq(column).text().trim().toLowerCase();
-            if ($.isNumeric(A) && $.isNumeric(B)) {
-                A = parseFloat(A);
-                B = parseFloat(B);
-            }
-            return asc ? (A > B ? 1 : -1) : (A < B ? 1 : -1);
-        });
-
-        tbody.empty().append(rows);
-    });
-
-    // User search autocomplete
-    $('#userSearch').on('input', function() {
-        var searchTerm = $(this).val();
-        if (searchTerm.length > 2) {
-            $.get('{{ route("admin.customer_orders.search_users") }}', { search: searchTerm }, function(users) {
-                var suggestions = $('#userSuggestions');
-                suggestions.empty();
-                if (users.length > 0) {
-                    users.forEach(function(user) {
-                        suggestions.append(`<a class="dropdown-item" href="#" data-user-id="${user.id}">${user.name} (${user.email})</a>`);
-                    });
-                    suggestions.show();
-                } else {
-                    suggestions.hide();
-                }
-            });
+        
+        // Toggle sort direction
+        if (currentSortColumn === column) {
+            currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
         } else {
-            $('#userSuggestions').hide();
+            currentSortColumn = column;
+            currentSortDirection = 'asc';
         }
-    });
-
-    // User selection
-    $(document).on('click', '#userSuggestions .dropdown-item', function(e) {
-        e.preventDefault();
-        var userId = $(this).data('user-id');
-        var userText = $(this).text();
-        $('#userSearch').val(userId);
-        $('#userSuggestions').hide();
+        
+        // Update UI
+        $('.sortable').removeClass('asc desc');
+        $(this).addClass(currentSortDirection);
+        
+        // Apply sort
+        applyFilters();
     });
 
     // Add order form submission
@@ -281,13 +256,11 @@ $(document).ready(function() {
         var orderId = $(this).data('order-id');
         var customerName = $(this).data('customer-name');
         var customerEmail = $(this).data('customer-email');
-        var userId = $(this).data('user-id');
         var noOfOrders = $(this).data('no-of-orders');
 
         $('#editOrderId').val(orderId);
         $('#editCustomerName').val(customerName);
         $('#editCustomerEmail').val(customerEmail);
-        $('#editUserId').val(userId);
         $('#editNoOfOrders').val(noOfOrders);
 
         $('#editCustomerOrderModal').modal('show');
@@ -345,16 +318,18 @@ function confirmDelete(id) {
 }
 </script>
 
-
 <style>
 .sortable {
     cursor: pointer;
+    position: relative;
 }
 .sortable.asc .sort-icon::after {
     content: "▲";
+    color: #fff;
 }
 .sortable.desc .sort-icon::after {
     content: "▼";
+    color: #fff;
 }
 .sort-icon {
     font-size: 12px;
