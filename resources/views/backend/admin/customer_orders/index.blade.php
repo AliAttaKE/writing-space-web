@@ -90,16 +90,32 @@
                         </thead>
                         <tbody class="text-gray-600 fw-semibold">
                             @foreach($orders as $order)
+                            @php
+                                // Get user data from users table
+                                $user = \App\Models\User::find($order->user_id);
+                            @endphp
                             <tr>
-                                <td class="text-white">{{ $order->customer_name }}</td>
-                                <td class="text-white">{{ $order->customer_email }}</td>
+                                <td class="text-white">
+                                    @if($user)
+                                        {{ $user->name }}
+                                    @else
+                                        {{ $order->customer_name }}
+                                    @endif
+                                </td>
+                                <td class="text-white">
+                                    @if($user)
+                                        {{ $user->email }}
+                                    @else
+                                        {{ $order->customer_email }}
+                                    @endif
+                                </td>
                                 <td class="text-white">{{ $order->no_of_orders }}</td>
                                 <td class="text-white">{{ $order->orders_left }}</td>
                                 <td>
                                     <a href="#" class="btn badge-custom-bg btn-flex btn-center btn-sm edit-order"
                                         data-order-id="{{ $order->id }}"
-                                        data-customer-name="{{ $order->customer_name }}"
-                                        data-customer-email="{{ $order->customer_email }}"
+                                        data-customer-name="{{ $user ? $user->name : $order->customer_name }}"
+                                        data-customer-email="{{ $user ? $user->email : $order->customer_email }}"
                                         data-user-id="{{ $order->user_id }}"
                                         data-no-of-orders="{{ $order->no_of_orders }}">
                                         Edit
