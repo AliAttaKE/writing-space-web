@@ -51,7 +51,6 @@ class CustomerOrderController extends Controller
 // }
 
 
-
 public function index(Request $request)
 {
     $query = CustomerOrder::query();
@@ -85,31 +84,35 @@ public function index(Request $request)
         $query->latest();
     }
 
-    // Get paginated results
+    // ✅ Paginate results
     $orders = $query->paginate(10)->appends($request->all());
 
-    // Calculate orders_left for each record
+    // ✅ Calculate orders used & left
     foreach ($orders as $order) {
-        $order->orders_left = max(0, 10 - $order->no_of_orders);
+        $usedOrders = CustomerOrder::where('customer_email', $order->customer_email)->count();
+        $order->orders_used = $usedOrders;
+        $order->orders_left = max(0, 10 - $usedOrders);
     }
 
-    // 📤 Export
+    // 📤 Export to Excel
     if ($request->has('export') && $request->export == 'excel') {
         $exportQuery = clone $query;
         $exportData = $exportQuery->get();
+
         foreach ($exportData as $order) {
-            $order->orders_left = max(0, 10 - $order->no_of_orders);
+            $usedOrders = CustomerOrder::where('customer_email', $order->customer_email)->count();
+            $order->orders_used = $usedOrders;
+            $order->orders_left = max(0, 10 - $usedOrders);
         }
 
         return Excel::download(new CustomerOrdersExport($exportData), 'customer_orders.xlsx');
     }
 
-    // ✅ Fetch all users for dropdowns
+    // ✅ Fetch all customers for dropdowns
     $customers = User::select('id', 'name', 'email')->orderBy('name')->get();
 
     return view('backend.admin.customer_orders.index', compact('orders', 'customers'));
 }
-
 
 
 public function sendReminder(Request $request)
