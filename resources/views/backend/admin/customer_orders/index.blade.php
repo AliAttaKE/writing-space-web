@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="card-body py-4">
-                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="customerOrdersTable">
+                    <!-- <table class="table align-middle table-row-dashed fs-6 gy-5" id="customerOrdersTable">
                         <thead>
                             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
                                 <th class="min-w-100px fw_800 pb-8">Customer Name</th>
@@ -54,6 +54,36 @@
                                        data-customer-email="{{ $order->customer_email }}"
                                        {{-- data-user-id="{{ $order->user_id }}" --}}
                                        data-no-of-orders="{{ $order->no_of_orders }}">
+                                        Edit
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-sm ms-1" onclick="confirmDelete({{ $order->id }})">Delete</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table> -->
+
+                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="customerOrdersTable">
+                        <thead>
+                            <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+                                <th class="min-w-100px fw_800 pb-8 sortable" data-column="0">Customer Name <span class="sort-icon">⇅</span></th>
+                                <th class="min-w-150px fw_800 pb-8 sortable" data-column="1">Email <span class="sort-icon">⇅</span></th>
+                                <th class="min-w-100px fw_800 pb-8 sortable" data-column="2">No. of Orders <span class="sort-icon">⇅</span></th>
+                                <th class="min-w-100px fw_800 pb-8">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 fw-semibold">
+                            @foreach($orders as $order)
+                            <tr>
+                                <td class="text-white">{{ $order->customer_name }}</td>
+                                <td class="text-white">{{ $order->customer_email }}</td>
+                                <td class="text-white">{{ $order->no_of_orders }}</td>
+                                <td>
+                                    <a href="#" class="btn badge-custom-bg btn-flex btn-center btn-sm edit-order"
+                                        data-order-id="{{ $order->id }}"
+                                        data-customer-name="{{ $order->customer_name }}"
+                                        data-customer-email="{{ $order->customer_email }}"
+                                        data-no-of-orders="{{ $order->no_of_orders }}">
                                         Edit
                                     </a>
                                     <a href="#" class="btn btn-danger btn-sm ms-1" onclick="confirmDelete({{ $order->id }})">Delete</a>
@@ -154,6 +184,32 @@ $(document).ready(function() {
             var rowText = $(this).text().toLowerCase();
             $(this).toggle(rowText.indexOf(searchText) > -1);
         });
+    });
+
+
+
+// 📊 Column Sorting
+    $('.sortable').on('click', function() {
+        const table = $('#customerOrdersTable');
+        const tbody = table.find('tbody');
+        const rows = tbody.find('tr').toArray();
+        const column = $(this).data('column');
+        const asc = !$(this).hasClass('asc');
+
+        $('.sortable').removeClass('asc desc');
+        $(this).addClass(asc ? 'asc' : 'desc');
+
+        rows.sort(function(a, b) {
+            let A = $(a).find('td').eq(column).text().trim().toLowerCase();
+            let B = $(b).find('td').eq(column).text().trim().toLowerCase();
+            if ($.isNumeric(A) && $.isNumeric(B)) {
+                A = parseFloat(A);
+                B = parseFloat(B);
+            }
+            return asc ? (A > B ? 1 : -1) : (A < B ? 1 : -1);
+        });
+
+        tbody.empty().append(rows);
     });
 
     // User search autocomplete
@@ -278,5 +334,23 @@ function confirmDelete(id) {
     });
 }
 </script>
+
+
+<style>
+.sortable {
+    cursor: pointer;
+}
+.sortable.asc .sort-icon::after {
+    content: "▲";
+}
+.sortable.desc .sort-icon::after {
+    content: "▼";
+}
+.sort-icon {
+    font-size: 12px;
+    margin-left: 5px;
+    color: #ccc;
+}
+</style>
 
 @endsection
