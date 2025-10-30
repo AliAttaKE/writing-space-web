@@ -26,13 +26,13 @@
                         <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
                             <span class="path1"></span><span class="path2"></span>
                         </i>
-                        <input type="text" id="searchInput" class="form-control form-control-solid w-250px ps-13 btn-dark-primary" placeholder="Search orders..." />
+                        <input type="text" id="searchInput" class="form-control form-control-solid w-250px ps-13 btn-dark-primary" placeholder="Search orders..." value="{{ request('search') }}" />
 
                         <!-- 📅 Start Date -->
-                        <input type="date" id="startDate" class="form-control form-control-solid btn-dark-primary" style="width: 160px;">
+                        <input type="date" id="startDate" class="form-control form-control-solid btn-dark-primary" style="width: 160px;" value="{{ request('start_date') }}">
 
                         <!-- 📅 End Date -->
-                        <input type="date" id="endDate" class="form-control form-control-solid btn-dark-primary" style="width: 160px;">
+                        <input type="date" id="endDate" class="form-control form-control-solid btn-dark-primary" style="width: 160px;" value="{{ request('end_date') }}">
 
                         <button id="filterBtn" class="btn btn-dark-primary">Filter</button>
                         <button id="resetBtn" class="btn btn-secondary">Reset</button>
@@ -44,10 +44,46 @@
                     <table class="table align-middle table-row-dashed fs-6 gy-5" id="customerOrdersTable">
                         <thead>
                             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                                <th class="min-w-100px fw_800 pb-8 sortable" data-column="customer_name">Customer Name <span class="sort-icon">⇅</span></th>
-                                <th class="min-w-150px fw_800 pb-8 sortable" data-column="customer_email">Email <span class="sort-icon">⇅</span></th>
-                                <th class="min-w-100px fw_800 pb-8 sortable" data-column="no_of_orders">Orders Used <span class="sort-icon">⇅</span></th>
-                                <th class="min-w-100px fw_800 pb-8 sortable" data-column="orders_left">Orders Left <span class="sort-icon">⇅</span></th>
+                                <th class="min-w-100px fw_800 pb-8 sortable" data-column="customer_name">
+                                    Customer Name 
+                                    <span class="sort-icon">
+                                        @if(request('sort') == 'customer_name')
+                                            {{ request('direction') == 'asc' ? '▲' : '▼' }}
+                                        @else
+                                            ⇅
+                                        @endif
+                                    </span>
+                                </th>
+                                <th class="min-w-150px fw_800 pb-8 sortable" data-column="customer_email">
+                                    Email 
+                                    <span class="sort-icon">
+                                        @if(request('sort') == 'customer_email')
+                                            {{ request('direction') == 'asc' ? '▲' : '▼' }}
+                                        @else
+                                            ⇅
+                                        @endif
+                                    </span>
+                                </th>
+                                <th class="min-w-100px fw_800 pb-8 sortable" data-column="no_of_orders">
+                                    Orders Used 
+                                    <span class="sort-icon">
+                                        @if(request('sort') == 'no_of_orders')
+                                            {{ request('direction') == 'asc' ? '▲' : '▼' }}
+                                        @else
+                                            ⇅
+                                        @endif
+                                    </span>
+                                </th>
+                                <th class="min-w-100px fw_800 pb-8 sortable" data-column="orders_left">
+                                    Orders Left 
+                                    <span class="sort-icon">
+                                        @if(request('sort') == 'orders_left')
+                                            {{ request('direction') == 'asc' ? '▲' : '▼' }}
+                                        @else
+                                            ⇅
+                                        @endif
+                                    </span>
+                                </th>
                                 <th class="min-w-100px fw_800 pb-8">Actions</th>
                             </tr>
                         </thead>
@@ -57,7 +93,7 @@
                                 <td class="text-white">{{ $order->customer_name }}</td>
                                 <td class="text-white">{{ $order->customer_email }}</td>
                                 <td class="text-white">{{ $order->no_of_orders }}</td>
-                                <td class="text-white">{{ $order->orders_left ?? 0 }}</td>
+                                <td class="text-white">{{ $order->orders_left }}</td>
                                 <td>
                                     <a href="#" class="btn badge-custom-bg btn-flex btn-center btn-sm edit-order"
                                         data-order-id="{{ $order->id }}"
@@ -150,49 +186,60 @@
 
 <script>
 $(document).ready(function() {
-    let currentSortColumn = '';
-    let currentSortDirection = 'asc';
+    // Initialize form values from URL parameters
+    function initializeFormValues() {
+        const urlParams = new URLSearchParams(window.location.search);
+        $('#searchInput').val(urlParams.get('search') || '');
+        $('#startDate').val(urlParams.get('start_date') || '');
+        $('#endDate').val(urlParams.get('end_date') || '');
+    }
 
-    // Initialize date inputs
-    const today = new Date().toISOString().split('T')[0];
-    $('#startDate').val('');
-    $('#endDate').val(today);
-
-    // Search functionality with server-side filtering
-    $('#searchInput').on('input', function() {
-        applyFilters();
-    });
-
-    // Date filter functionality
-    $('#filterBtn').on('click', function() {
-        applyFilters();
-    });
-
-    // Reset filters
-    $('#resetBtn').on('click', function() {
-        $('#searchInput').val('');
-        $('#startDate').val('');
-        $('#endDate').val(today);
-        applyFilters();
-    });
+    initializeFormValues();
 
     // Export functionality
     $('#exportBtn').on('click', function() {
         const search = $('#searchInput').val();
         const startDate = $('#startDate').val();
         const endDate = $('#endDate').val();
+        const sort = '{{ request('sort') }}';
+        const direction = '{{ request('direction') }}';
         
         let exportUrl = '{{ route("admin.customer_orders.index") }}?export=excel';
         
         if (search) exportUrl += `&search=${search}`;
         if (startDate) exportUrl += `&start_date=${startDate}`;
         if (endDate) exportUrl += `&end_date=${endDate}`;
+        if (sort) exportUrl += `&sort=${sort}&direction=${direction}`;
         
         window.location.href = exportUrl;
     });
 
+    // Column Sorting with server-side
+    $('.sortable').on('click', function() {
+        const column = $(this).data('column');
+        const currentSort = '{{ request('sort') }}';
+        const currentDirection = '{{ request('direction') }}';
+        
+        let newDirection = 'asc';
+        if (currentSort === column) {
+            newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
+        }
+        
+        applyFilters(column, newDirection);
+    });
+
+    // Filter functionality
+    $('#filterBtn').on('click', function() {
+        applyFilters();
+    });
+
+    // Reset filters
+    $('#resetBtn').on('click', function() {
+        window.location.href = '{{ route("admin.customer_orders.index") }}';
+    });
+
     // Apply all filters
-    function applyFilters() {
+    function applyFilters(sort = null, direction = null) {
         const search = $('#searchInput').val();
         const startDate = $('#startDate').val();
         const endDate = $('#endDate').val();
@@ -202,30 +249,10 @@ $(document).ready(function() {
         if (search) url += `search=${search}&`;
         if (startDate) url += `start_date=${startDate}&`;
         if (endDate) url += `end_date=${endDate}&`;
-        if (currentSortColumn) url += `sort=${currentSortColumn}&direction=${currentSortDirection}&`;
+        if (sort) url += `sort=${sort}&direction=${direction}&`;
         
         window.location.href = url.slice(0, -1); // Remove trailing & or ?
     }
-
-    // Column Sorting with server-side
-    $('.sortable').on('click', function() {
-        const column = $(this).data('column');
-        
-        // Toggle sort direction
-        if (currentSortColumn === column) {
-            currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
-        } else {
-            currentSortColumn = column;
-            currentSortDirection = 'asc';
-        }
-        
-        // Update UI
-        $('.sortable').removeClass('asc desc');
-        $(this).addClass(currentSortDirection);
-        
-        // Apply sort
-        applyFilters();
-    });
 
     // Add order form submission
     $('#addOrderForm').on('submit', function(e) {
@@ -323,15 +350,7 @@ function confirmDelete(id) {
     cursor: pointer;
     position: relative;
 }
-.sortable.asc .sort-icon::after {
-    content: "▲";
-    color: #fff;
-}
-.sortable.desc .sort-icon::after {
-    content: "▼";
-    color: #fff;
-}
-.sort-icon {
+.sortable .sort-icon {
     font-size: 12px;
     margin-left: 5px;
     color: #ccc;

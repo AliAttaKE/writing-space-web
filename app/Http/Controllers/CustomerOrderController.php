@@ -49,58 +49,95 @@ class CustomerOrderController extends Controller
 
 //     return view('backend.admin.customer_orders.index', compact('orders'));
 // }
+public function index(Request $request)
+{
+    $query = CustomerOrder::query();
 
-  public function index(Request $request)
-    {
-        $query = CustomerOrder::query();
+    // 🔍 Global Search
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('customer_name', 'like', "%$search%")
+              ->orWhere('customer_email', 'like', "%$search%");
+        });
+    }
 
-        // 🔍 Global Search
+    // 📅 Date Filter
+    if ($request->filled('start_date') && $request->filled('end_date')) {
+        $start = Carbon::parse($request->start_date)->startOfDay();
+        $end = Carbon::parse($request->end_date)->endOfDay();
+        $query->whereBetween('created_at', [$start, $end]);
+    }
+
+    // 📊 Sorting
+    if ($request->filled('sort')) {
+        $sortColumn = $request->sort;
+        $sortDirection = $request->direction ?? 'asc';
+        
+        // Handle orders_left virtual column
+        if ($sortColumn === 'orders_left') {
+            $query->orderBy('no_of_orders', $sortDirection === 'asc' ? 'desc' : 'asc');
+        } else {
+            $query->orderBy($sortColumn, $sortDirection);
+        }
+    } else {
+        $query->latest();
+    }
+
+    // Get paginated results
+    $orders = $query->paginate(2)->appends($request->all());
+    
+    // Calculate orders_left for each record
+    foreach ($orders as $order) {
+        $order->orders_left = max(0, 10 - $order->no_of_orders); // Adjust max orders as needed
+    }
+
+    // 📤 Export button trigger
+    if ($request->has('export') && $request->export == 'excel') {
+        // For export, we need to get all records without pagination
+        $exportQuery = CustomerOrder::query();
+        
+        // Apply the same filters
         if ($request->filled('search')) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $exportQuery->where(function($q) use ($search) {
                 $q->where('customer_name', 'like', "%$search%")
                   ->orWhere('customer_email', 'like', "%$search%");
             });
         }
 
-        // 📅 Date Filter
         if ($request->filled('start_date') && $request->filled('end_date')) {
             $start = Carbon::parse($request->start_date)->startOfDay();
             $end = Carbon::parse($request->end_date)->endOfDay();
-            $query->whereBetween('created_at', [$start, $end]);
+            $exportQuery->whereBetween('created_at', [$start, $end]);
         }
 
-        // 📊 Sorting
+        // Apply sorting for export
         if ($request->filled('sort')) {
             $sortColumn = $request->sort;
             $sortDirection = $request->direction ?? 'asc';
             
-            // Handle orders_left virtual column
             if ($sortColumn === 'orders_left') {
-                $query->orderBy('no_of_orders', $sortDirection);
+                $exportQuery->orderBy('no_of_orders', $sortDirection === 'asc' ? 'desc' : 'asc');
             } else {
-                $query->orderBy($sortColumn, $sortDirection);
+                $exportQuery->orderBy($sortColumn, $sortDirection);
             }
         } else {
-            $query->latest();
+            $exportQuery->latest();
         }
 
-        // Calculate orders_left for each record
-        $orders = $query->paginate(2)->appends($request->all());
+        $exportData = $exportQuery->get();
         
-        // Add orders_left to each order (assuming max orders is 10, adjust as needed)
-        foreach ($orders as $order) {
-            $order->orders_left = max(0, 10 - $order->no_of_orders); // Adjust max orders as needed
+        // Add orders_left to export data
+        foreach ($exportData as $order) {
+            $order->orders_left = max(0, 10 - $order->no_of_orders);
         }
 
-        // 📤 Export button trigger
-        if ($request->has('export') && $request->export == 'excel') {
-            return Excel::download(new CustomerOrdersExport($query->get()), 'customer_orders.xlsx');
-        }
-
-        return view('backend.admin.customer_orders.index', compact('orders'));
+        return Excel::download(new CustomerOrdersExport($exportData), 'customer_orders.xlsx');
     }
 
+    return view('backend.admin.customer_orders.index', compact('orders'));
+}
 
     public function sendReminder(Request $request)
 {
