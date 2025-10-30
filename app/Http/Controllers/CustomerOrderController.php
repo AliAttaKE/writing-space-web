@@ -86,7 +86,7 @@ class CustomerOrderController extends Controller
         }
 
         // Calculate orders_left for each record
-        $orders = $query->paginate(10)->appends($request->all());
+        $orders = $query->paginate(2)->appends($request->all());
         
         // Add orders_left to each order (assuming max orders is 10, adjust as needed)
         foreach ($orders as $order) {
