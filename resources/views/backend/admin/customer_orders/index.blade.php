@@ -20,32 +20,23 @@
             <div class="card cardbody card-custom-bg">
                 <div class="card-header border-0 pt-6">
                    <div class="card-title">
-                        <div class="d-flex align-items-center position-relative my-1 gap-2">
-                          <form method="GET" action="{{ route('admin.customer_orders.index') }}" class="mb-4 d-flex gap-2 align-items-end">
-    <div>
-        <label class="form-label text-white">Start Date</label>
-        <input type="date" name="start_date" class="form-control btn-dark-primary" 
-               value="{{ request('start_date') }}">
-    </div>
+                    <div class="d-flex align-items-center position-relative my-1 gap-2">
+                        <!-- 🔍 Search -->
+                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
+                            <span class="path1"></span><span class="path2"></span>
+                        </i>
+                        <input type="text" id="searchInput" class="form-control form-control-solid w-250px ps-13 btn-dark-primary" placeholder="Search orders..." />
 
-    <div>
-        <label class="form-label text-white">End Date</label>
-        <input type="date" name="end_date" class="form-control btn-dark-primary" 
-               value="{{ request('end_date') }}">
-    </div>
+                        <!-- 📅 Start Date -->
+                        <input type="date" id="startDate" class="form-control form-control-solid btn-dark-primary" style="width: 160px;">
 
-    <div>
-        <label class="form-label text-white">Search</label>
-        <input type="text" name="search" class="form-control btn-dark-primary" 
-               placeholder="Search by name/email" value="{{ request('search') }}">
-    </div>
+                        <!-- 📅 End Date -->
+                        <input type="date" id="endDate" class="form-control form-control-solid btn-dark-primary" style="width: 160px;">
 
-    <button type="submit" class="btn btn-dark-primary">Filter</button>
-    <a href="{{ route('admin.customer_orders.index') }}" class="btn btn-secondary">Reset</a>
-</form>
-
-                        </div>
+                        <button id="filterBtn" class="btn btn-dark-primary">Filter</button>
+                        <button id="resetBtn" class="btn btn-secondary">Reset</button>
                     </div>
+                </div>
 
                 </div>
                 <div class="card-body py-4">
@@ -87,8 +78,7 @@
                             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
                                 <th class="min-w-100px fw_800 pb-8 sortable" data-column="0">Customer Name <span class="sort-icon">⇅</span></th>
                                 <th class="min-w-150px fw_800 pb-8 sortable" data-column="1">Email <span class="sort-icon">⇅</span></th>
-                                <th class="min-w-100px fw_800 pb-8 sortable" data-column="2">Orders Left <span class="sort-icon">⇅</span></th>
-                                <th class="min-w-100px fw_800 pb-8 sortable" data-column="3">Orders Used <span class="sort-icon">⇅</span></th>
+                                <th class="min-w-100px fw_800 pb-8 sortable" data-column="2">No. of Orders <span class="sort-icon">⇅</span></th>
                                 <th class="min-w-100px fw_800 pb-8">Actions</th>
                             </tr>
                         </thead>
@@ -206,43 +196,6 @@ $(document).ready(function() {
         });
     });
 
-// 🔎 Search + Date Filter Combined
-$('#filterBtn').on('click', function() {
-    const searchText = $('#searchInput').val().toLowerCase();
-    const startDate = $('#startDate').val();
-    const endDate = $('#endDate').val();
-
-    $('#customerOrdersTable tbody tr').each(function() {
-        const rowText = $(this).text().toLowerCase();
-        const orderDate = $(this).data('date'); // we’ll add this data attribute below
-
-        let showRow = true;
-
-        // Filter by search
-        if (searchText && !rowText.includes(searchText)) {
-            showRow = false;
-        }
-
-        // Filter by date range
-        if (startDate || endDate) {
-            const date = new Date(orderDate);
-            const from = startDate ? new Date(startDate) : null;
-            const to = endDate ? new Date(endDate) : null;
-
-            if ((from && date < from) || (to && date > to)) {
-                showRow = false;
-            }
-        }
-
-        $(this).toggle(showRow);
-    });
-});
-
-// 🔄 Reset Filters
-$('#resetBtn').on('click', function() {
-    $('#searchInput, #startDate, #endDate').val('');
-    $('#customerOrdersTable tbody tr').show();
-});
 
 
 // 📊 Column Sorting
