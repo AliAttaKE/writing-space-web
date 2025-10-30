@@ -16,11 +16,27 @@ use Illuminate\Support\Facades\Mail;
 
 class CustomerOrderController extends Controller
 {
-    public function index()
-    {
-        $orders = CustomerOrder::latest()->paginate(10);
-        return view('backend.admin.customer_orders.index', compact('orders'));
+   public function index(Request $request)
+{
+    $query = CustomerOrder::query();
+
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('customer_name', 'like', "%{$search}%")
+              ->orWhere('customer_email', 'like', "%{$search}%");
+        });
     }
+
+    if ($request->filled('start_date') && $request->filled('end_date')) {
+        $query->whereBetween('created_at', [$request->start_date, $request->end_date]);
+    }
+
+    $orders = $query->latest()->paginate(10);
+
+    return view('backend.admin.customer_orders.index', compact('orders'));
+}
+
 
 
     public function sendReminder(Request $request)

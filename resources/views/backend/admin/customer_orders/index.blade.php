@@ -19,15 +19,25 @@
         <div id="kt_app_content_container" class="app-container container-xxl">
             <div class="card cardbody card-custom-bg">
                 <div class="card-header border-0 pt-6">
-                    <div class="card-title">
-                        <div class="d-flex align-items-center position-relative my-1">
+                   <div class="card-title">
+                        <div class="d-flex align-items-center position-relative my-1 gap-2">
+                            <!-- 🔍 Search -->
                             <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
+                                <span class="path1"></span><span class="path2"></span>
                             </i>
                             <input type="text" id="searchInput" class="form-control form-control-solid w-250px ps-13 btn-dark-primary" placeholder="Search orders..." />
+
+                            <!-- 📅 Start Date -->
+                            <input type="date" id="startDate" class="form-control form-control-solid btn-dark-primary" style="width: 160px;">
+
+                            <!-- 📅 End Date -->
+                            <input type="date" id="endDate" class="form-control form-control-solid btn-dark-primary" style="width: 160px;">
+
+                            <button id="filterBtn" class="btn btn-dark-primary">Filter</button>
+                            <button id="resetBtn" class="btn btn-secondary">Reset</button>
                         </div>
                     </div>
+
                 </div>
                 <div class="card-body py-4">
                     <!-- <table class="table align-middle table-row-dashed fs-6 gy-5" id="customerOrdersTable">
@@ -186,6 +196,43 @@ $(document).ready(function() {
         });
     });
 
+// 🔎 Search + Date Filter Combined
+$('#filterBtn').on('click', function() {
+    const searchText = $('#searchInput').val().toLowerCase();
+    const startDate = $('#startDate').val();
+    const endDate = $('#endDate').val();
+
+    $('#customerOrdersTable tbody tr').each(function() {
+        const rowText = $(this).text().toLowerCase();
+        const orderDate = $(this).data('date'); // we’ll add this data attribute below
+
+        let showRow = true;
+
+        // Filter by search
+        if (searchText && !rowText.includes(searchText)) {
+            showRow = false;
+        }
+
+        // Filter by date range
+        if (startDate || endDate) {
+            const date = new Date(orderDate);
+            const from = startDate ? new Date(startDate) : null;
+            const to = endDate ? new Date(endDate) : null;
+
+            if ((from && date < from) || (to && date > to)) {
+                showRow = false;
+            }
+        }
+
+        $(this).toggle(showRow);
+    });
+});
+
+// 🔄 Reset Filters
+$('#resetBtn').on('click', function() {
+    $('#searchInput, #startDate, #endDate').val('');
+    $('#customerOrdersTable tbody tr').show();
+});
 
 
 // 📊 Column Sorting
