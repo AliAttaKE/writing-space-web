@@ -21,20 +21,29 @@
                 <div class="card-header border-0 pt-6">
                    <div class="card-title">
                         <div class="d-flex align-items-center position-relative my-1 gap-2">
-                            <!-- 🔍 Search -->
-                            <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
-                                <span class="path1"></span><span class="path2"></span>
-                            </i>
-                            <input type="text" id="searchInput" class="form-control form-control-solid w-250px ps-13 btn-dark-primary" placeholder="Search orders..." />
+                          <form method="GET" action="{{ route('admin.customer_orders.index') }}" class="mb-4 d-flex gap-2 align-items-end">
+    <div>
+        <label class="form-label text-white">Start Date</label>
+        <input type="date" name="start_date" class="form-control btn-dark-primary" 
+               value="{{ request('start_date') }}">
+    </div>
 
-                            <!-- 📅 Start Date -->
-                            <input type="date" id="startDate" class="form-control form-control-solid btn-dark-primary" style="width: 160px;">
+    <div>
+        <label class="form-label text-white">End Date</label>
+        <input type="date" name="end_date" class="form-control btn-dark-primary" 
+               value="{{ request('end_date') }}">
+    </div>
 
-                            <!-- 📅 End Date -->
-                            <input type="date" id="endDate" class="form-control form-control-solid btn-dark-primary" style="width: 160px;">
+    <div>
+        <label class="form-label text-white">Search</label>
+        <input type="text" name="search" class="form-control btn-dark-primary" 
+               placeholder="Search by name/email" value="{{ request('search') }}">
+    </div>
 
-                            <button id="filterBtn" class="btn btn-dark-primary">Filter</button>
-                            <button id="resetBtn" class="btn btn-secondary">Reset</button>
+    <button type="submit" class="btn btn-dark-primary">Filter</button>
+    <a href="{{ route('admin.customer_orders.index') }}" class="btn btn-secondary">Reset</a>
+</form>
+
                         </div>
                     </div>
 
