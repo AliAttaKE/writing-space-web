@@ -84,17 +84,22 @@ public function index(Request $request)
         $query->latest();
     }
 
-    // ✅ Paginate results
+    // ✅ Paginate
     $orders = $query->paginate(10)->appends($request->all());
 
-    // ✅ Calculate orders used & left
+    // ✅ Correct Orders Used & Left
     foreach ($orders as $order) {
+        // Count total orders for this specific customer
         $usedOrders = CustomerOrder::where('customer_email', $order->customer_email)->count();
+
+        // Show the actual count (not -1 offset)
         $order->orders_used = $usedOrders;
+
+        // Set total limit as 10
         $order->orders_left = max(0, 10 - $usedOrders);
     }
 
-    // 📤 Export to Excel
+    // 📤 Export
     if ($request->has('export') && $request->export == 'excel') {
         $exportQuery = clone $query;
         $exportData = $exportQuery->get();
@@ -108,7 +113,7 @@ public function index(Request $request)
         return Excel::download(new CustomerOrdersExport($exportData), 'customer_orders.xlsx');
     }
 
-    // ✅ Fetch all customers for dropdowns
+    // ✅ Dropdown list
     $customers = User::select('id', 'name', 'email')->orderBy('name')->get();
 
     return view('backend.admin.customer_orders.index', compact('orders', 'customers'));
