@@ -220,10 +220,10 @@ public function index(Request $request)
    
 
   
+
 public function store(Request $request)
 {
     $validator = Validator::make($request->all(), [
-        'user_id' => 'required|exists:users,id',
         'customer_name' => 'required|string|max:255',
         'customer_email' => 'required|email|max:255',
         'no_of_orders' => 'required|integer|min:1',
@@ -234,12 +234,6 @@ public function store(Request $request)
     }
 
     try {
-        // Check if customer order already exists for this user
-        $existingOrder = CustomerOrder::where('user_id', $request->user_id)->first();
-        if ($existingOrder) {
-            return response()->json(['error' => 'Customer order already exists for this user'], 422);
-        }
-
         // Create the record
         $customerOrder = CustomerOrder::create($request->all());
 
@@ -262,45 +256,43 @@ public function store(Request $request)
                     ->subject($subject);
         });
 
+        // Mail::html($content, function ($message) use ($request, $subject) {
+        //     $message->to($request->customer_email)
+        //             ->subject($subject);
+        // });
+
+
         return response()->json(['success' => 'Customer order created successfully and email sent']);
     } catch (\Exception $e) {
+       
         return response()->json(['error' => 'Oops! Something went wrong'], 500);
     }
 }
 
-public function update(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'user_id' => 'required|exists:users,id',
-        'customer_name' => 'required|string|max:255',
-        'customer_email' => 'required|email|max:255',
-        'no_of_orders' => 'required|integer|min:1',
-        'order_id' => 'required|exists:customer_orders,id'
-    ]);
 
-    if ($validator->fails()) {
-        return response()->json(['error' => $validator->errors()->first()], 422);
-    }
+    public function update(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'customer_name' => 'required|string|max:255',
+            'customer_email' => 'required|email|max:255',
+            // 'user_id' => 'nullable|exists:users,id',
+            'no_of_orders' => 'required|integer|min:1',
+            'order_id' => 'required|exists:customer_orders,id'
+        ]);
 
-    try {
-        $order = CustomerOrder::findOrFail($request->order_id);
-        
-        // Check if user_id is being changed and if it already exists
-        if ($order->user_id != $request->user_id) {
-            $existingOrder = CustomerOrder::where('user_id', $request->user_id)
-                                        ->where('id', '!=', $request->order_id)
-                                        ->first();
-            if ($existingOrder) {
-                return response()->json(['error' => 'Customer order already exists for this user'], 422);
-            }
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->first()], 422);
         }
 
-        $order->update($request->all());
-        return response()->json(['success' => 'Customer order updated successfully']);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Oops! Something went wrong'], 500);
+        try {
+            $order = CustomerOrder::findOrFail($request->order_id);
+            $order->update($request->all());
+            return response()->json(['success' => 'Customer order updated successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Oops! Something went wrong'], 500);
+        }
     }
-}
+
     public function destroy($id)
     {
         try {

@@ -2,7 +2,6 @@
 @section('main_content')
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 <div class="d-flex flex-column flex-column-fluid">
     <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
@@ -90,33 +89,16 @@
                         </thead>
                         <tbody class="text-gray-600 fw-semibold">
                             @foreach($orders as $order)
-                            @php
-                                // Get user data from users table
-                                $user = \App\Models\User::find($order->user_id);
-                            @endphp
                             <tr>
-                                <td class="text-white">
-                                    @if($user)
-                                        {{ $user->name }}
-                                    @else
-                                        {{ $order->customer_name }}
-                                    @endif
-                                </td>
-                                <td class="text-white">
-                                    @if($user)
-                                        {{ $user->email }}
-                                    @else
-                                        {{ $order->customer_email }}
-                                    @endif
-                                </td>
+                                <td class="text-white">{{ $order->customer_name }}</td>
+                                <td class="text-white">{{ $order->customer_email }}</td>
                                 <td class="text-white">{{ $order->no_of_orders }}</td>
                                 <td class="text-white">{{ $order->orders_left }}</td>
                                 <td>
                                     <a href="#" class="btn badge-custom-bg btn-flex btn-center btn-sm edit-order"
                                         data-order-id="{{ $order->id }}"
-                                        data-customer-name="{{ $user ? $user->name : $order->customer_name }}"
-                                        data-customer-email="{{ $user ? $user->email : $order->customer_email }}"
-                                        data-user-id="{{ $order->user_id }}"
+                                        data-customer-name="{{ $order->customer_name }}"
+                                        data-customer-email="{{ $order->customer_email }}"
                                         data-no-of-orders="{{ $order->no_of_orders }}">
                                         Edit
                                     </a>
@@ -148,12 +130,12 @@
             <form id="addOrderForm">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label text-white">Select Customer</label>
-                        <select class="form-control btn-dark-primary select2-user" name="user_id" id="addUserSelect" required>
-                            <option value="">Search and select customer...</option>
-                        </select>
-                        <input type="hidden" name="customer_name" id="addCustomerName">
-                        <input type="hidden" name="customer_email" id="addCustomerEmail">
+                        <label class="form-label text-white">Customer Name</label>
+                        <input type="text" class="form-control btn-dark-primary" name="customer_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Customer Email</label>
+                        <input type="email" class="form-control btn-dark-primary" name="customer_email" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label text-white">Number of Orders</label>
@@ -181,12 +163,12 @@
                 <input type="hidden" name="order_id" id="editOrderId">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label text-white">Select Customer</label>
-                        <select class="form-control btn-dark-primary select2-user" name="user_id" id="editUserSelect" required>
-                            <option value="">Search and select customer...</option>
-                        </select>
-                        <input type="hidden" name="customer_name" id="editCustomerName">
-                        <input type="hidden" name="customer_email" id="editCustomerEmail">
+                        <label class="form-label text-white">Customer Name</label>
+                        <input type="text" class="form-control btn-dark-primary" name="customer_name" id="editCustomerName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Customer Email</label>
+                        <input type="email" class="form-control btn-dark-primary" name="customer_email" id="editCustomerEmail" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label text-white">Number of Orders</label>
@@ -202,78 +184,8 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 $(document).ready(function() {
-    // Initialize Select2 for user search
-    function initializeSelect2(selector) {
-        return $(selector).select2({
-            placeholder: "Search and select customer...",
-            allowClear: true,
-            ajax: {
-                url: '{{ route("admin.customer_orders.search_users") }}',
-                type: 'GET',
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {
-                        search: params.term,
-                        page: params.page || 1
-                    };
-                },
-                processResults: function (data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: $.map(data, function (user) {
-                            return {
-                                id: user.id,
-                                text: user.name + ' (' + user.email + ')',
-                                name: user.name,
-                                email: user.email
-                            };
-                        }),
-                        pagination: {
-                            more: (params.page * 10) < data.total_count
-                        }
-                    };
-                },
-                cache: true
-            },
-            minimumInputLength: 2,
-            templateResult: formatUser,
-            templateSelection: formatUserSelection
-        });
-    }
-
-    function formatUser(user) {
-        if (user.loading) {
-            return user.text;
-        }
-        var $container = $(
-            "<div class='select2-user-result'>" +
-                "<div class='user-name'><strong>" + user.name + "</strong></div>" +
-                "<div class='user-email'>" + user.email + "</div>" +
-            "</div>"
-        );
-        return $container;
-    }
-
-    function formatUserSelection(user) {
-        if (user.id) {
-            // Set the hidden input values when user is selected
-            $('#addCustomerName').val(user.name);
-            $('#addCustomerEmail').val(user.email);
-            $('#editCustomerName').val(user.name);
-            $('#editCustomerEmail').val(user.email);
-            return user.name + ' (' + user.email + ')';
-        }
-        return user.text;
-    }
-
-    // Initialize Select2 for both modals
-    var addUserSelect = initializeSelect2('#addUserSelect');
-    var editUserSelect = initializeSelect2('#editUserSelect');
-
     // Initialize form values from URL parameters
     function initializeFormValues() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -283,20 +195,6 @@ $(document).ready(function() {
     }
 
     initializeFormValues();
-
-    // Reset form when modal is closed
-    $('#addCustomerOrderModal').on('hidden.bs.modal', function () {
-        $('#addOrderForm')[0].reset();
-        addUserSelect.val(null).trigger('change');
-        $('#addCustomerName').val('');
-        $('#addCustomerEmail').val('');
-    });
-
-    $('#editCustomerOrderModal').on('hidden.bs.modal', function () {
-        editUserSelect.val(null).trigger('change');
-        $('#editCustomerName').val('');
-        $('#editCustomerEmail').val('');
-    });
 
     // Export functionality
     $('#exportBtn').on('click', function() {
@@ -353,19 +251,12 @@ $(document).ready(function() {
         if (endDate) url += `end_date=${endDate}&`;
         if (sort) url += `sort=${sort}&direction=${direction}&`;
         
-        window.location.href = url.slice(0, -1);
+        window.location.href = url.slice(0, -1); // Remove trailing & or ?
     }
 
     // Add order form submission
     $('#addOrderForm').on('submit', function(e) {
         e.preventDefault();
-        
-        // Validate that a user is selected
-        if (!$('#addUserSelect').val()) {
-            Swal.fire('Error!', 'Please select a customer', 'error');
-            return;
-        }
-
         var formData = $(this).serialize();
 
         $.ajax({
@@ -392,21 +283,12 @@ $(document).ready(function() {
         var orderId = $(this).data('order-id');
         var customerName = $(this).data('customer-name');
         var customerEmail = $(this).data('customer-email');
-        var userId = $(this).data('user-id');
         var noOfOrders = $(this).data('no-of-orders');
 
         $('#editOrderId').val(orderId);
-        $('#editNoOfOrders').val(noOfOrders);
         $('#editCustomerName').val(customerName);
         $('#editCustomerEmail').val(customerEmail);
-
-        // If user_id exists, pre-select the user in dropdown
-        if (userId) {
-            var option = new Option(customerName + ' (' + customerEmail + ')', userId, true, true);
-            editUserSelect.append(option).trigger('change');
-        } else {
-            editUserSelect.val(null).trigger('change');
-        }
+        $('#editNoOfOrders').val(noOfOrders);
 
         $('#editCustomerOrderModal').modal('show');
     });
@@ -414,13 +296,6 @@ $(document).ready(function() {
     // Edit order form submission
     $('#editOrderForm').on('submit', function(e) {
         e.preventDefault();
-        
-        // Validate that a user is selected
-        if (!$('#editUserSelect').val()) {
-            Swal.fire('Error!', 'Please select a customer', 'error');
-            return;
-        }
-
         var formData = $(this).serialize();
 
         $.ajax({
@@ -471,22 +346,6 @@ function confirmDelete(id) {
 </script>
 
 <style>
-.select2-container .select2-selection--single {
-    height: 38px !important;
-}
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 38px !important;
-}
-.select2-container--default .select2-selection--single .select2-selection__arrow {
-    height: 36px !important;
-}
-.select2-user-result .user-name {
-    font-weight: bold;
-}
-.select2-user-result .user-email {
-    font-size: 12px;
-    color: #666;
-}
 .sortable {
     cursor: pointer;
     position: relative;
