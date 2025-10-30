@@ -14,10 +14,6 @@
             </div>
         </div>
     </div>
-<button type="submit" class="btn btn-dark-primary">Filter</button>
-<a href="{{ route('admin.customer_orders.index') }}" class="btn btn-secondary">Reset</a>
-
-<a href="{{ route('admin.customer_orders.index', array_merge(request()->all(), ['export' => 'excel'])) }}" class="btn btn-success">Export Excel</a>
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
