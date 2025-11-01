@@ -302,10 +302,13 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 											<a class="nav-link text-white pb-4 tabBtn" data-bs-toggle="tab" href="#kt_ecommerce_customer_orderFiles">Order Files</a>
 										</li>
 										<!--end:::Tab item-->
+
+									@if($order->payment_status != 'Free')
 										<li class="nav-item">
 											<a class="nav-link text-white pb-4 tabBtn" data-bs-toggle="tab"
 												href="#kt_ecommerce_customer_managePages">Manage Pages</a>
 										</li>
+										@endif
 										<!--end:::Tab item-->
 
 										<!--begin:::Tab item-->
@@ -1147,304 +1150,307 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 
 
 										<!--end:::Tab pane-->
-										<div class="tab-pane fade" id="kt_ecommerce_customer_managePages" role="tabpanel">
-										     @if($hasSubscription && $totalPages > 0 && $subscription->status === 'Active')
-											<div class="card my-10 card-custom-bg">
-												<div class="row p-5 mb-5">
-													<div class="col-md-12">
-														<div class="row">
-															<div class="col-lg-8 col-md-8">
-																<section class="mb-10">
-																	<div class="row justify-content-between px-3">
-																		<div class="col-md-5 card-custom-bg mb-5 rounded">
 
-											<div class=" p-3">
-												<h2
-													class="text-gray-900 fw-bold fs-color-white custom-fs-13 fs-2 mb-5">
-													Page Adjustment Section</h2>
-												<h5 class=" mb-2 fs-color-white custom-fs-13">Add More Pages</h5>
-												<input type="number"
-													class="form-control mb-5 btn-dark-primary"
-													id="pageCount"
-													placeholder="Enter page count" min="0">
-													<p class="fs-3 fs-color-white custom-fs-13">Cost Per Page : $<span
-														id="totalCostPerPage1" class="fs-color-yellow">0.00</span></p>
-													<p class="fs-3 fs-color-white custom-fs-13">Total Cost: $<span
-														id="totalCost" class="fs-color-yellow">0.00</span></p>
+										@if($order->payment_status != 'Free')
+											<div class="tab-pane fade" id="kt_ecommerce_customer_managePages" role="tabpanel">
+												@if($hasSubscription && $totalPages > 0 && $subscription->status === 'Active')
+												<div class="card my-10 card-custom-bg">
+													<div class="row p-5 mb-5">
+														<div class="col-md-12">
+															<div class="row">
+																<div class="col-lg-8 col-md-8">
+																	<section class="mb-10">
+																		<div class="row justify-content-between px-3">
+																			<div class="col-md-5 card-custom-bg mb-5 rounded">
 
-											</div>
-																		</div>
-																		<div class="col-md-5 card-custom-bg mb-5 rounded current-order-summary">
+												<div class=" p-3">
+													<h2
+														class="text-gray-900 fw-bold fs-color-white custom-fs-13 fs-2 mb-5">
+														Page Adjustment Section</h2>
+													<h5 class=" mb-2 fs-color-white custom-fs-13">Add More Pages</h5>
+													<input type="number"
+														class="form-control mb-5 btn-dark-primary"
+														id="pageCount"
+														placeholder="Enter page count" min="0">
+														<p class="fs-3 fs-color-white custom-fs-13">Cost Per Page : $<span
+															id="totalCostPerPage1" class="fs-color-yellow">0.00</span></p>
+														<p class="fs-3 fs-color-white custom-fs-13">Total Cost: $<span
+															id="totalCost" class="fs-color-yellow">0.00</span></p>
 
-																			<div class=" p-3">
-																				<h2
-																					class="text-gray-900 fw-bold fs-2 mb-xl-10 fs-color-white custom-fs-13">
-																					Current Order Summary:</h2>
-																				<h5 class=" mb-2 fs-color-white custom-fs-13">Your Current Page
-																					Count:</h5>
-																				<p class="fs-3 fs-color-white custom-fs-13 fs-color-yellow"><span
-																						id="totalCost" class="fs-color-yellow numpage">{{$order->number_of_pages??''}}</span></p>
+												</div>
 																			</div>
-																			<div class=" p-3">
-																				<h5 class=" mb-2 fs-color-white custom-fs-13">Projected Page Count:
-																				</h5>
-																				<p class="fs-3 fs-color-white custom-fs-13"><span
-																						class="fs-color-yellow totalpageg">0</span></p>
-																						<input type="hidden" value="{{$used_subscription->remaining_pages??''}}" id="totalCost1"/>
-																			</div>
-																		</div>
-																		<div class="col-md-5 card-custom-bg mb-5 rounded">
+																			<div class="col-md-5 card-custom-bg mb-5 rounded current-order-summary">
 
-																			<div class="p-3">
-																				<h2
-																					class="text-gray-900 fw-bold fs-2 mb-5 fs-color-white custom-fs-13">
-																					Deadline Adjustment</h2>
-																				<h5 class="mb-2 fs-color-white custom-fs-13">Change Deadline</h5>
-																				<input class="form-control btn-dark-primary"
-																					type="datetime-local"
-																					id="meeting-time_custom"
-																					name="meeting-time"
-																					value="{{$order->deadline}}"
-																					min="{{$order->deadline}}"
-																					/>
-
-																			</div>
-																		</div>
-																		<div class="col-md-5 rounded">
-																			<!--<button -->
-																			<!--    class="px-2 btn badge-custom-bg"-->
-																			<!--    id="proceedButton" data-toggle="modal" data-target="#modal-15" onclick="modal_open12()">Proceed to-->
-																			<!--    Checkout</button>-->
-
-
-																				 <button type="button" id="checkoutBtn" class="px-2 btn badge-custom-bg mt-4">
-																				Proceed to Checkout
-																			</button>
-
-																		</div>
-																	</div>
-
-
-																</section>
-
-																 <div class="modal fade" id="custom-modal" tabindex="-1" aria-labelledby="custom-modal-label" aria-hidden="true">
-																	<div class="modal-dialog">
-																		<div class="modal-content badge-custom-bg">
-
-																			<form enctype="multipart/form-data" class="form" id="kt_modal_upload_form">
-																				<!--begin::Modal header-->
-																				<input type="hidden" name="_token" value="jgx5GfFAnNH462cMW6Yt1oQX3DqCkbqgmk8HcDJ0" autocomplete="off">
-																				<!--begin::Modal header-->
-																				<div class="modal-header">
-																					<!--begin::Modal title-->
-																					<h2 class="fw-bold fs-color-white custom-fs-23">Manage Your Pages</h2>
-																					<!--end::Modal title-->
-																					<!--begin::Close-->
-																					<div class="btn btn-icon btn-sm btn-active-icon-primary text-white" data-bs-dismiss="modal">
-																						<i class="ki-duotone ki-cross fs-1">
-																							<span class="path1"></span>
-																							<span class="path2"></span>
-																						</i>
-																					</div>
-																					<!--end::Close-->
+																				<div class=" p-3">
+																					<h2
+																						class="text-gray-900 fw-bold fs-2 mb-xl-10 fs-color-white custom-fs-13">
+																						Current Order Summary:</h2>
+																					<h5 class=" mb-2 fs-color-white custom-fs-13">Your Current Page
+																						Count:</h5>
+																					<p class="fs-3 fs-color-white custom-fs-13 fs-color-yellow"><span
+																							id="totalCost" class="fs-color-yellow numpage">{{$order->number_of_pages??''}}</span></p>
 																				</div>
-																				<!--end::Modal header-->
-																				<!--begin::Modal body-->
-																				<div class="modal-body pt-10 pb-15 ">
-																					<!--begin::Input group-->
-																					<div class="form-group">
-																						<!--begin::Dropzone-->
-																						<div class=" p-2">
-																							<h5 class="fs-6 text-muted mb-2 fs-color-white custom-fs-13">Required Pages:
-																							</h5>
-																						<p class="fs-6 text-muted mb-2 fs-color-white custom-fs-13"><span class="RequiredPages" class="fs-color-yellow totalpageg">2</span></p>
-																						</div>
-																						<!--end::Dropzone-->
-																						<div class=" p-2">
-																							<h5 class="fs-6 text-muted mb-2 fs-color-white custom-fs-13">Remaining Pages
-																							</h5>
-																					<p class="fs-6 text-muted mb-2 fs-color-white custom-fs-13"><span class="RemainingPages" class="fs-color-yellow totalpageg">5</span></p>
-																						</div>
-																						<!--end::Hint-->
+																				<div class=" p-3">
+																					<h5 class=" mb-2 fs-color-white custom-fs-13">Projected Page Count:
+																					</h5>
+																					<p class="fs-3 fs-color-white custom-fs-13"><span
+																							class="fs-color-yellow totalpageg">0</span></p>
+																							<input type="hidden" value="{{$used_subscription->remaining_pages??''}}" id="totalCost1"/>
+																				</div>
+																			</div>
+																			<div class="col-md-5 card-custom-bg mb-5 rounded">
 
-																						<div class="form-check mb-4">
-																							<input class="form-check-input radiobuttonpayment" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="currentpakage">
-																							<label class="form-check-label fs-color-white" for="flexRadioDefault1">
-																								Use <span class="RequiredPages">0</span>  Pages from Current Package (Pages Remaining in Your Package: <span class="RemainingPages">0</span>)
-																							</label>
-																						</div>
-																						<div class="form-check mt-4">
-																							<input class="form-check-input radiobuttonpayment" value="cardpakage" type="radio" name="flexRadioDefault" id="flexRadioDefault2"  checked>
-																							<label class="form-check-label fs-color-white" for="flexRadioDefault2">
-																								Purchase <span class="RequiredPages">0</span> Additional Pages (Additional Pages Available for Purchase: <span class="rollover">0</span>)Total $<span id="totalcostreq">0</span> (Per Page $<span id="pakg_cost_per_page">{{$order->cost_per_page}}</span>)
-																							</label>
-
-
-																							<input type="hidden" value="{{$used_subscription->id??''}}" id="used_package_id">
-																							<input type="hidden" value="{{$used_subscription->subscription_id??''}}" id="package_id">
-																							<input type="hidden" value="{{$used_subscription->cost_per_page_final ??''}}" id="cost_per_page">
-
-																						</div>
-
-																						<div class="d-flex justify-content-end">
-																							<!--begin::Button-->
-																							<button type="reset" data-kt-contacts-type="cancel" class="btn btn-dark-primary me-3" data-bs-dismiss="modal">
-																								Cancel
-																							</button>
-																							<!--end::Button-->
-
-																							<!--begin::Button-->
-																							<button type="button" class="btn btn-dark-primary" onclick="modal_open122()" data-bs-confirm="modal">
-																								<span class="indicator-label">
-																									Confirm
-																								</span>
-																								<span class="indicator-progress">
-																									Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-																								</span>
-																							</button>
-																							<!--end::Button-->
-																						</div>
-																					</div>
+																				<div class="p-3">
+																					<h2
+																						class="text-gray-900 fw-bold fs-2 mb-5 fs-color-white custom-fs-13">
+																						Deadline Adjustment</h2>
+																					<h5 class="mb-2 fs-color-white custom-fs-13">Change Deadline</h5>
+																					<input class="form-control btn-dark-primary"
+																						type="datetime-local"
+																						id="meeting-time_custom"
+																						name="meeting-time"
+																						value="{{$order->deadline}}"
+																						min="{{$order->deadline}}"
+																						/>
 
 																				</div>
-																				<!--end::Modal body-->
-																			</form>
-																			<!--end::Form-->
+																			</div>
+																			<div class="col-md-5 rounded">
+																				<!--<button -->
+																				<!--    class="px-2 btn badge-custom-bg"-->
+																				<!--    id="proceedButton" data-toggle="modal" data-target="#modal-15" onclick="modal_open12()">Proceed to-->
+																				<!--    Checkout</button>-->
+
+
+																					<button type="button" id="checkoutBtn" class="px-2 btn badge-custom-bg mt-4">
+																					Proceed to Checkout
+																				</button>
+
+																			</div>
+																		</div>
+
+
+																	</section>
+
+																	<div class="modal fade" id="custom-modal" tabindex="-1" aria-labelledby="custom-modal-label" aria-hidden="true">
+																		<div class="modal-dialog">
+																			<div class="modal-content badge-custom-bg">
+
+																				<form enctype="multipart/form-data" class="form" id="kt_modal_upload_form">
+																					<!--begin::Modal header-->
+																					<input type="hidden" name="_token" value="jgx5GfFAnNH462cMW6Yt1oQX3DqCkbqgmk8HcDJ0" autocomplete="off">
+																					<!--begin::Modal header-->
+																					<div class="modal-header">
+																						<!--begin::Modal title-->
+																						<h2 class="fw-bold fs-color-white custom-fs-23">Manage Your Pages</h2>
+																						<!--end::Modal title-->
+																						<!--begin::Close-->
+																						<div class="btn btn-icon btn-sm btn-active-icon-primary text-white" data-bs-dismiss="modal">
+																							<i class="ki-duotone ki-cross fs-1">
+																								<span class="path1"></span>
+																								<span class="path2"></span>
+																							</i>
+																						</div>
+																						<!--end::Close-->
+																					</div>
+																					<!--end::Modal header-->
+																					<!--begin::Modal body-->
+																					<div class="modal-body pt-10 pb-15 ">
+																						<!--begin::Input group-->
+																						<div class="form-group">
+																							<!--begin::Dropzone-->
+																							<div class=" p-2">
+																								<h5 class="fs-6 text-muted mb-2 fs-color-white custom-fs-13">Required Pages:
+																								</h5>
+																							<p class="fs-6 text-muted mb-2 fs-color-white custom-fs-13"><span class="RequiredPages" class="fs-color-yellow totalpageg">2</span></p>
+																							</div>
+																							<!--end::Dropzone-->
+																							<div class=" p-2">
+																								<h5 class="fs-6 text-muted mb-2 fs-color-white custom-fs-13">Remaining Pages
+																								</h5>
+																						<p class="fs-6 text-muted mb-2 fs-color-white custom-fs-13"><span class="RemainingPages" class="fs-color-yellow totalpageg">5</span></p>
+																							</div>
+																							<!--end::Hint-->
+
+																							<div class="form-check mb-4">
+																								<input class="form-check-input radiobuttonpayment" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="currentpakage">
+																								<label class="form-check-label fs-color-white" for="flexRadioDefault1">
+																									Use <span class="RequiredPages">0</span>  Pages from Current Package (Pages Remaining in Your Package: <span class="RemainingPages">0</span>)
+																								</label>
+																							</div>
+																							<div class="form-check mt-4">
+																								<input class="form-check-input radiobuttonpayment" value="cardpakage" type="radio" name="flexRadioDefault" id="flexRadioDefault2"  checked>
+																								<label class="form-check-label fs-color-white" for="flexRadioDefault2">
+																									Purchase <span class="RequiredPages">0</span> Additional Pages (Additional Pages Available for Purchase: <span class="rollover">0</span>)Total $<span id="totalcostreq">0</span> (Per Page $<span id="pakg_cost_per_page">{{$order->cost_per_page}}</span>)
+																								</label>
+
+
+																								<input type="hidden" value="{{$used_subscription->id??''}}" id="used_package_id">
+																								<input type="hidden" value="{{$used_subscription->subscription_id??''}}" id="package_id">
+																								<input type="hidden" value="{{$used_subscription->cost_per_page_final ??''}}" id="cost_per_page">
+
+																							</div>
+
+																							<div class="d-flex justify-content-end">
+																								<!--begin::Button-->
+																								<button type="reset" data-kt-contacts-type="cancel" class="btn btn-dark-primary me-3" data-bs-dismiss="modal">
+																									Cancel
+																								</button>
+																								<!--end::Button-->
+
+																								<!--begin::Button-->
+																								<button type="button" class="btn btn-dark-primary" onclick="modal_open122()" data-bs-confirm="modal">
+																									<span class="indicator-label">
+																										Confirm
+																									</span>
+																									<span class="indicator-progress">
+																										Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+																									</span>
+																								</button>
+																								<!--end::Button-->
+																							</div>
+																						</div>
+
+																					</div>
+																					<!--end::Modal body-->
+																				</form>
+																				<!--end::Form-->
+																			</div>
 																		</div>
 																	</div>
 																</div>
-															</div>
-															<div class="col-lg-4 col-md-4">
-																<section class="mb-10">
-																	<h3 class="text-gray-900 fw-bold fs-1 mb-5 fs-color-white custom-fs-23">
-																		Information Section</h3>
-																	<div>
-																		<ul>
-																			<li class="fs-color-white custom-fs-13">
-																				Contact our customer support for assistance. Thank you for choosing our service!
-																			</li>
+																<div class="col-lg-4 col-md-4">
+																	<section class="mb-10">
+																		<h3 class="text-gray-900 fw-bold fs-1 mb-5 fs-color-white custom-fs-23">
+																			Information Section</h3>
+																		<div>
+																			<ul>
+																				<li class="fs-color-white custom-fs-13">
+																					Contact our customer support for assistance. Thank you for choosing our service!
+																				</li>
 
 
-																		</ul>
-																	</div>
-																</section>
-															</div>
-														</div>
-													</div>
-
-												</div>
-											</div>
-											 @else
-                                              <div class="card my-10 card-custom-bg">
-												<div class="row p-5 mb-5">
-													<div class="col-md-12">
-														<div class="row">
-															<div class="col-lg-8 col-md-8">
-																<section class="mb-10">
-																	<div class="row justify-content-between px-3">
-																		<div class="col-md-5 card-custom-bg mb-5 rounded">
-
-																			<div class=" p-3">
-																				<h2
-																					class="text-gray-900 fw-bold fs-color-white custom-fs-13 fs-2 mb-5">
-																					Page Adjustment Section</h2>
-																				<h5 class=" mb-2 fs-color-white custom-fs-13">Add More Pages</h5>
-																				<input type="number"
-																					class="form-control mb-5 btn-dark-primary"
-																					id="pageCount"
-																					placeholder="Enter page count">
-                                                                                    <span style="color: red;display:none;" id="valid1">Page Count Cannot Be Empty or Zero</span>
-																				<h5 class="mb-2 fs-color-white custom-fs-13">Cost Calculator</h5>
-                                                                                <p class="fs-3 fs-color-white custom-fs-13">Cost Per Page : $<span
-																						id="totalCostPerPage1" class="fs-color-yellow">0.00</span></p>
-																				<p class="fs-3 fs-color-white custom-fs-13">Total Cost: $<span
-																						id="totalCost" class="fs-color-yellow">0.00</span></p>
-																			</div>
+																			</ul>
 																		</div>
-																		<div class="col-md-5 card-custom-bg mb-5 rounded current-order-summary">
-
-																			<div class=" p-3">
-																				<h2
-																					class="text-gray-900 fw-bold fs-2 mb-xl-10 fs-color-white custom-fs-13">
-																					Current Order Summary</h2>
-																				<h5 class=" mb-2 fs-color-white custom-fs-13">Your Current Page
-																					Count</h5>
-																				<p class="fs-3 fs-color-white custom-fs-13 fs-color-yellow"><span
-																						id="totalCost" class="fs-color-yellow numpage" >{{$order->number_of_pages}}</span></p>
-																			</div>
-																			<div class=" p-3">
-																				<h5 class=" mb-2 fs-color-white custom-fs-13">Projected Page Count:
-																				</h5>
-																				<p class="fs-3 fs-color-white custom-fs-13"><span
-																						id="totalCost" class="fs-color-yellow totalpageg">0</span></p>
-																			</div>
-																		</div>
-																		<div class="col-md-5 card-custom-bg mb-5 rounded">
-
-																			<div class="p-3">
-																				<h2
-																					class="text-gray-900 fw-bold fs-2 mb-5 fs-color-white custom-fs-13">
-																					Deadline Adjustment</h2>
-																				<h5 class="mb-2 fs-color-white custom-fs-13">Change Deadline</h5>
-																				<input class="form-control btn-dark-primary"
-																					type="datetime-local"
-																					id="meeting-time_custom"
-																					name="meeting-time"
-																					value="{{$order->deadline}}"
-																					min="{{$order->deadline}}"
-																					/>
-
-																			</div>
-																		</div>
-																		<div class="col-md-5 rounded">
-																			<button
-																				class="px-2 btn badge-custom-bg"
-																				id="proceedButton" data-toggle="modal" data-target="#modal-15" onclick="modal_open1()">Proceed to
-																				Checkout</button>
-																				<!--<button type="button" class="px-2 btn badge-custom-bg mt-4" data-bs-toggle="modal" data-bs-target="#custom-modal">-->
-																				<!--     Proceed to Checkout 2-->
-																				<!-- </button>-->
-																		</div>
-
-																	</div>
-
-
-																</section>
-
-															</div>
-															<div class="col-lg-4 col-md-4">
-																<section class="mb-10">
-																	<h3 class="text-gray-900 fw-bold fs-1 mb-5 fs-color-white custom-fs-23">
-																		Information Section
-																	</h3>
-																	<div>
-																		<ul>
-																			<li class="fs-color-white custom-fs-13">
-																				Upgrade to a Package for More Savings!
-																			</li>
-																			<li class="fs-color-white custom-fs-13">
-																				Discounted rates on extra pages
-																			</li>
-																			<li class="fs-color-white custom-fs-13">
-																				Exclusive perks
-																			</li>
-																			<li class="fs-color-white custom-fs-13">Simplified ordering for future projects</li>
-
-																		</ul>
-																	</div>
-																	<h4 class="text-gray-900  mb-5 fs-color-white custom-fs-23">
-																		<a href="{{route('front.subscriptions')}}">Upgrade now </a>to maximize savings!
-																	</h4>
-																</section>
+																	</section>
+																</div>
 															</div>
 														</div>
+
 													</div>
-
 												</div>
-											</div>
-                                            @endif
+												@else
+												<div class="card my-10 card-custom-bg">
+													<div class="row p-5 mb-5">
+														<div class="col-md-12">
+															<div class="row">
+																<div class="col-lg-8 col-md-8">
+																	<section class="mb-10">
+																		<div class="row justify-content-between px-3">
+																			<div class="col-md-5 card-custom-bg mb-5 rounded">
 
-										</div>
+																				<div class=" p-3">
+																					<h2
+																						class="text-gray-900 fw-bold fs-color-white custom-fs-13 fs-2 mb-5">
+																						Page Adjustment Section</h2>
+																					<h5 class=" mb-2 fs-color-white custom-fs-13">Add More Pages</h5>
+																					<input type="number"
+																						class="form-control mb-5 btn-dark-primary"
+																						id="pageCount"
+																						placeholder="Enter page count">
+																						<span style="color: red;display:none;" id="valid1">Page Count Cannot Be Empty or Zero</span>
+																					<h5 class="mb-2 fs-color-white custom-fs-13">Cost Calculator</h5>
+																					<p class="fs-3 fs-color-white custom-fs-13">Cost Per Page : $<span
+																							id="totalCostPerPage1" class="fs-color-yellow">0.00</span></p>
+																					<p class="fs-3 fs-color-white custom-fs-13">Total Cost: $<span
+																							id="totalCost" class="fs-color-yellow">0.00</span></p>
+																				</div>
+																			</div>
+																			<div class="col-md-5 card-custom-bg mb-5 rounded current-order-summary">
+
+																				<div class=" p-3">
+																					<h2
+																						class="text-gray-900 fw-bold fs-2 mb-xl-10 fs-color-white custom-fs-13">
+																						Current Order Summary</h2>
+																					<h5 class=" mb-2 fs-color-white custom-fs-13">Your Current Page
+																						Count</h5>
+																					<p class="fs-3 fs-color-white custom-fs-13 fs-color-yellow"><span
+																							id="totalCost" class="fs-color-yellow numpage" >{{$order->number_of_pages}}</span></p>
+																				</div>
+																				<div class=" p-3">
+																					<h5 class=" mb-2 fs-color-white custom-fs-13">Projected Page Count:
+																					</h5>
+																					<p class="fs-3 fs-color-white custom-fs-13"><span
+																							id="totalCost" class="fs-color-yellow totalpageg">0</span></p>
+																				</div>
+																			</div>
+																			<div class="col-md-5 card-custom-bg mb-5 rounded">
+
+																				<div class="p-3">
+																					<h2
+																						class="text-gray-900 fw-bold fs-2 mb-5 fs-color-white custom-fs-13">
+																						Deadline Adjustment</h2>
+																					<h5 class="mb-2 fs-color-white custom-fs-13">Change Deadline</h5>
+																					<input class="form-control btn-dark-primary"
+																						type="datetime-local"
+																						id="meeting-time_custom"
+																						name="meeting-time"
+																						value="{{$order->deadline}}"
+																						min="{{$order->deadline}}"
+																						/>
+
+																				</div>
+																			</div>
+																			<div class="col-md-5 rounded">
+																				<button
+																					class="px-2 btn badge-custom-bg"
+																					id="proceedButton" data-toggle="modal" data-target="#modal-15" onclick="modal_open1()">Proceed to
+																					Checkout</button>
+																					<!--<button type="button" class="px-2 btn badge-custom-bg mt-4" data-bs-toggle="modal" data-bs-target="#custom-modal">-->
+																					<!--     Proceed to Checkout 2-->
+																					<!-- </button>-->
+																			</div>
+
+																		</div>
+
+
+																	</section>
+
+																</div>
+																<div class="col-lg-4 col-md-4">
+																	<section class="mb-10">
+																		<h3 class="text-gray-900 fw-bold fs-1 mb-5 fs-color-white custom-fs-23">
+																			Information Section
+																		</h3>
+																		<div>
+																			<ul>
+																				<li class="fs-color-white custom-fs-13">
+																					Upgrade to a Package for More Savings!
+																				</li>
+																				<li class="fs-color-white custom-fs-13">
+																					Discounted rates on extra pages
+																				</li>
+																				<li class="fs-color-white custom-fs-13">
+																					Exclusive perks
+																				</li>
+																				<li class="fs-color-white custom-fs-13">Simplified ordering for future projects</li>
+
+																			</ul>
+																		</div>
+																		<h4 class="text-gray-900  mb-5 fs-color-white custom-fs-23">
+																			<a href="{{route('front.subscriptions')}}">Upgrade now </a>to maximize savings!
+																		</h4>
+																	</section>
+																</div>
+															</div>
+														</div>
+
+													</div>
+												</div>
+												@endif
+
+											</div>
+										@endif	
 
 										<!--end:::Tab pane-->
 
