@@ -512,6 +512,7 @@
                                 <th class="min-w-70px fw_800 pb-8">Order Date</th>
                                 <th class="min-w-80px fw_800 pb-8">Due Date</th>
                                 <th class="min-w-80px fw_800 pb-8">Status</th>
+                                <th class="min-w-80px fw_800 pb-8">Payment Status</th>
                                     <th class="min-w-50px fw_800 pb-8">Email Action</th>
                                 <th class="min-w-50px fw_800 pb-8">Action</th>
 
@@ -537,6 +538,15 @@
 
 
     </td>
+
+         <td>
+            @if($o->payment_status == 'Free')
+            <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">Due</span>
+            @else
+            <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">Paid</span>
+            @endif
+
+        </td>
 
     <td>
     <button class="btn btn-sm btn-primary send-email" data-type="3" data-id="{{ $o->order_id }}">
