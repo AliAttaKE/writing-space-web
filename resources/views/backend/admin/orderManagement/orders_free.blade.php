@@ -513,7 +513,9 @@
                                 <th class="min-w-80px fw_800 pb-8">Due Date</th>
                                 <th class="min-w-80px fw_800 pb-8">Status</th>
                                 <th class="min-w-80px fw_800 pb-8">Payment Status</th>
+                                 @if($o->payment_status == 'Free')
                                     <th class="min-w-50px fw_800 pb-8">Email Action</th>
+                                    @endif
                                 <th class="min-w-50px fw_800 pb-8">Action</th>
 
                             </tr>
@@ -548,13 +550,15 @@
 
         </td>
 
-    <td>
-    <button class="btn btn-sm btn-primary send-email" data-type="3" data-id="{{ $o->order_id }}">
-        📧 Friendly Reminder
-    </button>
-    <button class="btn btn-sm btn-danger send-email" data-type="4" data-id="{{ $o->order_id }}">
-        ⚠️ Final Notice
-    </button>
+   <td>
+    @if($o->payment_status == 'Free')
+        <button class="btn btn-sm btn-primary send-email" data-type="3" data-id="{{ $o->order_id }}">
+            📧 Friendly Reminder
+        </button>
+        <button class="btn btn-sm btn-danger send-email" data-type="4" data-id="{{ $o->order_id }}">
+            ⚠️ Final Notice
+        </button>
+    @endif
 </td>
 
 
