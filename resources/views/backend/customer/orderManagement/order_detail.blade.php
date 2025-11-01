@@ -302,10 +302,13 @@ button.btn.btn-flex.badge-custom-bg.w-100.justify-content-center.px-2.ms-3.downl
 											<a class="nav-link text-white pb-4 tabBtn" data-bs-toggle="tab" href="#kt_ecommerce_customer_orderFiles">Order Files</a>
 										</li>
 										<!--end:::Tab item-->
+
+									@if($order->payment_status == 'Free')
 										<li class="nav-item">
 											<a class="nav-link text-white pb-4 tabBtn" data-bs-toggle="tab"
 												href="#kt_ecommerce_customer_managePages">Manage Pages</a>
 										</li>
+										@endif
 										<!--end:::Tab item-->
 
 										<!--begin:::Tab item-->
