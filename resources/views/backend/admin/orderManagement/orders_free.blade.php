@@ -495,7 +495,7 @@
                 <!--begin::Card body-->
                 <div class="card-body py-4">
                     <!--begin::Table-->
-                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_new_orders">
+        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_new_orders">
                         <thead>
                             <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
                                 {{-- <th class="w-10px pe-2 pb-8">
@@ -512,39 +512,53 @@
                                 <th class="min-w-70px fw_800 pb-8">Order Date</th>
                                 <th class="min-w-80px fw_800 pb-8">Due Date</th>
                                 <th class="min-w-80px fw_800 pb-8">Status</th>
-                                    <th class="min-w-50px fw_800 pb-8">Email Action</th>
+                                <th class="min-w-80px fw_800 pb-8">Payment Status</th>
+                                 @if($order->where('payment_status', 'Free')->count() > 0)
+                <th class="min-w-50px fw_800 pb-8 text-center">Email Action</th>
+            @endif
                                 <th class="min-w-50px fw_800 pb-8">Action</th>
 
                             </tr>
 
                         </thead>
                         <tbody class="text-gray-600 fw-semibold text-color">
-@if($order)
-@foreach ($order as $o)
-<tr>
+            @if($order)
+            @foreach ($order as $o)
+            <tr>
 
-    <td><a class="fs-color-yellow" href="{{route('admin.admin-order-detail',[$o->order_id])}}">{{$o->order_id}}</a></td>
-    <td class="limit-text">{{$o->topic}}</td>
- <td class="limit-text">{{$o->user_name}}</td>
- <td class="">{{$o->email}}</td>
-    {{-- <td>{{$o->number_of_pages}}</td> --}}
-    <td>{{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($o->deadline)->format('d F Y h:iA') }}</td>
-    <td>
-      
+                <td><a class="fs-color-yellow" href="{{route('admin.admin-order-detail',[$o->order_id])}}">{{$o->order_id}}</a></td>
+                <td class="limit-text">{{$o->topic}}</td>
+            <td class="limit-text">{{$o->user_name}}</td>
+            <td class="">{{$o->email}}</td>
+                {{-- <td>{{$o->number_of_pages}}</td> --}}
+                <td>{{ \Carbon\Carbon::parse($o->created_at)->format('d F Y h:iA')  }}</td>
+                                                            <td>{{ \Carbon\Carbon::parse($o->deadline)->format('d F Y h:iA') }}</td>
+                <td>
+                
 
         <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">{{$o->order_status}}</td></span>
 
 
     </td>
 
-    <td>
-    <button class="btn btn-sm btn-primary send-email" data-type="3" data-id="{{ $o->order_id }}">
-        📧 Friendly Reminder
-    </button>
-    <button class="btn btn-sm btn-danger send-email" data-type="4" data-id="{{ $o->order_id }}">
-        ⚠️ Final Notice
-    </button>
+         <td>
+            @if($o->payment_status == 'Free')
+            <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">Due</span>
+            @else
+            <span class="badge badge-light-success fw-bold me-auto px-4 py-3 badge-custom-bg">Paid</span>
+            @endif
+
+        </td>
+
+   <td>
+    @if($o->payment_status == 'Free')
+        <button class="btn btn-sm btn-primary send-email" data-type="3" data-id="{{ $o->order_id }}">
+            📧 Friendly Reminder
+        </button>
+        <button class="btn btn-sm btn-danger send-email" data-type="4" data-id="{{ $o->order_id }}">
+            ⚠️ Final Notice
+        </button>
+    @endif
 </td>
 
 
