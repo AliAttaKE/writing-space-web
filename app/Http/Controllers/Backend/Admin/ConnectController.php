@@ -76,6 +76,44 @@ class ConnectController extends Controller
 
 
 
+        $postDeliveryLimit = 3;
+
+            $postDeliveryEmailContent = "
+    <p>Hi {$user->name},</p>
+
+    <p>Welcome to Writing Space, where your trust always comes first.</p>
+
+    <p>You can now enjoy complete peace of mind with our <strong>Post-Delivery Payment</strong> option — simply place your order, receive your completed work, and pay only after delivery.</p>
+
+    <p><strong>Here’s how it works:</strong></p>
+
+    <ol>
+        <li>From your dashboard, click the <strong>“Order Now, Pay After Delivery”</strong> button at the top.</li>
+        <li>Fill in your order details on the form.</li>
+        <li>Click <strong>“Order Now”</strong> to confirm — no upfront payment required.</li>
+    </ol>
+
+    <p>You can place up to <strong>{$postDeliveryLimit}</strong> post-delivery payment orders under your account.
+    Once your order is delivered, you’ll have time to review it before making payment.</p>
+
+    <p>At Writing Space, you have zero risk — experience quality first, pay later, and see why thousands of students trust us every day.</p>
+
+    <p><a href='https://www.writing-space.com' 
+    style='display:inline-block; background-color:#007bff; color:#fff; padding:10px 20px; 
+    text-decoration:none; border-radius:5px;'>Order Now, Pay After Delivery</a></p>
+
+    <p>Warm regards,<br>
+    <strong>Team Writing Space</strong><br>
+    <a href='mailto:support@writing-space.com'>support@writing-space.com</a><br>
+    🌐 <a href='https://www.writing-space.com'>www.writing-space.com</a></p>
+";
+
+Mail::html($postDeliveryEmailContent, function ($message) use ($user) {
+    $message->to($user->email)
+            ->subject('Enjoy Post-Delivery Payment – Experience Quality First, Pay Later');
+});
+
+
             // Update 'social_login_already' to 1 after sending the email
             $findUser->social_login_already = 1;
             $findUser->save();
@@ -191,6 +229,47 @@ class ConnectController extends Controller
                     $message->to($findUser->email)
                             ->subject('Welcome to Writing-Space – Start Your Journey to Academic Mastery!');
                 });
+
+
+              $postDeliveryLimit = 3;
+
+        $postDeliveryEmailContent = "
+            <p>Hi {$findUser->name},</p>
+
+            <p>Welcome to Writing Space, where your trust always comes first.</p>
+
+            <p>You can now enjoy complete peace of mind with our <strong>Post-Delivery Payment</strong> option — simply place your order, receive your completed work, and pay only after delivery.</p>
+
+            <p><strong>Here’s how it works:</strong></p>
+
+            <ol>
+                <li>From your dashboard, click the <strong>“Order Now, Pay After Delivery”</strong> button at the top.</li>
+                <li>Fill in your order details on the form.</li>
+                <li>Click <strong>“Order Now”</strong> to confirm — no upfront payment required.</li>
+            </ol>
+
+            <p>You can place up to <strong>{$postDeliveryLimit}</strong> post-delivery payment orders under your account.
+            Once your order is delivered, you’ll have time to review it before making payment.</p>
+
+            <p>At Writing Space, you have zero risk — experience quality first, pay later, and see why thousands of students trust us every day.</p>
+
+            <p><a href='https://www.writing-space.com' 
+            style='display:inline-block; background-color:#007bff; color:#fff; padding:10px 20px; 
+            text-decoration:none; border-radius:5px;'>Order Now, Pay After Delivery</a></p>
+
+            <p>Warm regards,<br>
+            <strong>Team Writing Space</strong><br>
+            <a href='mailto:support@writing-space.com'>support@writing-space.com</a><br>
+            🌐 <a href='https://www.writing-space.com'>www.writing-space.com</a></p>
+        ";
+
+        Mail::html($postDeliveryEmailContent, function ($message) use ($findUser) {
+            $message->to($findUser->email)
+                    ->subject('Enjoy Post-Delivery Payment – Experience Quality First, Pay Later');
+        });
+
+
+                
                 Log::info("Email sent to: " . $findUser->email);
             } catch (\Exception $e) {
                 Log::error("Email sending failed: " . $e->getMessage());
@@ -272,11 +351,51 @@ Writing Space</p>
 ";
 
 
+  $postDeliveryLimit = 3;
+
+    $postDeliveryEmailContent = "
+        <p>Hi {$findUser->name},</p>
+
+        <p>Welcome to Writing Space, where your trust always comes first.</p>
+
+        <p>You can now enjoy complete peace of mind with our <strong>Post-Delivery Payment</strong> option — simply place your order, receive your completed work, and pay only after delivery.</p>
+
+        <p><strong>Here’s how it works:</strong></p>
+
+        <ol>
+            <li>From your dashboard, click the <strong>“Order Now, Pay After Delivery”</strong> button at the top.</li>
+            <li>Fill in your order details on the form.</li>
+            <li>Click <strong>“Order Now”</strong> to confirm — no upfront payment required.</li>
+        </ol>
+
+        <p>You can place up to <strong>{$postDeliveryLimit}</strong> post-delivery payment orders under your account.
+        Once your order is delivered, you’ll have time to review it before making payment.</p>
+
+        <p>At Writing Space, you have zero risk — experience quality first, pay later, and see why thousands of students trust us every day.</p>
+
+        <p><a href='https://www.writing-space.com' 
+        style='display:inline-block; background-color:#007bff; color:#fff; padding:10px 20px; 
+        text-decoration:none; border-radius:5px;'>Order Now, Pay After Delivery</a></p>
+
+        <p>Warm regards,<br>
+        <strong>Team Writing Space</strong><br>
+        <a href='mailto:support@writing-space.com'>support@writing-space.com</a><br>
+        🌐 <a href='https://www.writing-space.com'>www.writing-space.com</a></p>
+    ";
+
            try {
     Mail::html($emailContent, function ($message) use ($findUser) {
         $message->to($findUser->email)
                 ->subject('Welcome to Writing-Space – Start Your Journey to Academic Mastery!');
     });
+
+
+
+ Mail::html($postDeliveryEmailContent, function ($message) use ($findUser) {
+            $message->to($findUser->email)
+                    ->subject('Enjoy Post-Delivery Payment – Experience Quality First, Pay Later');
+        });
+
     Log::info("Email sent to: " . $findUser->email);
 } catch (\Exception $e) {
     Log::error("Email sending failed: " . $e->getMessage());
