@@ -82,12 +82,17 @@ public function sendResetLinkEmail(Request $request)
     );
 
     // Send email
+ try {
     Mail::send('emails.reset_password_link', [
         'email' => $email,
         'token' => $token,
     ], function ($message) use ($email) {
         $message->to($email)->subject('Password Reset Request');
     });
+    \Log::info("✅ Reset email sent to: " . $email);
+} catch (\Exception $e) {
+    \Log::error("❌ Password reset email failed: " . $e->getMessage());
+}
 
     return back()->with([
         'message' => 'Password reset email sent successfully.',
