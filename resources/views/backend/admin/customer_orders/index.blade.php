@@ -11,6 +11,7 @@
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
                 <a href="#" class="btn btn-sm fw-bold badge-custom-bg" data-bs-toggle="modal" data-bs-target="#addCustomerOrderModal">New Order</a>
+                <a href="#" class="btn btn-sm fw-bold btn-warning" data-bs-toggle="modal" data-bs-target="#addAllFreeOrdersModal">Free Orders to All</a>
                 <button id="exportBtn" class="btn btn-success btn-sm">Export to Excel</button>
             </div>
         </div>
@@ -114,6 +115,9 @@
                         {{ $orders->appends(request()->query())->links() }}
                     </div>
                 </div>
+
+              
+
             </div>
         </div>
     </div>
@@ -158,6 +162,32 @@
     </div>
 </div>
 
+
+  <div class="modal fade" id="addAllFreeOrdersModal" tabindex="-1" aria-labelledby="addAllFreeOrdersModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content badge-custom-bg">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-white" id="addAllFreeOrdersModalLabel">Assign Free Orders to All Customers</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form id="addAllFreeOrdersForm">
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label class="form-label text-white">Number of Orders</label>
+                                        <input type="number" class="form-control btn-dark-primary" name="no_of_orders" min="1" required>
+                                    </div>
+                                    <div class="text-white small">
+                                        <em>This will assign the entered number of orders to <strong>every customer</strong>.</em>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-dark-primary">Assign Orders</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 <!-- Edit Order Modal -->
 <div class="modal fade" id="editCustomerOrderModal" tabindex="-1" aria-labelledby="editCustomerOrderModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -359,6 +389,44 @@ $('.edit-order').on('click', function() {
                 Swal.fire('Error!', error, 'error');
             }
         });
+    });
+});
+
+
+
+
+// Add free orders to all customers
+$('#addAllFreeOrdersForm').on('submit', function(e) {
+    e.preventDefault();
+    var formData = $(this).serialize();
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "This will assign orders to ALL customers!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, assign it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '{{ route("admin.customer_orders.assignAll") }}',
+                type: 'POST',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    Swal.fire('Success!', response.success, 'success');
+                    $('#addAllFreeOrdersModal').modal('hide');
+                    location.reload();
+                },
+                error: function(xhr) {
+                    var error = xhr.responseJSON?.error || 'Something went wrong!';
+                    Swal.fire('Error!', error, 'error');
+                }
+            });
+        }
     });
 });
 

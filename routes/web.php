@@ -417,6 +417,7 @@ Route::post('/admin/orders/send-reminder', [CustomerOrderController::class, 'sen
     Route::get('/customer_orders', [CustomerOrderController::class, 'index'])->name('customer_orders.index');
 Route::post('/customer_orders/store', [CustomerOrderController::class, 'store'])->name('customer_orders.store');
 Route::post('/customer_orders/update', [CustomerOrderController::class, 'update'])->name('customer_orders.update');
+Route::post('/customer-orders/assign-all', [CustomerOrderController::class, 'assignAll'])->name('customer_orders.assignAll');
 Route::get('/customer_orders/delete/{id}', [CustomerOrderController::class, 'destroy'])->name('customer_orders.destroy');
 Route::get('/customer_orders/search-users', [CustomerOrderController::class, 'searchUsers'])->name('customer_orders.search_users');
 
