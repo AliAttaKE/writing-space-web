@@ -81,6 +81,8 @@ public function sendResetLinkEmail(Request $request)
         ['token' => $token, 'created_at' => now()]
     );
 
+
+    
     // Send email
  try {
     Mail::send('emails.reset_password_link', [
