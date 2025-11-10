@@ -6478,13 +6478,235 @@ $user = User::find($pay->user_id);
             }
     }
 
+// public function pay_free($orderid)
+// {
+//     $pay = Pay::where('order_id', $orderid)->first();
+
+ 
+//     $sessionId = $pay->session_id;
+//     $order_id = $pay->order_id; // This is the existing order ID
+//     $transactionId = $pay->truncatedSessionId;
+//     $order_detail = json_decode($pay->order_details);
+//     $total_amount = $order_detail->total_cost;
+//     $amount = $total_amount;
+//     $randomNumber = mt_rand(100, 999);
+//     $transactionIdurl = $transactionId . $randomNumber;
+
+    
+//     // Load from .env
+//     $baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
+//     $apiVersion = env('API_VERSION'); // e.g. 74
+//     $merchantId = env('MERCHANT_ID'); // e.g. TESTWRITINGSPACE
+//     $authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
+
+//     // Prepare full URL
+//     $url = "$baseUrl/api/rest/version/$apiVersion/merchant/$merchantId/order/$order_id/transaction/$transactionIdurl";
+
+//     // Prepare payload
+//     $payload = [
+//         "apiOperation" => "PAY",
+//         "authentication" => [
+//             "transactionId" => $transactionId
+//         ],
+//         "order" => [
+//             "amount" => $amount,
+//             "currency" => $this->currency 
+//         ],
+//         "session" => [
+//             "id" => $sessionId
+//         ]
+//     ];
+
+//     // cURL request - THIS WAS MISSING IN YOUR pay_free FUNCTION
+//     $curl = curl_init();
+//     curl_setopt_array($curl, [
+//         CURLOPT_URL => $url,
+//         CURLOPT_RETURNTRANSFER => true,
+//         CURLOPT_ENCODING => '',
+//         CURLOPT_MAXREDIRS => 10,
+//         CURLOPT_TIMEOUT => 30,
+//         CURLOPT_FOLLOWLOCATION => true,
+//         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+//         CURLOPT_CUSTOMREQUEST => 'PUT',
+//         CURLOPT_POSTFIELDS => json_encode($payload),
+//         CURLOPT_HTTPHEADER => [
+//             'Content-Type: application/json',
+//             "Authorization: Basic $authToken"
+//         ],
+//     ]);
+
+//     $response = curl_exec($curl);
+//     curl_close($curl);
+//     $responseArray = json_decode($response, true);
+//     $responseData = json_decode($response, true);
+
+//     $isSuccess = 
+//         isset($responseData['result']) && strtoupper(trim($responseData['result'])) === 'SUCCESS' &&
+//         isset($responseData['order']['status']) && strtoupper(trim($responseData['order']['status'])) === 'CAPTURED' &&
+//         isset($responseData['response']['gatewayCode']) && strtoupper(trim($responseData['response']['gatewayCode'])) === 'APPROVED';
+
+    
+ 
+    
+//         if ($responseArray && $isSuccess) {
+//         $authenticationStatus = $responseArray['order']['authenticationStatus'];
+        
+//         if ($authenticationStatus == 'AUTHENTICATION_SUCCESSFUL') {
+
+
+//             // Update the existing order's payment status
+//             $order = Orders::where('order_id',$order_detail->order_id)->first();
+            
+//             if ($order) {
+//                 $order->update([
+//                     'payment_status' => 'Paid'
+//                 ]);
+                
+
+
+//                 // Store transaction record
+//                 $responseObject = json_decode($response);
+//                 $orderData = $responseObject->order;
+//                 $sourceOfFunds = $responseObject->sourceOfFunds->provided->card;
+                
+//                 $transaction = new Transaction();
+//                 $creationTime = Carbon::parse($orderData->creationTime)->toDateTimeString();
+
+//                 // Assign values to the model's properties
+//                 $transaction->amount = $orderData->amount;
+//                 $transaction->authenticationStatus = $orderData->authenticationStatus;
+//                 $transaction->chargeback_amount = $orderData->chargeback->amount;
+//                 $transaction->chargeback_currency = $orderData->chargeback->currency;
+//                 $transaction->currency = $orderData->currency;
+//                 $transaction->reference = $orderData->reference;
+//                 $transaction->status = $orderData->status;
+//                 $transaction->merchantAmount = $orderData->merchantAmount;
+//                 $transaction->merchantCategoryCode = $orderData->merchantCategoryCode;
+//                 $transaction->merchantCurrency = $orderData->merchantCurrency;
+//                 $transaction->totalAuthorizedAmount = $orderData->totalAuthorizedAmount;
+//                 $transaction->totalCapturedAmount = $orderData->totalCapturedAmount;
+//                 $transaction->totalDisbursedAmount = $orderData->totalDisbursedAmount;
+//                 $transaction->totalRefundedAmount = $orderData->totalRefundedAmount;
+//                 $transaction->fundingMethod = $sourceOfFunds->fundingMethod;
+//                 $transaction->userid = $pay->user_id;
+//                 $transaction->save();
+
+//                 // Send email notifications
+//                 $user = User::find($pay->user_id);
+                
+                  
+//                 // Send success emails to customer and admin
+//                 // $this->sendPaymentSuccessEmails($user, $order, $total_amount);
+
+//                 Auth::login($user);
+
+             
+
+//                 return response()->make('
+//                     <script>
+//                         if (window.top !== window.self) {
+//                             window.top.location.href = "' . route('customer.thankyou.sub') . '";
+//                         } else {
+//                             window.location.href = "' . route('customer.thankyou.sub') . '";
+//                         }
+//                     </script>
+//                 ', 200, ['Content-Type' => 'text/html']);
+//             }
+//         }
+//     } else {
+//         // Handle payment failure
+//         $user = User::find($pay->user_id); 
+        
+//         // Get response code from actual response
+//         $responseCode = $responseData['response']['gatewayCode'] ?? 'UNKNOWN';
+//         $bank_code = $responseData['response']['acquirerCode'] ?? $responseCode;
+//         $bank_reason = $responseData['response']['acquirerMessage'] 
+//                         ?? ($this->bankResponseCodes[$responseCode]['message'] ?? 'Unknown Reason');
+
+//         $amount   = $order_detail->total_cost;
+//         $currency = $this->currency;
+//         $time = now()->format('F j, Y g:i A');
+//         $txn_id   = $transactionIdurl;
+
+//         // Customer Email (Payment Failed)
+//         $customerSubject = "Your transaction didn't go through (Code {$bank_code} — {$bank_reason})";
+//         $customerContent = "
+//             <p>Hi {$user->name},</p>
+//             <p>We tried to process your payment but it didn't go through.</p>
+//             <ul>
+//                 <li><strong>Amount:</strong> {$currency} {$amount}</li>
+//                 <li><strong>Date/time:</strong> {$time}</li>
+//                 <li><strong>Bank response:</strong> {$bank_code} — {$bank_reason}</li>
+//                 <li><strong>Reference:</strong> {$txn_id}</li>
+//             </ul>
+//             <p><strong>What you can do:</strong></p>
+//             <ol>
+//                 <li>Double-check card details and available funds.</li>
+//                 <li>Try another card or payment method.</li>
+//                 <li>If you're sure everything is correct, contact your bank and share this code: {$bank_code}.</li>
+//                 <li>If you need help, we're here: <a href='mailto:support@writing-space.com'>support@writing-space.com</a></li>
+//             </ol>
+//             <p>Thanks for your patience,<br>Writing Space<br>Customer Success Team</p>
+//         ";
+
+//         // Mail::html($customerContent, function ($message) use ($user, $customerSubject) {
+//         //     $message->to($user->email)
+//         //             ->subject($customerSubject);
+//         // });
+
+//         // Admin Email (Payment Failed)
+//         $adminSubject = "Payment failed —— {$user->name} — Code {$bank_code} ({$bank_reason})";
+//         $adminContent = "
+//             <p>Hi team,</p>
+//             <p>A payment attempt failed.</p>
+//             <ul>
+//                 <li><strong>Customer:</strong> {$user->name} ({$user->email})</li>
+//                 <li><strong>Amount:</strong> {$currency} {$amount}</li>
+//                 <li><strong>Time:</strong> {$time}</li>
+//                 <li><strong>Transaction ID:</strong> {$txn_id}</li>
+//                 <li><strong>Bank response:</strong> {$bank_code} — {$bank_reason}</li>
+//             </ul>
+//             <p>Regards,<br>System Notification</p>
+//         ";
+
+//         $admins = User::where('role', 'admin')->pluck('email')->toArray();
+//         // if (!empty($admins)) {
+//         //     Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+//         //         $message->to($admins)
+//         //                 ->subject($adminSubject);
+//         //     });
+//         // }
+
+//         // Handle the error appropriately
+//         $errorMessage = $this->bankResponseCodes[$responseCode]['message'] ?? 'Payment failed';
+//         $errorDescription = $this->bankResponseCodes[$responseCode]['description'] ?? 'Something went wrong during the payment process.';
+
+//         // Build the error URL with parameters
+//         $errorUrl = route('payment.error') . 
+//                     '?code=' . urlencode($responseCode) . 
+//                     '&message=' . urlencode($errorMessage) . 
+//                     '&description=' . urlencode($errorDescription);
+
+//         // Redirect to error page with parameters
+//         return response()->make('
+//             <script>
+//                 var errorUrl = "' . $errorUrl . '";
+//                 if (window.top !== window.self) {
+//                     window.top.location.href = errorUrl;
+//                 } else {
+//                     window.location.href = errorUrl;
+//                 }
+//             </script>
+//         ', 200, ['Content-Type' => 'text/html']);
+//     }
+// }
+
 public function pay_free($orderid)
 {
     $pay = Pay::where('order_id', $orderid)->first();
 
- 
     $sessionId = $pay->session_id;
-    $order_id = $pay->order_id; // This is the existing order ID
+    $order_id = $pay->order_id;
     $transactionId = $pay->truncatedSessionId;
     $order_detail = json_decode($pay->order_details);
     $total_amount = $order_detail->total_cost;
@@ -6492,11 +6714,10 @@ public function pay_free($orderid)
     $randomNumber = mt_rand(100, 999);
     $transactionIdurl = $transactionId . $randomNumber;
 
-    
     // Load from .env
-    $baseUrl = env('PAYMENT_GATEWAY_URL'); // e.g. https://test-bankalfalah.gateway.mastercard.com
-    $apiVersion = env('API_VERSION'); // e.g. 74
-    $merchantId = env('MERCHANT_ID'); // e.g. TESTWRITINGSPACE
+    $baseUrl = env('PAYMENT_GATEWAY_URL');
+    $apiVersion = env('API_VERSION');
+    $merchantId = env('MERCHANT_ID');
     $authToken = base64_encode(env('MERCHANT_USERNAME') . ':' . env('MERCHANT_PASSWORD'));
 
     // Prepare full URL
@@ -6517,7 +6738,7 @@ public function pay_free($orderid)
         ]
     ];
 
-    // cURL request - THIS WAS MISSING IN YOUR pay_free FUNCTION
+    // cURL request
     $curl = curl_init();
     curl_setopt_array($curl, [
         CURLOPT_URL => $url,
@@ -6545,24 +6766,17 @@ public function pay_free($orderid)
         isset($responseData['order']['status']) && strtoupper(trim($responseData['order']['status'])) === 'CAPTURED' &&
         isset($responseData['response']['gatewayCode']) && strtoupper(trim($responseData['response']['gatewayCode'])) === 'APPROVED';
 
-    
- 
-    
-        if ($responseArray && $isSuccess) {
+    if ($responseArray && $isSuccess) {
         $authenticationStatus = $responseArray['order']['authenticationStatus'];
         
         if ($authenticationStatus == 'AUTHENTICATION_SUCCESSFUL') {
-
-
             // Update the existing order's payment status
-            $order = Orders::where('order_id',$order_detail->order_id)->first();
+            $order = Orders::where('order_id', $order_detail->order_id)->first();
             
             if ($order) {
                 $order->update([
                     'payment_status' => 'Paid'
                 ]);
-                
-
 
                 // Store transaction record
                 $responseObject = json_decode($response);
@@ -6591,16 +6805,134 @@ public function pay_free($orderid)
                 $transaction->userid = $pay->user_id;
                 $transaction->save();
 
-                // Send email notifications
+                // INVOICE CREATION - pay function jaisa
                 $user = User::find($pay->user_id);
-                
-                  
-                // Send success emails to customer and admin
-                // $this->sendPaymentSuccessEmails($user, $order, $total_amount);
+                $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+                $receipt_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
+
+                $invoice = Invoice::create([
+                    'Name' => $user->name,
+                    'invoice_id' => $invoice_id,
+                    'email' => $order->email,
+                    'page' => $order->number_of_pages,
+                    'price_per_page' => $order->cost_per_page,
+                    'item_name' => 'Custom Order',
+                    'receipt_number' => $receipt_id,
+                    'total' => $order->total_cost,
+                    'to_name' => 'Admin',
+                    'to_email' => 'admin@gmail.com',
+                    'order_id' => $order->order_id,
+                    'invoice_type' => 'custom_inc'
+                ]);
+                $createdAt = $invoice->created_at;
+
+                // EMAILS SENDING - pay function jaisa
+                $invoiceNumber = $invoice_id;
+                $receiptNumber = $receipt_id;
+                $dateOfIssue = $createdAt;
+                $dueDate = $order->deadline;
+                $customerName = $user->name;
+                $customerEmail = $user->email;
+                $customerAdress = $user->address_1 . ' ' . $user->address_2;
+                $itemName = $order->subject;
+                $totalPages = $order->number_of_pages;
+                $pricePerPage = $order->cost_per_page;
+                $subTotal = $order->total_cost;
+                $payment_status = 'Paid';
+                $discount = $order->discount ?? 0;
+                $total = $order->total_cost;
+
+                // Calculate final total addon
+                $totafinal = $pricePerPage * $totalPages;
+                $discount = (float) $order->discount;
+
+                if (!$discount) {
+                    $finaltotaladdon = abs($totafinal - $subTotal);
+                } else {
+                    $originalPrice = $subTotal / (1 - ($discount / 100));
+                    $finaltotaladdon = abs($totafinal - $originalPrice);
+                }
+
+                // Customer Confirmation Email
+                $email = Email::where('type', '=', 'order_place_confirmation')->first();
+                if ($email) {
+                    $totalValue = $pricePerPage * $totalPages;
+                    $totalBeforeDiscount = $totalValue + $finaltotaladdon;
+                    $discountAmount = ($totalBeforeDiscount * $discount) / 100;
+                    $finalTotal = $totalBeforeDiscount - $discountAmount;
+
+                    $subject = 'Your Writing-Space Custom Order Purchase Confirmation – Order ID '.$order->order_id;
+                    Mail::to($user->email)->send(new InvoiceEmailTemplate(
+                        [
+                            'invoiceNumber' => $invoiceNumber,
+                            'receiptNumber' => $receiptNumber,
+                            'dateOfIssue' => $dateOfIssue,
+                            'dueDate' => $dueDate,
+                            'customerName' => $customerName,
+                            'customerEmail' => $customerEmail,
+                            'customerAdress' => $customerAdress,
+                            'orderid' => $order->order_id,
+                            'order' => $order,
+                            'itemName' => 'Custom Order ID-' . $order->order_id,
+                            'totalPages' => $totalPages,
+                            'pricePerPage' => $pricePerPage,
+                            'payment_status' => $payment_status,
+                            'subTotal' => $subTotal,
+                            'discount' => $discount,
+                            'total' => $total,
+                            'finaltotaladdon' => $finaltotaladdon ?: '0.0',
+                            'discounttotalamount' => ($discountAmount !== null) 
+                                ? number_format($discountAmount, 2) 
+                                : '0.00',
+                        ],
+                        $subject
+                    ));
+                }
+
+                // Order Pending Email
+                $emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is Pending Approval';
+                $emailContent = "
+                    <p>Hi {$user->name},</p>
+                    <p>Just a quick update on your order with Writing Space: Your order ID {$order->order_id} is currently pending approval. We are reviewing the details to ensure everything is set to meet your expectations.</p>
+                    <p><strong>Whats Next?</strong></p>
+                    <ul>
+                        <li>You will receive a notification once your order has been approved and moved to the next stage of our process.</li>
+                    </ul>
+                    <p>Thank you for your patience. If you have any questions or need to adjust any details, please reach out to us.</p>
+                    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+
+                Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
+                    $message->to($user->email)
+                            ->subject($emailSubject);
+                });
+
+                // Admin Notification Email
+                $currency = $this->currency;
+                $adminSubject = "New Custom Order — #{$order->order_id} — {$user->name} — {$currency} {$order->total_cost}";
+                $transactionTime = $order->transaction_time ?? Carbon::now()->toDateTimeString();
+
+                $adminContent = "
+                    <p>Hi team,</p>
+                    <p>A new custom order has been placed.</p>
+                    <ul>
+                        <li><strong>Order ID:</strong> {$order->order_id}</li>
+                        <li><strong>Customer:</strong> {$user->name}</li>
+                        <li><strong>Customer Email:</strong> {$user->email}</li>
+                        <li><strong>Amount:</strong> {$currency} {$order->total_cost}</li>
+                        <li><strong>Transaction ID:</strong> {$order->order_id}</li>
+                        <li><strong>Time:</strong> {$transactionTime}</li>
+                    </ul>
+                    <p>Regards,<br>System Notification</p>";
+
+                $admin = User::where('role', 'admin')->first();
+                if ($admin) {
+                    Mail::html($adminContent, function ($message) use ($adminSubject, $admin) {
+                        $message->to($admin->email)
+                                ->subject($adminSubject);
+                    });
+                }
 
                 Auth::login($user);
-
-             
 
                 return response()->make('
                     <script>
@@ -6614,10 +6946,9 @@ public function pay_free($orderid)
             }
         }
     } else {
-        // Handle payment failure
+        // Handle payment failure (existing code)
         $user = User::find($pay->user_id); 
         
-        // Get response code from actual response
         $responseCode = $responseData['response']['gatewayCode'] ?? 'UNKNOWN';
         $bank_code = $responseData['response']['acquirerCode'] ?? $responseCode;
         $bank_reason = $responseData['response']['acquirerMessage'] 
@@ -6649,10 +6980,10 @@ public function pay_free($orderid)
             <p>Thanks for your patience,<br>Writing Space<br>Customer Success Team</p>
         ";
 
-        // Mail::html($customerContent, function ($message) use ($user, $customerSubject) {
-        //     $message->to($user->email)
-        //             ->subject($customerSubject);
-        // });
+        Mail::html($customerContent, function ($message) use ($user, $customerSubject) {
+            $message->to($user->email)
+                    ->subject($customerSubject);
+        });
 
         // Admin Email (Payment Failed)
         $adminSubject = "Payment failed —— {$user->name} — Code {$bank_code} ({$bank_reason})";
@@ -6670,12 +7001,12 @@ public function pay_free($orderid)
         ";
 
         $admins = User::where('role', 'admin')->pluck('email')->toArray();
-        // if (!empty($admins)) {
-        //     Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
-        //         $message->to($admins)
-        //                 ->subject($adminSubject);
-        //     });
-        // }
+        if (!empty($admins)) {
+            Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+                $message->to($admins)
+                        ->subject($adminSubject);
+            });
+        }
 
         // Handle the error appropriately
         $errorMessage = $this->bankResponseCodes[$responseCode]['message'] ?? 'Payment failed';
@@ -6700,8 +7031,6 @@ public function pay_free($orderid)
         ', 200, ['Content-Type' => 'text/html']);
     }
 }
-
-
 private function sendPaymentSuccessEmails($user, $order, $amount)
 {
     // Customer success email
