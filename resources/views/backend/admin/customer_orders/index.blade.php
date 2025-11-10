@@ -10,10 +10,10 @@
                 <h1 class="page-heading d-flex text-gray-900 fw-bold fs-1 flex-column justify-content-center my-0 fs-color-white custom-fs-23">Assign Pay-Later Order Limit</h1>
             </div>
 
-            
+
             <div class="d-flex align-items-center gap-2 gap-lg-3">
                 <a href="#" class="btn btn-sm fw-bold badge-custom-bg" data-bs-toggle="modal" data-bs-target="#addCustomerOrderModal">New Order</a>
-                <!-- <a href="#" class="btn btn-sm fw-bold btn-warning" data-bs-toggle="modal" data-bs-target="#addAllFreeOrdersModal">Free Orders to All</a> -->
+                <a href="#" class="btn btn-sm fw-bold btn-warning" data-bs-toggle="modal" data-bs-target="#addAllFreeOrdersModal">Free Orders to All</a>
                 <button id="exportBtn" class="btn btn-success btn-sm">Export to Excel</button>
             </div>
         </div>
