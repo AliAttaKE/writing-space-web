@@ -366,7 +366,7 @@
                                                                     @if($order->invoice_type == 'package_inc')
                                                                         Package
                                                                     @elseif ($order->invoice_type == Null)
-                                                                        Package - Addon
+                                                                        Package - Addon 
                                                                     @elseif ($order->invoice_type == 'custom_inc' && $order->item_name == 'Custom Order - Pages Addon')
                                                                         Custom Order - Pages Addon
                                                                     @elseif ($order->invoice_type == 'custom_inc')
@@ -374,15 +374,18 @@
                                                                     @endif
                                                                 </td>
 
-                                                            @if($order->invoice_type == 'package_inc')
-
-                                                                @php
+                                                                  @php
                                                                     $subscription = \App\Models\Subscription::where('id', $order->order_id)->first();
                                                                 @endphp
+
+                                                            @if($order->invoice_type == 'package_inc')
+
+                                                              
                                                                 <td>
                                                                     {{ $subscription->subscription_name ?? 'None' }}
                                                                 </td>
-
+                                                                @elseif ($order->invoice_type == Null)
+                                                                    {{ $subscription->subscription_name ?? 'None' }}
                                                                 @else
                                                                 <td>
                                                                     {{ $order->order_id ?? 'None' }}
