@@ -374,18 +374,16 @@
                                                                     @endif
                                                                 </td>
 
-                                                                  @php
+                                                            @if($order->invoice_type == 'package_inc' || $order->invoice_type == Null)
+
+                                                                @php
                                                                     $subscription = \App\Models\Subscription::where('id', $order->order_id)->first();
                                                                 @endphp
-
-                                                            @if($order->invoice_type == 'package_inc')
-
-                                                              
                                                                 <td>
                                                                     {{ $subscription->subscription_name ?? 'None' }}
                                                                 </td>
-                                                                @elseif ($order->invoice_type == Null)
-                                                                    {{ $subscription->subscription_name ?? 'None' }}
+                                                                
+
                                                                 @else
                                                                 <td>
                                                                     {{ $order->order_id ?? 'None' }}
