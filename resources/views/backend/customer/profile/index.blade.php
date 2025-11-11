@@ -365,7 +365,7 @@
                                                                 <td>
                                                                     @if($order->invoice_type == 'package_inc')
                                                                         Package
-                                                                    @elseif ($order->invoice_type == Null)
+                                                                    @elseif ($order->invoice_type == Null && $order->item_name == 'Pages')
                                                                         Package - Addon Profile
                                                                     @elseif ($order->invoice_type == Null && $order->item_name == 'order add Pages')
                                                                         Package Addon Order - Pages
