@@ -4767,6 +4767,7 @@ $responseCode = 5;
                         'total' => $billAmount,
                         'to_name' => 'Admin',
                         'to_email' => 'admin@gmail.com',
+                        'to_email' => 'admin@gmail.com',
                         'order_id' => $order_detail->used_package_id,
                         'invoice_id' => $invoice_id,
 
@@ -4875,7 +4876,7 @@ $emailContent = "
 
         $subject = "Confirmation of Additional Package Pages Added to Order ID  - $order_id";
 
-        $this->send_invoice_just_Add_page($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages);
+        $this->send_invoice_just_Add_page_order($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages);
         // Mail::html($emailContent, function ($message) use ($user, $order_id) {
         //     $message->to($user->email)
         //             ->subject('Confirmation of Additional Pages Added to Order ID - ' . $order_id);
@@ -8253,6 +8254,120 @@ $orderid_new = $matches[1] ?? null;
 
 
             $subject = "Confirmation of Purchase of Additional Pages from Package";
+            Mail::to($user->email)->send(new AddPkgInvoiceEmailTemplate(
+                $data,$data,
+                $subject,
+                $emailContent
+            ));
+
+
+             $adminSubject = "Add-on Purchase — {$noofpage} pages —— {$transaction->currency} {$transaction->merchantAmount}";
+
+        $adminContent = "
+            <p>Hi team,</p>
+            <p>An add-on purchase was completed.</p>
+            <ul>
+                <li><strong>Customer:</strong> {$user->name} ({$user->email})</li>
+                <li><strong>Add-on:</strong> {$noofpage} pages</li>
+                <li><strong>Amount:</strong> {$transaction->currency} {$transaction->merchantAmount}</li>
+                <li><strong>Transaction ID:</strong> {$transaction->transaction_id}</li>
+                <li><strong>Time:</strong> {$transaction->transaction_time}</li>
+            </ul>
+            <p>Regards,<br>System Notification</p>
+        ";
+
+        // Admins nikaalo jinke role = admin hai
+        $admins = User::where('role', 'admin')->pluck('email')->toArray();
+
+        if (!empty($admins)) {
+            Mail::html($adminContent, function ($message) use ($adminSubject, $admins) {
+                $message->to($admins)
+                        ->subject($adminSubject);
+            });
+        }
+        }
+        catch(\Exception $e){
+
+            dd($e);
+        }
+
+    }
+    public function send_invoice_just_Add_page_order($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages)
+    {
+       // dd($invoice_id, $receipt_id, $orderidexplode, $subs, $invoice, $transaction, $user,$emailContent,$subject);
+        try{
+            $createdAt = $invoice->created_at;
+            $orderid = $orderidexplode;
+            $dueDate = now()->addDays((int)$subs->set_time)->toDateTimeString();
+
+
+            $invoiceNumber = $invoice_id;
+            $receiptNumber = $receipt_id;
+            $dateOfIssue = $createdAt;
+            $dueDate = $dueDate;
+            $orderid = $orderid;
+
+            $customerName =$user->name;
+            $customerEmail = $user->email;
+            $customerAdress = $user->address_1.''.$user->address_2;
+
+                $input = $orderid;
+          preg_match('/^(\d+)-/', $input, $matches);
+$orderid_new = $matches[1] ?? null;
+
+
+           $itemName = 'Package Order ' . $orderid_new . ' - Pages Addon';
+
+            // $itemName = $subs->subscription_name;
+
+           $toalamountsub =  $subs->cost_per_page * $subs->min_page;
+
+
+
+            $totalPages = $subs->min_page;
+
+            $subTotal = $transaction->merchantAmount;
+
+           $discounttotalamount = $toalamountsub - $subTotal;
+
+            $pricePerPage = ($totalPages != 0) ? ($subTotal / $noofpage) : 0;
+
+            $payment_status ='Paid';
+
+
+
+
+            $discount = 0.0;
+            $purchaseDate = now()->format('Y-m-d');
+            $total = $transaction->merchantAmount;
+
+        
+            $data = [
+                'invoiceNumber' => $invoiceNumber,
+                'receiptNumber' => $receiptNumber,
+                'dateOfIssue' => $dateOfIssue,
+                'dueDate' => $dueDate,
+                'customerName' => $customerName,
+                'customerEmail' => $customerEmail,
+                'customerAdress' => $customerAdress,
+                'orderid' => $orderid_new,
+                'itemName' => $itemName,
+                'totalPages' => $noofpage,
+                'pricePerPage' => $pricePerPage,
+                'payment_status' => $payment_status,
+                'subTotal' => $subTotal,
+                'discount' => $discount,
+                'total' => $total,
+                'discounttotalamount' => '0.0',
+                'remaining_pages' => $remaining_pages,
+            ];
+
+
+
+
+            // $subject = "Confirmation of Purchase of Additional Pages from Package";
+
+             $subject = "Confirmation of Additional Package Pages Added to Order ID  - $orderid_new";
             Mail::to($user->email)->send(new AddPkgInvoiceEmailTemplate(
                 $data,$data,
                 $subject,
