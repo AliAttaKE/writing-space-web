@@ -375,41 +375,38 @@
                                                                 </td>
 
 
+@php
+    // Get subscription directly from order_id
+    $subscription = \App\Models\Subscription::where('id', $order->order_id)->first();
 
-                                                            @php
-                                                                                        use App\Models\Subscription;
-                                                                    use App\Models\User_Subscription;
+    // Get user subscription record
+    $User_Subscription = \App\Models\User_Subscription::where('id', $order->order_id)->first();
 
-                                                                    // Get subscription directly from order_id
-                                                                    $subscription = Subscription::where('id', $order->order_id)->first();
+    // Get subscription id from user subscription
+    $Subscription_id = $User_Subscription->subscription_id ?? null;
 
-                                                                    // Get user subscription record
-                                                                    $User_Subscription = User_Subscription::where('id', $order->order_id)->first();
+    // Get subscription details based on subscription_id
+    $subscription_get = null;
+    if ($Subscription_id) {
+        $subscription_get = \App\Models\Subscription::where('id', $Subscription_id)->first();
+    }
+@endphp
 
-                                                                        // Get subscription id from user subscription
-                                                                        $Subscription_id = $User_Subscription->subscription_id ?? null;
+@if($order->invoice_type == 'package_inc')
+    <td>
+        {{ $subscription->subscription_name ?? 'None' }}
+    </td>
+@elseif (is_null($order->invoice_type))
+    <td>
+        {{ $subscription_get->subscription_name ?? 'None' }}
+    </td>
+@else
+    <td>
+        {{ $order->order_id ?? 'None' }}
+    </td>
+@endif
 
-                                                                        // Get subscription details based on subscription_id
-                                                                        $subscription_get = null;
-                                                                        if ($Subscription_id) {
-                                                                            $subscription_get = Subscription::where('id', $Subscription_id)->first();
-                                                                        }
-                                                                    @endphp
-
-                                                                    @if($order->invoice_type == 'package_inc')
-                                                                        <td>
-                                                                            {{ $subscription->subscription_name ?? 'None' }}
-                                                                        </td>
-                                                                    @elseif (is_null($order->invoice_type))
-                                                                        <td>
-                                                                            {{ $subscription_get->subscription_name ?? 'None' }}
-                                                                        </td>
-                                                                    @else
-                                                                        <td>
-                                                                            {{ $order->order_id ?? 'None' }}
-                                                                        </td>
-                                                                    @endif
-
+                                                            
                                                                 <td>
                                                                     <a href="{{ url('invoices/invoice_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1"  target="_blank">{{ $order->invoice_id}}</a>
                                                                 </td>
