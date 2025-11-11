@@ -366,7 +366,7 @@
                                                                     @if($order->invoice_type == 'package_inc')
                                                                         Package
                                                                     @elseif ($order->invoice_type == Null)
-                                                                        Package - Addon 1
+                                                                        Package - Addon Profile
                                                                     @elseif ($order->invoice_type == 'custom_inc' && $order->item_name == 'Custom Order - Pages Addon')
                                                                         Custom Order - Pages Addon
                                                                     @elseif ($order->invoice_type == 'custom_inc')
@@ -375,36 +375,36 @@
                                                                 </td>
 
 
-@php
-    // Get subscription directly from order_id
-    $subscription = \App\Models\Subscription::where('id', $order->order_id)->first();
+                                                                    @php
+                                                                        // Get subscription directly from order_id
+                                                                        $subscription = \App\Models\Subscription::where('id', $order->order_id)->first();
 
-    // Get user subscription record
-    $User_Subscription = \App\Models\User_Subscription::where('id', $order->order_id)->first();
+                                                                        // Get user subscription record
+                                                                        $User_Subscription = \App\Models\User_Subscription::where('id', $order->order_id)->first();
 
-    // Get subscription id from user subscription
-    $Subscription_id = $User_Subscription->subscription_id ?? null;
+                                                                        // Get subscription id from user subscription
+                                                                        $Subscription_id = $User_Subscription->subscription_id ?? null;
 
-    // Get subscription details based on subscription_id
-    $subscription_get = null;
-    if ($Subscription_id) {
-        $subscription_get = \App\Models\Subscription::where('id', $Subscription_id)->first();
-    }
-@endphp
+                                                                        // Get subscription details based on subscription_id
+                                                                        $subscription_get = null;
+                                                                        if ($Subscription_id) {
+                                                                            $subscription_get = \App\Models\Subscription::where('id', $Subscription_id)->first();
+                                                                        }
+                                                                    @endphp
 
-@if($order->invoice_type == 'package_inc')
-    <td>
-        {{ $subscription->subscription_name ?? 'None' }}
-    </td>
-@elseif (is_null($order->invoice_type))
-    <td>
-        {{ $subscription_get->subscription_name ?? 'None' }}
-    </td>
-@else
-    <td>
-        {{ $order->order_id ?? 'None' }}
-    </td>
-@endif
+                                                                    @if($order->invoice_type == 'package_inc')
+                                                                        <td>
+                                                                            {{ $subscription->subscription_name ?? 'None' }}
+                                                                        </td>
+                                                                    @elseif (is_null($order->invoice_type))
+                                                                        <td>
+                                                                            {{ $subscription_get->subscription_name ?? 'None' }}
+                                                                        </td>
+                                                                    @else
+                                                                        <td>
+                                                                            {{ $order->order_id ?? 'None' }}
+                                                                        </td>
+                                                                    @endif
 
                                                             
                                                                 <td>
