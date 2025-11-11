@@ -373,10 +373,21 @@
                                                                         Custom Order
                                                                     @endif
                                                                 </td>
-                                                             <td>
-                                                                {{ $order->order_id ?? 'None' }}
-                                                            </td>
 
+                                                            @if($order->invoice_type == 'package_inc')
+
+                                                                @php
+                                                                    $subscription = \App\Models\Subscription::where('id', $order->order_id)->first();
+                                                                @endphp
+                                                                <td>
+                                                                    {{ $subscription->subscription_name ?? 'None' }}
+                                                                </td>
+
+                                                                @else
+                                                                <td>
+                                                                    {{ $order->order_id ?? 'None' }}
+                                                                </td>
+                                                            @endif
 
                                                                 <td>
                                                                     <a href="{{ url('invoices/invoice_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1"  target="_blank">{{ $order->invoice_id}}</a>
