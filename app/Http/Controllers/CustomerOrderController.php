@@ -282,7 +282,8 @@ public function assignAll(Request $request)
     }
 
     try {
-        $customers = User::all(); // or your Customer model
+       $customers = User::where('role', 'customer')->get();
+
         $orderCount = $request->no_of_orders;
 
         foreach ($customers as $customer) {
