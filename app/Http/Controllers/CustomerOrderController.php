@@ -310,7 +310,7 @@ public function assignAll(Request $request)
 
         return response()->json(['success' => 'Free orders assigned to all customers and emails sent successfully.']);
     } catch (\Exception $e) {
-        Log::error('AssignAll error: ' . $e->getMessage());
+      
         return response()->json(['error' => 'Oops! Something went wrong.'], 500);
     }
 }
