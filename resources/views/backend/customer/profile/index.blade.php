@@ -374,7 +374,7 @@
                                                                     @endif
                                                                 </td>
 
-                                                            @if($order->invoice_type == 'package_inc' || $order->invoice_type == Null)
+                                                            @if($order->invoice_type == 'package_inc')
 
                                                                 @php
                                                                     $subscription = \App\Models\Subscription::where('id', $order->order_id)->first();
