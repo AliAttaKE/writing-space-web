@@ -271,7 +271,6 @@ public function store(Request $request)
         }
     }
 
-
 public function assignAll(Request $request)
 {
     $validator = Validator::make($request->all(), [
@@ -287,12 +286,14 @@ public function assignAll(Request $request)
         $orderCount = $request->no_of_orders;
 
         foreach ($customers as $customer) {
+            // Create order record
             CustomerOrder::create([
                 'customer_name'  => $customer->name,
                 'customer_email' => $customer->email,
                 'no_of_orders'   => $orderCount,
             ]);
 
+            // Prepare email content
             $firstName = explode(' ', trim($customer->name))[0];
             $subject = "Welcome to Writing Space";
             $content = "
@@ -303,15 +304,21 @@ public function assignAll(Request $request)
                 Customer Success Team</p>
             ";
 
+            // Send email
             Mail::html($content, function ($message) use ($customer, $subject) {
                 $message->to($customer->email)->subject($subject);
             });
         }
 
         return response()->json(['success' => 'Free orders assigned to all customers and emails sent successfully.']);
-    } catch (\Exception $e) {
-      
-        return response()->json(['error' => 'Oops! Something went wrong.'], 500);
+    } 
+    catch (\Exception $e) {
+        // 🔍 Debugging block — shows real error, file, and line number
+        return response()->json([
+            'error' => $e->getMessage(),
+            'file'  => $e->getFile(),
+            'line'  => $e->getLine(),
+        ], 500);
     }
 }
 
