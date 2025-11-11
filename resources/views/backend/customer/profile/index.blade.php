@@ -367,6 +367,8 @@
                                                                         Package
                                                                     @elseif ($order->invoice_type == Null)
                                                                         Package - Addon Profile
+                                                                    @elseif ($order->invoice_type == Null && $order->item_name == 'order add Pages')
+                                                                        Package Addon Order - Pages
                                                                     @elseif ($order->invoice_type == 'custom_inc' && $order->item_name == 'Custom Order - Pages Addon')
                                                                         Custom Order - Pages Addon
                                                                     @elseif ($order->invoice_type == 'custom_inc')
@@ -397,6 +399,10 @@
                                                                             {{ $subscription->subscription_name ?? 'None' }}
                                                                         </td>
                                                                     @elseif (is_null($order->invoice_type))
+                                                                        <td>
+                                                                            {{ $subscription_get->subscription_name ?? 'None' }}
+                                                                        </td>
+                                                                    @elseif ($order->invoice_type == Null && $order->item_name == 'order add Pages')
                                                                         <td>
                                                                             {{ $subscription_get->subscription_name ?? 'None' }}
                                                                         </td>
