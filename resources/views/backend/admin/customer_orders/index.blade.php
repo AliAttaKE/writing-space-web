@@ -140,7 +140,7 @@
                 <div class="modal-body">
                 <div class="mb-3">
                     <label class="form-label text-white">Customer Name</label>
-                    <select class="form-control btn-dark-primary select22" name="customer_name" id="addCustomerName" required>
+                    <select class="form-control btn-dark-primary" name="customer_name" id="addCustomerName" required>
                         <option value="">Select Customer</option>
                         @foreach($customers as $c)
                             <option value="{{ $c->name }}" data-email="{{ $c->email }}">{{ $c->name }}</option>
