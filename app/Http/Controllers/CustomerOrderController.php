@@ -271,6 +271,58 @@ public function store(Request $request)
         }
     }
 
+// public function assignAll(Request $request)
+// {
+//     $validator = Validator::make($request->all(), [
+//         'no_of_orders' => 'required|integer|min:1',
+//     ]);
+
+//     if ($validator->fails()) {
+//         return response()->json(['error' => $validator->errors()->first()], 422);
+//     }
+
+//     try {
+//        $customers = User::where('role', 'customer')->get();
+
+//         $orderCount = $request->no_of_orders;
+
+//         foreach ($customers as $customer) {
+//             // Create order record
+//             CustomerOrder::create([
+//                 'customer_name'  => $customer->name,
+//                 'customer_email' => $customer->email,
+//                 'no_of_orders'   => $orderCount,
+//             ]);
+
+//             // Prepare email content
+//             $firstName = explode(' ', trim($customer->name))[0];
+//             $subject = "Welcome to Writing Space";
+//             $content = "
+//                 <p>Hello <strong>{$firstName}</strong>,</p>
+//                 <p>This is to inform you that you can now login to create your free order.</p>
+//                 <p>Regards,<br>
+//                 <strong>Writing Space</strong><br>
+//                 Customer Success Team</p>
+//             ";
+
+//             // Send email
+//             // Mail::html($content, function ($message) use ($customer, $subject) {
+//             //     $message->to($customer->email)->subject($subject);
+//             // });
+//         }
+
+//         return response()->json(['success' => 'Free orders assigned to all customers and emails sent successfully.']);
+//     } 
+//     catch (\Exception $e) {
+//         // 🔍 Debugging block — shows real error, file, and line number
+//         return response()->json([
+//             'error' => $e->getMessage(),
+//             'file'  => $e->getFile(),
+//             'line'  => $e->getLine(),
+//         ], 500);
+//     }
+// }
+
 public function assignAll(Request $request)
 {
     $validator = Validator::make($request->all(), [
@@ -282,12 +334,14 @@ public function assignAll(Request $request)
     }
 
     try {
-       $customers = User::where('role', 'customer')->get();
-
+        $customers = User::where('role', 'customer')->get();
         $orderCount = $request->no_of_orders;
 
+        // ✅ Delete all previous customer order records before inserting new ones
+        CustomerOrder::truncate();
+
         foreach ($customers as $customer) {
-            // Create order record
+            // ✅ Create fresh order entry for each customer
             CustomerOrder::create([
                 'customer_name'  => $customer->name,
                 'customer_email' => $customer->email,
@@ -305,16 +359,15 @@ public function assignAll(Request $request)
                 Customer Success Team</p>
             ";
 
-            // Send email
+            // Uncomment to enable email sending
             // Mail::html($content, function ($message) use ($customer, $subject) {
             //     $message->to($customer->email)->subject($subject);
             // });
         }
 
-        return response()->json(['success' => 'Free orders assigned to all customers and emails sent successfully.']);
+        return response()->json(['success' => 'Free orders assigned to all customers successfully.']);
     } 
     catch (\Exception $e) {
-        // 🔍 Debugging block — shows real error, file, and line number
         return response()->json([
             'error' => $e->getMessage(),
             'file'  => $e->getFile(),
@@ -322,7 +375,6 @@ public function assignAll(Request $request)
         ], 500);
     }
 }
-
 
 
     public function destroy($id)

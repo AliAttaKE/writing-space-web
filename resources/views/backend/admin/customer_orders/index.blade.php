@@ -13,7 +13,7 @@
 
             <div class="d-flex align-items-center gap-2 gap-lg-3">
                 <a href="#" class="btn btn-sm fw-bold badge-custom-bg" data-bs-toggle="modal" data-bs-target="#addCustomerOrderModal">New Order</a>
-                <a href="#" class="btn btn-sm fw-bold btn-warning" data-bs-toggle="modal" data-bs-target="#addAllFreeOrdersModal">Free Orders to All</a>
+                <a href="#" class="btn btn-sm fw-bold btn-warning" data-bs-toggle="modal" data-bs-target="#addAllFreeOrdersModal">Edit Pay-Later Order Limit</a>
                 <button id="exportBtn" class="btn btn-success btn-sm">Export to Excel</button>
             </div>
         </div>
