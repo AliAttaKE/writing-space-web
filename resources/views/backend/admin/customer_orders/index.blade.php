@@ -421,40 +421,42 @@ $('.edit-order').on('click', function() {
     $('#editCustomerOrderModal').modal('show');
 });
 
-
-$('#editOrderForm').on('submit', function(e) {
-    e.preventDefault();
-
-    // Ensure hidden input has correct customer name
+// When form submits, ensure hidden input has correct customer name
+$('#editOrderForm').on('submit', function() {
     var select = document.getElementById('editCustomerNameSelect');
     var hiddenInput = document.getElementById('editCustomerNameInput');
     hiddenInput.value = select.value;
 
-    // Update email from selected customer
+    // Also update email from selected customer
     var selectedEmail = $('#editCustomerNameSelect option:selected').data('email');
     $('#editCustomerEmail').val(selectedEmail);
+});
 
-    // Serialize and submit via AJAX
-    var formData = $(this).serialize();
+    // Edit order form submission
+    $('#editOrderForm').on('submit', function(e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
 
-    $.ajax({
-        url: '{{ route("admin.customer_orders.update") }}',
-        type: 'POST',
-        data: formData,
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            Swal.fire('Success!', response.success, 'success');
-            $('#editCustomerOrderModal').modal('hide');
-            location.reload();
-        },
-        error: function(xhr) {
-            var error = xhr.responseJSON?.error || 'Something went wrong!';
-            Swal.fire('Error!', error, 'error');
-        }
+        $.ajax({
+            url: '{{ route("admin.customer_orders.update") }}',
+            type: 'POST',
+            data: formData,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                Swal.fire('Success!', response.success, 'success');
+                $('#editCustomerOrderModal').modal('hide');
+                location.reload();
+            },
+            error: function(xhr) {
+                var error = xhr.responseJSON.error;
+                Swal.fire('Error!', error, 'error');
+            }
+        });
     });
 });
+
 
 
 
