@@ -30,12 +30,7 @@
                         <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
                             <span class="path1"></span><span class="path2"></span>
                         </i>
-
-                            <input type="text" id="searchInput" 
-           class="form-control form-control-solid w-250px ps-10 btn-dark-primary" 
-           placeholder="Search orders..." 
-           value="{{ request('search') }}" />
-                        <!-- <input type="text" id="searchInput" class="form-control form-control-solid w-250px ps-13 btn-dark-primary" placeholder="Search orders..." value="{{ request('search') }}" /> -->
+                        <input type="text" id="searchInput" class="form-control form-control-solid w-250px ps-13 btn-dark-primary" placeholder="Search orders..." value="{{ request('search') }}" />
 
                         <!-- 📅 Start Date -->
                         <input type="date" id="startDate" class="form-control form-control-solid btn-dark-primary" style="width: 160px;" value="{{ request('start_date') }}">
@@ -145,12 +140,12 @@
                 <div class="modal-body">
                 <div class="mb-3">
                     <label class="form-label text-white">Customer Name</label>
-                  <select class="form-control btn-dark-primary select2" name="customer_name" id="addCustomerName" required>
-    <option value="">Select Customer</option>
-    @foreach($customers as $c)
-        <option value="{{ $c->name }}" data-email="{{ $c->email }}">{{ $c->name }}</option>
-    @endforeach
-</select>
+                    <select class="form-control btn-dark-primary select22" name="customer_name" id="addCustomerName" required>
+                        <option value="">Select Customer</option>
+                        @foreach($customers as $c)
+                            <option value="{{ $c->name }}" data-email="{{ $c->email }}">{{ $c->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="mb-3">
@@ -250,24 +245,20 @@
 
 
 <script>
+
 $(document).ready(function() {
-    // Initialize Select2 for searchable dropdown
     $('#addCustomerName').select2({
         placeholder: "Select Customer",
         allowClear: true,
-        width: '100%'
+        width: 'resolve' // ensures Select2 width adapts
     });
 
-    // Auto-fill email when customer is selected
+    // Auto-fill email
     $('#addCustomerName').on('change', function() {
         var email = $(this).find(':selected').data('email');
         $('#addCustomerEmail').val(email || '');
     });
 });
-</script>
-<script>
-
-
 
 $(document).ready(function() {
 
