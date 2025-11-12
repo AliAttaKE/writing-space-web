@@ -547,10 +547,7 @@ function confirmDelete(id) {
     color: #ccc;
 }
 
-.select2-selection.select2-selection--single.form-control.btn-dark-primary.select22.select2-selection--clearable {
-    height: 54px !important; /* force height */
-    line-height: 54px;       /* vertically center text */
-}
+
 
 </style>
 
