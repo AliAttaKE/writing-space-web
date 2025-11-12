@@ -124,7 +124,7 @@ public function index(Request $request)
     }
 
     // ✅ Dropdown list
-    $customers = User::select('id', 'name', 'email')->orderBy('name')->get();
+    $customers = User::where('role', 'customer')->select('id', 'name', 'email')->orderBy('name')->get();
 
     return view('backend.admin.customer_orders.index', compact('orders', 'customers', 'assigned_orders'));
 }
