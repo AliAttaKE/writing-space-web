@@ -267,23 +267,25 @@ $('#editCustomerNameSelect').on('change', function() {
     var email = $(this).find(':selected').data('email');
     $('#editCustomerEmail').val(email || '');
 });
-
 $('.edit-order').on('click', function() {
     var orderId = $(this).data('order-id');
     var customerName = $(this).data('customer-name');
-    var customerEmail = $(this).data('customer-email');
     var noOfOrders = $(this).data('no-of-orders');
-    var noOfOrdersleft = $(this).data('no-of-orders-left'); // fix here
+    var noOfOrdersleft = $(this).data('no-of-orders-left');
 
     $('#editOrderId').val(orderId);
-    $('#editCustomerEmail').val(customerEmail);
+    $('#editCustomerNameSelect').val(customerName).change();
+    $('#editCustomerNameInput').val(customerName);
+
+    // Get email from selected customer option
+    var email = $('#editCustomerNameSelect option:selected').data('email');
+    $('#editCustomerEmail').val(email);
+
     $('#editNoOfOrders').val(noOfOrders);
     $('#editNoOfOrdersleft').val(noOfOrdersleft);
 
-    $('#editCustomerNameSelect').val(customerName).change();
     $('#editCustomerOrderModal').modal('show');
 });
-
 
 
     // Initialize form values from URL parameters
@@ -399,38 +401,60 @@ $('.edit-order').on('click', function() {
     // });
 
 
+$('.edit-order').on('click', function() {
+    var orderId = $(this).data('order-id');
+    var customerName = $(this).data('customer-name');
+    var noOfOrders = $(this).data('no-of-orders');
+    var noOfOrdersleft = $(this).data('no-of-orders-left');
 
-    document.getElementById('editOrderForm').addEventListener('submit', function() {
+    $('#editOrderId').val(orderId);
+    $('#editCustomerNameSelect').val(customerName).change();
+    $('#editCustomerNameInput').val(customerName);
+
+    // Get email from selected customer option
+    var email = $('#editCustomerNameSelect option:selected').data('email');
+    $('#editCustomerEmail').val(email);
+
+    $('#editNoOfOrders').val(noOfOrders);
+    $('#editNoOfOrdersleft').val(noOfOrdersleft);
+
+    $('#editCustomerOrderModal').modal('show');
+});
+
+
+$('#editOrderForm').on('submit', function(e) {
+    e.preventDefault();
+
+    // Ensure hidden input has correct customer name
     var select = document.getElementById('editCustomerNameSelect');
     var hiddenInput = document.getElementById('editCustomerNameInput');
     hiddenInput.value = select.value;
-});
 
-    // Edit order form submission
-    $('#editOrderForm').on('submit', function(e) {
-        e.preventDefault();
-        var formData = $(this).serialize();
+    // Update email from selected customer
+    var selectedEmail = $('#editCustomerNameSelect option:selected').data('email');
+    $('#editCustomerEmail').val(selectedEmail);
 
-        $.ajax({
-            url: '{{ route("admin.customer_orders.update") }}',
-            type: 'POST',
-            data: formData,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(response) {
-                Swal.fire('Success!', response.success, 'success');
-                $('#editCustomerOrderModal').modal('hide');
-                location.reload();
-            },
-            error: function(xhr) {
-                var error = xhr.responseJSON.error;
-                Swal.fire('Error!', error, 'error');
-            }
-        });
+    // Serialize and submit via AJAX
+    var formData = $(this).serialize();
+
+    $.ajax({
+        url: '{{ route("admin.customer_orders.update") }}',
+        type: 'POST',
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            Swal.fire('Success!', response.success, 'success');
+            $('#editCustomerOrderModal').modal('hide');
+            location.reload();
+        },
+        error: function(xhr) {
+            var error = xhr.responseJSON?.error || 'Something went wrong!';
+            Swal.fire('Error!', error, 'error');
+        }
     });
 });
-
 
 
 

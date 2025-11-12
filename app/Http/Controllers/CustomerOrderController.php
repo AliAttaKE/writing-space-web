@@ -253,29 +253,36 @@ public function store(Request $request)
     }
 }
 
+public function update(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'customer_name' => 'required|string|max:255',
+        'customer_email' => 'required|email|max:255',
+        'no_of_orders' => 'required|integer|min:1',
+        'order_id' => 'required|exists:customer_orders,id'
+    ]);
 
-    public function update(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email|max:255',
-            // 'user_id' => 'nullable|exists:users,id',
-            'no_of_orders' => 'required|integer|min:1',
-            'order_id' => 'required|exists:customer_orders,id'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()->first()], 422);
-        }
-
-        try {
-            $order = CustomerOrder::findOrFail($request->order_id);
-            $order->update($request->all());
-            return response()->json(['success' => 'Customer order updated successfully']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Oops! Something went wrong'], 500);
-        }
+    if ($validator->fails()) {
+        return response()->json(['error' => $validator->errors()->first()], 422);
     }
+
+    try {
+        $order = CustomerOrder::findOrFail($request->order_id);
+
+        // Update only the orders left (and optionally no_of_orders if needed)
+        $order->no_of_orders = $request->input('no_of_orders');
+        // If you have a field like orders_left that you want to update:
+        if ($request->has('no_of_orders_left')) {
+            $order->orders_left = $request->input('no_of_orders_left');
+        }
+
+        $order->save();
+
+        return response()->json(['success' => 'Customer order updated successfully']);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Oops! Something went wrong'], 500);
+    }
+}
 
 // public function assignAll(Request $request)
 // {
