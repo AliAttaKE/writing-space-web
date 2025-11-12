@@ -202,15 +202,18 @@
          <form id="editOrderForm">
     <input type="hidden" name="order_id" id="editOrderId">
     <div class="modal-body">
-        <div class="mb-3">
-            <label class="form-label text-white">Customer Name</label>
-            <select class="form-control btn-dark-primary" name="customer_name" id="editCustomerNameSelect" required disabled>
-                <option value="">Select Customer</option>
-                @foreach($customers as $c)
-                    <option value="{{ $c->name }}" data-email="{{ $c->email }}">{{ $c->name }}</option>
-                @endforeach
-            </select>
-        </div>
+       <div class="mb-3">
+    <label class="form-label text-white">Customer Name</label>
+    <select class="form-control btn-dark-primary" id="editCustomerNameSelect" disabled>
+        <option value="">Select Customer</option>
+        @foreach($customers as $c)
+            <option value="{{ $c->name }}" data-email="{{ $c->email }}">{{ $c->name }}</option>
+        @endforeach
+    </select>
+    <!-- Hidden input to actually submit the value -->
+    <input type="hidden" name="customer_name" id="editCustomerNameInput">
+</div>
+
 
         <div class="mb-3">
             <label class="form-label text-white">Customer Email</label>
