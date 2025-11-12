@@ -398,30 +398,28 @@ $('.edit-order').on('click', function() {
     hiddenInput.value = select.value;
 });
 
+    // Edit order form submission
     $('#editOrderForm').on('submit', function(e) {
-    e.preventDefault();
+        e.preventDefault();
+        var formData = $(this).serialize();
 
-    // Set hidden input from readonly input
-    $('#editCustomerNameInput').val($('#editCustomerName').val());
-
-    var formData = $(this).serialize();
-
-    $.ajax({
-        url: '{{ route("admin.customer_orders.update") }}',
-        type: 'POST',
-        data: formData,
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            Swal.fire('Success!', response.success, 'success');
-            $('#editCustomerOrderModal').modal('hide');
-            location.reload();
-        },
-        error: function(xhr) {
-            var error = xhr.responseJSON.error;
-            Swal.fire('Error!', error, 'error');
-        }
+        $.ajax({
+            url: '{{ route("admin.customer_orders.update") }}',
+            type: 'POST',
+            data: formData,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                Swal.fire('Success!', response.success, 'success');
+                $('#editCustomerOrderModal').modal('hide');
+                location.reload();
+            },
+            error: function(xhr) {
+                var error = xhr.responseJSON.error;
+                Swal.fire('Error!', error, 'error');
+            }
+        });
     });
 });
 
