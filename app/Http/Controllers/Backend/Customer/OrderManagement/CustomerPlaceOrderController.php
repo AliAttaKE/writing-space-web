@@ -1236,6 +1236,30 @@ public function customSubscriptionStoreFree(Request $request)
     ]);
 
 
+     try {
+       // Pending approval email
+$subject = 'Status Update: Your Order ID ' . $order->order_id . ' is Pending Approval';
+$content = "
+    <p>Hi {$user->name},</p>
+    <p>Your order with Writing Space (Order ID: {$order->order_id}) is currently <strong>Pending Approval</strong>. We are reviewing the details to ensure everything meets your expectations.</p>
+    <p><strong>Next Steps:</strong></p>
+    <ul>
+        <li>You will receive a notification once your order is approved and moves to the next stage.</li>
+    </ul>
+    <p>Thank you for your patience.<br>Customer Success Team<br>Writing Space</p>
+";
+
+Mail::html($content, function ($message) use ($input, $subject) {
+    $message->to($input['email'])
+            ->subject($subject);
+});
+
+
+        
+    } catch (\Exception $e) {
+        
+    }
+
     $user_email = Auth::user()->email;
 if ($user_email) {
     $customerOrder = CustomerOrder::where('customer_email', $user_email)->first();
@@ -6890,22 +6914,7 @@ public function pay_free($orderid)
                     ));
                 }
 
-                // Order Pending Email
-                $emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is Pending Approval';
-                $emailContent = "
-                    <p>Hi {$user->name},</p>
-                    <p>Just a quick update on your order with Writing Space: Your order ID {$order->order_id} is currently pending approval. We are reviewing the details to ensure everything is set to meet your expectations.</p>
-                    <p><strong>Whats Next?</strong></p>
-                    <ul>
-                        <li>You will receive a notification once your order has been approved and moved to the next stage of our process.</li>
-                    </ul>
-                    <p>Thank you for your patience. If you have any questions or need to adjust any details, please reach out to us.</p>
-                    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
-
-                Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
-                    $message->to($user->email)
-                            ->subject($emailSubject);
-                });
+               
 
                 // Admin Notification Email
                 $currency = $this->currency;
