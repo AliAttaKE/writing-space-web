@@ -93,13 +93,14 @@ public function index(Request $request)
     $orders = $query->paginate(10)->appends($request->all());
 
     // ✅ Correct logic: 5 total orders max
-    $maxOrders = 5; // set your global order limit
+   $order->orders_left = max(0, $maxOrders - $usedOrders);
 
-    foreach ($orders as $order) {
-        $usedOrders = $order->no_of_orders ?? 0;
-        $order->orders_used = $usedOrders;
-        $order->orders_left = max(0, $maxOrders - $usedOrders);
-    }
+ foreach ($exportData as $order) {
+    $usedOrders = $order->no_of_orders ?? 0;
+    $order->orders_used = $usedOrders;
+    $order->orders_left = null; // no limit
+}
+
 
     // 📤 Export
     if ($request->has('export') && $request->export == 'excel') {
