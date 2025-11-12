@@ -252,14 +252,12 @@ public function store(Request $request)
         return response()->json(['error' => 'Oops! Something went wrong'], 500);
     }
 }
-
 public function update(Request $request)
 {
     $validator = Validator::make($request->all(), [
-        'customer_name' => 'required|string|max:255',
-        'customer_email' => 'required|email|max:255',
+        'order_id' => 'required|exists:customer_orders,id',
         'no_of_orders' => 'required|integer|min:1',
-        'order_id' => 'required|exists:customer_orders,id'
+        'no_of_orders_left' => 'required|integer|min:0',
     ]);
 
     if ($validator->fails()) {
@@ -269,17 +267,15 @@ public function update(Request $request)
     try {
         $order = CustomerOrder::findOrFail($request->order_id);
 
-        // Update only the orders left (and optionally no_of_orders if needed)
+        // Update both fields
         $order->no_of_orders = $request->input('no_of_orders');
-        // If you have a field like orders_left that you want to update:
-        if ($request->has('no_of_orders_left')) {
-            $order->orders_left = $request->input('no_of_orders_left');
-        }
+        $order->orders_left = $request->input('no_of_orders_left');
 
         $order->save();
 
         return response()->json(['success' => 'Customer order updated successfully']);
     } catch (\Exception $e) {
+        \Log::error('Customer Order Update Error: '.$e->getMessage());
         return response()->json(['error' => 'Oops! Something went wrong'], 500);
     }
 }
