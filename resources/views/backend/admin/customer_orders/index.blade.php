@@ -1,6 +1,28 @@
 @extends('custom_layout.master')
 @section('main_content')
+<style>
+    /* Make Select2 fit modal input height */
+.select2-container--default .select2-selection--single {
+    height: 40px; /* match your modal input height */
+    padding: 5px 12px;
+    border-radius: 4px;
+    background-color: #2a0a85; /* match your modal color */
+    color: white;
+    border: 1px solid #ccc;
+}
 
+/* Text inside the input */
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 28px; /* adjust vertically */
+    color: white;
+}
+
+/* Placeholder color */
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+    color: #ddd;
+}
+
+</style>
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -234,23 +256,23 @@
 <script>
 
 
-$(document).ready(function() {
-    // Initialize Select2 for Add Customer
-    $('#addCustomerName').select2({
-        dropdownParent: $('#addCustomerOrderModal'),
-        width: '100%',
-        placeholder: 'Select Customer'
-    });
 
-    // Initialize Select2 for Edit Customer
-    $('#editCustomerNameSelect').select2({
-        dropdownParent: $('#editCustomerOrderModal'),
-        width: '100%',
-        placeholder: 'Select Customer'
-    });
+$(document).ready(function() {
+
+    $('#addCustomerName').select2({
+    dropdownParent: $('#addCustomerOrderModal'), // keeps dropdown inside modal
+    width: '100%', // ensures it fits the input width
+    placeholder: 'Select Customer',
+    theme: 'bootstrap-5' // optional if you want Bootstrap styling
 });
 
-$(document).ready(function() {
+$('#editCustomerNameSelect').select2({
+    dropdownParent: $('#editCustomerOrderModal'),
+    width: '100%',
+    placeholder: 'Select Customer',
+    theme: 'bootstrap-5'
+});
+
 
 
 // Auto-fill email when customer selected in Add modal
