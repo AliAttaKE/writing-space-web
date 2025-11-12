@@ -55,6 +55,11 @@ public function index(Request $request)
 {
     $query = CustomerOrder::query();
 
+
+       $lastOrder = CustomerOrder::latest('id')->first();
+
+    $assigned_orders = $lastOrder ? $lastOrder->no_of_orders : 0;
+
     // 🔍 Global Search
     if ($request->filled('search')) {
         $search = $request->search;
@@ -113,7 +118,7 @@ public function index(Request $request)
     // ✅ Dropdown list
     $customers = User::select('id', 'name', 'email')->orderBy('name')->get();
 
-    return view('backend.admin.customer_orders.index', compact('orders', 'customers'));
+    return view('backend.admin.customer_orders.index', compact('orders', 'customers','assigned_orders'));
 }
 
 
