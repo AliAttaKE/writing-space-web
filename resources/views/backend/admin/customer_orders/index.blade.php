@@ -145,12 +145,12 @@
                 <div class="modal-body">
                 <div class="mb-3">
                     <label class="form-label text-white">Customer Name</label>
-                    <select class="form-control btn-dark-primary select22" name="customer_name" id="addCustomerName" required>
-                        <option value="">Select Customer</option>
-                        @foreach($customers as $c)
-                            <option value="{{ $c->name }}" data-email="{{ $c->email }}">{{ $c->name }}</option>
-                        @endforeach
-                    </select>
+                  <select class="form-control btn-dark-primary select2" name="customer_name" id="addCustomerName" required>
+    <option value="">Select Customer</option>
+    @foreach($customers as $c)
+        <option value="{{ $c->name }}" data-email="{{ $c->email }}">{{ $c->name }}</option>
+    @endforeach
+</select>
                 </div>
 
                 <div class="mb-3">
@@ -249,6 +249,22 @@
 <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
 
 
+<script>
+$(document).ready(function() {
+    // Initialize Select2 for searchable dropdown
+    $('#addCustomerName').select2({
+        placeholder: "Select Customer",
+        allowClear: true,
+        width: '100%'
+    });
+
+    // Auto-fill email when customer is selected
+    $('#addCustomerName').on('change', function() {
+        var email = $(this).find(':selected').data('email');
+        $('#addCustomerEmail').val(email || '');
+    });
+});
+</script>
 <script>
 
 
