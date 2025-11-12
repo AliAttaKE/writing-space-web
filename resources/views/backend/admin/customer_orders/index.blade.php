@@ -99,15 +99,15 @@
                                 <td class="text-white">{{ $order->no_of_orders }}</td>
                                 <td class="text-white">{{ $order->orders_left }}</td>
                                 <td>
-                                    <a href="#" class="btn badge-custom-bg btn-flex btn-center btn-sm edit-order"
-                                        data-order-id="{{ $order->id }}"
-                                        data-customer-name="{{ $order->customer_name }}"
-                                        data-customer-email="{{ $order->customer_email }}"
-                                        data-no-of-orders="{{ $order->no_of_orders }}"
-                                        data-no-of-orders-left="{{ $order->orders_left }}"
-                                        >
-                                        Edit
+                                  <a href="#" class="btn badge-custom-bg btn-flex btn-center btn-sm edit-order"
+                                    data-order-id="{{ $order->id }}"
+                                    data-customer-name="{{ $order->customer_name }}"
+                                    data-customer-email="{{ $order->customer_email }}"
+                                    data-no-of-orders="{{ $order->no_of_orders }}"
+                                    data-no-of-orders-left="{{ $order->orders_left }}">
+                                    Edit
                                     </a>
+
                                     <a href="#" class="btn btn-danger btn-sm ms-1" onclick="confirmDelete({{ $order->id }})">Delete</a>
                                 </td>
                             </tr>
@@ -268,13 +268,12 @@ $('#editCustomerNameSelect').on('change', function() {
     $('#editCustomerEmail').val(email || '');
 });
 
-// When opening edit modal, pre-select name and email
 $('.edit-order').on('click', function() {
     var orderId = $(this).data('order-id');
     var customerName = $(this).data('customer-name');
     var customerEmail = $(this).data('customer-email');
     var noOfOrders = $(this).data('no-of-orders');
-    var noOfOrdersleft = $(this).data('data-no-of-orders-left');
+    var noOfOrdersleft = $(this).data('no-of-orders-left'); // fix here
 
     $('#editOrderId').val(orderId);
     $('#editCustomerEmail').val(customerEmail);
@@ -284,6 +283,7 @@ $('.edit-order').on('click', function() {
     $('#editCustomerNameSelect').val(customerName).change();
     $('#editCustomerOrderModal').modal('show');
 });
+
 
 
     // Initialize form values from URL parameters
@@ -379,24 +379,24 @@ $('.edit-order').on('click', function() {
     });
 
     // Edit order modal
-    $('.edit-order').on('click', function() {
-        var orderId = $(this).data('order-id');
-        var customerName = $(this).data('customer-name');
-        var customerEmail = $(this).data('customer-email');
-        var noOfOrders = $(this).data('no-of-orders');
-            var noOfOrdersleft = $(this).data('data-no-of-orders-left');
+    // $('.edit-order').on('click', function() {
+    //     var orderId = $(this).data('order-id');
+    //     var customerName = $(this).data('customer-name');
+    //     var customerEmail = $(this).data('customer-email');
+    //     var noOfOrders = $(this).data('no-of-orders');
+    //         var noOfOrdersleft = $(this).data('data-no-of-orders-left');
 
 
-        $('#editOrderId').val(orderId);
-        $('#editCustomerName').val(customerName);
-        $('#editCustomerEmail').val(customerEmail);
-        $('#editNoOfOrders').val(noOfOrders);
-        $('#editNoOfOrdersleft').val(noOfOrdersleft);
+    //     $('#editOrderId').val(orderId);
+    //     $('#editCustomerName').val(customerName);
+    //     $('#editCustomerEmail').val(customerEmail);
+    //     $('#editNoOfOrders').val(noOfOrders);
+    //     $('#editNoOfOrdersleft').val(noOfOrdersleft);
         
 
 
-        $('#editCustomerOrderModal').modal('show');
-    });
+    //     $('#editCustomerOrderModal').modal('show');
+    // });
 
 
 
