@@ -116,9 +116,9 @@
                     </table>
                     
                     <!-- Pagination Links -->
-                    <div class="d-flex justify-content-center mt-4">
+                    <!-- <div class="d-flex justify-content-center mt-4">
                         {{ $orders->appends(request()->query())->links() }}
-                    </div>
+                    </div> -->
                 </div>
 
               
@@ -494,6 +494,26 @@ $('#addAllFreeOrdersForm').on('submit', function(e) {
         }
     });
 });
+
+ $(document).on('click', '.pagination a', function(e) {
+        e.preventDefault();
+        
+        const url = $(this).attr('href');
+        const search = $('#searchInput').val();
+        const startDate = $('#startDate').val();
+        const endDate = $('#endDate').val();
+        
+        let newUrl = url;
+        
+        // Add filters to pagination URL
+        if (search) newUrl += `&search=${search}`;
+        if (startDate) newUrl += `&start_date=${startDate}`;
+        if (endDate) newUrl += `&end_date=${endDate}`;
+        
+        window.location.href = newUrl;
+    });
+
+
 
 function confirmDelete(id) {
     Swal.fire({
