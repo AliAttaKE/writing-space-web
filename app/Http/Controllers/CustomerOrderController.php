@@ -209,9 +209,6 @@ public function sendReminder(Request $request)
 
 
    
-
-  
-
 public function store(Request $request)
 {
     $validator = Validator::make($request->all(), [
@@ -225,10 +222,13 @@ public function store(Request $request)
     }
 
     try {
-        // Create the record
-        $customerOrder = CustomerOrder::create($request->all());
+        // Update existing customer by email or create new
+        $customerOrder = CustomerOrder::updateOrCreate(
+            ['customer_email' => $request->customer_email], // condition to check
+            $request->all() // values to update or insert
+        );
 
-        // Extract first name (for personalized greeting)
+        // Extract first name for email greeting
         $firstName = explode(' ', trim($request->customer_name))[0];
 
         // Prepare email content
@@ -247,15 +247,8 @@ public function store(Request $request)
                     ->subject($subject);
         });
 
-        // Mail::html($content, function ($message) use ($request, $subject) {
-        //     $message->to($request->customer_email)
-        //             ->subject($subject);
-        // });
-
-
-        return response()->json(['success' => 'Customer order created successfully and email sent']);
+        return response()->json(['success' => 'Customer order created/updated successfully and email sent']);
     } catch (\Exception $e) {
-       
         return response()->json(['error' => 'Oops! Something went wrong'], 500);
     }
 }
