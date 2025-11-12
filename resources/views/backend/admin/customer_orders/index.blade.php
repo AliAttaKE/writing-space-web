@@ -116,9 +116,7 @@
                     </table>
                     
                     <!-- Pagination Links -->
-                    <!-- <div class="d-flex justify-content-center mt-4">
-                        {{ $orders->appends(request()->query())->links() }}
-                    </div> -->
+                    
                 </div>
 
               
