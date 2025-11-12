@@ -53,9 +53,9 @@ public function index(Request $request)
 {
     $query = CustomerOrder::query();
 
-    // 🔹 Last Order
+    // 🔹 Last assigned orders (used as global/customer limit if present)
     $lastOrder = CustomerOrder::latest('id')->first();
-    $assigned_orders = $lastOrder ? $lastOrder->no_of_orders : 0;
+    $assigned_orders = $lastOrder ? (int)$lastOrder->no_of_orders : 0;
 
     // 🔍 Global Search
     if ($request->filled('search')) {
@@ -78,6 +78,7 @@ public function index(Request $request)
         $sortColumn = $request->sort;
         $sortDirection = $request->direction ?? 'asc';
         if ($sortColumn === 'orders_left') {
+            // if you want to sort by remaining orders, we sort by no_of_orders (descending/ascending as needed)
             $query->orderBy('no_of_orders', $sortDirection === 'asc' ? 'desc' : 'asc');
         } else {
             $query->orderBy($sortColumn, $sortDirection);
@@ -89,11 +90,18 @@ public function index(Request $request)
     // ✅ Paginate
     $orders = $query->paginate(10)->appends($request->all());
 
-    // ✅ Orders used (no limit now)
+    // ✅ Compute orders_used and orders_left using assigned_orders (if assigned_orders > 0)
     foreach ($orders as $order) {
-        $usedOrders = $order->no_of_orders ?? 0;
+        $usedOrders = (int) ($order->no_of_orders ?? 0);
         $order->orders_used = $usedOrders;
-        $order->orders_left = null; // No limit
+
+        if ($assigned_orders > 0) {
+            // If a global/customer limit exists, calculate remaining
+            $order->orders_left = max(0, $assigned_orders - $usedOrders);
+        } else {
+            // No limit set: keep it null (or set to 'unlimited' string if you prefer)
+            $order->orders_left = null;
+        }
     }
 
     // 📤 Export (Excel)
@@ -102,9 +110,14 @@ public function index(Request $request)
         $exportData = $exportQuery->get();
 
         foreach ($exportData as $order) {
-            $usedOrders = $order->no_of_orders ?? 0;
+            $usedOrders = (int) ($order->no_of_orders ?? 0);
             $order->orders_used = $usedOrders;
-            $order->orders_left = null; // No limit
+
+            if ($assigned_orders > 0) {
+                $order->orders_left = max(0, $assigned_orders - $usedOrders);
+            } else {
+                $order->orders_left = null;
+            }
         }
 
         return Excel::download(new CustomerOrdersExport($exportData), 'customer_orders.xlsx');
