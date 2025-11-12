@@ -103,7 +103,9 @@
                                         data-order-id="{{ $order->id }}"
                                         data-customer-name="{{ $order->customer_name }}"
                                         data-customer-email="{{ $order->customer_email }}"
-                                        data-no-of-orders="{{ $order->no_of_orders }}">
+                                        data-no-of-orders="{{ $order->no_of_orders }}"
+                                        data-no-of-orders-left="{{ $order->orders_left }}"
+                                        >
                                         Edit
                                     </a>
                                     <a href="#" class="btn btn-danger btn-sm ms-1" onclick="confirmDelete({{ $order->id }})">Delete</a>
@@ -221,12 +223,12 @@
         </div>
 
          <div class="mb-3">
-            <label class="form-label text-white">Post-Payment Orders Left</label>
-            <input type="number" class="form-control btn-dark-primary" name="no_of_orders" id="editNoOfOrders" min="0" readonly required>
+            <label class="form-label text-white">Post-Payment Orders Used</label>
+            <input type="number" class="form-control btn-dark-primary" name="no_of_orders_left" id="editNoOfOrders" min="0" readonly required>
         </div>
         <div class="mb-3">
-            <label class="form-label text-white">Number of Orders</label>
-            <input type="number" class="form-control btn-dark-primary" name="no_of_orders" id="editNoOfOrders" min="1" required>
+            <label class="form-label text-white">Post-Payment Orders Left</label>
+            <input type="number" class="form-control btn-dark-primary" name="no_of_orders" id="editNoOfOrdersleft" min="1" required>
         </div>
     </div>
     <div class="modal-footer">
@@ -272,10 +274,12 @@ $('.edit-order').on('click', function() {
     var customerName = $(this).data('customer-name');
     var customerEmail = $(this).data('customer-email');
     var noOfOrders = $(this).data('no-of-orders');
+    var noOfOrdersleft = $(this).data('data-no-of-orders-left');
 
     $('#editOrderId').val(orderId);
     $('#editCustomerEmail').val(customerEmail);
     $('#editNoOfOrders').val(noOfOrders);
+    $('#editNoOfOrdersleft').val(noOfOrdersleft);
 
     $('#editCustomerNameSelect').val(customerName).change();
     $('#editCustomerOrderModal').modal('show');
@@ -380,11 +384,16 @@ $('.edit-order').on('click', function() {
         var customerName = $(this).data('customer-name');
         var customerEmail = $(this).data('customer-email');
         var noOfOrders = $(this).data('no-of-orders');
+            var noOfOrdersleft = $(this).data('data-no-of-orders-left');
+
 
         $('#editOrderId').val(orderId);
         $('#editCustomerName').val(customerName);
         $('#editCustomerEmail').val(customerEmail);
         $('#editNoOfOrders').val(noOfOrders);
+        $('#editNoOfOrdersleft').val(noOfOrdersleft);
+        
+
 
         $('#editCustomerOrderModal').modal('show');
     });
