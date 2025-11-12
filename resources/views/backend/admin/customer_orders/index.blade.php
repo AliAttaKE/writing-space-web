@@ -385,32 +385,34 @@ $('.edit-order').on('click', function() {
         $('#editCustomerOrderModal').modal('show');
     });
 
-    // Edit order form submission
-    $('#editOrderForm').on('submit', function(e) {
-        e.preventDefault();
-        var formData = $(this).serialize();
+$('#editOrderForm').on('submit', function(e) {
+    e.preventDefault();
 
-        $.ajax({
-            url: '{{ route("admin.customer_orders.update") }}',
-            type: 'POST',
-            data: formData,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(response) {
-                Swal.fire('Success!', response.success, 'success');
-                $('#editCustomerOrderModal').modal('hide');
-                location.reload();
-            },
-            error: function(xhr) {
-                var error = xhr.responseJSON.error;
-                Swal.fire('Error!', error, 'error');
-            }
-        });
+    // Update hidden input before serializing
+    var select = document.getElementById('editCustomerNameSelect');
+    var hiddenInput = document.getElementById('editCustomerNameInput');
+    hiddenInput.value = select.value;
+
+    var formData = $(this).serialize();
+
+    $.ajax({
+        url: '{{ route("admin.customer_orders.update") }}',
+        type: 'POST',
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            Swal.fire('Success!', response.success, 'success');
+            $('#editCustomerOrderModal').modal('hide');
+            location.reload();
+        },
+        error: function(xhr) {
+            var error = xhr.responseJSON.error;
+            Swal.fire('Error!', error, 'error');
+        }
     });
 });
-
-
 
 
 // Add free orders to all customers
