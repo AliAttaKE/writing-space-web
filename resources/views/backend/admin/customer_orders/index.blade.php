@@ -1,12 +1,6 @@
 @extends('custom_layout.master')
 @section('main_content')
 
-<!-- Select2 CSS -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
-<!-- Select2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -238,6 +232,24 @@
 </div>
 
 <script>
+
+
+$(document).ready(function() {
+    // Initialize Select2 for Add Customer
+    $('#addCustomerName').select2({
+        dropdownParent: $('#addCustomerOrderModal'),
+        width: '100%',
+        placeholder: 'Select Customer'
+    });
+
+    // Initialize Select2 for Edit Customer
+    $('#editCustomerNameSelect').select2({
+        dropdownParent: $('#editCustomerOrderModal'),
+        width: '100%',
+        placeholder: 'Select Customer'
+    });
+});
+
 $(document).ready(function() {
 
 
@@ -464,14 +476,6 @@ function confirmDelete(id) {
         }
     });
 }
-
-
-$('#addCustomerName, #editCustomerNameSelect').select2({
-    theme: 'bootstrap-5', // optional, if using Bootstrap styling
-    dropdownParent: $('#addCustomerOrderModal, #editCustomerOrderModal'), // important for modals
-    width: '100%',
-    placeholder: 'Select Customer'
-});
 </script>
 
 <style>
