@@ -49,15 +49,12 @@ class CustomerOrderController extends Controller
 
 //     return view('backend.admin.customer_orders.index', compact('orders'));
 // }
-
-
 public function index(Request $request)
 {
     $query = CustomerOrder::query();
 
-
-       $lastOrder = CustomerOrder::latest('id')->first();
-
+    // 🔹 Last Order
+    $lastOrder = CustomerOrder::latest('id')->first();
     $assigned_orders = $lastOrder ? $lastOrder->no_of_orders : 0;
 
     // 🔍 Global Search
@@ -92,17 +89,14 @@ public function index(Request $request)
     // ✅ Paginate
     $orders = $query->paginate(10)->appends($request->all());
 
-    // ✅ Correct logic: 5 total orders max
-   $order->orders_left = max(0, $maxOrders - $usedOrders);
+    // ✅ Orders used (no limit now)
+    foreach ($orders as $order) {
+        $usedOrders = $order->no_of_orders ?? 0;
+        $order->orders_used = $usedOrders;
+        $order->orders_left = null; // No limit
+    }
 
- foreach ($exportData as $order) {
-    $usedOrders = $order->no_of_orders ?? 0;
-    $order->orders_used = $usedOrders;
-    $order->orders_left = null; // no limit
-}
-
-
-    // 📤 Export
+    // 📤 Export (Excel)
     if ($request->has('export') && $request->export == 'excel') {
         $exportQuery = clone $query;
         $exportData = $exportQuery->get();
@@ -110,7 +104,7 @@ public function index(Request $request)
         foreach ($exportData as $order) {
             $usedOrders = $order->no_of_orders ?? 0;
             $order->orders_used = $usedOrders;
-            $order->orders_left = max(0, $maxOrders - $usedOrders);
+            $order->orders_left = null; // No limit
         }
 
         return Excel::download(new CustomerOrdersExport($exportData), 'customer_orders.xlsx');
@@ -119,7 +113,7 @@ public function index(Request $request)
     // ✅ Dropdown list
     $customers = User::select('id', 'name', 'email')->orderBy('name')->get();
 
-    return view('backend.admin.customer_orders.index', compact('orders', 'customers','assigned_orders'));
+    return view('backend.admin.customer_orders.index', compact('orders', 'customers', 'assigned_orders'));
 }
 
 
