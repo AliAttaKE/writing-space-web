@@ -783,11 +783,139 @@ public function orders_free(Request $request)
 
     // }
 
+
+
+// public function deleverd_order($id, Request $request)
+// {
+//     $order = Orders::find($id);
+
+
+
+//     if (!$order) {
+//         return response()->json(['success' => false, 'message' => 'Order not found'], 404);
+//     }
+
+//     $user = User::findOrFail($order->user_id);
+
+//     Orders::where('order_id', $order->order_id)->update(['order_status' => $request->status]);
+
+//     switch ($request->status) {
+//         case 'Pending':
+//             $emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is Pending Approval';
+//             $emailContent = "
+//                 <p>Hi {$user->name},</p>
+//                 <p>Just a quick update on your order with Writing Space: Your order ID {$order->order_id} is currently pending approval. We are reviewing the details to ensure everything is set to meet your expectations.</p>
+//                 <p><strong>What’s Next?</strong></p>
+//                 <ul>
+//                     <li>You will receive a notification once your order has been approved and moved to the next stage of our process.</li>
+//                 </ul>
+//                 <p>Thank you for your patience. If you have any questions or need to adjust any details, please reach out to us.</p>
+//                 <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+//             break;
+
+//         case 'In-Progress':
+//             $emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is Now In-Progress';
+//             $emailContent = "
+//                 <p>Hi {$user->name},</p>
+//                 <p>We're excited to let you know that your order ID {$order->order_id} is now in-progress! Our team is actively working on your request to provide you with quality results.</p>
+//                 <p><strong>What’s Next?</strong></p>
+//                 <ul>
+//                     <li>We'll keep you updated on the progress and notify you as soon as your order is ready for the next phase.</li>
+//                 </ul>
+//                 <p>Feel free to check your order status anytime from your dashboard.</p>
+//                 <p>Thank you for choosing Writing Space!</p>
+//                 <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+//             break;
+
+//         case 'Revision':
+//             $emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is In-Revision';
+//             $emailContent = "
+//                 <p>Hi {$user->name},</p>
+//                 <p>Your revision request is received and your Order ID {$order->order_id} is currently in the revision stage. We are making the necessary adjustments to ensure that the final product aligns perfectly with your specifications.</p>
+//                 <p><strong>What’s Next?</strong></p>
+//                 <ul>
+//                     <li>Once revisions are complete, we will move forward to finalizing your order. You will receive a notification when your order is ready for delivery.</li>
+//                 </ul>
+//                 <p>Thank you for your collaboration and patience.</p>
+//                 <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+//             break;
+
+//         case 'Delivered':
+//                     $emailSubject = 'Good News: Your Order ID ' . $order->order_id . ' Has Been Delivered!';
+//                     $emailContent = "
+//                         <p>Hi {$user->name},</p>
+//                         <p>We are pleased to announce that your order ID {$order->order_id} has been delivered! You can now download and access your materials through your Writing Space dashboard.</p>
+//                         <p><strong>What’s Next?</strong></p>
+//                         <ul>
+//                             <li>We hope you find everything to your satisfaction. Please review your delivered materials in this order’s details page and let us know if there are any issues or further assistance needed.</li>
+//                             <li>If you’d like any small adjustments, you can post a free revision within 7 days and we’ll be happy to help.</li>
+//                         </ul>   
+//                         <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
+//                         <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+
+//             break;
+
+//             //    case 'Completed':
+//             // $emailSubject = 'Good News: Your Order ID ' . $order->order_id . ' Has Been Completed!';
+//             // $emailContent = "
+//             //     <p>Hi {$user->name},</p>
+//             //     <p>We are pleased to announce that your order ID {$order->order_id} has been delivered! You can now download and access your materials through your Writing Space dashboard.</p>
+//             //     <p><strong>What’s Next?</strong></p>
+//             //     <ul>
+//             //         <li>We hope you find everything to your satisfaction. Please review your delivered materials and let us know if there are any issues or further assistance needed.</li>
+//             //     </ul>
+//             //     <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
+//             //     <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+//             // break;
+
+
+
+
+//         case 'Canceled':
+//             $emailSubject = 'Notification: Your Order ID ' . $order->order_id . ' Has Been Cancelled';
+//             $emailContent = "
+//                 <p>Hi {$user->name},</p>
+//                 <p>We regret to inform you that your order ID {$order->order_id} has been cancelled. We apologize for any inconvenience this may have caused.</p>
+//                 <p><strong>What’s Next?</strong></p>
+//                 <ul>
+//                     <li>If you have any questions or would like to discuss alternatives or reordering, please don't hesitate to contact us.</li>
+//                 </ul>
+//                 <p>We thank you for your understanding and apologize for any inconvenience. We hope to assist you again in the future.</p>
+//                 <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+//             break;
+
+//         case 'Refund':
+//             $emailSubject = 'Notification: Your Refund for Order ID ' . $order->order_id . ' Has Been Processed';
+//             $emailContent = "
+//                 <p>Hi {$user->name},</p>
+//                 <p>We wanted to inform you that a refund for your order ID {$order->order_id} has been successfully processed. You should see the refunded amount of [Refund Amount] reflected in your original payment method within 30 business days.</p>
+//                 <p><strong>What’s Next?</strong></p>
+//                 <ul>
+//                     <li>If you have any questions about your refund or need further assistance, please don't hesitate to contact us. We're here to help!</li>
+//                 </ul>
+//                 <p>We apologize for any inconvenience this may have caused and appreciate your understanding. We hope to have the opportunity to assist you again in the future.</p>
+//                 <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+//             break;
+
+//         default:
+//             return response()->json(['success' => false, 'message' => 'Invalid status provided'], 400);
+//     }
+//     if($request->status != 'Completed'){
+//         Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
+//         $message->to($user->email)
+//                 ->subject($emailSubject);
+//         });
+//     }
+
+
+//     return response()->json(['success' => true, 'message' => 'Order status updated and email sent']);
+// }
+
+
+
 public function deleverd_order($id, Request $request)
 {
     $order = Orders::find($id);
-
-
 
     if (!$order) {
         return response()->json(['success' => false, 'message' => 'Order not found'], 404);
@@ -797,114 +925,138 @@ public function deleverd_order($id, Request $request)
 
     Orders::where('order_id', $order->order_id)->update(['order_status' => $request->status]);
 
-    switch ($request->status) {
-        case 'Pending':
-            $emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is Pending Approval';
+    // Check if the order is Free
+    if ($order->payment_status === 'Free') {
+
+        // Free order special emails
+        if ($request->status === 'In-Progress') {
+            $emailSubject = 'Order Confirmation – ID-' . $order->order_id;
             $emailContent = "
-                <p>Hi {$user->name},</p>
-                <p>Just a quick update on your order with Writing Space: Your order ID {$order->order_id} is currently pending approval. We are reviewing the details to ensure everything is set to meet your expectations.</p>
-                <p><strong>What’s Next?</strong></p>
+                <p>Hello {$user->name},</p>
+                <p>Thank you for placing your order with Writing Space. This email confirms your order:</p>
+                <p>Order ID: {$order->order_id}</p>
+                <p>Your paper is now in progress, and once completed, we will deliver it along with official Turnitin plagiarism and AI-detection reports — so you can see proof of originality and academic integrity before you pay.</p>
+                <p><strong>Important Notice:</strong></p>
                 <ul>
-                    <li>You will receive a notification once your order has been approved and moved to the next stage of our process.</li>
+                    <li>Writing Space retains copyright ownership of the paper until payment is received.</li>
+                    <li>To secure exclusive rights and full usage, timely payment is essential.</li>
+                    <li>If payment is not made, we reserve the right to publish the work online or repurpose it.</li>
                 </ul>
-                <p>Thank you for your patience. If you have any questions or need to adjust any details, please reach out to us.</p>
-                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
-            break;
-
-        case 'In-Progress':
-            $emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is Now In-Progress';
+                <p>We encourage you to make arrangements for payment in advance so the process is smooth once your paper is delivered.</p>
+                <p>Best regards,<br>The Writing Space Team</p>";
+        } elseif ($request->status === 'Delivered') {
+            $emailSubject = 'Your Paper is Delivered – Order ID-' . $order->order_id;
             $emailContent = "
-                <p>Hi {$user->name},</p>
-                <p>We're excited to let you know that your order ID {$order->order_id} is now in-progress! Our team is actively working on your request to provide you with quality results.</p>
-                <p><strong>What’s Next?</strong></p>
+                <p>Hello {$user->name},</p>
+                <p>We’re pleased to let you know that your paper is now complete and delivered.</p>
+                <p>Order ID: {$order->order_id}</p>
+                <p>Attached you’ll find:</p>
                 <ul>
-                    <li>We'll keep you updated on the progress and notify you as soon as your order is ready for the next phase.</li>
+                    <li>Your custom-written paper</li>
+                    <li>The official Turnitin plagiarism and AI-detection reports</li>
                 </ul>
-                <p>Feel free to check your order status anytime from your dashboard.</p>
-                <p>Thank you for choosing Writing Space!</p>
-                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
-            break;
-
-        case 'Revision':
-            $emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is In-Revision';
-            $emailContent = "
-                <p>Hi {$user->name},</p>
-                <p>Your revision request is received and your Order ID {$order->order_id} is currently in the revision stage. We are making the necessary adjustments to ensure that the final product aligns perfectly with your specifications.</p>
-                <p><strong>What’s Next?</strong></p>
-                <ul>
-                    <li>Once revisions are complete, we will move forward to finalizing your order. You will receive a notification when your order is ready for delivery.</li>
-                </ul>
-                <p>Thank you for your collaboration and patience.</p>
-                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
-            break;
-
-        case 'Delivered':
-                    $emailSubject = 'Good News: Your Order ID ' . $order->order_id . ' Has Been Delivered!';
-                    $emailContent = "
-                        <p>Hi {$user->name},</p>
-                        <p>We are pleased to announce that your order ID {$order->order_id} has been delivered! You can now download and access your materials through your Writing Space dashboard.</p>
-                        <p><strong>What’s Next?</strong></p>
-                        <ul>
-                            <li>We hope you find everything to your satisfaction. Please review your delivered materials in this order’s details page and let us know if there are any issues or further assistance needed.</li>
-                            <li>If you’d like any small adjustments, you can post a free revision within 7 days and we’ll be happy to help.</li>
-                        </ul>   
-                        <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
-                        <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
-
-            break;
-
-            //    case 'Completed':
-            // $emailSubject = 'Good News: Your Order ID ' . $order->order_id . ' Has Been Completed!';
-            // $emailContent = "
-            //     <p>Hi {$user->name},</p>
-            //     <p>We are pleased to announce that your order ID {$order->order_id} has been delivered! You can now download and access your materials through your Writing Space dashboard.</p>
-            //     <p><strong>What’s Next?</strong></p>
-            //     <ul>
-            //         <li>We hope you find everything to your satisfaction. Please review your delivered materials and let us know if there are any issues or further assistance needed.</li>
-            //     </ul>
-            //     <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
-            //     <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
-            // break;
-
-
-
-
-        case 'Canceled':
-            $emailSubject = 'Notification: Your Order ID ' . $order->order_id . ' Has Been Cancelled';
-            $emailContent = "
-                <p>Hi {$user->name},</p>
-                <p>We regret to inform you that your order ID {$order->order_id} has been cancelled. We apologize for any inconvenience this may have caused.</p>
-                <p><strong>What’s Next?</strong></p>
-                <ul>
-                    <li>If you have any questions or would like to discuss alternatives or reordering, please don't hesitate to contact us.</li>
-                </ul>
-                <p>We thank you for your understanding and apologize for any inconvenience. We hope to assist you again in the future.</p>
-                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
-            break;
-
-        case 'Refund':
-            $emailSubject = 'Notification: Your Refund for Order ID ' . $order->order_id . ' Has Been Processed';
-            $emailContent = "
-                <p>Hi {$user->name},</p>
-                <p>We wanted to inform you that a refund for your order ID {$order->order_id} has been successfully processed. You should see the refunded amount of [Refund Amount] reflected in your original payment method within 30 business days.</p>
-                <p><strong>What’s Next?</strong></p>
-                <ul>
-                    <li>If you have any questions about your refund or need further assistance, please don't hesitate to contact us. We're here to help!</li>
-                </ul>
-                <p>We apologize for any inconvenience this may have caused and appreciate your understanding. We hope to have the opportunity to assist you again in the future.</p>
-                <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
-            break;
-
-        default:
-            return response()->json(['success' => false, 'message' => 'Invalid status provided'], 400);
+                <p><strong>Important Reminder:</strong></p>
+                <p>Writing Space retains full copyright ownership of this paper until payment is made. If payment is not received, we reserve the right to publish this paper online or repurpose it.</p>
+                <p><strong>How to make payment:</strong></p>
+                <ol>
+                    <li>Log in to your Customer Panel</li>
+                    <li>Navigate to the “Delivered Orders” page</li>
+                    <li>Locate your order using Order ID: {$order->order_id}</li>
+                    <li>Click “Pay Now” and complete your payment</li>
+                </ol>
+                <p>Thank you for choosing Writing Space. We look forward to supporting your academic success.</p>
+                <p>Best regards,<br>The Writing Space Team</p>";
+        } else {
+            // Free order, other statuses – do not send email
+            return response()->json(['success' => true, 'message' => 'Order status updated (no email sent for free order)']);
+        }
+    } else {
+        // Paid order – use the existing emails (no change)
+        switch ($request->status) {
+            case 'Pending':
+                $emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is Pending Approval';
+                $emailContent = "
+                    <p>Hi {$user->name},</p>
+                    <p>Just a quick update on your order with Writing Space: Your order ID {$order->order_id} is currently pending approval. We are reviewing the details to ensure everything is set to meet your expectations.</p>
+                    <p><strong>What’s Next?</strong></p>
+                    <ul>
+                        <li>You will receive a notification once your order has been approved and moved to the next stage of our process.</li>
+                    </ul>
+                    <p>Thank you for your patience. If you have any questions or need to adjust any details, please reach out to us.</p>
+                    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+                break;
+            case 'In-Progress':
+                $emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is Now In-Progress';
+                $emailContent = "
+                    <p>Hi {$user->name},</p>
+                    <p>We're excited to let you know that your order ID {$order->order_id} is now in-progress! Our team is actively working on your request to provide you with quality results.</p>
+                    <p><strong>What’s Next?</strong></p>
+                    <ul>
+                        <li>We'll keep you updated on the progress and notify you as soon as your order is ready for the next phase.</li>
+                    </ul>
+                    <p>Feel free to check your order status anytime from your dashboard.</p>
+                    <p>Thank you for choosing Writing Space!</p>
+                    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+                break;
+            case 'Revision':
+                $emailSubject = 'Status Update: Your Order ID ' . $order->order_id . ' is In-Revision';
+                $emailContent = "
+                    <p>Hi {$user->name},</p>
+                    <p>Your revision request is received and your Order ID {$order->order_id} is currently in the revision stage. We are making the necessary adjustments to ensure that the final product aligns perfectly with your specifications.</p>
+                    <p><strong>What’s Next?</strong></p>
+                    <ul>
+                        <li>Once revisions are complete, we will move forward to finalizing your order. You will receive a notification when your order is ready for delivery.</li>
+                    </ul>
+                    <p>Thank you for your collaboration and patience.</p>
+                    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+                break;
+            case 'Delivered':
+                $emailSubject = 'Good News: Your Order ID ' . $order->order_id . ' Has Been Delivered!';
+                $emailContent = "
+                    <p>Hi {$user->name},</p>
+                    <p>We are pleased to announce that your order ID {$order->order_id} has been delivered! You can now download and access your materials through your Writing Space dashboard.</p>
+                    <p><strong>What’s Next?</strong></p>
+                    <ul>
+                        <li>We hope you find everything to your satisfaction. Please review your delivered materials in this order’s details page and let us know if there are any issues or further assistance needed.</li>
+                        <li>If you’d like any small adjustments, you can post a free revision within 7 days and we’ll be happy to help.</li>
+                    </ul>   
+                    <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
+                    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+                break;
+            case 'Canceled':
+                $emailSubject = 'Notification: Your Order ID ' . $order->order_id . ' Has Been Cancelled';
+                $emailContent = "
+                    <p>Hi {$user->name},</p>
+                    <p>We regret to inform you that your order ID {$order->order_id} has been cancelled. We apologize for any inconvenience this may have caused.</p>
+                    <p><strong>What’s Next?</strong></p>
+                    <ul>
+                        <li>If you have any questions or would like to discuss alternatives or reordering, please don't hesitate to contact us.</li>
+                    </ul>
+                    <p>We thank you for your understanding and apologize for any inconvenience. We hope to assist you again in the future.</p>
+                    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+                break;
+            case 'Refund':
+                $emailSubject = 'Notification: Your Refund for Order ID ' . $order->order_id . ' Has Been Processed';
+                $emailContent = "
+                    <p>Hi {$user->name},</p>
+                    <p>We wanted to inform you that a refund for your order ID {$order->order_id} has been successfully processed. You should see the refunded amount of [Refund Amount] reflected in your original payment method within 30 business days.</p>
+                    <p><strong>What’s Next?</strong></p>
+                    <ul>
+                        <li>If you have any questions about your refund or need further assistance, please don't hesitate to contact us. We're here to help!</li>
+                    </ul>
+                    <p>We apologize for any inconvenience this may have caused and appreciate your understanding. We hope to have the opportunity to assist you again in the future.</p>
+                    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+                break;
+            default:
+                return response()->json(['success' => false, 'message' => 'Invalid status provided'], 400);
+        }
     }
-    if($request->status != 'Completed'){
-        Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
+
+    // Send the email
+    Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
         $message->to($user->email)
                 ->subject($emailSubject);
-        });
-    }
-
+    });
 
     return response()->json(['success' => true, 'message' => 'Order status updated and email sent']);
 }
