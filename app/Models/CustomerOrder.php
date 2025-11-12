@@ -17,6 +17,7 @@ class CustomerOrder extends Model
         'customer_email',
         'user_id',
         'no_of_orders',
+        'no_of_orders_chk',
         'orders_left'
     ];
 
