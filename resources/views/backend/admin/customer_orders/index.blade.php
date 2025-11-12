@@ -30,7 +30,12 @@
                         <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
                             <span class="path1"></span><span class="path2"></span>
                         </i>
-                        <input type="text" id="searchInput" class="form-control form-control-solid w-250px ps-13 btn-dark-primary" placeholder="Search orders..." value="{{ request('search') }}" />
+
+                            <input type="text" id="searchInput" 
+           class="form-control form-control-solid w-250px ps-10 btn-dark-primary" 
+           placeholder="Search orders..." 
+           value="{{ request('search') }}" />
+                        <!-- <input type="text" id="searchInput" class="form-control form-control-solid w-250px ps-13 btn-dark-primary" placeholder="Search orders..." value="{{ request('search') }}" /> -->
 
                         <!-- 📅 Start Date -->
                         <input type="date" id="startDate" class="form-control form-control-solid btn-dark-primary" style="width: 160px;" value="{{ request('start_date') }}">
