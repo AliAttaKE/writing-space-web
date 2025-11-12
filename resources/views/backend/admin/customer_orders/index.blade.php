@@ -199,34 +199,35 @@
                 <h5 class="modal-title text-white" id="editCustomerOrderModalLabel">Edit Customer Order</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="editOrderForm">
-                <input type="hidden" name="order_id" id="editOrderId">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label text-white">Customer Name</label>
-                        <select class="form-control btn-dark-primary" name="customer_name" id="editCustomerNameSelect" required readonly>
-                            <option value="">Select Customer</option>
-                            @foreach($customers as $c)
-                                <option value="{{ $c->name }}" data-email="{{ $c->email }}">{{ $c->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+         <form id="editOrderForm">
+    <input type="hidden" name="order_id" id="editOrderId">
+    <div class="modal-body">
+        <div class="mb-3">
+            <label class="form-label text-white">Customer Name</label>
+            <select class="form-control btn-dark-primary" name="customer_name" id="editCustomerNameSelect" required disabled>
+                <option value="">Select Customer</option>
+                @foreach($customers as $c)
+                    <option value="{{ $c->name }}" data-email="{{ $c->email }}">{{ $c->name }}</option>
+                @endforeach
+            </select>
+        </div>
 
-                    <div class="mb-3">
-                        <label class="form-label text-white">Customer Email</label>
-                        <input type="email" class="form-control btn-dark-primary" name="customer_email" id="editCustomerEmail" readonly required>
-                    </div>
+        <div class="mb-3">
+            <label class="form-label text-white">Customer Email</label>
+            <input type="email" class="form-control btn-dark-primary" name="customer_email" id="editCustomerEmail" readonly required>
+        </div>
 
-                    <div class="mb-3">
-                        <label class="form-label text-white">Number of Orders</label>
-                        <input type="number" class="form-control btn-dark-primary" name="no_of_orders" id="editNoOfOrders" min="1" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-dark-primary">Update Order</button>
-                </div>
-            </form>
+        <div class="mb-3">
+            <label class="form-label text-white">Number of Orders</label>
+            <input type="number" class="form-control btn-dark-primary" name="no_of_orders" id="editNoOfOrders" min="1" required>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-dark-primary">Update Order</button>
+    </div>
+</form>
+
         </div>
     </div>
 </div>
