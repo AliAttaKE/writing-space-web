@@ -1,28 +1,6 @@
 @extends('custom_layout.master')
 @section('main_content')
-<style>
-    /* Make Select2 fit modal input height */
-.select2-container--default .select2-selection--single {
-    height: 40px; /* match your modal input height */
-    padding: 5px 12px;
-    border-radius: 4px;
-    background-color: #2a0a85; /* match your modal color */
-    color: white;
-    border: 1px solid #ccc;
-}
 
-/* Text inside the input */
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 28px; /* adjust vertically */
-    color: white;
-}
-
-/* Placeholder color */
-.select2-container--default .select2-selection--single .select2-selection__placeholder {
-    color: #ddd;
-}
-
-</style>
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -160,7 +138,7 @@
                 <div class="modal-body">
                 <div class="mb-3">
                     <label class="form-label text-white">Customer Name</label>
-                    <select class="form-control btn-dark-primary" name="customer_name" id="addCustomerName" required>
+                    <select class="form-control btn-dark-primary select22" name="customer_name" id="addCustomerName" required>
                         <option value="">Select Customer</option>
                         @foreach($customers as $c)
                             <option value="{{ $c->name }}" data-email="{{ $c->email }}">{{ $c->name }}</option>
@@ -253,26 +231,19 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
+
+
 <script>
 
 
 
 $(document).ready(function() {
 
-    $('#addCustomerName').select2({
-    dropdownParent: $('#addCustomerOrderModal'), // keeps dropdown inside modal
-    width: '100%', // ensures it fits the input width
-    placeholder: 'Select Customer',
-    theme: 'bootstrap-5' // optional if you want Bootstrap styling
-});
-
-$('#editCustomerNameSelect').select2({
-    dropdownParent: $('#editCustomerOrderModal'),
-    width: '100%',
-    placeholder: 'Select Customer',
-    theme: 'bootstrap-5'
-});
-
+     $('.select22').select2({
+            allowClear: true,
+            width: '100%'
+        });
 
 
 // Auto-fill email when customer selected in Add modal
