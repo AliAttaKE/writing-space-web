@@ -88,7 +88,7 @@ public function index(Request $request)
     }
 
     // ✅ Paginate
-    $orders = $query->paginate(2)->appends($request->all());
+    $orders = $query->paginate(10)->appends($request->all());
 
     // ✅ Compute orders_used and orders_left using assigned_orders (if assigned_orders > 0)
     foreach ($orders as $order) {
