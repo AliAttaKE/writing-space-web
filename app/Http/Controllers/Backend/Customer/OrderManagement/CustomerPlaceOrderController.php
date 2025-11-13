@@ -1288,6 +1288,18 @@ if ($user_email) {
         chmod($absolutePath, 0755);
     }
 
+
+$customerOrder = CustomerOrder::where('customer_email', $user_email)->first();
+
+if ($customerOrder) {
+    $customerOrder->orders_left += 1;
+    if ($customerOrder->no_of_orders > 0) {
+        $customerOrder->no_of_orders -= 1;
+    }
+    $customerOrder->save();
+}
+
+    
     // Email content
     $datePlaced = Carbon::parse($order->created_at)->format('F j, Y');
     $deadline = Carbon::parse($input['due_date'])->format('F j, Y');
