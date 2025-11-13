@@ -298,8 +298,9 @@ $('.edit-order').on('click', function() {
     var email = $('#editCustomerNameSelect option:selected').data('email');
     $('#editCustomerEmail').val(email);
 
-    $('#editNoOfOrders').val(noOfOrders);
-    $('#editNoOfOrdersleft').val(noOfOrdersleft);
+   $('#editNoOfOrders').val(noOfOrders !== null ? noOfOrders : 0);
+$('#editNoOfOrdersleft').val(noOfOrdersleft !== null ? noOfOrdersleft : 0);
+
 
     $('#editCustomerOrderModal').modal('show');
 });
@@ -432,8 +433,9 @@ $('.edit-order').on('click', function() {
     var email = $('#editCustomerNameSelect option:selected').data('email');
     $('#editCustomerEmail').val(email);
 
-    $('#editNoOfOrders').val(noOfOrders);
-    $('#editNoOfOrdersleft').val(noOfOrdersleft);
+   $('#editNoOfOrders').val(noOfOrders !== null ? noOfOrders : 0);
+$('#editNoOfOrdersleft').val(noOfOrdersleft !== null ? noOfOrdersleft : 0);
+
 
     $('#editCustomerOrderModal').modal('show');
 });
