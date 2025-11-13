@@ -143,15 +143,16 @@
             </div>
             <form id="addOrderForm">
                 <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label text-white">Customer Name</label>
-                    <select class="form-control btn-dark-primary" name="customer_name" id="addCustomerName" required>
-                        <option value="">Select Customer</option>
-                        @foreach($customers as $c)
-                            <option value="{{ $c->name }}" data-email="{{ $c->email }}">{{ $c->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+              <div class="mb-3">
+    <label for="addCustomerName" class="form-label text-white">Select Customer</label>
+    <input type="text" class="form-control" id="customerSearch" placeholder="Search customer...">
+    <select class="form-control btn-dark-primary mt-2" name="customer_name" id="addCustomerName" required>
+        <option value="">Select Customer</option>
+        @foreach($customers as $c)
+            <option value="{{ $c->name }}" data-email="{{ $c->email }}">{{ $c->name }}</option>
+        @endforeach
+    </select>
+</div>
 
                 <div class="mb-3">
                     <label class="form-label text-white">Customer Email</label>
@@ -248,6 +249,26 @@
 
 <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
 
+<script>
+    const searchInput = document.getElementById('customerSearch');
+    const select = document.getElementById('addCustomerName');
+    const options = Array.from(select.options);
+
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+
+        // Clear current options except the first placeholder
+        select.innerHTML = '<option value="">Select Customer</option>';
+
+        // Add filtered options
+        options.forEach(option => {
+            if (option.text.toLowerCase().includes(searchTerm) && option.value !== "") {
+                select.appendChild(option);
+            }
+        });
+    });
+</script>
+
 
 <script>
 
@@ -309,7 +330,7 @@ $('#editNoOfOrdersleft').val((noOfOrdersleft && noOfOrdersleft !== 'null') ? noO
 
     initializeFormValues();
 
-    // Export functionality
+    
     $('#exportBtn').on('click', function() {
         const search = $('#searchInput').val();
         const startDate = $('#startDate').val();
