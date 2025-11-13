@@ -395,18 +395,18 @@ PaymentSession.configure({
                     //check if the security code was provided by the user
                     if (response.sourceOfFunds.provided.card.securityCode) {
                         console.log("Security code was provided.");
-                     //   alert("Security code was provided.");
+                        alert("Security code was provided.");
                     }
 
                     //check if the user entered a Mastercard credit card
                     if (response.sourceOfFunds.provided.card.scheme == 'MASTERCARD') {
                         console.log("The user entered a Mastercard credit card.")
-                       // alert("The user entered a Mastercard credit card.");
+                        alert("The user entered a Mastercard credit card.");
                     }
                 } else if ("fields_in_error" == response.status)  {
 
                     console.log("Session update failed with field errors.");
-                   // alert("Session update failed with field errors.");
+                    alert("Session update failed with field errors.");
 if (response.errors.cardNumber) {
     Swal.fire({
         icon: 'error',

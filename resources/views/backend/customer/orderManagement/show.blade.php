@@ -402,19 +402,19 @@
 
                                 if (response.errors.cardNumber) {
                                     console.log("Card number invalid or missing.");
-                                  //  alert("Card number invalid or missing.");
+                                    alert("Card number invalid or missing.");
                                 }
                                 if (response.errors.expiryYear) {
                                     console.log("Expiry year invalid or missing.");
-                                 //   alert("Expiry year invalid or missing.");
+                                   alert("Expiry year invalid or missing.");
                                 }
                                 if (response.errors.expiryMonth) {
                                     console.log("Expiry month invalid or missing.");
-                                  //  alert("Expiry month invalid or missing.");
+                                    alert("Expiry month invalid or missing.");
                                 }
                                 if (response.errors.securityCode) {
                                     console.log("Security code invalid.");
-                                  //  alert("Security code invalid.");
+                                    alert("Security code invalid.");
                                 }
                             } else if ("request_timeout" == response.status) {
                                 console.log("Session update failed with request timeout: " + response.errors.message);
