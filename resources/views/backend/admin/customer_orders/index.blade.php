@@ -77,6 +77,7 @@
                                             ⇅
                                         @endif
                                     </span>
+                                    
                                 </th>
                                 <th class="min-w-100px fw_800 pb-8 sortable" data-column="orders_left">
                                     Orders Left 
