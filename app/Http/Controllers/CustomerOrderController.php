@@ -307,30 +307,36 @@ public function store(Request $request)
         return response()->json(['error' => 'Oops! Something went wrong'], 500);
     }
 }
+public function update(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'customer_email' => 'required|email|max:255',
+        'no_of_orders' => 'required|integer|min:1',
+    ]);
 
+    if ($validator->fails()) {
+        return response()->json(['error' => $validator->errors()->first()], 422);
+    }
 
-    public function update(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email|max:255',
-            // 'user_id' => 'nullable|exists:users,id',
-            'no_of_orders' => 'required|integer|min:1',
-            'order_id' => 'required|exists:customer_orders,id'
+    try {
+        // Email se record dhundo
+        $order = CustomerOrder::where('customer_email', $request->customer_email)->first();
+
+        if (!$order) {
+            return response()->json(['error' => 'Customer not found'], 404);
+        }
+
+        // Sirf number of orders update karo
+        $order->update([
+            'no_of_orders' => $request->no_of_orders,
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()->first()], 422);
-        }
+        return response()->json(['success' => 'Customer number of orders updated successfully']);
 
-        try {
-            $order = CustomerOrder::findOrFail($request->order_id);
-            $order->update($request->all());
-            return response()->json(['success' => 'Customer order updated successfully']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Oops! Something went wrong'], 500);
-        }
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Oops! Something went wrong'], 500);
     }
+}
 
 // public function assignAll(Request $request)
 // {
