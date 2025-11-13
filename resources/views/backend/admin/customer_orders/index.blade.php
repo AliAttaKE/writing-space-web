@@ -298,8 +298,8 @@ $('.edit-order').on('click', function() {
     var email = $('#editCustomerNameSelect option:selected').data('email');
     $('#editCustomerEmail').val(email);
 
-   $('#editNoOfOrders').val(noOfOrders ?? 0);
-$('#editNoOfOrdersleft').val(noOfOrdersleft ?? 0);
+   $('#editNoOfOrders').val((noOfOrders && noOfOrders !== 'null') ? noOfOrders : 0);
+$('#editNoOfOrdersleft').val((noOfOrdersleft && noOfOrdersleft !== 'null') ? noOfOrdersleft : 0);
 
 
     $('#editCustomerOrderModal').modal('show');
@@ -433,8 +433,8 @@ $('.edit-order').on('click', function() {
     var email = $('#editCustomerNameSelect option:selected').data('email');
     $('#editCustomerEmail').val(email);
 
-  $('#editNoOfOrders').val(noOfOrders ?? 0);
-$('#editNoOfOrdersleft').val(noOfOrdersleft ?? 0);
+  $('#editNoOfOrders').val((noOfOrders && noOfOrders !== 'null') ? noOfOrders : 0);
+$('#editNoOfOrdersleft').val((noOfOrdersleft && noOfOrdersleft !== 'null') ? noOfOrdersleft : 0);
 
 
     $('#editCustomerOrderModal').modal('show');
