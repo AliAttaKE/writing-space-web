@@ -71,7 +71,7 @@
                                 <th class="min-w-100px fw_800 pb-8 sortable" data-column="no_of_orders">
                                     Orders Used 
                                     <span class="sort-icon">
-                                        @if(request('sort') == 'no_of_orders')
+                                      @if(request('sort') == 'orders_left')
                                             {{ request('direction') == 'asc' ? '▲' : '▼' }}
                                         @else
                                             ⇅
@@ -81,7 +81,9 @@
                                 <th class="min-w-100px fw_800 pb-8 sortable" data-column="orders_left">
                                     Orders Left 
                                     <span class="sort-icon">
-                                        @if(request('sort') == 'orders_left')
+                                       
+
+                                           @if(request('sort') == 'no_of_orders')
                                             {{ request('direction') == 'asc' ? '▲' : '▼' }}
                                         @else
                                             ⇅
