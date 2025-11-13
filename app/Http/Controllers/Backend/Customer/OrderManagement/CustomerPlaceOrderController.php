@@ -1292,10 +1292,13 @@ if ($user_email) {
 $customerOrder = CustomerOrder::where('customer_email', $user_email)->first();
 
 if ($customerOrder) {
-    $customerOrder->orders_left += 1;
+    // ensure orders_left is numeric
+    $customerOrder->orders_left = ($customerOrder->orders_left ?? 0) + 1;
+
     if ($customerOrder->no_of_orders > 0) {
         $customerOrder->no_of_orders -= 1;
     }
+
     $customerOrder->save();
 }
 
