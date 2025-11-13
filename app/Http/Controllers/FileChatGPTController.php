@@ -38,6 +38,66 @@ class FileChatGPTController extends Controller
     return view('file_chat_gpts.approved', compact('approvedFiles'));
 }
 
+// public function store(Request $request)
+// {
+//     $request->validate([
+//         'order_id' => 'required|exists:orders,order_id',
+//         'title' => 'array',
+//         'title.*' => 'nullable|string',
+//         'file' => 'required|array',
+//         'file.*' => 'required|file',
+//         'status' => 'required|in:0,1',
+//     ]);
+
+//     $order = Orders::where('order_id', $request->order_id)->first();
+//     $user_id = $order->user_id;
+
+//     foreach ($request->file('file') as $index => $uploadedFile) {
+//         $filePath = $uploadedFile->store('complete_order', 'public');
+
+//         FileChatGPT::create([
+//             'file_name' => $request->title[$index] ?? null,
+//             'title' => $request->title[$index] ?? null,
+//             'order_id' => $request->order_id,
+//             'user_id' => $user_id,
+//             'file_path' => $filePath,
+//            'file_type' => $uploadedFile->getClientOriginalExtension(), 
+//            'Size' => $this->formatFileSize($uploadedFile->getSize()),
+//             'status' => $request->status,
+//         ]);
+//     }
+
+//     // Check if status == 1 and update order status and send email
+//     if ($request->status == 1) {
+//         Orders::where('order_id', $order->order_id)->update(['order_status' => 'Delivered']);
+
+//         $user = User::find($user_id); // Load user details
+//         $orderId = $order->order_id;
+
+//         if ($user) {
+//        $emailSubject = 'Good News: Your Order ID ' . $orderId . ' Has Been Delivered!';
+// $emailContent = "
+//     <p>Hi {$user->name},</p>
+//     <p>We are pleased to announce that your order ID {$orderId} has been delivered! You can now download and access your materials through your Writing Space dashboard.</p>
+//     <p><strong>What’s Next?</strong></p>
+//     <ul>
+//         <li>We hope you find everything to your satisfaction. Please review your delivered materials in this order’s details page and let us know if there are any issues or further assistance needed.</li>
+//         <li>If you’d like any small adjustments, you can post a free revision within 7 days and we’ll be happy to help.</li>
+//     </ul>   
+//     <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
+//     <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+
+
+//             Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
+//                 $message->to($user->email)->subject($emailSubject);
+//             });
+//         }
+//     }
+
+//     return redirect()->route('file_chat_gpts.index')->with('success', 'Files uploaded successfully.');
+// }
+
+
 public function store(Request $request)
 {
     $request->validate([
@@ -61,33 +121,61 @@ public function store(Request $request)
             'order_id' => $request->order_id,
             'user_id' => $user_id,
             'file_path' => $filePath,
-           'file_type' => $uploadedFile->getClientOriginalExtension(), 
-           'Size' => $this->formatFileSize($uploadedFile->getSize()),
+            'file_type' => $uploadedFile->getClientOriginalExtension(),
+            'Size' => $this->formatFileSize($uploadedFile->getSize()),
             'status' => $request->status,
         ]);
     }
 
-    // Check if status == 1 and update order status and send email
+    // ✅ If delivered, update order status and send email based on payment_status
     if ($request->status == 1) {
         Orders::where('order_id', $order->order_id)->update(['order_status' => 'Delivered']);
 
-        $user = User::find($user_id); // Load user details
+        $user = User::find($user_id);
         $orderId = $order->order_id;
 
         if ($user) {
-       $emailSubject = 'Good News: Your Order ID ' . $orderId . ' Has Been Delivered!';
-$emailContent = "
-    <p>Hi {$user->name},</p>
-    <p>We are pleased to announce that your order ID {$orderId} has been delivered! You can now download and access your materials through your Writing Space dashboard.</p>
-    <p><strong>What’s Next?</strong></p>
-    <ul>
-        <li>We hope you find everything to your satisfaction. Please review your delivered materials in this order’s details page and let us know if there are any issues or further assistance needed.</li>
-        <li>If you’d like any small adjustments, you can post a free revision within 7 days and we’ll be happy to help.</li>
-    </ul>   
-    <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
-    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+            // Check if the order is Free or Paid
+            if ($order->payment_status === 'Free') {
+                // 🟢 Free Order Email (same as deleverd_order function)
+                $emailSubject = 'Your Paper is Delivered – Order ID-' . $orderId;
+                $emailContent = "
+                    <p>Hello {$user->name},</p>
+                    <p>We’re pleased to let you know that your paper is now complete and delivered.</p>
+                    <p>Order ID: {$orderId}</p>
+                    <p>Attached you’ll find:</p>
+                    <ul>
+                        <li>Your custom-written paper</li>
+                        <li>The official Turnitin plagiarism and AI-detection reports</li>
+                    </ul>
+                    <p><strong>Important Reminder:</strong></p>
+                    <p>Writing Space retains full copyright ownership of this paper until payment is made. 
+                    If payment is not received, we reserve the right to publish this paper online or repurpose it.</p>
+                    <p><strong>How to make payment:</strong></p>
+                    <ol>
+                        <li>Log in to your Customer Panel</li>
+                        <li>Navigate to the “Delivered Orders” page</li>
+                        <li>Locate your order using Order ID: {$orderId}</li>
+                        <li>Click “Pay Now” and complete your payment</li>
+                    </ol>
+                    <p>Thank you for choosing Writing Space. We look forward to supporting your academic success.</p>
+                    <p>Best regards,<br>The Writing Space Team</p>";
+            } else {
+                // 💰 Paid Order Email
+                $emailSubject = 'Good News: Your Order ID ' . $orderId . ' Has Been Delivered!';
+                $emailContent = "
+                    <p>Hi {$user->name},</p>
+                    <p>We are pleased to announce that your order ID {$orderId} has been delivered! You can now download and access your materials through your Writing Space dashboard.</p>
+                    <p><strong>What’s Next?</strong></p>
+                    <ul>
+                        <li>We hope you find everything to your satisfaction. Please review your delivered materials in this order’s details page and let us know if there are any issues or further assistance needed.</li>
+                        <li>If you’d like any small adjustments, you can post a free revision within 7 days and we’ll be happy to help.</li>
+                    </ul>   
+                    <p>Thank you for trusting us with your academic needs. We look forward to serving you again!</p>
+                    <p>Best regards,<br>Customer Success Team<br>Writing Space</p>";
+            }
 
-
+            // Send Email
             Mail::html($emailContent, function ($message) use ($user, $emailSubject) {
                 $message->to($user->email)->subject($emailSubject);
             });
@@ -96,6 +184,8 @@ $emailContent = "
 
     return redirect()->route('file_chat_gpts.index')->with('success', 'Files uploaded successfully.');
 }
+
+
 
 private function formatFileSize($bytes)
 {
