@@ -77,7 +77,7 @@
                                             ⇅
                                         @endif
                                     </span>
-                                    
+
                                 </th>
                                 <th class="min-w-100px fw_800 pb-8 sortable" data-column="orders_left">
                                     Orders Left 
@@ -99,8 +99,9 @@
                             <tr>
                                 <td class="text-white">{{ $order->customer_name }}</td>
                                 <td class="text-white">{{ $order->customer_email }}</td>
-                                <td class="text-white">{{ $order->no_of_orders }}</td>
                                 <td class="text-white">{{ $order->orders_left }}</td>
+
+                                <td class="text-white">{{ $order->no_of_orders }}</td>
                                 <td>
                                   <a href="#" class="btn badge-custom-bg btn-flex btn-center btn-sm edit-order"
                                     data-order-id="{{ $order->id }}"
