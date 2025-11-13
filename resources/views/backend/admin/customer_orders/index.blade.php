@@ -252,11 +252,7 @@
 <script>
 
 $(document).ready(function() {
-    $('#addCustomerName').select2({
-        placeholder: "Select Customer",
-        allowClear: true,
-        width: 'resolve' // ensures Select2 width adapts
-    });
+  
 
     // Auto-fill email
     $('#addCustomerName').on('change', function() {
@@ -267,10 +263,7 @@ $(document).ready(function() {
 
 $(document).ready(function() {
 
-     $('.select22').select2({
-            allowClear: true,
-            width: '100%'
-        });
+   
 
 
 // Auto-fill email when customer selected in Add modal
