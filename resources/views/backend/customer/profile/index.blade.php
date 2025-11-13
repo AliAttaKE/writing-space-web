@@ -364,11 +364,11 @@
                                                         <tr>
                                                                 <td>
                                                                     @if($order->invoice_type == 'package_inc')
-                                                                        Package
+                                                                       Package Purchase
                                                                     @elseif ($order->invoice_type == Null && $order->item_name == 'Pages')
-                                                                        Package - Addon Profile
+                                                                       Package - Pages Addon
                                                                     @elseif ($order->invoice_type == Null && $order->item_name == 'order add Pages')
-                                                                        Package Addon Order - Pages
+                                                                       Order - Pages Addon
                                                                     @elseif ($order->invoice_type == 'custom_inc' && $order->item_name == 'Custom Order - Pages Addon')
                                                                         Custom Order - Pages Addon
                                                                     @elseif ($order->invoice_type == 'custom_inc')
