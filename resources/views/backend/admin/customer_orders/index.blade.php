@@ -228,11 +228,11 @@
 
          <div class="mb-3">
             <label class="form-label text-white">Post-Payment Orders Used</label>
-            <input type="number" class="form-control btn-dark-primary" name="no_of_orders_left" id="editNoOfOrders" min="0" readonly required>
+            <input type="number" class="form-control btn-dark-primary" name="no_of_orders_left"  id="editNoOfOrdersleft" min="0" readonly required>
         </div>
         <div class="mb-3">
             <label class="form-label text-white">Post-Payment Orders Left</label>
-            <input type="number" class="form-control btn-dark-primary" name="no_of_orders" id="editNoOfOrdersleft" min="1" required>
+            <input type="number" class="form-control btn-dark-primary" name="no_of_orders" id="editNoOfOrders"  min="1" required>
         </div>
     </div>
     <div class="modal-footer">
