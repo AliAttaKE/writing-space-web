@@ -48,7 +48,9 @@ class CustomerOrderController extends Controller
 //     }
 
 //     return view('backend.admin.customer_orders.index', compact('orders'));
-// // }
+// }
+
+
 // public function index(Request $request)
 // {
 //     $query = CustomerOrder::query();
@@ -98,7 +100,7 @@ class CustomerOrderController extends Controller
 
 //         if ($assigned_orders > 0) {
 //             // If a global/customer limit exists, calculate remaining
-//             $order->orders_left = max(0, $assigned_orders - $usedOrders);
+//             $order->orders_left =$order->orders_left;
 //         } else {
 //             // No limit set: keep it null (or set to 'unlimited' string if you prefer)
 //             $order->orders_left = null;
@@ -115,7 +117,7 @@ class CustomerOrderController extends Controller
 //             $order->orders_used = $usedOrders;
 
 //             if ($assigned_orders > 0) {
-//                 $order->orders_left = max(0, $assigned_orders - $usedOrders);
+//                 $order->orders_left = $order->orders_left;
 //             } else {
 //                 $order->orders_left = null;
 //             }
@@ -135,7 +137,7 @@ public function index(Request $request)
 {
     $query = CustomerOrder::query();
 
-    // 🔹 Last assigned orders (if needed elsewhere)
+    // 🔹 Last assigned orders (used as global/customer limit if present)
     $lastOrder = CustomerOrder::latest('id')->first();
     $assigned_orders = $lastOrder ? (int)$lastOrder->no_of_orders : 0;
 
@@ -164,7 +166,7 @@ public function index(Request $request)
         $query->latest();
     }
 
-    // ✅ Pagination
+    // ✅ Paginate
     $orders = $query->paginate(10)->appends($request->all());
 
     // 📤 Export (Excel)
@@ -262,50 +264,6 @@ public function sendReminder(Request $request)
 
 
    
-// public function store(Request $request)
-// {
-//     $validator = Validator::make($request->all(), [
-//         'customer_name' => 'required|string|max:255',
-//         'customer_email' => 'required|email|max:255',
-//         'no_of_orders' => 'required|integer|min:1',
-//     ]);
-
-//     if ($validator->fails()) {
-//         return response()->json(['error' => $validator->errors()->first()], 422);
-//     }
-
-//     try {
-//         // Update existing customer by email or create new
-//         $customerOrder = CustomerOrder::updateOrCreate(
-//             ['customer_email' => $request->customer_email], // condition to check
-//             $request->all() // values to update or insert
-//         );
-
-//         // Extract first name for email greeting
-//         $firstName = explode(' ', trim($request->customer_name))[0];
-
-//         // Prepare email content
-//         $subject = "Welcome to Writing Space";
-//         $content = "
-//             <p>Hello <strong>{$firstName}</strong>,</p>
-//             <p>This is to inform you that you can now login to create your free order.</p>
-//             <p>Regards,<br>
-//             <strong>Writing Space</strong><br>
-//             Customer Success Team</p>
-//         ";
-
-//         // Send email
-//         Mail::html($content, function ($message) use ($request, $subject) {
-//             $message->to($request->customer_email)
-//                     ->subject($subject);
-//         });
-
-//         return response()->json(['success' => 'Customer order created/updated successfully and email sent']);
-//     } catch (\Exception $e) {
-//         return response()->json(['error' => 'Oops! Something went wrong'], 500);
-//     }
-// }
-
 public function store(Request $request)
 {
     $validator = Validator::make($request->all(), [
@@ -319,93 +277,60 @@ public function store(Request $request)
     }
 
     try {
-        // Orders left = same as total at creation
-        $data = $request->all();
-        $data['orders_left'] = $request->no_of_orders;
-
+        // Update existing customer by email or create new
         $customerOrder = CustomerOrder::updateOrCreate(
-            ['customer_email' => $request->customer_email],
-            $data
+            ['customer_email' => $request->customer_email], // condition to check
+            $request->all() // values to update or insert
         );
 
-        // Optional: send welcome email
+        // Extract first name for email greeting
         $firstName = explode(' ', trim($request->customer_name))[0];
+
+        // Prepare email content
         $subject = "Welcome to Writing Space";
         $content = "
             <p>Hello <strong>{$firstName}</strong>,</p>
             <p>This is to inform you that you can now login to create your free order.</p>
-            <p>Regards,<br><strong>Writing Space</strong><br>Customer Success Team</p>
+            <p>Regards,<br>
+            <strong>Writing Space</strong><br>
+            Customer Success Team</p>
         ";
 
+        // Send email
         Mail::html($content, function ($message) use ($request, $subject) {
-            $message->to($request->customer_email)->subject($subject);
+            $message->to($request->customer_email)
+                    ->subject($subject);
         });
 
-        return response()->json(['success' => 'Customer order created/updated successfully.']);
+        return response()->json(['success' => 'Customer order created/updated successfully and email sent']);
     } catch (\Exception $e) {
-        return response()->json(['error' => 'Something went wrong.'], 500);
+        return response()->json(['error' => 'Oops! Something went wrong'], 500);
     }
 }
-
-
-
-    // public function update(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'customer_name' => 'required|string|max:255',
-    //         'customer_email' => 'required|email|max:255',
-    //         // 'user_id' => 'nullable|exists:users,id',
-    //         'no_of_orders' => 'required|integer|min:1',
-    //         'order_id' => 'required|exists:customer_orders,id'
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         return response()->json(['error' => $validator->errors()->first()], 422);
-    //     }
-
-    //     try {
-    //         $order = CustomerOrder::findOrFail($request->order_id);
-    //         $order->update($request->all());
-    //         return response()->json(['success' => 'Customer order updated successfully']);
-    //     } catch (\Exception $e) {
-    //         return response()->json(['error' => 'Oops! Something went wrong'], 500);
-    //     }
-    // }
 
 
     public function update(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'customer_name' => 'required|string|max:255',
-        'customer_email' => 'required|email|max:255',
-        'no_of_orders' => 'required|integer|min:1',
-        'order_id' => 'required|exists:customer_orders,id'
-    ]);
-
-    if ($validator->fails()) {
-        return response()->json(['error' => $validator->errors()->first()], 422);
-    }
-
-    try {
-        $order = CustomerOrder::findOrFail($request->order_id);
-
-        // Adjust orders_left based on new total
-        $usedOrders = $order->no_of_orders - $order->orders_left;
-        $newOrdersLeft = max(0, $request->no_of_orders - $usedOrders);
-
-        $order->update([
-            'customer_name'  => $request->customer_name,
-            'customer_email' => $request->customer_email,
-            'no_of_orders'   => $request->no_of_orders,
-            'orders_left'    => $newOrdersLeft,
+    {
+        $validator = Validator::make($request->all(), [
+            'customer_name' => 'required|string|max:255',
+            'customer_email' => 'required|email|max:255',
+            // 'user_id' => 'nullable|exists:users,id',
+            'no_of_orders' => 'required|integer|min:1',
+            'order_id' => 'required|exists:customer_orders,id'
         ]);
 
-        return response()->json(['success' => 'Customer order updated successfully.']);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Update failed.'], 500);
-    }
-}
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->first()], 422);
+        }
 
+        try {
+            $order = CustomerOrder::findOrFail($request->order_id);
+            $order->update($request->all());
+            return response()->json(['success' => 'Customer order updated successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Oops! Something went wrong'], 500);
+        }
+    }
 
 // public function assignAll(Request $request)
 // {
@@ -459,61 +384,6 @@ public function store(Request $request)
 //     }
 // }
 
-// public function assignAll(Request $request)
-// {
-//     $validator = Validator::make($request->all(), [
-//         'no_of_orders' => 'required|integer|min:1',
-//     ]);
-
-//     if ($validator->fails()) {
-//         return response()->json(['error' => $validator->errors()->first()], 422);
-//     }
-
-//     try {
-//         $customers = User::where('role', 'customer')->get();
-//         $orderCount = $request->no_of_orders;
-
-//         // ✅ Delete all previous customer order records before inserting new ones
-//         CustomerOrder::truncate();
-
-//         foreach ($customers as $customer) {
-//             // ✅ Create fresh order entry for each customer
-//             CustomerOrder::create([
-//                 'customer_name'  => $customer->name,
-//                 'customer_email' => $customer->email,
-//                 'no_of_orders'   => $orderCount,
-//             ]);
-
-//             // Prepare email content
-//             $firstName = explode(' ', trim($customer->name))[0];
-//             $subject = "Welcome to Writing Space";
-//             $content = "
-//                 <p>Hello <strong>{$firstName}</strong>,</p>
-//                 <p>This is to inform you that you can now login to create your free order.</p>
-//                 <p>Regards,<br>
-//                 <strong>Writing Space</strong><br>
-//                 Customer Success Team</p>
-//             ";
-
-//             // Uncomment to enable email sending
-//             // Mail::html($content, function ($message) use ($customer, $subject) {
-//             //     $message->to($customer->email)->subject($subject);
-//             // });
-//         }
-
-//         return response()->json(['success' => 'Free orders assigned to all customers successfully.']);
-//     } 
-//     catch (\Exception $e) {
-//         return response()->json([
-//             'error' => $e->getMessage(),
-//             'file'  => $e->getFile(),
-//             'line'  => $e->getLine(),
-//         ], 500);
-//     }
-// }
-
-
-
 public function assignAll(Request $request)
 {
     $validator = Validator::make($request->all(), [
@@ -525,28 +395,48 @@ public function assignAll(Request $request)
     }
 
     try {
-        $orderCount = $request->no_of_orders;
         $customers = User::where('role', 'customer')->get();
+        $orderCount = $request->no_of_orders;
 
-        CustomerOrder::truncate(); // Clear old records
+        // ✅ Delete all previous customer order records before inserting new ones
+        CustomerOrder::truncate();
 
         foreach ($customers as $customer) {
+            // ✅ Create fresh order entry for each customer
             CustomerOrder::create([
                 'customer_name'  => $customer->name,
                 'customer_email' => $customer->email,
                 'no_of_orders'   => $orderCount,
-                'orders_left'    => $orderCount,
             ]);
 
-            // Optional email
-            // Mail::html($content, function ($m) use ($customer, $subject) { ... });
+            // Prepare email content
+            $firstName = explode(' ', trim($customer->name))[0];
+            $subject = "Welcome to Writing Space";
+            $content = "
+                <p>Hello <strong>{$firstName}</strong>,</p>
+                <p>This is to inform you that you can now login to create your free order.</p>
+                <p>Regards,<br>
+                <strong>Writing Space</strong><br>
+                Customer Success Team</p>
+            ";
+
+            // Uncomment to enable email sending
+            // Mail::html($content, function ($message) use ($customer, $subject) {
+            //     $message->to($customer->email)->subject($subject);
+            // });
         }
 
-        return response()->json(['success' => 'Pay-later limits assigned successfully to all customers.']);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Assignment failed.'], 500);
+        return response()->json(['success' => 'Free orders assigned to all customers successfully.']);
+    } 
+    catch (\Exception $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'file'  => $e->getFile(),
+            'line'  => $e->getLine(),
+        ], 500);
     }
 }
+
 
     public function destroy($id)
     {
