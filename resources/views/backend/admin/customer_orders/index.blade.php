@@ -99,7 +99,8 @@
                             <tr>
                                 <td class="text-white">{{ $order->customer_name }}</td>
                                 <td class="text-white">{{ $order->customer_email }}</td>
-                                <td class="text-white">{{ $order->orders_left }}</td>
+                              <td class="text-white">{{ $order->orders_left ? $order->orders_left : 0 }}</td>
+
 
                                 <td class="text-white">{{ $order->no_of_orders }}</td>
                                 <td>
