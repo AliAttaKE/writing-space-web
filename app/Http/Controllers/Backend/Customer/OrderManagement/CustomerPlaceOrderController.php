@@ -1295,9 +1295,6 @@ if ($customerOrder) {
     // ensure orders_left is numeric
     $customerOrder->orders_left = ($customerOrder->orders_left ?? 0) + 1;
 
-    if ($customerOrder->no_of_orders > 0) {
-        $customerOrder->no_of_orders -= 1;
-    }
 
     $customerOrder->save();
 }
