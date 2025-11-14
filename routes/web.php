@@ -158,7 +158,7 @@ Route::get('/clear', function (){
     Artisan::call('config:clear');
     Artisan::call('route:clear');
     Artisan::call('view:clear');
-
+Route::get('/clear', function (){
 
     return redirect()->back();
 
