@@ -290,11 +290,47 @@ public function resendVerificationEmail(Request $request)
 
    
 
+     $postDeliveryLimit = 3;
+
+            $postDeliveryEmailContent = "
+    <p>Hi {$user->name},</p>
+
+    <p>Welcome to Writing Space, where your trust always comes first.</p>
+
+    <p>You can now enjoy complete peace of mind with our <strong>Post-Delivery Payment</strong> option — simply place your order, receive your completed work, and pay only after delivery.</p>
+
+    <p><strong>Here’s how it works:</strong></p>
+
+    <ol>
+        <li>From your dashboard, click the <strong>“Order Now, Pay After Delivery”</strong> button at the top.</li>
+        <li>Fill in your order details on the form.</li>
+        <li>Click <strong>“Order Now”</strong> to confirm — no upfront payment required.</li>
+    </ol>
+
+    <p>You can place up to <strong>{$postDeliveryLimit}</strong> post-delivery payment orders under your account.
+    Once your order is delivered, you’ll have time to review it before making payment.</p>
+
+    <p>At Writing Space, you have zero risk — experience quality first, pay later, and see why thousands of students trust us every day.</p>
+
+    <p><a href='https://www.writing-space.com' 
+    style='display:inline-block; background-color:#007bff; color:#fff; padding:10px 20px; 
+    text-decoration:none; border-radius:5px;'>Order Now, Pay After Delivery</a></p>
+
+    <p>Warm regards,<br>
+    <strong>Team Writing Space</strong><br>
+    <a href='mailto:support@writing-space.com'>support@writing-space.com</a><br>
+    🌐 <a href='https://www.writing-space.com'>www.writing-space.com</a></p>
+";
+
+
+
  try {
         Mail::raw($emailBody, function($message) use ($pendingEmail) {
             $message->to($pendingEmail)
                     ->subject('✅ Verify your email to activate your Writing Space account');
         });
+
+        
 
         return response()->json(['message' => 'Verification  123 email sent successfully!']);
         
@@ -806,6 +842,44 @@ session([
            Mail::html($emailContent, function ($message) use ($request) {
     $message->to($request->email)
             ->subject('Welcome to Writing-Space – Start Your Journey to Academic Mastery!');
+});
+
+
+ $postDeliveryLimit = 3;
+
+            $postDeliveryEmailContent = "
+    <p>Hi {$user->name},</p>
+
+    <p>Welcome to Writing Space, where your trust always comes first.</p>
+
+    <p>You can now enjoy complete peace of mind with our <strong>Post-Delivery Payment</strong> option — simply place your order, receive your completed work, and pay only after delivery.</p>
+
+    <p><strong>Here’s how it works:</strong></p>
+
+    <ol>
+        <li>From your dashboard, click the <strong>“Order Now, Pay After Delivery”</strong> button at the top.</li>
+        <li>Fill in your order details on the form.</li>
+        <li>Click <strong>“Order Now”</strong> to confirm — no upfront payment required.</li>
+    </ol>
+
+    <p>You can place up to <strong>{$postDeliveryLimit}</strong> post-delivery payment orders under your account.
+    Once your order is delivered, you’ll have time to review it before making payment.</p>
+
+    <p>At Writing Space, you have zero risk — experience quality first, pay later, and see why thousands of students trust us every day.</p>
+
+    <p><a href='https://www.writing-space.com' 
+    style='display:inline-block; background-color:#007bff; color:#fff; padding:10px 20px; 
+    text-decoration:none; border-radius:5px;'>Order Now, Pay After Delivery</a></p>
+
+    <p>Warm regards,<br>
+    <strong>Team Writing Space</strong><br>
+    <a href='mailto:support@writing-space.com'>support@writing-space.com</a><br>
+    🌐 <a href='https://www.writing-space.com'>www.writing-space.com</a></p>
+";
+
+Mail::html($postDeliveryEmailContent, function ($message) use ($request) {
+    $message->to($request->email)
+            ->subject('Enjoy Post-Delivery Payment – Experience Quality First, Pay Later');
 });
 
 
