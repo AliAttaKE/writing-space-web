@@ -461,12 +461,7 @@ $('#editOrderForm').on('submit', function() {
     var select = document.getElementById('editCustomerNameSelect');
     var hiddenInput = document.getElementById('editCustomerNameInput');
     hiddenInput.value = select.value;
-
-    // Also update email from selected customer
-    var selectedEmail = $('#editCustomerNameSelect option:selected').data('email');
-    $('#editCustomerEmail').val(selectedEmail);
 });
-
     // Edit order form submission
     $('#editOrderForm').on('submit', function(e) {
         e.preventDefault();
