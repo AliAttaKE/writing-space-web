@@ -259,6 +259,8 @@ public function resendVerificationEmail(Request $request)
     $tempData = session('pending_verification_data');
     $pendingEmail = session('pending_email');
 
+    dd($tempData, $pendingEmail);
+
     if (!$tempData || !$pendingEmail) {
         return response()->json(['message' => 'No pending verification found.'], 404);
     }
@@ -288,6 +290,8 @@ public function resendVerificationEmail(Request $request)
     Mail::html($emailBody, function ($message) use ($pendingEmail, $emailSubject) {
         $message->to($pendingEmail)->subject($emailSubject);
     });
+
+    
 
     return response()->json(['message' => 'Verification email sent successfully!']);
 }
