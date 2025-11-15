@@ -780,10 +780,11 @@ session([
 
 
             // Send the welcome email
-            Mail::html($emailContent, function ($message) use ($user) {
-                $message->to($user->email)
-                        ->subject('Welcome to Writing-Space – Start Your Journey to Academic Mastery!');
-            });
+           Mail::html($emailContent, function ($message) use ($request) {
+    $message->to($request->email)
+            ->subject('Welcome to Writing-Space – Start Your Journey to Academic Mastery!');
+});
+
 
     
     return redirect()->route('verify.notice');
