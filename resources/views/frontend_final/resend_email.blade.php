@@ -108,7 +108,7 @@ function resendVerification() {
             loader.style.display = 'none';
             cooldown = false;
         }
-    }, 1000);
+    }, 5000);
 }
 </script>
 
