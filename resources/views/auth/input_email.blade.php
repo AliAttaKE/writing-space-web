@@ -12,11 +12,12 @@
                 <p class="text-center pb-5 text-white">Enter Your Email Address</p>
 
                 <!-- Display success or error message -->
-                @if(session('message'))
-                    <div class="alert alert-{{ session('alert-type', 'info') }} text-center">
-                        {{ session('message') }}
-                    </div>
-                @endif
+               @if(session('message'))
+    <div class="alert alert-{{ session('alert-type', 'info') }} text-center text-white">
+        {{ session('message') }}
+    </div>
+@endif
+
 
                 <div class="mb-3">
                     <input type="email" name="email" placeholder="Email" id="email" class="w-100" value="{{ old('email') }}">
