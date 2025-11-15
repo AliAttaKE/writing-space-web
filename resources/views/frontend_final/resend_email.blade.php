@@ -71,45 +71,75 @@ window.onload = function() {
     }, 1000);
 };
 
-function resendVerification() {
-    if (cooldown) return;
+// function resendVerification() {
+//     if (cooldown) return;
 
+//     const btn = document.getElementById('resendBtn');
+//     const loader = document.getElementById('loader');
+//     const countdownDisplay = document.getElementById('countdown');
+
+//     cooldown = true;
+//     btn.disabled = true;
+//     loader.style.display = 'block';
+//     countdownTime = 120; // reset timer to 2 minutes
+//     countdownDisplay.textContent = '2:00';
+
+//     fetch("{{ route('verification.resend') }}", {
+//         method: "POST",
+//         headers: {
+//             "X-CSRF-TOKEN": "{{ csrf_token() }}",
+//             "Accept": "application/json"
+//         }
+//     })
+//     .then(res => res.json())
+//     .then(data => console.log(data))
+//     .catch(err => console.error(err));
+
+//     // Restart timer
+//     countdownInterval = setInterval(() => {
+//         if (countdownTime > 0) {
+//             countdownTime--;
+//             let minutes = Math.floor(countdownTime / 60);
+//             let seconds = countdownTime % 60;
+//             countdownDisplay.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+//         } else {
+//             clearInterval(countdownInterval);
+//             btn.disabled = false;
+//             loader.style.display = 'none';
+//             cooldown = false;
+//         }
+//     }, 1000);
+// }
+
+
+function resendVerification() {
     const btn = document.getElementById('resendBtn');
     const loader = document.getElementById('loader');
-    const countdownDisplay = document.getElementById('countdown');
 
-    cooldown = true;
     btn.disabled = true;
     loader.style.display = 'block';
-    countdownTime = 120; // reset timer to 2 minutes
-    countdownDisplay.textContent = '2:00';
 
     fetch("{{ route('verification.resend') }}", {
         method: "POST",
         headers: {
-            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-            "Accept": "application/json"
-        }
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({})
     })
     .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.error(err));
-
-    // Restart timer
-    countdownInterval = setInterval(() => {
-        if (countdownTime > 0) {
-            countdownTime--;
-            let minutes = Math.floor(countdownTime / 60);
-            let seconds = countdownTime % 60;
-            countdownDisplay.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-        } else {
-            clearInterval(countdownInterval);
-            btn.disabled = false;
-            loader.style.display = 'none';
-            cooldown = false;
-        }
-    }, 1000);
+    .then(data => {
+        console.log(data);
+        // optional success message
+    })
+    .catch(err => console.error(err))
+    .finally(() => {
+        loader.style.display = 'none';
+        btn.disabled = false;
+    });
 }
+
 </script>
 
 
