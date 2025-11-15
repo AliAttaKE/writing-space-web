@@ -252,62 +252,44 @@ public function directEmailUpdate()
 
     return "✅ Email successfully updated from {$oldEmail} to {$newEmail}";
 }
-
 public function resendVerificationEmail(Request $request)
 {
     // Fetch session data (saved at registration time)
     $tempData = session('pending_verification_data');
     $pendingEmail = session('pending_email');
 
-    
-
     if (!$tempData || !$pendingEmail) {
         return response()->json(['message' => 'No pending verification found.'], 404);
     }
 
-    // Step 1: Generate link again
+    // Generate verification link
     $verificationLink = route('verify.email', ['token' => $tempData]);
 
-   
-
-    // Step 2: Email content
-    $emailSubject = '✅ Verify your email to activate your Writing Space account';
-    $emailBody = "
-        <p>Hi,</p>
-
-        <p>Here is your email verification link:</p>
-        <p><a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
-
-        <p>⚠️ Please check Spam/Junk if not found in Inbox.</p>
-
-        <br>
-
-        <p>Warm regards,<br>
-        <strong>Team Writing Space</strong><br>
-        support@writing-space.com<br>
-        https://www.writing-space.com</p>
-    ";
-
-   
-
-Mail::html($emailBody, function ($message) use ($pendingEmail, $emailSubject) {
-    $message->to($pendingEmail)->subject($emailSubject);
-});
-
-
-
-
-       Mail::raw('This is a test email from Laravel Titan setup.', function ($message) {
-            $message->to('shariqiqbal572@gmail.com')
-                    ->subject('Titan SMTP Test');
+    try {
+        // Use the correct Mail syntax
+        Mail::send([], [], function ($message) use ($pendingEmail, $verificationLink) {
+            $message->to($pendingEmail)
+                    ->subject('✅ Verify your email to activate your Writing Space account')
+                    ->html("
+                        <p>Hi,</p>
+                        <p>Here is your email verification link:</p>
+                        <p><a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
+                        <p>⚠️ Please check Spam/Junk if not found in Inbox.</p>
+                        <br>
+                        <p>Warm regards,<br>
+                        <strong>Team Writing Space</strong><br>
+                        support@writing-space.com<br>
+                        https://www.writing-space.com</p>
+                    ");
         });
 
-    
-
-    return response()->json(['message' => 'Verification email sent successfully!']);
+        return response()->json(['message' => 'Verification email sent successfully!']);
+        
+    } catch (\Exception $e) {
+        \Log::error('Email sending failed: ' . $e->getMessage());
+        return response()->json(['message' => 'Failed to send verification email. Please try again.'], 500);
+    }
 }
-
-
 
 
     public function submit(Request $request)
