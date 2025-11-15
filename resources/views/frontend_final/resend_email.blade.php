@@ -88,7 +88,7 @@ button:disabled { opacity:.6; cursor:not-allowed; }
             console.log("Sending verification email...");
             
             // In a real implementation, you would use:
-            /*
+           
             fetch("{{ route('verification.resend') }}", {
                 method: "POST",
                 headers: {
@@ -102,7 +102,7 @@ button:disabled { opacity:.6; cursor:not-allowed; }
                 successMessage.style.display = 'block';
             })
             .catch(err => console.error(err));
-            */
+           
 
             // For demo purposes, we'll simulate a successful API call
             setTimeout(() => {
