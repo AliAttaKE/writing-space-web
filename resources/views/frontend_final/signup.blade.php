@@ -38,7 +38,7 @@
 
 
                         <span class="toggle-password" onclick="togglePasswordVisibility('create-password')">
-                            <i class="fas fa-eye" id="toggle-create-password" style="color: white;"></i>
+                            <i class="fas fa-eye" id="toggle-create-password" style="color: white !important;"></i>
                         </span>
                         <p id="password-requirement" class="text-white my-2">Use 8 or more characters with a mix of letters,
                             numbers & symbols.</p>
@@ -54,7 +54,7 @@
                                   <span class="text-danger">{{ $message }}</span>
                             @enderror
                         <span class="toggle-password" onclick="togglePasswordVisibility('confirm-password')">
-                            <i class="fas fa-eye" id="toggle-confirm-password" style="color: white;"></i>
+                            <i class="fas fa-eye" id="toggle-confirm-password" style="color: white !important;"></i>
                         </span>
                         <p id="password-match" class="password-match my-2"></p>
                     </div>
