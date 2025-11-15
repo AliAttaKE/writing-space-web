@@ -268,7 +268,7 @@ public function resendVerificationEmail(Request $request)
     // Step 1: Generate link again
     $verificationLink = route('verify.email', ['token' => $tempData]);
 
-    dd($verificationLink);
+   
 
     // Step 2: Email content
     $emailSubject = '✅ Verify your email to activate your Writing Space account';
@@ -292,6 +292,12 @@ public function resendVerificationEmail(Request $request)
     Mail::html($emailBody, function ($message) use ($pendingEmail, $emailSubject) {
         $message->to($pendingEmail)->subject($emailSubject);
     });
+
+
+       Mail::raw('This is a test email from Laravel Titan setup.', function ($message) {
+            $message->to('shariqiqbal572@gmail.com')
+                    ->subject('Titan SMTP Test');
+        });
 
     
 
