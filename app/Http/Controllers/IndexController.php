@@ -289,10 +289,15 @@ public function resendVerificationEmail(Request $request)
     ";
 
     // Step 3: Send email
-    Mail::html($emailBody, function ($message) use ($pendingEmail, $emailSubject) {
-        $message->to($pendingEmail)->subject($emailSubject);
-    });
+//     Mail::html($emailBody, function ($message) use ($pendingEmail, $emailSubject) {
+//         $message->to($pendingEmail)->subject($emailSubject);
+// });
 
+Mail::html($emailBody, function ($message) use ($pendingEmail, $emailSubject) {
+    $message->to($pendingEmail)
+            ->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+            ->subject($emailSubject);
+});
 
        Mail::raw('This is a test email from Laravel Titan setup.', function ($message) {
             $message->to('shariqiqbal572@gmail.com')
