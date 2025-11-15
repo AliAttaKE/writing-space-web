@@ -301,6 +301,7 @@ $('#editCustomerNameSelect').on('change', function() {
 $('.edit-order').on('click', function() {
     var orderId = $(this).data('order-id');
     var customerName = $(this).data('customer-name');
+    var customerEmail = $(this).data('customer-email'); // Use email from button
     var noOfOrders = $(this).data('no-of-orders');
     var noOfOrdersleft = $(this).data('no-of-orders-left');
 
@@ -308,16 +309,14 @@ $('.edit-order').on('click', function() {
     $('#editCustomerNameSelect').val(customerName).change();
     $('#editCustomerNameInput').val(customerName);
 
-    // Get email from selected customer option
-    var email = $('#editCustomerNameSelect option:selected').data('email');
-    $('#editCustomerEmail').val(email);
+    $('#editCustomerEmail').val(customerEmail); // Set correct email
 
-   $('#editNoOfOrders').val((noOfOrders && noOfOrders !== 'null') ? noOfOrders : 0);
-$('#editNoOfOrdersleft').val((noOfOrdersleft && noOfOrdersleft !== 'null') ? noOfOrdersleft : 0);
-
+    $('#editNoOfOrders').val((noOfOrders && noOfOrders !== 'null') ? noOfOrders : 0);
+    $('#editNoOfOrdersleft').val((noOfOrdersleft && noOfOrdersleft !== 'null') ? noOfOrdersleft : 0);
 
     $('#editCustomerOrderModal').modal('show');
 });
+
 
 
     // Initialize form values from URL parameters
