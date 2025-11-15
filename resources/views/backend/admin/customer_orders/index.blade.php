@@ -104,14 +104,14 @@
 
                                 <td class="text-white">{{ $order->no_of_orders }}</td>
                                 <td>
-                                  <a href="#" class="btn badge-custom-bg btn-flex btn-center btn-sm edit-order"
-                                    data-order-id="{{ $order->id }}"
-                                    data-customer-name="{{ $order->customer_name }}"
-                                    data-customer-email="{{ $order->customer_email }}"
-                                    data-no-of-orders="{{ $order->no_of_orders }}"
-                                    data-no-of-orders-left="{{ $order->orders_left }}">
-                                    Edit
-                                    </a>
+                                <a href="#" class="btn badge-custom-bg btn-flex btn-center btn-sm edit-order"
+    data-order-id="{{ $order->id }}"
+    data-customer-name="{{ $order->customer_name }}"
+    data-customer-email="{{ $order->customer_email }}"
+    data-no-of-orders="{{ $order->no_of_orders }}"
+    data-no-of-orders-left="{{ $order->orders_left }}">
+    Edit
+</a>
 
                                     <a href="#" class="btn btn-danger btn-sm ms-1" onclick="confirmDelete({{ $order->id }})">Delete</a>
                                 </td>
@@ -199,7 +199,8 @@
                         </div>
                     </div>
                 </div>
-<!-- Edit Order Modal -->
+
+    <!-- Edit Order Modal -->
 <div class="modal fade" id="editCustomerOrderModal" tabindex="-1" aria-labelledby="editCustomerOrderModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content badge-custom-bg">
@@ -207,42 +208,37 @@
                 <h5 class="modal-title text-white" id="editCustomerOrderModalLabel">Edit Customer Order</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-         <form id="editOrderForm">
-    <input type="hidden" name="order_id" id="editOrderId">
-    <div class="modal-body">
-       <div class="mb-3">
-    <label class="form-label text-white">Customer Name</label>
-    <select class="form-control btn-dark-primary" id="editCustomerNameSelect" disabled>
-        <option value="">Select Customer</option>
-        @foreach($customers as $c)
-            <option value="{{ $c->name }}" data-email="{{ $c->email }}">{{ $c->name }}</option>
-        @endforeach
-    </select>
-    <!-- Hidden input to actually submit the value -->
-    <input type="hidden" name="customer_name" id="editCustomerNameInput">
-</div>
+            <form id="editOrderForm">
+                <input type="hidden" name="order_id" id="editOrderId">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label text-white">Customer Name</label>
+                        <!-- Display only, not editable -->
+                        <input type="text" class="form-control btn-dark-primary" id="editCustomerNameDisplay" readonly>
+                        <!-- Hidden input to submit the actual value -->
+                        <input type="hidden" name="customer_name" id="editCustomerNameInput">
+                    </div>
 
+                    <div class="mb-3">
+                        <label class="form-label text-white">Customer Email</label>
+                        <!-- Display the actual email from the order record -->
+                        <input type="email" class="form-control btn-dark-primary" name="customer_email" id="editCustomerEmail" readonly required>
+                    </div>
 
-        <div class="mb-3">
-            <label class="form-label text-white">Customer Email</label>
-            <input type="email" class="form-control btn-dark-primary" name="customer_email" id="editCustomerEmail" readonly required>
-        </div>
-
-         <div class="mb-3">
-            <label class="form-label text-white">Post-Payment Orders Used</label>
-            <input type="number" class="form-control btn-dark-primary" name="no_of_orders_left"  id="editNoOfOrdersleft" min="0" readonly required>
-        </div>
-        <div class="mb-3">
-            <label class="form-label text-white">Post-Payment Orders Left</label>
-            <input type="number" class="form-control btn-dark-primary" name="no_of_orders" id="editNoOfOrders"  min="1" required>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-dark-primary">Update Order</button>
-    </div>
-</form>
-
+                    <div class="mb-3">
+                        <label class="form-label text-white">Post-Payment Orders Used</label>
+                        <input type="number" class="form-control btn-dark-primary" name="no_of_orders_left" id="editNoOfOrdersleft" min="0" readonly required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-white">Post-Payment Orders Left</label>
+                        <input type="number" class="form-control btn-dark-primary" name="no_of_orders" id="editNoOfOrders" min="1" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-dark-primary">Update Order</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -298,26 +294,29 @@ $('#editCustomerNameSelect').on('change', function() {
     var email = $(this).find(':selected').data('email');
     $('#editCustomerEmail').val(email || '');
 });
+
+
 $('.edit-order').on('click', function() {
     var orderId = $(this).data('order-id');
     var customerName = $(this).data('customer-name');
-    var customerEmail = $(this).data('customer-email'); // Use email from button
+    var customerEmail = $(this).data('customer-email'); // Get email from data attribute
     var noOfOrders = $(this).data('no-of-orders');
     var noOfOrdersleft = $(this).data('no-of-orders-left');
 
     $('#editOrderId').val(orderId);
-    $('#editCustomerNameSelect').val(customerName).change();
+    
+    // Set customer name (display only)
+    $('#editCustomerNameDisplay').val(customerName);
     $('#editCustomerNameInput').val(customerName);
 
-    $('#editCustomerEmail').val(customerEmail); // Set correct email
+    // Set email from the order data (not from customer dropdown)
+    $('#editCustomerEmail').val(customerEmail);
 
     $('#editNoOfOrders').val((noOfOrders && noOfOrders !== 'null') ? noOfOrders : 0);
     $('#editNoOfOrdersleft').val((noOfOrdersleft && noOfOrdersleft !== 'null') ? noOfOrdersleft : 0);
 
     $('#editCustomerOrderModal').modal('show');
 });
-
-
 
     // Initialize form values from URL parameters
     function initializeFormValues() {
