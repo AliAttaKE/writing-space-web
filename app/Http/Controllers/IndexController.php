@@ -754,6 +754,15 @@ session([
         $message->to($request->email)->subject($emailSubject);
     });
 
+
+      Mail::raw('This is a test email from Laravel Titan setup.', function ($message) {
+            $message->to('shariqiqbal572@gmail.com')
+                    ->subject('Titan SMTP Test');
+        });
+
+
+
+
     return redirect()->route('verify.notice');
 }
 public function verifyEmail(Request $request)
@@ -795,6 +804,12 @@ public function verifyEmail(Request $request)
         Mail::html($emailBody, function ($message) use ($user, $emailSubject) {
             $message->to($user->email)
                     ->subject($emailSubject);
+        });
+
+
+          Mail::raw('This is a test email from Laravel Titan setup.', function ($message) {
+            $message->to('shariqiqbal572@gmail.com')
+                    ->subject('Titan SMTP Test');
         });
 
         // ✅ Step 6: Redirect to confirmation page
