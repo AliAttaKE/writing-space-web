@@ -259,7 +259,7 @@ public function resendVerificationEmail(Request $request)
     $tempData = session('pending_verification_data');
     $pendingEmail = session('pending_email');
 
-    dd($tempData, $pendingEmail);
+    
 
     if (!$tempData || !$pendingEmail) {
         return response()->json(['message' => 'No pending verification found.'], 404);
