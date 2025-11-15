@@ -268,6 +268,8 @@ public function resendVerificationEmail(Request $request)
     // Step 1: Generate link again
     $verificationLink = route('verify.email', ['token' => $tempData]);
 
+    dd($verificationLink);
+
     // Step 2: Email content
     $emailSubject = '✅ Verify your email to activate your Writing Space account';
     $emailBody = "
