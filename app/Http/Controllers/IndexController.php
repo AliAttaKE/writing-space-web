@@ -848,7 +848,7 @@ session([
  $postDeliveryLimit = 3;
 
             $postDeliveryEmailContent = "
-    <p>Hi {$user->name},</p>
+    <p>Hi {$request->name},</p>
 
     <p>Welcome to Writing Space, where your trust always comes first.</p>
 
