@@ -296,7 +296,7 @@ public function resendVerificationEmail(Request $request)
                     ->subject('✅ Verify your email to activate your Writing Space account');
         });
 
-        return response()->json(['message' => 'Verification email sent successfully!']);
+        return response()->json(['message' => 'Verification  123 email sent successfully!']);
         
     } catch (\Exception $e) {
         \Log::error('Email sending failed: ' . $e->getMessage());
