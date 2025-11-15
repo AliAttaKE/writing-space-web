@@ -13,7 +13,7 @@
                 <div class="mb-3 password-block">
                     <input type="password" name="password-1" id="login_password" placeholder="Password" class="w-100">
                     <span class="toggle-password" onclick="togglePasswordVisibility('login_password')">
-                        <i class="fas fa-eye" id="toggle-login_password"></i>
+                        <i class="fas fa-eye" id="toggle-login_password" style="color: white;"></i>
                     </span>
                 </div>
                 <div class="mb-3 text-center">

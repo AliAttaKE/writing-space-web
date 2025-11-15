@@ -21,7 +21,7 @@
                     <input type="password" name="password" id="login_password" placeholder="Password" class="w-100">
                     @error('password') <span class="text-danger">{{ $message }}</span> @enderror
                     <span class="toggle-password" onclick="togglePasswordVisibility('login_password')">
-                        <i class="fas fa-eye" id="toggle-login_password"></i>
+                        <i class="fas fa-eye" id="toggle-login_password" style="color: white;"></i>
                     </span>
                 </div>
 
