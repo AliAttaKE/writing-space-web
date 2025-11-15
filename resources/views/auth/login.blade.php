@@ -106,7 +106,7 @@
 
     input.addEventListener('input', function () {
         if (input.value.trim() !== "") {
-            icon.style.color = 'black';
+            icon.style.color = 'white';
         } else {
             icon.style.color = '#fff';
         }
