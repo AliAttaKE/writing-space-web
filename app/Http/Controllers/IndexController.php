@@ -253,87 +253,32 @@ public function directEmailUpdate()
     return "✅ Email successfully updated from {$oldEmail} to {$newEmail}";
 }
 
-// public function resendVerificationEmail(Request $request)
-// {
-//     // Fetch session data (saved at registration time)
-//     $tempData = session('pending_verification_data');
-//     $pendingEmail = session('pending_email');
-
-    
-
-//     if (!$tempData || !$pendingEmail) {
-//         return response()->json(['message' => 'No pending verification found.'], 404);
-//     }
-
-//     // Step 1: Generate link again
-//     $verificationLink = route('verify.email', ['token' => $tempData]);
-
-   
-
-//     // Step 2: Email content
-//     $emailSubject = '✅ Verify your email to activate your Writing Space account';
-//     $emailBody = "
-//         <p>Hi,</p>
-
-//         <p>Here is your email verification link:</p>
-//         <p><a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
-
-//         <p>⚠️ Please check Spam/Junk if not found in Inbox.</p>
-
-//         <br>
-
-//         <p>Warm regards,<br>
-//         <strong>Team Writing Space</strong><br>
-//         support@writing-space.com<br>
-//         https://www.writing-space.com</p>
-//     ";
-
-   
-
-// Mail::html($emailBody, function ($message) use ($pendingEmail, $emailSubject) {
-//     $message->to($pendingEmail)
-//             ->subject($emailSubject);
-// });
-
-//        Mail::raw('This is a test email from Laravel Titan setup.', function ($message) {
-//             $message->to('shariqiqbal572@gmail.com')
-//                     ->subject('Titan SMTP Test');
-//         });
-
-    
-
-//     return response()->json(['message' => 'Verification email sent successfully!']);
-// }
-
-
 public function resendVerificationEmail(Request $request)
 {
+    // Fetch session data (saved at registration time)
     $tempData = session('pending_verification_data');
     $pendingEmail = session('pending_email');
+
+    
 
     if (!$tempData || !$pendingEmail) {
         return response()->json(['message' => 'No pending verification found.'], 404);
     }
 
+    // Step 1: Generate link again
     $verificationLink = route('verify.email', ['token' => $tempData]);
 
+   
+
+    // Step 2: Email content
     $emailSubject = '✅ Verify your email to activate your Writing Space account';
     $emailBody = "
-        <p>Hi {$request->name},</p>
+        <p>Hi,</p>
 
-        <p>Thank you for signing up with <strong>Writing Space</strong>!<br>
-        Before we can activate your account, we need to verify your email address.</p>
+        <p>Here is your email verification link:</p>
+        <p><a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
 
-        <p><strong>Please copy and paste the following link into your browser:</strong><br>
-        <a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
-
-        <p><strong>⚠️ Important:</strong></p>
-        <ul>
-            <li>Check your Inbox and Spam/Junk folders if you don’t see our emails.</li>
-            <li>Add <strong>support@writing-space.com</strong> to your safe sender or whitelist.</li>
-        </ul>
-
-        <p>If you didn’t sign up for Writing Space, you can safely ignore this email.</p>
+        <p>⚠️ Please check Spam/Junk if not found in Inbox.</p>
 
         <br>
 
@@ -343,12 +288,21 @@ public function resendVerificationEmail(Request $request)
         https://www.writing-space.com</p>
     ";
 
-    // Send HTML verification email via Titan SMTP
-    Mail::html($emailBody, function ($message) use ($pendingEmail, $emailSubject) {
-        $message->to($pendingEmail)
-                ->subject($emailSubject)
-                ->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
-    });
+   
+
+Mail::html($emailBody, function ($message) use ($pendingEmail, $emailSubject) {
+    $message->to($pendingEmail)->subject($emailSubject);
+});
+
+
+
+
+       Mail::raw('This is a test email from Laravel Titan setup.', function ($message) {
+            $message->to('shariqiqbal572@gmail.com')
+                    ->subject('Titan SMTP Test');
+        });
+
+    
 
     return response()->json(['message' => 'Verification email sent successfully!']);
 }
