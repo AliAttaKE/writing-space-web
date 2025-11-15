@@ -40,7 +40,7 @@ button:disabled { opacity:.6; cursor:not-allowed; }
 ">Didn’t get it? Try resending or contact <b>support@writing-space.com</b></p>
     </div>
     </div>
-</section>
+<!-- </section>
 <script>
 let cooldown = true;
 let countdownTime = 120; // 120 seconds (2 minutes)
@@ -71,76 +71,116 @@ window.onload = function() {
     }, 1000);
 };
 
-// function resendVerification() {
-//     if (cooldown) return;
-
-//     const btn = document.getElementById('resendBtn');
-//     const loader = document.getElementById('loader');
-//     const countdownDisplay = document.getElementById('countdown');
-
-//     cooldown = true;
-//     btn.disabled = true;
-//     loader.style.display = 'block';
-//     countdownTime = 120; // reset timer to 2 minutes
-//     countdownDisplay.textContent = '2:00';
-
-//     fetch("{{ route('verification.resend') }}", {
-//         method: "POST",
-//         headers: {
-//             "X-CSRF-TOKEN": "{{ csrf_token() }}",
-//             "Accept": "application/json"
-//         }
-//     })
-//     .then(res => res.json())
-//     .then(data => console.log(data))
-//     .catch(err => console.error(err));
-
-//     // Restart timer
-//     countdownInterval = setInterval(() => {
-//         if (countdownTime > 0) {
-//             countdownTime--;
-//             let minutes = Math.floor(countdownTime / 60);
-//             let seconds = countdownTime % 60;
-//             countdownDisplay.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-//         } else {
-//             clearInterval(countdownInterval);
-//             btn.disabled = false;
-//             loader.style.display = 'none';
-//             cooldown = false;
-//         }
-//     }, 1000);
-// }
-
-
 function resendVerification() {
+    if (cooldown) return;
+
     const btn = document.getElementById('resendBtn');
     const loader = document.getElementById('loader');
+    const countdownDisplay = document.getElementById('countdown');
 
+    cooldown = true;
     btn.disabled = true;
     loader.style.display = 'block';
+    countdownTime = 120; // reset timer to 2 minutes
+    countdownDisplay.textContent = '2:00';
 
     fetch("{{ route('verification.resend') }}", {
         method: "POST",
         headers: {
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({})
+            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+            "Accept": "application/json"
+        }
     })
     .then(res => res.json())
-    .then(data => {
-        console.log(data);
-        // optional success message
-    })
-    .catch(err => console.error(err))
-    .finally(() => {
-        loader.style.display = 'none';
-        btn.disabled = false;
-    });
+    .then(data => console.log(data))
+    .catch(err => console.error(err));
+
+    // Restart timer
+    countdownInterval = setInterval(() => {
+        if (countdownTime > 0) {
+            countdownTime--;
+            let minutes = Math.floor(countdownTime / 60);
+            let seconds = countdownTime % 60;
+            countdownDisplay.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+        } else {
+            clearInterval(countdownInterval);
+            btn.disabled = false;
+            loader.style.display = 'none';
+            cooldown = false;
+        }
+    }, 1000);
 }
+</script> -->
 
+<script>
+let cooldown = true;
+let countdownTime = 10; // 10 seconds
+let countdownInterval;
+
+window.onload = function() {
+    const btn = document.getElementById('resendBtn');
+    const loader = document.getElementById('loader');
+    const countdownDisplay = document.getElementById('countdown');
+
+    // Disable button on load and start timer
+    btn.disabled = true;
+    loader.style.display = 'block';
+
+    countdownInterval = setInterval(() => {
+        if (countdownTime > 0) {
+            countdownTime--;
+            // minutes and seconds calculation
+            let minutes = Math.floor(countdownTime / 60);
+            let seconds = countdownTime % 60;
+            countdownDisplay.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+        } else {
+            clearInterval(countdownInterval);
+            btn.disabled = false;
+            loader.style.display = 'none';
+            cooldown = false;
+        }
+    }, 1000);
+};
+
+function resendVerification() {
+    if (cooldown) return;
+
+    const btn = document.getElementById('resendBtn');
+    const loader = document.getElementById('loader');
+    const countdownDisplay = document.getElementById('countdown');
+
+    cooldown = true;
+    btn.disabled = true;
+    loader.style.display = 'block';
+    countdownTime = 10; // reset timer to 10 seconds
+    countdownDisplay.textContent = '0:10';
+
+    fetch("{{ route('verification.resend') }}", {
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+            "Accept": "application/json"
+        }
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.error(err));
+
+    // Restart timer
+    countdownInterval = setInterval(() => {
+        if (countdownTime > 0) {
+            countdownTime--;
+            let minutes = Math.floor(countdownTime / 60);
+            let seconds = countdownTime % 60;
+            countdownDisplay.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+        } else {
+            clearInterval(countdownInterval);
+            btn.disabled = false;
+            loader.style.display = 'none';
+            cooldown = false;
+        }
+    }, 1000);
+}
 </script>
-
 
 @endsection
