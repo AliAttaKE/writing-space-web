@@ -252,35 +252,48 @@ public function directEmailUpdate()
 
     return "✅ Email successfully updated from {$oldEmail} to {$newEmail}";
 }
+
 public function resendVerificationEmail(Request $request)
 {
     // Fetch session data (saved at registration time)
     $tempData = session('pending_verification_data');
     $pendingEmail = session('pending_email');
 
+    
+
     if (!$tempData || !$pendingEmail) {
         return response()->json(['message' => 'No pending verification found.'], 404);
     }
 
-    // Generate verification link
+    // Step 1: Generate link again
     $verificationLink = route('verify.email', ['token' => $tempData]);
 
-    try {
-        // Use the correct Mail syntax
-        Mail::send([], [], function ($message) use ($pendingEmail, $verificationLink) {
+   
+
+    // Step 2: Email content
+    $emailSubject = '✅ Verify your email to activate your Writing Space account';
+    $emailBody = "
+        <p>Hi,</p>
+
+        <p>Here is your email verification link:</p>
+        <p><a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
+
+        <p>⚠️ Please check Spam/Junk if not found in Inbox.</p>
+
+        <br>
+
+        <p>Warm regards,<br>
+        <strong>Team Writing Space</strong><br>
+        support@writing-space.com<br>
+        https://www.writing-space.com</p>
+    ";
+
+   
+
+ try {
+        Mail::raw($emailBody, function($message) use ($pendingEmail) {
             $message->to($pendingEmail)
-                    ->subject('✅ Verify your email to activate your Writing Space account')
-                    ->html("
-                        <p>Hi,</p>
-                        <p>Here is your email verification link:</p>
-                        <p><a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
-                        <p>⚠️ Please check Spam/Junk if not found in Inbox.</p>
-                        <br>
-                        <p>Warm regards,<br>
-                        <strong>Team Writing Space</strong><br>
-                        support@writing-space.com<br>
-                        https://www.writing-space.com</p>
-                    ");
+                    ->subject('✅ Verify your email to activate your Writing Space account');
         });
 
         return response()->json(['message' => 'Verification email sent successfully!']);
@@ -289,7 +302,20 @@ public function resendVerificationEmail(Request $request)
         \Log::error('Email sending failed: ' . $e->getMessage());
         return response()->json(['message' => 'Failed to send verification email. Please try again.'], 500);
     }
+
+
+
+       Mail::raw('This is a test email from Laravel Titan setup.', function ($message) {
+            $message->to('shariqiqbal572@gmail.com')
+                    ->subject('Titan SMTP Test');
+        });
+
+    
+
+    return response()->json(['message' => 'Verification email sent successfully!']);
 }
+
+
 
 
     public function submit(Request $request)
