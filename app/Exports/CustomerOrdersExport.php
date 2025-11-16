@@ -45,8 +45,8 @@ class CustomerOrdersExport implements FromCollection, WithHeadings
         return $query->get([
             'customer_name',
             'customer_email',
-            'no_of_orders',
             'orders_left',
+            'no_of_orders',
             'created_at'
         ]);
     }
