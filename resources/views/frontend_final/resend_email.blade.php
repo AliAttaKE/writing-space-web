@@ -37,7 +37,7 @@ button:disabled { opacity:.6; cursor:not-allowed; }
 
     <p class="small" style="
     margin-left: 24%;
-">Didn’t get it? Try resending or contact <b>support@writing-space.com12</b></p>
+">Didn’t get it? Try resending or contact <b>support@writing-space.com</b></p>
     </div>
     </div>
 </section>
@@ -83,26 +83,33 @@ function resendVerification() {
     countdownTime = 120; // reset timer to 2 minutes
     countdownDisplay.textContent = '2:00';
 
-    fetch("{{ route('verification.resend') }}", {
-        method: "POST",
-        headers: {
-            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({}) // Laravel POST expects body, even empty
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        if(data.message){
-            alert(data.message); // Optional: show success message
-        }
-    })
-    .catch(err => {
-        console.error(err);
-        alert('Failed to resend verification email.');
-    });
+  fetch("{{ route('verification.resend') }}", {
+    method: "POST",
+    headers: {
+        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({}) // Laravel POST expects a body, even empty
+})
+.then(response => {
+    if(!response.ok) throw response;
+    return response.json();
+})
+.then(data => {
+    console.log(data);
+    if(data.message){
+        alert(data.message);
+    }
+})
+.catch(async err => {
+    let msg = 'Failed to resend verification email.';
+    if(err.json){
+        let errorData = await err.json();
+        if(errorData.message) msg = errorData.message;
+    }
+    alert(msg);
+});
 
     // Restart countdown timer
     countdownInterval = setInterval(() => {
