@@ -260,6 +260,7 @@ public function directEmailUpdate()
     $tempData = session('pending_verification_data');
     $pendingEmail = session('pending_email');
 
+    
     if (!$tempData || !$pendingEmail) {
         return response()->json(['message' => 'No pending verification found.'], 404);
     }
