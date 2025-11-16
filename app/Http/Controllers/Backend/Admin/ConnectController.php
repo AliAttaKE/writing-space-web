@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SignupWelcomeMail;
 use Illuminate\Support\Facades\Log;
 use DB;
+use App\Models\GlobalOrdersAssign;
+
+
 
 class ConnectController extends Controller
 {
@@ -76,7 +79,11 @@ class ConnectController extends Controller
 
 
 
-        $postDeliveryLimit = 3;
+       $global = GlobalOrdersAssign::latest()->first();
+$assigned_orders = $global ? (int)$global->no_of_orders : 0;
+
+$postDeliveryLimit = $assigned_orders ?? '' ;
+
 
             $postDeliveryEmailContent = "
     <p>Hi {$user->name},</p>
@@ -231,7 +238,11 @@ Mail::html($postDeliveryEmailContent, function ($message) use ($user) {
                 });
 
 
-              $postDeliveryLimit = 3;
+              $global = GlobalOrdersAssign::latest()->first();
+$assigned_orders = $global ? (int)$global->no_of_orders : 0;
+
+$postDeliveryLimit = $assigned_orders ?? '' ;
+
 
         $postDeliveryEmailContent = "
             <p>Hi {$findUser->name},</p>
