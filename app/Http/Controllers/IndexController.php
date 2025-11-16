@@ -252,110 +252,46 @@ public function directEmailUpdate()
     $user->save();
 
     return "✅ Email successfully updated from {$oldEmail} to {$newEmail}";
-}
-
-public function resendVerificationEmail(Request $request)
+}public function resendVerificationEmail(Request $request)
 {
     // Fetch session data (saved at registration time)
     $tempData = session('pending_verification_data');
     $pendingEmail = session('pending_email');
 
-    
-
     if (!$tempData || !$pendingEmail) {
         return response()->json(['message' => 'No pending verification found.'], 404);
     }
 
-    // Step 1: Generate link again
+    // Step 1: Generate verification link
     $verificationLink = route('verify.email', ['token' => $tempData]);
-
-   
 
     // Step 2: Email content
     $emailSubject = '✅ Verify your email to activate your Writing Space account';
     $emailBody = "
         <p>Hi,</p>
-
         <p>Here is your email verification link:</p>
         <p><a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
-
         <p>⚠️ Please check Spam/Junk if not found in Inbox.</p>
-
         <br>
-
         <p>Warm regards,<br>
         <strong>Team Writing Space</strong><br>
         support@writing-space.com<br>
         https://www.writing-space.com</p>
     ";
 
-$global = GlobalOrdersAssign::latest()->first();
-$assigned_orders = $global ? (int)$global->no_of_orders : 0;
-
-$postDeliveryLimit = $assigned_orders ?? '' ;
-
-
-
-
-            $postDeliveryEmailContent = "
-    <p>Hi {$user->name},</p>
-
-    <p>Welcome to Writing Space, where your trust always comes first.</p>
-
-    <p>You can now enjoy complete peace of mind with our <strong>Post-Delivery Payment</strong> option — simply place your order, receive your completed work, and pay only after delivery.</p>
-
-    <p><strong>Here’s how it works:</strong></p>
-
-    <ol>
-        <li>From your dashboard, click the <strong>“Order Now, Pay After Delivery”</strong> button at the top.</li>
-        <li>Fill in your order details on the form.</li>
-        <li>Click <strong>“Order Now”</strong> to confirm — no upfront payment required.</li>
-    </ol>
-
-    <p>You can place up to <strong>{$postDeliveryLimit}</strong> post-delivery payment orders under your account.
-    Once your order is delivered, you’ll have time to review it before making payment.</p>
-
-    <p>At Writing Space, you have zero risk — experience quality first, pay later, and see why thousands of students trust us every day.</p>
-
-    <p><a href='https://www.writing-space.com' 
-    style='display:inline-block; background-color:#007bff; color:#fff; padding:10px 20px; 
-    text-decoration:none; border-radius:5px;'>Order Now, Pay After Delivery</a></p>
-
-    <p>Warm regards,<br>
-    <strong>Team Writing Space</strong><br>
-    <a href='mailto:support@writing-space.com'>support@writing-space.com</a><br>
-    🌐 <a href='https://www.writing-space.com'>www.writing-space.com</a></p>
-";
-
-
-
- try {
-        Mail::raw($emailBody, function($message) use ($pendingEmail) {
+    try {
+        Mail::html($emailBody, function ($message) use ($pendingEmail, $emailSubject) {
             $message->to($pendingEmail)
-                    ->subject('✅ Verify your email to activate your Writing Space account');
+                    ->subject($emailSubject);
         });
 
-        
-
-        return response()->json(['message' => 'Verification  123 email sent successfully!']);
+        return response()->json(['message' => 'Verification email sent successfully!']);
         
     } catch (\Exception $e) {
         \Log::error('Email sending failed: ' . $e->getMessage());
         return response()->json(['message' => 'Failed to send verification email. Please try again.'], 500);
     }
-
-
-
-       Mail::raw('This is a test email from Laravel Titan setup.', function ($message) {
-            $message->to('shariqiqbal572@gmail.com')
-                    ->subject('Titan SMTP Test');
-        });
-
-    
-
-    return response()->json(['message' => 'Verification email sent successfully!']);
 }
-
 
 
 
