@@ -84,16 +84,22 @@ function resendVerification() {
     countdownTime = 120; // reset timer to 2 minutes
     countdownDisplay.textContent = '2:00';
 
-    fetch("{{ route('verification.resend') }}", {
-        method: "POST",
-        headers: {
-            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-            "Accept": "application/json"
-        }
-    })
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.error(err));
+   fetch("{{ route('verification.resend') }}", {
+    method: "POST",
+    headers: {
+        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({}) // Add empty body for POST
+})
+.then(res => res.json())
+.then(data => {
+    console.log(data);
+    alert(data.message); // optional feedback
+})
+.catch(err => console.error(err));
+
 
     // Restart timer
     countdownInterval = setInterval(() => {
