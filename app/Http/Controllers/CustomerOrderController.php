@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Exports\CustomerOrdersExport;
 use Carbon\Carbon;
 
+use App\Models\GlobalOrdersAssign;
+
 
 
 class CustomerOrderController extends Controller
@@ -139,7 +141,10 @@ public function index(Request $request)
 
     // 🔹 Last assigned orders (used as global/customer limit if present)
     $lastOrder = CustomerOrder::latest('id')->first();
-    $assigned_orders = $lastOrder ? (int)$lastOrder->no_of_orders : 0;
+   
+
+    $global = GlobalOrdersAssign::latest()->first();
+$assigned_orders = $global ? (int)$global->no_of_orders : 0;
 
     // 🔍 Global Search
     if ($request->filled('search')) {
@@ -403,6 +408,14 @@ public function assignAll(Request $request)
     try {
         $customers = User::where('role', 'customer')->get();
         $orderCount = $request->no_of_orders;
+
+
+
+          GlobalOrdersAssign::truncate();
+        GlobalOrdersAssign::create([
+            'no_of_orders' => $orderCount
+        ]);
+
 
         // ✅ Delete all previous customer order records before inserting new ones
         CustomerOrder::truncate();
