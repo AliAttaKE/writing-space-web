@@ -26,8 +26,7 @@ button:disabled { opacity:.6; cursor:not-allowed; }
     <p style="margin-left: 240px;">Check your <b>Inbox</b> and <b>Spam/Junk</b> folders.<br>
        Click the link inside to verify your account.</p>
 
-    <button class="gradient-button fw-bold login-button" id="resendBtn"
-            onclick="resendVerification()" style="margin-left:243px;">
+    <button class="gradient-button fw-bold login-button" id="resendBtn" style="margin-left:243px;">
         Resend Email
     </button>
 
@@ -35,83 +34,25 @@ button:disabled { opacity:.6; cursor:not-allowed; }
         Please wait... (<span id="countdown">2:00</span>)
     </div>
 
-    <p class="small" style="
-    margin-left: 24%;
-">Didn’t get it? Try resending or contact <b>support@writing-space.com</b></p>
+    <p class="small" style="margin-left: 24%;">Didn’t get it? Try resending or contact <b>support@writing-space.com</b></p>
     </div>
     </div>
 </section>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 let cooldown = true;
-let countdownTime = 120; // 120 seconds (2 minutes)
+let countdownTime = 120; // 2 minutes
 let countdownInterval;
 
-window.onload = function() {
+function startTimer() {
     const btn = document.getElementById('resendBtn');
     const loader = document.getElementById('loader');
     const countdownDisplay = document.getElementById('countdown');
 
-    // Disable button on load and start timer
-    btn.disabled = true;
     loader.style.display = 'block';
-
-    countdownInterval = setInterval(() => {
-        if (countdownTime > 0) {
-            countdownTime--;
-            // minutes and seconds calculation
-            let minutes = Math.floor(countdownTime / 60);
-            let seconds = countdownTime % 60;
-            countdownDisplay.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-        } else {
-            clearInterval(countdownInterval);
-            btn.disabled = false;
-            loader.style.display = 'none';
-            cooldown = false;
-        }
-    }, 1000);
-};
-function resendVerification() {
-    if (cooldown) return;
-
-    const btn = document.getElementById('resendBtn');
-    const loader = document.getElementById('loader');
-    const countdownDisplay = document.getElementById('countdown');
-
-    cooldown = true;
     btn.disabled = true;
-    loader.style.display = 'block';
-    countdownTime = 120; // reset timer to 2 minutes
-    countdownDisplay.textContent = '2:00';
 
-  fetch("{{ route('verification.resend') }}", {
-    method: "POST",
-    headers: {
-        "X-CSRF-TOKEN": "{{ csrf_token() }}",
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({}) // Laravel POST expects a body, even empty
-})
-.then(response => {
-    if(!response.ok) throw response;
-    return response.json();
-})
-.then(data => {
-    console.log(data);
-    if(data.message){
-        alert(data.message);
-    }
-})
-.catch(async err => {
-    let msg = 'Failed to resend verification email.';
-    if(err.json){
-        let errorData = await err.json();
-        if(errorData.message) msg = errorData.message;
-    }
-    alert(msg);
-});
-
-    // Restart countdown timer
     countdownInterval = setInterval(() => {
         if (countdownTime > 0) {
             countdownTime--;
@@ -127,7 +68,48 @@ function resendVerification() {
     }, 1000);
 }
 
-</script>
+// Start initial countdown
+window.onload = function() {
+    startTimer();
+};
 
+// Resend verification email using Axios (works with Laravel CSRF)
+document.getElementById('resendBtn').addEventListener('click', function() {
+    if(cooldown) return;
+
+    const btn = this;
+    const loader = document.getElementById('loader');
+    const countdownDisplay = document.getElementById('countdown');
+
+    cooldown = true;
+    btn.disabled = true;
+    loader.style.display = 'block';
+    countdownTime = 120;
+    countdownDisplay.textContent = '2:00';
+    startTimer();
+
+    axios.post("{{ route('verification.resend') }}", {}, {
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}",
+            'Accept': 'application/json'
+        }
+    })
+    .then(function(response) {
+        if(response.data.message){
+            alert(response.data.message);
+        }
+    })
+    .catch(function(error) {
+        let msg = 'Failed to resend verification email.';
+        if(error.response && error.response.data && error.response.data.message){
+            msg = error.response.data.message;
+        }
+        alert(msg);
+        cooldown = false;
+        btn.disabled = false;
+        loader.style.display = 'none';
+    });
+});
+</script>
 
 @endsection
