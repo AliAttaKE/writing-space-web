@@ -37,7 +37,7 @@ button:disabled { opacity:.6; cursor:not-allowed; }
 
     <p class="small" style="
     margin-left: 24%;
-">Didn’t get it? Try resending or contact <b>support@writing-space.com</b></p>
+">Didn’t get it? Try resending or contact <b>support@writing-space.com12</b></p>
     </div>
     </div>
 </section>
