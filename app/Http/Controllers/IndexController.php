@@ -817,7 +817,6 @@ session([
     });
 
 
-   
 
     
     return redirect()->route('verify.notice');
@@ -862,82 +861,6 @@ public function verifyEmail(Request $request)
             $message->to($user->email)
                     ->subject($emailSubject);
         });
-
-
-
-         $emailContent = "
-    <p>Hello {$request->name},</p>
-
-    <p>Welcome aboard! We’re thrilled to have you join us at Writing Space, where we empower your academic journey with cutting-edge tools and ethical AI solutions. It’s great to have you with us, and we can’t wait to see what you achieve with the right resources at your fingertips.</p>
-
-    <p>Here’s a quick guide to get you started on your path to success:</p>
-
-    <ol>
-        <li><strong>Explore Your Dashboard:</strong> Your personal dashboard is your new best friend. Here, you can manage orders, track progress, and access a wealth of resources. Take a moment to familiarize yourself with its features—it’s designed to make your life easier!</li>
-        <li><strong>Dive into the Library:</strong> Our extensive library is stocked with sample papers and resources across a wide range of subjects. It’s perfect for sparking ideas or understanding how to structure your papers.</li>
-        <li><strong>Post a Custom Order:</strong> Got a specific project in mind? Post a custom order and let our tailored solutions meet your exact needs. Whether it's a tight deadline or a complex topic, we’re here to help.</li>
-        <li><strong>Check Out Packages:</strong> If you’re looking for the best value, our packages are the way to go. With options like page rollovers and access to premium services at no additional cost, they’re designed to save you money while providing top-notch support.</li>
-    </ol>
-
-    <p>We're excited to see how Writing Space will enhance your academic work. If you have any questions or need guidance, don’t hesitate to reach out. Our support team is available 24/7 and ready to assist you.</p>
-
-    <p>Again, welcome to Writing Space! Let’s make this academic journey a remarkable one.</p>
-
-    <p>Best Regards,<br>
-    Customer Success Team<br>
-    Writing Space</p>
-";
-
-
-            // Send the welcome email
-           Mail::html($emailContent, function ($message) use ($request) {
-    $message->to($request->email)
-            ->subject('Welcome to Writing-Space – Start Your Journey to Academic Mastery!');
-});
-
-
-
-$global = GlobalOrdersAssign::latest()->first();
-$assigned_orders = $global ? (int)$global->no_of_orders : 0;
-
-$postDeliveryLimit = $assigned_orders ?? '' ;
-
-
-            $postDeliveryEmailContent = "
-    <p>Hi {$request->name},</p>
-
-    <p>Welcome to Writing Space, where your trust always comes first.</p>
-
-    <p>You can now enjoy complete peace of mind with our <strong>Post-Delivery Payment</strong> option — simply place your order, receive your completed work, and pay only after delivery.</p>
-
-    <p><strong>Here’s how it works:</strong></p>
-
-    <ol>
-        <li>From your dashboard, click the <strong>“Order Now, Pay After Delivery”</strong> button at the top.</li>
-        <li>Fill in your order details on the form.</li>
-        <li>Click <strong>“Order Now”</strong> to confirm — no upfront payment required.</li>
-    </ol>
-
-    <p>You can place up to <strong>{$postDeliveryLimit}</strong> post-delivery payment orders under your account.
-    Once your order is delivered, you’ll have time to review it before making payment.</p>
-
-    <p>At Writing Space, you have zero risk — experience quality first, pay later, and see why thousands of students trust us every day.</p>
-
-    <p><a href='https://www.writing-space.com' 
-    style='display:inline-block; background-color:#007bff; color:#fff; padding:10px 20px; 
-    text-decoration:none; border-radius:5px;'>Order Now, Pay After Delivery</a></p>
-
-    <p>Warm regards,<br>
-    <strong>Team Writing Space</strong><br>
-    <a href='mailto:support@writing-space.com'>support@writing-space.com</a><br>
-    🌐 <a href='https://www.writing-space.com'>www.writing-space.com</a></p>
-";
-
-Mail::html($postDeliveryEmailContent, function ($message) use ($request) {
-    $message->to($request->email)
-            ->subject('Enjoy Post-Delivery Payment – Experience Quality First, Pay Later');
-});
-
 
         // ✅ Step 6: Redirect to confirmation page
         return redirect()->route('verification.confirm')
