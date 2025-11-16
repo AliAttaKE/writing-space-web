@@ -70,7 +70,6 @@ window.onload = function() {
         }
     }, 1000);
 };
-
 function resendVerification() {
     if (cooldown) return;
 
@@ -84,24 +83,28 @@ function resendVerification() {
     countdownTime = 120; // reset timer to 2 minutes
     countdownDisplay.textContent = '2:00';
 
-   fetch("{{ route('verification.resend') }}", {
-    method: "POST",
-    headers: {
-        "X-CSRF-TOKEN": "{{ csrf_token() }}",
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({}) // Add empty body for POST
-})
-.then(res => res.json())
-.then(data => {
-    console.log(data);
-    alert(data.message); // optional feedback
-})
-.catch(err => console.error(err));
+    fetch("{{ route('verification.resend') }}", {
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({}) // Laravel POST expects body, even empty
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        if(data.message){
+            alert(data.message); // Optional: show success message
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert('Failed to resend verification email.');
+    });
 
-
-    // Restart timer
+    // Restart countdown timer
     countdownInterval = setInterval(() => {
         if (countdownTime > 0) {
             countdownTime--;
@@ -116,6 +119,7 @@ function resendVerification() {
         }
     }, 1000);
 }
+
 </script>
 
 
