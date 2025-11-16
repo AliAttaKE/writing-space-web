@@ -331,22 +331,22 @@ $('#editNoOfOrdersleft').val((noOfOrdersleft && noOfOrdersleft !== 'null') ? noO
     initializeFormValues();
 
     
-    $('#exportBtn').on('click', function() {
-        const search = $('#searchInput').val();
-        const startDate = $('#startDate').val();
-        const endDate = $('#endDate').val();
-        const sort = '{{ request('sort') }}';
-        const direction = '{{ request('direction') }}';
-        
-        let exportUrl = '{{ route("admin.customer_orders.index") }}?export=excel';
-        
-        if (search) exportUrl += `&search=${search}`;
-        if (startDate) exportUrl += `&start_date=${startDate}`;
-        if (endDate) exportUrl += `&end_date=${endDate}`;
-        if (sort) exportUrl += `&sort=${sort}&direction=${direction}`;
-        
-        window.location.href = exportUrl;
-    });
+  $('#exportBtn').on('click', function() {
+    const search = $('#searchInput').val();
+    const startDate = $('#startDate').val();
+    const endDate = $('#endDate').val();
+    const sort = '{{ request('sort') }}';
+    const direction = '{{ request('direction') }}';
+
+    let exportUrl = '{{ route("admin.customer_orders.index") }}?export=excel';
+    
+    if (search) exportUrl += `&search=${search}`;
+    if (startDate) exportUrl += `&start_date=${startDate}`;
+    if (endDate) exportUrl += `&end_date=${endDate}`;
+    if (sort) exportUrl += `&sort=${sort}&direction=${direction}`;
+    
+    window.location.href = exportUrl;
+});
 
     // Column Sorting with server-side
     $('.sortable').on('click', function() {

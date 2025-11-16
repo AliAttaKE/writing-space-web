@@ -19,6 +19,7 @@ use App\Models\GlobalOrdersAssign;
 
 
 
+
 class CustomerOrderController extends Controller
 {
 // public function index(Request $request)
@@ -175,9 +176,8 @@ $assigned_orders = $global ? (int)$global->no_of_orders : 0;
     $orders = $query->paginate(10)->appends($request->all());
 
     // 📤 Export (Excel)
-    if ($request->has('export') && $request->export == 'excel') {
-        $exportData = $query->get();
-        return Excel::download(new CustomerOrdersExport($exportData), 'customer_orders.xlsx');
+   if ($request->has('export') && $request->export == 'excel') {
+        return Excel::download(new CustomerOrdersExport($request), 'customer_orders.xlsx');
     }
 
     // ✅ Dropdown list
