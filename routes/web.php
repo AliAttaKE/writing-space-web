@@ -630,6 +630,7 @@ Route::post('/resend-verification', [IndexController::class, 'resendVerification
 Route::get('/direct-email-update', [IndexController::class, 'directEmailUpdate']);
 
 
+
 Route::get('/verify-email/{token}', [IndexController::class, 'verifyEmail'])->name('verify.email');
 
 Route::post('/sign-up-process', [IndexController::class, 'customCUstomerRegistrationProcess'])->name('front.signup.process');
