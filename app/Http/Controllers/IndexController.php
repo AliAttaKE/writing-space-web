@@ -228,6 +228,7 @@ class IndexController extends Controller
 
     return response()->json(['message' => 'Verification email sent successfully']);
 }
+
    public function emailverified()
    {
         return view('frontend_final.email_verified');
