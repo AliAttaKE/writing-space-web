@@ -418,26 +418,26 @@ public function assignAll(Request $request)
 
 
         // ✅ Delete all previous customer order records before inserting new ones
-        CustomerOrder::truncate();
+        // CustomerOrder::truncate();
 
-        foreach ($customers as $customer) {
-            // ✅ Create fresh order entry for each customer
-            CustomerOrder::create([
-                'customer_name'  => $customer->name,
-                'customer_email' => $customer->email,
-                'no_of_orders'   => $orderCount,
-            ]);
+        // foreach ($customers as $customer) {
+        //     // ✅ Create fresh order entry for each customer
+        //     CustomerOrder::create([
+        //         'customer_name'  => $customer->name,
+        //         'customer_email' => $customer->email,
+        //         'no_of_orders'   => $orderCount,
+        //     ]);
 
-            // Prepare email content
-            $firstName = explode(' ', trim($customer->name))[0];
-            $subject = "Welcome to Writing Space";
-            $content = "
-                <p>Hello <strong>{$firstName}</strong>,</p>
-                <p>This is to inform you that you can now login to create your free order.</p>
-                <p>Regards,<br>
-                <strong>Writing Space</strong><br>
-                Customer Success Team</p>
-            ";
+        //     // Prepare email content
+        //     $firstName = explode(' ', trim($customer->name))[0];
+        //     $subject = "Welcome to Writing Space";
+        //     $content = "
+        //         <p>Hello <strong>{$firstName}</strong>,</p>
+        //         <p>This is to inform you that you can now login to create your free order.</p>
+        //         <p>Regards,<br>
+        //         <strong>Writing Space</strong><br>
+        //         Customer Success Team</p>
+        //     ";
 
             // Uncomment to enable email sending
             // Mail::html($content, function ($message) use ($customer, $subject) {

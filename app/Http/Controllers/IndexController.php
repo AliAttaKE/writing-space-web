@@ -27,6 +27,7 @@ use App\Models\Addons;
 use Illuminate\Support\Facades\Http;
 use App\Models\Paper;
 use App\Models\GlobalOrdersAssign;
+use App\Models\CustomerOrder;
 
 
 
@@ -762,6 +763,7 @@ session([
     
     return redirect()->route('verify.notice');
 }
+
 public function verifyEmail(Request $request)
 {
     try {
@@ -836,6 +838,13 @@ public function verifyEmail(Request $request)
         $assigned_orders = $global ? (int)$global->no_of_orders : 0;
 
         $postDeliveryLimit = $assigned_orders ?: 0;
+
+
+         CustomerOrder::create([
+            'customer_name'  => $user->name,
+            'customer_email' => $user->email,
+            'orders_left'    => $postDeliveryLimit,
+        ]);
 
         $postDeliveryEmailContent = "
             <p>Hi {$data['name']},</p>
