@@ -841,11 +841,13 @@ public function verifyEmail(Request $request)
 
 
        try {
-            CustomerOrder::create([
+          CustomerOrder::create([
                 'customer_name'  => $user->name,
                 'customer_email' => $user->email,
                 'orders_left'    => $postDeliveryLimit,
+                'no_of_orders'   => 0, // ya jo value chahiye
             ]);
+
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
