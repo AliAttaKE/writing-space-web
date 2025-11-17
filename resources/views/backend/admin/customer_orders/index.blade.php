@@ -185,7 +185,7 @@
                                 <div class="modal-body">
                                     <div class="mb-3">
                                         <label class="form-label text-white">Number of Orders</label>
-                                        <input type="number" value="{{ $assigned_orders }}" class="form-control btn-dark-primary" name="no_of_orders" min="1" required>
+                                        <input type="number" value="{{ $assigned_orders }}" class="form-control btn-dark-primary" name="no_of_orders" required>
                                     </div>
                                     <div class="text-white small">
                                         <em>This will assign the entered number of orders to <strong>every customer</strong>.</em>
