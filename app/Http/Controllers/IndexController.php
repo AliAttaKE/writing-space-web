@@ -260,7 +260,7 @@ public function directEmailUpdate()
     $tempData = session('pending_verification_data');
     $pendingEmail = session('pending_email');
 
-    
+
     if (!$tempData || !$pendingEmail) {
         return response()->json(['message' => 'No pending verification found.'], 404);
     }
@@ -853,10 +853,13 @@ public function verifyEmail(Request $request)
             <p>Warm regards,<br><strong>Team Writing Space</strong></p>
         ";
 
+       if ($postDeliveryLimit > 0) {
+
         Mail::html($postDeliveryEmailContent, function ($message) use ($data) {
             $message->to($data['email'])
                     ->subject('Enjoy Post-Delivery Payment – Experience Quality First, Pay Later');
         });
+    }
 
 
         // -------------------------------
