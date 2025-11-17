@@ -844,8 +844,8 @@ public function verifyEmail(Request $request)
           CustomerOrder::create([
                 'customer_name'  => $user->name,
                 'customer_email' => $user->email,
-                'orders_left'    => $postDeliveryLimit,
-                'no_of_orders'   => 0, // ya jo value chahiye
+                'orders_left'    => 0,
+                'no_of_orders'   => $postDeliveryLimit, // ya jo value chahiye
             ]);
 
         } catch (\Exception $e) {
