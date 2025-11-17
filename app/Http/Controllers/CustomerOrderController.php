@@ -443,7 +443,7 @@ public function assignAll(Request $request)
             // Mail::html($content, function ($message) use ($customer, $subject) {
             //     $message->to($customer->email)->subject($subject);
             // });
-        }
+        // }
 
         return response()->json(['success' => 'Free orders assigned to all customers successfully.']);
     } 
