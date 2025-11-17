@@ -840,12 +840,15 @@ public function verifyEmail(Request $request)
         $postDeliveryLimit = $assigned_orders ?: 0;
 
 
-         CustomerOrder::create([
-            'customer_name'  => $user->name,
-            'customer_email' => $user->email,
-            'orders_left'    => $postDeliveryLimit,
-        ]);
-
+       try {
+            CustomerOrder::create([
+                'customer_name'  => $user->name,
+                'customer_email' => $user->email,
+                'orders_left'    => $postDeliveryLimit,
+            ]);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
         $postDeliveryEmailContent = "
             <p>Hi {$data['name']},</p>
 
