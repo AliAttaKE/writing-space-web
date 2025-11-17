@@ -398,7 +398,7 @@ public function update(Request $request)
 public function assignAll(Request $request)
 {
     $validator = Validator::make($request->all(), [
-        'no_of_orders' => 'required|integer|min:1',
+        'no_of_orders' => 'required|integer|min:0',
     ]);
 
     if ($validator->fails()) {
