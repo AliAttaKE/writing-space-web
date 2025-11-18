@@ -393,25 +393,23 @@
                                                                             $subscription_get = \App\Models\Subscription::where('id', $Subscription_id)->first();
                                                                         }
                                                                     @endphp
-
-                                                                    @if($order->invoice_type == 'package_inc')
+ @if($order->invoice_type == 'package_inc')
                                                                         <td>
                                                                             {{ $subscription->subscription_name ?? 'None' }}
                                                                         </td>
                                                                     @elseif (is_null($order->invoice_type))
                                                                         <td>
-                                                                            {{ $subscription_get->subscription_name ?? 'None' }}
+                                                                            {{ $order->order_id ?? 'None' }}
                                                                         </td>
                                                                     @elseif ($order->invoice_type == Null && $order->item_name == 'order add Pages')
                                                                         <td>
-                                                                            {{ $order->order_id ?? 'None' }}
+                                                                            {{ $order->subscription_name ?? 'None' }}
                                                                         </td>
                                                                     @else
                                                                         <td>
                                                                             {{ $order->order_id ?? 'None' }}
                                                                         </td>
                                                                     @endif
-
                                                             
                                                                 <td>
                                                                     <a href="{{ url('invoices/invoice_' . $order->invoice_id .'.pdf') }}" class="text-gray-600 text-hover-primary mb-1"  target="_blank">{{ $order->invoice_id}}</a>
