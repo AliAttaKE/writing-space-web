@@ -4919,7 +4919,7 @@ $emailContent = "
     <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
 ";
 
-        $subject = "Confirmation of Additional Package Pages Added to Order ID  - $order_id";
+        $subject = "Confirmation of Additional Package Pages Added to Order ID  - $orderidnew";
 
         $this->send_invoice_just_Add_page_order($invoice_id, $receipt_id, $orderidnew, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages);
         // Mail::html($emailContent, function ($message) use ($user, $order_id) {
@@ -8342,8 +8342,9 @@ $orderid_new = $matches[1] ?? null;
             $customerAdress = $user->address_1.''.$user->address_2;
 
                 $input = $orderid;
-          preg_match('/^(\d+)-/', $input, $matches);
-$orderid_new = $matches[1] ?? null;
+        //   preg_match('/^(\d+)-/', $input, $matches);
+// $orderid_new = $matches[1] ?? null;
+$orderid_new = $orderid ?? null;
 
 
            $itemName = 'Package Order ' . $orderid_new . ' - Pages Addon';
