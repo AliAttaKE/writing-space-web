@@ -4784,7 +4784,15 @@ $responseCode = 5;
                         }
                         $orderss = Orders::where('order_id',$orderidpkg)->first();
 
+                        $new_order =$orderss->id;
+
                     }
+                        $new_order_get = Orders::where('order_id', $orderDetails['order_id'])->first();
+                        $orderidnew = $new_order_get->id ?? '';
+
+
+
+
                     $order_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
                     $invoice_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
                     $receipt_id = str_pad(rand(1, 999999999), 9, '0', STR_PAD_LEFT);
@@ -4804,7 +4812,7 @@ $responseCode = 5;
                         'to_name' => 'Admin',
                         'to_email' => 'admin@gmail.com',
                         'to_email' => 'admin@gmail.com',
-                        'order_id' => $orderidpkg,
+                        'order_id' => $orderidnew,
                         // 'order_id' => $order_detail->used_package_id,
                         'invoice_id' => $invoice_id,
 
@@ -4814,7 +4822,7 @@ $responseCode = 5;
                     $user = User::find($user_id);
 
                     //add new pages from customer profile and send email;
-                    $data['order_id'] = $orderidpkg;
+                    $data['order_id'] = $orderidnew;
                     $data['number_of_pages'] = $pages; // new oder pages;
                     $data['pages_remaining'] = $currentSubs->remaining_pages; // old order remaining pages;
                     $data['purchased_at'] = $invoice->created_at->format('Y-m-d');
@@ -4843,7 +4851,7 @@ $responseCode = 5;
                     $invoiceNumber = $invoice_id;
                     $dateOfIssue = $createdAt;
                     $dueDate = $currentSubs23->due_date;
-                    $orderid = $orderidpkg;
+                    $orderid = $orderidnew;
 
                      $remaining_pages = $currentSubs23->remaining_pages;
 
@@ -4913,7 +4921,7 @@ $emailContent = "
 
         $subject = "Confirmation of Additional Package Pages Added to Order ID  - $order_id";
 
-        $this->send_invoice_just_Add_page_order($invoice_id, $receipt_id, $orderidpkg, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages);
+        $this->send_invoice_just_Add_page_order($invoice_id, $receipt_id, $orderidnew, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages);
         // Mail::html($emailContent, function ($message) use ($user, $order_id) {
         //     $message->to($user->email)
         //             ->subject('Confirmation of Additional Pages Added to Order ID - ' . $order_id);
