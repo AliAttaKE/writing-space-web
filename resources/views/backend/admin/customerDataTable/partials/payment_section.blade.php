@@ -60,10 +60,10 @@ label::after{
             <td>
                 @if($row->invoice_type === 'package_inc')
                    Package Purchase
-                @elseif (is_null($row->invoice_type))
-                    Package - Pages Addon
+              @elseif ($row->invoice_type == Null && $row->item_name == 'Pages')
+                    Order - Pages Addon
             @elseif ($row->invoice_type == Null && $row->item_name == 'order add Pages')
-                                                                       Order - Pages Addon
+                    Order - Pages Addon
                 @elseif ($row->invoice_type === 'custom_inc' && ($row->item_name === 'Custom Order - Pages Addon'))
                     Custom Order - Pages Addon
                 @elseif ($row->invoice_type === 'custom_inc')
