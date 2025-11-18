@@ -4804,7 +4804,8 @@ $responseCode = 5;
                         'to_name' => 'Admin',
                         'to_email' => 'admin@gmail.com',
                         'to_email' => 'admin@gmail.com',
-                        'order_id' => $order_detail->used_package_id,
+                        'order_id' => $orderidpkg,
+                        // 'order_id' => $order_detail->used_package_id,
                         'invoice_id' => $invoice_id,
 
                     ]);
@@ -4813,7 +4814,7 @@ $responseCode = 5;
                     $user = User::find($user_id);
 
                     //add new pages from customer profile and send email;
-                    $data['order_id'] = $orderid;
+                    $data['order_id'] = $orderidpkg;
                     $data['number_of_pages'] = $pages; // new oder pages;
                     $data['pages_remaining'] = $currentSubs->remaining_pages; // old order remaining pages;
                     $data['purchased_at'] = $invoice->created_at->format('Y-m-d');
@@ -4842,7 +4843,7 @@ $responseCode = 5;
                     $invoiceNumber = $invoice_id;
                     $dateOfIssue = $createdAt;
                     $dueDate = $currentSubs23->due_date;
-                    $orderid = $orderid;
+                    $orderid = $orderidpkg;
 
                      $remaining_pages = $currentSubs23->remaining_pages;
 
@@ -4912,7 +4913,7 @@ $emailContent = "
 
         $subject = "Confirmation of Additional Package Pages Added to Order ID  - $order_id";
 
-        $this->send_invoice_just_Add_page_order($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages);
+        $this->send_invoice_just_Add_page_order($invoice_id, $receipt_id, $orderidpkg, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages);
         // Mail::html($emailContent, function ($message) use ($user, $order_id) {
         //     $message->to($user->email)
         //             ->subject('Confirmation of Additional Pages Added to Order ID - ' . $order_id);
