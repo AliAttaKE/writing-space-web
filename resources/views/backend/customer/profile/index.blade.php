@@ -404,7 +404,7 @@
                                                                         </td>
                                                                     @elseif ($order->invoice_type == Null && $order->item_name == 'order add Pages')
                                                                         <td>
-                                                                            {{ $subscription_get->subscription_name ?? 'None' }}
+                                                                            {{ $order->order_id ?? 'None' }}
                                                                         </td>
                                                                     @else
                                                                         <td>
