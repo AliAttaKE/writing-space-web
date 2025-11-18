@@ -5324,7 +5324,7 @@ $emailContent = "
     Writing Space</p>
 ";
 
-$subject = "Confirmation of Purchase of Additional Pages from Package ";
+$subject = "Confirmation of Purchase of Additional Pages from Package3 ";
 
 
         $this->send_invoice_just_Add_page_profile($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages);
@@ -8283,7 +8283,7 @@ $orderid_new = $matches[1] ?? null;
 
 
 
-            $subject = "Confirmation of Purchase of Additional Pages from Package";
+            $subject = "Confirmation of Purchase of Additional Pages from Package2";
             Mail::to($user->email)->send(new AddPkgInvoiceEmailTemplate(
                 $data,$data,
                 $subject,
@@ -8457,7 +8457,7 @@ $orderid_new = $orderid ?? null;
             $customerEmail = $user->email;
             $customerAdress = $user->address_1.''.$user->address_2;
 
-            $itemName = 'Package - Pages Addon 123';
+            $itemName = 'Package - Pages Addon ';
             // $itemName = $subs->subscription_name;
 
            $toalamountsub =  $subs->cost_per_page * $subs->min_page;
@@ -8508,7 +8508,7 @@ $orderid_new = $matches[1] ?? null;
 
 
 
-            $subject = "Confirmation of Purchase of Additional Pages from Package ";
+            $subject = "Confirmation of Purchase of Additional Pages from Package1 ";
             Mail::to($user->email)->send(new AddPkgInvoiceEmailTemplateProfile(
                 $data,$data,
                 $subject,
