@@ -57,21 +57,23 @@ label::after{
     @foreach ($data as $row)
         <tr>
             {{-- 1: Payment Type --}}
-                                                                <td>
-                                                                    @if($row->invoice_type == 'package_inc')
-                                                                       Package Purchase
-                                                                    @elseif ($row->invoice_type == Null && $row->item_name == 'Pages')
-                                                                       Package - Pages Addon
-                                                                    @elseif ($row->invoice_type == Null && $row->item_name == 'row add Pages')
+            <td>
+                @if($row->invoice_type === 'package_inc')
+                   Package Purchase
+                @elseif (is_null($row->invoice_type))
+                    Package - Pages Addon
+            @elseif ($row->invoice_type == Null && $row->item_name == 'order add Pages')
                                                                        Order - Pages Addon
-                                                                    @elseif ($row->invoice_type == 'custom_inc' && $row->item_name == 'Custom Order - Pages Addon')
-                                                                        Custom Order - Pages Addon
-                                                                    @elseif ($row->invoice_type == 'custom_inc')
-                                                                        Custom Order
-                                                                    @endif
-                                                                </td>
-             
-                                                                   @php
+                @elseif ($row->invoice_type === 'custom_inc' && ($row->item_name === 'Custom Order - Pages Addon'))
+                    Custom Order - Pages Addon
+                @elseif ($row->invoice_type === 'custom_inc')
+                    Custom Order
+                @else
+                    —
+                @endif
+            </td>  
+            
+            @php
                                                                         // Get subscription directly from order_id
                                                                         $subscription = \App\Models\Subscription::where('id', $row->order_id)->first();
 
@@ -106,8 +108,6 @@ label::after{
                                                                             {{ $row->order_id ?? 'None' }}
                                                                         </td>
                                                                     @endif
-                                                            
-
             {{-- 2: Invoice No. --}}
             <td>
                 <a href="{{ url('invoices/invoice_' . $row->invoice_id . '.pdf') }}"
