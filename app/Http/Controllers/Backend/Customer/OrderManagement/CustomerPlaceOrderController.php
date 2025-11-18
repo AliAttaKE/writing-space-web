@@ -124,7 +124,7 @@ class CustomerPlaceOrderController extends Controller
                 ));
             }
 
- $emailSubject = 'Confirmation of Additional Package Pages Added to Order ID ' . $orderid;
+ $emailSubject = 'Confirmation of Additional Package Pages Added to Order ID 12' . $orderid;
 
 $emailContent = "
     <p>Hi {$customerName},</p>
@@ -4919,7 +4919,7 @@ $emailContent = "
     <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
 ";
 
-        $subject = "Confirmation of Additional Package Pages Added to Order ID  - $orderidnew";
+        $subject = "Confirmation of Additional Package Pages Added to Order ID 23 - $orderidnew";
 
         $this->send_invoice_just_Add_page_order($invoice_id, $receipt_id, $orderidnew, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages);
         // Mail::html($emailContent, function ($message) use ($user, $order_id) {
@@ -5324,7 +5324,7 @@ $emailContent = "
     Writing Space</p>
 ";
 
-$subject = "Confirmation of Purchase of Additional Pages from Package3 ";
+$subject = "Confirmation of Purchase of Additional Pages from Package ";
 
 
         $this->send_invoice_just_Add_page_profile($invoice_id, $receipt_id, $orderid, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages);
@@ -8283,7 +8283,7 @@ $orderid_new = $matches[1] ?? null;
 
 
 
-            $subject = "Confirmation of Purchase of Additional Pages from Package2";
+            $subject = "Confirmation of Purchase of Additional Pages from Package";
             Mail::to($user->email)->send(new AddPkgInvoiceEmailTemplate(
                 $data,$data,
                 $subject,
@@ -8398,7 +8398,7 @@ $orderid_new = $orderid ?? null;
 
             // $subject = "Confirmation of Purchase of Additional Pages from Package";
 
-           $subject = "Confirmation of Additional Package Pages Added to Order ID {$orderidexplode}";
+           $subject = "Confirmation of Additional Package Pages Added to Order ID 43 {$orderidexplode}";
 
             Mail::to($user->email)->send(new AddPkgInvoiceEmailTemplate(
                 $data,$data,
@@ -8457,7 +8457,7 @@ $orderid_new = $orderid ?? null;
             $customerEmail = $user->email;
             $customerAdress = $user->address_1.''.$user->address_2;
 
-            $itemName = 'Package - Pages Addon ';
+            $itemName = 'Package - Pages Addon';
             // $itemName = $subs->subscription_name;
 
            $toalamountsub =  $subs->cost_per_page * $subs->min_page;
@@ -8508,7 +8508,7 @@ $orderid_new = $matches[1] ?? null;
 
 
 
-            $subject = "Confirmation of Purchase of Additional Pages from Package1 ";
+            $subject = "Confirmation of Purchase of Additional Pages from Package ";
             Mail::to($user->email)->send(new AddPkgInvoiceEmailTemplateProfile(
                 $data,$data,
                 $subject,
