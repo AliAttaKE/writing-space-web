@@ -70,7 +70,7 @@ label::after{
                                                                         Custom Order
                                                                     @endif
                                                                 </td>
-             <td>
+             
                                                                    @php
                                                                         // Get subscription directly from order_id
                                                                         $subscription = \App\Models\Subscription::where('id', $row->order_id)->first();
@@ -104,7 +104,7 @@ label::after{
                                                                             {{ $row->order_id ?? 'None' }}
                                                                         </td>
                                                                     @endif
-                                                            </td>
+                                                            
 
             {{-- 2: Invoice No. --}}
             <td>
