@@ -8347,7 +8347,7 @@ $orderid_new = $matches[1] ?? null;
 $orderid_new = $orderid ?? null;
 
 
-           $itemName = 'Package Order ' . $orderid_new . ' - Pages Addon';
+           $itemName = 'Package Order ' . $orderidexplode . ' - Pages Addon';
 
             // $itemName = $subs->subscription_name;
 
@@ -8381,7 +8381,7 @@ $orderid_new = $orderid ?? null;
                 'customerName' => $customerName,
                 'customerEmail' => $customerEmail,
                 'customerAdress' => $customerAdress,
-                'orderid' => $orderid_new,
+                'orderid' => $orderidexplode,
                 'itemName' => $itemName,
                 'totalPages' => $noofpage,
                 'pricePerPage' => $pricePerPage,
@@ -8398,7 +8398,7 @@ $orderid_new = $orderid ?? null;
 
             // $subject = "Confirmation of Purchase of Additional Pages from Package";
 
-           $subject = "Confirmation of Additional Package Pages Added to Order ID {$orderid_new}";
+           $subject = "Confirmation of Additional Package Pages Added to Order ID {$orderidexplode}";
 
             Mail::to($user->email)->send(new AddPkgInvoiceEmailTemplate(
                 $data,$data,
