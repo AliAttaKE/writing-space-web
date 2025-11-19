@@ -4788,7 +4788,7 @@ $responseCode = 5;
 
                     }
                         $new_order_get = Orders::where('order_id', $orderDetails['order_id'])->first();
-                        $orderidnew = $new_order_get->id ?? '';
+                        $orderidnew = $new_order_get->order_id ?? '';
 
 
 
@@ -5663,7 +5663,7 @@ $responseCode =5;
                     // $currentSubs23 = User_Subscription::where('user_id', $user23->id)->first();
 
                     $createdAt = $invoice->created_at;
-                    $orderid = $order->id;
+                    $orderid = $currentSubs23->order_id;
 
 
                     $invoiceNumber = $invoice->idinvoice_id;

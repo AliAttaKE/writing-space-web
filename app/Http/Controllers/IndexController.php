@@ -255,49 +255,130 @@ public function directEmailUpdate()
     $user->save();
 
     return "✅ Email successfully updated from {$oldEmail} to {$newEmail}";
-}public function resendVerificationEmail(Request $request)
+}
+
+// public function resendVerificationEmail(Request $request)
+// {
+//     // Fetch session data (saved at registration time)
+//     $tempData = session('pending_verification_data');
+//     $pendingEmail = session('pending_email');
+
+
+//     if (!$tempData || !$pendingEmail) {
+//         return response()->json(['message' => 'No pending verification found.'], 404);
+//     }
+
+//     // Step 1: Generate verification link
+//     $verificationLink = route('verify.email', ['token' => $tempData]);
+
+//     // Step 2: Email content
+//     $emailSubject = '✅ Verify your email to activate your Writing Space account';
+//     $emailBody = "
+//         <p>Hi,</p>
+//         <p>Here is your email verification link:</p>
+//         <p><a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
+//         <p>⚠️ Please check Spam/Junk if not found in Inbox.</p>
+//         <br>
+//         <p>Warm regards,<br>
+//         <strong>Team Writing Space</strong><br>
+//         support@writing-space.com<br>
+//         https://www.writing-space.com</p>
+//     ";
+
+//     try {
+//         Mail::html($emailBody, function ($message) use ($pendingEmail, $emailSubject) {
+//             $message->to($pendingEmail)
+//                     ->subject($emailSubject);
+//         });
+
+//         return response()->json(['message' => 'Verification email sent successfully!']);
+        
+//     } catch (\Exception $e) {
+//         \Log::error('Email sending failed: ' . $e->getMessage());
+//         return response()->json(['message' => 'Failed to send verification email. Please try again.'], 500);
+//     }
+// }
+
+
+public function resendVerificationEmail(Request $request)
 {
-    // Fetch session data (saved at registration time)
+    // Fetch session data
     $tempData = session('pending_verification_data');
     $pendingEmail = session('pending_email');
 
-
     if (!$tempData || !$pendingEmail) {
-        return response()->json(['message' => 'No pending verification found.'], 404);
+        return response()->json([
+            'message' => 'No pending verification found.',
+            'session_expired' => true
+        ], 404);
     }
 
-    // Step 1: Generate verification link
-    $verificationLink = route('verify.email', ['token' => $tempData]);
-
-    // Step 2: Email content
-    $emailSubject = '✅ Verify your email to activate your Writing Space account';
-    $emailBody = "
-        <p>Hi,</p>
-        <p>Here is your email verification link:</p>
-        <p><a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
-        <p>⚠️ Please check Spam/Junk if not found in Inbox.</p>
-        <br>
-        <p>Warm regards,<br>
-        <strong>Team Writing Space</strong><br>
-        support@writing-space.com<br>
-        https://www.writing-space.com</p>
-    ";
-
     try {
+        // Pehle check karein if email already verified hai
+        if (User::where('email', $pendingEmail)->exists()) {
+            // Session clear karein kyunki verification ho chuka hai
+            session()->forget(['pending_verification_data', 'pending_email']);
+            
+            return response()->json([
+                'message' => 'Email already verified! You can now login.',
+                'already_verified' => true
+            ], 400);
+        }
+
+        // Decrypt existing data and update expiry time
+        $data = json_decode(decrypt($tempData), true);
+        
+        // Update expiry time to 1 hour from now
+        $data['expires_at'] = now()->addHours(1)->timestamp;
+        $data['created_at'] = now()->timestamp;
+        
+        // Re-encrypt with new expiry time
+        $newTempData = encrypt(json_encode($data));
+        
+        // Update session with new token
+        session(['pending_verification_data' => $newTempData]);
+
+        // Generate new verification link
+        $verificationLink = route('verify.email', ['token' => $newTempData]);
+
+        // Email content
+        $emailSubject = '✅ Verify your email to activate your Writing Space account';
+        $emailBody = "
+            <p>Hi,</p>
+            
+            <p><strong>⚠️ Important:</strong> This verification link will expire in 1 hour.</p>
+            
+            <p>Here is your new email verification link:</p>
+            <p><a href='{$verificationLink}' target='_blank'>{$verificationLink}</a></p>
+            
+            <p>⚠️ Please check Spam/Junk if not found in Inbox.</p>
+            <p>This link expires in 1 hour for security reasons.</p>
+            
+            <br>
+            <p>Warm regards,<br>
+            <strong>Team Writing Space</strong><br>
+            support@writing-space.com<br>
+            https://www.writing-space.com</p>
+        ";
+
         Mail::html($emailBody, function ($message) use ($pendingEmail, $emailSubject) {
             $message->to($pendingEmail)
                     ->subject($emailSubject);
         });
 
-        return response()->json(['message' => 'Verification email sent successfully!']);
+        return response()->json([
+            'message' => 'Verification email sent successfully!',
+            'success' => true
+        ]);
         
     } catch (\Exception $e) {
         \Log::error('Email sending failed: ' . $e->getMessage());
-        return response()->json(['message' => 'Failed to send verification email. Please try again.'], 500);
+        return response()->json([
+            'message' => 'Failed to send verification email. Please try again.',
+            'error' => true
+        ], 500);
     }
 }
-
-
 
     public function submit(Request $request)
     {
@@ -711,10 +792,12 @@ public function customCustomerRegistrationProcess(Request $request)
   session()->forget(['pending_verification_data', 'pending_email']);
 
 // Ab naya save karo
-    $tempData = encrypt(json_encode([
-        'name'     => $request->name,
-        'email'    => $request->email,
-        'password' => Hash::make($request->password),
+   $tempData = encrypt(json_encode([
+        'name'      => $request->name,
+        'email'     => $request->email,
+        'password'  => Hash::make($request->password),
+        'created_at' => now()->timestamp, // Current timestamp add karo
+        'expires_at' => now()->addHours(1)->timestamp, // 1 hour expiry
     ]));
 
   
@@ -730,6 +813,8 @@ session([
     $emailSubject = '✅ Verify your email to activate your Writing Space account';
     $emailBody = "
         <p>Hi {$request->name},</p>
+
+        <p><strong>⚠️ Important:</strong> This verification link will expire in 1 hour.</p>
 
         <p>Thank you for signing up with <strong>Writing Space</strong>!<br>
         Before we can activate your account, we need to verify your email address.</p>
@@ -764,6 +849,149 @@ session([
     return redirect()->route('verify.notice');
 }
 
+// public function verifyEmail(Request $request)
+// {
+//     try {
+//         // -------------------------------
+//         // Step 1: Decrypt token
+//         // -------------------------------
+//         $data = json_decode(decrypt($request->token), true);
+
+//         // -------------------------------
+//         // Step 2: Check if already verified
+//         // -------------------------------
+//         if (User::where('email', $data['email'])->exists()) {
+//             return redirect()->route('verification.confirm')
+//                 ->with('message', 'Your email is already verified.');
+//         }
+
+//         // -------------------------------
+//         // Step 3: Create User Account
+//         // -------------------------------
+//         $user = User::create([
+//             'name'     => $data['name'],
+//             'email'    => $data['email'],
+//             'password' => $data['password'],
+//         ]);
+
+
+//         // --------------------------------------------------------------------
+//         // EMAIL 1 — Account Verified Email
+//         // --------------------------------------------------------------------
+//         $emailSubject = "🎉 Your Writing Space account is now Active";
+
+//         $emailBody = "
+//             <p>Hi {$user->name},</p>
+//             <p>🎉 Congratulations! Your email has been successfully verified and your Writing Space account is now active.</p>
+//             <p>You can now log in and start using all features.</p>
+//             <p>
+//                 <a href='" . route('login') . "' target='_blank'>Click here to Login</a>
+//             </p>
+//             <br>
+//             <p>If you need help, feel free to contact us at <b>support@writing-space.com</b>.</p>
+//             <p>Warm regards,<br>Team Writing Space<br>https://www.writing-space.com</p>
+//         ";
+
+//         Mail::html($emailBody, function ($message) use ($user, $emailSubject) {
+//             $message->to($user->email)->subject($emailSubject);
+//         });
+
+
+//         // --------------------------------------------------------------------
+//         // EMAIL 2 — Welcome Guide Email
+//         // --------------------------------------------------------------------
+//         $emailContent = "
+//             <p>Hello {$data['name']},</p>
+
+//             <p>Welcome aboard! We’re thrilled to have you join us at Writing Space...</p>
+
+//             <p>Best Regards,<br>
+//             Customer Success Team<br>
+//             Writing Space</p>
+//         ";
+
+//         Mail::html($emailContent, function ($message) use ($data) {
+//             $message->to($data['email'])
+//                     ->subject('Welcome to Writing-Space – Start Your Journey to Academic Mastery!');
+//         });
+
+
+//         // --------------------------------------------------------------------
+//         // EMAIL 3 — Post Delivery Payment Email
+//         // --------------------------------------------------------------------
+//         $global = GlobalOrdersAssign::latest()->first();
+//         $assigned_orders = $global ? (int)$global->no_of_orders : 0;
+
+//         $postDeliveryLimit = $assigned_orders ?: 0;
+
+
+//        try {
+//           CustomerOrder::create([
+//                 'customer_name'  => $user->name,
+//                 'customer_email' => $user->email,
+//                 'orders_left'    => 0,
+//                 'no_of_orders'   => $postDeliveryLimit, // ya jo value chahiye
+//             ]);
+
+//         } catch (\Exception $e) {
+//             dd($e->getMessage());
+//         }
+     
+
+//         $postDeliveryEmailContent = "
+//     <p>Hi {$data['name']},</p>
+
+//     <p>Welcome to Writing Space, where your trust always comes first.</p>
+
+//     <p>You can now enjoy complete peace of mind with our Post-Delivery Payment option — simply place your order, receive your completed work, and pay only after delivery.</p>
+
+//     <p><strong>Here’s how it works:</strong></p>
+//     <ol>
+//         <li>From your dashboard, click the “Order Now, Pay After Delivery” button at the top.</li>
+//         <li>Fill in your order details on the form.</li>
+//         <li>Click “Order Now” to confirm — no upfront payment required.</li>
+//     </ol>
+
+//     <p>You can place up to <strong>{$postDeliveryLimit}</strong> post-delivery payment orders under your account. Once your order is delivered, you’ll have time to review it before making payment.</p>
+
+//     <p>At Writing Space, you have zero risk — experience quality first, pay later, and see why thousands of students trust us every day.</p>
+
+//     <p>
+//         <a href='https://www.writing-space.com' 
+//            style='display:inline-block; background-color:#007bff; color:#fff; padding:10px 20px; 
+//                   text-decoration:none; border-radius:5px;'>Order Now, Pay After Delivery</a>
+//     </p>
+
+//     <p>Warm regards,<br>
+//        <strong>Team Writing Space</strong><br>
+//        support@writing-space.com<br>
+//        🌐 <a href='https://www.writing-space.com'>www.writing-space.com</a>
+//     </p>
+// ";
+
+//        if ($postDeliveryLimit > 0) {
+
+//         Mail::html($postDeliveryEmailContent, function ($message) use ($data) {
+//             $message->to($data['email'])
+//                     ->subject('Enjoy Post-Delivery Payment – Experience Quality First, Pay Later');
+//         });
+//     }
+
+
+//         // -------------------------------
+//         // SUCCESS REDIRECT
+//         // -------------------------------
+//         return redirect()->route('verification.confirm')
+//             ->with('success', 'Your email has been verified successfully!');
+//     } 
+//     catch (\Exception $e) {
+
+//         return redirect()->route('register')
+//             ->with('error', 'Invalid or expired verification link.');
+//     }
+// }
+
+
 public function verifyEmail(Request $request)
 {
     try {
@@ -773,7 +1001,15 @@ public function verifyEmail(Request $request)
         $data = json_decode(decrypt($request->token), true);
 
         // -------------------------------
-        // Step 2: Check if already verified
+        // Step 2: Check if link expired
+        // -------------------------------
+        if (!isset($data['expires_at']) || now()->timestamp > $data['expires_at']) {
+            return redirect()->route('register')
+                ->with('error', 'Verification link has expired. Please register again.');
+        }
+
+        // -------------------------------
+        // Step 3: Check if already verified
         // -------------------------------
         if (User::where('email', $data['email'])->exists()) {
             return redirect()->route('verification.confirm')
@@ -781,7 +1017,7 @@ public function verifyEmail(Request $request)
         }
 
         // -------------------------------
-        // Step 3: Create User Account
+        // Step 4: Create User Account
         // -------------------------------
         $user = User::create([
             'name'     => $data['name'],
@@ -789,12 +1025,17 @@ public function verifyEmail(Request $request)
             'password' => $data['password'],
         ]);
 
+        // -------------------------------
+        // Step 5: Clear session data
+        // -------------------------------
+        session()->forget(['pending_verification_data', 'pending_email']);
 
-        // --------------------------------------------------------------------
+        // -------------------------------
+        // Step 6: Send Welcome Emails (same as before)
+        // -------------------------------
+        
         // EMAIL 1 — Account Verified Email
-        // --------------------------------------------------------------------
         $emailSubject = "🎉 Your Writing Space account is now Active";
-
         $emailBody = "
             <p>Hi {$user->name},</p>
             <p>🎉 Congratulations! Your email has been successfully verified and your Writing Space account is now active.</p>
@@ -811,15 +1052,10 @@ public function verifyEmail(Request $request)
             $message->to($user->email)->subject($emailSubject);
         });
 
-
-        // --------------------------------------------------------------------
         // EMAIL 2 — Welcome Guide Email
-        // --------------------------------------------------------------------
         $emailContent = "
             <p>Hello {$data['name']},</p>
-
-            <p>Welcome aboard! We’re thrilled to have you join us at Writing Space...</p>
-
+            <p>Welcome aboard! We're thrilled to have you join us at Writing Space...</p>
             <p>Best Regards,<br>
             Customer Success Team<br>
             Writing Space</p>
@@ -830,68 +1066,35 @@ public function verifyEmail(Request $request)
                     ->subject('Welcome to Writing-Space – Start Your Journey to Academic Mastery!');
         });
 
-
-        // --------------------------------------------------------------------
         // EMAIL 3 — Post Delivery Payment Email
-        // --------------------------------------------------------------------
         $global = GlobalOrdersAssign::latest()->first();
         $assigned_orders = $global ? (int)$global->no_of_orders : 0;
-
         $postDeliveryLimit = $assigned_orders ?: 0;
 
-
-       try {
-          CustomerOrder::create([
+        try {
+            CustomerOrder::create([
                 'customer_name'  => $user->name,
                 'customer_email' => $user->email,
                 'orders_left'    => 0,
-                'no_of_orders'   => $postDeliveryLimit, // ya jo value chahiye
+                'no_of_orders'   => $postDeliveryLimit,
             ]);
-
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            \Log::error('CustomerOrder creation failed: ' . $e->getMessage());
         }
-     
 
-        $postDeliveryEmailContent = "
-    <p>Hi {$data['name']},</p>
+        if ($postDeliveryLimit > 0) {
+            $postDeliveryEmailContent = "
+                <p>Hi {$data['name']},</p>
+                <p>Welcome to Writing Space, where your trust always comes first.</p>
+                <p>You can now enjoy complete peace of mind with our Post-Delivery Payment option...</p>
+                <p>Warm regards,<br><strong>Team Writing Space</strong></p>
+            ";
 
-    <p>Welcome to Writing Space, where your trust always comes first.</p>
-
-    <p>You can now enjoy complete peace of mind with our Post-Delivery Payment option — simply place your order, receive your completed work, and pay only after delivery.</p>
-
-    <p><strong>Here’s how it works:</strong></p>
-    <ol>
-        <li>From your dashboard, click the “Order Now, Pay After Delivery” button at the top.</li>
-        <li>Fill in your order details on the form.</li>
-        <li>Click “Order Now” to confirm — no upfront payment required.</li>
-    </ol>
-
-    <p>You can place up to <strong>{$postDeliveryLimit}</strong> post-delivery payment orders under your account. Once your order is delivered, you’ll have time to review it before making payment.</p>
-
-    <p>At Writing Space, you have zero risk — experience quality first, pay later, and see why thousands of students trust us every day.</p>
-
-    <p>
-        <a href='https://www.writing-space.com' 
-           style='display:inline-block; background-color:#007bff; color:#fff; padding:10px 20px; 
-                  text-decoration:none; border-radius:5px;'>Order Now, Pay After Delivery</a>
-    </p>
-
-    <p>Warm regards,<br>
-       <strong>Team Writing Space</strong><br>
-       support@writing-space.com<br>
-       🌐 <a href='https://www.writing-space.com'>www.writing-space.com</a>
-    </p>
-";
-
-       if ($postDeliveryLimit > 0) {
-
-        Mail::html($postDeliveryEmailContent, function ($message) use ($data) {
-            $message->to($data['email'])
-                    ->subject('Enjoy Post-Delivery Payment – Experience Quality First, Pay Later');
-        });
-    }
-
+            Mail::html($postDeliveryEmailContent, function ($message) use ($data) {
+                $message->to($data['email'])
+                        ->subject('Enjoy Post-Delivery Payment – Experience Quality First, Pay Later');
+            });
+        }
 
         // -------------------------------
         // SUCCESS REDIRECT
@@ -900,12 +1103,12 @@ public function verifyEmail(Request $request)
             ->with('success', 'Your email has been verified successfully!');
     } 
     catch (\Exception $e) {
-
+        \Log::error('Email verification failed: ' . $e->getMessage());
+        
         return redirect()->route('register')
             ->with('error', 'Invalid or expired verification link.');
     }
 }
-
 
 // public function customCustomerRegistrationProcess(Request $request)
 // {
