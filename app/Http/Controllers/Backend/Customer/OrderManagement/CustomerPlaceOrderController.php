@@ -123,6 +123,7 @@ class CustomerPlaceOrderController extends Controller
                     $subject
                 ));
             }
+            
 
  $emailSubject = 'Confirmation of Additional Package Pages Added to Order ID 12' . $orderid;
 
