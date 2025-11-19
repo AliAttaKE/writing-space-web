@@ -123,9 +123,8 @@ class CustomerPlaceOrderController extends Controller
                     $subject
                 ));
             }
-            
 
- $emailSubject = 'Confirmation of Additional Package Pages Added to Order ID 12' . $orderid;
+ $emailSubject = 'Confirmation of Additional Package Pages Added to Order ID ' . $orderid;
 
 $emailContent = "
     <p>Hi {$customerName},</p>
@@ -4920,7 +4919,7 @@ $emailContent = "
     <p>Best regards,<br>Customer Success Team<br>Writing Space</p>
 ";
 
-        $subject = "Confirmation of Additional Package Pages Added to Order ID 23 - $orderidnew";
+        $subject = "Confirmation of Additional Package Pages Added to Order ID  - $orderidnew";
 
         $this->send_invoice_just_Add_page_order($invoice_id, $receipt_id, $orderidnew, $subs, $invoice, $transaction, $user,$emailContent,$subject,$noofpage,$remaining_pages);
         // Mail::html($emailContent, function ($message) use ($user, $order_id) {
@@ -8399,7 +8398,7 @@ $orderid_new = $orderid ?? null;
 
             // $subject = "Confirmation of Purchase of Additional Pages from Package";
 
-           $subject = "Confirmation of Additional Package Pages Added to Order ID 43 {$orderidexplode}";
+           $subject = "Confirmation of Additional Package Pages Added to Order ID {$orderidexplode}";
 
             Mail::to($user->email)->send(new AddPkgInvoiceEmailTemplate(
                 $data,$data,
