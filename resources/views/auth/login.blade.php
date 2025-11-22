@@ -8,6 +8,7 @@
                 @csrf
                 <h1 class="heading gradient-text-2 text-center pb-5">Login</h1>
 
+                
                 @if (Session::has('error'))
                     <div class="alert alert-danger">{{ Session::get('error') }}</div>
                 @endif
