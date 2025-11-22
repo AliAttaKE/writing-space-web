@@ -6,7 +6,7 @@
         <div class="bordered-card p-5 col-md-10 forms-custom login-signup-form">
             <form action="{{ route('login') }}" method="POST" id="login-form">
                 @csrf
-                <h1 class="heading gradient-text-2 text-center pb-5">Login</h1>
+                <h1 class="heading gradient-text-2 text-center pb-5">Login 123</h1>
 
                 @if (Session::has('error'))
                     <div class="alert alert-danger">{{ Session::get('error') }}</div>
